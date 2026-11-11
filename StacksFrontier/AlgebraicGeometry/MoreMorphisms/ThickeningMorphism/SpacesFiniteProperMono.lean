@@ -42,8 +42,9 @@ In each case the implication from `f'` to `f` is base change along the cartesian
 * **Closed immersions, part (3)** are the universally closed, unramified, universally injective
   morphisms, by Stacks 05W8. Universal closedness is Stacks 09ZY, unramifiedness is part (5),
   and universal injectivity of `f'` follows from that of `X ⟶ Y ⟶ Y'` because `X ⟶ X'` is
-  surjective. The source instead cites Stacks 08B2, whose formalization in this library carries
-  the hypotheses of Stacks 07VT; the route through Stacks 05W8 needs none.
+  surjective. The source instead cites Stacks 08B2
+  (`AlgebraicGeometry.Space.isClosedImmersion_of_isClosedImmersion_pullback_snd_of_bijective`);
+  the route through Stacks 05W8 is the one taken here.
 * **Immersions, part (7).** Following the source, `f` factors as a closed immersion into an open
   subspace `V ⊆ Y` (Stacks 04CE); `V` is the inverse image of an open subspace `V' ⊆ Y'` with
   the same points (Stacks 05ZP), `f'` factors through `V'`, and the square restricted to `V'` is

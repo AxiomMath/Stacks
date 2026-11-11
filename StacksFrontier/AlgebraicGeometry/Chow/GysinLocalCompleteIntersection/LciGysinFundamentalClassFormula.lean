@@ -117,7 +117,10 @@ The source adds "for example if `Y` is Cohen–Macaulay"; that is only a suffici
 the hypothesis of Stacks 0FE3 on `Y`, which is all that is assumed here. The hypothesis on `X`
 enters only to write `[X]` as an element of `CH^0(X)`: the identity of the classes on the
 connected components, `Stacks.Chow.lciGysinClass_completedCap_componentFundamentalClass`, needs
-the hypothesis on `Y` alone. -/
+the hypothesis on `Y` alone. Unlike the special cases
+`Stacks.Chow.lciGysinCap_fundamentalChowClass_id` and
+`Stacks.Chow.lciGysinCap_fundamentalChowClass_id_of_isVirtualNormalBundleClass`, no excess
+vanishing is assumed. -/
 @[stacks 0FF8 "second assertion: f^![Y] = [X] in CH^0(X) for X and Y satisfying the conditions of \
 Tag 0FE3, with [X], [Y] the fundamental classes of Tag 0FE4 and f^! the Gysin map of Tag 0FF3; \
 the source's example hypothesis that Y is Cohen-Macaulay is not needed"]

@@ -35,7 +35,11 @@ The Krull dimension of a topological space `T` at a point `x ∈ T` is
 corresponding to `x`, the standard opens `D(g) = Spec(S_g)` with `g ∈ S \ q` form a basis
 of open neighbourhoods of `x` and `dim(D(g)) = dim(S_g)`, so
 `dim_x(X) = min { dim(S_g) : g ∈ S, g ∉ q }`, and the minimum is attained. This is the
-form used here, taken as an infimum over `WithBot ℕ∞`; see `localDimAtPrime`.
+form used here, taken as an infimum over `WithBot ℕ∞`; see `localDimAtPrime`. The equality
+with the topological local dimension `topologicalKrullDimAt` of 0055 (4) is proved in
+`StacksFrontier.RingTheory.NoetherNormalization.AtPoint` as
+`topologicalKrullDimAt_eq_localDimAtPrime`, which also states 00OZ with `dim_x(X)` itself
+(`noether_normalization_at_point_topologicalKrullDimAt`).
 
 The main result is that there exist `g ∈ S` with `g ∉ q`, a natural number `d`, and a
 `k`-algebra homomorphism `ψ : k[y_1, …, y_d] → S_g` such that `d = dim(S_g) = dim_x(X)`
@@ -55,7 +59,9 @@ open Algebra
 the infimum over `WithBot ℕ∞` of the Krull dimensions `dim(S_g)` of the localizations of
 `S` away from elements `g ∉ q`. Since the standard opens `D(g) = Spec(S_g)` for `g ∉ q`
 form a neighbourhood basis of the point and `dim(D(g)) = dim(S_g)`, this agrees with the
-topological local dimension `min { dim(U) : x ∈ U ⊆ X open }`. -/
+topological local dimension `min { dim(U) : x ∈ U ⊆ X open }`; that equality is
+`topologicalKrullDimAt_eq_localDimAtPrime` in
+`StacksFrontier.RingTheory.NoetherNormalization.AtPoint`. -/
 @[ega "IV 17.15.8", sga "1 II 5.9"]
 noncomputable def localDimAtPrime (k : Type*) {S : Type*} [Field k] [CommRing S] [Algebra k S]
     (q : Ideal S) : WithBot ℕ∞ :=
@@ -172,9 +178,10 @@ theorem localDimAtPrime_attained
 /-- Noether normalization at a point: for a field `k`, a finite type `k`-algebra `S`, and a
 prime ideal `q` of `S` corresponding to a point `x` of `X = Spec(S)`, there exist an element
 `g ∉ q`, a natural number `d`, and a `k`-algebra homomorphism `ψ : k[y_1, …, y_d] → S_g`, where
-`k[y_1, …, y_d] = MvPolynomial (Fin d) k`, such that `d = dim(S_g) = dim_x(X)` and `ψ` is
-injective and finite. -/
-@[stacks 00OZ]
+`k[y_1, …, y_d] = MvPolynomial (Fin d) k`, such that `d = dim(S_g) = localDimAtPrime k q` and
+`ψ` is injective and finite. Here `localDimAtPrime k q` is the minimum of `dim(S_g)` over `g ∉ q`;
+Stacks 00OZ itself, with the topological local dimension `dim_x(X)` of 0055 (4), is
+`noether_normalization_at_point_topologicalKrullDimAt`, deduced from this one. -/
 theorem noether_normalization_at_point
     {k S : Type*} [Field k] [CommRing S] [Algebra k S] [Algebra.FiniteType k S]
     (q : Ideal S) [q.IsPrime] :
@@ -194,24 +201,29 @@ theorem noether_normalization_at_point
   exact ⟨g, hg, d, ψ, hd, hd.trans hdim, hinj, hfin⟩
 
 /-!
-# Separating a finite set of multi-indices by a single dot product
+# Separating a finite set of multi-indices by a dot product
 
-Stacks tag 051M. Fix `n : ℕ` and work with multi-indices, elements of `ℕ^n` modelled as
-functions `Fin n → ℕ`, so that `ν = (ν_1, …, ν_n)`. The dot product of exponent vectors
+Stacks tag 051M (Lemma 10.115.1). Fix `n : ℕ` and work with multi-indices, elements of
+`ℕ^n` modelled as functions `Fin n → ℕ`, so that `ν = (ν_1, …, ν_n)`; the index
+`i : Fin n` stands for the Stacks index `i + 1`. The dot product of exponent vectors
 `e = (e_1, …, e_n)` and `ν = (ν_1, …, ν_n)` is `e · ν = ∑_{i=1}^{n} e_i ν_i ∈ ℕ`.
 
-The result: for a finite set `N ⊆ ℕ^n` of multi-indices there is an exponent tuple
-`e ∈ ℕ^n` with `e · ν = e · ν' ↔ ν = ν'` for all `ν, ν' ∈ N`; equivalently, `ν ↦ e · ν`
-is injective on `N`.
+The result: for a finite set `N ⊆ ℕ^n` of multi-indices and all exponents with
+`e_1 ≫ e_2 ≫ ⋯ ≫ e_{n-1} ≫ e_n` we have `e · ν = e · ν' ↔ ν = ν'` for all `ν, ν' ∈ N`.
 
-The informal notation `e_1 ≫ e_2 ≫ ⋯ ≫ e_n` expresses that the conclusion holds once the
-exponents decrease rapidly enough in magnitude. Concretely one may take `e_i = M^{n-i}`
-for a base `M` larger than every coordinate appearing in any `ν ∈ N`, which separates
-multi-indices by reading off their base-`M` digits; the content is the existence of a
-single tuple `e` for which the dot product distinguishes the finitely many elements of `N`.
-The implication `ν = ν' ⇒ e · ν = e · ν'` is trivial, so the substance is injectivity of
-`ν ↦ e · ν` on `N`. Finiteness of `N` is essential, since it is what bounds `M`;
-nonemptiness is not needed. All quantities are natural numbers.
+The informal notation `e_1 ≫ e_2 ≫ ⋯ ≫ e_n` is a nested "for all sufficiently large"
+quantifier: for all sufficiently large `e_n`, for all `e_{n-1}` sufficiently large in terms
+of `e_n`, …, for all `e_1` sufficiently large in terms of `e_2, …, e_n`. This is the
+predicate `EventuallyRapidlyDecreasing`, and the lemma is
+`eventuallyRapidlyDecreasing_dotProduct_eq_iff`. In fact `e_n` may be any positive
+integer (`eventuallyRapidlyDecreasing_snoc_dotProduct_eq_iff`); the bound on `e_{i-1}` is
+`e_{i-1} > A_i e_i + ⋯ + A_n e_n` with `A_i` the largest `i`-th coordinate in `N`.
+Finiteness of `N` is essential, since it is what bounds the `A_i`; nonemptiness is not
+needed. All quantities are natural numbers.
+
+The weaker statement that some single tuple `e` separates `N`, for instance
+`e_i = M^{n-i}` with `M` larger than every coordinate, is
+`exists_separating_exponents`.
 -/
 
 @[expose] public section
@@ -226,9 +238,119 @@ private theorem eq_of_sum_pow_mul_eq {M m : ℕ} {g h : Fin m → ℕ} (hg : ∀
   funext i
   simpa using congrArg (fun f => (f i : ℕ)) this
 
+/-- `EventuallyRapidlyDecreasing n P` says that `P e` holds for all exponent vectors
+`e = (e_1, …, e_n) : Fin n → ℕ` with `e_1 ≫ e_2 ≫ ⋯ ≫ e_n`, in the nested sense: for all
+sufficiently large `e_n`, for all `e_{n-1}` sufficiently large in terms of `e_n`, …, for all
+`e_1` sufficiently large in terms of `e_2, …, e_n`. Here `e 0` is `e_1` and `e (Fin.last _)`
+is `e_n`; the last coordinate is quantified outermost. -/
+def EventuallyRapidlyDecreasing : (n : ℕ) → ((Fin n → ℕ) → Prop) → Prop
+  | 0, P => P Fin.elim0
+  | n + 1, P => ∀ᶠ a in Filter.atTop, EventuallyRapidlyDecreasing n fun e => P (Fin.snoc e a)
+
+/-- `EventuallyRapidlyDecreasing n` is monotone in the predicate. -/
+theorem EventuallyRapidlyDecreasing.mono {n : ℕ} {P Q : (Fin n → ℕ) → Prop}
+    (h : EventuallyRapidlyDecreasing n P) (hPQ : ∀ e, P e → Q e) :
+    EventuallyRapidlyDecreasing n Q := by
+  induction n with
+  | zero => exact hPQ _ h
+  | succ n ih =>
+    rw [EventuallyRapidlyDecreasing] at h ⊢
+    exact Filter.Eventually.mono h fun a ha => ih ha fun e => hPQ _
+
+/-- A predicate holding for `e_1 ≫ ⋯ ≫ e_n` holds for some exponent vector. -/
+theorem EventuallyRapidlyDecreasing.exists {n : ℕ} {P : (Fin n → ℕ) → Prop}
+    (h : EventuallyRapidlyDecreasing n P) : ∃ e, P e := by
+  induction n with
+  | zero => exact ⟨_, h⟩
+  | succ n ih =>
+    rw [EventuallyRapidlyDecreasing] at h
+    obtain ⟨a, ha⟩ := h.exists
+    obtain ⟨e, he⟩ := ih ha
+    exact ⟨_, he⟩
+
+/-- Stacks 051M with an arbitrary positive last exponent: for a finite set `N` of
+multi-indices in `ℕ^{n+1}` and any `c > 0`, for `e_1 ≫ ⋯ ≫ e_n ≫ e_{n+1} = c` the dot
+product with `e = (e_1, …, e_n, c)` separates `N`. -/
+@[stacks 051M "the last exponent `e_n` may be any positive integer; `N` need not be \
+nonempty"]
+theorem eventuallyRapidlyDecreasing_snoc_dotProduct_eq_iff {n : ℕ}
+    (N : Finset (Fin (n + 1) → ℕ)) {c : ℕ} (hc : 0 < c) :
+    EventuallyRapidlyDecreasing n fun e => ∀ ν ∈ N, ∀ ν' ∈ N,
+      ((Fin.snoc e c : Fin (n + 1) → ℕ) ⬝ᵥ ν = (Fin.snoc e c : Fin (n + 1) → ℕ) ⬝ᵥ ν' ↔
+        ν = ν') := by
+  induction n generalizing c with
+  | zero =>
+    intro ν _ ν' _
+    refine ⟨fun h => ?_, fun h => h ▸ rfl⟩
+    simp only [dotProduct, Fin.sum_univ_castSucc, Finset.univ_eq_empty, Finset.sum_empty,
+      Fin.snoc_last, zero_add] at h
+    funext i
+    obtain rfl : i = Fin.last 0 := Subsingleton.elim (α := Fin 1) _ _
+    exact Nat.eq_of_mul_eq_mul_left hc h
+  | succ n ih =>
+    rw [EventuallyRapidlyDecreasing]
+    filter_upwards [Filter.eventually_gt_atTop (c * N.sup fun ν => ν (Fin.last (n + 1)))]
+      with a ha
+    have hlt : ∀ ν ∈ N, c * ν (Fin.last (n + 1)) < a := fun ν hν =>
+      (Nat.mul_le_mul_left c (Finset.le_sup (f := fun ν => ν (Fin.last (n + 1))) hν)).trans_lt
+        ha
+    let φ : (Fin (n + 2) → ℕ) → Fin (n + 1) → ℕ := fun ν =>
+      Fin.snoc (Fin.init (Fin.init ν)) (a * Fin.init ν (Fin.last n) + c * ν (Fin.last (n + 1)))
+    have hφ : ∀ (e : Fin n → ℕ) (ν : Fin (n + 2) → ℕ),
+        (Fin.snoc (Fin.snoc e a : Fin (n + 1) → ℕ) c : Fin (n + 2) → ℕ) ⬝ᵥ ν =
+          (Fin.snoc e 1 : Fin (n + 1) → ℕ) ⬝ᵥ φ ν := by
+      intro e ν
+      simp only [φ, dotProduct, Fin.sum_univ_castSucc, Fin.snoc_castSucc, Fin.snoc_last,
+        Fin.init]
+      ring
+    have hinj : ∀ ν ∈ N, ∀ ν' ∈ N, φ ν = φ ν' → ν = ν' := by
+      intro ν hν ν' hν' h
+      have hinit : Fin.init (Fin.init ν) = Fin.init (Fin.init ν') := by
+        simpa [φ] using congrArg Fin.init h
+      have hlast : a * Fin.init ν (Fin.last n) + c * ν (Fin.last (n + 1)) =
+          a * Fin.init ν' (Fin.last n) + c * ν' (Fin.last (n + 1)) := by
+        simpa [φ] using congrFun h (Fin.last n)
+      have ha0 : 0 < a := (Nat.zero_le _).trans_lt (hlt ν hν)
+      have hdiv : ∀ x y : ℕ, y < a → (a * x + y) / a = x := fun x y hy => by
+        rw [Nat.add_comm, Nat.add_mul_div_left _ _ ha0, Nat.div_eq_of_lt hy, zero_add]
+      have hx : Fin.init ν (Fin.last n) = Fin.init ν' (Fin.last n) := by
+        have := congrArg (· / a) hlast
+        simpa only [hdiv _ _ (hlt ν hν), hdiv _ _ (hlt ν' hν')] using this
+      rw [hx] at hlast
+      have hy := Nat.eq_of_mul_eq_mul_left hc (Nat.add_left_cancel hlast)
+      funext i
+      induction i using Fin.lastCases with
+      | last => exact hy
+      | cast j =>
+        induction j using Fin.lastCases with
+        | last => exact hx
+        | cast k => exact congrFun hinit k
+    refine (ih (N.image φ) one_pos).mono fun e he ν hν ν' hν' => ?_
+    rw [hφ, hφ]
+    exact (he _ (Finset.mem_image_of_mem φ hν) _ (Finset.mem_image_of_mem φ hν')).trans
+      ⟨hinj ν hν ν' hν', fun h => h ▸ rfl⟩
+
+/-- Stacks 051M: for a finite set `N` of multi-indices in `ℕ^n`, for all exponent vectors
+`e = (e_1, …, e_n)` with `e_1 ≫ e_2 ≫ ⋯ ≫ e_n` (in the nested sense of
+`EventuallyRapidlyDecreasing`) we have `e · ν = e · ν' ↔ ν = ν'` for all `ν, ν' ∈ N`. -/
+@[stacks 051M "nested quantifier `e_1 ≫ ⋯ ≫ e_n` as `EventuallyRapidlyDecreasing`; `N` \
+need not be nonempty"]
+theorem eventuallyRapidlyDecreasing_dotProduct_eq_iff {n : ℕ} (N : Finset (Fin n → ℕ)) :
+    EventuallyRapidlyDecreasing n fun e => ∀ ν ∈ N, ∀ ν' ∈ N, (e ⬝ᵥ ν = e ⬝ᵥ ν' ↔ ν = ν') := by
+  cases n with
+  | zero =>
+    intro ν _ ν' _
+    exact ⟨fun _ => funext fun i => i.elim0, fun h => h ▸ rfl⟩
+  | succ n =>
+    rw [EventuallyRapidlyDecreasing]
+    filter_upwards [Filter.eventually_gt_atTop 0] with c hc
+    exact eventuallyRapidlyDecreasing_snoc_dotProduct_eq_iff N hc
+
 /-- For a finite set `N ⊆ ℕ^n`, there is an exponent tuple `e ∈ ℕ^n` such that
-`e · ν = e · ν' ↔ ν = ν'` for all `ν, ν' ∈ N`. -/
-@[stacks 051M]
+`e · ν = e · ν' ↔ ν = ν'` for all `ν, ν' ∈ N`, for instance `e_i = M^i` with `M` larger than
+every coordinate. This only asserts that one separating tuple exists; Stacks 051M asserts
+that every tuple with `e_1 ≫ ⋯ ≫ e_n` separates `N`, which is
+`eventuallyRapidlyDecreasing_dotProduct_eq_iff`. -/
 theorem exists_separating_exponents {n : ℕ} (N : Finset (Fin n → ℕ)) :
     ∃ e : Fin n → ℕ, ∀ ν ∈ N, ∀ ν' ∈ N, (e ⬝ᵥ ν = e ⬝ᵥ ν' ↔ ν = ν') := by
   set M : ℕ := N.sup Finset.univ.sup + 1
@@ -252,10 +374,12 @@ Stacks tag 051N (Lemma 10.115.2).
 
 Let `R` be a commutative ring and `n ≥ 1`. Working in the polynomial ring
 `R[x_1, …, x_n]`, distinguish the variable `x_n`. Given a nonconstant polynomial
-`g`, there is a tilting substitution `Φ_e : x_i ↦ x_i + x_n^(e_i)` for `i < n`
-and `x_n ↦ x_n`, after which `Φ_e(g)`, viewed as a polynomial in `x_n` over
-`S = R[x_1, …, x_{n-1}]`, has a *constant* leading coefficient `a ∈ R`, one of
-the nonzero coefficients of `g`, and positive degree.
+`g`, for all exponents `e_1 ≫ e_2 ≫ ⋯ ≫ e_{n-1} ≫ e_n = 1` the tilting
+substitution `Φ_e : x_i ↦ x_i + x_n^(e_i)` for `i < n` and `x_n ↦ x_n` makes
+`Φ_e(g)`, viewed as a polynomial in `x_n` over `S = R[x_1, …, x_{n-1}]`, have a
+*constant* leading coefficient `a ∈ R`, one of the nonzero coefficients of `g`,
+and positive degree. The nested quantifier `≫` is `EventuallyRapid`, and the
+statement is `eventuallyRapid_subst_constant_leadingCoeff_of_nonconstant`.
 
 ## Indexing convention
 
@@ -263,7 +387,8 @@ The informal statement uses `n ≥ 1` variables `x_1, …, x_n` with `x_n`
 distinguished. Here this is `MvPolynomial (Fin (n+1)) R` for `n : ℕ`, so that
 the number of variables is `n + 1 ≥ 1`, and the variable of index `0` plays the
 role of the distinguished variable `x_n`, while the remaining indices `1, …, n`
-play the role of `x_1, …, x_{n-1}`.
+play the role of `x_{n-1}, …, x_1` (index `i` stands for `x_{n-i}`, so larger
+indices carry the faster growing exponents).
 
 This aligns with `MvPolynomial.finSuccEquiv`, the isomorphism
 `R[X_0, X_1, …, X_n] ≃ (R[X_1, …, X_n])[X_0]`, which views a multivariate
@@ -314,9 +439,11 @@ theorem base_repr_injective (M : ℕ) :
       (∑ i : Fin m, M ^ (i : ℕ) * g i = ∑ i : Fin m, M ^ (i : ℕ) * h i) → g = h :=
   fun _ _ _ hg hh hsum => eq_of_sum_pow_mul_eq hg hh hsum
 
-/-- Stacks tag 051M (Lemma 10.115.1), normalized: for a finite set `N` of multi-indices in
-`Fin (m+1) →₀ ℕ` there are exponents `e i ≥ 1` with `e 0 = 1` such that the linear form
-`ν ↦ ∑ i, e i * ν i` is injective on `N`. -/
+/-- An existential consequence of Stacks tag 051M (Lemma 10.115.1), normalized: for a finite
+set `N` of multi-indices in `Fin (m+1) →₀ ℕ` there exist exponents `e i ≥ 1` with `e 0 = 1`
+such that the linear form `ν ↦ ∑ i, e i * ν i` is injective on `N`. Only one such tuple is
+asserted to exist (namely `e i = M ^ i`); the full Stacks statement, that every tuple with
+`e_1 ≫ ⋯ ≫ e_n` works, is `eventuallyRapidlyDecreasing_dotProduct_eq_iff`. -/
 theorem supporting_lemma_normalized (m : ℕ) (N : Finset (Fin (m + 1) →₀ ℕ)) :
     ∃ e : Fin (m + 1) → ℕ, e 0 = 1 ∧ (∀ i, 1 ≤ e i) ∧
       ∀ ν ∈ N, ∀ ν' ∈ N,
@@ -438,24 +565,18 @@ theorem tilted_degree_pos {n : ℕ} (e : Fin (n + 1) → ℕ) (ν : Fin (n + 1) 
         Finset.single_le_sum (f := fun i => e i * ν i) (fun i _ => Nat.zero_le _)
           (Finset.mem_univ j)
 
-/-- Let `g` be a nonconstant polynomial in `MvPolynomial (Fin (n+1)) R`, that is one
-not in the image of the constant inclusion `MvPolynomial.C : R → …`. Then there
-exist exponents `e` with `e 0 = 1`, encoding `e_n = 1`, a positive integer `d`,
-and an element `a ∈ R` such that:
-
-1. `a` is one of the nonzero coefficients of `g`: there is a multi-index `ν` in
-   the support of `g` with `a = g.coeff ν`, so in particular `a ≠ 0`.
-
-2. Viewing `f = subst n e g` as a polynomial in the distinguished variable `X 0`
-   via `finSuccEquiv R n`, its degree in that variable is `d` and its leading
-   coefficient is the *constant* `MvPolynomial.C a`, the image of `a ∈ R` inside
-   `S = MvPolynomial (Fin n) R`. -/
-@[stacks 051N]
-theorem exists_substitution_with_constant_leadingCoeff_of_nonconstant
+/-- The tilting computation for one admissible exponent vector. Let `g` be a nonconstant
+polynomial in `MvPolynomial (Fin (n+1)) R` and let `e` be exponents with `e 0 = 1`, every
+`e i ≥ 1`, and such that `ν ↦ ∑ i, e i * ν i` is injective on the support of `g`. Then
+`finSuccEquiv R n (subst n e g)`, viewed as a polynomial in `X 0`, has positive degree `d`
+and leading coefficient `MvPolynomial.C a` for a nonzero coefficient `a` of `g`. -/
+theorem exists_natDegree_leadingCoeff_subst_of_injOn
     (n : ℕ) (g : MvPolynomial (Fin (n + 1)) R)
-    (hg : ¬ ∃ r : R, g = MvPolynomial.C r) :
-    ∃ (e : Fin (n + 1) → ℕ) (d : ℕ) (a : R),
-      e 0 = 1 ∧
+    (hg : ¬ ∃ r : R, g = MvPolynomial.C r) (e : Fin (n + 1) → ℕ) (he0 : e 0 = 1)
+    (he1 : ∀ i, 1 ≤ e i)
+    (hinj : ∀ ν ∈ g.support, ∀ ν' ∈ g.support,
+      (∑ i, e i * ν i = ∑ i, e i * ν' i) ↔ ν = ν') :
+    ∃ (d : ℕ) (a : R),
       (∃ ν ∈ g.support, a = g.coeff ν) ∧
       0 < d ∧
       (finSuccEquiv R n (subst n e g)).natDegree = d ∧
@@ -471,7 +592,6 @@ theorem exists_substitution_with_constant_leadingCoeff_of_nonconstant
     rw [Finset.nonempty_iff_ne_empty]
     intro h
     exact hg0 (MvPolynomial.support_eq_empty.mp h)
-  obtain ⟨e, he0, he1, hinj⟩ := supporting_lemma_normalized n g.support
   set D : (Fin (n + 1) →₀ ℕ) → ℕ := fun ν => ∑ i, e i * ν i with hD
   set Ψ : MvPolynomial (Fin (n + 1)) R →ₐ[R]
       Polynomial (MvPolynomial (Fin n) R) :=
@@ -546,7 +666,7 @@ theorem exists_substitution_with_constant_leadingCoeff_of_nonconstant
     have := natDegree_leadingCoeff_dominant_sum g.support
       (fun ν => MvPolynomial.C (g.coeff ν)) P D νs hνs_mem hP_monic hP_deg hCne hdom
     simpa [ha, hd] using this
-  refine ⟨e, d, a, he0, ⟨νs, hνs_mem, rfl⟩, ?_, ?_, ?_⟩
+  refine ⟨d, a, ⟨νs, hνs_mem, rfl⟩, ?_, ?_, ?_⟩
   · obtain ⟨ν₀, hν₀_mem, hν₀_ne⟩ : ∃ ν ∈ g.support, ν ≠ 0 := by
       by_contra hcon
       simp only [not_exists, not_and, not_ne_iff] at hcon
@@ -564,3 +684,142 @@ theorem exists_substitution_with_constant_leadingCoeff_of_nonconstant
     rw [hd]; lia
   · exact hmain.left
   · exact hmain.right
+
+/-- Let `g` be a nonconstant polynomial in `MvPolynomial (Fin (n+1)) R`, that is one
+not in the image of the constant inclusion `MvPolynomial.C : R → …`. Then there
+exist exponents `e` with `e 0 = 1`, encoding `e_n = 1`, a positive integer `d`,
+and an element `a ∈ R` such that:
+
+1. `a` is one of the nonzero coefficients of `g`: there is a multi-index `ν` in
+   the support of `g` with `a = g.coeff ν`, so in particular `a ≠ 0`.
+
+2. Viewing `f = subst n e g` as a polynomial in the distinguished variable `X 0`
+   via `finSuccEquiv R n`, its degree in that variable is `d` and its leading
+   coefficient is the *constant* `MvPolynomial.C a`, the image of `a ∈ R` inside
+   `S = MvPolynomial (Fin n) R`.
+
+This is the existential consequence of Stacks 051N, which asserts the conclusion for all
+sufficiently rapidly growing exponents; that full statement is
+`eventuallyRapid_subst_constant_leadingCoeff_of_nonconstant`. -/
+theorem exists_substitution_with_constant_leadingCoeff_of_nonconstant
+    (n : ℕ) (g : MvPolynomial (Fin (n + 1)) R)
+    (hg : ¬ ∃ r : R, g = MvPolynomial.C r) :
+    ∃ (e : Fin (n + 1) → ℕ) (d : ℕ) (a : R),
+      e 0 = 1 ∧
+      (∃ ν ∈ g.support, a = g.coeff ν) ∧
+      0 < d ∧
+      (finSuccEquiv R n (subst n e g)).natDegree = d ∧
+      (finSuccEquiv R n (subst n e g)).leadingCoeff = MvPolynomial.C a := by
+  obtain ⟨e, he0, he1, hinj⟩ := supporting_lemma_normalized n g.support
+  obtain ⟨d, a, h⟩ := exists_natDegree_leadingCoeff_subst_of_injOn n g hg e he0 he1 hinj
+  exact ⟨e, d, a, he0, h⟩
+
+/-- `EventuallyRapid k P` says that `P e` holds for all `e = (e_0, …, e_{k-1}) ∈ ℕ^k` with
+`e_{k-1} ≫ e_{k-2} ≫ ⋯ ≫ e_0`, in the nested sense of the Stacks notation `≫`: for all
+sufficiently large `e_0`, for all `e_1` sufficiently large depending on `e_0`, …, for all
+`e_{k-1}` sufficiently large depending on `e_0, …, e_{k-2}`, the property `P e` holds.
+Concretely `EventuallyRapid 0 P` is `P` of the empty tuple and `EventuallyRapid (k+1) P` is
+`EventuallyRapid k (fun f => ∀ᶠ a in atTop, P (Fin.snoc f a))`. -/
+def EventuallyRapid : (k : ℕ) → ((Fin k → ℕ) → Prop) → Prop
+  | 0, P => P Fin.elim0
+  | k + 1, P => EventuallyRapid k fun f => ∀ᶠ a in Filter.atTop, P (Fin.snoc f a : Fin (k + 1) → ℕ)
+
+theorem EventuallyRapid.mono {k : ℕ} {P Q : (Fin k → ℕ) → Prop} (h : EventuallyRapid k P)
+    (hPQ : ∀ f, P f → Q f) : EventuallyRapid k Q := by
+  induction k with
+  | zero => exact hPQ _ h
+  | succ k ih => exact ih h fun f hf => hf.mono fun a ha => hPQ _ ha
+
+theorem EventuallyRapid.and {k : ℕ} {P Q : (Fin k → ℕ) → Prop} (hP : EventuallyRapid k P)
+    (hQ : EventuallyRapid k Q) : EventuallyRapid k fun f => P f ∧ Q f := by
+  induction k with
+  | zero => exact ⟨hP, hQ⟩
+  | succ k ih => exact (ih hP hQ).mono fun f hf => hf.1.and hf.2
+
+/-- A property holding for all sufficiently rapidly growing exponents holds for some. -/
+theorem EventuallyRapid.exists {k : ℕ} {P : (Fin k → ℕ) → Prop} (h : EventuallyRapid k P) :
+    ∃ f, P f := by
+  induction k with
+  | zero => exact ⟨_, h⟩
+  | succ k ih =>
+    obtain ⟨f, hf⟩ := ih h
+    obtain ⟨a, ha⟩ := hf.exists
+    exact ⟨_, ha⟩
+
+/-- Stacks 051M in the nested form used by 051N: for a finite set `N ⊆ ℕ^{k+1}` and all
+`e' ∈ ℕ^k` with `e'_{k-1} ≫ ⋯ ≫ e'_0 ≫ 1`, the exponents `e = (1, e'_0, …, e'_{k-1})` are
+positive and `ν ↦ e · ν` is injective on `N`. -/
+theorem eventuallyRapid_pos_injOn (k : ℕ) (N : Finset (Fin (k + 1) → ℕ)) :
+    EventuallyRapid k fun e' => (∀ i, 1 ≤ e' i) ∧
+      Set.InjOn (fun ν : Fin (k + 1) → ℕ => ∑ i, (Fin.cons 1 e' : Fin (k + 1) → ℕ) i * ν i)
+        (N : Set (Fin (k + 1) → ℕ)) := by
+  induction k with
+  | zero =>
+    refine ⟨fun i => i.elim0, fun ν _ ν' _ h => funext fun i => ?_⟩
+    fin_cases i
+    simpa using h
+  | succ k ih =>
+    refine (ih (N.image Fin.init)).mono fun e' ⟨hpos, hinj⟩ => ?_
+    set w : Fin (k + 1) → ℕ := Fin.cons 1 e' with hw
+    set S : (Fin (k + 2) → ℕ) → ℕ := fun ν => ∑ i, w i * Fin.init ν i with hS
+    have hsplit : ∀ (a : ℕ) (ν : Fin (k + 2) → ℕ),
+        ∑ i, (Fin.cons 1 (Fin.snoc e' a : Fin (k + 1) → ℕ) : Fin (k + 2) → ℕ) i * ν i
+          = S ν + a * ν (Fin.last _) := by
+      intro a ν
+      rw [Fin.cons_snoc_eq_snoc_cons, Fin.sum_univ_castSucc]
+      simp [hS, hw, Fin.init]
+    filter_upwards [Filter.eventually_ge_atTop (N.sup S + 1)] with a ha
+    have ha1 : 0 < a := by lia
+    refine ⟨fun i => ?_, fun ν hν ν' hν' h => ?_⟩
+    · refine Fin.lastCases ?_ (fun j => ?_) i
+      · simpa using Nat.succ_le_of_lt ha1
+      · simpa using hpos j
+    · simp only [hsplit] at h
+      have hlt : ∀ μ ∈ N, S μ < a := fun μ hμ =>
+        lt_of_le_of_lt (Finset.le_sup (f := S) hμ) (by lia)
+      have hSν' := hlt ν' (Finset.mem_coe.mp hν')
+      have hSν := hlt ν (Finset.mem_coe.mp hν)
+      have hlast : ν (Fin.last _) = ν' (Fin.last _) := by
+        have := congrArg (· / a) h
+        simpa [Nat.add_mul_div_left _ _ ha1, Nat.div_eq_of_lt hSν, Nat.div_eq_of_lt hSν']
+          using this
+      have hS' : S ν = S ν' := by
+        have := congrArg (· % a) h
+        simpa [Nat.add_mul_mod_self_left, Nat.mod_eq_of_lt hSν, Nat.mod_eq_of_lt hSν']
+          using this
+      have hinit : Fin.init ν = Fin.init ν' :=
+        hinj (Finset.mem_coe.mpr (Finset.mem_image_of_mem _ (Finset.mem_coe.mp hν)))
+          (Finset.mem_coe.mpr (Finset.mem_image_of_mem _ (Finset.mem_coe.mp hν'))) hS'
+      funext i
+      refine Fin.lastCases hlast (fun j => ?_) i
+      exact congrFun hinit j
+
+/-- **Stacks 051N.** Let `g ∈ R[x_1, …, x_N]` be nonconstant (here `N = n + 1`, the
+variable `X 0` plays the role of the distinguished variable `x_N`, and `X i` for `1 ≤ i ≤ n`
+plays the role of `x_{N-i}`). Then for all exponents `e_1 ≫ e_2 ≫ ⋯ ≫ e_{N-1} ≫ e_N = 1`,
+in the nested sense of `EventuallyRapid` (the tuple `e' : Fin n → ℕ` lists
+`e_{N-1}, …, e_1`, and the full exponent vector is `Fin.cons 1 e'`), the substituted
+polynomial `g(x_1 + x_N^{e_1}, …, x_{N-1} + x_N^{e_{N-1}}, x_N)`, viewed via `finSuccEquiv`
+as a polynomial in `x_N`, equals `a x_N^d + (lower order terms in x_N)` with `d > 0` and
+`a ∈ R` one of the nonzero coefficients of `g`: its degree is `d` and its leading
+coefficient is the constant `MvPolynomial.C a`. -/
+@[stacks 051N "for all exponents e₁ ≫ ⋯ ≫ e_{N-1} ≫ e_N = 1 in the nested sense of \
+`EventuallyRapid`; X 0 is the distinguished variable x_N"]
+theorem eventuallyRapid_subst_constant_leadingCoeff_of_nonconstant
+    (n : ℕ) (g : MvPolynomial (Fin (n + 1)) R)
+    (hg : ¬ ∃ r : R, g = MvPolynomial.C r) :
+    EventuallyRapid n fun e' => ∃ (d : ℕ) (a : R),
+      (∃ ν ∈ g.support, a = g.coeff ν) ∧
+      0 < d ∧
+      (finSuccEquiv R n (subst n (Fin.cons 1 e') g)).natDegree = d ∧
+      (finSuccEquiv R n (subst n (Fin.cons 1 e') g)).leadingCoeff = MvPolynomial.C a := by
+  classical
+  refine (eventuallyRapid_pos_injOn n (g.support.image (⇑))).mono fun e' ⟨hpos, hinj⟩ => ?_
+  refine exists_natDegree_leadingCoeff_subst_of_injOn n g hg _ (Fin.cons_zero _ _)
+    (fun i => ?_) (fun ν hν ν' hν' => ⟨fun h => ?_, fun h => h ▸ rfl⟩)
+  · refine Fin.cases ?_ (fun j => ?_) i
+    · simp
+    · simpa using hpos j
+  · exact DFunLike.coe_injective
+      (hinj (Finset.mem_coe.mpr (Finset.mem_image_of_mem _ hν))
+        (Finset.mem_coe.mpr (Finset.mem_image_of_mem _ hν')) h)

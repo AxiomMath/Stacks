@@ -30,6 +30,9 @@ commutes with direct sums ([Stacks, Tag 0F11]).
 * `preservesColimitsOfShape_discrete_rightDerived_etaleModuleDirectImage_univ`:
   for `f` quasi-compact and quasi-separated, `R^q f_*` on sheaves of `Λ`-modules commutes with
   direct sums, `Λ` a ring in any universe ([Stacks, Tag 09Z1] for a constant system).
+* `preservesColimit_etaleModuleDerivedDirectImage_of_isGE_univ`: the bounded below derived
+  direct image `Rf_* : D⁺(X_étale, Λ) ⟶ D⁺(Y_étale, Λ)` commutes with direct sums of a family
+  with a common lower bound ([Stacks, Tag 0GIW] with coefficients in `Λ`).
 * `preservesColimitsOfShape_etaleModuleDerivedDirectImageUnbounded_of_isProper_of_compactSpace`:
   the case of a quasi-compact base.
 * `preservesColimitsOfShape_etaleModuleDerivedDirectImageUnbounded_of_isProper`:
@@ -61,6 +64,7 @@ and the universe relative to which they are Grothendieck abelian.
 * [Stacks Project, Tag 0F11](https://stacks.math.columbia.edu/tag/0F11)
 * [Stacks Project, Tag 095U](https://stacks.math.columbia.edu/tag/095U)
 * [Stacks Project, Tag 09Z1](https://stacks.math.columbia.edu/tag/09Z1)
+* [Stacks Project, Tag 0GIW](https://stacks.math.columbia.edu/tag/0GIW)
 -/
 
 @[expose] public noncomputable section
@@ -78,8 +82,6 @@ constraint, so it is switched off here. -/
 attribute [-instance] etaleModules_enoughInjectives_univZero
 
 attribute [local instance 2000] etaleModules_enoughInjectives
-
-attribute [local instance] HasDerivedCategory.standard
 
 variable (Λ : Type r) [Ring Λ]
 
@@ -132,31 +134,6 @@ theorem preservesColimitsOfShape_discrete_rightDerived_etaleModuleDirectImage_un
 
 end HigherDirectImage
 
-/-! ### The unbounded proper direct image and direct sums -/
-
-/-- **Proper direct images commute with direct sums over a quasi-compact base, for a torsion
-coefficient ring.** Let `f : X ⟶ Y` be a proper morphism of schemes with `Y` quasi-compact and let
-`Λ` be a torsion ring in any universe. Then the unbounded derived direct image
-`Rf_* : D(X_étale, Λ) ⟶ D(Y_étale, Λ)` commutes with direct sums. -/
-theorem preservesColimitsOfShape_etaleModuleDerivedDirectImageUnbounded_of_isProper_of_compactSpace
-    {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] [CompactSpace Y]
-    (hΛ : ∃ m : ℕ, 0 < m ∧ (m : Λ) = 0) (I : Type (max (u + 1) r)) :
-    PreservesColimitsOfShape (Discrete I) (etaleModuleDerivedDirectImageUnbounded.{u, r} Λ f) := by
-  obtain ⟨m, hm, hmΛ⟩ := hΛ
-  have hqc := quasiCompact_of_isProper f
-  have := quasiSeparated_of_isProper f
-  obtain ⟨d, hd⟩ := @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le X Y f
-    (IsProper.toLocallyOfFiniteType (f := f)) hqc ‹CompactSpace Y›
-  exact preservesColimitsOfShape_of_finiteCohomologicalDimension_directImage Λ f
-    ⟨2 * d + 1, fun q hq F => isZero_rightDerived_etaleModuleDirectImage_of_isProper_univ Λ f d hd
-      F (isTorsionEtaleModule_of_nsmul_eq_zero_univ Λ m hm hmΛ F) q (by omega)⟩
-    (fun q I => preservesColimitsOfShape_discrete_rightDerived_etaleModuleDirectImage_univ Λ f q I)
-    (etaleModuleDerivedDirectImageUnbounded.{u, r} Λ f)
-    (Stacks.Injectives.KInjectiveResolution.homotopyCategoryUnit
-      (etaleModuleDirectImage.{u, r} Λ f) (etaleModuleDerivedDirectImageUnbounded.{u, r} Λ f)
-      (etaleModuleDerivedDirectImageUnboundedUnit.{u, r} Λ f)) I
-
-
 /-! ### Comparing two functors on direct sums -/
 
 section Comparison
@@ -201,11 +178,54 @@ lemma preservesColimit_of_isIso_app_sigma [PreservesColimit (Discrete.functor K)
 
 end Comparison
 
+attribute [local instance] HasDerivedCategory.standard
+
+/-! ### Bounded below derived direct images and direct sums -/
+
+/-- **Bounded below derived direct images of sheaves of `Λ`-modules commute with direct sums of a
+family with a common lower bound.** Let `Λ` be a ring in any universe, let `f : X ⟶ Y` be a
+quasi-compact and quasi-separated morphism of schemes, let `K : I → D⁺(X_étale, Λ)` be a family
+of objects and let `a : ℤ` be such that `H^n(K i) = 0` for `n < a` and all `i`. Then
+`Rf_*(⨁ i, K i) = ⨁ i, Rf_*(K i)`. This is [Stacks, Tag 0GIW] with coefficients in `Λ`: the
+input that each `R^q f_*` commutes with direct sums ([Stacks, Tag 09Z1]) is
+`preservesColimitsOfShape_discrete_rightDerived_etaleModuleDirectImage_univ`. -/
+theorem preservesColimit_etaleModuleDerivedDirectImage_of_isGE_univ
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f] [QuasiSeparated f]
+    {I : Type (max (u + 1) r)}
+    (K : I → DerivedCategory.Plus (EtaleModules.{u, r} Λ X)) (a : ℤ)
+    (hK : ∀ i, (K i).IsGE a) :
+    PreservesColimit (Discrete.functor K) (etaleModuleDerivedDirectImage.{u, r} Λ f) :=
+  preservesColimit_etaleModuleDerivedDirectImage_of_isGE Λ f
+    (fun p ↦ preservesColimitsOfShape_discrete_rightDerived_etaleModuleDirectImage_univ Λ f p I)
+    K a hK
+
+/-! ### The unbounded proper direct image and direct sums -/
+
+/-- **Proper direct images commute with direct sums over a quasi-compact base, for a torsion
+coefficient ring.** Let `f : X ⟶ Y` be a proper morphism of schemes with `Y` quasi-compact and let
+`Λ` be a torsion ring in any universe. Then the unbounded derived direct image
+`Rf_* : D(X_étale, Λ) ⟶ D(Y_étale, Λ)` commutes with direct sums. -/
+theorem preservesColimitsOfShape_etaleModuleDerivedDirectImageUnbounded_of_isProper_of_compactSpace
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [IsProper f] [CompactSpace Y]
+    (hΛ : ∃ m : ℕ, 0 < m ∧ (m : Λ) = 0) (I : Type (max (u + 1) r)) :
+    PreservesColimitsOfShape (Discrete I) (etaleModuleDerivedDirectImageUnbounded.{u, r} Λ f) := by
+  obtain ⟨m, hm, hmΛ⟩ := hΛ
+  have hqc := quasiCompact_of_isProper f
+  have := quasiSeparated_of_isProper f
+  obtain ⟨d, hd⟩ := @AlgebraicGeometry.exists_topologicalKrullDim_fiber_le X Y f
+    (IsProper.toLocallyOfFiniteType (f := f)) hqc ‹CompactSpace Y›
+  exact preservesColimitsOfShape_of_finiteCohomologicalDimension_directImage Λ f
+    ⟨2 * d + 1, fun q hq F => isZero_rightDerived_etaleModuleDirectImage_of_isProper_univ Λ f d hd
+      F (isTorsionEtaleModule_of_nsmul_eq_zero_univ Λ m hm hmΛ F) q (by omega)⟩
+    (fun q I => preservesColimitsOfShape_discrete_rightDerived_etaleModuleDirectImage_univ Λ f q I)
+    (etaleModuleDerivedDirectImageUnbounded.{u, r} Λ f)
+    (Stacks.Injectives.KInjectiveResolution.homotopyCategoryUnit
+      (etaleModuleDirectImage.{u, r} Λ f) (etaleModuleDerivedDirectImageUnbounded.{u, r} Λ f)
+      (etaleModuleDerivedDirectImageUnboundedUnit.{u, r} Λ f)) I
+
 /-! ### Proper direct images and direct sums over an arbitrary base -/
 
 section Local
-
-attribute [local instance] HasDerivedCategory.standard
 
 /-- Sheaves of `Λ`-modules on a small étale site have direct sums indexed by the universe relative
 to which they are Grothendieck abelian. -/

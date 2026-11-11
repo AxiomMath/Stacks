@@ -47,15 +47,11 @@ where it records that "we have proved two out of the three assertions".
 
 ## Scope
 
-The universal-injectivity assertion of 0AT5 is not established in this file.  The source
-proves it from the existence of content ideals in `N` (Stacks 0ASX, Lemma 38.19.6), applied
-through Stacks 0ASC and the finitely-generated-ideal criterion Stacks 0AS5.  Of Stacks 0ASX
-this repository has only the principality half,
-`IsContentIdeal.isPrincipal_of_valuationRing`; its existence half reduces here to Stacks
-0ASD, which needs `N` to be Mittag-Leffler over `A`, and that is the conclusion of Stacks
-05U7 (`exists_filteredColimit_free_with_injective_reduction_and_isMittagLeffler`, for `A`
-henselian). Stacks 0AT5's universal-injectivity assertion therefore awaits the existence half of
-Stacks 0ASX.
+The third assertion, universal injectivity of `u`, and the statement of all three together
+(`AlgebraicGeometry.injectiveModuloMaximalIdealConclusion_of_valuationRing`) are in
+`StacksFrontier.AlgebraicGeometry.Flatness.Flattening.ValuationRingBaseUniversalInjectivity`,
+which uses the existence of content ideals (Stacks 0ASX) and so needs imports this file does
+not have.
 
 ## Main results
 
@@ -234,9 +230,7 @@ private theorem torsion_eq_bot_of_injective_mod_maximalIdeal
 
 /-- **Stacks Project, Tag 0AT5 (flatness).** In Situation 0AT0 with the base ring `A` a
 valuation ring, the finite `B`-module `N` is flat over `A`. -/
-@[stacks 0AT5 "the flatness assertion of `the lemma' for Situation 0AT0: in Situation 0AT0
-with `A` a valuation ring, `N` is flat over `A`. Proved from 0AT0's own hypotheses together
-with `ValuationRing A`."]
+@[stacks 0AT5 "flatness"]
 theorem flat_of_valuationRing
     (S : InjectiveModuloMaximalIdealSituation.{u₁, u₂, u₃, u₄})
     [IsDomain S.A] [ValuationRing S.A] : Module.Flat S.A S.N :=
@@ -245,9 +239,7 @@ theorem flat_of_valuationRing
 
 /-- **Stacks Project, Tag 0AT5 (finite presentation).** In Situation 0AT0 with the base ring
 `A` a valuation ring, the finite `B`-module `N` is of finite presentation over `B`. -/
-@[stacks 0AT5 "the finite-presentation assertion of `the lemma' for Situation 0AT0: in
-Situation 0AT0 with `A` a valuation ring, `N` is of finite presentation over `B`. Proved from
-0AT0's own hypotheses together with `ValuationRing A`."]
+@[stacks 0AT5 "finite presentation"]
 theorem finitePresentation_of_valuationRing
     (S : InjectiveModuloMaximalIdealSituation.{u₁, u₂, u₃, u₄})
     [IsDomain S.A] [ValuationRing S.A] : Module.FinitePresentation S.B S.N :=

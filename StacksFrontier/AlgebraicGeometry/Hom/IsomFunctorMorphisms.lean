@@ -43,8 +43,8 @@ pullback and its descent along a scheme atlas of `T`.
   `T ⟶ Isom(F, G)` read as a morphism `T ⟶ Hom(F, G)`, and the morphism `T ⟶ base` it lies
   over.
 * `AlgebraicGeometry.Space.HomSituation.EtaleReverseHomDescent`: the fullness clause of
-  Stacks 04W8 for the *reversed* pair of modules, carried as a hypothesis; see the
-  implementation notes.
+  Stacks 04W8 for the *reversed* pair of modules, taken as a parameter here and proved as
+  `AlgebraicGeometry.Space.HomSituation.etaleReverseHomDescent`; see the implementation notes.
 * `AlgebraicGeometry.Space.HomSituation.isomMorOfSpaceIsom`: **the morphism of presheaves
   `T ⟶ Isom(F, G)` determined by a pair `(h, u)` with `u` invertible**, which is the
   construction `AlgebraicGeometry.Space.HomSituation.morOfSpaceHom` of Stacks 0D3S together
@@ -88,11 +88,14 @@ pullback and its descent along a scheme atlas of `T`.
 
 **How Stacks 0D3T is split here**, and how it rests on Stacks 0D3S.  The two sides of
 Stacks 0D3T are cut out of the two sides of Stacks 0D3S: on the right by invertibility of the
-second component, on the left by the subfunctor `isomSubpresheaf` of the Hom presheaf.  The
-tag is carried between `baseOfIsomMor_isomMorOfSpaceIsom`, that the first component is
+second component, on the left by the subfunctor `isomSubpresheaf` of the Hom presheaf.  This
+file proves the two halves: `baseOfIsomMor_isomMorOfSpaceIsom`, that the first component is
 recovered, and `bijective_isomMorOver`, that for a fixed first component the invertible second
 components correspond bijectively to the morphisms of presheaves into `Isom(F, G)` lying over
-it; those two together are its covering set, exactly as for Stacks 0D3S.
+it, the latter for parameters `hc`, `hd`, `hd'`.  The complete identification, with those
+parameters supplied by the library, is
+`AlgebraicGeometry.Space.HomSituation.bijective_isomMorOfSpaceIsom` in
+`StacksFrontier.AlgebraicGeometry.Hom.IsomFunctorMorphismsEquiv`, which carries the tag.
 
 Both directions of the correspondence of the subsets go through the one point of substance.
 Forwards, the pair cut out at a scheme-valued point of `T` by an invertible `u` is invertible,
@@ -110,7 +113,7 @@ equations between homomorphisms over `T`, and pullback of homomorphisms is injec
 `AlgebraicGeometry.Space.HomSituation.spaceConjHom_injective`, which is unconditional.  What
 is carried is therefore only the *existence* of the descended inverse, and that is the
 fullness clause of Stacks 04W8 again — for the pair `(G, F)` rather than for `(F, G)`, since
-the inverse goes the other way.  It is carried as
+the inverse goes the other way.  It is a parameter here,
 `AlgebraicGeometry.Space.HomSituation.EtaleReverseHomDescent`, which is
 `AlgebraicGeometry.Space.HomSituation.EtaleHomDescent` of Stacks 0D3S verbatim with the two
 modules exchanged, written with `CategoryTheory.Functor.conjHom` rather than with
@@ -155,8 +158,9 @@ with `CategoryTheory.Functor.conjHom` at explicitly given comparisons for the sa
 `AlgebraicGeometry.Space.HomSituation.isIsomAt_homMap_iff` is.
 
 **The coherence `hc`.**  `AlgebraicGeometry.Space.ModulePushforwardCoherence` is what makes
-pullback of homomorphisms functorial at all, and is already a hypothesis of every functor
-here; it is recorded in the tag attributes.
+pullback of homomorphisms functorial at all, and is a parameter of every functor here; the
+library supplies it as `AlgebraicGeometry.Space.modulePushforwardCoherence`, at which the
+complete identification `bijective_isomMorOfSpaceIsom` is stated.
 
 ## References
 
@@ -360,14 +364,12 @@ surjective étale morphism `g : U ⟶ T` of algebraic spaces over the base, a ho
 homomorphism `G_T ⟶ F_T`.
 
 This is `AlgebraicGeometry.Space.HomSituation.EtaleHomDescent` with the two modules exchanged,
-and it is carried for the same reason and with the same standing: it is descent of
-homomorphisms of quasi-coherent modules along the one-member étale covering `X_U ⟶ X_T` of
-base changes, available in this development as
-`AlgebraicGeometry.Space.QuasiCoherentDescent.exists_modulePullback_map_eq` only after the
-kernel pair of `g` has been identified with the fibre product of that covering with itself,
-which is not carried out here.  It is the *only* input the descent of invertibility needs: the
-reverse direction is where an inverse lives, and the two equations making it an inverse are
-then proved, not assumed.
+and it is a parameter here for the same reason: it is descent of homomorphisms of
+quasi-coherent modules along the one-member étale covering `X_U ⟶ X_T` of base changes, which
+is proved downstream, in `StacksFrontier.AlgebraicGeometry.Hom.IsomFunctorMorphismsEquiv`, as
+`AlgebraicGeometry.Space.HomSituation.etaleReverseHomDescent`.  It is the *only* input the
+descent of invertibility needs: the reverse direction is where an inverse lives, and the two
+equations making it an inverse are then proved, not assumed.
 
 Pullback is written as `CategoryTheory.Functor.conjHom` of
 `AlgebraicGeometry.Space.HomSituation.spaceBaseChangeComparison`, which is what
@@ -581,8 +583,6 @@ presheaf**: for a pair `(h, u)` with `u` invertible the morphism underlying
 and it is inherited from the corresponding half of Stacks 0D3S,
 `AlgebraicGeometry.Space.HomSituation.baseOfMor_morOfSpaceHom`, the two left-hand sides being
 compared through the inclusion of the subfunctor. -/
-@[stacks 0D3T "the first component of the pair is recovered from the morphism of sheaves into \
-the Isom functor, conditional on the pseudofunctoriality of the direct images of Stacks 03LU"]
 theorem baseOfIsomMor_isomMorOfSpaceIsom (hc : ModulePushforwardCoherence B S hS)
     {T : AlgebraicSpaces B S hS} (h : T ⟶ s.base) (u : s.spaceHomAt (Over.mk h))
     (hu : s.IsIsomOverAt u) :
@@ -669,12 +669,8 @@ what is checked is that the subsets correspond.  Injectivity is inherited from S
 is unconditional beyond the coherence `hc`.  Surjectivity needs, beyond the hypothesis `hd` of
 Stacks 0D3S, that invertibility descends along the covering of base changes cut out by a scheme
 atlas of `T`, which is the same fullness clause of Stacks 04W8 for the reversed pair of
-modules, carried as `hd'`. -/
-@[stacks 0D3T "the identification is a bijection on the fibres over a fixed morphism to the \
-base; carries three hypotheses: `hc`, the pseudofunctoriality of the direct images of \
-Stacks 03LU, and `hd`, `hd'`, the fullness clause of Stacks 04W8 for a one-member etale \
-covering, for the two modules of the situation and for them exchanged (the faithfulness \
-clause of Stacks 04W8 is proved here and not assumed)"]
+modules, the parameter `hd'`.  All three parameters are proved in the library, and the complete
+identification at them is `AlgebraicGeometry.Space.HomSituation.bijective_isomMorOfSpaceIsom`. -/
 theorem bijective_isomMorOver (hc : ModulePushforwardCoherence B S hS)
     (hd : s.EtaleHomDescent) (hd' : s.EtaleReverseHomDescent)
     {T : AlgebraicSpaces B S hS} (h : T ⟶ s.base) :

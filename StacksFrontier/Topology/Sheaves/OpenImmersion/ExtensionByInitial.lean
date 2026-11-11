@@ -39,6 +39,10 @@ The restriction functor `j^{-1} : Sh(X) ⥤ Sh(U)` on sheaves is Mathlib's
 * `TopCat.Presheaf.restrictExtendByInitialSheafIso`: `j^{-1} ∘ j_! ≅ 𝟭`, the same statement
   for sheaves.
 * `TopCat.Presheaf.extendByInitialSheafFullyFaithful`: `j_!` is fully faithful.
+* `TopCat.Presheaf.mem_essImage_extendByInitialSheaf_iff`: for sheaves of sets, the essential
+  image of `j_!` consists exactly of the sheaves with empty stalks at all points outside `U`;
+  with full faithfulness this is
+  `TopCat.Presheaf.extendByInitialSheaf_full_faithful_and_mem_essImage_iff`.
 * `TopCat.Presheaf.ExtensionByInitial.isInitialStalkExtendByInitial` and
   `TopCat.Presheaf.isInitialStalkExtendByInitialSheafify`: the stalk of `j_{p!}F`, resp. of
   `j_!F`, at a point outside `U` is an initial object (`∅` for sheaves of sets, and a zero
@@ -137,7 +141,13 @@ otherwise, with the obvious restriction maps.
 
 When `C` is a category of algebraic structures its zero object is initial, so this is the
 classical extension by zero of an abelian presheaf; and the initial object of `Type` is the
-empty type, so this is also the extension by the empty set of a presheaf of sets. -/
+empty type, so this is also the extension by the empty set of a presheaf of sets.
+
+The other clauses of Stacks 00A4 are registered on: `extendByInitialSheafify` and
+`extendByInitialSheaf` (2), the sheafification of `j_{p!}` for abelian sheaves;
+`AlgebraicStructureType.extendByInitialSheaf` (4), for sheaves of algebraic structures, whose
+sheafification is constructed rather than assumed; `extendByZeroPresheafOfModules` (5) and
+`extendByZeroSheafOfModules` (6), for (pre)sheaves of modules. -/
 @[stacks 00A4 "(1), (3)", stacks 00A2 "(1)", implicit_reducible]
 noncomputable def extendByInitial (F : Presheaf C (sp U)) : Presheaf C X where
   obj V := obj U F V
@@ -531,8 +541,11 @@ noncomputable def restrictExtendByInitialSheafIso :
   haveI := ExtensionByInitial.isIso_unit_extendByInitialSheafAdjunction (C := C) U
   (asIso (extendByInitialSheafAdjunction (C := C) U).unit).symm
 
-/-- `j_! : Sh(U) ⥤ Sh(X)` is fully faithful. -/
-@[stacks 00A8, sga "4 IV 11.3.1" "special case"]
+/-- `j_! : Sh(U) ⥤ Sh(X)` is fully faithful, for sheaves with values in any category with an
+initial object and sheafification. This is the first assertion of Stacks 00A8; the complete
+lemma for sheaves of sets, including the description of the essential image, is
+`TopCat.Presheaf.extendByInitialSheaf_full_faithful_and_mem_essImage_iff`. -/
+@[sga "4 IV 11.3.1" "special case"]
 noncomputable def extendByInitialSheafFullyFaithful :
     (extendByInitialSheaf (C := C) U).FullyFaithful :=
   (ExtensionByInitial.openImmersionTriple U).fullyFaithfulEquiv.symm
@@ -636,13 +649,109 @@ end SheafifyStalks
 end Stalks
 
 /-- For a presheaf of sets `F` on `U`, the stalk of `j_!F` at a point outside `U` is empty:
-`(j_!F)_x = ∅`. -/
-@[stacks 00A8,
-  stacks 00A3 "(3) for sheaves of sets: (j_!F)_x = ∅ for x ∉ U",
+`(j_!F)_x = ∅`. This gives the inclusion of the essential image of `j_!` in the sheaves with
+empty stalks outside `U`; the complete Stacks 00A8 is
+`TopCat.Presheaf.extendByInitialSheaf_full_faithful_and_mem_essImage_iff`. -/
+@[stacks 00A3 "(3) for sheaves of sets: (j_!F)_x = ∅ for x ∉ U",
   sga "4 III 1.9.2" "more general"]
 theorem isEmpty_stalk_extendByInitialSheafify {X : TopCat.{u}} (U : Opens X)
     (F : Presheaf (Type u) (sp U)) {x : X} (hx : x ∉ U) :
     IsEmpty (stalk ((extendByInitialSheafify U).obj F).presheaf x) :=
   Function.isEmpty ((isInitialStalkExtendByInitialSheafify U F hx).to PEmpty)
+
+/-! ### The essential image of `j_!` for sheaves of sets -/
+
+section EssImage
+
+variable {X : TopCat.{u}} (U : Opens X)
+
+namespace ExtensionByInitial
+
+/-- For a sheaf of sets `G` on `X`, the counit `j_! j^{-1} G ⟶ G` of `j_! ⊣ j^{-1}` is an
+isomorphism on the sections over every open `V ⊆ U`: by a triangle identity its restriction
+to `U` is inverse to the unit at `j^{-1} G`, which is invertible. -/
+theorem isIso_counit_app_val_app_of_le (G : TopCat.Sheaf (Type u) X) {V : Opens X}
+    (hV : V ≤ U) :
+    IsIso (((extendByInitialSheafAdjunction U).counit.app G).1.app (op V)) := by
+  have := isIso_unit_extendByInitialSheafAdjunction (C := Type u) U
+  have hu := NatIso.isIso_app_of_isIso (extendByInitialSheafAdjunction (C := Type u) U).unit
+    ((Opens.sheafRestrict U).obj G)
+  have hR : IsIso ((Opens.sheafRestrict U).map
+      ((extendByInitialSheafAdjunction U).counit.app G)) :=
+    @isIso_of_hom_comp_eq_id _ _ _ _ _ hu _
+      ((extendByInitialSheafAdjunction (C := Type u) U).right_triangle_components G)
+  have h : IsIso (((extendByInitialSheafAdjunction U).counit.app G).1.app
+      (op ((imF U).obj ((Opens.map U.inclusion').obj V)))) :=
+    NatIso.isIso_app_of_isIso ((sheafToPresheaf _ _).map
+      ((Opens.sheafRestrict U).map ((extendByInitialSheafAdjunction U).counit.app G)))
+      (op ((Opens.map U.inclusion').obj V))
+  rwa [imF_map_eq hV] at h
+
+/-- A morphism `φ : P ⟶ Q` of presheaves of sets on `X` that is bijective on the sections over
+every open contained in an open `V₀` is bijective on the stalk at every point `x ∈ V₀`. -/
+theorem bijective_stalkFunctor_map_of_bijective_app_of_le {P Q : Presheaf (Type u) X}
+    (φ : P ⟶ Q) {V₀ : Opens X} (h : ∀ V : Opens X, V ≤ V₀ → Function.Bijective (φ.app (op V)))
+    {x : X} (hx : x ∈ V₀) :
+    Function.Bijective ((stalkFunctor (Type u) x).map φ) := by
+  refine ⟨fun a b hab ↦ ?_, fun t ↦ ?_⟩
+  · obtain ⟨W₁, hW₁, hx₁, s₁, rfl⟩ := exists_le_germ_eq P a hx
+    obtain ⟨W₂, -, hx₂, s₂, rfl⟩ := exists_le_germ_eq P b hx
+    rw [stalkFunctor_map_germ_apply, stalkFunctor_map_germ_apply] at hab
+    obtain ⟨W, hxW, i₁, i₂, heq⟩ := Q.germ_eq x hx₁ hx₂ _ _ hab
+    rw [← NatTrans.naturality_apply, ← NatTrans.naturality_apply] at heq
+    exact P.germ_ext W hxW i₁ i₂ ((h W ((leOfHom i₁).trans hW₁)).1 heq)
+  · obtain ⟨W, hW, hxW, s, rfl⟩ := exists_le_germ_eq Q t hx
+    obtain ⟨s', rfl⟩ := (h W hW).2 s
+    exact ⟨_, stalkFunctor_map_germ_apply W x hxW φ s'⟩
+
+/-- **The counit `j_! j^{-1} G ⟶ G` is an isomorphism when `G` has empty stalks outside `U`.**
+For a sheaf of sets `G` on `X` with `G_x = ∅` for every `x ∉ U`, the counit of `j_! ⊣ j^{-1}`
+at `G` is an isomorphism. It is checked on stalks: at `x ∉ U` both stalks are empty, and at
+`x ∈ U` the counit is bijective on the sections over every open contained in `U`. -/
+theorem isIso_counit_app_extendByInitialSheafAdjunction (G : TopCat.Sheaf (Type u) X)
+    (hG : ∀ x : X, x ∉ U → IsEmpty (G.presheaf.stalk x)) :
+    IsIso ((extendByInitialSheafAdjunction U).counit.app G) := by
+  have hstalk : ∀ x : X, IsIso
+      ((stalkFunctor (Type u) x).map ((extendByInitialSheafAdjunction U).counit.app G).1) := by
+    intro x
+    rw [isIso_iff_bijective]
+    by_cases hx : x ∈ U
+    · exact bijective_stalkFunctor_map_of_bijective_app_of_le _
+        (fun V hV ↦ (isIso_iff_bijective _).1 (isIso_counit_app_val_app_of_le U G hV)) hx
+    · have h₁ : IsEmpty (((extendByInitialSheafify U).obj
+          ((Opens.sheafRestrict U).obj G).1).presheaf.stalk x) :=
+        isEmpty_stalk_extendByInitialSheafify U _ hx
+      have h₂ : IsEmpty (G.presheaf.stalk x) := hG x hx
+      exact ⟨fun a ↦ h₁.elim a, fun b ↦ h₂.elim b⟩
+  exact isIso_of_stalkFunctor_map_iso _
+
+end ExtensionByInitial
+
+/-- **The essential image of `j_!` for sheaves of sets.** A sheaf of sets `G` on `X` is
+isomorphic to `j_!F` for some sheaf `F` on `U` if and only if `G_x = ∅` for all `x ∉ U`. -/
+theorem mem_essImage_extendByInitialSheaf_iff (G : TopCat.Sheaf (Type u) X) :
+    (extendByInitialSheaf U).essImage G ↔ ∀ x : X, x ∉ U → IsEmpty (G.presheaf.stalk x) := by
+  constructor
+  · rintro ⟨F, ⟨e⟩⟩ x hx
+    have h : IsEmpty ((stalkFunctor (Type u) x).obj ((extendByInitialSheaf U).obj F).presheaf) :=
+      isEmpty_stalk_extendByInitialSheafify U F.presheaf hx
+    exact ⟨fun a ↦ h.elim ((stalkFunctor (Type u) x).map ((sheafToPresheaf _ _).map e.inv) a)⟩
+  · intro hG
+    have := ExtensionByInitial.isIso_counit_app_extendByInitialSheafAdjunction U G hG
+    exact (extendByInitialSheafAdjunction U).mem_essImage_of_counit_isIso G
+
+/-- **Stacks 00A8.** Let `j : U → X` be the inclusion of an open subset. The functor
+`j_! : Sh(U) ⥤ Sh(X)` on sheaves of sets is fully faithful, and its essential image consists
+exactly of the sheaves `G` on `X` with `G_x = ∅` for all `x ∈ X \ U`. -/
+@[stacks 00A8]
+theorem extendByInitialSheaf_full_faithful_and_mem_essImage_iff :
+    (extendByInitialSheaf (C := Type u) U).Full ∧
+      (extendByInitialSheaf (C := Type u) U).Faithful ∧
+      ∀ G : TopCat.Sheaf (Type u) X,
+        (extendByInitialSheaf U).essImage G ↔ ∀ x : X, x ∉ U → IsEmpty (G.presheaf.stalk x) :=
+  ⟨(extendByInitialSheafFullyFaithful U).full, (extendByInitialSheafFullyFaithful U).faithful,
+    mem_essImage_extendByInitialSheaf_iff U⟩
+
+end EssImage
 
 end TopCat.Presheaf

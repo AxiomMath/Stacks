@@ -478,6 +478,7 @@ theorem moduleSheafFunctor_map_unit_comp_map_comp_eqToHom_comp_map_comp_incl
   rw [Functor.map_comp _ ((squarePushforwardComparison i t f f' comm).app _)] at h
   exact h
 
+omit [HasSheafify X'.J AddCommGrpCat.{w}] in
 include comm in
 /-- The reduction `(f')^*𝒥 ⟶ i_*i^*(f')^*𝒥 = i_*f^*𝒥` is an epimorphism: the unit of a first
 order thickening is. -/
@@ -693,6 +694,7 @@ theorem homEquiv_reduction_comp_map_comp_idealInclPushforward :
     (homEquiv_ofFirstOrderThickenings_idealMap_comp_incl (reshapeHom i U.O₂ U.fSharp₂)
       (reshapeHom t E.O₂ E.fSharp₂) f f₂ U.second E.second r₂))).trans (Category.assoc _ _ _)
 
+omit [HasSheafify Y.J AddCommGrpCat.{w}] in
 include r₂ in
 /-- **The induced map `f^*𝒥₂ ⟶ f^*𝒥₁`, transposed along `f'₂`**: the reduction followed by the
 direct image of the induced map and of any map `z` out of `i_*f^*𝒥₁`, transposed along `f'₂`, is

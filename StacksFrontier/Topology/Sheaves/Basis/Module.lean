@@ -46,10 +46,11 @@ Clause (1) is `PresheafOfModulesOnBasis`: a presheaf of abelian groups `F` on `B
 `O(U)`-module structure on `F(U)` for each `U ∈ B`, compatible with restriction in the sense that
 `res (r • m) = res r • res m`. Clause (2) is `PresheafOfModulesOnBasis.Hom`, a morphism of such
 presheaves: a family of `O(U)`-linear maps `F(U) → G(U)` commuting with restriction. Clause (3) is
-`SheafOfModulesOnBasis`, a presheaf of `O`-modules on `B` whose underlying presheaf of abelian
-groups satisfies the basis-sheaf condition `PresheafOfModulesOnBasis.IsSheafOfAbGrps` — for every
-covering of `U ∈ B` by basis elements, sections agreeing on every basis element contained in a
-pairwise intersection glue uniquely.
+`SheafOfModulesOnBasis`: for a sheaf of rings `O` on `B` (`SheafOfRingsOnBasis`, a presheaf of
+rings whose underlying presheaf of sets is a sheaf on `B`), a presheaf of `O`-modules on `B`
+whose underlying presheaf of abelian groups satisfies the basis-sheaf condition
+`PresheafOfModulesOnBasis.IsSheafOfAbGrps` — for every covering of `U ∈ B` by basis elements,
+sections agreeing on every basis element contained in a pairwise intersection glue uniquely.
 
 The ambient presheaf of rings is supplied here as `PresheafOfRingsOnBasis`, the structure of
 Stacks 009H cut down to what 009S consumes: a commutative ring `O(U)` for each `U ∈ B` with
@@ -111,7 +112,7 @@ Given a presheaf of rings `O` on `B`, a presheaf of `O`-modules on `B` is
 a presheaf `F` of abelian groups on `B` together with an `O(U)`-module
 structure on `F(U)` for each `U ∈ B`, compatible with restriction in the
 sense that `res(r • m) = (res r) • (res m)`. -/
-@[stacks_fixed 009S "(1)", sga "3 I 3.1" "special case"]
+@[stacks 009S "(1): presheaf of O-modules on a basis", sga "3 I 3.1" "special case"]
 structure PresheafOfModulesOnBasis {B : Set (Set X)}
     (O : PresheafOfRingsOnBasis.{u, w₁} B) where
   /-- The abelian group of sections over each basis element. -/
@@ -150,7 +151,7 @@ structure PresheafOfModulesOnBasis {B : Set (Set X)}
 
 A morphism `φ : F → G` is a family of `O(U)`-module homomorphisms
 `φ(U) : F(U) → G(U)` commuting with restriction. -/
-@[stacks_fixed 009S "(2)"]
+@[stacks 009S "(2): morphism of presheaves of O-modules on a basis"]
 structure PresheafOfModulesOnBasis.Hom {B : Set (Set X)}
     {O : PresheafOfRingsOnBasis.{u, w₁} B}
     (F G : PresheafOfModulesOnBasis.{u, w₁, w₂} O) where
@@ -166,6 +167,39 @@ structure PresheafOfModulesOnBasis.Hom {B : Set (Set X)}
     letI := F.addCommGroup U hU; letI := F.addCommGroup V hV
     letI := G.addCommGroup U hU; letI := G.addCommGroup V hV
     G.res hU hV hVU (app U hU s) = app V hV (F.res hU hV hVU s)
+
+/-! ### Sheaf of rings on a basis
+
+A sheaf of rings on `B` is a presheaf of rings on `B` whose underlying presheaf of sets is a sheaf
+on `B` in the sense of Stacks 009J (Stacks 009P with values in rings). This is the hypothesis on
+`O` under which Stacks 009S (3) defines sheaves of `O`-modules. -/
+
+/-- The underlying presheaf of sets of a presheaf of rings on `B`. -/
+def PresheafOfRingsOnBasis.toPresheaf {B : Set (Set X)} (O : PresheafOfRingsOnBasis.{u, w₁} B) :
+    Stacks.SheafOnBasis.Presheaf.{u, w₁} B where
+  obj := O.obj
+  res hU hV hVU := O.res hU hV hVU
+  res_id hU s := by
+    let := O.ring _ hU
+    exact DFunLike.congr_fun (O.res_id hU) s
+  res_comp hU hV hW hVU hWV s := by
+    let := O.ring _ hU; let := O.ring _ hV; let := O.ring _ hW
+    exact DFunLike.congr_fun (O.res_comp hU hV hW hVU hWV) s
+
+/-- A presheaf of rings on `B` is a sheaf if its underlying presheaf of sets satisfies the sheaf
+condition on `B`: for every covering of `U ∈ B` by members of `B`, every family of sections
+agreeing on all members of `B` contained in pairwise intersections glues uniquely. -/
+def PresheafOfRingsOnBasis.IsSheaf {B : Set (Set X)} (O : PresheafOfRingsOnBasis.{u, w₁} B) :
+    Prop :=
+  Stacks.SheafOnBasis.Presheaf.IsSheaf.{u, u, w₁} O.toPresheaf
+
+/-- A sheaf of rings on a basis `B`: a presheaf of rings on `B` whose underlying presheaf of
+sets is a sheaf on `B`. -/
+structure SheafOfRingsOnBasis (B : Set (Set X)) where
+  /-- The underlying presheaf of rings. -/
+  val : PresheafOfRingsOnBasis.{u, w₁} B
+  /-- The underlying presheaf of sets is a sheaf. -/
+  isSheaf : val.IsSheaf
 
 /-! ### Sheaf of O-modules on a basis (009S, part 3)
 
@@ -199,13 +233,14 @@ def PresheafOfModulesOnBasis.IsSheafOfAbGrps {B : Set (Set X)}
 
 /-- A sheaf of `O`-modules on a basis `B` (Stacks 009S, part 3).
 
-A sheaf of `O`-modules on `B` is a presheaf of `O`-modules on `B` whose
-underlying presheaf of abelian groups satisfies the sheaf condition. -/
-@[stacks_fixed 009S "(3)", ega "0 3.2.2"]
+For a sheaf of rings `O` on `B`, a sheaf of `O`-modules on `B` is a presheaf of `O`-modules on
+`B` whose underlying presheaf of abelian groups satisfies the sheaf condition. -/
+@[stacks 009S "(3): sheaf of O-modules on a basis, for a sheaf of rings O",
+  ega "0 3.2.2"]
 structure SheafOfModulesOnBasis {B : Set (Set X)}
-    (O : PresheafOfRingsOnBasis.{u, w₁} B) where
+    (O : SheafOfRingsOnBasis.{u, w₁} B) where
   /-- The underlying presheaf of `O`-modules. -/
-  val : PresheafOfModulesOnBasis.{u, w₁, w₂} O
+  val : PresheafOfModulesOnBasis.{u, w₁, w₂} O.val
   /-- The underlying presheaf of abelian groups is a sheaf. -/
   isSheaf : val.IsSheafOfAbGrps
 

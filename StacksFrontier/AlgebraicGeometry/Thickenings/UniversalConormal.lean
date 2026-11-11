@@ -203,8 +203,7 @@ the conormal module of `tZ`, linearly over `Γ(W, ⊤)` acting through `f`.
 
 This is the affine, module-level avatar of the morphism of conormal sheaves
 `f^*𝒞_{W/Y} → 𝒞_{Z/X}` asserted by [Stacks Project, Tag 04F7]; it is not that morphism, which
-lives on all of `Z`. -/
-@[stacks 04F7 "the induced morphism of conormal modules, on affine ambient thickenings"]
+lives on all of `Z` and is `Stacks.Thickenings.universalConormalSheafPullbackMap`. -/
 noncomputable def universalConormalMap (tZ : UniversalFirstOrderThickening h)
     (tW : UniversalFirstOrderThickening h') [IsAffine tZ.ambient] [IsAffine tW.ambient]
     (f : Z ⟶ W) (g : X ⟶ Y) (comm : h ≫ g = f ≫ h') :
@@ -223,7 +222,6 @@ This is the characterizing property of [Stacks Project, Tag 01R4] for the square
 `(Z ⊂ Z') → (W ⊂ W')`: a section of the defining ideal of `W` in `W'` goes to its image under
 the ambient ring map. For a first-order thickening the defining ideal is already its own conormal
 module, so there is no quotient by the square of the ideal. -/
-@[stacks 04F7 "affine characterization of the induced morphism of conormal modules"]
 theorem universalConormalMap_apply (tZ : UniversalFirstOrderThickening h)
     (tW : UniversalFirstOrderThickening h') [IsAffine tZ.ambient] [IsAffine tW.ambient]
     (f : Z ⟶ W) (g : X ⟶ Y) (comm : h ≫ g = f ≫ h')

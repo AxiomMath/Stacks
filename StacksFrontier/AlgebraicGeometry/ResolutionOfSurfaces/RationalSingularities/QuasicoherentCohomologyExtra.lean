@@ -15,14 +15,16 @@ Let `f : X → Spec(A)` be as in Situation [Stacks, Tag 0B4W]. For a quasi-coher
 
 ## Main results
 
+* `RationalSingularitySituation.isZero_cohomology_of_isQuasicoherent`: [Stacks, Tag 0B4X], both
+  clauses together.
 * `RationalSingularitySituation.isZero_cohomology_of_notMem_zero_one_unconditional`: clause (1).
 * `RationalSingularitySituation.isZero_cohomology_one_of_globallyGenerated_unconditional`:
   clause (2).
 
 ## Implementation notes
 
-`CategoryTheory.HasDerivedCategory.standard` is given local priority `2000`, as in the module
-`StacksFrontier.AlgebraicGeometry.HigherDirectImageFibreDimension.GeneralDimensionQuasicoherent`:
+`CategoryTheory.HasDerivedCategory.standard` is given local priority `2000`, as in
+`StacksFrontier/AlgebraicGeometry/HigherDirectImageFibreDimension/GeneralDimensionQuasicoherent.lean`:
 that import brings another `HasDerivedCategory` instance into scope, and without the raised
 priority the `rightDerivedPlus` of these statements would use a different derived-category
 universe from the rest of the chapter, so they would not compose.
@@ -52,7 +54,6 @@ attribute [local instance 2000] HasDerivedCategory.standard
 
 /-- In Situation [Stacks, Tag 0B4W], the cohomology of a quasi-coherent `𝒪_X`-module vanishes
 in every degree outside `{0, 1}`. -/
-@[stacks 0B4X "clause (1)"]
 theorem isZero_cohomology_of_notMem_zero_one_unconditional
     (F : S.X.Modules) [F.IsQuasicoherent] (p : ℤ) (hp : p ∉ ({0, 1} : Set ℤ)) :
     IsZero (((moduleGlobalSections S.X).rightDerivedPlus p).obj F) := by
@@ -72,7 +73,6 @@ theorem isZero_cohomology_of_notMem_zero_one_unconditional
 
 /-- In Situation [Stacks, Tag 0B4W], a globally generated quasi-coherent `𝒪_X`-module has
 vanishing first cohomology. -/
-@[stacks 0B4X "clause (2)"]
 theorem isZero_cohomology_one_of_globallyGenerated_unconditional
     (F : S.X.Modules) [F.IsQuasicoherent] (σ : SheafOfModules.GeneratingSections F) :
     IsZero (((moduleGlobalSections S.X).rightDerivedPlus 1).obj F) := by
@@ -82,6 +82,23 @@ theorem isZero_cohomology_one_of_globallyGenerated_unconditional
     S.isZero_firstCohomologyStructureSheaf fun G hG => ?_
   have : G.IsQuasicoherent := hG
   exact S.isZero_cohomology_of_notMem_zero_one_unconditional G 2 (by norm_num)
+
+/-- **[Stacks, Tag 0B4X].** In Situation [Stacks, Tag 0B4W], let `ℱ` be a quasi-coherent
+`𝒪_X`-module. Then
+
+1. `Hᵖ(X, ℱ) = 0` for `p ∉ {0, 1}`, and
+2. `H¹(X, ℱ) = 0` if `ℱ` is globally generated.
+
+"Globally generated" is the existence of a family of global sections generating `ℱ`, Mathlib's
+`SheafOfModules.GeneratingSections`. -/
+@[stacks 0B4X]
+theorem isZero_cohomology_of_isQuasicoherent (F : S.X.Modules) [F.IsQuasicoherent] :
+    (∀ p : ℤ, p ∉ ({0, 1} : Set ℤ) →
+        IsZero (((moduleGlobalSections S.X).rightDerivedPlus p).obj F)) ∧
+      (Nonempty (SheafOfModules.GeneratingSections F) →
+        IsZero (((moduleGlobalSections S.X).rightDerivedPlus 1).obj F)) :=
+  ⟨S.isZero_cohomology_of_notMem_zero_one_unconditional F,
+    fun ⟨σ⟩ => S.isZero_cohomology_one_of_globallyGenerated_unconditional F σ⟩
 
 end AlgebraicGeometry.RationalSingularitySituation
 

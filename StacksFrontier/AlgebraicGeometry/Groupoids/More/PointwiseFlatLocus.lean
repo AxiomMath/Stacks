@@ -348,10 +348,10 @@ private lemma flat_open_eq_bot (V : (Spec (CommRingCat.of extensionRing.{u})).Op
   obtain ⟨p, hpV⟩ := exists_badPoint_in_open V hne
   exact not_flatAt_badPoint p (flatAt_of_flat_restriction _ hV ⟨badPoint.{u} p, hpV⟩)
 
-/-- **Stacks Project, Tag 04LI (pointwise warning).** For some morphism of
-schemes, its maximal flat open is strictly smaller than its pointwise flat
-locus. -/
-@[stacks 04LI "pointwise_warning"]
+/-- For some morphism of schemes, its maximal flat open is strictly smaller than its pointwise
+flat locus. This is the warning half of Stacks Tag 04LI, which is carried in full by
+`AlgebraicGeometry.flat_maximal_locus_warning` of
+`StacksFrontier.AlgebraicGeometry.Groupoids.More.FlatLocusWarning`. -/
 public theorem exists_flat_locus_not_open :
     ∃ (X Y : Scheme.{u}) (f : X ⟶ Y) (W : X.Opens),
       IsGreatest {V : X.Opens | Flat (V.ι ≫ f)} W ∧

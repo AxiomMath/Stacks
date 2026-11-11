@@ -53,17 +53,11 @@ which is registered in `StacksFrontier/AlgebraicGeometry/Chow/InfinityCentreBlow
 of the blowup of `X` in `Z` is the projectivized normal cone. That is what is proved here, for
 `X = Spec R` affine and `Z = V(I)`.
 
-No `@[stacks 0FBG]` attribute is attached, because the affineness of the base is a hypothesis the
-source does not make, and the tag is registered elsewhere — fourteen times — on statements that
-carry no such hypothesis. The relative `Proj` of the conormal algebra over an arbitrary base
-exists (`Stacks.Conormal.projectivizedNormalCone`); what the global statement still owes is a
-graded isomorphism between the section ring of that relative `Proj`, the grading
-`Stacks.RelativeProj.Situation.sectionRingGrading` of `Stacks.Conormal.conormalProjSituation`,
-and `AssociatedGraded.grading (Stacks.Conormal.chartIdeal i U)` for an affine open `U` of the
-ambient scheme, compatibly with restriction to a smaller affine open. Degreewise that is
-the field `localMap` of `Stacks.Conormal.ConormalAlgebraData`, which is surjective with kernel
-the next power of the chart ideal by `Stacks.Conormal.coborderChartMap_eq_zero_iff`; the
-restriction-compatibility is not proved anywhere.
+No `@[stacks 0FBG]` attribute is attached here, because the affineness of the base is a
+hypothesis the source does not make. The statement for an arbitrary scheme is
+`Stacks.AlgebraicGeometry.exceptionalDivisorIsoProjectivizedNormalCone`, proved by relative-`Proj`
+base change along the closed immersion of the centre, and clause (6) itself is
+`Stacks.Chow.strictTransformOnExceptionalIsoProjectivizedNormalCone`, where the tag is registered.
 
 ## References
 

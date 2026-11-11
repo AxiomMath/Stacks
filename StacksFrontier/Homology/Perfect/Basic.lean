@@ -108,14 +108,14 @@ def HasFlatRepresentative {R : Type u} [CommRing R]
 /-! ### Invariance of perfectness under isomorphism and shift -/
 
 /-- Perfectness is invariant under isomorphism in the derived category. -/
-private lemma isPerfect_of_iso {R : Type u} [Ring R]
+private lemma isPerfect_of_iso {R : Type u} [Ring R] [HasDerivedCategory (ModuleCat.{v} R)]
     {X Y : DerivedCategory (ModuleCat.{v} R)} (e : X ≅ Y) (h : IsPerfect Y) :
     IsPerfect X := by
   obtain ⟨P, a, b, ha, hb, hf, hp, ⟨e'⟩⟩ := h
   exact ⟨P, a, b, ha, hb, hf, hp, ⟨e ≪≫ e'⟩⟩
 
 /-- Perfectness is invariant under shift: shift a bounded finite projective representative. -/
-private lemma isPerfect_shift {R : Type u} [Ring R]
+private lemma isPerfect_shift {R : Type u} [Ring R] [HasDerivedCategory (ModuleCat.{v} R)]
     (X : DerivedCategory (ModuleCat.{v} R)) (n : ℤ) (h : IsPerfect X) :
     IsPerfect (X⟦n⟧) := by
   obtain ⟨P, a, b, ha, hb, hf, hp, ⟨e⟩⟩ := h
@@ -136,7 +136,7 @@ private lemma isPerfect_shift {R : Type u} [Ring R]
 
 /-- The mapping cone of a map of bounded complexes of finite projective modules is again a bounded
 complex of finite projective modules, hence perfect. -/
-private lemma cone_perfect {R : Type u} [Ring R]
+private lemma cone_perfect {R : Type u} [Ring R] [HasDerivedCategory (ModuleCat.{v} R)]
     {P₁ P₂ : CochainComplex (ModuleCat.{v} R) ℤ} (f : P₁ ⟶ P₂)
     (a₁ b₁ a₂ b₂ : ℤ)
     (hge₁ : P₁.IsStrictlyGE a₁) (hle₁ : P₁.IsStrictlyLE b₁)
@@ -181,7 +181,7 @@ private lemma cone_perfect {R : Type u} [Ring R]
 first morphism by a map of bounded complexes of finite projective modules, using that the chosen
 representative of the first object is K-projective, and identify the third object with the mapping
 cone of that map. -/
-private lemma perfect_obj₃ {R : Type u} [Ring R]
+private lemma perfect_obj₃ {R : Type u} [Ring R] [HasDerivedCategory (ModuleCat.{v} R)]
     (T : Triangle (DerivedCategory (ModuleCat.{v} R)))
     (hT : T ∈ distinguishedTriangles)
     (h₁ : IsPerfect T.obj₁) (h₂ : IsPerfect T.obj₂) :
@@ -217,7 +217,7 @@ private lemma perfect_obj₃ {R : Type u} [Ring R]
 perfect, then so is the third. -/
 @[stacks 066R]
 theorem isPerfect_of_distinguished
-    {R : Type u} [Ring R]
+    {R : Type u} [Ring R] [HasDerivedCategory (ModuleCat.{v} R)]
     (T : Triangle (DerivedCategory (ModuleCat.{v} R)))
     (hT : T ∈ distinguishedTriangles) :
     (IsPerfect T.obj₁ → IsPerfect T.obj₂ → IsPerfect T.obj₃) ∧

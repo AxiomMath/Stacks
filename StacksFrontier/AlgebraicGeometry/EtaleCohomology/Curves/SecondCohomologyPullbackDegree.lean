@@ -792,11 +792,11 @@ degree of `a` modulo `n`.  Restriction along `π` commutes with the Kummer cobou
 restricted class is the degree of the restriction of `a`, which is `deg(X/Y)` times the degree of
 `a` by `Stacks.EtaleCohomology.sheafHOneMultiplicativeDegreeMod_multiplicativeRestriction` —
 and that is where nonconstancy of `π` is used, through the rank-one case of [Stacks, Tag 0AYZ]. -/
-@[stacks 0AMB "pullback on the second etale cohomology of mu_n along a nonconstant morphism of \
-smooth proper curves over an algebraically closed field is multiplication by the degree of the \
-morphism, in the coordinates of the q = 2 clause of Stacks 03RQ \
-(sheafHTwoRootsOfUnityAddEquivZMod), which identify both groups with Z/nZ and are normalised by \
-the divisor-class degree"]
+@[stacks 0AMB "for a nonconstant morphism pi : X -> Y of smooth proper curves over an \
+algebraically closed field k and n invertible in k, the pullback pi^* : H^2_etale(Y, mu_n) -> \
+H^2_etale(X, mu_n) is multiplication by the degree of pi, under the canonical identifications \
+H^2_etale(-, mu_n) = Z/nZ of Stacks 03RQ (sheafHTwoRootsOfUnityAddEquivZMod), given by the Kummer \
+coboundary of H^1_etale(-, G_m) = Cl(-) = Pic(-) followed by the degree"]
 theorem sheafHTwoRootsOfUnityAddEquivZMod_rootsOfUnityRestriction
     (x : Sheaf.H.{u + 1} (Stacks.Kummer.rootsOfUnitySheaf.{u, u + 1} Y n) 2) :
     sheafHTwoRootsOfUnityAddEquivZMod gX hn

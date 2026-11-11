@@ -116,10 +116,11 @@ being read at those points by `subsingleton_picard_localizationAtPrime_of_away`.
 `U₀` is `Stacks.Algebraization.puncturedClosedFibre A f`, the part of `Spec(A/fA)` over `U`,
 which is the punctured spectrum of `A/fA`
 (`Stacks.PuncturedSpectrumPicard.puncturedClosedFibre_eq_puncturedSpectrum_quotient`). -/
-@[stacks 0F2F "the full statement: under the four conditions of Stacks 0F2D (f-adic \
-completeness, f a nonzerodivisor, finiteness of H^1_m(A/fA) and H^2_m(A/fA), vanishing of \
-H^3_m(A/fA)) and triviality of Pic of the punctured spectrum of (A_f)_P for every maximal \
-ideal P of A_f, restriction Pic(U) -> Pic(U_0) is surjective"]
+@[stacks 0F2F "the full statement: for a Noetherian local ring (A, m) and f in m, under the \
+four conditions of Stacks 0F2D (f-adic completeness, f a nonzerodivisor, finiteness of \
+H^1_m(A/fA) and H^2_m(A/fA), vanishing of H^3_m(A/fA)) and triviality of Pic of the punctured \
+spectrum of (A_f)_P for every maximal ideal P of A_f, restriction Pic(U) -> Pic(U_0) from the \
+punctured spectrum U of A to the punctured spectrum U_0 of A/fA is surjective"]
 theorem surjective_schemePullbackClass_puncturedClosedFibre_of_localCohomology
     [IsLocalRing A] [IsNoetherianRing A] (hf : f ∈ maximalIdeal A)
     (hcomplete : IsAdicComplete (Ideal.span {f}) A) (hreg : IsSMulRegular A f)

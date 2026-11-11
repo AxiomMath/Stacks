@@ -461,8 +461,10 @@ test scheme `T`, surjectivity over the quasi-compact *quasi-separated* ones; see
 `AlgebraicGeometry.Space.CorrectedDirectedApproximation`. Over all quasi-compact `T` the
 surjectivity fails, by
 `AlgebraicGeometry.Space.exists_quasiCompact_reasonable_isEmpty_directedApproximation`. -/
-@[stacks 03K0 "clause (1) in the corrected form: the test schemes are the quasi-compact\
-  quasi-separated ones, which is what the source's proof supports"]
+@[stacks 03K0 "the whole lemma, for every quasi-compact reasonable X: colimit in sheaves of a\
+  directed system of qcqs spaces, clauses (2) and (3), and clause (1) with injectivity over all\
+  quasi-compact T and surjectivity over quasi-compact quasi-separated T; surjectivity over all\
+  quasi-compact T is false (see errata) and is refuted unconditionally"]
 theorem exists_correctedDirectedApproximation
     (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hZ : B.Contains (⊤_ Scheme.{u}))

@@ -523,6 +523,105 @@ lemma isSaturated_and_kernel_eq {D : Type*} [Category* D] (L : P.FullSubcategory
 
 end HomotopyCategory
 
+/-! ### `FAc(𝒜)`, `FQis(𝒜)` and the localisation `K(Fil^f(𝒜)) ⥤ DF(𝒜)` -/
+
+namespace HomotopyCategory
+
+variable {𝒜 : Type u} [Category.{v} 𝒜] [Abelian 𝒜]
+
+/-- A morphism of complexes of finite filtered objects all of whose graded pieces `gr^p` are
+quasi-isomorphisms induces a quasi-isomorphism `gr(f)` of complexes of `Gr(𝒜)`: homology in
+`Gr(𝒜)` is computed degreewise. -/
+lemma quasiIso_gr_map_of_filteredQuasiIsoC {K L : CochainComplex (FiniteFilteredObject 𝒜) ℤ}
+    (f : K ⟶ L) (hf : CochainComplex.filteredQuasiIsoC f) :
+    QuasiIso (((FiniteFilteredObject.gr (𝒜 := 𝒜)).mapHomologicalComplex (.up ℤ)).map f) := by
+  rw [quasiIso_iff]
+  intro i
+  rw [quasiIsoAt_iff_isIso_homologyMap]
+  have hp : ∀ p : ℤ, IsIso (HomologicalComplex.homologyMap
+      (((FiniteFilteredObject.gr (𝒜 := 𝒜)).mapHomologicalComplex (.up ℤ)).map f) i p) := by
+    intro p
+    have h := (hf p).quasiIsoAt i
+    rw [quasiIsoAt_iff_isIso_homologyMap] at h
+    let φ := (HomologicalComplex.shortComplexFunctor _ (.up ℤ) i).map
+      (((FiniteFilteredObject.gr (𝒜 := 𝒜)).mapHomologicalComplex (.up ℤ)).map f)
+    have h' : IsIso (ShortComplex.homologyMap ((GradedObject.eval p).mapShortComplex.map φ)) := h
+    have e := ShortComplex.mapHomologyIso_hom_naturality φ (GradedObject.eval p)
+    let E := ShortComplex.mapHomologyIso
+      ((HomologicalComplex.shortComplexFunctor _ (.up ℤ) i).obj
+        (((FiniteFilteredObject.gr (𝒜 := 𝒜)).mapHomologicalComplex (.up ℤ)).obj K))
+      (GradedObject.eval p)
+    have : IsIso (E.hom ≫ (GradedObject.eval p).map (ShortComplex.homologyMap φ)) := by
+      rw [← e]; infer_instance
+    exact IsIso.of_isIso_comp_left E.hom ((GradedObject.eval p).map (ShortComplex.homologyMap φ))
+  exact GradedObject.isIso_of_isIso_apply _
+
+/-- Every `H^n ∘ gr : K(Fil^f(𝒜)) ⥤ Gr(𝒜)` inverts the filtered quasi-isomorphisms. -/
+lemma filteredQuasiIso_isInvertedBy_homologyFunctor_gr (n : ℤ) :
+    (filteredQuasiIso 𝒜).IsInvertedBy
+      ((FiniteFilteredObject.gr (𝒜 := 𝒜)).mapHomotopyCategory (.up ℤ) ⋙
+        HomotopyCategory.homologyFunctor (GradedObject ℤ 𝒜) (.up ℤ) n) := by
+  rintro ⟨K⟩ ⟨L⟩ f hf
+  obtain ⟨g, rfl⟩ := (HomotopyCategory.quotient _ _).map_surjective f
+  have hg := quasiIso_gr_map_of_filteredQuasiIsoC g
+    ((CochainComplex.filteredQuasiIso_quotient_map_iff g).1 hf)
+  have hq : quasiIso (GradedObject ℤ 𝒜) (.up ℤ)
+      (((FiniteFilteredObject.gr (𝒜 := 𝒜)).mapHomotopyCategory (.up ℤ)).map
+        ((HomotopyCategory.quotient _ _).map g)) := by
+    rw [Functor.mapHomotopyCategory_map]
+    exact (HomotopyCategory.quotient_map_mem_quasiIso_iff _).2 hg
+  exact hq n
+
+/-- Every localisation of `K(Fil^f(𝒜))` at `FQis(𝒜)` has kernel `FAc(𝒜)`. -/
+lemma kernel_eq_filteredAcyclic {D : Type*} [Category* D]
+    (L : HomotopyCategory (FiniteFilteredObject 𝒜) (.up ℤ) ⥤ D)
+    [L.IsLocalization (filteredQuasiIso 𝒜)] :
+    L.kernel = filteredAcyclic 𝒜 := by
+  have := isSaturated_of_isStableUnderRetracts (filteredAcyclic 𝒜)
+  have : L.IsLocalization (filteredAcyclic 𝒜).trW := by
+    rw [filteredAcyclic_trW]; infer_instance
+  exact ObjectProperty.isLeast_trW_kernel_and_kernel_eq_self.2 _ L
+
+/-- **Stacks 05S1.** Let `𝒜` be an abelian category. The full subcategory `FAc(𝒜)` of
+`K(Fil^f(𝒜))` of filtered acyclic complexes is a strictly full saturated triangulated subcategory
+of `K(Fil^f(𝒜))`. The corresponding saturated multiplicative system of [Stacks, Tag 05RL], the
+class `FAc(𝒜).trW` of morphisms whose cone is filtered acyclic, is the class `FQis(𝒜)` of
+filtered quasi-isomorphisms; it is a saturated multiplicative system (left and right calculus of
+fractions, saturated) compatible with the triangulated structure. In particular the kernel of the
+localisation functor `Qh : K(Fil^f(𝒜)) ⥤ DF(𝒜) = FQis(𝒜)⁻¹K(Fil^f(𝒜))` — and of every
+localisation of `K(Fil^f(𝒜))` at `FQis(𝒜)` — is `FAc(𝒜)`, and the functor
+`H^0 ∘ gr : K(Fil^f(𝒜)) ⥤ Gr(𝒜)` factors through `Qh`. -/
+@[stacks 05S1]
+theorem filteredAcyclic_isTriangulated_and_trW_eq_filteredQuasiIso :
+    ((filteredAcyclic 𝒜).IsClosedUnderIsomorphisms ∧ (filteredAcyclic 𝒜).IsTriangulated ∧
+        (filteredAcyclic 𝒜).IsSaturated) ∧
+      ((filteredAcyclic 𝒜).trW = filteredQuasiIso 𝒜 ∧
+        (filteredQuasiIso 𝒜).HasLeftCalculusOfFractions ∧
+        (filteredQuasiIso 𝒜).HasRightCalculusOfFractions ∧
+        (filteredQuasiIso 𝒜).IsCompatibleWithTriangulation ∧
+        (filteredQuasiIso 𝒜).IsSaturated) ∧
+      (CochainComplex.FilteredDerivedCategory.Qh (𝒜 := 𝒜)).kernel = filteredAcyclic 𝒜 ∧
+      (∀ {D : Type*} [Category* D] (L : HomotopyCategory (FiniteFilteredObject 𝒜) (.up ℤ) ⥤ D)
+          [L.IsLocalization (filteredQuasiIso 𝒜)], L.kernel = filteredAcyclic 𝒜) ∧
+      ∃ F : CochainComplex.FilteredDerivedCategory 𝒜 ⥤ GradedObject ℤ 𝒜,
+        Nonempty (CochainComplex.FilteredDerivedCategory.Qh ⋙ F ≅
+          (FiniteFilteredObject.gr (𝒜 := 𝒜)).mapHomotopyCategory (.up ℤ) ⋙
+          HomotopyCategory.homologyFunctor (GradedObject ℤ 𝒜) (.up ℤ) 0) := by
+  have hsat := isSaturated_of_isStableUnderRetracts (filteredAcyclic 𝒜)
+  obtain ⟨⟨h₁, h₂, h₃⟩, h₄⟩ :=
+    ObjectProperty.hasCalculusOfFractions_isCompatibleWithTriangulation_and_isSaturated_iff
+      (filteredAcyclic 𝒜) (filteredQuasiIso 𝒜) (fun X Y f => by
+        rw [← filteredAcyclic_trW, ← ObjectProperty.trW_isoClosure]
+        exact ⟨fun ⟨Z, g, h, hT, hZ⟩ => ⟨Z, g, h, hT, hZ⟩,
+          fun ⟨Z, g, h, hT, hZ⟩ => ⟨Z, g, h, hT, hZ⟩⟩)
+  exact ⟨⟨inferInstance, inferInstance, hsat⟩, ⟨filteredAcyclic_trW, h₁, h₂, h₃, h₄.2 hsat⟩,
+    kernel_eq_filteredAcyclic _, fun L _ => kernel_eq_filteredAcyclic L,
+    ⟨Localization.lift _ (filteredQuasiIso_isInvertedBy_homologyFunctor_gr 0)
+      CochainComplex.FilteredDerivedCategory.Qh,
+      ⟨Localization.fac _ _ _⟩⟩⟩
+
+end HomotopyCategory
+
 /-! ### The bounded filtered derived categories -/
 
 namespace CochainComplex

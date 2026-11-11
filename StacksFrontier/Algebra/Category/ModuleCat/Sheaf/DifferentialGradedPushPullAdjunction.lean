@@ -31,18 +31,22 @@ shown to be the pullback in
   identification of the two differential graded Hom objects, in all degrees and compatibly with
   their differentials, together with the hom-set bijection it induces in degree zero.
 
+The statement of Tag 0FRU for an arbitrary morphism of ringed topoi is
+`SheafOfModules.DifferentialGradedModule.exists_toposPullbackPushforwardHomEquiv` of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedToposPushPullHomComplex.lean`.
+
 ## Implementation notes
 
-Both halves are already available and are only instantiated here. The degreewise identification
+Both halves are already available and are instantiated here. The degreewise identification
 for an abstract pullback datum is
 `SheafOfModules.DifferentialGradedModule.PullbackData.homogeneousMapEquiv` of
 `DifferentialGradedPushPullHomogeneous.lean`, which also records that it is precomposition with
 the unit; the compatibility with the differentials is then `precompCochain_delta` of
 `DifferentialGradedPushforward.lean`. What was missing was an *inhabitant* of the pullback
-datum, so that the identification is not conditional on one: that is
+datum, so that the identification does not depend on one: that is
 `Stacks.DifferentialGradedPullbackConstruction.pullbackData`, built from
-`f^*M = f⁻¹M ⊗_{f⁻¹A'} A`. Feeding it in is what turns the conditional statements into this
-one.
+`f^*M = f⁻¹M ⊗_{f⁻¹A'} A`. Feeding it in is what turns the statements about an abstract
+pullback datum into this one.
 
 `SheafOfModules.DifferentialGradedModule.HomogeneousMap` is indexed by an
 `AlgebraicGeometry.RingedSite`, while the construction of the pullback is stated for a sheaf of
@@ -58,7 +62,7 @@ Hom complex of cochains. Nothing is restricted by naming them, since both are re
 
 **Universes.** The statement below quantifies over
 `SheafOfModules.DifferentialGradedModule.{u, u, u}`, the site and module universes identified,
-where the source identifies nothing. The restriction is on the *constructed* pullback only:
+where the source identifies nothing. The restriction is on the *constructed* pullback:
 `SheafOfModules.DifferentialGradedModule.PullbackData.homogeneousMapEquiv`, which is the content
 of this tag, holds for an abstract pullback datum with the two sites, their morphism universes
 and the two algebras' homogeneous pieces independent, and
@@ -117,7 +121,9 @@ and natural — and it carries the differential of the one Hom complex to the di
 other. Its degree-zero closed part is the bijection `e₀` of hom-sets of the adjunction
 `f^* ⊣ f_*`, which sends a morphism `g : f^*M ⟶ N` to the unit followed by `g`, read as a
 morphism `M ⟶ f_*N`. -/
-@[stacks 0FRU]
+@[stacks 0FRU "the case of a morphism of small ringed sites whose functor is continuous, \
+  representably flat and final; for an arbitrary morphism of ringed topoi this is \
+  SheafOfModules.DifferentialGradedModule.exists_toposPullbackPushforwardHomEquiv"]
 theorem exists_pullbackPushforwardHomEquiv (φ₀ : inverseImageAlgebra α hO hP A' ⟶ A)
     (hφ₀ : φ₀.IsUnital) :
     ∃ (e : ∀ (M : SheafOfModules.DifferentialGradedModule.{u, u, u} A')

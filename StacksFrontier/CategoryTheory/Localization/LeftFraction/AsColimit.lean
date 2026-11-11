@@ -37,7 +37,7 @@ The second claim is `isColimitOverHomCocone`. Being a colimit is *data*, so it i
 are jointly surjective by Stacks 04VI in its one-morphism form — every morphism of
 `W⁻¹C` is a right fraction, `Localization.exists_rightFraction` — which is what defines
 the map out of the cocone point, and they identify exactly the right fractions related
-by `RightFractionRel` by Stacks 04VJ (`map_eq_iff_rightFractionRel`), which is what makes that map
+by `RightFractionRel` (`map_eq_iff_rightFractionRel`), which is what makes that map
   well
 defined: the relation supplies a common denominator, i.e. an object of `S/X` dominating
 the two given ones, and the cocone relations at it do the rest.

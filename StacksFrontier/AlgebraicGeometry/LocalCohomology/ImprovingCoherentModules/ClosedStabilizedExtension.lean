@@ -35,8 +35,9 @@ last result here.
 * `AlgebraicGeometry.isStabilizedOpenExtension_unit`: the unit at `F` is a stabilized open
   extension along the complement of the open, as soon as its target is coherent.
 * `AlgebraicGeometry.exists_isDepthTwoExtension_of_isCoherent_pushforward`:
-  **[Stacks, Tag 0EI3], existence** for a closed subset, conditional only on coherence of the
-  single pushforward `j_{V,*}(F'|_V)`.
+  existence of a depth-two extension for a closed subset, from coherence of the single
+  pushforward `j_{V,*}(F'|_V)`; a step towards [Stacks, Tag 0EI3], whose complete statement is
+  `AlgebraicGeometry.existsUnique_isDepthTwoExtension_and_pullback`.
 
 ## Implementation notes
 
@@ -108,7 +109,9 @@ public theorem isStabilizedOpenExtension_unit {X : Scheme.{u}} (T : Set X) (V : 
       (isIso_stalkFunctor_map_unit_of_mem X V F y hy)
   · exact isIso_unit_app_pushforward V ((Scheme.Modules.pullback V.ι).obj F)
 
-/-- **Stacks Project, Tag 0EI3, existence for a closed subset.** A coherent module `F` on a
+/-- **Existence of a depth-two extension for a closed subset, from one coherent pushforward.**
+(A step towards [Stacks, Tag 0EI3]; the complete statement is
+`AlgebraicGeometry.existsUnique_isDepthTwoExtension_and_pullback`.)  A coherent module `F` on a
 Noetherian scheme admits a map to a coherent module which is an isomorphism on the stalks away
 from a closed subset `T` and whose stalks on `T` have depth at least two, as soon as the single
 pushforward `j_{V,*}(F'|_V)` is coherent — where `V` is the complement of `T` and `F'` is the
@@ -124,10 +127,6 @@ The remaining hypothesis is not removable; it is where the two hypotheses of [St
 absent from `AlgebraicGeometry.exists_isDepthTwoExtension` — a dualizing complex and a depth
 bound across the boundary of `T` — must re-enter.  See the implementation notes of this
 module. -/
-@[stacks 0EI3 "existence for a closed subset, conditional only on coherence of the single \
-pushforward of the restriction of the depth-one quotient to the complement; the hypothesis \
-hext of exists_isDepthTwoExtension_of_isStabilizedOpenExtension, namely a coherent stabilized \
-open extension, is discharged here for a closed subset"]
 public theorem exists_isDepthTwoExtension_of_isCoherent_pushforward
     (X : Scheme.{u}) [IsNoetherian X] (T : Set X) (hT : IsClosed T) (V : X.Opens)
     (hV : (V : Set X) = Tᶜ) (F : X.Modules) [F.IsCoherent]

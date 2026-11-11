@@ -96,7 +96,12 @@ private theorem isLocallyCountablyIndexed_formalSpectrum {A : Type u} [CommRing 
         Rig.countablyGenerated_nhds_of_isAdicRing hA⟩).2
   exact ⟨hform, hasAffineEtaleAtlasWithProperty_self B S hS haff hci⟩
 
-/-- **Stacks 0GD8.** Let `A` be a complete discrete valuation ring and let `X` be a locally
+/-- **The proof of Stacks 0GD8 from its inputs, taken as hypotheses.** This is an assembly, not
+the registration of Stacks 0GD8: the inputs `hpart`, `hdesc`, `hfac`, `hrefine` and `hloc` are
+taken as hypotheses. Stacks 0GD8 itself, unconditional, is
+`AlgebraicGeometry.FormalSpace.exists_flatPart_of_isLocallyNoetherian_of_isAdicComplete`.
+
+Let `A` be a complete discrete valuation ring and let `X` be a locally
 Noetherian formal algebraic space over `S` with a structure morphism `p : X ⟶ Spf A`. Then
 there is a closed immersion `ι : X' ⟶ X` of formal algebraic spaces with `X'` locally
 Noetherian and flat over `A` such that every morphism `q : Y ⟶ X` with `Y` a locally

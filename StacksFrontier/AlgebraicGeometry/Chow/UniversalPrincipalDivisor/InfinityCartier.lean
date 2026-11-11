@@ -171,10 +171,11 @@ theorem range_lineInfinitySection_subset_range_affineYChart (S : Scheme.{u}) :
 
 /-! ### `D_∞` is an effective Cartier divisor -/
 
-/-- **Stacks Project, Tag 02RQ part (3), the infinity divisor.** `D_∞ ⊆ ℙ¹_S` is an effective
+/-- **Stacks 0F93, `D_∞` is an effective Cartier divisor.** `D_∞ ⊆ ℙ¹_S` is an effective
 Cartier divisor: on the second affine chart it is cut out by the coordinate `T`, which is a
 nonzerodivisor on the inverse image of any affine open of `S`, and away from that chart it is
 the unit ideal. -/
+@[stacks 0F93 "D_∞ is an effective Cartier divisor"]
 theorem lineInfinityDivisor_isEffectiveCartierDivisor (S : Scheme.{u}) :
     Stacks.Divisors.IsEffectiveCartierDivisor (lineInfinityDivisor S) := by
   refine Stacks.Divisors.isEffectiveCartierDivisor_of_forall_exists_affineOpen _ fun p => ?_

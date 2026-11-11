@@ -29,28 +29,21 @@ All in the namespace `Stacks.Duality`.
 
 * `isBoundedBelow_upperShriek_properCompactification_obj` — for a proper `f`, the upper shriek
   functor carries bounded-below complexes to bounded-below complexes.
-* `upperShriek_isRightAdjointOnBoundedBelow_of_isProper` — **[Stacks, Section 0AU3], clause (2),
-  first assertion**.
+* `upperShriek_isRightAdjointOnBoundedBelow_of_isProper` — [Stacks, Section 0AU3], clause (2),
+  first assertion, at the identity compactification.
 
 ## Implementation notes
 
 *Which `f^!`.* The upper shriek functor of [Stacks, Tag 0A9Y] is built from a compactification,
 and the statements below are made at the canonical one available for a proper morphism, where
-`X̄ = X` and the open immersion is the identity — which is the compactification the source itself
-uses for a proper morphism. That the functor does not depend on the compactification is
-[Stacks, Tag 0AA0]; in this repository that independence is
-`Stacks.Duality.DominatingCompactification.upperShriekObjIsoOfIsIso`, which still carries two
-invertibility hypotheses for the maps of [Stacks, Tag 0A9L] — these are supplied on `D⁺_QCoh` by
-[Stacks, Tag 0A9P], which is not available here. The clause label on the statement below says
-so.
-
-*The second assertion of clause (2)* is the duality isomorphism
-`Rf_*R𝓗om_{𝒪_X}(K, f^!M) ⟶ R𝓗om_{𝒪_Y}(Rf_*K, M)` for `K ∈ D⁻_Coh(𝒪_X)` and
-`M ∈ D⁺_QCoh(𝒪_Y)`. The map itself is `Stacks.Duality.sheafyTrace` ([Stacks, Tag 0B6H]); that it
-is invertible for a proper morphism of Noetherian schemes is [Stacks, Tag 0GEW], and
-`Stacks.Duality.isIso_sheafyTrace_of_isProper` carries [Stacks, Tag 0GEV] — the whole
-mathematical content — and [Stacks, Tag 08E2] as hypotheses. So that assertion is not proved
-here and no attribute claims it.
+`X̄ = X` and the open immersion is the identity. The form at an arbitrary compactification, which
+is independent of the choice on `D⁺_QCoh` by [Stacks, Tag 0AA0]
+(`Stacks.Duality.DominatingCompactification.upperShriekPlusIso`), together with the second
+assertion of clause (2), the duality isomorphism `Rf_*R𝓗om_{𝒪_X}(K, f^!M) ⟶ R𝓗om_{𝒪_Y}(Rf_*K, M)`
+for `K ∈ D⁻_Coh(𝒪_X)` and `M ∈ D⁺_QCoh(𝒪_Y)` ([Stacks, Tag 0GEW]), is
+`Stacks.Duality.upperShriek_rightAdjoint_and_duality_of_isProper` in
+`StacksFrontier/AlgebraicGeometry/Duality/TwistedInverseImage/DualityTheoryProperDuality.lean`, which
+carries the clause; nothing here is registered.
 
 *The base.* The source takes `S` Noetherian. Everything below uses only that `S` is
 quasi-compact and quasi-separated, which is what makes `X` and `Y` quasi-compact and
@@ -106,14 +99,6 @@ morphism of schemes is proper. Then `f^!` is the restriction of the right adjoin
 
 Both conjuncts are needed for the clause: the first says `f^!` *is* the right adjoint, the second
 says the restriction of that right adjoint to the bounded-below parts is defined. -/
-@[stacks 0AU3 "clause (2), first assertion: for a proper morphism f^! is a right adjoint of Rf_* \
-  and carries the bounded-below part of D_QCoh into the bounded-below part, so it is the \
-  restriction of that right adjoint to D^+_QCoh. The f^! is Stacks.Duality.upperShriek at the \
-  identity compactification, which is the one the source uses for a proper morphism; \
-  independence of the compactification is Tag 0AA0, which in this repository still carries the \
-  Tag 0A9L invertibility of Tag 0A9P. The SECOND assertion of clause (2), the duality \
-  isomorphism Rf_* RHom(K, f^! M) = RHom(Rf_* K, M), is not claimed: its map is \
-  Stacks.Duality.sheafyTrace and its invertibility is Tag 0GEW, which is open here"]
 theorem upperShriek_isRightAdjointOnBoundedBelow_of_isProper :
     Nonempty (DerivedPushforward.qcqsRestrictedDerivedPushforward f.left ⊣
         upperShriek f (properCompactification f)) ∧

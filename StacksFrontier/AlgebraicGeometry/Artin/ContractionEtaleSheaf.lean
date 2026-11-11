@@ -45,44 +45,22 @@ with the precoverage and the topology they present.
 * `AlgebraicGeometry.Artin.ContractionSituation.Z_eq_of_mapTriple_eq`: the closed subset `Z`
   of a triple is determined étale locally.
 
-## What is and is not proved
+## Where Stacks 0GHG is proved
 
-**Stacks 0GHG itself is not proved, and carries no attribute.** What is delivered is the
-faithful statement — `SatisfiesEtaleSheafProperty`, a `Prop`-valued definition, not a theorem —
-together with the vocabulary it is phrased in and the two fragments of its proof that are
-reachable from what the library has.
+This file states Stacks 0GHG and proves no part of it beyond the two fragments above; it carries
+no Stacks 0GHG attribute. Nothing is assumed: every declaration here is proved outright.
 
-Nothing is assumed: every declaration here is proved outright.
-
-The missing part is the descent of a triple `(Z, u', x̂)` along an étale covering
-`{V_i ⟶ V}`. Each of its three components, and the compatibility witness, needs a descent
-statement this library does not have:
-
-1. *The closed subset.* Gluing closed subsets `Z_i ⊆ |V_i|` into a closed `Z ⊆ |V|` with the
-   `Z_i` as preimages needs the fibre products `V_i ×_V V_j` as objects of
-   `AlgebraicGeometry.LocallyNoetherianOver` — hence that an étale morphism with locally
-   Noetherian target has locally Noetherian source and that the fibre product is small enough
-   for the site, which is Stacks 0GE1 (3) and is not in the library — and that the map on
-   points of an étale morphism is open, the étale counterpart of
-   `AlgebraicGeometry.Space.isClosedMap_pointsMap_yoneda_iff`, which is also absent. Only the
-   uniqueness direction is available here, as
-   `AlgebraicGeometry.Artin.ContractionSituation.Z_eq_of_mapTriple_eq`, since that needs
-   nothing but joint surjectivity.
-2. *The morphism `u' : V ∖ Z ⟶ U'`.* The open subspaces `V_i ∖ Z_i` are subfunctors of the
-   `V_i`, not objects of the site, so the sheaf property of the algebraic space `U'` cannot be
-   applied directly: what is needed is that the family `{V_i ∖ Z_i ⟶ V ∖ Z}` of open
-   subspaces generates an fppf covering sieve of the subfunctor `V ∖ Z`. The library has no
-   such statement.
-3. *The morphism `x̂ : V_{/Z} ⟶ W`.* Likewise one needs that the completions
-   `V_{i,/Z_i} ⟶ V_{/Z}` of Stacks 0AMC cover `V_{/Z}`, that is that
-   `AlgebraicGeometry.Space.completionSheaf` carries an étale covering to a jointly
-   epimorphic family of fppf sheaves. Absent.
-4. *The compatibility witness.* `AlgebraicGeometry.Artin.ContractionSituation.mapTriple`
-   transports a witness forwards; descending one requires gluing the algebraic spaces `V'_i`
-   and the morphisms `p_i`, `j_i`, `x̂'_i`, `x'_i` out of a descent datum, which is étale
-   descent for algebraic spaces (Stacks 0ADV). The library has `@[stacks 04TR]` for sheaves on
-   a site (`CategoryTheory.Sites.Glueing.GlueingSheaves`) but nothing for algebraic spaces,
-   and no declaration carries Stacks 0ADV.
+The proof is in two later files. Uniqueness of an amalgamation is
+`AlgebraicGeometry.Artin.ContractionSituation.eq_of_mapTriple_eq` in
+`StacksFrontier.AlgebraicGeometry.Artin.ContractionEtaleSheafProperty`. Existence, which glues
+the closed subset `Z`, the morphism `u' : V ∖ Z ⟶ U'` and the morphism `x̂ : V_{/Z} ⟶ W` from
+the given triples and descends adicness of `x̂` and the compatibility condition along the étale
+covering, is
+`AlgebraicGeometry.Artin.ContractionSituation.exists_mapTriple_eq_of_isEtaleCovering` in
+`StacksFrontier.AlgebraicGeometry.Artin.ContractionEtaleSheafPropertyUnconditional`. That file
+also proves Stacks 0GHG itself, with no hypothesis beyond Situation 0GH8, as
+`AlgebraicGeometry.Artin.ContractionSituation.contractionFunctor_satisfiesEtaleSheafProperty`,
+which carries the Stacks 0GHG attribute.
 
 ## Implementation notes
 
@@ -103,7 +81,7 @@ Stacks 0GHG speaks of the sheaf property *for all étale coverings*, so
 `CategoryTheory.Presieve.IsSheaf` for `etaleTopology`. The latter is a priori stronger, and
 `AlgebraicGeometry.Artin.ContractionSituation.satisfiesEtaleSheafProperty_of_isSheaf` records
 the implication; the converse would need the étale precoverage to be stable under base change,
-which is the same missing fibre-product input as item (1) above.
+which this file does not prove.
 
 ## References
 

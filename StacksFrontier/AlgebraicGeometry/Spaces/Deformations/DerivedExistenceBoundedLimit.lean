@@ -13,19 +13,22 @@ In Situation [Stacks, Tag 0DIK] let
 
 ## Main definitions
 
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.coherator`: a chosen coherator `DQ_X`, the right
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.coherator`: a chosen coherator `DQ_X`,
+  the right
   adjoint of `D_QCoh(𝒪_X) ⥤ D(𝒪_X)`, with adjunction
-  `AlgebraicGeometry.Space.DerivedExistenceSystem.coheratorAdjunction`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.quasicoherentLimit`: the object
+  `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.coheratorAdjunction`.
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.quasicoherentLimit`: the object
   `K = DQ_X(R lim_{D(𝒪_X)} Kₙ)` of `D_QCoh(𝒪_X)`.
 
 ## Main results
 
-* `DerivedExistenceSystem.derivedLimit_isBoundedAbove`: [Stacks, Tag 0DIL] at every coherator
+* `SeparatedDerivedExistenceSystem.derivedLimit_isBoundedAbove`: [Stacks, Tag 0DIL] at every
+  coherator
   and every derived limit.
-* `DerivedExistenceSystem.isDerivedLimit_quasicoherentLimit`: `K` is a derived limit of
+* `SeparatedDerivedExistenceSystem.isDerivedLimit_quasicoherentLimit`: `K` is a derived limit of
   `(Rjₙ,* Kₙ)` in `D_QCoh(𝒪_X)`.
-* `DerivedExistenceSystem.exists_spaceCohomologyVanishesAbove_quasicoherentLimit`: `K` lies in
+* `SeparatedDerivedExistenceSystem.exists_spaceCohomologyVanishesAbove_quasicoherentLimit`: `K` lies
+  in
   `D⁻_QCoh(𝒪_X)`.
 
 ## References
@@ -49,16 +52,14 @@ context, is not that model, so instance search for the shift functors of `D(𝒪
 it. -/
 attribute [-instance] Stacks.ModulesOnACategory.ChaoticComparison.sheafOfModules_hasDerivedCategory
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- The inclusion `D_QCoh(𝒪_X) ⥤ D(𝒪_X)` has a right adjoint `DQ_X` and the tower `(Rjₙ,* Kₙ)`
 has a derived limit `L = R lim_{D(𝒪_X)} Kₙ`. For every coherator `DQ_X` and every such `L`,
 `K = DQ_X(L)` is a derived limit of the tower in `D_QCoh(𝒪_X)` whose cohomology sheaves vanish
 above some degree. Every derived limit of the tower in `D_QCoh(𝒪_X)` lies in `D⁻_QCoh(𝒪_X)`. -/
-@[stacks 0DIL "K = R lim_{D_QCoh} K_n = DQ_X(R lim_{D(O_X)} K_n) lies in D^-_QCoh(O_X), for every \
-  choice of coherator and of derived limits"]
 theorem derivedLimit_isBoundedAbove :
     (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι.IsLeftAdjoint ∧
     (∃ L, IsDerivedLimit D.spaceTower L) ∧
@@ -121,6 +122,42 @@ theorem exists_spaceCohomologyVanishesAbove_quasicoherentLimit :
         D.quasicoherentLimit) :=
   (D.derivedLimit_isBoundedAbove.2.2.1 D.coherator D.coheratorAdjunction D.derivedLimit
     D.isDerivedLimit_derivedLimit).2
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
+
+variable (D : DerivedExistenceSystem.{u})
+
+/-- In Situation 0DIK the inclusion `D_QCoh(𝒪_X) ⥤ D(𝒪_X)` has a right adjoint `DQ_X` and the
+tower `(Rjₙ,* Kₙ)` has a derived limit `L = R lim_{D(𝒪_X)} Kₙ`. For every coherator `DQ_X` and
+every such `L`, `K = DQ_X(L)` is a derived limit of the tower in `D_QCoh(𝒪_X)` whose cohomology
+sheaves vanish above some degree. Every derived limit of the tower in `D_QCoh(𝒪_X)` lies in
+`D⁻_QCoh(𝒪_X)`. -/
+@[stacks 0DIL "K = R lim_{D_QCoh} K_n = DQ_X(R lim_{D(O_X)} K_n) lies in D^-_QCoh(O_X), for every \
+  choice of coherator and of derived limits"]
+theorem derivedLimit_isBoundedAbove :
+    (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι.IsLeftAdjoint ∧
+    (∃ L, IsDerivedLimit D.toSeparated.spaceTower L) ∧
+    (∀ (DQ : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left ⥤
+        (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
+          D.X.left).FullSubcategory)
+      (_ : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase D.X.left).ι ⊣ DQ)
+      (L : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left),
+      IsDerivedLimit D.toSeparated.spaceTower L →
+        (∃ _ : HasProduct fun n : ℕ => D.toSeparated.quasicoherentTower.obj ⟨n⟩,
+          IsDerivedLimit D.toSeparated.quasicoherentTower (DQ.obj L)) ∧
+        ∃ c : ℤ, SpaceCohomologyVanishesAbove D.B (limitBase D.system) D.containsLimitBase
+          D.X.left c ((spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
+            D.X.left).ι.obj (DQ.obj L))) ∧
+    ∀ (_ : HasProduct fun n : ℕ => D.toSeparated.quasicoherentTower.obj ⟨n⟩)
+      (K : (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
+        D.X.left).FullSubcategory),
+      IsDerivedLimit D.toSeparated.quasicoherentTower K →
+        ∃ c : ℤ, SpaceCohomologyVanishesAbove D.B (limitBase D.system) D.containsLimitBase
+          D.X.left c ((spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
+            D.X.left).ι.obj K) :=
+  D.toSeparated.derivedLimit_isBoundedAbove
 
 end DerivedExistenceSystem
 

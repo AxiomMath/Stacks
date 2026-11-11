@@ -30,22 +30,15 @@ The content of Stacks Tag 0B97 is proved in this development, by
 structure `Stacks.Hilbert.ClosedSubschemeRepresentingHilbertFunctor`. The stand-in
 `Stacks.Hilbert.ClosedImmersionRepresentability` differs from it only in taking the closed
 immersion hypothesis as an explicit argument rather than as an instance, so inhabiting the
-stand-in is a matter of reinstating the instance. The remark in the imported module that this
-proposition is not proved here is superseded by `closedImmersionRepresentability` below; the
-proposition itself is retained because the theorems there take it as an argument, and they can
-now be handed the real term.
+stand-in is a matter of reinstating the instance. The proposition is retained because the theorems
+of the imported module take it as an argument, and they are handed this term.
 
 The other input, `Stacks.Hilbert.AffineSpaceRepresentability`, is the case of affine space,
-which the source proves by an explicit universal construction. That construction is absent, and
-nothing in this development inhabits the proposition, so it stays a hypothesis of the theorem
-below. It is worth noting that it is an instance of the very conclusion being proved, an affine
-space over an affine base being affine; what is established is therefore the source's reduction
-step and not the universal construction that makes the affine-space case true.
-
-For that reason no Stacks tag is registered in this file. The Stacks 0B99 registration lives on
-the declaration in the imported base module, which carries the note recording what that
-reduction is conditional on; the two results here prove only the reduction, not representability
-outright, so neither is a carrier for the tag.
+which the source proves by an explicit universal construction. It is proved as
+`Stacks.Hilbert.affineSpaceRepresentability` in
+`StacksFrontier.AlgebraicGeometry.Picard.HilbertFunctorAffineRepresentableUnconditional`, which
+supplies it to the theorem below and carries the Stacks 0B99 registration on
+`Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_isAffine_of_isAffine`.
 
 ## References
 
@@ -83,7 +76,8 @@ This is `exists_representsHilbertFunctorOfRank_of_isAffine` with its first hypot
 rather than assumed: the content of Stacks 0B97 holds in this development, in the form
 `closedImmersionRepresentability`. Over an affine base, `X` is a closed subscheme of an affine
 space, and its Hilbert functor is therefore represented by a closed subscheme of the Hilbert
-scheme of that affine space. Only the affine-space case remains an antecedent. -/
+scheme of that affine space. The affine-space case is supplied in
+`StacksFrontier.AlgebraicGeometry.Picard.HilbertFunctorAffineRepresentableUnconditional`. -/
 theorem exists_representsHilbertFunctorOfRank_of_isAffine' {S : Scheme.{u}} [IsAffine S]
     (X : Over S) [IsAffine X.left] (d : ℕ)
     (hAffineSpace : AffineSpaceRepresentability.{u}) :

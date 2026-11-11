@@ -31,11 +31,16 @@ operators of order one.
 * `diff1EquivDerProd`: the isomorphism `Diff¹(S, N) ≃ₗ[S] Der_R(S, N) × N`.
 * `diff1Map`: the functoriality of `Diff¹(S, -)` in `N`.
 * `principalPartsEquiv`: the isomorphism `Diff¹(S, N) ≃ₗ[S] ((Ω[S⁄R] × S) →ₗ[S] N)`.
+* `kaehlerDProdId`: the map `S → Ω[S⁄R] × S`, `b ↦ (d b, b)`.
 * `deRhamGen`, `deRhamTop`: the forms `b₀ · db₁ ∧ ⋯ ∧ dbᵢ` and `db₀ ∧ db₁ ∧ ⋯ ∧ dbᵢ`.
 
 ## Main results
 
 * `diff1EquivDerProd_naturality`, `principalPartsEquiv_naturality`: naturality in `N`.
+* `isUniversalDifferentialOperatorOfOrderLE_kaehlerDProdId`: `Ω[S⁄R] × S` with `b ↦ (d b, b)` is
+  the module of principal parts `P¹_{S/R}` (Example 09CM, second claim).
+* `principalPartsOne_equiv_kaehler_prod`: every module of principal parts of order `1` of `S` is
+  `S`-linearly isomorphic to `Ω[S⁄R] × S`, compatibly with the universal operators.
 * `deRham_isDiffOpOfOrder_one`: the de Rham differential is a differential operator of order
   one.
 
@@ -173,7 +178,9 @@ def derProdToDiff1Linear : (Derivation R S N × N) →ₗ[S] Diff1 R S N where
 
 /-- The `S`-module isomorphism `Diff¹(S, N) ≃ₗ[S] Der_R(S, N) × N` given by `D ↦ (σ_D, D 1)`, where
 `σ_D g = D g - g · D 1`, with inverse `(σ, x) ↦ σ + λ_x`. -/
-@[stacks 09CM, sga "3 VIIA 1.3.1" "Dev≤1 ≃ O_S ⊕ Der_S"]
+@[stacks 09CM "First claim, `Diff¹(S, N) = Der_R(S, N) ⊕ N`, via `D ↦ (σ_D, D 1)`. The second
+claim, `P¹_{S/R} = Ω_{S/R} ⊕ S`, is `isUniversalDifferentialOperatorOfOrderLE_kaehlerDProdId`.",
+  sga "3 VIIA 1.3.1" "Dev≤1 ≃ O_S ⊕ Der_S"]
 def diff1EquivDerProd : Diff1 R S N ≃ₗ[S] (Derivation R S N × N) :=
   LinearEquiv.ofLinearMap diff1ToDerProd derProdToDiff1Linear
     (by
@@ -279,6 +286,118 @@ theorem principalPartsEquiv_naturality {N' : Type*} [AddCommGroup N'] [Module S 
       map_zero, zero_add]
     change (diff1Map f D).val 1 = f (D.val 1)
     rw [diff1Map_apply]
+
+/-- The value of `principalPartsEquiv N D` at `(η, s)` is `σ̃_D η + s · D 1`, where
+`σ̃_D : Ω[S⁄R] → N` is the `S`-linear map induced by the derivation `σ_D`. -/
+theorem principalPartsEquiv_apply (D : Diff1 R S N) (η : Ω[S⁄R]) (s : S) :
+    principalPartsEquiv N D (η, s) = (sigmaDerivation D).liftKaehlerDifferential η + s • D.1 1 :=
+  rfl
+
+/-- An `R`-linear map `E : S → N` is a differential operator of order at most `1` in the sense of
+`LinearMap.IsDifferentialOperatorOfOrderLE` exactly when it lies in `Diff¹(S, N)`. -/
+theorem isDifferentialOperatorOfOrderLE_one_iff_mem_diff1Submodule (E : S →ₗ[R] N) :
+    E.IsDifferentialOperatorOfOrderLE S 1 ↔ E ∈ diff1Submodule (R := R) :=
+  Iff.rfl
+
+variable (R S) in
+/-- The `R`-linear map `S → Ω[S⁄R] × S`, `b ↦ (d b, b)`: the universal differential operator of
+order `≤ 1` on `S` (Example 09CM). -/
+noncomputable def kaehlerDProdId : S →ₗ[R] Ω[S⁄R] × S :=
+  (KaehlerDifferential.D R S).toLinearMap.prod LinearMap.id
+
+/-- The map `kaehlerDProdId R S` sends `b` to `(d b, b)`. -/
+@[simp] theorem kaehlerDProdId_apply (b : S) :
+    kaehlerDProdId R S b = (KaehlerDifferential.D R S b, b) := rfl
+
+/-- The map `b ↦ (d b, b)` is a differential operator of order `≤ 1` from `S` to
+`Ω[S⁄R] × S`. -/
+theorem isDifferentialOperatorOfOrderLE_one_kaehlerDProdId :
+    (kaehlerDProdId R S).IsDifferentialOperatorOfOrderLE S 1 := by
+  rw [isDifferentialOperatorOfOrderLE_one_iff_mem_diff1Submodule]
+  have h : kaehlerDProdId R S =
+      (((LinearMap.inl S (Ω[S⁄R]) S).compDer (KaehlerDifferential.D R S) :
+          Derivation R S (Ω[S⁄R] × S)) : S →ₗ[R] Ω[S⁄R] × S) +
+        elementSmulMap ((0 : Ω[S⁄R]), (1 : S)) := by
+    ext b <;> simp
+  rw [h]
+  exact diff1Submodule.add_mem (derivation_mem _) (elementSmulMap_mem _)
+
+/-- Every differential operator `E : S → N` of order `≤ 1`, with `N` an `S`-module in any
+universe, factors as `E = α ∘ (b ↦ (d b, b))` for a unique `S`-linear `α : Ω[S⁄R] × S → N`,
+namely `principalPartsEquiv N E`. -/
+theorem existsUnique_comp_kaehlerDProdId (E : S →ₗ[R] N)
+    (hE : E.IsDifferentialOperatorOfOrderLE S 1) :
+    ∃! α : (Ω[S⁄R] × S) →ₗ[S] N, ∀ b : S, α (kaehlerDProdId R S b) = E b := by
+  have hE' := (isDifferentialOperatorOfOrderLE_one_iff_mem_diff1Submodule E).mp hE
+  set α := principalPartsEquiv N (⟨E, hE'⟩ : Diff1 R S N)
+  have hα : ∀ b : S, α (kaehlerDProdId R S b) = E b := fun b => by
+    rw [kaehlerDProdId_apply, principalPartsEquiv_apply,
+      Derivation.liftKaehlerDifferential_comp_D, sigmaDerivation_apply, sub_add_cancel]
+  have hinr : ∀ γ : (Ω[S⁄R] × S) →ₗ[S] N, (∀ b, γ (kaehlerDProdId R S b) = E b) →
+      ∀ s : S, γ (0, s) = s • E 1 := fun γ hγ s => by
+    have h1 := hγ 1
+    rw [kaehlerDProdId_apply, (KaehlerDifferential.D R S).map_one_eq_zero] at h1
+    rw [show ((0 : Ω[S⁄R]), s) = s • ((0 : Ω[S⁄R]), (1 : S)) by simp, map_smul, h1]
+  have hinl : ∀ γ : (Ω[S⁄R] × S) →ₗ[S] N, (∀ b, γ (kaehlerDProdId R S b) = E b) →
+      ∀ b : S, γ (KaehlerDifferential.D R S b, 0) = E b - b • E 1 := fun γ hγ b => by
+    rw [← hinr γ hγ b, ← hγ b, kaehlerDProdId_apply, ← map_sub]
+    simp
+  refine ⟨α, hα, fun β hβ => LinearMap.prod_ext ?_ ?_⟩
+  · refine Derivation.liftKaehlerDifferential_unique _ _ (Derivation.ext fun b => ?_)
+    change β (KaehlerDifferential.D R S b, 0) = α (KaehlerDifferential.D R S b, 0)
+    rw [hinl β hβ b, hinl α hα b]
+  · refine LinearMap.ext_ring ?_
+    simp only [LinearMap.coe_comp, Function.comp_apply, LinearMap.inr_apply]
+    rw [hinr β hβ 1, hinr α hα 1]
+
+/-- **Stacks 09CM, second claim.** Let `R → S` be a ring map. Then `Ω[S⁄R] × S`, together with
+`b ↦ (d b, b)`, is the module of principal parts of order `1` of `S`: the map `b ↦ (d b, b)` is a
+differential operator of order `≤ 1` and every differential operator `E : S → N` of order `≤ 1`
+into an `S`-module factors as `α ∘ (b ↦ (d b, b))` for a unique `S`-linear `α`. That is,
+`P¹_{S/R} = Ω_{S/R} ⊕ S`. -/
+@[stacks 09CM "Second claim, `P¹_{S/R} = Ω_{S/R} ⊕ S`, in the form of Definition 09CL: the pair
+`(Ω[S⁄R] × S, b ↦ (d b, b))` is a module of principal parts of order `1` of `S`. The isomorphism
+with any other module of principal parts is `principalPartsOne_equiv_kaehler_prod`."]
+theorem isUniversalDifferentialOperatorOfOrderLE_kaehlerDProdId :
+    (kaehlerDProdId R S).IsUniversalDifferentialOperatorOfOrderLE S 1 :=
+  ⟨isDifferentialOperatorOfOrderLE_one_kaehlerDProdId,
+    fun _ _ _ _ _ E hE => existsUnique_comp_kaehlerDProdId E hE⟩
+
+/-- **Stacks 09CM, second claim, as an isomorphism.** Let `R → S` be a ring map and let
+`D : S → P` be a universal differential operator of order `≤ 1` on `S`, so that `P` is the module
+of principal parts `P¹_{S/R}` (Definition 09CL). Then there is an `S`-linear isomorphism
+`P ≃ₗ[S] Ω[S⁄R] × S` sending `D b` to `(d b, b)`. -/
+@[stacks 09CM "Second claim, `P¹_{S/R} = Ω_{S/R} ⊕ S`, as an `S`-linear isomorphism out of an
+arbitrary module of principal parts `(P, D)` of order `1` of `S` (Definition 09CL), matching `D`
+with `b ↦ (d b, b)`."]
+theorem principalPartsOne_equiv_kaehler_prod {P : Type*} [AddCommGroup P] [Module R P]
+    [Module S P] [IsScalarTower R S P] {D : S →ₗ[R] P}
+    (hD : D.IsUniversalDifferentialOperatorOfOrderLE S 1) :
+    ∃ e : P ≃ₗ[S] Ω[S⁄R] × S, ∀ b : S, e (D b) = (KaehlerDifferential.D R S b, b) := by
+  obtain ⟨α, hα, -⟩ := existsUnique_comp_kaehlerDProdId D hD.1
+  obtain ⟨β₀, hβ₀, -⟩ := hD.2 (N := ULift (Ω[S⁄R] × S))
+    ((ULift.moduleEquiv (R := S)).symm.toLinearMap.restrictScalars R ∘ₗ kaehlerDProdId R S)
+    (LinearMap.isDifferentialOperatorOfOrderLE_postcomp _
+      isDifferentialOperatorOfOrderLE_one_kaehlerDProdId)
+  set β : P →ₗ[S] Ω[S⁄R] × S := (ULift.moduleEquiv (R := S)).toLinearMap ∘ₗ β₀
+  have hβ : ∀ b : S, β (D b) = kaehlerDProdId R S b := fun b => by
+    simp [β, hβ₀ b]
+  have hβα : β ∘ₗ α = LinearMap.id := by
+    obtain ⟨_, -, huniq⟩ := existsUnique_comp_kaehlerDProdId (kaehlerDProdId R S)
+      isDifferentialOperatorOfOrderLE_one_kaehlerDProdId
+    exact (huniq _ fun b => by rw [LinearMap.comp_apply, hα b, hβ b]).trans
+      (huniq _ fun b => rfl).symm
+  have hαβ : α ∘ₗ β = LinearMap.id := by
+    set u : P →ₗ[S] ULift P := (ULift.moduleEquiv (R := S)).symm.toLinearMap
+    obtain ⟨_, -, huniq⟩ := hD.2 (N := ULift P) (u.restrictScalars R ∘ₗ D)
+      (LinearMap.isDifferentialOperatorOfOrderLE_postcomp _ hD.1)
+    have h := (huniq (u ∘ₗ α ∘ₗ β) fun b => by
+        rw [LinearMap.comp_apply, LinearMap.comp_apply, hβ b, hα b]; rfl).trans
+      (huniq u fun b => rfl).symm
+    ext p
+    exact ULift.moduleEquiv.symm.injective (LinearMap.congr_fun h p)
+  exact ⟨LinearEquiv.ofLinearMap β α hβα hαβ, fun b => by
+    rw [LinearEquiv.coe_ofLinearMap, hβ b, kaehlerDProdId_apply]⟩
 
 /-!
 ## The de Rham differentials

@@ -65,8 +65,8 @@ That last hypothesis is the completed clause of [Stacks, Lemma 60.21.2, Tag 07LD
 clause 2 of `Crystalline.DividedPowerPolynomial.stacks07LD`; it is the only genuinely new
 mathematics the chain needs.  No tag attribute is placed anywhere here: this is the
 homological-algebra step inside the proof of [Stacks, Tag 07LG], which is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.
 
 ## References
 

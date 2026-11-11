@@ -121,6 +121,51 @@ section Lemma
 
 variable (s : AffineCrystallineSituation.{u, v})
 
+/-- **The retract for a polynomial presentation over a presentation with the strong lifting
+property**: for a surjection `q : A[x_i] ↠ P'`, in any family of variables, onto an `A`-algebra
+`P'` with the strong lifting property of [Stacks, Tag 07K4], the completed envelopes are related
+by divided power morphisms `a`, `b` over `A` with `a ∘ b = id`, compatible with the augmentations
+to `C`. -/
+theorem exists_retract_of_surjective_of_hasStrongLiftingProperty {ι : Type u} (P' : Type u)
+    [CommRing P'] [Algebra s.A P'] (hSLP : Algebra.HasStrongLiftingProperty (s.A : Type u) P')
+    (f' : P' →ₐ[s.A] s.C) (hf' : Function.Surjective f') (q : MvPolynomial ι s.A →ₐ[s.A] P')
+    (hq : Function.Surjective q) :
+    ∃ (a : DPMorphism (envelopeCompletion (presentationEnvelope s (f'.comp q)) s.p
+          (presentationEnvelope_prime_nilpotent s (f'.comp q) (hf'.comp hq))).dividedPowers
+        (completedEnvelopeOfPresentation s f' hf').dividedPowers)
+      (b : DPMorphism (completedEnvelopeOfPresentation s f' hf').dividedPowers
+        (envelopeCompletion (presentationEnvelope s (f'.comp q)) s.p
+          (presentationEnvelope_prime_nilpotent s (f'.comp q) (hf'.comp hq))).dividedPowers),
+      (∀ c : (s.A : Type u), a (algebraMap (s.A : Type u)
+          (envelopeCompletion (presentationEnvelope s (f'.comp q)) s.p
+            (presentationEnvelope_prime_nilpotent s (f'.comp q) (hf'.comp hq)) : Type u) c) =
+          algebraMap (s.A : Type u) (completedEnvelopeOfPresentation s f' hf' : Type u) c) ∧
+      (∀ c : (s.A : Type u), b (algebraMap (s.A : Type u)
+          (completedEnvelopeOfPresentation s f' hf' : Type u) c) =
+          algebraMap (s.A : Type u) (envelopeCompletion (presentationEnvelope s (f'.comp q)) s.p
+            (presentationEnvelope_prime_nilpotent s (f'.comp q) (hf'.comp hq)) : Type u) c) ∧
+      a.comp b = DPMorphism.id _ ∧
+      (completedEnvelopeAugmentation s f' hf').comp a.toRingHom =
+          completedEnvelopeAugmentation s (f'.comp q) (hf'.comp hq) ∧
+      (completedEnvelopeAugmentation s (f'.comp q) (hf'.comp hq)).comp b.toRingHom =
+          completedEnvelopeAugmentation s f' hf' := by
+  obtain ⟨rho, hrhostruct, hrhoalg, -, -, a, b, hab, ha, hbstruct⟩ :=
+    exists_completedEnvelopeRetract_of_hasStrongLiftingProperty s q f' hSLP hq hf'
+  have haug := completedEnvelopeAugmentation_comp_of_dpMorphism s q f' hf' (hf'.comp hq) rho
+    hrhoalg a ha
+  refine ⟨a, b, fun c ↦ ?_, hbstruct, hab, haug, ?_⟩
+  · change a.toRingHom (algebraMap _ _ ((presentationEnvelope s (f'.comp q)).structureMap.toRingHom
+      c)) = algebraMap _ _ ((presentationEnvelope s f').structureMap.toRingHom c)
+    rw [ha ((presentationEnvelope s (f'.comp q)).structureMap.toRingHom c)]
+    exact congrArg _ (DFunLike.congr_fun
+      (congrArg DividedPowers.DPMorphism.toRingHom hrhostruct) c)
+  · ext w
+    have hw : a.toRingHom (b.toRingHom w) = w :=
+      congrArg (fun r : DividedPowers.DPMorphism _ _ ↦ r w) hab
+    have h1 := DFunLike.congr_fun haug (b.toRingHom w)
+    rw [RingHom.comp_apply, hw] at h1
+    exact h1.symm
+
 /-- **The retract for a polynomial presentation over a smooth one**: for a surjection
 `q : A[x_i] ↠ P'` the completed envelopes are related by divided power morphisms `a`, `b` over
 `A` with `a ∘ b = id`, compatible with the augmentations to `C`; then `b ∘ a` moves elements within
@@ -147,23 +192,38 @@ theorem exists_retract_of_surjective {ι : Type u} (P' : Type u) [CommRing P']
       (completedEnvelopeAugmentation s f' hf').comp a.toRingHom =
           completedEnvelopeAugmentation s (f'.comp q) (hf'.comp hq) ∧
       (completedEnvelopeAugmentation s (f'.comp q) (hf'.comp hq)).comp b.toRingHom =
+          completedEnvelopeAugmentation s f' hf' :=
+  exists_retract_of_surjective_of_hasStrongLiftingProperty s P'
+    (Algebra.HasStrongLiftingProperty.of_smooth _ _) f' hf' q hq
+
+/-- `Crystalline.exists_retract_of_surjective_of_hasStrongLiftingProperty` for a presentation `g`
+equal to the composite `f' ∘ q`, stated for `g` itself. -/
+theorem exists_retract_of_comp_eq_of_hasStrongLiftingProperty {ι : Type u} (P' : Type u)
+    [CommRing P'] [Algebra s.A P'] (hSLP : Algebra.HasStrongLiftingProperty (s.A : Type u) P')
+    (f' : P' →ₐ[s.A] s.C) (hf' : Function.Surjective f') (q : MvPolynomial ι s.A →ₐ[s.A] P')
+    (hq : Function.Surjective q) (g : MvPolynomial ι s.A →ₐ[s.A] s.C) (hgq : f'.comp q = g)
+    (hg : Function.Surjective g) :
+    ∃ (a : DPMorphism (envelopeCompletion (presentationEnvelope s g) s.p
+          (presentationEnvelope_prime_nilpotent s g hg)).dividedPowers
+        (completedEnvelopeOfPresentation s f' hf').dividedPowers)
+      (b : DPMorphism (completedEnvelopeOfPresentation s f' hf').dividedPowers
+        (envelopeCompletion (presentationEnvelope s g) s.p
+          (presentationEnvelope_prime_nilpotent s g hg)).dividedPowers),
+      (∀ c : (s.A : Type u), a (algebraMap (s.A : Type u)
+          (envelopeCompletion (presentationEnvelope s g) s.p
+            (presentationEnvelope_prime_nilpotent s g hg) : Type u) c) =
+          algebraMap (s.A : Type u) (completedEnvelopeOfPresentation s f' hf' : Type u) c) ∧
+      (∀ c : (s.A : Type u), b (algebraMap (s.A : Type u)
+          (completedEnvelopeOfPresentation s f' hf' : Type u) c) =
+          algebraMap (s.A : Type u) (envelopeCompletion (presentationEnvelope s g) s.p
+            (presentationEnvelope_prime_nilpotent s g hg) : Type u) c) ∧
+      a.comp b = DPMorphism.id _ ∧
+      (completedEnvelopeAugmentation s f' hf').comp a.toRingHom =
+          completedEnvelopeAugmentation s g hg ∧
+      (completedEnvelopeAugmentation s g hg).comp b.toRingHom =
           completedEnvelopeAugmentation s f' hf' := by
-  obtain ⟨rho, hrhostruct, hrhoalg, -, -, a, b, hab, ha, hbstruct⟩ :=
-    exists_completedEnvelopeRetract s q f' hq hf'
-  have haug := completedEnvelopeAugmentation_comp_of_dpMorphism s q f' hf' (hf'.comp hq) rho
-    hrhoalg a ha
-  refine ⟨a, b, fun c ↦ ?_, hbstruct, hab, haug, ?_⟩
-  · change a.toRingHom (algebraMap _ _ ((presentationEnvelope s (f'.comp q)).structureMap.toRingHom
-      c)) = algebraMap _ _ ((presentationEnvelope s f').structureMap.toRingHom c)
-    rw [ha ((presentationEnvelope s (f'.comp q)).structureMap.toRingHom c)]
-    exact congrArg _ (DFunLike.congr_fun
-      (congrArg DividedPowers.DPMorphism.toRingHom hrhostruct) c)
-  · ext w
-    have hw : a.toRingHom (b.toRingHom w) = w :=
-      congrArg (fun r : DividedPowers.DPMorphism _ _ ↦ r w) hab
-    have h1 := DFunLike.congr_fun haug (b.toRingHom w)
-    rw [RingHom.comp_apply, hw] at h1
-    exact h1.symm
+  subst hgq
+  exact exists_retract_of_surjective_of_hasStrongLiftingProperty s P' hSLP f' hf' q hq
 
 /-- `Crystalline.exists_retract_of_surjective` for a presentation `g` equal to the composite
 `f' ∘ q`, stated for `g` itself. -/
@@ -190,9 +250,9 @@ theorem exists_retract_of_comp_eq {ι : Type u} (P' : Type u) [CommRing P']
       (completedEnvelopeAugmentation s f' hf').comp a.toRingHom =
           completedEnvelopeAugmentation s g hg ∧
       (completedEnvelopeAugmentation s g hg).comp b.toRingHom =
-          completedEnvelopeAugmentation s f' hf' := by
-  subst hgq
-  exact exists_retract_of_surjective s P' f' hf' q hq
+          completedEnvelopeAugmentation s f' hf' :=
+  exists_retract_of_comp_eq_of_hasStrongLiftingProperty s P'
+    (Algebra.HasStrongLiftingProperty.of_smooth _ _) f' hf' q hq g hgq hg
 
 variable (P' : Type u) [CommRing P'] [Algebra s.A P'] [Algebra.Smooth (s.A : Type u) P']
   (f' : P' →ₐ[s.A] s.C) (hf' : Function.Surjective f')

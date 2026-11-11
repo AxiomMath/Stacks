@@ -31,15 +31,25 @@ remaining input of Tag 0BKY.
 
 * `AlgebraicGeometry.Space.isZero_firstDerivedLimit_sectionsSystem_of_isAffineChart`: the tower
   of sections of the degree-`q` cohomology sheaves over an affine chart has vanishing `R¹ lim`.
-* `AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower`: **Stacks 08F6**.
-* `AlgebraicGeometry.Space.isDerivedLimit_single_limit_homology`: **Stacks 0D3E, clause (2)**.
-* `AlgebraicGeometry.Space.isZero_cohomology_limit_homology_of_isAffineChart`:
-  **Stacks 0D3E, clause (3)**.
+* `AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower`: Stacks 08F6 at a free module
+  universe, from its inputs on the affine étale charts.
+* `AlgebraicGeometry.Space.isDerivedLimit_single_limit_homology`: Stacks 0D3E, clause (2), in the
+  same form.
+* `AlgebraicGeometry.Space.isZero_cohomology_limit_homology_of_isAffineChart`: Stacks 0D3E,
+  clause (3), in the same form.
+
+The tags are registered on the forms with those inputs supplied, at the module universe of the
+structure rings:
+`AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower_ringUniverse` (08F6) and the
+three clauses of 0D3E, all in
+`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentDerivedLimitsCohomology.lean`.
 
 ## Implementation notes
 
-*What is carried, and why.*  Three inputs are explicit named hypotheses, each named in the part
-string of the attribute that uses it.
+*The inputs, and why they are arguments.*  The statements here are given at a free module
+universe `m`, and three inputs are explicit arguments.  At the module universe `u` of the
+structure rings each of them is a theorem of this library, and the registered forms of the tags
+supply them there.
 
 * `hcover` is the statement that every étale chart of `X` is covered, in the small étale
   topology, by affine étale charts.  The library has the cover-dense form of this — the
@@ -47,21 +57,19 @@ string of the attribute that uses it.
   `AlgebraicGeometry.Space.AffineEtale.inclusion_isSpecialCocontinuous`, Stacks 04JS — but
   `CategoryTheory.GrothendieckTopology.HasEnoughObjects` indexes its covering families in the
   morphism universe `u` of the site, whereas the covering families produced there are indexed in
-  `u + 1`, so the two do not match up without a reindexing argument that is not available.
+  `u + 1`; the reindexed form is `AlgebraicGeometry.Space.hasEnoughObjects_isAffineChart`.
 * `h03DW` and `h03DWab` are the two readings — in modules over the sections of the structure
   sheaf, and in abelian groups — of the vanishing of the higher cohomology of a quasi-coherent
   module on an affine étale chart.  That is the étale-site analogue of Serre's criterion
-  (Stacks 01XB), namely Stacks 03DW, equivalently Descent, Proposition 03DX (2).  Neither tag is
-  carried anywhere in this repository, as
-  `StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishing.lean` and
-  `StacksFrontier/AlgebraicGeometry/Cohomology/InjectiveQcoh/EtaleAcyclicity.lean` both record
-  about themselves.  The two readings are carried separately because the two site-theoretic
+  (Stacks 01XB), namely Stacks 03DW, equivalently Descent, Proposition 03DX (2).  At module
+  universe `u` they are `AlgebraicGeometry.Space.isZero_rightDerived_evaluation_of_isAffineChart`
+  and `AlgebraicGeometry.Space.isZero_rightDerived_sectionsFunctor_of_isAffineChart`.  The two
+  readings are separate arguments because the two site-theoretic
   criteria used below phrase acyclicity in the two different ways and the library has no
   comparison of the derived functors of the two sections functors at this universe profile.
 * `h03DWepi` is the surjectivity face of the same Stacks 03DW: a surjection of quasi-coherent
-  modules is surjective on the sections over an affine étale chart.  This is the hypothesis
-  `h03DW` of `StacksFrontier/AlgebraicGeometry/Spaces/ShortExactQuasicoherent.lean`, carried here
-  in the same way.
+  modules is surjective on the sections over an affine étale chart.  At module universe `u` it
+  is `AlgebraicGeometry.Space.epi_sectionsFunctor_map_of_isQuasicoherentOnSite`.
 
 None of the three mentions the object `E` or the system `(K_n)` of the conclusions; each is a
 statement about quasi-coherent modules and affine charts alone.
@@ -152,7 +160,7 @@ maps on cohomology, the tower of sections over an affine étale chart of the deg
 sheaves has vanishing first derived inverse limit.
 
 This is the remaining hypothesis of Tag 0BKY; the surjectivity of the maps on sections is the
-carried `h03DWepi`, and a surjective tower of abelian groups is Mittag-Leffler. -/
+argument `h03DWepi`, and a surjective tower of abelian groups is Mittag-Leffler. -/
 theorem isZero_firstDerivedLimit_sectionsSystem_of_isAffineChart
     (K : ℕᵒᵖ ⥤ DerivedCategory (Modules.{u, m} B S hS F hF)) (q : ℤ)
     (hqc : ∀ n : ℕ, ((DerivedCategory.homologyFunctor
@@ -184,9 +192,10 @@ end Sections
 
 /-! ### Convergence of the truncation tower -/
 
-/-- **Stacks Project, Tag 08F6.** Let `S` be a scheme, let `X` be an algebraic space over `S`
-and let `E` be an object of `D_QCoh(𝒪_X)`.  Then the canonical map from `E` to a derived limit
-`L` of the tower `n ↦ τ_{≥ -n} E` of canonical truncations from below is an isomorphism.
+/-- **Stacks Project, Tag 08F6, at a free module universe.** Let `S` be a scheme, let `X` be an
+algebraic space over `S` and let `E` be an object of `D_QCoh(𝒪_X)`. Then the canonical map from `E`
+to a derived limit `L` of the tower `n ↦ τ_{≥ -n} E` of canonical truncations from below is an
+isomorphism.
 
 The derived limit is presented by its structural morphism `p` to the product of the tower and
 the distinguished triangle `hL` characterising it; the map `c` out of `E` is the canonical one
@@ -195,11 +204,11 @@ because its composites with the product projections are required to be the trunc
 This is Spaltenstein's local criterion in the form
 `Stacks.Cohomology.AcyclicCover.isIso_to_isDerivedLimit_truncGETower_of_acyclic`, Tag 0D6P with
 `d = 0`, applied on the small étale site of `X`: the affine étale charts cover it, which is the
-hypothesis `hcover`, and a quasi-coherent module has no higher cohomology on an affine chart,
-which is the hypothesis `h03DW`. -/
-@[stacks 08F6 "the source's proof, with its two citations carried as the named hypotheses hcover \
-(the affine étale charts cover the small étale site) and h03DW (Stacks 03DW: a quasi-coherent \
-module has no higher cohomology on an affine étale chart)"]
+argument `hcover`, and a quasi-coherent module has no higher cohomology on an affine chart,
+which is the argument `h03DW`.  The registered form, with both supplied at the module universe of
+the structure rings, is
+`AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower_ringUniverse`, in
+`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentDerivedLimitsCohomology.lean`. -/
 theorem isIso_of_isDerivedLimit_truncGETower
     [EnoughInjectives (Modules.{u, m} B S hS F hF)]
     (E : DerivedCategory (Modules.{u, m} B S hS F hF))
@@ -244,19 +253,15 @@ section Limits
 
 variable [IsGrothendieckAbelian.{g} (Modules.{u, m} B S hS F hF)]
 
-/-- **Stacks Project, Tag 0D3E, clause (2).** Let `(K_n)` be an inverse system of
-`D_QCoh(𝒪_X)` on an algebraic space `X` whose transition maps `H^q(K_{n+1}) ⟶ H^q(K_n)` on
-cohomology sheaves are surjective.  Then `R lim H^q(K_n) = lim H^q(K_n)`: the ordinary inverse
-limit of the degree-`q` cohomology sheaves, placed in degree zero, is a derived inverse limit of
-the system of those sheaves.
+/-- **Stacks Project, Tag 0D3E, clause (2), at a free module universe.** Let `(K_n)` be an inverse
+system of `D_QCoh(𝒪_X)` on an algebraic space `X` whose transition maps `H^q(K_{n+1}) ⟶ H^q(K_n)` on
+cohomology sheaves are surjective. Then `R lim H^q(K_n) = lim H^q(K_n)`: the ordinary inverse limit
+of the degree-`q` cohomology sheaves, placed in degree zero, is a derived inverse limit of the
+system of those sheaves.
 
 This is the first conclusion of Tag 0BKY,
 `Stacks.Cohomology.SiteInverseLimits.isDerivedLimit_single_limit_of_acyclic_cover`, on the small
 étale site of `X`. -/
-@[stacks 0D3E "clause (2): R lim H^q(K_n) = lim H^q(K_n); the source's two citations are carried \
-as the named hypotheses hcover (the affine étale charts cover the small étale site) and h03DWab, \
-h03DWepi (Stacks 03DW on an affine étale chart: vanishing of higher cohomology, and surjectivity \
-on sections, for quasi-coherent modules)"]
 theorem isDerivedLimit_single_limit_homology
     (K : ℕᵒᵖ ⥤ DerivedCategory (Modules.{u, m} B S hS F hF))
     (hqc : ∀ (n : ℕ) (q : ℤ), ((DerivedCategory.homologyFunctor
@@ -292,18 +297,14 @@ theorem isDerivedLimit_single_limit_homology
     (fun V hV => isZero_firstDerivedLimit_sectionsSystem_of_isAffineChart
       B S hS F hF K q (fun n => hqc n q) (fun n => hsurj n q) h03DWepi V hV)
 
-/-- **Stacks Project, Tag 0D3E, clause (3).** Under the same hypotheses, for every affine étale
-chart `U` of `X` and every `p > 0` we have `H^p(U, lim H^q(K_n)) = 0`.
+/-- **Stacks Project, Tag 0D3E, clause (3), at a free module universe.** Under the same hypotheses,
+for every affine étale chart `U` of `X` and every `p > 0` we have `H^p(U, lim H^q(K_n)) = 0`.
 
 This is the second conclusion of Tag 0BKY,
 `Stacks.Cohomology.SiteInverseLimits.isZero_cohomology_limit_of_acyclic_cover`, on the small
 étale site of `X`.  The source states the vanishing for an affine open of `X`; every affine open
 is an affine object of the small étale site, and the statement is given for all of them, as the
 source's own proof does. -/
-@[stacks 0D3E "clause (3): H^p(U, lim H^q(K_n)) = 0 for p > 0 and U an affine étale chart; the \
-source's two citations are carried as the named hypotheses hcover (the affine étale charts cover \
-the small étale site) and h03DWab, h03DWepi (Stacks 03DW on an affine étale chart: vanishing of \
-higher cohomology, and surjectivity on sections, for quasi-coherent modules)"]
 theorem isZero_cohomology_limit_homology_of_isAffineChart
     (K : ℕᵒᵖ ⥤ DerivedCategory (Modules.{u, m} B S hS F hF))
     (hqc : ∀ (n : ℕ) (q : ℤ), ((DerivedCategory.homologyFunctor

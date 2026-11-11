@@ -16,18 +16,20 @@ Writing `Comp(C) = CochainComplex C ℤ` for the category of cochain complexes a
 homotopy classes of maps of complexes as morphisms, the bounded variants are expressed as follows:
 
 * `Comp⁺(C)`, `Comp⁻(C)` and `Compᵇ(C)` are the full subcategories of `Comp(C)` cut out
-  by `CochainComplex.plus C`, `CochainComplex.minus C` and
-  `CochainComplex.plus C ⊓ CochainComplex.minus C`; the first of the three is
-  `CochainComplex.Plus C`.
+  by `CochainComplex.plus C`, `CochainComplex.minus C` and `CochainComplex.bounded C`
+  (the last in `StacksFrontier.Algebra.Homology.HomotopyCategory.Triangulated`); they are
+  `CochainComplex.Plus C`, `CochainComplex.Minus C` and `CochainComplex.Bounded C`.
 * `K⁺(C)`, `K⁻(C)` and `Kᵇ(C)` are the full subcategories of `K(C)` cut out by the strict
   images of those three properties along `HomotopyCategory.quotient C (ComplexShape.up ℤ)`;
-  the first of the three is `HomotopyCategory.plus C`, and `HomotopyCategory.Plus C` is its
-  full subcategory.
+  these are `HomotopyCategory.plus C`, `HomotopyCategory.minus C` and
+  `HomotopyCategory.bounded C`, with full subcategories `HomotopyCategory.Plus C`,
+  `HomotopyCategory.Minus C` and `HomotopyCategory.Bounded C`.
 
 ## Main definitions
 
 * `CochainComplex.minus`: the property of a `ℤ`-indexed cochain complex of being bounded
   above.
+* `CochainComplex.Minus`: the full subcategory `Comp⁻(C)` of bounded above complexes.
 
 ## References
 
@@ -43,7 +45,8 @@ namespace CochainComplex
 variable (C : Type*) [Category C] [HasZeroMorphisms C]
 
 /-- The property of cochain complexes that are bounded above. -/
-@[stacks 013H, ega "0 11.2.1" "bounded above", sga "4½ Etat_0 1.2.3" "bounded-above complexes"]
+@[stacks 013H "(3) bounded above complexes", ega "0 11.2.1" "bounded above",
+  sga "4½ Etat_0 1.2.3" "bounded-above complexes"]
 public def minus : ObjectProperty (CochainComplex C ℤ) :=
   fun K ↦ ∃ (n : ℤ), K.IsStrictlyLE n
 
@@ -52,6 +55,11 @@ variable {C} in
 lemma minus_iff (K : CochainComplex C ℤ) :
     CochainComplex.minus C K ↔ ∃ (n : ℤ), K.IsStrictlyLE n :=
   Iff.rfl
+
+/-- `Comp⁻(C)`: the full subcategory of `CochainComplex C ℤ` consisting of the bounded above
+complexes. -/
+@[stacks 013H "(5) Comp⁻(A), the full subcategory of bounded above complexes"]
+abbrev Minus := (CochainComplex.minus C).FullSubcategory
 
 end CochainComplex
 

@@ -64,16 +64,14 @@ them contains the uniformity of `d₀`:
   (1) makes `Rg'_* ℱ'` a perfect object of `D(𝒪_{T'})` whose formation commutes with arbitrary
   base change, so that `Lj^* Rg'_* ℱ' = Rg_* (j')^* ℱ'`; [Stacks, Tag 0D4E] identifies the latter
   with a finite locally free module in degree `0`; and [Stacks, Tag 0BDK] transports that back up
-  along `j`, which is surjective on points.  The perfection half of [Stacks, Tag 0B91] is absent
-  outright — see the attribute strings of
-  `StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean` — and the
-  universal
-  property of [Stacks, Tag 0BDK] is proved only along open immersions, see the docstring of
-  `StacksFrontier/AlgebraicGeometry/Perfect/SingleDegreeRankOpen.lean`, whereas a thickening is a
-  closed immersion.  The granted statement quantifies over an arbitrary invertible module on the
-  deformed total space, an arbitrary invertible module on the original one isomorphic to its
-  restriction, and an arbitrary single degree; it knows nothing of ampleness and fixes no bound,
-  so the uniformity of `d₀` is not contained in it.
+  along `j`, which is surjective on points.  [Stacks, Tag 0B91] is proved in full, as
+  `ProperFlatBaseChange.isPerfect_derivedPushforward_and_isIso_baseChange_of_isProper`,
+  but the universal property of [Stacks, Tag 0BDK] is proved only along open immersions, see the
+  docstring of `StacksFrontier/AlgebraicGeometry/Perfect/SingleDegreeRankOpen.lean`, whereas a
+  thickening is a closed immersion.  The granted statement quantifies over an arbitrary
+  invertible module on the deformed total space, an arbitrary invertible module on the original
+  one isomorphic to its restriction, and an arbitrary single degree; it knows nothing of
+  ampleness and fixes no bound, so the uniformity of `d₀` is not contained in it.
 * `TruncatedSectionAlgebraExists` is the assertion of [Stacks, Tag 01VJ] (5) that
   `𝒪_T ⊕ ⨁_{d ≥ d₀} g_* M^{⊗ d}` is a quasi-coherent graded `𝒪_T`-algebra.  The library
   assembles the full algebra `⨁_{d ≥ 0} g_* M^{⊗ d}` (`Stacks.RelativeAmple.directImageAlgebra`)
@@ -118,10 +116,9 @@ need `𝒜'` generated in degree one: the truncated algebra of this tag is gener
 **Which `IsFiniteLocallyFree`.**  The repository carries two classes of this name with the same
 body.  The one used here is `AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFree` of
 `StacksFrontier/Topology/Sheaves/Modules/LocallyFree.lean`, which is the conclusion of
-[Stacks, Tag 0D4E] as formalized, read over `AlgebraicGeometry.Scheme.Modules` of the *deformed*
-base
-`S'`.  The other, `Stacks.FiniteLocallyFree.IsFiniteLocallyFree`, appears only inside the proofs
-of the side conditions.
+[Stacks, Tag 0D4E] as formalized, read over `AlgebraicGeometry.Scheme.Modules` of the
+*deformed* base `S'`.  The other, `Stacks.FiniteLocallyFree.IsFiniteLocallyFree`, appears only
+inside the proofs of the side conditions.
 
 **Two short names that already occur elsewhere.**  `PolarizedFamily` is also the name of
 `AlgebraicGeometry.PolarizedFamily` in
@@ -331,13 +328,13 @@ be an invertible `𝒪_{Y'}`-module, and let `N` be an invertible `𝒪_Y`-modul
 `(j')^* M'`.  If the higher direct images of `N^{⊗ d}` along `g` vanish, then those of
 `(M')^{⊗ d}` along `g'` vanish.
 
-This is the composite of three cited inputs of [Stacks, Tag 0D4F] that the library does not carry.
+This is the composite of three cited inputs of [Stacks, Tag 0D4F], not all carried by the library.
 [Stacks, Tag 0B91] (1) makes `Rg'_* (M')^{⊗ d}` a perfect object of `D(𝒪_{T'})` whose formation
 commutes with arbitrary base change, so that `Lj^* Rg'_* (M')^{⊗ d} = Rg_* N^{⊗ d}`;
 [Stacks, Tag 0D4E] identifies the latter with a finite locally free module placed in degree `0`;
 and [Stacks, Tag 0BDK] transports that conclusion back up along `j`, which is surjective on
-points.  The perfection half of [Stacks, Tag 0B91] is absent outright — see the attribute strings
-of `StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatPushforwardBaseChange.lean` — and the
+points.  [Stacks, Tag 0B91] is proved in full, as
+`ProperFlatBaseChange.isPerfect_derivedPushforward_and_isIso_baseChange_of_isProper`, but the
 universal property of [Stacks, Tag 0BDK] is proved only along open immersions, see the docstring
 of `StacksFrontier/AlgebraicGeometry/Perfect/SingleDegreeRankOpen.lean`, whereas a thickening is a
 closed immersion.

@@ -46,12 +46,10 @@ adjunction are what the tag is about: the existence assertion is the separate
 [Stacks, Tag 0A9E]. They are therefore parameters, as they are of the trace map itself in
 `StacksFrontier/AlgebraicGeometry/Duality/SheafyTrace.lean`, and the statements below hold for
 *every* right adjoint of `Rf_* : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)` and every adjunction exhibiting it.
-Tag 0A9E is proved as
-`Stacks.Duality.DerivedPushforward.isLeftAdjoint_qcqsRestrictedDerivedPushforward_of_qcqs` at the
-locally small model `AlgebraicGeometry.Scheme.Modules.hasDerivedCategory`, the only model at
-which Brown representability has content, while the sheafy trace map is pinned to
-`CategoryTheory.HasDerivedCategory.standard` by the definitions it is built from; see the
-implementation notes of `StacksFrontier/AlgebraicGeometry/Duality/SheafyTraceGlobalHom.lean`.
+Tag 0A9E is proved, for `X` and `Y` quasi-compact and quasi-separated and at every model of the
+derived categories, the standard one among them, as
+`Stacks.Duality.AnyModel.isLeftAdjoint_quasiCoherentDerivedPushforward_of_qcqs`, so such an `a`
+exists; `Stacks.Duality.AnyModel.standardTwistedInverseImage` is one.
 
 *What is derived.* From the quasi-compactness and quasi-separatedness of `f` and the
 quasi-compactness of `Y`:
@@ -234,21 +232,25 @@ which the tag states. `a` and `adj` are parameters because they are the tag's da
 named by the statement of this tag and the trace map is built from the counit of `Rf_* ⊣ a`, so
 quantifying over every right adjoint and every adjunction exhibiting it — which is what the
 binders do — is stronger than fixing the one the source fixes. Their existence is the separate
-[Stacks, Tag 0A9E], which has content only at the locally small model of the derived categories
-while the trace map is pinned to the standard one.
+[Stacks, Tag 0A9E], proved at this model as
+`Stacks.Duality.AnyModel.isLeftAdjoint_quasiCoherentDerivedPushforward_of_qcqs`. The same holds
+for `DX` and `DY`: the trace map is built from a tensor–internal-Hom adjunction of
+[Stacks, Tag 08J8] on each side, the statement holds for every choice, and one exists, namely
+`Stacks.Cohomology.ProjectionFormulaInternalHomOnRingedTopoi.derivedTensorHomAdjunction`.
 
 No coherator is needed in this form: the chain of five bijections of Tag 0A9Q is already a
 statement about morphisms out of the quasi-coherent objects, and `𝒪_Y⟦-n⟧` is one of them. -/
 @[stacks 0B6I "the whole lemma, for every right adjoint a of Rf_* on D_QCoh and every adjunction \
 exhibiting it: a is the tag's own datum, the statement being written with a(K) in it and the map \
 built from the counit, so the parameters a and adj quantify over more than the source's fixed \
-choice rather than assuming anything. Nothing is assumed beyond them: the projection formula of \
+choice rather than assuming anything; likewise DX and DY, every tensor-internal-hom adjunction of \
+Tag 08J8 the trace map is built from, one being derivedTensorHomAdjunction. Nothing is assumed \
+beyond these data: the projection formula of \
 Tag 08EU, the quasi-coherence of Lf^*(O_Y[-n]) ⊗ᴸ L of Tag 08DX part (1) and the quasi-coherence \
 of Rf_* of Tag 08D5 part (1) are all proved from the hypotheses the tag states, f quasi-compact \
 and quasi-separated and Y quasi-compact. The two global derived homs are read degreewise as the \
 morphism groups Hom(O_Y[-n], -) they corepresent by Tags 0B6A and 08DK, the left-hand one on Y \
-after Rf_*, the Leray identification of Tag 0D5W with derived global sections on X not being \
-plugged in"]
+after Rf_*, which is the source's own second expression RGamma(Y, Rf_* RHom(L, a(K))) for it"]
 public theorem bijective_comp_sheafyTrace_structureSheaf_of_qcqs
     (L : quasiCoherentDerivedCategory X) (K : quasiCoherentDerivedCategory Y) (n : ℤ) :
     Function.Bijective (fun g : (ι _).obj (derivedStructureSheafInDegree Y n) ⟶

@@ -246,7 +246,6 @@ presentation is its construction
 (`AlgebraicGeometry.FormalSpace.hasThickeningPresentation_formalSpectrum`). So nothing is
 assumed here beyond condition (1) — in particular no bound on the size of the site, which is
 what asking the two formal spectra to be affine formal algebraic spaces would amount to. -/
-@[stacks 0AN5 "(1) implies (3)"]
 theorem isTaut_of_isRepresentableByAlgebraicSpaces_formalSpectrumMap
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -267,7 +266,6 @@ theorem isTaut_of_isRepresentableByAlgebraicSpaces_formalSpectrumMap
 
 /-- A closed immersion of formal spectra of weakly admissible topological rings over `S` comes
 from a taut homomorphism: a closed immersion is representable, so **Stacks 0AN5** applies. -/
-@[stacks 0AN5 "(2) implies (3), for a closed immersion"]
 theorem isTaut_of_isClosedImmersionInto_formalSpectrumMap
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)

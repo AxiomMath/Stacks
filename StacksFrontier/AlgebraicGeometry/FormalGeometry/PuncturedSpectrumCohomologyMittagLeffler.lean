@@ -647,7 +647,8 @@ theorem exists_homologyIso_limit_puncturedSpectrumSections_of_two_le
       A I F S hScoherent π hπ_epi hπ_nat hπ_smul hπ_univ L hL i hi
   exact ⟨a, b, hT, asIso q, hq⟩
 
-/-- **Stacks Project, Tag 0DXI in degrees `i ≥ 2`, with no Mittag-Leffler hypothesis.** Let
+/-- **The comparison of [Stacks, Tag 0DXI] at a derived limit, in degrees `i ≥ 2`, without the
+Milnor triangle.** Let
 `(A, 𝔪)` be a Noetherian local ring, let `U = Spec A ∖ {𝔪}` be its punctured spectrum, let `ℱ` be
 a coherent `𝒪_U`-module and let `I ⊆ A` be an ideal. Let `S` be the adic quotient tower
 `n ↦ ℱ/Iⁿℱ`, pinned down by the quotient maps `π` through the universal property of killing
@@ -661,14 +662,14 @@ hypothesis `hML` discharged by
 `Stacks.Algebraization.isMittagLefflerCategorical_puncturedSpectrumCohomologySystem`, which is
 [Stacks, Tag 0DX1] part (2). The degree restriction is the one that lemma imposes: the Milnor
 sequence in degree `i` consumes the Mittag-Leffler condition in degree `i - 1`, and Tag 0DX1 part
-(2) supplies it for `i - 1 > 0`. As in that earlier statement the left-hand side is named by
-`ℒ`, which is `RΓ(U, ℱ)^∧` only by [Stacks, Tag 0BLX]; see the module documentation. The form
-recording the Milnor triangle that `a` fits into is
+(2) supplies it for `i - 1 > 0`. The form recording the Milnor triangle that `a` fits into is
 `Stacks.Algebraization`
-`.exists_milnorTriangle_isIso_toLimit_homology_puncturedSpectrumSections_of_two_le`. -/
-@[stacks 0DXI "degrees `i ≥ 2`, for `RΓ(U, ℒ)` with `ℒ` a derived limit of `ℱ/Iⁿℱ` in `D(𝒪_U)`, \
-which is `RΓ(U, ℱ)^∧` only by [Stacks, Tag 0BLX] + [Stacks, Tag 0A0K]; the Mittag-Leffler input \
-of [Stacks, Tag 0DX1] part (2) is proved here, not assumed"]
+`.exists_milnorTriangle_isIso_toLimit_homology_puncturedSpectrumSections_of_two_le`.
+
+The left-hand side is named by a derived limit `ℒ`, so this carries no tag; [Stacks, Tag 0DXI]
+itself, in every degree and with the derived completion `RΓ(U, ℱ)^∧` on the left, is
+`Stacks.Algebraization.isIso_toLimit_homology_derivedCompletion_puncturedSpectrumSections` of
+`PuncturedSpectrumDerivedCompletion.lean`. -/
 theorem isIso_toLimit_homology_puncturedSpectrumSections_of_two_le
     [IsNoetherianRing A] (I : Ideal A)
     (F : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A)))
@@ -707,7 +708,8 @@ theorem isIso_toLimit_homology_puncturedSpectrumSections_of_two_le
     (isMittagLefflerCategorical_puncturedSpectrumCohomologySystem_of_one_le A S hScoherent
       (by omega))
 
-/-- **Stacks Project, Tag 0DXI in degrees `i ≥ 2`, read as an isomorphism of `A`-modules.** In
+/-- **The comparison of [Stacks, Tag 0DXI] at a derived limit, in degrees `i ≥ 2`, read as an
+isomorphism of `A`-modules.** In
 the situation of
 `Stacks.Algebraization.isIso_toLimit_homology_puncturedSpectrumSections_of_two_le`, the degree-`i`
 cohomology of `RΓ(U, ℒ)` is isomorphic to the inverse limit of the `A`-modules

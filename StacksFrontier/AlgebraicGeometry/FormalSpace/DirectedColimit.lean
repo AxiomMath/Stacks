@@ -34,8 +34,10 @@ thickening transition morphisms, and the resulting colimit is `X`.
 
 * `AlgebraicGeometry.FormalSpace.exists_affinePresentation_of_colimit`: the colimit of such a
   system is a directed colimit of affine schemes over `S` along thickenings.
-* `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`: **Stacks 0GVM**, for a
-  colimit which satisfies the set-theoretic condition of Stacks 0AIS.
+* `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`: the colimit is an
+  affine formal algebraic space as soon as it satisfies the set-theoretic condition of
+  Stacks 0AIS. Stacks 0GVM itself, with that condition derived, is in
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.DirectedColimitSetCondition`.
 
 ## Implementation notes
 
@@ -782,8 +784,14 @@ theorem exists_affinePresentation_of_colimit (B : BigFppfSite.{u}) (S : Scheme.{
 /-- The colimit of a directed system of affine formal algebraic spaces over `S` whose transition
 morphisms are representable thickenings -- equivalently, closed immersions inducing isomorphisms
 on reductions -- is an affine formal algebraic space over `S`, provided it satisfies the
-set-theoretic condition of Stacks 0AIS. -/
-@[stacks 0GVM "granting the set-theoretic condition of Stacks 0AIS for the colimit"]
+set-theoretic condition of Stacks 0AIS.
+
+This is the step of Stacks 0GVM that builds the presentation of the colimit. The statement of
+Stacks 0GVM itself is registered on
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_cofinal` and
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_iff`, with the
+counterexample `AlgebraicGeometry.FormalSpace.not_forall_isAffineFormalAlgebraicSpace_colimit`
+to the printed form. -/
 theorem isAffineFormalAlgebraicSpace_colimit (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) {I : Type (u + 1)} [Preorder I] [Nonempty I] [IsDirected I (· ≤ ·)]
     (D : I ⥤ Sheaf (BigFppfOver.topology B S hS) (Type (u + 1)))

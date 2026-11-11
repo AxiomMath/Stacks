@@ -805,9 +805,9 @@ public theorem IsContraction.isContractionUpToWeight {T T' : NumericalType}
 
 /-- **The weight of the contraction of a numerical type is the largest admissible one.** For a
 minus-one index `n`, the weight `w'ᵢ` chosen in Tag 0C77 is the largest positive integer dividing
-`wᵢ` for which the genus formula `(wᵢ/w'ᵢ)(gᵢ - 1) + 1 + (aᵢₙ² - wₙaᵢₙ)/(2w'ᵢwₙ)` is an integer. -/
-@[stacks 0CA9 "in the numerical case w'_i is the largest integer dividing w_i such that g'_i, as \
-given by the formula, is an integer"]
+`wᵢ` for which the genus formula `(wᵢ/w'ᵢ)(gᵢ - 1) + 1 + (aᵢₙ² - wₙaᵢₙ)/(2w'ᵢwₙ)` is an integer.
+This is the numerical clause of [Stacks, Tag 0CA9] (see
+`associatedNumericalType_contraction_comparison`). -/
 public theorem isGreatest_contractLast_weight (T : NumericalType)
     (h : IsMinusOneIndex T (lastIndex T)) (i : Fin (T.componentCount - 1)) :
     IsGreatest {d : ℤ | 0 < d ∧ d ∣ T.weight (remainingIndex T i) ∧

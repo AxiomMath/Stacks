@@ -20,14 +20,22 @@ Let `S` be a locally Noetherian scheme and `f : X ⟶ S` a morphism locally of f
 sheaves are supported on subsets proper over `S`, and which has finite Tor dimension as an object
 of `D(f⁻¹𝒪_S)`.  [Stacks, Tag 08EV] asserts that `Rf_*E` is then a perfect object of `D(𝒪_S)`.
 
+That tag is proved unconditionally, under exactly the source's hypotheses, as
+`Stacks.AlgebraicGeometry.ProperSupportCoherent.isPerfect_derivedPushforward_of_isProperOver_supp`
+in `StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/TorDimensionDirectImage.lean`, at the
+`AlgebraicGeometry.Scheme.Modules` spelling of the categories of modules and with the canonical
+derived tensor product on `(X, f⁻¹𝒪_S)`.  This file gives the *conditional* form of it at the
+`StrictlyPerfect.OXMod` spelling with an arbitrary derived tensor datum, the form that
+[Stacks, Tag 0DJQ] and [Stacks, Tag 0B6F] in
+`StacksFrontier/AlgebraicGeometry/Perfect/PerfectPushforward.lean` consume.
+
 ## Main definitions
 
 * `Stacks.Cohomology.ProperSupportPerfection.SuppHomologySubset` says that every cohomology sheaf
   of an object of `D(𝒪_X)` has its support inside a given closed subset of `X`.
 * `Stacks.Cohomology.ProperSupportPerfection.derivedPushforwardOX` is `Rf_*` for a morphism of
   schemes, at the `StrictlyPerfect.OXMod` spelling of the two categories of modules: the total
-  right derived functor of degreewise pushforward, which is what the tag below and the two tags
-  downstream of it conclude about.
+  right derived functor of degreewise pushforward.
 
 ## Main results
 
@@ -42,42 +50,37 @@ of `D(f⁻¹𝒪_S)`.  [Stacks, Tag 08EV] asserts that `Rf_*E` is then a perfect
   a pseudo-coherent object of `D(𝒪_Y)` whose Tor amplitude is contained in one interval globally
   is perfect.  This is [Stacks, Tag 08CQ] together with the inheritance of Tor amplitude by a
   restriction to an open subspace, applied at the trivial covering of `Y` by `⊤`.
-* `Stacks.Cohomology.ProperSupportPerfection.isPerfect_derivedPushforward_of_properSupport`:
-  **[Stacks, Tag 08EV]**, under the two named residual hypotheses described below.
+* `Stacks.Cohomology.ProperSupportPerfection.isPerfect_derivedPushforward_of_properSupport`: the
+  conclusion of [Stacks, Tag 08EV] at this spelling, granted the two named residual hypotheses
+  described below.  It is not the tag, and does not carry its label.
   `Stacks.Cohomology.ProperSupportPerfection.supp_eq_empty_of_isZero` is the auxiliary fact that a
   zero sheaf of modules has empty support.
 
 ## Implementation notes
 
 **What is proved and what is carried.**  The conclusion of [Stacks, Tag 08EV] is reached here from
-the hypothesis of that tag together with exactly two residual hypotheses, which are the two
-statements of the source's proof that this repository does not have.  Neither of them mentions
-perfectness, and both are strictly smaller than the conclusion:
+the hypothesis of that tag together with two residual hypotheses, one for each half of the
+conclusion under [Stacks, Tag 08CQ]:
 
-* `hpushforwardCoherence` is [Stacks, Tag 08E2] for the object at hand, read through
-  [Stacks, Tag 08E8]: `Rf_*K` is pseudo-coherent.  [Stacks, Tag 08E2] is not formalized in either
-  tree, and the obstruction is identified: its proof needs the coherence of the direct image along
-  a proper morphism, [Stacks, Tag 02O5], which this repository proves only conditionally
-  (`AlgebraicGeometry.isCoherent_pushforward_of_isProper` takes the affine-base form of that tag
-  as a hypothesis) or for a morphism which is in addition affine, finite, mono or locally
-  quasi-finite.
-* `hpushforwardTorDimension` is the closing step of the source's proof for the object at hand:
-  `Rf_*K` has finite Tor dimension over `𝒪_S`.  The source obtains it from clause (3) by the
-  projection formula `Rf_*(K) ⊗^L_{𝒪_S} ℱ = Rf_*(K ⊗^L_{f⁻¹𝒪_S} f⁻¹ℱ)` of [Stacks, Tag 08EU] and
-  the test-module reduction of [Stacks, Tag 08EA].  Of those, [Stacks, Tag 08EU] is available only
-  in its base case `K = 𝒪_Y[0]`
-  (`Stacks.Cohomology.DerivedProjectionFormula.isIso_projectionFormulaMap_unitObject`), and the
-  direction of [Stacks, Tag 08EA] that the argument needs — that the quasi-coherent modules alone
-  detect Tor amplitude — is explicitly recorded as missing in
-  `StacksFrontier/AlgebraicGeometry/Perfect/TorAmplitudeQuasiCoherentTests.lean`.  So this residue
-  is not avoidable at the present state of the tree either.
+* `hpushforwardCoherence`: `Rf_*K` is pseudo-coherent, which is [Stacks, Tag 08E2] read through
+  [Stacks, Tag 08E8].
+* `hpushforwardTorDimension`: `Rf_*K` has finite Tor dimension over `𝒪_S`, the closing step of
+  the source's proof.
+
+Both are proved, at the `AlgebraicGeometry.Scheme.Modules` spelling and for the canonical derived
+tensor product, in the proof of the complete theorem named above.  They stay hypotheses *here*
+because the Tor-dimension clause of this file is stated for an arbitrary
+`AlgebraicGeometry.RingedSpace.CertifiedDerivedSheafTensoring` `D` on `(X, f⁻¹𝒪_S)`, whose
+underived tensor product is a field of the datum rather than the tensor product of modules, so
+`D.HasFiniteTorDimension` is not the Tor dimension of the source and does not imply it.  Removing
+them from the consumers downstream is a matter of restating those consumers at the canonical
+derived tensor product, which is their item and not this one.
 
 Both residues take as arguments the clauses of the hypothesis of [Stacks, Tag 08EV] that the
 source feeds into them, so each of the four clauses of that hypothesis is consumed: the
 boundedness and proper-support clauses through
 `Stacks.Cohomology.ProperSupportPerfection.exists_isProperOver_supp_homology`, the coherence
-clause through the first residue, and the Tor-dimension clause through the second.  The residues
-are therefore *weaker* hypotheses than the two unquantified statements they stand for.
+clause through the first residue, and the Tor-dimension clause through the second.
 
 **What the glue consists of.**  The reduction to a single closed subset proper over `S` is
 genuinely proved, from [Stacks, Tag 0CYR] in the finite-union form
@@ -93,11 +96,8 @@ predicates of [Stacks, Tag 08CM].
 
 **The shape of the statement.**  The direct image is
 `Stacks.Cohomology.ProperSupportPerfection.derivedPushforwardOX f`, the total right derived
-functor of degreewise pushforward, and not a functor left unspecified: a conclusion about an
-arbitrary `Rf : D(𝒪_X) ⥤ D(𝒪_S)` satisfying the two residues would be weaker than the tag, and
-weaker in a way the residues do not record.  The two residues are hypotheses about that same
-functor, which is a legitimate carry: a named unproved input about `Rf_*` says what is missing,
-whereas a conclusion about an unspecified functor does not.  Their quantified forms downstream,
+functor of degreewise pushforward, and not a functor left unspecified.  The two residues are
+hypotheses about that same functor.  Their quantified forms downstream,
 `Stacks.Cohomology.PerfectPushforward.PushforwardCoherenceResidue` and
 `Stacks.Cohomology.PerfectPushforward.PushforwardTorDimensionResidue`, do keep a functor
 parameter, since each is a property *of* a functor; the two tags there apply them to this one.
@@ -110,13 +110,13 @@ theorem as soon as the two residues are available.  That is what
 `Stacks.Cohomology.PerfectPushforward.pushforwardPerfectionCriterion_of_residues` does: this
 module is imported by
 `StacksFrontier/AlgebraicGeometry/Perfect/PerfectPushforward.lean`, and [Stacks, Tag 0DJQ] and
-[Stacks, Tag 0B6F] now carry the two residues rather than this tag.  No comparison lemma stands
+[Stacks, Tag 0B6F] there carry the two residues.  No comparison lemma stands
 between the two files; the four hypotheses here are applied to the four fields there directly.
 
 **Generality.**  The source assumes `S` Noetherian; `AlgebraicGeometry.IsLocallyNoetherian` is
-assumed instead, which is weaker, so the statement below is the more general one.  The hypothesis
+assumed instead, which is weaker.  The hypothesis
 is not used by the glue — the source uses it only inside [Stacks, Tag 08E2] — and is retained
-because it is part of what the tag asserts.
+because it is part of the hypothesis of the tag.
 
 **The derived categories.**  `HasDerivedCategory.standard` is a local instance throughout, as it
 is in [Stacks, Tag 08DP] and in `StacksFrontier/AlgebraicGeometry/Perfect/PerfectPushforward.lean`.
@@ -285,32 +285,29 @@ def SuppHomologySubset (T : Closeds X) : Prop :=
 variable (D : RingedSpace.CertifiedDerivedSheafTensoring
     (RingedSpace.inverseImage S.toRingedSpace f.base))
 
-/-- **[Stacks, Tag 08EV].**  Let `S` be a locally Noetherian scheme and `f : X ⟶ S` a morphism
-locally of finite type.  Let `K` be an object of `D(𝒪_X)` which
+/-- **The conclusion of [Stacks, Tag 08EV] at the `StrictlyPerfect.OXMod` spelling, granted two
+residues.**  Let `S` be a locally Noetherian scheme and `f : X ⟶ S` a morphism locally of finite
+type.  Let `K` be an object of `D(𝒪_X)` which
 
 1. is bounded with coherent cohomology sheaves, that is, lies in `D^b_{Coh}(𝒪_X)`;
 2. has the support of each of its cohomology sheaves inside a closed subset proper over `S`; and
-3. has finite Tor dimension as an object of `D(f⁻¹𝒪_S)`.
+3. has finite Tor dimension as an object of `D(f⁻¹𝒪_S)`, for the derived tensor datum `D`.
 
-Then `Rf_*K` is a perfect object of `D(𝒪_S)`, with `Rf_*` the derived direct image
-`Stacks.Cohomology.ProperSupportPerfection.derivedPushforwardOX` — the total right derived functor
-of degreewise pushforward — and not an arbitrary functor.
+If moreover `hpushforwardCoherence` and `hpushforwardTorDimension` hold, then `Rf_*K` is a
+perfect object of `D(𝒪_S)`, with `Rf_*` the derived direct image
+`Stacks.Cohomology.ProperSupportPerfection.derivedPushforwardOX`.
 
-Two hypotheses beyond those are carried, and they are the two statements of the source's proof
-that this repository does not have; each is a statement about that same `Rf_*`, and see the
-implementation notes of this file for why each is unavoidable here.  `hpushforwardCoherence` is
-[Stacks, Tag 08E2] for `K`, read through
-[Stacks, Tag 08E8]: granted a closed subset proper over `S` carrying the cohomological support,
-and granted coherence of the cohomology sheaves, `Rf_*K` is pseudo-coherent.
-`hpushforwardTorDimension` is the closing step of the source's proof for `K`: granted the same
-closed subset and clause (3), `Rf_*K` has finite Tor dimension over `𝒪_S`.  Neither mentions
-perfectness; what is proved here is the production of the closed subset — the source's "let
-`T ⊂ X` be the union of the supports of the `H^i(E)`" — and the passage from the two residues to
-perfectness through [Stacks, Tag 08CQ]. -/
-@[stacks 08EV "the direct image is the derived pushforward, not an arbitrary functor; carried \
-are Tag 08E2 for the object and the source's closing Tor-dimension estimate, both named \
-hypotheses about that functor; this theorem is what Tag 0DJQ and Tag 0B6F consume, so neither of \
-those assumes this tag any longer"]
+`hpushforwardCoherence` says that `Rf_*K` is pseudo-coherent ([Stacks, Tag 08E2] read through
+[Stacks, Tag 08E8]) and `hpushforwardTorDimension` that it has finite Tor dimension over `𝒪_S`;
+what is proved here is the production of the closed subset — the source's "let `T ⊂ X` be the
+union of the supports of the `H^i(E)`" — and the passage from the two residues to perfectness
+through [Stacks, Tag 08CQ].
+
+This is a conditional form and does not carry the label of the tag: [Stacks, Tag 08EV] itself,
+with no residue, is
+`Stacks.AlgebraicGeometry.ProperSupportCoherent.isPerfect_derivedPushforward_of_isProperOver_supp`.
+The residues cannot be dropped at this spelling because `D` is an arbitrary certified derived
+tensor datum, see the implementation notes of this file. -/
 theorem isPerfect_derivedPushforward_of_properSupport [IsLocallyNoetherian S]
     (hbounded : ∃ a b : ℤ, ∀ i : ℤ, i ∉ Set.Icc a b →
       Limits.IsZero ((DerivedCategory.homologyFunctor (OXMod.{u, u} X.toRingedSpace) i).obj K))

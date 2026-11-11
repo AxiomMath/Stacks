@@ -11,7 +11,13 @@ A Chow motive over a base field is a triple `(X, p, m)` with `X` a smooth projec
 the image of `p` acting on the rational Chow classes of `X` in codimension `i + m`:
 `CH^i(M) = p(CH^{i+m}(X) ⊗ ℚ)`.
 
-This file defines that image, as a `ℚ`-subspace of `CH^{i+m}(X) ⊗ ℚ`.
+This file defines that image, as a `ℚ`-subspace of `CH^{i+m}(X) ⊗ ℚ`, relative to a
+correspondence calculus carried as data (`Stacks.WeilCohomology.CorrespondenceCalculus`). It is
+not the registration of Stacks 0FGL: the Chow groups of a Chow motive with the correspondence
+calculus of Section 0FFZ actually constructed, for an arbitrary smooth projective scheme over a
+field, are `Stacks.WeilCohomology.SmoothProjectiveScheme.ChowMotive.chowGroup` in
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.Motives.ChowGroupsOfMotives`, which carries the
+tag.
 
 ## Main definitions
 
@@ -24,7 +30,8 @@ This file defines that image, as a `ℚ`-subspace of `CH^{i+m}(X) ⊗ ℚ`.
 * `Stacks.WeilCohomology.ChowMotive`: a Chow motive `(X, p, m)` relative to such a calculus.
 * `Stacks.WeilCohomology.ChowMotive.projectorAction`: the action `p_*` of the projector on
   `CH^{i+m}(X) ⊗ ℚ`.
-* `Stacks.WeilCohomology.ChowMotive.chowGroup`: the Chow group `CH^i(M)`, the range of `p_*`.
+* `Stacks.WeilCohomology.ChowMotive.chowGroup`: the Chow group `CH^i(M)`, the range of `p_*`,
+  relative to the carried calculus.
 
 ## Main results
 
@@ -53,15 +60,21 @@ equidimensional of dimension `d` is the source's `Corr⁰(X, X) = CH^d(X × X) �
 correspondence calculus of Stacks 0FFZ: composition of correspondences, needed to say what it
 means for `p` to be a projector, and the pushforward action `c ↦ c_*` of a correspondence on
 rational Chow groups, which is what `p(-)` denotes. Both are built from the intersection product
-on a smooth projective scheme together with flat pullback and proper pushforward, and neither is
-available in this repository. They are therefore carried as data, in
-`CorrespondenceCalculus`, alongside the one law relating them that this definition uses,
-`(c' ∘ c)_* = c'_* ∘ c_*` — part (4) of Stacks 0FG0. Nothing else about the calculus is assumed:
-in particular bilinearity and associativity of composition, the identifications of
-`Corr^r(X, Spec k)` and `Corr^r(Spec k, X)` with rational Chow groups, and the behaviour of the
-unit correspondence are not imposed, since `CH^i(M)` does not use them. This is the same device
-by which `StacksFrontier.AlgebraicGeometry.WeilCohomology.ClassicalTheory` carries the Chow cycle
-operations it needs as the fields of `Stacks.WeilCohomology.ChowCycleData`.
+on a smooth projective scheme together with flat pullback and proper pushforward. Here they are
+carried as data, in `CorrespondenceCalculus`, alongside the one law relating them that this
+definition uses, `(c' ∘ c)_* = c'_* ∘ c_*` — part (4) of Stacks 0FG0. Nothing else about the
+calculus is assumed: in particular bilinearity and associativity of composition, the
+identifications of `Corr^r(X, Spec k)` and `Corr^r(Spec k, X)` with rational Chow groups, and the
+behaviour of the unit correspondence are not imposed, since `CH^i(M)` does not use them. This is
+the same device by which `StacksFrontier.AlgebraicGeometry.WeilCohomology.ClassicalTheory` carries
+the Chow cycle operations it needs as the fields of `Stacks.WeilCohomology.ChowCycleData`.
+
+The correspondence calculus of Section 0FFZ is constructed, from the equidimensional pieces of a
+smooth projective scheme over a field, in
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.Motives.ChowGroupsOfMotives`
+(`SmoothProjectiveScheme.correspondenceComp` and
+`SmoothProjectiveScheme.correspondencePushforward`), and the Chow groups defined there,
+`SmoothProjectiveScheme.ChowMotive.chowGroup`, are the unconditional ones of Stacks 0FGL.
 
 **Why a `Submodule`.** `CH^i(M)` is returned as a `Submodule ℚ (CH^{i+m}(X) ⊗ ℚ)` rather than as
 a bare type. The source's own uses of it are all uses of the subspace: a morphism of motives
@@ -177,10 +190,12 @@ theorem projectorAction_projectorAction (M : ChowMotive C A) (i : ℤ)
     M.projectorAction i (M.projectorAction i α) = M.projectorAction i α :=
   DFunLike.congr_fun (M.projectorAction_idempotent i) α
 
-/-- **Stacks Project, Tag 0FGL.** The `i`-th Chow group `CH^i(M)` of a Chow motive
-`M = (X, p, m)`: the image of the projector `p` acting on the rational Chow classes of `X` of
-codimension `i + m`, as a `ℚ`-subspace of `CH^{i+m}(X) ⊗ ℚ`. -/
-@[stacks 0FGL "the i-th Chow group of a Chow motive"]
+/-- The `i`-th Chow group `CH^i(M)` of a Chow motive `M = (X, p, m)` relative to the carried
+correspondence calculus `A`: the image of the projector `p`, acting through `A.pushforward`, on
+the rational Chow classes of `X` of codimension `i + m`, as a `ℚ`-subspace of
+`CH^{i+m}(X) ⊗ ℚ`. It is the Chow group of Stacks 0FGL only once `A` is the correspondence
+calculus of Section 0FFZ; the unconditional definition, with that calculus constructed, is
+`Stacks.WeilCohomology.SmoothProjectiveScheme.ChowMotive.chowGroup`. -/
 def chowGroup (M : ChowMotive C A) (i : ℤ) :
     Submodule ℚ (RationalChowGroupCodim C M.sX M.dimension (i + M.twist)) :=
   LinearMap.range (M.projectorAction i)
@@ -190,10 +205,10 @@ theorem chowGroup_eq_range (M : ChowMotive C A) (i : ℤ) :
     M.chowGroup i = LinearMap.range (M.projectorAction i) :=
   rfl
 
-/-- **Stacks Project, Tag 0FGL.** A rational Chow class of codimension `i + m` on `X` lies in
-`CH^i(M)` exactly when the projector fixes it: the image of an idempotent is its fixed
-subspace. -/
-@[stacks 0FGL "membership in the i-th Chow group of a Chow motive"]
+/-- A rational Chow class of codimension `i + m` on `X` lies in `CH^i(M)`, relative to the
+carried correspondence calculus `A`, exactly when the projector fixes it: the image of an
+idempotent is its fixed subspace. For the unconditional Chow groups of Stacks 0FGL see
+`Stacks.WeilCohomology.SmoothProjectiveScheme.ChowMotive.mem_chowGroup_iff`. -/
 theorem mem_chowGroup_iff (M : ChowMotive C A) (i : ℤ)
     (α : RationalChowGroupCodim C M.sX M.dimension (i + M.twist)) :
     α ∈ M.chowGroup i ↔ M.projectorAction i α = α := by

@@ -361,11 +361,6 @@ The conclusion produces the ring over `S`, that is the
 homomorphisms over `S` out of `A` and `B`, says that those are the canonical maps into the
 completion of the algebraic tensor product, and characterises the isomorphism by its
 compatibility with both projections of the fibre product. -/
-@[stacks 0AN3 "clause (3): the fibre product of two McQuillan affine formal algebraic spaces \
-over a separated McQuillan affine formal algebraic space is the formal spectrum of the \
-completed tensor product of the three weakly admissible topological rings, compatibly with \
-both projections; McQuillanness of the two factors is in the form of condition (2) of Stacks \
-0AIC, the form the library's clause (2) consumes"]
 theorem exists_formalSpectrum_completedTensorProduct_compatible {X Y Z : FppfSheaf 𝔅 S hS}
     (hX : HasAffineClosedImmersionCriterionMapToSpec 𝔅 S hS X)
     (hY : HasAffineClosedImmersionCriterionMapToSpec 𝔅 S hS Y)
@@ -807,6 +802,77 @@ theorem exists_continuousHom_formalSpectrumMap_eq {X Y Z : FppfSheaf 𝔅 S hS}
   obtain ⟨cToB, hcToB, -⟩ :=
     existsUnique_continuousHom_formalSpectrumMap_eq hC hB (eY.inv ≫ g ≫ eZ.hom)
   exact ⟨cToA, cToB, hcToA, hcToB⟩
+
+/-- **Stacks 0AN3.** Let `X ⟶ Z` and `Y ⟶ Z` be morphisms of fppf sheaves on the big fppf site
+of `S` with `Z` a separated formal algebraic space.
+
+1. If `X` and `Y` are affine formal algebraic spaces, then so is `X ×_Z Y`.
+2. If `X` and `Y` are McQuillan affine formal algebraic spaces, then so is `X ×_Z Y`.
+3. If `X`, `Y` and `Z` are McQuillan affine formal algebraic spaces corresponding to the weakly
+  admissible topological rings `A`, `B` and `C` over `S`, then the two morphisms are induced by
+  continuous ring maps `C → A` and `C → B` over `S`, and `X ×_Z Y` corresponds to the completed
+  tensor product `A ⊗̂_C B`, compatibly with both projections and with the canonical maps of `A`
+  and `B` into the completed tensor product.
+
+McQuillanness is `AlgebraicGeometry.FormalSpace.HasSomeSurjectivePresentation`, the predicate
+**Stacks 0AID** names McQuillan in this library. The source's hypothesis that `X` and `Y` are
+formal algebraic spaces is not needed: in each clause they are affine formal algebraic spaces. -/
+@[stacks 0AN3 "all three clauses: over a separated formal algebraic space, the fibre product of \
+affine formal algebraic spaces is affine, that of McQuillan ones is McQuillan, and over a \
+McQuillan base it corresponds to the completed tensor product of the three weakly admissible \
+topological rings, compatibly with both projections"]
+theorem pullback_isAffine_hasSomeSurjectivePresentation_completedTensorProduct
+    {X Y Z : FppfSheaf 𝔅 S hS} (f : X ⟶ Z) (g : Y ⟶ Z)
+    (hZ : IsFormalAlgebraicSpace 𝔅 S hS Z) (hZsep : IsSeparated 𝔅 S hS Z) :
+    (IsAffineFormalAlgebraicSpace 𝔅 S hS X → IsAffineFormalAlgebraicSpace 𝔅 S hS Y →
+        IsAffineFormalAlgebraicSpace 𝔅 S hS (pullback f g)) ∧
+      (HasSomeSurjectivePresentation 𝔅 S hS X → HasSomeSurjectivePresentation 𝔅 S hS Y →
+        HasSomeSurjectivePresentation 𝔅 S hS (pullback f g)) ∧
+      (HasSomeSurjectivePresentation 𝔅 S hS X → HasSomeSurjectivePresentation 𝔅 S hS Y →
+        HasSomeSurjectivePresentation 𝔅 S hS Z →
+        ∀ {A B C : Type u}
+          [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
+          [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
+          [CommRing C] [TopologicalSpace C] [IsTopologicalRing C] [IsLinearTopology C C]
+          (hA : TopologicalRing.IsWeaklyAdmissible A)
+          (hB : TopologicalRing.IsWeaklyAdmissible B)
+          (hC : TopologicalRing.IsWeaklyAdmissible C)
+          (DA : QuotientSystem 𝔅 S hS A) (DB : QuotientSystem 𝔅 S hS B)
+          (DC : QuotientSystem 𝔅 S hS C)
+          (eX : X ≅ formalSpectrum DA) (eY : Y ≅ formalSpectrum DB)
+          (eZ : Z ≅ formalSpectrum DC),
+          ∃ (cToA : ContinuousHom DC DA) (cToB : ContinuousHom DC DB),
+            formalSpectrumMap hC cToA = eX.inv ≫ f ≫ eZ.hom ∧
+            formalSpectrumMap hC cToB = eY.inv ≫ g ≫ eZ.hom ∧
+            letI : Algebra C A := cToA.toRingHom.toAlgebra
+            letI : Algebra C B := cToB.toRingHom.toAlgebra
+            letI : TopologicalSpace (A ⊗[C] B) :=
+              TopologicalRing.tensorProductTopology (R := C) (M := A) (N := B)
+            letI : UniformSpace (A ⊗[C] B) :=
+              TopologicalRing.tensorProductUniformSpace (R := C) (M := A) (N := B)
+            ∃ (DT : QuotientSystem 𝔅 S hS
+                (TopologicalRing.CompletedTensorProduct (R := C) (M := A) (N := B)))
+              (aToT : ContinuousHom DA DT) (bToT : ContinuousHom DB DT)
+              (e : pullback f g ≅ formalSpectrum DT),
+              TopologicalRing.IsWeaklyAdmissible
+                  (TopologicalRing.CompletedTensorProduct (R := C) (M := A) (N := B)) ∧
+                aToT.toRingHom = (UniformSpace.Completion.coeRingHom).comp
+                    (Algebra.TensorProduct.includeLeftRingHom : A →+* A ⊗[C] B) ∧
+                bToT.toRingHom = (UniformSpace.Completion.coeRingHom).comp
+                    ((Algebra.TensorProduct.includeRight : B →ₐ[C] A ⊗[C] B).toRingHom) ∧
+                e.hom ≫ formalSpectrumMap hA aToT = pullback.fst f g ≫ eX.hom ∧
+                e.hom ≫ formalSpectrumMap hB bToT = pullback.snd f g ≫ eY.hom) := by
+  refine ⟨fun hX hY ↦ isAffineFormalAlgebraicSpace_pullback_of_isFormalAlgebraicSpace 𝔅 S hS f g
+      hZ hZsep hX hY, fun hX hY ↦ hasSomeSurjectivePresentation_pullback 𝔅 S hS f g hZ hZsep hX hY,
+    fun hX hY hZm A B C _ _ _ _ _ _ _ _ _ _ _ _ hA hB hC DA DB DC eX eY eZ ↦ ?_⟩
+  obtain ⟨cToA, hcToA, -⟩ :=
+    existsUnique_continuousHom_formalSpectrumMap_eq hC hA (eX.inv ≫ f ≫ eZ.hom)
+  obtain ⟨cToB, hcToB, -⟩ :=
+    existsUnique_continuousHom_formalSpectrumMap_eq hC hB (eY.inv ≫ g ≫ eZ.hom)
+  exact ⟨cToA, cToB, hcToA, hcToB, exists_formalSpectrum_completedTensorProduct_compatible 𝔅 S hS
+    (hasAffineClosedImmersionCriterion_of_hasSomeSurjectivePresentation 𝔅 S hS hX)
+    (hasAffineClosedImmersionCriterion_of_hasSomeSurjectivePresentation 𝔅 S hS hY) hZm.1 hZsep
+    hA hB hC DA DB DC eX eY eZ f g cToA cToB hcToA hcToB⟩
 
 end Clause
 

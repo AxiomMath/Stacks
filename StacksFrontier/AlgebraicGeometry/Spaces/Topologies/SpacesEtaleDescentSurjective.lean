@@ -20,42 +20,45 @@ Let `f : X ⟶ Y` be a morphism of algebraic spaces over a scheme `S` contained 
 site `B`. If `f` is surjective and integral, or surjective and proper, or surjective and flat
 and locally of finite presentation, then sheaves on the spaces-étale site of `Y` are
 equivalent, through the canonical descent datum, to descent data for the one-member family
-`{f}`. This is **Stacks 0GFW**.
+`{f}` (Stacks 0GFW).
 
 The source proves this by reducing to the case of a morphism which, after precomposition with
 some further morphism, is representable by schemes and still has one of the three properties;
-that reduction is Stacks 0GFV, and the representable case is Stacks 0GFU. Neither of the two
-is available in the library, so Stacks 0GFV enters here as the named hypothesis
-`AlgebraicGeometry.Space.DescentEffectiveAlongRepresentablePrecomposition`. What the file
-actually contributes is the three-case analysis of the source proof: the production, in each
-of the three cases, of the precomposition that Stacks 0GFV asks for.
+that reduction is Stacks 0GFV, and the representable case is Stacks 0GFU. This file gives the
+three-case analysis of the source proof relative to two named statements: Stacks 0GFV, as
+`AlgebraicGeometry.Space.DescentEffectiveAlongRepresentablePrecomposition`, and the proper
+case, as `AlgebraicGeometry.Space.DescentEffectiveAlongProperSurjective`. Both are proved in
+the library: Stacks 0GFV is
+`AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable_comp`
+and the proper case is `AlgebraicGeometry.Space.descentEffectiveAlongProperSurjective`. The
+unconditional Stacks 0GFW, registered with its tag, is
+`Space.isEquivalence_toDescentData_singleton_of_isSurjectiveIntegralProperOrFlatLfp`
+in `StacksFrontier.AlgebraicGeometry.Spaces.Topologies.SpacesEtaleDescentProperSurjective`, which
+applies the theorem of this file to those two proofs.
 
 In the integral case the morphism is already representable, so the precomposition is the
 identity, and in the flat case a scheme atlas of the source does the job, since an étale
-morphism is flat and locally of finite presentation. Those two cases are proved here. The
-proper case is the one the source proves by étale localization on the target followed by
-Stacks 09YC, the existence of a finite surjective cover of a quasi-compact quasi-separated
-algebraic space by a scheme; neither Stacks 09YC nor the absolute quasi-separatedness that
-localization needs is available, so that whole case is carried, as the named hypothesis
-`AlgebraicGeometry.Space.DescentEffectiveAlongProperSurjective`.
+morphism is flat and locally of finite presentation. The proper case is the one the source
+proves by étale localization on the target followed by Stacks 09YC, the existence of a finite
+surjective cover of a quasi-compact quasi-separated algebraic space by a scheme.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Space.IsSurjectiveDescentMorphism` is the disjunction of the three
   alternative hypotheses of Stacks 0GFW.
-* `AlgebraicGeometry.Space.DescentEffectiveAlongRepresentablePrecomposition` is Stacks 0GFV,
-  as a statement about the big fppf site, to be carried as a hypothesis.
-* `AlgebraicGeometry.Space.DescentEffectiveAlongProperSurjective` is the proper case of
-  Stacks 0GFW, as a statement about the big fppf site, to be carried as a hypothesis.
+* `AlgebraicGeometry.Space.DescentEffectiveAlongRepresentablePrecomposition` is the statement
+  of Stacks 0GFV about the big fppf site.
+* `AlgebraicGeometry.Space.DescentEffectiveAlongProperSurjective` is the statement of the
+  proper case of Stacks 0GFW about the big fppf site.
 
 ## Main results
 
 * `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_isIntegralHom` and
   `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_isFlat` are the integral
-  and the flat case of **Stacks 0GFW**, each proved from Stacks 0GFV.
+  and the flat case of Stacks 0GFW, each derived from the statement of Stacks 0GFV.
 * `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_isSurjectiveDescentMorphism`
-  is **Stacks 0GFW** for the pseudofunctor of spaces-étale inverse images, with the two
-  statements named above carried as hypotheses.
+  derives Stacks 0GFW for the pseudofunctor of spaces-étale inverse images from the two
+  statements named above.
 * `AlgebraicGeometry.Space.relativelyRepresentable_of_yonedaSpace_comp`: a morphism of
   algebraic spaces out of a representable one is relatively representable, which is how each
   of the three cases meets the representability condition of Stacks 0GFV.
@@ -101,10 +104,11 @@ abbrev IsSurjectiveDescentMorphism {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (IsSurjective B S hS f ∧ IsProper B S hS f) ∨
     (IsSurjective B S hS f ∧ IsFlat B S hS f ∧ IsLocallyOfFinitePresentation B S hS f)
 
-/-! ### The two statements carried as hypotheses -/
+/-! ### The two statements the three-case analysis is relative to -/
 
-/-- **Stacks 0GFV**, as a statement about the big fppf site `B` over `S`, to be carried as a
-hypothesis: if some precomposition `π ≫ g` of a morphism `g : X ⟶ Y` of algebraic spaces is
+/-- The statement of Stacks 0GFV about the big fppf site `B` over `S`, proved in the library as
+`AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable_comp`:
+if some precomposition `π ≫ g` of a morphism `g : X ⟶ Y` of algebraic spaces is
 representable by schemes and is surjective and integral, surjective and proper, or surjective
 and flat and locally of finite presentation, then sheaves on the spaces-étale site of `Y` are
 equivalent to descent data for `{g}`. -/
@@ -114,15 +118,12 @@ abbrev DescentEffectiveAlongRepresentablePrecomposition : Prop :=
     IsSurjectiveDescentMorphism B S hS (π ≫ g).hom →
     ((spacesEtalePseudofunctor B S hS).toDescentData (fun _ : Unit => g)).IsEquivalence
 
-/-- The proper case of Stacks 0GFW, as a statement about the big fppf site `B` over `S`, to be
-carried as a hypothesis: along a proper surjective morphism of algebraic spaces, sheaves on the
-spaces-étale site of the target are equivalent to descent data. The source proves it by
-localizing on the target until it is affine, where the source is quasi-compact and separated,
-and then taking for the precomposition of Stacks 0GFV a finite surjective cover of the source
-by a scheme, which is Stacks 09YC. The two inputs of that argument which the library lacks are
-Stacks 09YC and absolute quasi-separatedness of the base change of the source to an affine
-chart, so the case is carried whole rather than reduced to a cover of the source: no statement
-producing such a cover for a target which is not quasi-compact is available. -/
+/-- The statement of the proper case of Stacks 0GFW about the big fppf site `B` over `S`: along a
+proper surjective morphism of algebraic spaces, sheaves on the spaces-étale site of the target
+are equivalent to descent data. The source proves it by localizing on the target until it is
+affine, where the source is quasi-compact and separated, and then taking for the precomposition
+of Stacks 0GFV a finite surjective cover of the source by a scheme, which is Stacks 09YC. It is
+proved in the library as `AlgebraicGeometry.Space.descentEffectiveAlongProperSurjective`. -/
 abbrev DescentEffectiveAlongProperSurjective : Prop :=
   ∀ {X Y : AlgebraicSpaces B S hS} (g : X ⟶ Y),
     IsSurjective B S hS g.hom → IsProper B S hS g.hom →
@@ -143,8 +144,9 @@ theorem relativelyRepresentable_of_yonedaSpace_comp {U : BigFppfOver B S hS}
 
 /-! ### The three cases -/
 
-/-- **The integral case of Stacks 0GFW.** An integral morphism of algebraic spaces is
-representable by schemes, so Stacks 0GFV applies with the identity as the precomposition. -/
+/-- The integral case of Stacks 0GFW, derived from the statement of Stacks 0GFV. An integral
+morphism of algebraic spaces is representable by schemes, so Stacks 0GFV applies with the
+identity as the precomposition. -/
 theorem isEquivalence_toDescentData_singleton_of_isIntegralHom
     (hGFV : DescentEffectiveAlongRepresentablePrecomposition B S hS)
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
@@ -155,10 +157,10 @@ theorem isEquivalence_toDescentData_singleton_of_isIntegralHom
   exact hGFV (𝟙 X) f (by rw [Category.id_comp]; exact hrep)
     (by rw [Category.id_comp]; exact Or.inl ⟨hsurj, hint⟩)
 
-/-- **The flat case of Stacks 0GFW.** A scheme atlas of the source is surjective, flat and
-locally of finite presentation because it is surjective and étale, so its composite with `f`
-is again surjective, flat and locally of finite presentation, and it is representable because
-its source is representable. Stacks 0GFV then applies. -/
+/-- The flat case of Stacks 0GFW, derived from the statement of Stacks 0GFV. A scheme atlas of
+the source is surjective, flat and locally of finite presentation because it is surjective and
+étale, so its composite with `f` is again surjective, flat and locally of finite presentation,
+and it is representable because its source is representable. Stacks 0GFV then applies. -/
 theorem isEquivalence_toDescentData_singleton_of_isFlat
     (hGFV : DescentEffectiveAlongRepresentablePrecomposition B S hS)
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
@@ -184,16 +186,17 @@ theorem isEquivalence_toDescentData_singleton_of_isFlat
 
 /-! ### Stacks 0GFW -/
 
-/-- **Stacks 0GFW for the pseudofunctor of spaces-étale inverse images.** Let `f : X ⟶ Y` be a
+/-- Stacks 0GFW for the pseudofunctor of spaces-étale inverse images, derived from the statements
+of Stacks 0GFV and of the proper case. Let `f : X ⟶ Y` be a
 morphism of algebraic spaces over `S` which is surjective and integral, or surjective and
 proper, or surjective and flat and locally of finite presentation. Then sheaves on the
 spaces-étale site of `Y` are equivalent, through the canonical descent datum, to descent data
 for the one-member family `{f}`.
 
-All three cases are stated. The integral and the flat case are proved from `hGFV`, which is
-Stacks 0GFV; the proper case is the hypothesis `hproper`, carried whole. -/
-@[stacks 0GFW "all three cases stated; the integral and flat cases are proved from Stacks \
-0GFV, carried as a hypothesis, and the proper case is carried whole as a hypothesis"]
+The integral and the flat case are derived from `hGFV`, the statement of Stacks 0GFV; the proper
+case is `hproper`. Both are proved in the library, and
+`Space.isEquivalence_toDescentData_singleton_of_isSurjectiveIntegralProperOrFlatLfp`,
+which carries the tag 0GFW, is this theorem applied to those proofs. -/
 theorem isEquivalence_toDescentData_singleton_of_isSurjectiveDescentMorphism
     (hGFV : DescentEffectiveAlongRepresentablePrecomposition B S hS)
     (hproper : DescentEffectiveAlongProperSurjective B S hS)

@@ -365,12 +365,9 @@ its colimit is a formal algebraic space over `S`.
 The bound is forced: the source's proof never checks the set-theoretic condition of
 Definition 0AIM for the colimit, Remark 0AIS (1) and (3) give it only for an index "not too
 large (for example countable)", and without a bound the conclusion is false,
-`AlgebraicGeometry.FormalSpace.not_forall_isFormalAlgebraicSpace_colimit_closedImmersions`. -/
-@[stacks 0GVN "corrected form: the index is required to admit coproducts in the site \
-(AlgebraicGeometry.BigFppfSite.AdmitsCoproductIndex, e.g. any countable index), the caveat of \
-Remark 0AIS (1) and (3) that the source's proof leaves unchecked; without such a bound the \
-statement is false, by \
-AlgebraicGeometry.FormalSpace.not_forall_isFormalAlgebraicSpace_colimit_closedImmersions"]
+`AlgebraicGeometry.FormalSpace.not_forall_isFormalAlgebraicSpace_colimit_closedImmersions`.
+The case of an index with an admissible cofinal family, which carries the registration, is
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_closedImmersions_of_cofinal`. -/
 theorem isFormalAlgebraicSpace_of_colimit_closedImmersions_of_admissible
     (Λ : Type (u + 1)) [Preorder Λ] [Nonempty Λ] [IsDirected Λ (· ≤ ·)] [Small.{u} Λ]
     [B.AdmitsCoproductIndex Λ] (E : Λ ⥤ FppfSheaf B S hS)
@@ -382,7 +379,7 @@ theorem isFormalAlgebraicSpace_of_colimit_closedImmersions_of_admissible
   isFormalAlgebraicSpace_of_colimit_closedImmersions_of_admissible_of_affine B S hS Λ E hform
     hthick (isAffineOfSurjectiveClosedImmersion B S hS) Z hZ
 
-/-- **Stacks 0GVN, corrected per the recorded erratum.** Let `E` be a directed system of formal
+/-- **Stacks 0GVN, granting the set-theoretic condition.** Let `E` be a directed system of formal
 algebraic spaces over `S`, indexed by an arbitrary directed set, whose transition morphisms are
 representable thickenings — equivalently, by Stacks 0GVL, closed immersions inducing
 isomorphisms on reductions. A sheaf `Z` isomorphic to its colimit which satisfies the
@@ -398,7 +395,7 @@ lifting of Stacks 0DEG/0DEE and its stages are affine by Stacks 0DE8
 coproducts in the site the condition is itself a theorem,
 `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_closedImmersions_of_admissible`.
 -/
-@[stacks 0GVN "corrected form per the recorded erratum: for an arbitrary directed index, the \
+@[stacks 0GVN "corrected form: for an arbitrary directed index, the \
 colimit of a system of formal algebraic spaces along closed immersions inducing isomorphisms on \
 reductions (representable thickenings, Stacks 0GVL) is a formal algebraic space provided the \
 colimit satisfies the set-theoretic condition of Remark 0AIS; that condition cannot be dropped, \
@@ -428,6 +425,12 @@ So neither the bound of
 nor the set-theoretic hypothesis of
 `isFormalAlgebraicSpace_of_colimit_closedImmersions_of_satisfiesSetTheoreticCondition` can be
 dropped. -/
+@[stacks 0GVN "the statement as printed is false: over any nonempty S, the directed system \
+Spec(k + k^μ) of affine schemes along thickenings (closed immersions inducing isomorphisms on \
+reductions), indexed by the finite subsets μ of a set as large as the size cutoff of the site, \
+has a colimit failing the set-theoretic condition of Stacks 0AIS that Definition 0AIM includes; \
+the corrected form is \
+AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_closedImmersions_of_cofinal"]
 theorem not_forall_isFormalAlgebraicSpace_colimit_closedImmersions [Nonempty S] :
     ¬ ∀ (Λ : Type (u + 1)) [Preorder Λ] [Nonempty Λ] [IsDirected Λ (· ≤ ·)]
       (E : Λ ⥤ FppfSheaf B S hS),

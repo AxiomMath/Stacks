@@ -55,12 +55,13 @@ public import Mathlib.Algebra.Module.ULift
 /-!
 # Flat base change for `Tor`, and `Tor` commutes with filtered colimits
 
-Let `R → R'` be a flat ring map of commutative rings and let `M`, `N` be `R`-modules. Then for
-every `i` the base-change map
-`Tor_i^R(M, N) ⊗_R R' ⟶ Tor_i^{R'}(M ⊗_R R', N ⊗_R R')`
-is an isomorphism of `R'`-modules (Stacks 00M8). Here `Tor` is `CategoryTheory.Tor` on the
-monoidal abelian category `ModuleCat R`, and base change is
-`ModuleCat.extendScalars (algebraMap R R')`.
+Let `R → R'` be a flat ring map of commutative rings and let `M`, `N` be `R`-modules. Base changing
+the chosen projective resolution of `N` gives an isomorphism of `R'`-modules
+`Tor_i^R(M, N) ⊗_R R' ≅ Tor_i^{R'}(M ⊗_R R', N ⊗_R R')` for every `i`. Here `Tor` is
+`CategoryTheory.Tor` on the monoidal abelian category `ModuleCat R`, and base change is
+`ModuleCat.extendScalars (algebraMap R R')`. That the natural map of Stacks 00M7 (2), which exists
+without flatness, is an isomorphism (Stacks 00M8) is
+`StacksFrontier.RingTheory.Tor.BaseChangeComparison`.
 
 Let `(G i)` be a directed system of `R`-modules indexed by a nonempty directed preorder, and `N`
 an `R`-module. Then `Tor_n^R(-, N)` sends the direct-limit colimit cocone of `(G i)` to a colimit
@@ -76,7 +77,7 @@ cocone: `Tor_n^R(colim_i G i, N) = colim_i Tor_n^R(G i, N)` (Stacks 0BNF).
 
 ## Main results
 
-* `flat_base_change_tor`: flat base change for `Tor`.
+* `flat_base_change_tor`: the underlying morphism of `torBaseChangeIso` is an isomorphism.
 * `tor_flip_preservesColimit_directLimit`: `Tor_n^R(-, N)` preserves direct limits.
 * `tor_commutes_filtered_colimits`: `Tor` commutes with filtered colimits, with the ring, the
   index type, the modules and `N` in independent universes.
@@ -164,11 +165,11 @@ noncomputable def torBaseChangeIso [Module.Flat R R'] (i : ℕ) (M N : ModuleCat
       i).symm
 
 variable (R') in
-/-- **Flat base change for Tor.** Let `R → R'` be a flat ring map of commutative rings and let
-`M`, `N` be `R`-modules. Then for every `i` the base-change map
-`(torBaseChangeIso i M N).hom : Tor_i^R(M, N) ⊗_R R' ⟶ Tor_i^{R'}(M ⊗_R R', N ⊗_R R')`
-is an isomorphism of `R'`-modules. -/
-@[stacks 00M8]
+/-- The underlying morphism
+`(torBaseChangeIso i M N).hom : Tor_i^R(M, N) ⊗_R R' ⟶ Tor_i^{R'}(M ⊗_R R', N ⊗_R R')` of the
+base-change isomorphism is an isomorphism, for `R'` flat over `R`. This holds by construction,
+`torBaseChangeIso` being built from flatness as an isomorphism; Stacks 00M8, about the natural
+map that exists for every `R → R'`, is `isIso_torBaseChangeComparison`. -/
 theorem flat_base_change_tor [Module.Flat R R'] (i : ℕ) (M N : ModuleCat.{0} R) :
     IsIso (torBaseChangeIso (R' := R') i M N).hom :=
   inferInstance

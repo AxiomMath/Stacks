@@ -245,7 +245,12 @@ field `k`,
 
 the image of the pushforward action `p_*` of the projector `p ∈ Corr⁰(X, X)` (Section 0FFZ) on
 the rational Chow group of codimension `i + m` classes of the smooth projective scheme `X`, as a
-`ℚ`-subspace of `CH^{i + m}(X) ⊗ ℚ`. -/
+`ℚ`-subspace of `CH^{i + m}(X) ⊗ ℚ`.
+
+This is the complete, unconditional registration of Stacks 0FGL: the composition and the
+pushforward of correspondences are the ones constructed in this file. It supersedes
+`Stacks.WeilCohomology.ChowMotive.chowGroup`, which takes them as a carried
+`Stacks.WeilCohomology.CorrespondenceCalculus` and no longer carries the tag. -/
 @[stacks 0FGL "the i-th Chow group CH^i(M) = p(CH^{i+m}(X) ⊗ Q) of a Chow motive M = (X, p, m) \
 over a field, X smooth projective and p_* the pushforward action of the projector"]
 def chowGroup (i : ℤ) : Submodule ℚ (RationalCodimChowGroup M.X (i + M.twist)) :=

@@ -34,8 +34,11 @@ families of `r`-cycles on fibres.
 
 * `Stacks.Chow.isRelativeCycle_familyAssociatedToModule` — Tag 0H56: `[F/X/S]_r` is a relative
   `r`-cycle when `F` is flat over `S` in dimensions `≥ r`.
-* `Stacks.Chow.isRelativeCycle_familyAssociatedToClosedSubscheme` — Tag 0H57: the same for the
-  family `[Z/X/S]_r` of a closed subscheme.
+* `Stacks.Chow.isRelativeCycle_familyAssociatedToClosedSubscheme_of_flatInDimensionsGE` —
+  Tag 0H57: the family `[Z/X/S]_r` of a closed subscheme `Z` with `dim(Z_s) ≤ r`, flat over `S`
+  in dimensions `≥ r`, is a relative `r`-cycle.
+* `Stacks.Chow.isRelativeCycle_familyAssociatedToClosedSubscheme` — Tag 0H56 for the module
+  `i_* 𝒪_Z`, the step the proof of Tag 0H57 takes.
 * `Stacks.Chow.topologicalKrullDim_pullback_fiberClosedSubscheme_closedPoint_le` and
   `Stacks.Chow.specializationCycle_familyAssociatedToClosedSubscheme_of_genericFibre` —
   Tag 0H4J: for a closed subscheme flat over a discrete valuation ring whose generic fibre has
@@ -90,6 +93,7 @@ the source's hypotheses the last two are automatic, which is
 ## References
 
 * [Stacks Project, Lemma 0H56](https://stacks.math.columbia.edu/tag/0H56)
+* [Stacks Project, Lemma 0H57](https://stacks.math.columbia.edu/tag/0H57)
 * [Stacks Project, Lemma 0H4J](https://stacks.math.columbia.edu/tag/0H4J)
 * [Stacks Project, Equation 0H58](https://stacks.math.columbia.edu/tag/0H58)
 -/
@@ -141,20 +145,20 @@ abbrev structureSheafPushforward {X Z : Scheme.{u}} (i : Z ⟶ X) [IsClosedImmer
     X.Modules :=
   (Scheme.Modules.pushforward i).obj (Ample.unitModule Z)
 
-/-- **Stacks Project, Lemma 0H57.** Let `S` be locally Noetherian, let `f : X ⟶ S` be locally of
-finite type and let `i : Z ⟶ X` be a closed immersion. If the structure sheaf of `Z`, viewed on
-`X`, is flat over `S` in dimensions `≥ r` and its fibrewise support has dimension at most `r`,
-then `[Z/X/S]_r` is a relative `r`-cycle on `X/S`.
+/-- Let `S` be locally Noetherian, let `f : X ⟶ S` be locally of finite type and let
+`i : Z ⟶ X` be a closed immersion. If the module `i_* 𝒪_Z` is flat over `S` in dimensions `≥ r`
+and its fibrewise support has dimension at most `r`, then the family `[i_* 𝒪_Z/X/S]_r` of the
+module `i_* 𝒪_Z` (Example 0H4Q) is a relative `r`-cycle on `X/S`.
 
-This is the proof of the source: the cycle of a closed subscheme is the cycle of its structure
-sheaf by Tag 02QY, so Tag 0H56 applies to the direct image of that structure sheaf.
+This is Tag 0H56 applied to `F = i_* 𝒪_Z`, the step the proof of Lemma 0H57 takes. Its
+conclusion and its bound `hdim` are phrased through the module `i_* 𝒪_Z`, not through the family
+`[Z/X/S]_r` of the closed subscheme and the bound `dim(Z_s) ≤ r` of the source; Lemma 0H57 as
+the source states it is
+`Stacks.Chow.isRelativeCycle_familyAssociatedToClosedSubscheme_of_flatInDimensionsGE`.
 
 Flatness over `S` in dimensions `≥ r` is spelled out as Stacks Definition 0CWG defines it: for
 every point `s` of `S` the locus in the fibre `X_s` where `i_* 𝒪_Z` fails to be flat over `S`
 has dimension less than `r`. -/
-@[stacks 0H57 "the source's hypothesis that the structure sheaf is flat over the base in \
-dimensions at least r, Stacks Definition 0CWG, written out as the dimension bound on the \
-non-flat locus"]
 theorem isRelativeCycle_familyAssociatedToClosedSubscheme {r : ℕ} {X S Z : Scheme.{u}}
     (f : X ⟶ S) [LocallyOfFiniteType f] [IsLocallyNoetherian S] (i : Z ⟶ X)
     [IsClosedImmersion i] [(structureSheafPushforward i).IsFiniteType]
@@ -297,6 +301,39 @@ theorem specializationCycle_familyAssociatedToClosedSubscheme_of_genericFibre {r
     (topologicalKrullDim_pullback_fiberι_le_of_genericFibre p i hK)]
   exact specializationCycle_familyAssociatedToClosedSubscheme p i
     (le_of_eq_of_le (topologicalKrullDim_pullback_fiberι_eq_supp i p _).symm hK)
+
+/-! ### Tag 0H57 for the closed subscheme itself -/
+
+/-- **Stacks Project, Lemma 0H57.** In the situation of Example 0H4S (`f : X ⟶ S` locally of
+finite type, `r ≥ 0`, and a closed subscheme `i : Z ⟶ X` with `dim(Z_s) ≤ r` for every `s ∈ S`)
+assume `S` is locally Noetherian and `Z` is flat over `S` in dimensions `≥ r`. Then
+`[Z/X/S]_r` is a relative `r`-cycle on `X/S`.
+
+This is the proof of the source: the family `[Z/X/S]_r` is the family `[i_* 𝒪_Z/X/S]_r` of the
+module `i_* 𝒪_Z` by `Stacks.Chow.familyAssociatedToClosedSubscheme_eq_familyAssociatedToModule`,
+and Lemma 0H56 applies to that module, whose fibrewise support has the dimension of `Z_s` by
+`Stacks.Chow.topologicalKrullDim_pullback_fiberι_eq_supp`. The finiteness and quasi-coherence of
+`i_* 𝒪_Z` that Lemma 0H56 consumes are instances.
+
+Flatness of `Z` over `S` in dimensions `≥ r` is read, as the source's proof reads it, as
+flatness of `𝒪_Z`, that is of `i_* 𝒪_Z`, over `S` in dimensions `≥ r`, spelled out as Stacks
+Definition 0CWG defines it: for every point `s` of `S` the locus in the fibre `X_s` where
+`i_* 𝒪_Z` fails to be flat over `S` has dimension less than `r`. -/
+@[stacks 0H57 "Z flat over S in dimensions at least r is read, as in the source's proof, as \
+i_* O_Z flat over S in dimensions at least r, Stacks Definition 0CWG, written out as the \
+dimension bound on the non-flat locus; hdim is the bound dim(Z_s) ≤ r of Example 0H4S"]
+theorem isRelativeCycle_familyAssociatedToClosedSubscheme_of_flatInDimensionsGE {r : ℕ}
+    {X S Z : Scheme.{u}} (f : X ⟶ S) [LocallyOfFiniteType f] [IsLocallyNoetherian S]
+    (i : Z ⟶ X) [IsClosedImmersion i]
+    (hZ : ∀ s : S, topologicalKrullDim
+      ↥{y : f.fiber s | ¬ IsFlatOverAt f.toLRSHom.toShHom (structureSheafPushforward i)
+        (f.fiberι s y)} < (r : WithBot ℕ∞))
+    (hdim : ∀ s : S,
+      topologicalKrullDim (pullback i (f.fiberι s) : Scheme.{u}) ≤ (r : WithBot ℕ∞)) :
+    IsRelativeCycle f r (familyAssociatedToClosedSubscheme f i r) := by
+  rw [familyAssociatedToClosedSubscheme_eq_familyAssociatedToModule f i r hdim]
+  exact isRelativeCycle_familyAssociatedToModule f (structureSheafPushforward i) hZ
+    (fun s => le_of_eq_of_le (topologicalKrullDim_pullback_fiberι_eq_supp i f s).symm (hdim s))
 
 /-! ### The cycle-class homomorphism into the group of relative cycles -/
 

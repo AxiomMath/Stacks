@@ -46,6 +46,9 @@ quasi-coherence is used, and the square need only commute.
 
 ## Main results
 
+* `AlgebraicGeometry.baseChangeCohomologyMap_comp_source`: for any morphism `θ : K₁ ⟶ K₂` in
+  `D(𝒪_X)`, the map of Stacks 0DJ7 at `(K₁, K', L(g')^*θ ≫ φ)` is the extension of scalars of
+  `RingTheory.TorIndependence.baseChangeCohomologyMapHom` followed by the map at `(K₂, K', φ)`.
 * `AlgebraicGeometry.isIso_baseChangeCohomologyMap_iff_of_isIso_source`: for an isomorphism
   `θ : K₁ ⟶ K₂` in `D(𝒪_X)`, the map of Stacks 0DJ7 at `(K₁, K', L(g')^*θ ≫ φ)` is invertible
   exactly when the one at `(K₂, K', φ)` is.
@@ -170,7 +173,13 @@ def baseChangeCohomologyMapHom (K₁ K₂ : DerivedCategory (ModuleCat.{u} A)) (
           (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁ K₂ θ n).hom m
         map_add' := fun x y => map_add _ x y
         map_smul' := fun t m => by
-          induction t using TensorProduct.inductionOn with
+          induction t using TensorProduct.induction_on with
+          | zero =>
+            simp only [zero_smul, map_zero]
+            exact (map_zero _).trans
+              (zero_smul (A ⊗[R] R')
+                (show baseChangeCohomology (R := R) (R' := R') K₂ n from
+                  (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁ K₂ θ n).hom m)).symm
           | add x y hx hy =>
             simp only [RingHom.id_apply] at hx hy ⊢
             rw [add_smul]
@@ -237,6 +246,123 @@ attribute [local instance] hasDerivedCategory_ringedSpaceModules
 
 attribute [local implicit_reducible] structureSheafRing
 
+/-- **The pointwise base-change map of Stacks 0DJ7 is natural in the source.** For any morphism
+`θ : K₁ ⟶ K₂` in `D(𝒪_X)`, the map at `(K₁, K', L(g')^*θ ≫ φ)` is the extension of scalars of
+`RingTheory.TorIndependence.baseChangeCohomologyMapHom` of the stalk of `θ`, followed by the map
+at `(K₂, K', φ)`. Nothing is assumed of the square beyond commutativity, and nothing of `θ`. -/
+theorem baseChangeCohomologyMap_comp_source {X X' S S' : Scheme.{u}}
+    (f : X ⟶ S) (g : S' ⟶ S) (f' : X' ⟶ S') (g' : X' ⟶ X) (w : g' ≫ f = f' ≫ g)
+    [HasDerivedCategory.{w'} X.Modules] [HasDerivedCategory.{w'} X'.Modules]
+    (K₁ K₂ : DerivedCategory X.Modules) (K' : DerivedCategory X'.Modules)
+    (θ : K₁ ⟶ K₂) (φ : (derivedPullback g'.toLRSHom.toShHom).obj K₂ ⟶ K') (x' : X')
+    [HasDerivedCategory.{w'} (ModuleCat.{u} (S.presheaf.stalk (f (g' x'))))]
+    [HasDerivedCategory.{w'} (ModuleCat.{u} (X.presheaf.stalk (g' x')))]
+    [HasDerivedCategory.{w'} (ModuleCat.{u} (S'.presheaf.stalk (f' x')))]
+    [HasDerivedCategory.{w'} (ModuleCat.{u} (X'.presheaf.stalk x'))]
+    (n : ℤ) :
+    letI : Algebra (S.presheaf.stalk (f (g' x'))) (X.presheaf.stalk (g' x')) :=
+      ((f.stalkMap (g' x')).hom).toAlgebra
+    letI : Algebra (S.presheaf.stalk (f (g' x'))) (S'.presheaf.stalk (f' x')) :=
+      (baseStalkMap f g f' g' w x').toAlgebra
+    letI : Algebra (S.presheaf.stalk (f (g' x'))) (X'.presheaf.stalk x') :=
+      (((g'.stalkMap x').hom).comp ((f.stalkMap (g' x')).hom)).toAlgebra
+    letI : Algebra (X.presheaf.stalk (g' x')) (X'.presheaf.stalk x') :=
+      ((g'.stalkMap x').hom).toAlgebra
+    letI : Algebra (S'.presheaf.stalk (f' x')) (X'.presheaf.stalk x') :=
+      ((f'.stalkMap x').hom).toAlgebra
+    letI : IsScalarTower (S.presheaf.stalk (f (g' x'))) (X.presheaf.stalk (g' x'))
+        (X'.presheaf.stalk x') := IsScalarTower.of_algebraMap_eq' rfl
+    letI : IsScalarTower (S.presheaf.stalk (f (g' x'))) (S'.presheaf.stalk (f' x'))
+        (X'.presheaf.stalk x') := IsScalarTower.of_algebraMap_eq' (stalkMap_square f g f' g' w x')
+    baseChangeCohomologyMap f g f' g' w K₁ K'
+        ((derivedPullback g'.toLRSHom.toShHom).map θ ≫ φ) x' n =
+      (ModuleCat.extendScalars _).map
+          (baseChangeCohomologyMapHom ((derivedStalkFunctor (g' x')).obj K₁)
+            ((derivedStalkFunctor (g' x')).obj K₂) ((derivedStalkFunctor (g' x')).map θ) n) ≫
+        baseChangeCohomologyMap f g f' g' w K₂ K' φ x' n := by
+  let : Algebra (S.presheaf.stalk (f (g' x'))) (X.presheaf.stalk (g' x')) :=
+    ((f.stalkMap (g' x')).hom).toAlgebra
+  let : Algebra (S.presheaf.stalk (f (g' x'))) (S'.presheaf.stalk (f' x')) :=
+    (baseStalkMap f g f' g' w x').toAlgebra
+  let : Algebra (S.presheaf.stalk (f (g' x'))) (X'.presheaf.stalk x') :=
+    (((g'.stalkMap x').hom).comp ((f.stalkMap (g' x')).hom)).toAlgebra
+  let : Algebra (X.presheaf.stalk (g' x')) (X'.presheaf.stalk x') :=
+    ((g'.stalkMap x').hom).toAlgebra
+  let : Algebra (S'.presheaf.stalk (f' x')) (X'.presheaf.stalk x') :=
+    ((f'.stalkMap x').hom).toAlgebra
+  let : IsScalarTower (S.presheaf.stalk (f (g' x'))) (X.presheaf.stalk (g' x'))
+      (X'.presheaf.stalk x') := IsScalarTower.of_algebraMap_eq' rfl
+  let : IsScalarTower (S.presheaf.stalk (f (g' x'))) (S'.presheaf.stalk (f' x'))
+      (X'.presheaf.stalk x') := IsScalarTower.of_algebraMap_eq' (stalkMap_square f g f' g' w x')
+  let R := S.presheaf.stalk (f (g' x'))
+  let A := X.presheaf.stalk (g' x')
+  let R' := S'.presheaf.stalk (f' x')
+  let A' := X'.presheaf.stalk x'
+  let fR : R →+* A := algebraMap R A
+  let gR : R →+* R' := algebraMap R R'
+  let hR : A →+* A' := algebraMap A A'
+  let iR : R' →+* A' := algebraMap R' A'
+  let sq : hR.comp fR = iR.comp gR :=
+    (IsScalarTower.algebraMap_eq R A A').symm.trans (IsScalarTower.algebraMap_eq R R' A')
+  let Tg := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u} gR
+  let Th := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u} hR
+  let τ := (@derivedBaseChangeComparison.{u, u, u, u, u, w', w', w', w'}
+    R A R' A' _ _ _ _ _ _ _ _ fR gR hR iR sq Tg.functor Th.functor Tg.comparison
+    Th.comparison Tg.isLeftDerived Th.isLeftDerived).2.1
+  let C := (ModuleCat.restrictScalars iR).mapDerivedCategory
+  let J := DerivedCategory.homologyFunctor (ModuleCat.{u} R') n
+  let K₁x := (derivedStalkFunctor (g' x')).obj K₁
+  let K₂x := (derivedStalkFunctor (g' x')).obj K₂
+  let Kx' := (derivedStalkFunctor x').obj K'
+  let θx := (derivedStalkFunctor (g' x')).map θ
+  let ι₁ := (derivedPullbackStalkIso g' x').inv.app K₁
+  let ι₂ := (derivedPullbackStalkIso g' x').inv.app K₂
+  let ψ₁ := ι₁ ≫ (derivedStalkFunctor x').map
+    ((derivedPullback g'.toLRSHom.toShHom).map θ ≫ φ)
+  let ψ₂ := ι₂ ≫ (derivedStalkFunctor x').map φ
+  have hι : Th.functor.map θx ≫ ι₂ =
+      ι₁ ≫ (derivedStalkFunctor x').map ((derivedPullback g'.toLRSHom.toShHom).map θ) :=
+    (derivedPullbackStalkIso g' x').inv.naturality θ
+  have hin : ψ₁ = Th.functor.map θx ≫ ψ₂ := by
+    dsimp only [ψ₁, ψ₂]
+    rw [← Category.assoc, hι, Category.assoc]
+    exact congrArg (fun z => ι₁ ≫ z) ((derivedStalkFunctor x').map_comp _ _)
+  have hτ : τ.app K₁x ≫ C.map (Th.functor.map θx) =
+      Tg.functor.map ((ModuleCat.restrictScalars fR).mapDerivedCategory.map θx) ≫ τ.app K₂x :=
+    (τ.naturality θx).symm
+  have hnat : J.map (τ.app K₁x ≫ C.map ψ₁) =
+      baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁x K₂x θx n ≫
+        J.map (τ.app K₂x ≫ C.map ψ₂) := by
+    rw [hin, CategoryTheory.Functor.map_comp C, ← Category.assoc, hτ, Category.assoc,
+      CategoryTheory.Functor.map_comp J]
+  let P₁ := exists_unique_ringBaseChangeCohomologyMap
+    (R := R) (A := A) (R' := R') (A' := A') K₁x Kx' ψ₁ n
+  let P₂ := exists_unique_ringBaseChangeCohomologyMap
+    (R := R) (A := A) (R' := R') (A' := A') K₂x Kx' ψ₂ n
+  have h₁ := Classical.choose_spec P₁.exists
+  have h₂ := Classical.choose_spec P₂.exists
+  apply ModuleCat.ExtendScalars.hom_ext
+  intro m
+  let m₀ : baseChangeCohomologyOverBase (R := R) (R' := R') K₁x n := m
+  let m₁ : baseChangeCohomologyOverBase (R := R) (R' := R') K₂x n :=
+    (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁x K₂x θx n).hom m
+  dsimp only [baseChangeCohomologyMap]
+  change (Classical.choose P₁.exists).hom
+      ((1 : A') ⊗ₜ[((A ⊗[R] R')),
+        (Algebra.TensorProduct.lift
+          (IsScalarTower.toAlgHom R A A')
+          (IsScalarTower.toAlgHom R R' A')
+          (fun _ _ ↦ Commute.all _ _)).toRingHom] m) =
+    (Classical.choose P₂.exists).hom
+      ((1 : A') ⊗ₜ[((A ⊗[R] R')),
+        (Algebra.TensorProduct.lift
+          (IsScalarTower.toAlgHom R A A')
+          (IsScalarTower.toAlgHom R R' A')
+          (fun _ _ ↦ Commute.all _ _)).toRingHom] m₁)
+  rw [h₁ m₀, h₂ m₁]
+  exact congrArg (fun z => (((ModuleCat.restrictScalars iR).mapDerivedCategoryHomologyIso
+    n).app Kx').hom.hom z) (congrArg (fun l => l.hom m) hnat)
+
 /-- **The pointwise base-change map of Stacks 0DJ7 transports along an isomorphism of the
 source.** For an isomorphism `θ : K₁ ⟶ K₂` in `D(𝒪_X)` the map at
 `(K₁, K', L(g')^*θ ≫ φ)` is the extension of scalars of
@@ -275,81 +401,7 @@ theorem isIso_baseChangeCohomologyMap_iff_of_isIso_source {X X' S S' : Scheme.{u
       (X'.presheaf.stalk x') := IsScalarTower.of_algebraMap_eq' rfl
   let : IsScalarTower (S.presheaf.stalk (f (g' x'))) (S'.presheaf.stalk (f' x'))
       (X'.presheaf.stalk x') := IsScalarTower.of_algebraMap_eq' (stalkMap_square f g f' g' w x')
-  have key : baseChangeCohomologyMap f g f' g' w K₁ K'
-        ((derivedPullback g'.toLRSHom.toShHom).map θ ≫ φ) x' n =
-      (ModuleCat.extendScalars _).map
-          (baseChangeCohomologyMapHom ((derivedStalkFunctor (g' x')).obj K₁)
-            ((derivedStalkFunctor (g' x')).obj K₂) ((derivedStalkFunctor (g' x')).map θ) n) ≫
-        baseChangeCohomologyMap f g f' g' w K₂ K' φ x' n := by
-    let R := S.presheaf.stalk (f (g' x'))
-    let A := X.presheaf.stalk (g' x')
-    let R' := S'.presheaf.stalk (f' x')
-    let A' := X'.presheaf.stalk x'
-    let fR : R →+* A := algebraMap R A
-    let gR : R →+* R' := algebraMap R R'
-    let hR : A →+* A' := algebraMap A A'
-    let iR : R' →+* A' := algebraMap R' A'
-    let sq : hR.comp fR = iR.comp gR :=
-      (IsScalarTower.algebraMap_eq R A A').symm.trans (IsScalarTower.algebraMap_eq R R' A')
-    let Tg := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u} gR
-    let Th := CochainComplex.DerivedExtensionScalars.totalDerivedExtensionScalars.{u, u, u} hR
-    let τ := (@derivedBaseChangeComparison.{u, u, u, u, u, w', w', w', w'}
-      R A R' A' _ _ _ _ _ _ _ _ fR gR hR iR sq Tg.functor Th.functor Tg.comparison
-      Th.comparison Tg.isLeftDerived Th.isLeftDerived).2.1
-    let C := (ModuleCat.restrictScalars iR).mapDerivedCategory
-    let J := DerivedCategory.homologyFunctor (ModuleCat.{u} R') n
-    let K₁x := (derivedStalkFunctor (g' x')).obj K₁
-    let K₂x := (derivedStalkFunctor (g' x')).obj K₂
-    let Kx' := (derivedStalkFunctor x').obj K'
-    let θx := (derivedStalkFunctor (g' x')).map θ
-    let ι₁ := (derivedPullbackStalkIso g' x').inv.app K₁
-    let ι₂ := (derivedPullbackStalkIso g' x').inv.app K₂
-    let ψ₁ := ι₁ ≫ (derivedStalkFunctor x').map
-      ((derivedPullback g'.toLRSHom.toShHom).map θ ≫ φ)
-    let ψ₂ := ι₂ ≫ (derivedStalkFunctor x').map φ
-    have hι : Th.functor.map θx ≫ ι₂ =
-        ι₁ ≫ (derivedStalkFunctor x').map ((derivedPullback g'.toLRSHom.toShHom).map θ) :=
-      (derivedPullbackStalkIso g' x').inv.naturality θ
-    have hin : ψ₁ = Th.functor.map θx ≫ ψ₂ := by
-      dsimp only [ψ₁, ψ₂]
-      rw [← Category.assoc, hι, Category.assoc]
-      exact congrArg (fun z => ι₁ ≫ z) ((derivedStalkFunctor x').map_comp _ _)
-    have hτ : τ.app K₁x ≫ C.map (Th.functor.map θx) =
-        Tg.functor.map ((ModuleCat.restrictScalars fR).mapDerivedCategory.map θx) ≫ τ.app K₂x :=
-      (τ.naturality θx).symm
-    have hnat : J.map (τ.app K₁x ≫ C.map ψ₁) =
-        baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁x K₂x θx n ≫
-          J.map (τ.app K₂x ≫ C.map ψ₂) := by
-      rw [hin, CategoryTheory.Functor.map_comp C, ← Category.assoc, hτ, Category.assoc,
-        CategoryTheory.Functor.map_comp J]
-    let P₁ := exists_unique_ringBaseChangeCohomologyMap
-      (R := R) (A := A) (R' := R') (A' := A') K₁x Kx' ψ₁ n
-    let P₂ := exists_unique_ringBaseChangeCohomologyMap
-      (R := R) (A := A) (R' := R') (A' := A') K₂x Kx' ψ₂ n
-    have h₁ := Classical.choose_spec P₁.exists
-    have h₂ := Classical.choose_spec P₂.exists
-    apply ModuleCat.ExtendScalars.hom_ext
-    intro m
-    let m₀ : baseChangeCohomologyOverBase (R := R) (R' := R') K₁x n := m
-    let m₁ : baseChangeCohomologyOverBase (R := R) (R' := R') K₂x n :=
-      (baseChangeCohomologyOverBaseMap (R := R) (R' := R') K₁x K₂x θx n).hom m
-    dsimp only [baseChangeCohomologyMap]
-    change (Classical.choose P₁.exists).hom
-        ((1 : A') ⊗ₜ[((A ⊗[R] R')),
-          (Algebra.TensorProduct.lift
-            (IsScalarTower.toAlgHom R A A')
-            (IsScalarTower.toAlgHom R R' A')
-            (fun _ _ ↦ Commute.all _ _)).toRingHom] m) =
-      (Classical.choose P₂.exists).hom
-        ((1 : A') ⊗ₜ[((A ⊗[R] R')),
-          (Algebra.TensorProduct.lift
-            (IsScalarTower.toAlgHom R A A')
-            (IsScalarTower.toAlgHom R R' A')
-            (fun _ _ ↦ Commute.all _ _)).toRingHom] m₁)
-    rw [h₁ m₀, h₂ m₁]
-    exact congrArg (fun z => (((ModuleCat.restrictScalars iR).mapDerivedCategoryHomologyIso
-      n).app Kx').hom.hom z) (congrArg (fun l => l.hom m) hnat)
-  rw [key]
+  rw [baseChangeCohomologyMap_comp_source f g f' g' w K₁ K₂ K' θ φ x' n]
   have hθx : IsIso ((derivedStalkFunctor (g' x')).map θ) :=
     ((derivedStalkFunctor (g' x')).mapIso (@asIso _ _ _ _ _ hθ)).isIso_hom
   have hb := isIso_baseChangeCohomologyMapHom (R := S.presheaf.stalk (f (g' x')))

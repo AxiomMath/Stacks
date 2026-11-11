@@ -57,7 +57,6 @@ private theorem isLocallyOfFiniteType_comp_of_comm {X Y Z W : FppfSheaf B S hS} 
 /-- A morphism `f : X ⟶ Y` locally of finite type is locally of finite type on every square: for
 representable étale `p : U ⟶ X` and `q : V ⟶ Y` from formal algebraic spaces and `t : U ⟶ V`
 with `p ≫ f = t ≫ q`, the map `t` is locally of finite type. -/
-@[stacks 0ANL "condition (1) implies condition (3)"]
 theorem isLocallyOfFiniteTypeOnEverySquare_of_isLocallyOfFiniteType {X Y : FppfSheaf B S hS}
     (f : X ⟶ Y) (hf : IsLocallyOfFiniteType B S hS f) :
     IsLocallyOfFiniteTypeOnEverySquare B S hS f := by
@@ -72,7 +71,6 @@ theorem isLocallyOfFiniteTypeOnEverySquare_of_isLocallyOfFiniteType {X Y : FppfS
 type on a factored atlas: there is an affine étale covering of `X` each member of which factors
 through an affine formal algebraic space representable étale over `Y` by a map locally of finite
 type. -/
-@[stacks 0ANL "condition (4) implies condition (5)"]
 theorem isLocallyOfFiniteTypeOnFactoredAtlas_of_afterTargetCover' {X Y : FppfSheaf B S hS}
     (f : X ⟶ Y) (hf : IsLocallyOfFiniteTypeAfterTargetCover B S hS f) :
     IsLocallyOfFiniteTypeOnFactoredAtlas B S hS f := by
@@ -94,7 +92,6 @@ theorem isLocallyOfFiniteTypeOnFactoredAtlas_of_afterTargetCover' {X Y : FppfShe
 square, then it is locally of finite type after a target cover: there is an affine étale
 covering `{Vⱼ ⟶ Y}` and, for each `j`, an affine étale covering of `Vⱼ ×_Y X` whose members are
 locally of finite type over `Vⱼ`. -/
-@[stacks 0ANL "condition (3) implies condition (4)"]
 theorem isLocallyOfFiniteTypeAfterTargetCover_of_onEverySquare' {X Y : FppfSheaf B S hS}
     (f : X ⟶ Y) (hX : IsFormalAlgebraicSpace B S hS X)
     (hY : IsFormalAlgebraicSpace B S hS Y)
@@ -156,8 +153,6 @@ theorem IsLocallyOfFiniteType.of_comp_of_locallySurjective {X Y U : FppfSheaf B 
 type: it suffices that `p ≫ f = t ≫ q` for a surjective representable étale `p : U ⟶ X`, a
 representable étale `q : V ⟶ Y` from formal algebraic spaces and `t : U ⟶ V` locally of finite
 type. -/
-@[stacks 0ANL "condition (2) implies condition (1), reading surjectivity of the source column \
-as surjectivity of the morphism of sheaves"]
 theorem isLocallyOfFiniteType_of_onSomeSquare {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hf : IsLocallyOfFiniteTypeOnSomeSquare B S hS f) :
     IsLocallyOfFiniteType B S hS f := by
@@ -169,8 +164,6 @@ theorem isLocallyOfFiniteType_of_onSomeSquare {X Y : FppfSheaf B S hS} (f : X �
 covering `{Uᵢ ⟶ X}` each member of which factors as `Uᵢ ⟶ Vᵢ ⟶ Y` through an affine formal
 algebraic space representable étale over `Y` by a map locally of finite type, then `f` is
 locally of finite type. -/
-@[stacks 0ANL "condition (5) implies condition (1), reading the covering of Definition 0AIM \
-as a jointly surjective family of morphisms of sheaves"]
 theorem isLocallyOfFiniteType_of_onFactoredAtlas {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hf : IsLocallyOfFiniteTypeOnFactoredAtlas B S hS f) :
@@ -184,7 +177,6 @@ theorem isLocallyOfFiniteType_of_onFactoredAtlas {X Y : FppfSheaf B S hS} (f : X
 /-- For a morphism `f : X ⟶ Y` of formal algebraic spaces, the following are equivalent: `f` is
 locally of finite type; `f` is locally of finite type on some square; `f` is locally of finite
 type on every square. -/
-@[stacks 0ANL "the equivalence of conditions (1), (2) and (3)"]
 theorem isLocallyOfFiniteType_tfae_squares {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y) :
     List.TFAE [IsLocallyOfFiniteType B S hS f,

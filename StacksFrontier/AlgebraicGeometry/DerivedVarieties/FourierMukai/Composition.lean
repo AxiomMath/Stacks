@@ -40,7 +40,7 @@ derived direct image ([Stacks, Tag 0D5S], [Stacks, Tag 079W]), and the projectio
 * `AlgebraicGeometry.fourierMukaiConvolution` — the convolution kernel `K''` on `X ×_S Z`.
 * `AlgebraicGeometry.DerivedBaseChangeIsIsoOnQuasicoherent`,
   `AlgebraicGeometry.ProjectionFormulaIsIsoOnQuasicoherent` — the statements of
-  [Stacks, Tag 08IB] and [Stacks, Tag 08EU], which are carried as hypotheses.
+  [Stacks, Tag 08IB] and [Stacks, Tag 08EU], as propositions.
 
 ## Main results
 
@@ -52,8 +52,12 @@ derived direct image ([Stacks, Tag 0D5S], [Stacks, Tag 079W]), and the projectio
 * `AlgebraicGeometry.isQuasicoherent_homology_fourierMukaiConvolution` — the convolution kernel
   has quasi-coherent cohomology sheaves, so it is a Fourier-Mukai kernel in the sense of
   [Stacks, Tag 0FYR].
-* `AlgebraicGeometry.quasiCoherentFourierMukaiComp` — **[Stacks, Tag 0FYS]**: the composite
-  `Φ_{K'} ∘ Φ_K` is isomorphic to `Φ_{K''}` as a functor `D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Z)`.
+* `AlgebraicGeometry.quasiCoherentFourierMukaiComp` — the composite `Φ_{K'} ∘ Φ_K` is
+  isomorphic to `Φ_{K''}` as a functor `D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Z)`, built from any proofs of
+  [Stacks, Tag 08IB] and [Stacks, Tag 08EU].  Feeding it the library's proofs of those two tags
+  gives `AlgebraicGeometry.quasiCoherentFourierMukaiCompNatIso`
+  (`StacksFrontier.AlgebraicGeometry.DerivedVarieties.FourierMukai.CompositionIso`), the
+  registration of [Stacks, Tag 0FYS] as a natural isomorphism.
 
 ## Implementation notes
 
@@ -65,20 +69,19 @@ the conclusion is therefore a natural isomorphism of functors, and that is what 
 Nothing is weakened: every comparison in the chain is invertible, and the conclusion is an
 isomorphism of the two functors on all of `D_QCoh(𝒪_X)`.
 
-*Two carried hypotheses, each a Stacks result this library does not prove.*  The source's proof
-uses two results that are present here only as maps, and each is carried as an explicit
-hypothesis rather than silently assumed:
+*The two Stacks inputs are parameters here.*  The source's proof uses two results whose proofs
+live downstream of this file, so the chain is built from arbitrary proofs of them:
 
-* `DerivedBaseChangeIsIsoOnQuasicoherent` is **[Stacks, Tag 08IB]**.  The library has the map,
-  `Stacks.Cohomology.DerivedBaseChange.derivedBaseChangeMap` ([Stacks, Tag 08HY]), and the
-  Tor-independence input on a cartesian affine-open chart,
-  `AlgebraicGeometry.BaseChangeChart.isIso_derivedBaseChangeComparison`, but not the
-  globalization of the latter to the former, which is [Stacks, Tag 0DJ9].
-* `ProjectionFormulaIsIsoOnQuasicoherent` is **[Stacks, Tag 08EU]**.  The library has the map,
-  `Stacks.Cohomology.DerivedProjectionFormula.projectionFormulaMap` ([Stacks, Tag 0B53]), its
-  naturality in both variables, and the case `A = 𝒪_W[0]` under four further hypotheses
-  (`Stacks.Cohomology.DerivedProjectionFormula.isIso_projectionFormulaMap_unitObject`), but not
-  the dévissage in `A` that the general case needs.
+* `DerivedBaseChangeIsIsoOnQuasicoherent` is **[Stacks, Tag 08IB]**, the invertibility of the
+  derived base change map `Stacks.Cohomology.DerivedBaseChange.derivedBaseChangeMap`
+  ([Stacks, Tag 08HY]) on complexes with quasi-coherent cohomology; it is proved as
+  `AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent`.
+* `ProjectionFormulaIsIsoOnQuasicoherent` is **[Stacks, Tag 08EU]**, the invertibility of the
+  projection-formula map `Stacks.Cohomology.DerivedProjectionFormula.projectionFormulaMap`
+  ([Stacks, Tag 0B53]) on complexes with quasi-coherent cohomology; it is proved as
+  `AlgebraicGeometry.projectionFormulaIsIsoOnQuasicoherent`.
+
+`AlgebraicGeometry.quasiCoherentFourierMukaiCompNatIso` supplies both proofs.
 
 Everything else is derived: [Stacks, Tag 0FXW] for the tor independence of the two factors over
 `Y`, [Stacks, Tag 08DW], [Stacks, Tag 08DX] and [Stacks, Tag 08D5] for quasi-coherence of every
@@ -318,15 +321,14 @@ def fourierMukaiConvolution (K : DerivedCategory (pullback f g).Modules)
 
 end Convolution
 
-/-! ### The two carried Stacks inputs -/
+/-! ### The two Stacks inputs, as propositions -/
 
 /-- **[Stacks, Tag 08IB] for complexes with quasi-coherent cohomology.**  For a cartesian square
 of schemes with `f` quasi-compact and quasi-separated and `X`, `S'` tor independent over `S`, the
 derived base change map `L g^*(R f_* K) ⟶ R f'_*(L g'^* K)` of [Stacks, Tag 08HY] is an
 isomorphism for every `K` whose cohomology sheaves are quasi-coherent.
 
-This library carries the map but not its invertibility; the globalization of the affine-chart
-comparison that would prove it is [Stacks, Tag 0DJ9]. -/
+It is proved as `AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent`. -/
 abbrev DerivedBaseChangeIsIsoOnQuasicoherent : Prop :=
   ∀ {X' X S' S : Scheme.{u}} (g' : X' ⟶ X) (f' : X' ⟶ S') (f : X ⟶ S) (g : S' ⟶ S),
     IsPullback g' f' f g → QuasiCompact f → QuasiSeparated f → TorIndependent f g →
@@ -341,8 +343,7 @@ abbrev DerivedBaseChangeIsIsoOnQuasicoherent : Prop :=
 projection-formula map `R p_* E ⊗^𝐋_{𝒪_W} A ⟶ R p_*(E ⊗^𝐋_{𝒪_V} L p^* A)` of
 [Stacks, Tag 0B53] is an isomorphism.
 
-This library carries the map, its naturality in both variables, and the case `A = 𝒪_W[0]` under
-four further hypotheses, but not the dévissage in `A`. -/
+It is proved as `AlgebraicGeometry.projectionFormulaIsIsoOnQuasicoherent`. -/
 abbrev ProjectionFormulaIsIsoOnQuasicoherent : Prop :=
   ∀ {V W : Scheme.{u}} (p : V ⟶ W), QuasiCompact p → QuasiSeparated p →
     ∀ (E : DerivedCategory V.Modules) (A : DerivedCategory W.Modules),
@@ -721,7 +722,8 @@ private def fourierMukaiCompIsoAux (h08IB : DerivedBaseChangeIsIsoOnQuasicoheren
             (fun M => isQCohAll_dpull _ M.property) hE)
           (dpush (pullback.snd f h))
 
-/-- **[Stacks, Tag 0FYS].**  Let `S` be a scheme and let `X`, `Y`, `Z` be schemes over `S` with
+/-- **Composition of Fourier-Mukai functors**, from proofs `h08IB` of [Stacks, Tag 08IB] and
+`h08EU` of [Stacks, Tag 08EU].  Let `S` be a scheme and let `X`, `Y`, `Z` be schemes over `S` with
 `f : X ⟶ S`, `g : Y ⟶ S` and `h : Z ⟶ S` quasi-compact and quasi-separated.  Let `K` on
 `X ×_S Y` and `K'` on `Y ×_S Z` have quasi-coherent cohomology sheaves, and consider the
 Fourier-Mukai functors `Φ_K : D_QCoh(𝒪_X) ⥤ D_QCoh(𝒪_Y)` and
@@ -732,11 +734,10 @@ flat, then `Φ_{K'} ∘ Φ_K ≅ Φ_{K''}` where
 The source states the conclusion as an equality of functors; since both sides are built from
 derived functors, which are determined only up to canonical isomorphism, the faithful rendering
 is this natural isomorphism, and each of the source's seven equalities supplies one invertible
-comparison in the chain that builds it. -/
-@[stacks 0FYS "composition of Fourier-Mukai functors, as the natural isomorphism of functors \
-  D_QCoh(O_X) to D_QCoh(O_Z) that the source writes as an equality; granted Stacks 08IB (whose \
-  route, Stacks 0DJ9, the library does not carry) as the hypothesis h08IB and Stacks 08EU as \
-  the hypothesis h08EU", no_expose]
+comparison in the chain that builds it.  The registration of [Stacks, Tag 0FYS] is
+`AlgebraicGeometry.quasiCoherentFourierMukaiCompNatIso`, which supplies the library's proofs of
+the two tags. -/
+@[no_expose]
 def quasiCoherentFourierMukaiComp (h08IB : DerivedBaseChangeIsIsoOnQuasicoherent.{u})
     (h08EU : ProjectionFormulaIsIsoOnQuasicoherent.{u}) [Flat g] (htor : TorIndependent f h)
     {K : DerivedCategory (pullback f g).Modules}

@@ -60,26 +60,24 @@ cocontinuous, continuous and fully faithful.
 
 ## Main results
 
-* `CategoryTheory.Functor.full_and_faithful_sheafPullback`: Stacks 00XU — `f^{-1} = g_!` is fully
-  faithful.
+* `CategoryTheory.Functor.full_and_faithful_sheafPullback`: the last clause of Stacks 00XU —
+  `f^{-1} = g_!` is fully faithful.
 
 ## Implementation notes
 
-* Stacks 00XU is realized by three declarations over three different hypothesis sets, of which this
-  file states the third. That `u` defines a morphism of sites `f : D → C` is
-  `CategoryTheory.Functor.isMorphismOfSites_of_isTerminal` (Stacks 00X6), which needs the fibre
-  products and the two final objects but neither cocontinuity nor full faithfulness of `u`. That
-  the composition `f ∘ g` is isomorphic to the identity morphism of `Sh(C)` is invertibility of the
-  canonical 2-morphism `(f ∘ g)_* = g_* ⋙ g^{-1} ⟶ 𝟭`, the counit of `g^{-1} ⊣ g_*`, which is
-  `CategoryTheory.Functor.isIso_sheafAdjunctionCocontinuous_counit` (Stacks 00XT) and needs neither
-  the fibre products nor the final objects. Only full faithfulness of `f^{-1}` has no declaration
-  of its own, so only it is stated here, and under the hypotheses of its own proof; conjoining the
-  three would make each of them depend on hypotheses it does not use. The identifications
-  `f_* = g^{-1}` and `f^{-1} = g_!` need no statement, the morphism of topoi attached to a morphism
-  of sites (Stacks 00XC, `CategoryTheory.Functor.IsMorphismOfSites.morphismOfTopoi`) being
-  *defined* with pushforward `u^s = u.sheafPushforwardContinuous` and inverse image
-  `u_s = u.sheafPullback`; the conclusion is therefore stated for `u.sheafPullback` directly, as in
-  Stacks 00XY, rather than through the bundled `MorphismOfTopoi`.
+* The complete statement of Stacks 00XU, under the source's hypotheses (a)–(e), is
+  `CategoryTheory.Functor.exists_isMorphismOfSites_comp_iso_id_of_isTerminal` in
+  `StacksFrontier.CategoryTheory.Sites.Cocontinuous.MorphismOfSitesRetraction`, which uses this
+  theorem for its last clause. That `u` defines a morphism of sites `f : D → C` is
+  `CategoryTheory.Functor.isMorphismOfSites_of_isTerminal` (Stacks 00X6), and that `f ∘ g` is
+  isomorphic to the identity morphism of `Sh(C)` comes from the counit of `g^{-1} ⊣ g_*`,
+  `CategoryTheory.Functor.isIso_sheafAdjunctionCocontinuous_counit` (Stacks 00XT). Full
+  faithfulness of `f^{-1} = g_!` needs neither the fibre products nor the final objects, and is
+  stated here under the hypotheses of its own proof. The identifications `f_* = g^{-1}` and
+  `f^{-1} = g_!` hold by definition, the morphism of topoi attached to a morphism of sites
+  (Stacks 00XC, `CategoryTheory.Functor.IsMorphismOfSites.morphismOfTopoi`) having pushforward
+  `u^s = u.sheafPushforwardContinuous` and inverse image `u_s = u.sheafPullback`; the conclusion is
+  therefore stated for `u.sheafPullback` directly, as in Stacks 00XY.
 * Full faithfulness is stated as the conjunction of `CategoryTheory.Functor.Full` and
   `CategoryTheory.Functor.Faithful`, which is the form `MorphismOfTopoi.IsEmbedding` takes for the
   dual condition on `f_*`; the bundled `CategoryTheory.Functor.FullyFaithful` follows by
@@ -120,11 +118,7 @@ Then `g_!` is fully faithful.
 
 When `u` also satisfies the hypotheses of Stacks 00X6, so that it defines a morphism of sites
 `f : D → C` with `f^{-1} = g_!`, this is the assertion that `f^{-1}` is fully faithful. -/
-@[stacks 00XU "The clause that `f^{-1} = g_!` is fully faithful, which needs only that `u` is
-  cocontinuous, continuous and fully faithful. That `u` defines a morphism of sites `f : D → C` is
-  `isMorphismOfSites_of_isTerminal`, and that `f ∘ g` is isomorphic to the identity morphism of
-  `Sh(C)` is `isIso_sheafAdjunctionCocontinuous_counit`.",
-  sga "4 III 2.6" "u ff ⇒ u_! ff",
+@[sga "4 III 2.6" "u ff ⇒ u_! ff",
   sga "4 I 5.14" "special case"]
 public theorem full_and_faithful_sheafPullback
     {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D] (u : C ⥤ D)

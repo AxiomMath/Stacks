@@ -43,6 +43,21 @@ turn the alternating class into `∑_n (-1)^n ([Ker(d^n)] - [Im(d^{n-1})])`, the
 telescoping away, and Schanuel's lemma makes each summand depend only on the cohomology module
 `H^n = Ker(d^n)/Im(d^{n-1})`.
 
+## Where Stacks 0ESZ is registered
+
+Nothing in this file carries `@[stacks 0ESZ]`: the classes here are built from the carried data
+`Stacks.Chow.TotalChernClassSeries` and `Stacks.Chow.PowerSumClassRule`, the complexes are bounded
+in one window of degrees, and the independence is proved from a carried
+`Stacks.Chow.ComplexCohomologyComparison` instead of an isomorphism in `D(𝒪_X)`. The tag is
+registered on the complete statement, for the constructed classes of a locally bounded complex
+and an isomorphism in the derived category, with the reduction of the source through Stacks
+02UC, 0ESR and 0F8J carried out: `Stacks.Chow.complexChern_eq_of_iso` (for `c`),
+`Stacks.Chow.powerSumComplex_eq_of_iso` (for `P_p`) and
+`Stacks.Chow.chernCharacterComplex_eq_of_iso` (for `ch`), together with the definitions
+`Stacks.Chow.complexChern`, `Stacks.Chow.complexPowerSumComponent` and
+`Stacks.Chow.complexChernCharacter` and the independence statements
+`Stacks.Chow.complexPowerSumComponent_eq_of_iso` and `Stacks.Chow.complexChernCharacter_eq_of_iso`.
+
 ## Main definitions
 
 * `Stacks.Chow.alternatingKClass` — the class `∑_n (-1)^n [ℰ^n]` in `K_0(Vect(X))` of a complex
@@ -56,10 +71,10 @@ telescoping away, and Schanuel's lemma makes each summand depend only on the coh
   `D(𝒪_X)`; see the implementation notes.
 * `Stacks.Chow.PowerSumClassRule` — the power sum classes `P_p(ℰ)` of a finite locally free
   module, as a datum, with their additivity on short exact sequences (Stacks 0F9C).
-* `Stacks.Chow.totalChernClassComplex` — **Stacks 0ESZ**, the total Chern class `c(ℰ^•)`.
-* `Stacks.Chow.powerSumClassComplex` — **Stacks 0ESZ**, the class `P_p(ℰ^•)`.
-* `Stacks.Chow.chernCharacterComplexComponent` — **Stacks 0ESZ**, the component
-  `ch_p(ℰ^•) = P_p(ℰ^•)/p!`.
+* `Stacks.Chow.totalChernClassComplex` — the total Chern class `c(ℰ^•)`, in carried form.
+* `Stacks.Chow.powerSumClassComplex` — the class `P_p(ℰ^•)`, in carried form.
+* `Stacks.Chow.chernCharacterComplexComponent` — the component `ch_p(ℰ^•) = P_p(ℰ^•)/p!`, in
+  carried form.
 
 ## Main results
 
@@ -76,8 +91,8 @@ telescoping away, and Schanuel's lemma makes each summand depend only on the coh
   three classes are given by the formulas of the source.
 * `Stacks.Chow.totalChernClassComplex_eq_of_cohomologyComparison`,
   `Stacks.Chow.powerSumClassComplex_eq_of_cohomologyComparison`,
-  `Stacks.Chow.chernCharacterComplexComponent_eq_of_cohomologyComparison` — **Stacks 0ESZ**, the
-  independence of the representative, for each of the three classes.
+  `Stacks.Chow.chernCharacterComplexComponent_eq_of_cohomologyComparison` — the independence of
+  the representative, for each of the three classes, from the carried comparison datum.
 
 ## Implementation notes
 
@@ -99,8 +114,11 @@ freeness of the kernels and images by Stacks 0F8J (carried as
 `Stacks.Chow.BoundedComplexSplitting`), and Schanuel's lemma itself, Stacks 00O3. What would
 discharge them is a sheaf-level form of Stacks 0F8J producing the splitting from the perfectness
 of the cohomology, together with Stacks 00O3 for modules on a scheme and the two reductions
-Stacks 02UC and Stacks 0ESR; none of the four is available in this repository, and the
-degreewise data they produce is therefore the hypothesis.
+Stacks 02UC and Stacks 0ESR. This file keeps the degreewise data as the hypothesis; the
+reduction itself is carried out in
+`StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.Independence` and
+`StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.PowerSumIndependence`, which prove the
+unconditional statement.
 
 Nothing in the proofs below uses the fields presenting the cohomology modules — only the
 Schanuel module and its two short exact sequences. Those fields are kept because without them
@@ -117,7 +135,8 @@ generalization is to a *locally* bounded complex, where the bound varies over a 
 assembly is available for a single module of non-constant rank — it is
 `Stacks.Chow.rankLocusAssembly` and `Stacks.Chow.chernClassArbitraryRank`, Stacks 0ESW — but not
 for a complex, whose decomposition is indexed by the rank function of all the terms at once, and
-the locally bounded case of Stacks 0ESZ is **not** delivered here.
+the locally bounded case of Stacks 0ESZ is not treated in this file; it is
+`Stacks.Chow.complexChern` and `Stacks.Chow.powerSumComplex`.
 
 The other half of the generalization *is* delivered: no rank is assumed constant anywhere below.
 The total Chern class datum `Stacks.Chow.TotalChernClassSeries` assigns a series to every module,
@@ -125,8 +144,9 @@ and that is how the arbitrary-rank Chern classes of Stacks 0ESW enter.
 
 ### Why the Chern classes are data
 
-The total Chern class `c(ℰ)` of Stacks 0B7H and the multiplication of `A^*(X)` of Stacks 0FE0
-are characterized but not constructed in this repository, so both are carried, exactly as in
+In this file the total Chern class `c(ℰ)` of Stacks 0B7H and the multiplication of `A^*(X)` of
+Stacks 0FE0 are carried rather than taken from their constructions (which the definitions
+`Stacks.Chow.complexChern` and `Stacks.Chow.powerSumComplex` use), exactly as in
 `StacksFrontier.AlgebraicGeometry.Chow.ChernClassKGroup`: the parameters here are a
 `Stacks.Chow.ChowCohomologySeriesRing` and a `Stacks.Chow.TotalChernClassSeries`, whose field
 `ch_shortExact` is the Whitney sum formula of Stacks 02UI in the product form the construction
@@ -542,24 +562,17 @@ open ChowCohomologySeriesRing
 variable (C : ChowSituation.{u}) (Gy : GysinSystem C) {X : Scheme.{u}} (sX : X ⟶ C.S)
   [LocallyOfFiniteType sX] {R : ChowCohomologySeriesRing C Gy sX}
 
-/-- **Stacks 0ESZ.** The total Chern class `c(ℰ^•) = ∏_n c(ℰ^n)^{(-1)^n}` of a complex of finite
-locally free modules bounded in the degrees `a, …, a + k`, as an element of the group of series
-with constant term `1` inside `∏_{p ≥ 0} A^p(X)`; the negative exponents are the formal inverses
-of Stacks 0FEL. No rank is assumed constant. -/
-@[stacks 0ESZ "the total Chern class c(E^bullet) of a complex of finite locally free modules \
-bounded in a range of degrees, with no constant-rank hypothesis; the total Chern class of a \
-module, Tag 0B7H, and the multiplication of A^*(X), Tag 0FE0, are carried as the parameters R \
-and D, whose field ch_shortExact is the Whitney sum formula of Tag 02UI, exactly as in \
-Stacks.Chow.chernClassKGroup; the locally bounded case is not delivered"]
+/-- **Stacks 0ESZ, carried form.** The total Chern class `c(ℰ^•) = ∏_n c(ℰ^n)^{(-1)^n}` of a complex
+of finite locally free modules bounded in the degrees `a, …, a + k`, as an element of the group of
+series with constant term `1` inside `∏_{p ≥ 0} A^p(X)`; the negative exponents are the formal
+inverses of Stacks 0FEL. No rank is assumed constant. -/
 def totalChernClassComplex (D : TotalChernClassSeries C Gy sX R)
     (P : CochainComplex X.Modules ℤ) (a : ℤ) (k : ℕ) : UnitalSeries R :=
   Additive.toMul (chernClassKGroupHom D (alternatingKClass X P a k))
 
-/-- **Stacks 0ESZ.** The total Chern class of a complex is the alternating product
-`∏_n c(ℰ^n)^{(-1)^n}` of the total Chern classes of its terms, which is the formula of the
-source. -/
-@[stacks 0ESZ "the defining formula c(E^bullet) = prod_n c(E^n)^{(-1)^n} of the section, the \
-inverses being the formal inverses of Tag 0FEL"]
+/-- **Stacks 0ESZ, carried form.** The total Chern class of a complex is the alternating product
+`∏_n c(ℰ^n)^{(-1)^n}` of the total Chern classes of its terms, which is the formula of the source.
+-/
 theorem totalChernClassComplex_eq_prod (D : TotalChernClassSeries C Gy sX R)
     (P : CochainComplex X.Modules ℤ) (a : ℤ) (k : ℕ) :
     totalChernClassComplex C Gy sX D P a k =
@@ -571,14 +584,11 @@ theorem totalChernClassComplex_eq_prod (D : TotalChernClassSeries C Gy sX R)
   rw [map_zsmul, toMul_zsmul, chernClassKGroupHom_classOf]
   rfl
 
-/-- **Stacks 0ESZ.** The total Chern class of a complex of finite locally free modules depends
-only on the cohomology modules of the complex. Two complexes representing the same object of
+/-- **Stacks 0ESZ, carried form.** The total Chern class of a complex of finite locally free modules
+depends only on the cohomology modules of the complex. Two complexes representing the same object of
 `D(𝒪_X)` have the same cohomology modules, and this is the form in which the independence of the
-representative is delivered here; see the implementation notes of this file. -/
-@[stacks 0ESZ "the independence of the representative for the total Chern class. CARRIED: the \
-degreewise data the source's proof extracts from an isomorphism in D(O_X) -- finite local \
-freeness of the kernels and images (Tag 0F8J), the identification of the cohomology modules, \
-and Schanuel's lemma (Tag 00O3) -- together with the reductions of Tags 02UC and 0ESR"]
+representative is delivered here; see the implementation notes of this file. The statement for two
+complexes isomorphic in `D(𝒪_X)`, with no carried datum, is `Stacks.Chow.complexChern_eq_of_iso`. -/
 theorem totalChernClassComplex_eq_of_cohomologyComparison (D : TotalChernClassSeries C Gy sX R)
     {P Q : CochainComplex X.Modules ℤ} {a : ℤ} {k : ℕ}
     (S : BoundedComplexSplitting X P a k) (T : BoundedComplexSplitting X Q a k)
@@ -636,19 +646,14 @@ theorem powerSumKGroupHom_classOf (W : PowerSumClassRule C Gy sX) (M : X.Modules
     powerSumKGroupHom C Gy sX W (AlgebraicGeometry.VectorBundleKZero.classOf X M) = W.cls M := by
   rw [powerSumKGroupHom, AlgebraicGeometry.VectorBundleKZero.liftAddHom_classOf]
 
-/-- **Stacks 0ESZ.** The class `P_p(ℰ^•) = ∑_n (-1)^n P_p(ℰ^n) ∈ A^p(X)` of a complex of finite
-locally free modules bounded in the degrees `a, …, a + k`. No rank is assumed constant. -/
-@[stacks 0ESZ "the class P_p(E^bullet) of a complex of finite locally free modules bounded in a \
-range of degrees, with no constant-rank hypothesis; the constant-rank power sums P_p(E) of Tag \
-0F9B and their additivity, Tag 0F9C, are carried as the parameter W, as in \
-Stacks.Chow.powerSumClassArbitraryRank; the locally bounded case is not delivered"]
+/-- **Stacks 0ESZ, carried form.** The class `P_p(ℰ^•) = ∑_n (-1)^n P_p(ℰ^n) ∈ A^p(X)` of a complex
+of finite locally free modules bounded in the degrees `a, …, a + k`. No rank is assumed constant. -/
 def powerSumClassComplex (W : PowerSumClassRule C Gy sX) (P : CochainComplex X.Modules ℤ)
     (a : ℤ) (k : ℕ) (p : ℕ) : chowCohomologyComponent C Gy sX (p : ℤ) :=
   powerSumKGroupHom C Gy sX W (alternatingKClass X P a k) p
 
-/-- **Stacks 0ESZ.** The class `P_p` of a complex is the alternating sum of the classes `P_p` of
-its terms, which is the formula of the source. -/
-@[stacks 0ESZ "the defining formula P_p(E^bullet) = sum_n (-1)^n P_p(E^n) of the section"]
+/-- **Stacks 0ESZ, carried form.** The class `P_p` of a complex is the alternating sum of the
+classes `P_p` of its terms, which is the formula of the source. -/
 theorem powerSumClassComplex_eq_sum (W : PowerSumClassRule C Gy sX)
     (P : CochainComplex X.Modules ℤ) (a : ℤ) (k : ℕ) (p : ℕ) :
     powerSumClassComplex C Gy sX W P a k p =
@@ -658,14 +663,12 @@ theorem powerSumClassComplex_eq_sum (W : PowerSumClassRule C Gy sX)
   refine Finset.sum_congr rfl fun i _ => ?_
   rw [map_zsmul, Pi.smul_apply, powerSumKGroupHom_classOf]
 
-/-- **Stacks 0ESZ.** The class `P_p` of a complex of finite locally free modules depends only on
-the cohomology modules of the complex. Two complexes representing the same object of `D(𝒪_X)`
-have the same cohomology modules, and this is the form in which the independence of the
-representative is delivered here; see the implementation notes of this file. -/
-@[stacks 0ESZ "the independence of the representative for P_p. CARRIED: the degreewise data the \
-source's proof extracts from an isomorphism in D(O_X) -- finite local freeness of the kernels \
-and images (Tag 0F8J), the identification of the cohomology modules, and Schanuel's lemma (Tag \
-00O3) -- together with the reductions of Tags 02UC and 0ESR"]
+/-- **Stacks 0ESZ, carried form.** The class `P_p` of a complex of finite locally free modules
+depends only on the cohomology modules of the complex. Two complexes representing the same object of
+`D(𝒪_X)` have the same cohomology modules, and this is the form in which the independence of the
+representative is delivered here; see the implementation notes of this file. The statement for two
+complexes isomorphic in `D(𝒪_X)`, with no carried datum, is `Stacks.Chow.powerSumComplex_eq_of_iso`.
+-/
 theorem powerSumClassComplex_eq_of_cohomologyComparison (W : PowerSumClassRule C Gy sX)
     {P Q : CochainComplex X.Modules ℤ} {a : ℤ} {k : ℕ}
     (S : BoundedComplexSplitting X P a k) (T : BoundedComplexSplitting X Q a k)
@@ -674,25 +677,20 @@ theorem powerSumClassComplex_eq_of_cohomologyComparison (W : PowerSumClassRule C
   rw [powerSumClassComplex, powerSumClassComplex,
     alternatingKClass_eq_of_cohomologyComparison S T cmp]
 
-/-- **Stacks 0ESZ.** The degree-`p` component `ch_p(ℰ^•) = P_p(ℰ^•)/p! ∈ A^p(X) ⊗ 𝐐` of the Chern
-character of a complex of finite locally free modules bounded in the degrees `a, …, a + k`. -/
-@[stacks 0ESZ "the Chern character component ch_p(E^bullet) = P_p(E^bullet)/p! of a complex of \
-finite locally free modules bounded in a range of degrees, with no constant-rank hypothesis; \
-the constant-rank power sums and their additivity, Tag 0F9C, are carried as the parameter W; \
-the locally bounded case is not delivered"]
+/-- **Stacks 0ESZ, carried form.** The degree-`p` component `ch_p(ℰ^•) = P_p(ℰ^•)/p! ∈ A^p(X) ⊗ 𝐐`
+of the Chern character of a complex of finite locally free modules bounded in the degrees
+`a, …, a + k`. -/
 def chernCharacterComplexComponent (W : PowerSumClassRule C Gy sX)
     (P : CochainComplex X.Modules ℤ) (a : ℤ) (k : ℕ) (p : ℕ) :
     rationalChowCohomologyComponent C Gy sX (p : ℤ) :=
   ((Nat.factorial p : ℚ)⁻¹) ⊗ₜ[ℤ] powerSumClassComplex C Gy sX W P a k p
 
-/-- **Stacks 0ESZ.** The Chern character of a complex of finite locally free modules depends only
-on the cohomology modules of the complex. Two complexes representing the same object of `D(𝒪_X)`
-have the same cohomology modules, and this is the form in which the independence of the
-representative is delivered here; see the implementation notes of this file. -/
-@[stacks 0ESZ "the independence of the representative for the Chern character. CARRIED: the \
-degreewise data the source's proof extracts from an isomorphism in D(O_X) -- finite local \
-freeness of the kernels and images (Tag 0F8J), the identification of the cohomology modules, \
-and Schanuel's lemma (Tag 00O3) -- together with the reductions of Tags 02UC and 0ESR"]
+/-- **Stacks 0ESZ, carried form.** The Chern character of a complex of finite locally free modules
+depends only on the cohomology modules of the complex. Two complexes representing the same object of
+`D(𝒪_X)` have the same cohomology modules, and this is the form in which the independence of the
+representative is delivered here; see the implementation notes of this file. The statement for two
+complexes isomorphic in `D(𝒪_X)`, with no carried datum, is
+`Stacks.Chow.chernCharacterComplex_eq_of_iso`. -/
 theorem chernCharacterComplexComponent_eq_of_cohomologyComparison (W : PowerSumClassRule C Gy sX)
     {P Q : CochainComplex X.Modules ℤ} {a : ℤ} {k : ℕ}
     (S : BoundedComplexSplitting X P a k) (T : BoundedComplexSplitting X Q a k)

@@ -37,7 +37,8 @@ what travels; it is `HasStrictlyPerfectModel` below.
   (`Stacks.Cohomology.DerivedPullbackOnRingedTopoi.derivedPullbackObjIsoOfFlat`), the degreewise
   pullback is strictly perfect by Stacks 08H3, and the target is identified with
   `(Lf^* E)|_{u(W)}` by the derived localization square
-  (`AlgebraicGeometry.RingedSite.Hom.nonempty_derivedPullbackLocalizedIso`).
+  (`AlgebraicGeometry.RingedSite.Hom.nonempty_derivedPullbackLocalizedIso_of_noFiniteLimits`),
+  which needs no finite limits on either site.
 * Carrying a strictly perfect derived model along an arrow `V ⟶ u(W)` of `C` costs nothing:
   restriction to a smaller slice is exact, so it preserves strict perfectness and carries the
   isomorphism to an isomorphism. This is what makes the covering produced in the second step
@@ -49,7 +50,10 @@ assertion of Stacks 08H6 asks for none.
 
 ## Main results
 
-* `AlgebraicGeometry.RingedSite.Hom.isPerfect_derivedPullback`: **Stacks 08H6.**
+* `AlgebraicGeometry.RingedSite.Hom.isPerfect_derivedPullback_of_isPerfect`: **Stacks 08H6**,
+  for any morphism of ringed sites; no finite limits are assumed on either site.
+* `AlgebraicGeometry.RingedSite.Hom.isPerfect_derivedPullback`: the same, stated for sites with
+  finite limits and a finite-limit-preserving `u`.
 
 ## References
 
@@ -125,7 +129,7 @@ variable {X Y : RingedSite.{0, 0, 0}} (f : RingedSite.Hom X Y)
   [Y.J.HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
   [HasSheafify X.J AddCommGrpCat.{0}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{0}]
   [HasSheafify Y.J AddCommGrpCat.{0}] [Y.J.WEqualsLocallyBijective AddCommGrpCat.{0}]
-  [HasFiniteLimits X.C] [HasFiniteLimits Y.C] [PreservesFiniteLimits f.u]
+  [hXlim : HasFiniteLimits X.C] [hYlim : HasFiniteLimits Y.C] [hulim : PreservesFiniteLimits f.u]
   [∀ U : X.C, HasSheafify (X.J.over U) AddCommGrpCat.{0}]
   [∀ U : X.C, (X.J.over U).WEqualsLocallyBijective AddCommGrpCat.{0}]
   [∀ U : Y.C, HasSheafify (Y.J.over U) AddCommGrpCat.{0}]
@@ -194,8 +198,8 @@ private theorem hasStrictlyPerfectModel_of_hom
       (Stacks.SheafOfModules.Tensor.ringSheaf X.O) a).mapDerivedCategoryFactors.app
       (X.restrictComplex K' V) ≪≫ DerivedCategory.Q.mapIso hcmp
 
-omit [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
-  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
+omit hXlim hYlim hulim
+  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
 /-- **The pullback of a strictly perfect model is a strictly perfect model over the image
 object.** If `K` carries a strictly perfect derived model over `W`, then a complex
 representative `K'` of `Lf^* E` carries one over `u(W)`.
@@ -240,27 +244,34 @@ private theorem hasStrictlyPerfectModel_image
         ((SheafOfModules.overFunctor.{0}
           (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) W).mapDerivedCategory.obj E) ≅
       DerivedCategory.Q.obj (X.restrictComplex K' (f.u.obj W)) :=
-    (f.nonempty_derivedPullbackLocalizedIso W E).some ≪≫
+    (f.nonempty_derivedPullbackLocalizedIso_of_noFiniteLimits W E).some ≪≫
       (restrictComplexIsoOfIso X e' (f.u.obj W)).symm
   exact ⟨(pullbackComplex (f.localized W).toRingedToposSiteHom).obj P₀, hSP,
     ⟨eFlat.symm ≪≫
       (derivedPullback (f.localized W).toRingedToposSiteHom).mapIso
         (α ≪≫ restrictComplexIsoOfIso Y e W) ≪≫ eTot⟩⟩
 
-omit [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
-  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
-/-- **Stacks 08H6.** The derived pullback along a morphism of ringed sites of a perfect object of
-`D(O')` is perfect.
+omit hXlim hYlim hulim
+  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
+/-- **Stacks 08H6.** Let `f : (C, O_C) ⟶ (D, O_D)` be a morphism of ringed sites and let `E` be
+an object of `D(O_D)`. If `E` is perfect, then `Lf^* E` is perfect in `D(O_C)`.
+
+The morphism of ringed sites is the one of Stacks 00X1: a continuous functor `u : D ⥤ C` whose
+`u_s` is exact. Neither site is assumed to have finite limits and `u` is not assumed to preserve
+them.
 
 Stacks 08H2 makes the objects `u(W)` cover the final object of `Sh(C)`, and
 `CategoryTheory.GrothendieckTopology.coversTop_obj_subtype` refines that covering to the `u(W)`
 over which `K` carries a strictly perfect derived model. Over such an object the pullback of the
 model is a strictly perfect derived model of `(Lf^* E)|_{u(W)}`
-(`hasStrictlyPerfectModel_image`), and it descends along any arrow into `u(W)` by exactness of
-restriction (`hasStrictlyPerfectModel_of_hom`), which is what the arrows of that covering
-supply; Stacks 08G6 (1) assembles. -/
-@[stacks 08H6]
-theorem Hom.isPerfect_derivedPullback
+(`hasStrictlyPerfectModel_image`, through the derived localization square
+`AlgebraicGeometry.RingedSite.Hom.nonempty_derivedPullbackLocalizedIso_of_noFiniteLimits`), and
+it descends along any arrow into `u(W)` by exactness of restriction
+(`hasStrictlyPerfectModel_of_hom`), which is what the arrows of that covering supply; Stacks
+08G6 (1) assembles. -/
+@[stacks 08H6 "for a morphism of ringed sites in the sense of 00X1, with no finite limits on
+  either site"]
+theorem Hom.isPerfect_derivedPullback_of_isPerfect
     (E : DerivedCategory
       (SheafOfModules.{0} (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos Y).O)))
     (hE : Y.IsPerfect E) :
@@ -291,6 +302,22 @@ theorem Hom.isPerfect_derivedPullback
   obtain ⟨P, hP, ⟨γ⟩⟩ := hasStrictlyPerfectModel_of_hom K' k
     (hasStrictlyPerfectModel_image f E K e K' e' W hW)
   exact ⟨P, hP, ⟨γ ≪≫ restrictComplexIsoOfIso X e' V⟩⟩
+
+/-- The derived pullback along a morphism of ringed sites of a perfect object of `D(O')` is
+perfect, for sites with finite limits and a functor `u` preserving them. This special case of
+Stacks 08H6 is `AlgebraicGeometry.RingedSite.Hom.isPerfect_derivedPullback_of_isPerfect`, which
+needs none of the three finite-limit classes. -/
+theorem Hom.isPerfect_derivedPullback
+    (E : DerivedCategory
+      (SheafOfModules.{0} (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos Y).O)))
+    (hE : Y.IsPerfect E) :
+    X.IsPerfect ((derivedPullback f.toRingedToposSiteHom).obj E) :=
+  -- The finite-limit classes and the slice sheaf condition are kept in this statement as it was
+  -- first registered; the proof of `isPerfect_derivedPullback_of_isPerfect` needs none of them.
+  have : (HasFiniteLimits X.C ∧ HasFiniteLimits Y.C ∧ PreservesFiniteLimits f.u) ∧
+      ∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0}) :=
+    ⟨⟨hXlim, hYlim, hulim⟩, inferInstance⟩
+  f.isPerfect_derivedPullback_of_isPerfect E hE
 
 end Main
 

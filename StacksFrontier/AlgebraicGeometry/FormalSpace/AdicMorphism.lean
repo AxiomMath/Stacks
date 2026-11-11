@@ -49,8 +49,11 @@ then takes representability as the definition and refers to the discussion for t
 * `AlgebraicGeometry.FormalSpace.isAdicOnEveryAffineEtaleDiagram_iff_isTautAdicStar`:
   **Section 0AQ2**, the footnote — on `WAdm^{adic*}` the adic and the taut reading of the chart
   condition agree. Proved outright.
-* `AlgebraicGeometry.FormalSpace.isAdicOnEveryAffineEtaleDiagram_of_isRepresentable`:
-  **Section 0AQ2**, the implication from condition (1) to condition (2).
+* `AlgebraicGeometry.FormalSpace.isAdicOnEveryAffineEtaleDiagram_of_isRepresentable`: the
+  implication from condition (1) to condition (2) of Section 0AQ2, deduced from the form of
+  Stacks 0ANK that takes five of its inputs as hypotheses. The section itself is
+  `AlgebraicGeometry.FormalSpace.isAdicMorphism_tfae` of
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.AdicMorphismConverse`, proved outright.
 
 ## Implementation notes
 
@@ -66,10 +69,13 @@ morphism of presheaves — the same predicate that Stacks 0AIM, 0AKY and 0ANK ar
 throughout the library, and the only one that can be applied to a morphism of formal algebraic
 spaces at all.
 
-What the standing hypotheses buy is
-`AlgebraicGeometry.FormalSpace.isAdicOnEveryAffineEtaleDiagram_of_isAdicMorphism`: for `X` and
-`Y` locally adic\* the definition implies the chart condition of the discussion above, which is
-the sense in which the terminology is justified.
+What the standing hypotheses buy is the equivalence of the definition with the chart condition
+of the discussion above, which is the sense in which the terminology is justified: this is
+`AlgebraicGeometry.FormalSpace.isAdicMorphism_tfae` of
+`StacksFrontier.AlgebraicGeometry.FormalSpace.AdicMorphismConverse`, with the implication from the
+definition to the chart condition holding with no hypothesis on `X` or `Y`
+(`AlgebraicGeometry.FormalSpace.isAdicOnEveryAffineEtaleDiagram_of_isAdicMorphism'` of
+`StacksFrontier.AlgebraicGeometry.FormalSpace.AdicMorphismCharts`).
 
 The footnote is Stacks 0GBS read on every chart square, and it is unconditional here because
 the class `IsCountablyAdicStar` carries exactly the two inputs 0GBS asks for: the source of the
@@ -80,15 +86,13 @@ than at the countably indexed weakly admissible class of Stacks 0ANK: at the lat
 implication from taut to adic is not available, the finitely generated ideal of definition
 being missing.
 
-Condition (1) of the section is representability by algebraic spaces, and the equivalence the
-section invokes to match it with the chart condition is Stacks 0ANK, which the library carries
-as `AlgebraicGeometry.FormalSpace.isTaut_tfae_isRepresentableByAlgebraicSpaces` with five of its
-own inputs as named hypotheses; those five are passed straight through here. Stacks 0ANK states
-its chart condition at the countably indexed weakly admissible class, which contains
-`WAdm^{adic*}`, so its conclusion restricts to the chart squares this file quantifies over and
-gives the implication (1) ⟹ (2). The converse implication is not proved: it would need the
-chart condition at the *wider* class, which is strictly more than condition (2) as stated here
-asserts.
+Condition (1) of the section is representability by algebraic spaces. The source matches it
+with the chart condition through Stacks 0ANK;
+`AlgebraicGeometry.FormalSpace.isAdicOnEveryAffineEtaleDiagram_of_isRepresentable` follows that
+route through the form `AlgebraicGeometry.FormalSpace.isTaut_tfae_isRepresentableByAlgebraicSpaces`
+of 0ANK that takes five of its inputs as hypotheses. The equivalence itself is proved without
+them, by a direct route, in `StacksFrontier.AlgebraicGeometry.FormalSpace.AdicMorphismCharts` and
+`StacksFrontier.AlgebraicGeometry.FormalSpace.AdicMorphismConverse`.
 
 The predicate `AlgebraicGeometry.FormalSpace.IsAdicOnEveryAffineEtaleDiagramNoetherian` of
 `StacksFrontier.AlgebraicGeometry.FormalSpace.RigSmoothBaseChange` is the same chart condition read
@@ -96,9 +100,8 @@ at the Noetherian adic class of Stacks 0ANI, which is the class the rig-smooth a
 developments work over; it is not a second spelling of the notion but the same condition at the
 other of the two subcategories in which the local-property machinery is set up, and neither
 class is contained in the other — a Noetherian adic ring need not be complete. It is kept
-distinct from `AlgebraicGeometry.FormalSpace.IsAdicMorphism` because the chart condition is
-matched with representability only through Stacks 0ANK, which the library does not carry
-outright.
+distinct from `AlgebraicGeometry.FormalSpace.IsAdicMorphism`, the equivalence of
+`AlgebraicGeometry.FormalSpace.isAdicMorphism_tfae` being proved at `WAdm^{adic*}`.
 
 ## References
 
@@ -205,19 +208,16 @@ theorem isAdicOnEveryAffineEtaleDiagram_iff_isTautAdicStar {X Y : FppfSheaf B S 
   · exact (@RingHom.isAdic_iff_isTaut A R _ _ _ _ _ _ _ _ g.toRingHom hCA.2
       hCR.1.1.2.1 hCR.1.1.2.2).mpr hg'
 
-/-- **Section 0AQ2, condition (1) implies condition (2).** A morphism of locally countably
-indexed formal algebraic spaces over `S` which is representable by algebraic spaces has every
-one of its chart maps in `WAdm^{adic*}` adic; this is the matching the section makes, and it is
-the content of Definition 0AQ3's reference to the discussion.
+/-- **Condition (1) of Section 0AQ2 implies condition (2), through Stacks 0ANK.** A morphism of
+locally countably indexed formal algebraic spaces over `S` which is representable by algebraic
+spaces has every one of its chart maps in `WAdm^{adic*}` adic.
 
 Stacks 0ANK turns representability into the taut reading of the chart condition at the
 countably indexed weakly admissible class, which contains `WAdm^{adic*}`; the footnote then
 turns taut into adic. The five hypotheses `h0AJ3`, `h0AKX`, `h0AN5`, `h0AQ0` and `h0AN4` are
-those of Stacks 0ANK in this library and are passed straight through. -/
-@[stacks 0AQ2 "the implication from representability by algebraic spaces to the chart \
-condition, through Stacks 0ANK with the five hypotheses that lemma carries in this library; \
-the converse is not proved, since it would need the chart condition at the wider countably \
-indexed weakly admissible class that Stacks 0ANK is stated at"]
+those of that form of Stacks 0ANK and are passed straight through. The same implication holds
+with no hypothesis at all:
+`AlgebraicGeometry.FormalSpace.isAdicOnEveryAffineEtaleDiagram_of_isAdicMorphism'`. -/
 theorem isAdicOnEveryAffineEtaleDiagram_of_isRepresentable {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsLocallyCountablyIndexed B S hS X) (hY : IsLocallyCountablyIndexed B S hS Y)
     (h0AJ3 : ∀ (V : FppfSheaf B S hS) (v : V ⟶ Y), IsAffineFormalAlgebraicSpace B S hS V →

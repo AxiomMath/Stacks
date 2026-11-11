@@ -48,16 +48,15 @@ a corollary of the above.
   base change `X' = Spec B ×_{Spec A} X` and the comparison of cohomologies as hypotheses.
 * The inductive lifting of the sections `s_{0,1}, …, s_{N,1}` of `ℒ₁ ^⊗ d` to sections of
   `ℒₙ ^⊗ d`, and the resulting cartesian tower `ψₙ : Xₙ ⟶ ℙᴺ_{Sₙ}`.
-* The final appeal to [Stacks, Tag 0899], carried at
-  `AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback` with
-  [Stacks, Tag 09ZT] and the uniqueness clause of [Stacks, Tag 0A42] as hypotheses — so that
-  appeal is conditional on base already.
 * The invertible module `ℒ` on the algebraized `X` with `ℒₙ ≅ ℒ|_{Xₙ}` compatible with the
   `φₙ`. The embedding only ever sees `ℒₙ ^⊗ d`, and the theorem's conclusion asks for `ℒₙ`
   itself; the source does not say how that `d`-th root is obtained. Its *ampleness* would be
   free once it exists, by [Stacks, Tag 01PT]
   (`Stacks.AmplePositivePower.isAmple_iff_isAmple_tensorPowModule`); it is the module, not its
   ampleness, that is missing.
+
+The final appeal to [Stacks, Tag 0899] is available, as
+`AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback_holds`.
 
 ## References
 

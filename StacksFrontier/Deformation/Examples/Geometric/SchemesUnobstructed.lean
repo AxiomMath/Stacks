@@ -9,7 +9,7 @@ public import StacksFrontier.AlgebraicGeometry.Morphisms.Syntomic.LocalCompleteI
 public import StacksFrontier.Deformation.Examples.Geometric.SchemesTwoOpenCoverSmooth
 
 /-!
-# Stacks Tag 0DZQ: deformations of a curve with isolated singularities are unobstructed
+# The reduction of Tag 0DZQ to four inputs
 
 In Example 0DY7 let `X` be a scheme over a field `k`. Assume
 
@@ -18,6 +18,12 @@ In Example 0DY7 let `X` be a scheme over a field `k`. Assume
 3. `X → Spec(k)` is smooth except at finitely many points.
 
 Then `Def_X` is unobstructed, that is, the structure morphism of `Def_X` over `𝒞_Λ` is smooth.
+
+This file carries out the source's proof with four of its inputs taken as arguments. Each of them
+is a theorem of the library, and Tag 0DZQ itself, with exactly the source's hypotheses, is
+`Deformation.Examples.isSmooth_baseProjection_schemeDeformationCategoryProjection_of_lci` in
+`StacksFrontier.Deformation.Examples.Geometric.SchemesUnobstructedUnconditional`, which supplies
+them.
 
 The source's proof is a two-chart reduction. Choose an affine open `U₂ ⊆ X` containing every
 non-smooth point of `X` and the generic point of every irreducible component; then `X ∖ U₂` is
@@ -32,9 +38,10 @@ by Tag 0DZH, `P₂` being a local complete intersection over `k`.
   over `Spec k` on an open subset — the coordinate ring of a chart.
 * `Deformation.Examples.gluingSituationOfAffineCover`: Situation 0DYY built from a cover of a
   scheme over `k` by two affine opens with affine intersection.
-* `Deformation.Examples.GluingComparisonSmooth`: **Tag 0DYZ as a carried hypothesis**, see below.
-* `Deformation.Examples.SmoothSectionsOfSmoothAffineOpen`: **the affine-local reading of
-  smoothness over a field as a carried hypothesis**, see below.
+* `Deformation.Examples.GluingComparisonSmooth`: the consequence of Tag 0DYZ that Tag 0DZN
+  consumes, as a proposition.
+* `Deformation.Examples.SmoothSectionsOfSmoothAffineOpen`: the affine-local reading of
+  smoothness over a field, as a proposition.
 
 ## Main results
 
@@ -49,15 +56,16 @@ by Tag 0DZH, `P₂` being a local complete intersection over `k`.
   local complete intersection over `k` on an affine open form a local complete intersection
   `k`-algebra. This is the affine-local reading of hypothesis (2).
 * `Deformation.Examples.isSmooth_baseProjection_schemeDeformationCategoryProjection`:
-  **Stacks Tag 0DZQ**, given the carried hypotheses listed below.
+  the proof of Tag 0DZQ from the four inputs listed below.
 
 ## Implementation notes
 
 ### The two-chart cover
 
 `exists_affineOpen_cover_avoiding_of_topologicalKrullDim_le_one` is the first paragraph of the
-source's proof and is proved here outright, modulo the single hypothesis `h09NZ` that Tag 0A25
-already carries in this repository. The ample invertible module comes from `h09NZ` through
+source's proof. It takes Tag 09NZ as its argument `h09NZ`, which is proved as
+`Stacks.HQuasiProjectiveDimensionOne.ampleOfNoetherianSeparatedDimLEOne`. The ample invertible
+module comes from `h09NZ` through
 `Stacks.HQuasiProjectiveDimensionOne`'s two reductions (`X` is Noetherian and separated as a
 scheme), part (3) of Tag 01ZY puts a finite set inside an affine open — and, in its confined
 form, inside an affine open contained in a prescribed open containing the set — and the passage
@@ -70,36 +78,37 @@ the complement of the open smooth locus. Closedness is what makes the complement
 confine `U₁` to, and the conclusion `Disjoint E U₁` would otherwise be false in general, a point
 of `X ∖ U₂` being allowed to lie in the closure of `E`.
 
-### The hypotheses that are carried rather than discharged
+### The four inputs
 
-Tag 0DZQ is assembled from Tags 0DZN, 0DYX, 0DZH and 0A25, three of which are themselves
-conditional in this repository. The scheme-level hypotheses (1), (2) and (3) of the source are
-all present in the statement; the carried hypotheses are, in full:
+Tag 0DZQ is assembled from Tags 0DZN, 0DYX, 0DZH and 0A25. The scheme-level hypotheses (1), (2)
+and (3) of the source are all present in the statement of
+`isSmooth_baseProjection_schemeDeformationCategoryProjection`; its four further arguments are
+theorems of this library, supplied in
+`StacksFrontier.Deformation.Examples.Geometric.SchemesUnobstructedUnconditional`:
 
 * `h09NZ : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne` — Tag 09NZ,
   the existence of an ample invertible sheaf on a Noetherian separated scheme of dimension at
-  most one. This is what Tag 0A25 carries, and it is used only through the two-chart cover.
+  most one, used only through the two-chart cover. It is
+  `Stacks.HQuasiProjectiveDimensionOne.ampleOfNoetherianSeparatedDimLEOne`.
 * `hΛ : Deformation.IsDeformationCategory (𝟭 _)` — the Rim–Schlessinger condition for `𝒞_Λ` over
-  itself, carried by Tag 0DZN and by `Deformation.isDeformationCategory_cofiberedProduct`.
-* `h0DYZ : Deformation.Examples.GluingComparisonSmooth Λ k` — **Tag 0DYZ**, in the form Tag 0DZN
+  itself, an argument of Tag 0DZN. It is `Deformation.isDeformationCategory_id`.
+* `h0DYZ : Deformation.Examples.GluingComparisonSmooth Λ k` — Tag 0DYZ in the form Tag 0DZN
   consumes it: for every gluing situation there are restriction morphisms
   `Def_{P_i} ⟶ Def_{P₁₂}` and a *smooth* comparison morphism from `Def_X` into the `2`-fibre
-  product `Def_{P₁} ×_{Def_{P₁₂}} Def_{P₂}`. Tag 0DYZ asserts that the comparison is an
-  equivalence and is not available here; Tag 0DZN carries the same data, pointwise in one gluing
-  situation, as its `p₁`, `p₂`, `comparison` and `hcomparison` arguments. The quantified form is
+  product `Def_{P₁} ×_{Def_{P₁₂}} Def_{P₂}`. Tag 0DZN takes the same data, pointwise in one gluing
+  situation, as its `p₁`, `p₂`, `comparison` and `hcomparison` arguments; the quantified form is
   needed because the gluing situation of Tag 0DZQ is produced inside the proof, by the two-chart
-  cover, so its coordinate rings cannot be named in the statement. Tag 0DYX — the identification
-  `Def_{U_i} = Def_{P_i}`, which is unconditional in this repository — is already absorbed into
-  this hypothesis, exactly as in Tag 0DZN, which is why no affineness of thickenings appears
-  below.
+  cover. It is `Deformation.Examples.gluingComparisonSmooth`, the comparison being an equivalence
+  over `𝒞_Λ` by Tag 0DYZ. The identification `Def_{U_i} = Def_{P_i}` of Tag 0DYX is absorbed into
+  this proposition, exactly as in Tag 0DZN, which is why no affineness of thickenings appears.
 * `hsmooth : Deformation.Examples.SmoothSectionsOfSmoothAffineOpen k` — the affine-local reading
   of smoothness over a field: on an affine open on which the structure morphism is smooth, the
   sections form a smooth `k`-algebra. Tag 0DZN asks for `Algebra.Smooth k S.P₁₂` and the
-  two-chart cover delivers smoothness of `U₁₂ ⟶ Spec k`; no affine-local characterization of
-  `AlgebraicGeometry.Smooth` is available in this repository, so the translation between the two
-  is carried. The corresponding reading of hypothesis (2) is **not** carried: it is
-  `Deformation.Examples.isLocalCompleteIntersection_sections_of_syntomic`, proved below from the
-  affine-pair characterization `AlgebraicGeometry.syntomic_tfae` of Tag 01UD.
+  two-chart cover delivers smoothness of `U₁₂ ⟶ Spec k`. It is
+  `Deformation.Examples.smoothSectionsOfSmoothAffineOpen`. The corresponding reading of
+  hypothesis (2) is `Deformation.Examples.isLocalCompleteIntersection_sections_of_syntomic`,
+  proved below from the affine-pair characterization `AlgebraicGeometry.syntomic_tfae` of
+  Tag 01UD.
 
 ### The coordinate rings
 
@@ -198,12 +207,12 @@ Let `X` be a separated scheme of finite type over a field `k` with `dim(X) ≤ 1
 finite closed subset of `X` — in the application, the non-smooth locus of `X ⟶ Spec k`. Then `X`
 is covered by two affine opens `U₁`, `U₂` with `E ⊆ U₂` and `U₁` disjoint from `E`.
 
-By [Stacks, Tag 0A25] — whose only missing input, [Stacks, Tag 09NZ], is the hypothesis
-`h09NZ` — the scheme `X` carries an ample invertible module, so part (3) of [Stacks, Tag 01ZY]
-puts any finite set of points inside an affine open contained in a prescribed open containing the
-set. Applying it to `E` together with the finitely many generic points of the irreducible
-components of `X` gives `U₂`; the complement of `U₂` is then a closed set containing no component
-generic point, hence finite by
+By [Stacks, Tag 0A25], with [Stacks, Tag 09NZ] as the argument `h09NZ` (proved as
+`Stacks.HQuasiProjectiveDimensionOne.ampleOfNoetherianSeparatedDimLEOne`), the scheme `X` carries an
+ample invertible module, so part (3) of [Stacks, Tag 01ZY] puts any finite set of points inside an
+affine open contained in a prescribed open containing the set. Applying it to `E` together with the
+finitely many generic points of the irreducible components of `X` gives `U₂`; the complement of `U₂`
+is then a closed set containing no component generic point, hence finite by
 `Deformation.Examples.finite_of_isClosed_disjoint_genericPoints`, and a second application inside
 the open `Eᶜ` gives `U₁`.
 
@@ -339,32 +348,30 @@ theorem isLocalCompleteIntersection_sections_of_syntomic {k : Type u} [Field k] 
   exact (Algebra.IsPushout.isLocalCompleteIntersection_iff k (⊥ : Ideal k).ResidueField A
     ((⊥ : Ideal k).Fiber A)).mp hfib
 
-/-- **The affine-local reading of smoothness over a field, carried as a hypothesis.** On an
-affine open `U` of a scheme `X` over `k` on which the structure morphism is smooth, the sections
-`Γ(X, U)` form a smooth `k`-algebra.
+/-- **The affine-local reading of smoothness over a field.** On an affine open `U` of a scheme
+`X` over `k` on which the structure morphism is smooth, the sections `Γ(X, U)` form a smooth
+`k`-algebra.
 
-This is the translation Tag 0DZN needs for its hypothesis on `P₁₂`. The repository has no
-affine-local characterization of `AlgebraicGeometry.Smooth` over a field — the corresponding
-statement for syntomicity is [Stacks, Tag 01UD], `AlgebraicGeometry.syntomic_tfae`, which is what
-`Deformation.Examples.isLocalCompleteIntersection_sections_of_syntomic` uses — so this
-translation is assumed. -/
+This is the translation Tag 0DZN needs for its hypothesis on `P₁₂`. It is proved as
+`Deformation.Examples.smoothSectionsOfSmoothAffineOpen`. -/
 def SmoothSectionsOfSmoothAffineOpen (k : Type u) [Field k] : Prop :=
   ∀ {X : Scheme.{u}} (f : X ⟶ Spec (CommRingCat.of k)) {U : X.Opens}, IsAffineOpen U →
     Smooth (U.ι ≫ f) →
       letI := sectionsAlgebra f U
       Algebra.Smooth k Γ(X, U)
 
-/-- **[Stacks, Tag 0DYZ] as a hypothesis, in the form Tag 0DZN consumes it.** For every gluing
+/-- **[Stacks, Tag 0DYZ] in the form Tag 0DZN consumes it.** For every gluing
 situation of Tag 0DYY there are restriction morphisms `Def_{P_i} ⟶ Def_{P₁₂}` over `𝒞_Λ` and a
 *smooth* comparison morphism from `Def_X` into the `2`-fibre product
 `Def_{P₁} ×_{Def_{P₁₂}} Def_{P₂}`.
 
 Tag 0DYZ asserts that the comparison morphism is an equivalence; smoothness is the only
-consequence of it that the proof of Tag 0DZN uses, and neither is available in this repository.
-Tag 0DZN carries exactly this data for a single gluing situation, as its arguments `p₁`, `p₂`,
-`comparison` and `hcomparison`; the quantified form is what Tag 0DZQ needs, the gluing situation
-there being produced inside the proof by the two-chart cover. The identification
-`Def_{U_i} = Def_{P_i}` of Tag 0DYX is absorbed into the statement, as it is in Tag 0DZN. -/
+consequence of it that the proof of Tag 0DZN uses. This proposition is proved as
+`Deformation.Examples.gluingComparisonSmooth`. Tag 0DZN takes exactly this data for a single
+gluing situation, as its arguments `p₁`, `p₂`, `comparison` and `hcomparison`; the quantified
+form is what Tag 0DZQ needs, the gluing situation there being produced inside the proof by the
+two-chart cover. The identification `Def_{U_i} = Def_{P_i}` of Tag 0DYX is absorbed into the
+statement, as it is in Tag 0DZN. -/
 def GluingComparisonSmooth (Λ k : Type u) [CommRing Λ] [Field k] [Algebra Λ k] : Prop :=
   ∀ S : GluingSituation Λ k,
     ∃ (p₁ : BasedFunctor (ringDeformationCategoryOver Λ k S.P₁)
@@ -384,10 +391,15 @@ private theorem smooth_ι_comp_of_le_smoothLocus {X Y : Scheme.{u}} (f : X ⟶ Y
   rw [← Scheme.Hom.preimage_smoothLocus_eq U.ι f]
   exact eq_top_iff.mpr fun x _ => hU x.2
 
-/-- **[Stacks, Tag 0DZQ].** Let `X` be a scheme over a field `k` which is separated and of finite
-type over `k`, of dimension at most one, a local complete intersection over `k`, and smooth over
-`k` outside a finite set of points. Then the deformation category `Def_X` of Example 0DY7 is
+/-- **The proof of [Stacks, Tag 0DZQ] from four inputs.** Let `X` be a scheme over a field `k`
+which is separated and of finite type over `k`, of dimension at most one, a local complete
+intersection over `k`, and smooth over `k` outside a finite set of points. Given Tag 09NZ, the
+Rim–Schlessinger condition for `𝒞_Λ`, Tag 0DYZ in the form Tag 0DZN consumes it, and the
+affine-local reading of smoothness, the deformation category `Def_X` of Example 0DY7 is
 unobstructed: its structure morphism over `𝒞_Λ` is smooth.
+
+All four inputs are theorems of this library; Tag 0DZQ, with the source's hypotheses only, is
+`Deformation.Examples.isSmooth_baseProjection_schemeDeformationCategoryProjection_of_lci`.
 
 The proof is the source's. The two-chart cover is
 `Deformation.Examples.exists_affineOpen_cover_avoiding_of_topologicalKrullDim_le_one`, applied to
@@ -397,18 +409,7 @@ makes `Def_X ⟶ Def_{P₂}` smooth, and Tag 0DZH makes `Def_{P₂} ⟶ 𝒞_Λ`
 being a local complete intersection over `k` by hypothesis (2); the composite is the structure
 morphism of `Def_X` by `Deformation.comp_baseProjection`.
 
-See the module documentation for a full account of the four carried hypotheses. -/
-@[stacks 0DZQ "carrying four hypotheses this repository cannot discharge, and no others: \
-h09NZ, the existence of an ample invertible sheaf on a Noetherian separated scheme of dimension \
-at most one (Tag 09NZ), which is what Tag 0A25 carries; hΛ, the Rim–Schlessinger condition for \
-𝒞_Λ over itself, which is what Tag 0DZN carries; h0DYZ, Tag 0DYZ in the form Tag 0DZN consumes \
-it, namely the existence of restriction morphisms Def_{P_i} ⟶ Def_{P_12} and of a smooth \
-comparison morphism Def_X ⟶ Def_{P_1} ×_{Def_{P_12}} Def_{P_2} for every gluing situation — \
-this absorbs the identification Def_{U_i} = Def_{P_i} of Tag 0DYX, as Tag 0DZN does; and \
-hsmooth, the affine-local reading of smoothness over a field, which translates smoothness of \
-U_12 ⟶ Spec k into Algebra.Smooth k Γ(X, U_12) as Tag 0DZN asks. The three hypotheses (1), \
-(2), (3) of the source are present in full, scheme-level form; the affine-local reading of (2) \
-is proved here from Tag 01UD and is not carried"]
+See the module documentation for the four inputs. -/
 theorem isSmooth_baseProjection_schemeDeformationCategoryProjection {Λ k : Type u} [CommRing Λ]
     [Field k] [Algebra Λ k]
     (h09NZ : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne.{u})

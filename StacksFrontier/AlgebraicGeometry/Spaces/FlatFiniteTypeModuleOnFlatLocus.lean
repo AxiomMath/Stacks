@@ -16,7 +16,9 @@ Let `f : X ⟶ Y` be a morphism of algebraic spaces over a scheme `S` of a big f
 locally of finite presentation, let `F` be a quasi-coherent `𝒪_X`-module of finite type and
 assume the weakly associated points of `Y` are locally finite.  Stacks 0DLR asserts that the
 locus `U = {x ∈ |X| : F flat at x over Y}` is open and that `F|_U` is an `𝒪_U`-module of finite
-presentation and flat over `Y`.
+presentation and flat over `Y`.  As printed, with the weakly associated points locally finite in
+`|Y|`, this is false (a counterexample has a target which is not decent); see the
+implementation notes.
 
 The locus `U` is `AlgebraicGeometry.Space.flatLocus` and its openness is
 `AlgebraicGeometry.Space.isOpen_flatLocus`, both in
@@ -50,8 +52,9 @@ theorem Stacks 05IK applies to the whole of that scheme and not merely to an ope
 * `AlgebraicGeometry.Space.isFinitePresentationOnCharts_flatLocusRestrict` and
   `AlgebraicGeometry.Space.isFlatOver_flatLocusRestrict`: **the two assertions of Stacks 0DLR
   about the module on `U`**, that `F|_U` is an `𝒪_U`-module of finite presentation and that it is
-  flat over `Y`.  Both are stated at the source's own three conditions, condition (3) read on one
-  surjective étale scheme chart of the target as the source's proof reads it; the every-chart
+  flat over `Y`.  Both are stated at the correction of the source recorded in `errata.md`:
+  condition (3) is read on one surjective étale scheme chart of the target, as the source's proof
+  reads it, since on `|Y|` the statement is false; the every-chart
   reading the finite presentation proof consumes is derived from it by
   `AlgebraicGeometry.Space.hasLocallyFiniteWeaklyAssociatedPointsOnCharts_of_isSurjectiveChart`.
 * `AlgebraicGeometry.Space.isOpen_preimage_flatLocus`: the preimage of `U` in a source chart is
@@ -71,9 +74,12 @@ readings that the scheme-level theorem Stacks 05IK consumes are *derived* from t
 `StacksFrontier/AlgebraicGeometry/Spaces/ChartRestrictionFromSite.lean`, so neither is asked for
 here.
 
-The source's condition (3) is that the weakly associated points of `Y` be locally finite, and the
-proof of Stacks 0DLR reads it on one *surjective* étale scheme chart of `Y`.  That is how the two
-assertions here read it.  Their proofs consume the reading on *every* étale scheme chart,
+The source's condition (3) is that the weakly associated points of `Y` be locally finite in `|Y|`,
+and the proof of Stacks 0DLR reads it on one *surjective* étale scheme chart of `Y`.  The two
+readings can differ when `Y` is not decent, and with the first the statement is false
+(`Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus`); the two
+assertions here use the second, which is the correction recorded in `errata.md`.  Their proofs
+consume the reading on *every* étale scheme chart,
 `AlgebraicGeometry.Space.HasLocallyFiniteWeaklyAssociatedPointsOnCharts`, which is a priori
 stronger; the two readings agree unconditionally by
 `AlgebraicGeometry.Space.hasLocallyFiniteWeaklyAssociatedPointsOnCharts_of_isSurjectiveChart` of
@@ -289,9 +295,12 @@ small étale site and a target whose weakly associated points are locally finite
 one surjective étale chart, the module `F|_U` on the open subspace
 `U = {x ∈ |X| : F flat at x over Y}` is of finite presentation.
 
-All three conditions are the source's own, the local finiteness of the weakly associated points
-of `Y` read on one *surjective* étale scheme chart as the source's proof reads it; the every-chart
-reading the proof consumes is derived from it by
+Conditions (1) and (2) are the source's own; condition (3), local finiteness of the weakly
+associated points of `Y` in `|Y|`, is replaced by local finiteness on one *surjective* étale
+scheme chart, as the source's proof reads it.  This is the correction of Stacks 0DLR recorded in
+`errata.md`: with (3) on `|Y|` the statement is false,
+`Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus`.
+The every-chart reading the proof consumes is derived from it by
 `AlgebraicGeometry.Space.hasLocallyFiniteWeaklyAssociatedPointsOnCharts_of_isSurjectiveChart`.
 
 The conclusion is read on the étale scheme charts of `U`, as every property of a module on an
@@ -301,11 +310,15 @@ chosen to lie over a chart of `Y` (Tag 02X1), where the scheme-level theorem Sta
 the passage back to every chart is
 `AlgebraicGeometry.Space.isFinitePresentation_restrictToChartScheme_of_isSurjective`. -/
 @[stacks 0DLR "F|_U is an O_U-module of finite presentation, for U the open subspace cut out by \
-the flat locus, at all three conditions of the statement in the source's own shape -- the module \
-quasi-coherent of finite type on the small etale site and the weakly associated points of the \
-target locally finite on one surjective etale scheme chart, as the source's proof reads \
-condition (3); the conclusion is read on the etale scheme charts of U, as every property of a \
-module on an algebraic space is in this development"]
+the flat locus, at the Stacks erratum: condition (3) of the source, local finiteness of the weakly \
+associated points of Y in |Y|, is replaced by local finiteness of the weakly associated points of \
+the scheme of one surjective etale chart of Y, which is how the source's proof reads it and which \
+implies (3). The tag as published, with (3) on |Y|, is false, refuted (with a target which is not \
+decent) by the theorem \
+Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus of \
+StacksFrontier/Examples/Flatness/NonOpenFlatLocusWeaklyAssociated.lean. The module is quasi-coherent \
+of finite type on the small etale site; the conclusion is read on the etale scheme charts of U, as \
+every property of a module on an algebraic space is in this development"]
 theorem isFinitePresentationOnCharts_flatLocusRestrict (f : Xs ⟶ Ys)
     (F : Modules.{u, u} B S hS Xs.1 Xs.2) [hqc : F.IsQuasicoherentOnSite]
     (hf : IsLocallyOfFinitePresentation B S hS f.hom)
@@ -361,17 +374,24 @@ whose weakly associated points are locally finite on the scheme of one surjectiv
 the module `F|_U` on the open subspace `U = {x ∈ |X| : F flat at x over Y}` is flat over `Y` along
 the composite `U ⟶ X ⟶ Y`, in the sense of Tag 05VV.
 
-All three conditions are the source's own, condition (3) read on one *surjective* étale scheme
-chart of the target as the source's proof reads it.
+Conditions (1) and (2) are the source's own; condition (3) is replaced by local finiteness of the
+weakly associated points on one *surjective* étale scheme chart of the target, as the source's
+proof reads it, which is the correction of Stacks 0DLR recorded in `errata.md` (with (3) on `|Y|`
+the statement is false,
+`Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus`).
 
 On a commuting square of étale scheme charts of `U ⟶ Y`, the chart of `U` is a chart of `X` whose
 points all lie in the relative flat locus, so the square witnesses flatness at each of them by
 Stacks 05VU. -/
 @[stacks 0DLR "F|_U is flat over Y along the composite U -> X -> Y, for U the open subspace cut \
-out by the flat locus, at all three conditions of the statement in the source's own shape, \
-condition (3) read on one surjective etale scheme chart of the target; flatness of a module on \
-an algebraic space over the target is Tag 05VV, read on the commuting squares of etale scheme \
-charts"]
+out by the flat locus, at the Stacks erratum: condition (3) of the source, local finiteness of the \
+weakly associated points of Y in |Y|, is replaced by local finiteness of the weakly associated \
+points of the scheme of one surjective etale chart of Y, which is how the source's proof reads it \
+and which implies (3). The tag as published, with (3) on |Y|, is false, refuted (with a target \
+which is not decent) by the theorem \
+Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus of \
+StacksFrontier/Examples/Flatness/NonOpenFlatLocusWeaklyAssociated.lean. Flatness of a module on an \
+algebraic space over the target is Tag 05VV, read on the commuting squares of etale scheme charts"]
 theorem isFlatOver_flatLocusRestrict (f : Xs ⟶ Ys) (F : Modules.{u, u} B S hS Xs.1 Xs.2)
     [hqc : F.IsQuasicoherentOnSite] (hf : IsLocallyOfFinitePresentation B S hS f.hom)
     (hft : SheafOfModules.IsFiniteTypeOnSite F) (V₀ : SmallEtale B S hS Ys.1)

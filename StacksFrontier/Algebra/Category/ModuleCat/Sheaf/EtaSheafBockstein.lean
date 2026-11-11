@@ -276,8 +276,6 @@ private theorem mono_map_of_isEquivalence {C : Type u₁} {D : Type u₂} [Categ
   have := hf
   exact F.map_mono f
 
-attribute [local instance] HasDerivedCategory.standard
-
 variable (X : RingedSpace.{u, u})
 
 local notation "Oₓ" => (Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)
@@ -367,7 +365,7 @@ public theorem powerQuotientShortExact
     (idealPowerIncl_mono X I ι (i + 1)) (idealPowerIncl_mono X I ι i)
 
 /-- The `i`-th term `H^i(M ⊗^L I^i/I^{i+1})` of the Bockstein complex. -/
-public noncomputable abbrev bocksteinTerm
+public noncomputable abbrev bocksteinTerm [HasDerivedCategory (SheafOfModules.{u} Oₓ)]
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪)
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj
       ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).property I]
@@ -380,7 +378,7 @@ public noncomputable abbrev bocksteinTerm
 `β^i : H^i(M ⊗^L I^i/I^{i+1}) ⟶ H^{i+1}(M ⊗^L I^{i+1}/I^{i+2})`, the connecting map of the
 long exact cohomology-sheaf sequence of the triangle obtained by applying `M ⊗^L -` to the
 successive-power quotient sequence. -/
-public noncomputable def bocksteinOperator
+public noncomputable def bocksteinOperator [HasDerivedCategory (SheafOfModules.{u} Oₓ)]
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) [Mono ι]
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj
       ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).property I]
@@ -394,7 +392,7 @@ public noncomputable def bocksteinOperator
 /-- **Stacks Project, Tag 0GT8.** Consecutive Bockstein operators compose to zero,
 `β^{i+1} ∘ β^i = 0`. -/
 @[stacks 0GT8 "square-zero Bockstein maps"]
-public theorem bockstein_comp_bockstein
+public theorem bockstein_comp_bockstein [HasDerivedCategory (SheafOfModules.{u} Oₓ)]
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) [Mono ι]
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj
       ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).property I]
@@ -415,7 +413,7 @@ public theorem bockstein_comp_bockstein
 `D(O_X)`: the integer-indexed complex whose `i`-th term is `H^i(M ⊗^L I^i/I^{i+1})` and whose
 differentials are the Bockstein operators. -/
 @[stacks 0GT8 "the Bockstein complex"]
-public noncomputable def bocksteinComplex
+public noncomputable def bocksteinComplex [HasDerivedCategory (SheafOfModules.{u} Oₓ)]
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) [Mono ι]
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj
       ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).property I]
@@ -424,7 +422,7 @@ public noncomputable def bocksteinComplex
     (bockstein_comp_bockstein X I ι M)
 
 /-- The terms of the Bockstein complex are the cohomology sheaves `H^i(M ⊗^L I^i/I^{i+1})`. -/
-@[simp] public theorem bocksteinComplex_X
+@[simp] public theorem bocksteinComplex_X [HasDerivedCategory (SheafOfModules.{u} Oₓ)]
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) [Mono ι]
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj
       ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).property I]
@@ -432,7 +430,7 @@ public noncomputable def bocksteinComplex
     (bocksteinComplex X I ι M).X i = bocksteinTerm X I ι M i := rfl
 
 /-- The differentials of the Bockstein complex are the Bockstein operators. -/
-public theorem bocksteinComplex_d
+public theorem bocksteinComplex_d [HasDerivedCategory (SheafOfModules.{u} Oₓ)]
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) [Mono ι]
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj
       ((Stacks.SheafOfModules.Tensor.ringSheaf X.sheaf)).property I]

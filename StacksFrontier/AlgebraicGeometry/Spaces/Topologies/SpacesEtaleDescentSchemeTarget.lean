@@ -27,7 +27,7 @@ this is Stacks 0GFV.
 
 * `AlgebraicGeometry.Space.isEquivalence_toDescentData_schemeSpaceFunctor_map` — effective descent
   of spaces-étale sheaves along the morphism of algebraic spaces represented by a morphism of
-  schemes, granted effective descent of small étale sheaves along that morphism of schemes.
+  schemes, given effective descent of small étale sheaves along that morphism of schemes.
 * `AlgebraicGeometry.Space.spacesEtaleDescentOverRepresentable_of_smallEtale` — the case of a
   representable target, from the scheme case.
 * `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable` —
@@ -36,6 +36,20 @@ this is Stacks 0GFV.
 * `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable_comp`
   — effective descent of spaces-étale sheaves along `f` as soon as some `π ≫ f` is such a
   morphism.
+
+## Implementation notes
+
+`isEquivalence_toDescentData_singleton_of_relativelyRepresentable` is the complete statement of
+Stacks 0GFU under exactly the source's hypotheses, and the declaration registered for the tag.
+It supersedes the three cases
+`isEquivalence_toDescentData_singleton_of_surjective_integral`, `…_of_surjective_proper` and
+`…_of_surjective_flat_locallyOfFinitePresentation` of
+`StacksFrontier.AlgebraicGeometry.Spaces.Topologies.SpacesEtaleDescentRepresentableCover`, which no
+longer carry the tag: each assumes, as its hypothesis `hsch`, the case of Stacks 0GFU over a
+scheme base for its own property (`SpacesEtaleDescentOverRepresentable`). Here `hsch` is
+`spacesEtaleDescentOverRepresentable_of_smallEtale`, fed with effective descent of small étale
+sheaves along a surjective integral, surjective proper, or surjective flat locally finitely
+presented morphism of schemes (Stacks 0GEZ, 0GF0 and 0GF2).
 
 ## References
 
@@ -180,11 +194,16 @@ theorem _root_.AlgebraicGeometry.smallEtaleSheafInverseImageDescentFunctor_isEqu
 
 /-! ### Stacks 0GFU and 0GFV -/
 
-/-- Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is representable (by
-schemes) and is surjective and integral, or surjective and proper, or surjective, flat and locally
-of finite presentation. Then the functor from sheaves on the spaces-étale site of `Y` (that is,
-`Sh(Y_étale)`, Stacks 03G1) to descent data for étale sheaves with respect to `{X ⟶ Y}` is an
-equivalence of categories. -/
+/-- **Stacks 0GFU.** Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is
+representable (by schemes) and is surjective and integral, or surjective and proper, or
+surjective, flat and locally of finite presentation. Then the functor from sheaves on the
+spaces-étale site of `Y` (that is, `Sh(Y_étale)`, Stacks 03G1) to descent data for étale sheaves
+with respect to `{X ⟶ Y}` is an equivalence of categories.
+
+Nothing is assumed beyond the source's hypotheses: the case over a scheme base, which the three
+cases `isEquivalence_toDescentData_singleton_of_surjective_integral`, `…_of_surjective_proper`
+and `…_of_surjective_flat_locallyOfFinitePresentation` take as their hypothesis `hsch`, is
+discharged here by `spacesEtaleDescentOverRepresentable_of_smallEtale`. -/
 @[stacks 0GFU]
 theorem isEquivalence_toDescentData_singleton_of_relativelyRepresentable
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
@@ -216,7 +235,11 @@ morphism of algebraic spaces. Assume that `π ≫ f` is representable (by scheme
 and integral, or surjective and proper, or surjective, flat and locally of finite presentation.
 Then the functor from sheaves on the spaces-étale site of `Y` to descent data for étale sheaves
 with respect to `{X ⟶ Y}` is an equivalence of categories. -/
-@[stacks 0GFV]
+@[stacks 0GFV "Sh(Y_étale) is the category of sheaves on the spaces-étale site of `Y`, \
+equivalent to the small étale topos by Stacks 03G1; descent data for `{X ⟶ Y}` are those of the \
+spaces-étale pseudofunctor along the singleton family. The proof combines Stacks 0GFU \
+(`isEquivalence_toDescentData_singleton_of_relativelyRepresentable`) with the refinement \
+principle Stacks 0GEA, via `isEquivalence_toDescentData_singleton_of_representable_comp`."]
 theorem isEquivalence_toDescentData_singleton_of_relativelyRepresentable_comp
     {X' X Y : AlgebraicSpaces B S hS} (π : X' ⟶ X) (f : X ⟶ Y)
     (hrep : yoneda.relativelyRepresentable (π ≫ f).hom)

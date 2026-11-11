@@ -4,6 +4,7 @@ public import StacksFrontier.Cotangent.SheavesOfRings.PointStalkCotangentColimit
 public import StacksFrontier.Cotangent.SheavesOfRings.ProductRingsSectionwise
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ModuleStalkFunctor
 public import StacksFrontier.CategoryTheory.Sites.Point.ModuleStalkDerived
+import StacksCore.Tactic.StacksAttribute
 
 /-!
 # The stalk of the cotangent complex at a point of a site
@@ -385,6 +386,14 @@ theorem sheafModuleFiberOfCommRing_map_d_germ (i j : ℤ) (U : C) (x : Φ.fiber.
 /-- **The stalk of the cotangent complex at a point of a site** (Tag 08T0): the stalk at `Φ` of
 `L_{B/A}` is `L_{B_Φ/A_Φ}`, as complexes of `B_Φ`-modules. On germs it is described by
 `CategoryTheory.Sheaf.pointStalkCotangentComplexIso_hom_germ`. -/
+@[stacks 08T0 "The point is a point of the site in the sense of Stacks 00Y5 (Mathlib's
+GrothendieckTopology.Point), with fibre functor valued in the universe of the sections of A and
+B, the single universe of sets of the source. The left-hand side is the stalk at the point of
+L_{B/A} as a complex of B_p-modules (Stacks.sheafModuleFiberOfCommRing), the right-hand side is
+the cotangent complex of Tag 08PN of the ring map of stalks A_p -> B_p (pointStalkAlgebra). The
+instance LocallySmall.{max u v w} C holds for every category C in these universes (Mathlib's
+instance locallySmall_of_univLE), so it restricts nothing. On germs the isomorphism is described by
+pointStalkCotangentComplexIso_hom_germ."]
 def pointStalkCotangentComplexIso :
     ((Stacks.sheafModuleFiberOfCommRing Φ B).mapHomologicalComplex (ComplexShape.up ℤ)).obj
         (cotangentComplex J f) ≅

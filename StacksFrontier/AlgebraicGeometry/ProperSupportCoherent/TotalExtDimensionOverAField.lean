@@ -18,8 +18,10 @@ splits into two independent halves: every `Ext^i_X(E, K)` is a finite-dimensiona
 space, and only finitely many of them are nonzero.
 
 The second half is proved here from [Stacks, Tag 09M4] and [Stacks, Tag 0FXU]. The first half is
-[Stacks, Tag 0D0D], of which this library carries only the degrees in which the Ext modules
-vanish, so it is carried as the named hypothesis `hExtFinite`; see the main theorem's docstring.
+[Stacks, Tag 0D0D]; in this file it is the named hypothesis `hExtFinite`, and the dual complex of
+[Stacks, Tag 08DQ] is the datum `D`. Both are discharged in
+`StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/TotalExtDimensionOverAFieldGeneral.lean`,
+which proves [Stacks, Tag 0FYC] as `cardinalSum_rank_ext_lt_aleph0_of_isProper`.
 
 The `k`-module structure is the canonical one of `AlgebraicGeometry.modulesLinear`, induced by the
 structure morphism `X ⟶ Spec k`; this is the structure the tag's `dim_k` refers to, and it is
@@ -34,9 +36,11 @@ installed as a local instance below because it depends on that morphism.
 * `Stacks.AlgebraicGeometry.ProperSupportCoherent.finite_setOf_not_subsingleton_ext_of_isPerfect`:
   `Ext^i_X(E, K) = 0` for all but finitely many `i`, for `E` perfect and `K` bounded with
   coherent cohomology. This is the half of [Stacks, Tag 0FYC] that is proved outright.
-* `Stacks.AlgebraicGeometry.ProperSupportCoherent.cardinalSum_rank_ext_lt_aleph0`:
-  **[Stacks, Tag 0FYC]**, the finiteness of `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K)`, granted
-  finite-dimensionality of the individual Ext modules.
+* `Stacks.AlgebraicGeometry.ProperSupportCoherent.cardinalSum_rank_ext_lt_aleph0`: the
+  finiteness of `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K)` from finite-dimensionality of the individual Ext
+  modules. [Stacks, Tag 0FYC] itself, with no further hypotheses, is
+  `cardinalSum_rank_ext_lt_aleph0_of_isProper` in
+  `StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/TotalExtDimensionOverAFieldGeneral.lean`.
 
 ## Implementation notes
 
@@ -50,22 +54,21 @@ being quasi-coherent, [Stacks, Tag 01BW] — supplies the rest. Properness over 
 Noetherian, which is the hypothesis of [Stacks, Tag 0FXU]: `X ⟶ Spec k` is locally of finite type
 and quasi-compact, and `Spec k` is Noetherian and compact.
 
-**What is carried as a hypothesis, and why.** Two inputs are not available in this library in a
-form that applies here, and are named hypotheses rather than proved.
+**What is carried as a hypothesis.** The main theorem of this file takes two inputs as
+hypotheses; both are theorems or constructions of this library, and the hypothesis-free form is
+`cardinalSum_rank_ext_lt_aleph0_of_isProper`.
 
 `hExtFinite` is finite-dimensionality of each `Ext^i_X(E, K)` over `k`, which is
 [Stacks, Tag 0D0D]. That tag is now a theorem of this library,
 `Stacks.AlgebraicGeometry.ProperSupportCoherent.moduleFinite_ext_of_proper` of
 `StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/ExtFinitenessUnconditional.lean`, so the
 hypothesis is dischargeable: a field is Noetherian, `K` is bounded with coherent cohomology and a
-perfect `E` lies in `D^b_Coh(𝒪_X)` by [Stacks, Tag 0FXU]. It is still carried here because
-discharging it is a change to the shape of this tag's statement rather than to its content, and
-because the second hypothesis below keeps the result conditional in any case.
+perfect `E` lies in `D^b_Coh(𝒪_X)` by [Stacks, Tag 0FXU].
 
 `D` is the dual perfect complex of [Stacks, Tag 08DQ], in the form
 `Stacks.DerivedQCoh.DualPerfectComplexData` in which [Stacks, Tag 09M4] is stated in this
-library; there is no absolute derived internal hom on `D(𝒪_X)` here, so `E^∨` cannot be written
-down and the properties of it that the proof of [Stacks, Tag 09M4] consumes travel as data.
+library. The library builds such data from the derived dual `Stacks.SheafOfModules.derivedDual`
+(see `StacksFrontier/AlgebraicGeometry/DerivedQCoh/PerfectHomVanishingWindowGeneral.lean`).
 
 **Spellings.** `RΓ(X, -)` enters as a pair of a functor and its structure morphism carrying the
 right-derived-functor instance, exactly as in
@@ -184,8 +187,9 @@ theorem finite_setOf_not_subsingleton_ext_of_isPerfect
     ((DerivedCategory.isLE_iff K d).mpr hd)
 
 include α in
-/-- **Stacks Project, Tag 0FYC.** Let `X` be a scheme proper over a field `k`, let `K` be an
-object of `D^b_Coh(𝒪_X)` and let `E` be a perfect object of `D(𝒪_X)`. Then
+/-- **The total dimension of the Ext groups is finite, from finiteness of each of them.** Let `X`
+be a scheme proper over a field `k`, let `K` be an object of `D^b_Coh(𝒪_X)` and let `E` be a
+perfect object of `D(𝒪_X)`. Then
 
 `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K) < ∞`,
 
@@ -198,15 +202,16 @@ nonzero. The second condition is `finite_setOf_not_subsingleton_ext_of_isPerfect
 [Stacks, Tag 0D0D], now a theorem of this library as
 `Stacks.AlgebraicGeometry.ProperSupportCoherent.moduleFinite_ext_of_proper` of
 `StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/ExtFinitenessUnconditional.lean`, so this
-hypothesis is dischargeable; see the module documentation. The hypothesis `D` is the dual perfect
-complex of [Stacks, Tag 08DQ], carried as data because there is no absolute derived internal hom
-on `D(𝒪_X)` in this library.
+hypothesis is dischargeable; see the module documentation. The datum `D` is the dual perfect
+complex of [Stacks, Tag 08DQ], which the library builds from the derived dual.
 
-So what is proved is the tag's conclusion in full, the finiteness of the total sum, from the
-finiteness of the individual summands. Both named hypotheses stand for cited results and neither
-asserts the conclusion: `hExtFinite` is finiteness of each `Ext^i_X(E, K)` separately, which
-leaves the number of nonzero degrees unbounded and so does not imply finiteness of the sum. -/
-@[stacks 0FYC "granted hExtFinite (substantive degrees of 0D0D) and the cited dual complex 08DQ"]
+This is the source's proof of [Stacks, Tag 0FYC] with two of its inputs as hypotheses. The tag
+itself, with no hypotheses beyond the source's, is
+`Stacks.AlgebraicGeometry.ProperSupportCoherent.cardinalSum_rank_ext_lt_aleph0_of_isProper` of
+`StacksFrontier/AlgebraicGeometry/ProperSupportCoherent/TotalExtDimensionOverAFieldGeneral.lean`.
+Neither hypothesis asserts the conclusion: `hExtFinite` is finiteness of each `Ext^i_X(E, K)`
+separately, which leaves the number of nonzero degrees unbounded and so does not imply finiteness
+of the sum. -/
 theorem cardinalSum_rank_ext_lt_aleph0
     (hE : Stacks.Cohomology.PerfectComplexes.IsPerfect (X := X.left.toRingedSpace) E)
     (D : Stacks.DerivedQCoh.DualPerfectComplexData X.left RΓ E)

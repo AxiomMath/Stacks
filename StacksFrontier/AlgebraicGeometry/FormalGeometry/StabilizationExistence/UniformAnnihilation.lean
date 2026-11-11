@@ -9,8 +9,10 @@ import all StacksFrontier.AlgebraicGeometry.FormalGeometry.StabilizationDepthCol
 # Uniform annihilation and the existence of the stabilizing data of Stacks 0EFI
 
 Claim III of Stacks 0EFI, the uniform annihilation, through Faltings' annihilator theorem
-Stacks 0EFC; the existence of a stabilizing pair given hypotheses (1)–(4) and `0 ≤ d`; and what
-the conclusion of Stacks 0EFI amounts to, including the case `d < 0`.
+Stacks 0EFC; the existence of a stabilizing pair under hypotheses (1)–(4) and `0 ≤ d`; Stacks 0EFI
+itself, `Stacks.Algebraization.exists_isStabilizingData_of_nonneg_or_nonpos`, with the hypothesis
+`0 ≤ d ∨ s ≤ 0` that the source omits; and what the conclusion of Stacks 0EFI amounts to,
+including the case `d < 0`.
 -/
 
 @[expose] public noncomputable section
@@ -350,7 +352,6 @@ Claim III, and is false without it, by the counterexample
 recorded by `Stacks.Algebraization.StabilizationHypotheses` and does not follow from it. See
 `Stacks.Algebraization.exists_isStabilizingData_iff_of_neg` for what the conclusion amounts to
 when `d < 0`, and the module docstring for the erratum. -/
-@[stacks 0EFI "the existence of the stabilizing data, given hypotheses (1)-(4) and 0 ≤ d"]
 public theorem exists_isStabilizingData
     {A : Type u} [CommRing A] [IsNoetherianRing A]
     {M : Type u} [AddCommGroup M] [Module A M] [Module.Finite A M]
@@ -365,6 +366,33 @@ public theorem exists_isStabilizingData
       depth_add_dimension_gt_of_stabilizationHypotheses I J s d omega H hd
         (Dualizing.dualizingDimensionFunction omega H.dualizing) p q hp
         (zeroLocus_stabilizingIdealCandidate_subset_associatedSubset I J s d omega H hq) hpq
+
+/-- **Stacks 0EFI**, in its corrected form. Let `I` and `J` be ideals of a Noetherian ring `A`,
+let `M` be a finite `A`-module, and let `s` and `d` be integers with `0 ≤ d` or `s ≤ 0`. Under
+hypotheses (1)–(4) of the source — a dualizing complex `omega`, no condition on primes of `V(I)`,
+the dimension bound on primes of `T ∖ V(I)` and the depth-or-dimension bound on primes outside
+`T ∪ V(I)`, with `T = associatedSubset I J` as in Stacks 0EFG — there is an ideal `J₀ ≤ J`, and
+an exponent `n`, such that `V(J₀) ∩ V(I) = V(J) ∩ V(I)`, every further ideal `J' ≤ J₀` with
+`V(J') ∩ V(I) = V(J) ∩ V(I)` has `RΓ_{J₀}(M) → RΓ_{J'}(M)` an isomorphism on cohomology in
+degrees `≤ s`, and `(J₀ I) ^ n` annihilates all of those cohomology modules.
+
+The source states the lemma for all integers `s` and `d`; that is false, by the counterexample
+`Stacks.Algebraization.not_forall_exists_isStabilizingData_of_neg` (`s = 1`, `d = -1`), and the
+hypothesis `0 ≤ d ∨ s ≤ 0` is the correction recorded in the errata. For `0 ≤ d` this is
+`Stacks.Algebraization.exists_isStabilizingData`, the source's proof; for `s ≤ 0` it is
+`Stacks.Algebraization.exists_isStabilizingData_of_nonpos`, which needs none of (1)–(4). -/
+@[stacks 0EFI "corrected statement: the source omits the hypothesis 0 ≤ d ∨ s ≤ 0, without \
+  which it is false (Stacks.Algebraization.not_forall_exists_isStabilizingData_of_neg)"]
+public theorem exists_isStabilizingData_of_nonneg_or_nonpos
+    {A : Type u} [CommRing A] [IsNoetherianRing A]
+    {M : Type u} [AddCommGroup M] [Module A M] [Module.Finite A M]
+    (I J : Ideal A) (s d : ℤ) (hds : 0 ≤ d ∨ s ≤ 0)
+    (omega : DerivedCategory (ModuleCat.{u} A))
+    (H : StabilizationHypotheses (M := M) I J s d omega) :
+    ∃ p : Ideal A × ℕ, IsStabilizingData (M := M) I J s p := by
+  rcases hds with hd | hs
+  · exact exists_isStabilizingData I J s d hd omega H
+  · exact exists_isStabilizingData_of_nonpos I J s hs
 
 /-! ### What the conclusion of Stacks 0EFI amounts to, and the case `d < 0` -/
 

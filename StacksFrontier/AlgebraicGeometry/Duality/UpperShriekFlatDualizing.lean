@@ -118,7 +118,11 @@ theorem isIso_derivedSheafHomothety_relativeDualizingComplex_of_charts
 `f : X ⟶ Y` be a flat morphism of `FTS S`, with `f^!` computed at any compactification `j`. Then
 `f^!𝒪_Y` is a `Y`-perfect object of `D(𝒪_X)` and `𝒪_X ⟶ R𝓗om_{𝒪_X}(f^!𝒪_Y, f^!𝒪_Y)` is an
 isomorphism. -/
-@[stacks 0E9T]
+@[stacks 0E9T "both assertions, for f flat and f^! computed at any compactification j: \
+  f^! O_Y is Y-perfect (pseudo-coherent with locally finite Tor dimension over f^{-1} O_Y, \
+  Tag 0DI0) and the homothety O_X -> R SheafHom(f^! O_Y, f^! O_Y) is an isomorphism; f^! O_Y is \
+  read at the standard model of D(O_X), which has the same objects as the locally small model \
+  at which upperShriek is defined"]
 theorem upperShriek_structureSheaf_isPerfectRelativeTo_and_isIso_homothety :
     (letI := locallyOfFinitePresentation_left f;
       Scheme.Hom.IsPerfectRelativeTo.{u + 1, u + 1} f.left

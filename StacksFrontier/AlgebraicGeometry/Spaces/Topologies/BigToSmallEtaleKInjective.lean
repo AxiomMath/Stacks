@@ -63,7 +63,10 @@ model's own sheafification instance is universe-matched, so none of the four res
 stated with an independent universe of sections.
 
 The module remark of the source — that the corresponding statements for sheaves of modules do
-not hold — is not proved here.
+not hold — is proved over `Spec ℤ` in
+`StacksFrontier/AlgebraicGeometry/Spaces/Topologies/BigSmallEtaleModuleRestrictionInjective.lean`,
+by `AlgebraicGeometry.BigEtaleSpaceSite.exists_injective_not_injective_restrictModules` and its
+three companions.
 
 ## References
 

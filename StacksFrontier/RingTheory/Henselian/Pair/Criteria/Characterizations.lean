@@ -15,7 +15,9 @@ inducing a bijection on idempotents of every finite `A`-algebra, to the same for
 
 ## Main results
 
-* `henselianPair_tfae`: the five characterizations, in the order of the source.
+* `henselianPair_tfae_exists`: the five characterizations, in the order of the source.
+* `eq_of_isRoot_of_sub_one_mem`: the root in Gabber's criterion is unique.
+* `henselianPair_tfae`: the same, with uniqueness of the root built into Gabber's criterion.
 * `henselianPair_of_henselianRing`: a henselian ring in the sense of `HenselianRing A I` forms a
   henselian pair with `I`.
 
@@ -23,8 +25,9 @@ inducing a bijection on idempotents of every finite `A`-algebra, to the same for
 
 Reduction modulo `I` maps polynomial coefficients along `Ideal.Quotient.mk I`, and the extension of
 `I` to an algebra `B` is `I.map (algebraMap A B)`. The coefficients of Gabber's polynomial are
-indexed by `Fin (n + 1)`, and the source's existence claim together with its subsequent uniqueness
-assertion are combined into a single `ExistsUnique`.
+indexed by `Fin (n + 1)`. `henselianPair_tfae` states Gabber's criterion with a unique root,
+combining the source's item (5) with its uniqueness assertion; `henselianPair_tfae_exists` states it
+with existence only, as the source does, and `eq_of_isRoot_of_sub_one_mem` is the uniqueness.
 
 ## References
 
@@ -512,8 +515,11 @@ private theorem monic_factor_lifting_of_etale_section_lifting
     exact heq
 
 /-- The five characterizations of a henselian pair: lifting maps from étale algebras,
-bijectivity on idempotents for finite or integral algebras, and Gabber's unique-root criterion. -/
-@[stacks 09XI]
+bijectivity on idempotents for finite or integral algebras, and Gabber's root criterion.
+
+Item (5) here asks for a *unique* root in `1 + I`, so it combines the source's item (5) with the
+"moreover" clause; `henselianPair_tfae_exists` states item (5) with existence only, as the source
+does, and `eq_of_isRoot_of_sub_one_mem` is the uniqueness clause. -/
 public theorem henselianPair_tfae (A : Type u) [CommRing A] (I : Ideal A) :
     List.TFAE
       [HenselianPair A I,
@@ -556,11 +562,101 @@ public theorem henselianPair_tfae (A : Type u) [CommRing A] (I : Ideal A) :
       (jacobson_of_etale_section_lifting A I h) h
   tfae_finish
 
+/-- Gabber's polynomial `f = X ^ n (X - 1) + ∑ aᵢ X ^ i` with `aᵢ ∈ I` has at most one root in
+`1 + I` when `I` is contained in the Jacobson radical: its derivative at such a root lies in
+`1 + I`, so the difference of two roots is killed by a unit. -/
+@[stacks 09XI "moreover: the root in (5) is unique"]
+public theorem eq_of_isRoot_of_sub_one_mem {A : Type u} [CommRing A] {I : Ideal A}
+    (hI : IsContainedInJacobson I) (f : A[X]) (n : ℕ) (a : Fin (n + 1) → I)
+    (hform : f = X ^ n * (X - 1) + ∑ i : Fin (n + 1), C (a i : A) * X ^ (i : ℕ))
+    {α β : A} (hα : α - 1 ∈ I ∧ f.IsRoot α) (hβ : β - 1 ∈ I ∧ f.IsRoot β) : β = α := by
+  have hsum : Polynomial.eval 1
+      (Polynomial.derivative (∑ i : Fin (n + 1),
+        Polynomial.C (a i : A) * Polynomial.X ^ (i : ℕ))) ∈ I := by
+    rw [map_sum, Polynomial.eval_finsetSum]
+    apply Submodule.sum_mem
+    intro i _
+    simp only [Polynomial.derivative_mul, Polynomial.derivative_C, zero_mul,
+      Polynomial.derivative_pow, zero_add, Polynomial.eval_mul, Polynomial.eval_C,
+      Polynomial.eval_pow, Polynomial.eval_X, one_pow, mul_one]
+    exact I.mul_mem_right _ (a i).property
+  have hder : Ideal.Quotient.mk I (f.derivative.eval 1) = 1 := by
+    rw [hform]
+    simp only [Polynomial.derivative_mul, Polynomial.derivative_pow,
+      Polynomial.derivative_X, Polynomial.derivative_sub, Polynomial.derivative_one,
+      zero_add, Polynomial.eval_add, Polynomial.eval_mul, Polynomial.eval_pow,
+      Polynomial.eval_X, Polynomial.eval_sub, Polynomial.eval_one,
+      one_pow, sub_self, mul_zero, one_mul, map_add]
+    rw [show Ideal.Quotient.mk I
+        (Polynomial.eval 1 (Polynomial.derivative
+          (∑ i : Fin (n + 1), Polynomial.C (a i : A) * Polynomial.X ^ (i : ℕ)))) = 0 by
+      exact Ideal.Quotient.eq_zero_iff_mem.mpr hsum]
+    simp
+  let : IsLocalHom (Ideal.Quotient.mk I) := isLocalHom_of_le_jacobson_bot I hI
+  obtain ⟨k, hk⟩ := f.binomExpansion α (β - α)
+  rw [add_sub_cancel] at hk
+  rw [hα.2.eq_zero, hβ.2.eq_zero, zero_add] at hk
+  set y := β - α with hy
+  have hymem : y ∈ I := by
+    rw [hy, show β - α = (β - 1) - (α - 1) by ring]
+    exact I.sub_mem hβ.1 hα.1
+  have hfactor : y * (f.derivative.eval α + k * y) = 0 := by
+    linear_combination -hk
+  have hαeq : Ideal.Quotient.mk I α = Ideal.Quotient.mk I 1 := by
+    rw [← sub_eq_zero, ← map_sub, Ideal.Quotient.eq_zero_iff_mem]
+    exact hα.1
+  have hunit : IsUnit (f.derivative.eval α + k * y) := by
+    apply IsUnit.of_map (Ideal.Quotient.mk I)
+    rw [map_add, map_mul, Ideal.Quotient.eq_zero_iff_mem.mpr hymem, mul_zero, add_zero,
+      ← Polynomial.eval_map_apply, hαeq, Polynomial.eval_map_apply, hder]
+    exact isUnit_one
+  have hy0 : y = 0 := (IsUnit.mul_left_eq_zero hunit).mp hfactor
+  rw [hy] at hy0
+  exact sub_eq_zero.mp hy0
+
+/-- The five characterizations of a henselian pair, in the order of the source: lifting maps from
+étale algebras, bijectivity on idempotents for finite or integral algebras, and Gabber's criterion
+that `I` lies in the Jacobson radical and every polynomial `X ^ n (X - 1) + ∑ aᵢ X ^ i` with
+`aᵢ ∈ I` and `n ≥ 1` has a root in `1 + I`. That root is unique by `eq_of_isRoot_of_sub_one_mem`. -/
+@[stacks 09XI]
+public theorem henselianPair_tfae_exists (A : Type u) [CommRing A] (I : Ideal A) :
+    List.TFAE
+      [HenselianPair A I,
+        ∀ (A' : Type (max u v)) [CommRing A'] [Algebra A A'] [Algebra.Etale A A'],
+          ∀ σ : A' →ₐ[A] A ⧸ I,
+            ∃ τ : A' →ₐ[A] A, (Ideal.Quotient.mkₐ A I).comp τ = σ,
+        ∀ (B : Type (max u v)) [CommRing B] [Algebra A B] [Module.Finite A B],
+          InducesBijectionOnIdempotents (I.map (algebraMap A B)),
+        ∀ (B : Type (max u v)) [CommRing B] [Algebra A B] [Algebra.IsIntegral A B],
+          InducesBijectionOnIdempotents (I.map (algebraMap A B)),
+        IsContainedInJacobson I ∧
+          ∀ (f : A[X]), f.Monic →
+            ∀ (n : ℕ), 1 ≤ n →
+              ∀ a : Fin (n + 1) → I,
+                f = X ^ n * (X - 1) +
+                    ∑ i : Fin (n + 1), C (a i : A) * X ^ (i : ℕ) →
+                  ∃ α : A, α - 1 ∈ I ∧ f.IsRoot α] := by
+  have h := henselianPair_tfae.{u, v} A I
+  tfae_have 1 ↔ 2 := h.out 1 2
+  tfae_have 1 ↔ 3 := h.out 1 3
+  tfae_have 1 ↔ 4 := h.out 1 4
+  tfae_have 1 ↔ 5 := by
+    have h15 := h.out 1 5
+    rw [h15]
+    constructor
+    · rintro ⟨hI, h5⟩
+      exact ⟨hI, fun f hf n hn a hform => (h5 f hf n hn a hform).exists⟩
+    · rintro ⟨hI, h5⟩
+      refine ⟨hI, fun f hf n hn a hform => ?_⟩
+      obtain ⟨α, hα⟩ := h5 f hf n hn a hform
+      exact ⟨α, hα, fun β hβ => eq_of_isRoot_of_sub_one_mem hI f n a hform hα hβ⟩
+  tfae_finish
+
 /-- A ring `A` that is henselian with respect to `I` in the sense of `HenselianRing A I` forms a
 henselian pair with `I`. -/
 public theorem henselianPair_of_henselianRing (A : Type u) [CommRing A] (I : Ideal A)
     [HenselianRing A I] : HenselianPair A I := by
-  apply ((henselianPair_tfae.{u, u} A I).out 5 1).mp
+  apply ((henselianPair_tfae_exists.{u, u} A I).out 5 1).mp
   refine ⟨HenselianRing.jac, ?_⟩
   intro f hf n hn a hfa
   have hf1 : f.eval 1 ∈ I := by
@@ -596,38 +692,7 @@ public theorem henselianPair_of_henselianRing (A : Type u) [CommRing A] (I : Ide
     rw [heq]
     exact isUnit_one
   obtain ⟨α, hroot, hα⟩ := HenselianRing.is_henselian f hf 1 hf1 hder
-  refine ⟨α, ⟨hα, hroot⟩, ?_⟩
-  intro β hβ
-  obtain ⟨k, hk⟩ := f.binomExpansion α (β - α)
-  rw [add_sub_cancel] at hk
-  rw [Polynomial.IsRoot] at hroot hβ
-  rw [hroot, hβ.2, zero_add] at hk
-  set y := β - α with hy
-  have hymem : y ∈ I := by
-    rw [hy, show β - α = (β - 1) - (α - 1) by ring]
-    exact I.sub_mem hβ.1 hα
-  have hfactor : y * (f.derivative.eval α + k * y) = 0 := by
-    linear_combination -hk
-  have hsα : IsUnit (f.derivative.eval α) := by
-    let : IsLocalHom (Ideal.Quotient.mk I) :=
-      isLocalHom_of_le_jacobson_bot I HenselianRing.jac
-    apply IsUnit.of_map (Ideal.Quotient.mk I)
-    have hαeq : Ideal.Quotient.mk I α = Ideal.Quotient.mk I 1 := by
-      rw [← sub_eq_zero, ← map_sub, Ideal.Quotient.eq_zero_iff_mem]
-      exact hα
-    rw [← Polynomial.eval_map_apply, hαeq, Polynomial.eval_map_apply]
-    exact hder
-  have hunit : IsUnit (f.derivative.eval α + k * y) := by
-    let : IsLocalHom (Ideal.Quotient.mk I) :=
-      isLocalHom_of_le_jacobson_bot I HenselianRing.jac
-    apply IsUnit.of_map (Ideal.Quotient.mk I)
-    have hyq : Ideal.Quotient.mk I y = 0 :=
-      Ideal.Quotient.eq_zero_iff_mem.mpr hymem
-    rw [map_add, map_mul, hyq, mul_zero, add_zero]
-    exact hsα.map (Ideal.Quotient.mk I)
-  have hy0 : y = 0 := (IsUnit.mul_left_eq_zero hunit).mp hfactor
-  rw [hy] at hy0
-  exact sub_eq_zero.mp hy0
+  exact ⟨α, hα, hroot⟩
 
 end
 

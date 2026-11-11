@@ -38,22 +38,25 @@ public import Mathlib.Tactic.NormNum.RealSqrt
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Stacks 008Z — adjointness of pullback and pushforward over `f_*𝒪`
+# The abstract left adjoint of the pushforward over `f_*𝒪`
 
 Let `f : X ⟶ Y` be a continuous map and `𝒪` a sheaf of rings on `X`, so that `f_*𝒪` is a
-sheaf of rings on `Y`. Tag 008Z says that the functor
-`𝒢 ↦ 𝒪 ⊗_{f^{-1}f_*𝒪} f^{-1}𝒢` from sheaves of `f_*𝒪`-modules to sheaves of `𝒪`-modules is
-left adjoint to the pushforward `ℱ ↦ f_*ℱ`, i.e.
-`Mor_{Mod(𝒪)}(𝒪 ⊗ f^{-1}𝒢, ℱ) ≃ Mor_{Mod(f_*𝒪)}(𝒢, f_*ℱ)`.
+sheaf of rings on `Y`. This file records the pushforward `ℱ ↦ f_*ℱ` from sheaves of
+`𝒪`-modules to sheaves of `f_*𝒪`-modules (`pushforwardModule`) and Mathlib's left adjoint of it
+(`tensorPullbackModule`), together with the adjunction between them
+(`pullbackPushforwardAdjunction008Z`).
 
-The two functors are built from Mathlib's `SheafOfModules.pushforward` and
-`PresheafOfModules.pullback` followed by sheafification, both taken along the transpose of
-the Stacks counit `f^{-1}f_*𝒪 ⟶ 𝒪`, which under the `(f^{-1}, f_*)` adjunction is the
-identity `𝟙 (f_*𝒪)` (`canonicalRingHom`). The adjunction itself is
-`SheafOfModules.PullbackConstruction.adjunction` at that morphism; it is recorded as
-`pullbackPushforwardAdjunction008Z`, which carries the tag, and the hom-set bijection of the
-tag is read off it as `morPullbackEquivMorPushforward`. Both are the data they are, so that
-the unit, the counit and the bijection itself are available to consumers.
+`tensorPullbackModule` is `SheafOfModules.forget ⋙ PresheafOfModules.pullback ⋙ sheafification`,
+where `PresheafOfModules.pullback` is Mathlib's *abstract* left adjoint of the presheaf
+pushforward: it is not the tensor product `𝒪 ⊗_{f^{-1}f_*𝒪} f^{-1}𝒢` of Stacks 008Z, and nothing
+here identifies it with that tensor product. Stacks 008Z, with its explicit tensor product along
+the canonical map `f^{-1}f_*𝒪 ⟶ 𝒪`, is `TensorInverseImagePushforward.adjunction` in
+`StacksFrontier.Topology.Sheaves.Functors.Module.TensorInverseImagePushforward`, where
+`TensorInverseImagePushforward.tensorFunctorIsoTensorPullbackModule` identifies the explicit
+functor with `tensorPullbackModule`.
+
+Both functors here are taken along `canonicalRingHom`, the identity `𝟙 (f_*𝒪)`, which is the
+transpose of the counit `f^{-1}f_*𝒪 ⟶ 𝒪` under the `(f^{-1}, f_*)` adjunction.
 -/
 
 @[expose] public section
@@ -97,8 +100,11 @@ noncomputable def pushforwardModule {X Y : TopCat.{u}} (f : X ⟶ Y)
 
 -- isDefEq transparency bump: infer `F` through the pushforward definitions
 set_option backward.isDefEq.respectTransparency.types false in
-/-- The tensor pullback `𝒪 ⊗_{f⁻¹ f_*𝒪} f⁻¹(–)` as the composition
-`forget ∘ PresheafOfModules.pullback ∘ sheafification`. -/
+/-- Mathlib's left adjoint of the pushforward `f_* : Mod(𝒪) ⥤ Mod(f_*𝒪)`: the composition
+`forget ⋙ PresheafOfModules.pullback ⋙ sheafification`, where `PresheafOfModules.pullback` is the
+abstract left adjoint of the presheaf pushforward. It is not built as the tensor product
+`𝒪 ⊗_{f⁻¹ f_*𝒪} f⁻¹(–)`; it is isomorphic to it by uniqueness of adjoints
+(`TensorInverseImagePushforward.tensorFunctorIsoTensorPullbackModule`). -/
 @[ega "0 4.3.1" "special case", sga "4 XVII 4.1" "special case", sga "6 VI 2.3.1" "more general"]
 noncomputable def tensorPullbackModule {X Y : TopCat.{u}} (f : X ⟶ Y)
     (𝒪 : Sheaf (Opens.grothendieckTopology X) RingCat.{u}) :
@@ -109,18 +115,17 @@ noncomputable def tensorPullbackModule {X Y : TopCat.{u}} (f : X ⟶ Y)
 
 -- isDefEq transparency bump: infer `F` through the pushforward definitions
 set_option backward.isDefEq.respectTransparency.types false in
-/-- **Stacks 008Z.** The adjunction exhibiting the tensor pullback
-`𝒪 ⊗_{f^{-1}f_*𝒪} f^{-1}(–)` as a left adjoint of the pushforward `f_*` on sheaves of
-modules.  It is `SheafOfModules.PullbackConstruction.adjunction` at `canonicalRingHom`, and
-carries the unit, the counit and the hom-set bijection of the tag, the last of which is
-`morPullbackEquivMorPushforward`. -/
-@[stacks 008Z, ega "0 4.4.3"]
+/-- The adjunction `tensorPullbackModule f 𝒪 ⊣ pushforwardModule f 𝒪`: Mathlib's
+`SheafOfModules.PullbackConstruction.adjunction` at `canonicalRingHom`. Its left adjoint is the
+abstract one, not the explicit tensor product of Stacks 008Z; Stacks 008Z itself is
+`TensorInverseImagePushforward.adjunction`. -/
+@[ega "0 4.4.3"]
 noncomputable def pullbackPushforwardAdjunction008Z {X Y : TopCat.{u}} (f : X ⟶ Y)
     (𝒪 : Sheaf (Opens.grothendieckTopology X) RingCat.{u}) :
     tensorPullbackModule f 𝒪 ⊣ pushforwardModule f 𝒪 :=
   SheafOfModules.PullbackConstruction.adjunction (canonicalRingHom f 𝒪)
 
-/-- Existence form of `pullbackPushforwardAdjunction008Z`: the tensor pullback admits the
+/-- Existence form of `pullbackPushforwardAdjunction008Z`: `tensorPullbackModule` admits the
 pushforward `f_*` as a right adjoint. -/
 @[ega "0 4.4.3" "(4.4.3.1), special case",
   sga "4 Vbis 1.3.6" "adjunction φ* ⊣ φ_*",
@@ -130,10 +135,12 @@ theorem pullback_pushforward_adjunction {X Y : TopCat.{u}} (f : X ⟶ Y)
     Nonempty (tensorPullbackModule f 𝒪 ⊣ pushforwardModule f 𝒪) :=
   ⟨pullbackPushforwardAdjunction008Z f 𝒪⟩
 
-/-- **Stacks 008Z**, hom-set form: for a sheaf of `𝒪`-modules `ℱ` on `X` and a sheaf of
-`f_*𝒪`-modules `𝒢` on `Y`, the bijection
-`Mor_{Mod(𝒪)}(𝒪 ⊗_{f^{-1}f_*𝒪} f^{-1}𝒢, ℱ) ≃ Mor_{Mod(f_*𝒪)}(𝒢, f_*ℱ)`.  It is the hom-set
-bijection of `pullbackPushforwardAdjunction008Z`, hence bifunctorial in `𝒢` and `ℱ` by
+/-- Hom-set form of `pullbackPushforwardAdjunction008Z`: for a sheaf of `𝒪`-modules `ℱ` on `X`
+and a sheaf of `f_*𝒪`-modules `𝒢` on `Y`, the bijection
+`Mor_{Mod(𝒪)}(tensorPullbackModule 𝒢, ℱ) ≃ Mor_{Mod(f_*𝒪)}(𝒢, f_*ℱ)`, for the abstract left
+adjoint `tensorPullbackModule` (Stacks 008Z with its explicit tensor product is
+`TensorInverseImagePushforward.homEquiv`).  It is the hom-set bijection of
+`pullbackPushforwardAdjunction008Z`, hence bifunctorial in `𝒢` and `ℱ` by
 `Adjunction.homEquiv_naturality_left` and `Adjunction.homEquiv_naturality_right`. -/
 @[ega "0 4.4.3" "(4.4.3.1), special case"]
 noncomputable def morPullbackEquivMorPushforward {X Y : TopCat.{u}} (f : X ⟶ Y)
@@ -144,8 +151,7 @@ noncomputable def morPullbackEquivMorPushforward {X Y : TopCat.{u}} (f : X ⟶ Y
       (𝒢 ⟶ (pushforwardModule f 𝒪).obj ℱ) :=
   (pullbackPushforwardAdjunction008Z f 𝒪).homEquiv 𝒢 ℱ
 
-/-- Existence form of `morPullbackEquivMorPushforward`: the two hom-sets of Stacks 008Z are
-in bijection. -/
+/-- Existence form of `morPullbackEquivMorPushforward`. -/
 theorem mor_pullback_equiv_mor_pushforward {X Y : TopCat.{u}} (f : X ⟶ Y)
     (𝒪 : Sheaf (Opens.grothendieckTopology X) RingCat.{u})
     (ℱ : SheafOfModules.{u} 𝒪)

@@ -27,9 +27,16 @@ a category and proves it equivalent to the category of formal objects.
 
 ## Main results
 
-* `Deformation.formalObjectsProrepresentableMorphismEquivalence`: **Stacks 06HD**, there is a
-  category structure on the pairs whose homs are `ProrepresentableMorphism.Hom`, and the
-  category of formal objects of `p` is equivalent to it.
+* `Deformation.ProrepresentableMorphism.category`: the category of pairs, with composite of
+  `(a, s)` and `(b, t)` given by `b ≫ a` and `b^* s ≫ t`.
+* `Deformation.formalObjectToProrepresentableMorphism`: the functor
+  `ξ ↦ (underline R|_{𝒞_Λ}, ξ̲)` of Stacks 06HC, with the comparisons of Stacks 06SL
+  (`ProrepresentableMorphism.associatedComparison`) on morphisms.
+* `Deformation.formalObjectToProrepresentableMorphism_isEquivalence`: **Stacks 06HD**, that
+  functor is an equivalence; `Deformation.formalObjectProrepresentableMorphismEquivalence` is
+  the resulting equivalence.
+* `Deformation.formalObjectsProrepresentableMorphismEquivalence`: the earlier, weaker form,
+  with a transported category structure and an unspecified equivalence.
 
 ## Implementation notes
 
@@ -45,11 +52,15 @@ For a map of representing algebras, `ProrepresentableMorphism.elementsMap` of
 form is needed because the base of a morphism of pairs is an arbitrary natural
 transformation.
 
-The category structure is transported from the category of formal objects along the hom
-bijections, because there is no formula for the composite of two morphisms of pairs: the
-composite of the base transformations is forced, but the comparison morphism is obtained from
-the Yoneda bijection. This is why the result is stated as the existence of a category
-structure with prescribed hom types rather than as an `instance`.
+The comparison of a morphism of formal objects is characterized by its square with the level
+maps (Stacks 06SL), which makes the functor `formalObjectToProrepresentableMorphism`
+functorial. It is faithful and full because over a fixed base map every morphism `ξ̲ ⟶ η̲`
+is the comparison of exactly one morphism of formal objects: pushing forward along the base
+map reduces this to morphisms over the identity, where the equivalence of Stacks 06SK, which
+is faithful and sends a comparison back to its morphism of formal objects up to the
+evaluation isomorphism `associatedMorphismEvaluationIso`, decides it. It is essentially
+surjective because every prorepresentable functor is isomorphic to a restricted
+representable one, over which Stacks 06SK produces a formal object.
 
 Three ingredients carry the proof. Every point of `U = underline S|_{𝒞_Λ}` factors through an
 adic truncation of `S` (Stacks 06IC), so a natural transformation out of `U` is determined by
@@ -413,12 +424,13 @@ private lemma presentation_object_iso
   have hi := IsStronglyCocartesian.isIso_of_base_isIso q f a.1
   exact ⟨asIso a.1⟩
 
-/-- **Stacks 06HD.** Spelling out Stacks 06HC: the prorepresentable pairs over `p` carry a
-category structure whose morphisms are `ProrepresentableMorphism.Hom`, and the category of
-formal objects of `p` is equivalent to it. The hom equivalence is for the total categories, so
-it pins down the morphisms between pairs with *different* prorepresentable functors, not only
-those over a fixed one. -/
-@[stacks 06HD "the equivalence with formal objects"]
+/-- Some category structure on the prorepresentable pairs over `p`, with hom types
+`ProrepresentableMorphism.Hom`, makes them equivalent to the formal objects of `p`. The
+structure here is transported from formal objects along non-canonical hom bijections, and the
+equivalence is not a specified functor, so this is weaker than Stacks 06HD; the statement of
+06HD is `formalObjectToProrepresentableMorphism_isEquivalence`, for the natural composition of
+pairs (`ProrepresentableMorphism.category`) and the explicit functor
+`formalObjectToProrepresentableMorphism`. -/
 theorem formalObjectsProrepresentableMorphismEquivalence
     (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (hp : IsCofiberedInGroupoids p) :
     ∃ c : Category (ProrepresentableMorphism p),
@@ -461,6 +473,565 @@ theorem formalObjectsProrepresentableMorphismEquivalence
     ⟨representedPair hp ξ, presentation_object_iso hp ξ (P (representedPair hp ξ))⟩⟩
   have heq : T.IsEquivalence := ⟨hfaithful, hfull, hsurj⟩
   exact ⟨c, rfl, ⟨T.asEquivalence.symm⟩⟩
+
+
+/-! ### The category of prorepresentable pairs -/
+
+section Category
+
+-- The comparisons below compose point inclusions of associated morphisms with components of
+-- based natural transformations, whose objects are the objects of the category of elements
+-- of a restricted representable functor only after unfolding `BasedCategory.ofFunctor`; this
+-- lets `simp` and `rw` see through that presentation, as in `AssociatedMorphismMap`.
+attribute [local implicit_reducible] Deformation.restrictedRepresentable
+  CategoryTheory.BasedCategory.ofFunctor CategoryTheory.BasedFunctor.comp
+
+variable {p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k}
+
+namespace ProrepresentableMorphism
+
+/-- Morphisms of prorepresentable pairs are equal when their natural transformations are equal
+and their comparisons are, after identifying the restrictions along the two transformations. -/
+theorem Hom.ext_heq {X Y : ProrepresentableMorphism p} {f g : Hom X Y} (h : f.base = g.base)
+    (h' : f.comparison ≍ g.comparison) : f = g := by
+  cases f
+  cases g
+  dsimp only at h h'
+  subst h
+  obtain rfl := eq_of_heq h'
+  rfl
+
+/-- Equal morphisms of prorepresentable pairs have equal natural transformations and
+heterogeneously equal comparisons. -/
+theorem Hom.base_eq_and_comparison_heq {X Y : ProrepresentableMorphism p} {f g : Hom X Y}
+    (h : f = g) : f.base = g.base ∧ f.comparison ≍ g.comparison := by
+  subst h
+  exact ⟨rfl, HEq.rfl⟩
+
+/-- **Stacks 06HD.** The category of pairs `(U, U → F)` of a prorepresentable functor and a
+morphism to `F` over `𝒞_Λ`. The identity of `(U, φ)` is the identity transformation with the
+identity comparison; the composite of `(a, s) : (U, φ) ⟶ (V, ψ)` and
+`(b, t) : (V, ψ) ⟶ (W, χ)` is `b ≫ a : W ⟶ U` with the comparison `b^* s` followed by `t`. -/
+@[stacks 06HD "the category of pairs of a prorepresentable functor and a morphism to `F`"]
+instance category : Category (ProrepresentableMorphism p) where
+  Hom := Hom
+  id X := ⟨𝟙 X.functor, 𝟙 X.toF⟩
+  comp f g := ⟨g.base ≫ f.base,
+    BasedCategory.whiskerLeft (elementsMap g.base) f.comparison ≫ g.comparison⟩
+  id_comp f := Hom.ext_heq (Category.comp_id _) (heq_of_eq (by ext; exact Category.id_comp _))
+  comp_id f := Hom.ext_heq (Category.id_comp _) (heq_of_eq (by ext; exact Category.comp_id _))
+  assoc f g h := Hom.ext_heq (Category.assoc _ _ _).symm
+    (heq_of_eq (by ext; exact Category.assoc _ _ _))
+
+/-- The pair of a formal object `ξ` (Stacks 06HC): the restriction to `𝒞_Λ` of the functor
+represented by the base of `ξ`, together with the associated morphism `ξ̲`, for the canonical
+choice of pushforwards supplied by the cofibered condition. -/
+noncomputable abbrev ofFormalObject (hp : IsCofiberedInGroupoids p) (ξ : FormalObject p) :
+    ProrepresentableMorphism p :=
+  ⟨restrictedCoyoneda ξ.base, ⟨ξ.base, ⟨Iso.refl _⟩⟩,
+    (associatedMorphism hp ξ (chosenPushforwardsOfCofibered p hp)).toBasedFunctor⟩
+
+/-- **Stacks 06SL.** The comparison between the associated morphisms of two formal objects
+induced by a morphism `a` of formal objects: the natural isomorphism of Stacks 06SL from the
+restriction of `ξ̲` along `a` to `η̲`, whose component at an Artinian point is the pushforward
+of the corresponding level map of `a`. -/
+noncomputable def associatedComparison (hp : IsCofiberedInGroupoids p) {ξ η : FormalObject p}
+    (a : ξ ⟶ η) :
+    (elementsMap (restrictedCoyonedaMap a.base)).comp (ofFormalObject hp ξ).toF ⟶
+      (ofFormalObject hp η).toF :=
+  (Classical.choose (associatedMorphism_map hp a (chosenPushforwardsOfCofibered p hp))).hom
+
+/-- The morphism of pairs induced by a morphism `a` of formal objects: the natural
+transformation `restrictedCoyonedaMap a.base` of the represented functors, with the comparison
+of Stacks 06SL. -/
+noncomputable def homOfFormalObject (hp : IsCofiberedInGroupoids p) {ξ η : FormalObject p}
+    (a : ξ ⟶ η) : ofFormalObject hp ξ ⟶ ofFormalObject hp η :=
+  ⟨restrictedCoyonedaMap a.base, associatedComparison hp a⟩
+
+end ProrepresentableMorphism
+
+open ProrepresentableMorphism
+
+/-- The point inclusions of the associated morphism, for the canonical pushforwards. -/
+private noncomputable abbrev assoc (hp : IsCofiberedInGroupoids p) (ξ : FormalObject p) :=
+  associatedMorphism hp ξ (chosenPushforwardsOfCofibered p hp)
+
+/-- `τ` is the comparison of Stacks 06SL of the morphism of formal objects `a`, over the base
+map `f`: at every Artinian point its component, after the point inclusion of `ξ̲`, is the level
+map of `a` followed by the point inclusion of `η̲`. -/
+private def IsComparison (hp : IsCofiberedInGroupoids p) {ξ η : FormalObject p} (a : ξ ⟶ η)
+    {f : ξ.base ⟶ η.base}
+    (τ : (elementsMap (restrictedCoyonedaMap f)).comp (associated hp ξ) ⟶ associated hp η) :
+    Prop :=
+  ∀ α : (restrictedCoyoneda η.base).Elements,
+    ∃ h : (assoc hp ξ).level ((elementsMap (restrictedCoyonedaMap f)).obj α) =
+        (assoc hp η).level α,
+      (assoc hp ξ).pointInclusion ((elementsMap (restrictedCoyonedaMap f)).obj α) ≫
+          τ.toNatTrans.app α =
+        a.app _ ≫ eqToHom (congrArg η.level h) ≫ (assoc hp η).pointInclusion α
+
+/-- The comparison property transports along an identification of base maps. -/
+private lemma IsComparison.congr {hp : IsCofiberedInGroupoids p} {ξ η : FormalObject p}
+    {a : ξ ⟶ η} {f f' : ξ.base ⟶ η.base}
+    {τ : (elementsMap (restrictedCoyonedaMap f)).comp (associated hp ξ) ⟶ associated hp η}
+    {τ' : (elementsMap (restrictedCoyonedaMap f')).comp (associated hp ξ) ⟶ associated hp η}
+    (h : IsComparison hp a τ) (hf : f = f') (hτ : τ ≍ τ') : IsComparison hp a τ' := by
+  subst hf
+  obtain rfl := eq_of_heq hτ
+  exact h
+
+/-- A comparison along one natural transformation transports to an equal one. -/
+private lemma exists_heq_comparison {U V : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type v}
+    {b b' : U ⟶ V} (h : b = b')
+    {G : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π V))
+      (BasedCategory.ofFunctor p)}
+    {H : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π U))
+      (BasedCategory.ofFunctor p)}
+    (c : (elementsMap b').comp G ⟶ H) : ∃ c' : (elementsMap b).comp G ⟶ H, c' ≍ c := by
+  subst h
+  exact ⟨c, HEq.rfl⟩
+
+/-- **Stacks 06SL.** Every morphism of formal objects has a comparison, and it is an
+isomorphism. -/
+private lemma exists_isComparison (hp : IsCofiberedInGroupoids p) {ξ η : FormalObject p}
+    (a : ξ ⟶ η) {f : ξ.base ⟶ η.base} (hf : a.base = f) :
+    ∃ τ : (elementsMap (restrictedCoyonedaMap f)).comp (associated hp ξ) ≅ associated hp η,
+      IsComparison hp a τ.hom := by
+  subst hf
+  obtain ⟨τ, hτ⟩ := associatedMorphism_map hp a (chosenPushforwardsOfCofibered p hp)
+  exact ⟨τ, hτ⟩
+
+/-- `associatedComparison` is a comparison. -/
+private lemma isComparison_associatedComparison (hp : IsCofiberedInGroupoids p)
+    {ξ η : FormalObject p} (a : ξ ⟶ η) :
+    IsComparison hp a (associatedComparison hp a) :=
+  Classical.choose_spec (associatedMorphism_map hp a (chosenPushforwardsOfCofibered p hp))
+
+/-- **Stacks 06SL.** The comparison of a morphism of formal objects over a given base map is
+unique: the point inclusions of `ξ̲` are strongly cocartesian. -/
+private lemma IsComparison.ext {hp : IsCofiberedInGroupoids p} {ξ η : FormalObject p}
+    {a : ξ ⟶ η} {f : ξ.base ⟶ η.base}
+    {τ σ : (elementsMap (restrictedCoyonedaMap f)).comp (associated hp ξ) ⟶ associated hp η}
+    (hτ : IsComparison hp a τ) (hσ : IsComparison hp a σ) : τ = σ := by
+  ext α
+  obtain ⟨h₁, s₁⟩ := hτ α
+  obtain ⟨h₂, s₂⟩ := hσ α
+  let β := (elementsMap (restrictedCoyonedaMap f)).obj α
+  have := associatedPointInclusion_stronglyCocartesian hp (chosenPushforwardsOfCofibered p hp)
+    (assoc hp ξ) β
+  have cancel : ∀ ψ ψ' : (associated hp ξ).obj β ⟶ (associated hp η).obj α,
+      p.IsHomLift (𝟙 β.1) ψ → p.IsHomLift (𝟙 β.1) ψ' →
+      (assoc hp ξ).pointInclusion β ≫ ψ = (assoc hp ξ).pointInclusion β ≫ ψ' → ψ = ψ' := by
+    intro ψ ψ' hψ hψ' hfac
+    have := hψ
+    have := hψ'
+    exact Functor.IsStronglyCocartesian.ext p ((assoc hp ξ).factor β)
+      ((assoc hp ξ).pointInclusion β) (𝟙 β.1) hfac
+  exact cancel _ _ (τ.isHomLift' α) (σ.isHomLift' α) (s₁.trans s₂.symm)
+
+/-- The identity of the associated morphism is the comparison of the identity. -/
+private lemma isComparison_id (hp : IsCofiberedInGroupoids p) (ξ : FormalObject p) :
+    IsComparison hp (𝟙 ξ) (f := 𝟙 ξ.base) (𝟙 (associated hp ξ)) := by
+  intro α
+  refine ⟨rfl, ?_⟩
+  change (assoc hp ξ).pointInclusion α ≫ 𝟙 _ = 𝟙 _ ≫ 𝟙 _ ≫ (assoc hp ξ).pointInclusion α
+  simp
+
+/-- Level maps of a composite, with casts of levels. -/
+private lemma app_comp_eqToHom {ξ η ζ : FormalObject p} (a : ξ ⟶ η) (b : η ⟶ ζ) {n m l : ℕ}
+    (e : n = m) (e' : m = l) {Z : F} (i : ζ.level l ⟶ Z) :
+    (a ≫ b).app n ≫ eqToHom (congrArg ζ.level (e.trans e')) ≫ i =
+      a.app n ≫ eqToHom (congrArg η.level e) ≫ b.app m ≫ eqToHom (congrArg ζ.level e') ≫ i := by
+  subst e e'
+  simp only [eqToHom_refl, Category.id_comp]
+  exact Category.assoc _ _ _
+
+/-- Comparisons compose: the restriction of the comparison of `a` followed by the comparison
+of `b` is a comparison of `a ≫ b`. -/
+private lemma isComparison_comp (hp : IsCofiberedInGroupoids p) {ξ η ζ : FormalObject p}
+    {a : ξ ⟶ η} {b : η ⟶ ζ} {f : ξ.base ⟶ η.base} {g : η.base ⟶ ζ.base}
+    {τ : (elementsMap (restrictedCoyonedaMap f)).comp (associated hp ξ) ⟶ associated hp η}
+    {σ : (elementsMap (restrictedCoyonedaMap g)).comp (associated hp η) ⟶ associated hp ζ}
+    (hτ : IsComparison hp a τ) (hσ : IsComparison hp b σ) :
+    IsComparison hp (a ≫ b) (f := f ≫ g)
+      (BasedCategory.whiskerLeft (elementsMap (restrictedCoyonedaMap g)) τ ≫ σ) := by
+  intro α
+  obtain ⟨h₁, s₁⟩ := hτ ((elementsMap (restrictedCoyonedaMap g)).obj α)
+  obtain ⟨h₂, s₂⟩ := hσ α
+  refine ⟨h₁.trans h₂, ?_⟩
+  let β := (elementsMap (restrictedCoyonedaMap g)).obj α
+  calc _ = (assoc hp ξ).pointInclusion ((elementsMap (restrictedCoyonedaMap f)).obj β) ≫
+          τ.toNatTrans.app β ≫ σ.toNatTrans.app α := rfl
+    _ = ((assoc hp ξ).pointInclusion ((elementsMap (restrictedCoyonedaMap f)).obj β) ≫
+          τ.toNatTrans.app β) ≫ σ.toNatTrans.app α := (Category.assoc _ _ _).symm
+    _ = (a.app _ ≫ eqToHom (congrArg η.level h₁) ≫ (assoc hp η).pointInclusion β) ≫
+          σ.toNatTrans.app α := by rw [s₁]
+    _ = a.app _ ≫ eqToHom (congrArg η.level h₁) ≫
+          ((assoc hp η).pointInclusion β ≫ σ.toNatTrans.app α) := by
+        simp only [Category.assoc]
+    _ = a.app _ ≫ eqToHom (congrArg η.level h₁) ≫
+          (b.app _ ≫ eqToHom (congrArg ζ.level h₂) ≫ (assoc hp ζ).pointInclusion α) := by
+        rw [s₂]
+    _ = _ := (app_comp_eqToHom a b h₁ h₂ _).symm
+
+namespace ProrepresentableMorphism
+
+/-- The comparison of an identity of formal objects is the identity. -/
+theorem homOfFormalObject_id (hp : IsCofiberedInGroupoids p) (ξ : FormalObject p) :
+    homOfFormalObject hp (𝟙 ξ) = 𝟙 (ofFormalObject hp ξ) :=
+  Hom.ext_heq rfl (heq_of_eq
+    ((isComparison_associatedComparison hp (𝟙 ξ)).ext (isComparison_id hp ξ)))
+
+/-- Comparisons of morphisms of formal objects compose. -/
+theorem homOfFormalObject_comp (hp : IsCofiberedInGroupoids p) {ξ η ζ : FormalObject p}
+    (a : ξ ⟶ η) (b : η ⟶ ζ) :
+    homOfFormalObject hp (a ≫ b) = homOfFormalObject hp a ≫ homOfFormalObject hp b :=
+  Hom.ext_heq rfl (heq_of_eq ((isComparison_associatedComparison hp (a ≫ b)).ext
+    (isComparison_comp hp (isComparison_associatedComparison hp a)
+      (isComparison_associatedComparison hp b))))
+
+end ProrepresentableMorphism
+
+/-- **Stacks 06HD.** The functor from formal objects of `p` to prorepresentable pairs of Stacks
+06HC, `ξ ↦ (underline R|_{𝒞_Λ}, ξ̲)` with `R` the base of `ξ`: a morphism `a` of formal objects
+goes to the natural transformation induced by its base map together with the comparison of
+Stacks 06SL. -/
+@[stacks 06HD "the functor `ξ ↦ (R|_{𝒞_Λ}, ξ̲)`"]
+noncomputable def formalObjectToProrepresentableMorphism
+    (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (hp : IsCofiberedInGroupoids p) :
+    FormalObject p ⥤ ProrepresentableMorphism p where
+  obj ξ := ofFormalObject hp ξ
+  map a := homOfFormalObject hp a
+  map_id ξ := homOfFormalObject_id hp ξ
+  map_comp a b := homOfFormalObject_comp hp a b
+
+/-- A square of arrows from a level of a formal object to the value of an associated morphism,
+in the shape used by `existsUnique_vertical`. -/
+private lemma square_aux {A₁ A₂ B₁ B₂ B₂' P₁ P₂ Q₁ Q₂ : F} {t₁ : A₁ ⟶ B₁} {i₁ : B₁ ⟶ P₁}
+    {L₁ : P₁ ⟶ Q₁} {M : Q₁ ⟶ Q₂} {s : P₁ ⟶ P₂} {L₂ : P₂ ⟶ Q₂} {φℓ : B₁ ⟶ B₂} {e : B₂ ⟶ B₂'}
+    {i₂ : B₂' ⟶ P₂} {φn : A₁ ⟶ A₂} {t₂ : A₂ ⟶ B₂'} (mc : s ≫ L₂ = L₁ ≫ M)
+    (sq : i₁ ≫ s = φℓ ≫ e ≫ i₂) (tr : t₁ ≫ φℓ ≫ e ≫ i₂ ≫ L₂ = φn ≫ t₂ ≫ i₂ ≫ L₂) :
+    (t₁ ≫ i₁ ≫ L₁) ≫ M = φn ≫ t₂ ≫ i₂ ≫ L₂ := by
+  simp only [Category.assoc]
+  rw [← mc, reassoc_of% sq, tr]
+
+/-- Conjugating a square by isomorphisms given by their two components. -/
+private lemma conj_aux {X Y X₂ Y₂ : F} {a : X ⟶ Y} {a' : Y ⟶ X} {b : X₂ ⟶ Y₂} {b' : Y₂ ⟶ X₂}
+    {M : X ⟶ X₂} {φ : Y ⟶ Y₂} (ha : a ≫ a' = 𝟙 X) (hb : b' ≫ b = 𝟙 Y₂)
+    (h : a' ≫ M = φ ≫ b') : M ≫ b = a ≫ φ := by
+  calc M ≫ b = (a ≫ a') ≫ M ≫ b := by rw [ha, Category.id_comp]
+    _ = a ≫ (a' ≫ M) ≫ b := by simp only [Category.assoc]
+    _ = a ≫ φ := by rw [h, Category.assoc, hb, Category.comp_id]
+
+/-- A morphism in the fibre of formal objects over `S` has base the identity, up to the casts of
+its endpoints. -/
+private lemma fiber_hom_base {S : CompleteLocalAlgCat.{u, v, w} Λ k}
+    {A B : (FormalObject.projection (p := p)).Fiber S} (ψ : A ⟶ B) :
+    ψ.1.base = eqToHom (A.2.trans B.2.symm) := by
+  have := ψ.2
+  have h := IsHomLift.fac' (FormalObject.projection (p := p)) (𝟙 S) ψ.1
+  simpa using h
+
+/-- The components of the evaluation isomorphism compose to the identity. -/
+private lemma evaluationIso_hom_inv_app (hp : IsCofiberedInGroupoids p) (ξ : FormalObject p)
+    (E : RepresentableMorphismFormalObjectEquivalence p ξ.base) (n : ℕ) :
+    (associatedMorphismEvaluationIso hp ξ E (chosenPushforwardsOfCofibered p hp)).hom.1.app n ≫
+      (associatedMorphismEvaluationIso hp ξ E (chosenPushforwardsOfCofibered p hp)).inv.1.app n =
+        𝟙 _ :=
+  congrArg (fun ψ => ψ.1.app n)
+    (associatedMorphismEvaluationIso hp ξ E (chosenPushforwardsOfCofibered p hp)).hom_inv_id
+
+/-- The components of the evaluation isomorphism compose to the identity. -/
+private lemma evaluationIso_inv_hom_app (hp : IsCofiberedInGroupoids p) (ξ : FormalObject p)
+    (E : RepresentableMorphismFormalObjectEquivalence p ξ.base) (n : ℕ) :
+    (associatedMorphismEvaluationIso hp ξ E (chosenPushforwardsOfCofibered p hp)).inv.1.app n ≫
+      (associatedMorphismEvaluationIso hp ξ E (chosenPushforwardsOfCofibered p hp)).hom.1.app n =
+        𝟙 _ :=
+  congrArg (fun ψ => ψ.1.app n)
+    (associatedMorphismEvaluationIso hp ξ E (chosenPushforwardsOfCofibered p hp)).inv_hom_id
+
+/-- The inverse of the evaluation isomorphism at level `n` is the canonical arrow from `ξ_n` to
+the value of `ξ̲` at the `n`-th quotient point, followed by the evaluation isomorphism of `E`. -/
+private lemma evaluationIso_inv_app (hp : IsCofiberedInGroupoids p) (ξ : FormalObject p)
+    (E : RepresentableMorphismFormalObjectEquivalence p ξ.base) (n : ℕ)
+    (h : (assoc hp ξ).level
+      (Functor.elementsMk _ (AdicTruncation.obj ξ.base n) (E.quotientPoint n)) ≤ n) :
+    transitionTo ξ h ≫
+        (assoc hp ξ).pointInclusion
+          (Functor.elementsMk _ (AdicTruncation.obj ξ.base n) (E.quotientPoint n)) ≫
+          (E.levelIso (associated hp ξ) n).hom =
+      (associatedMorphismEvaluationIso hp ξ E
+        (chosenPushforwardsOfCofibered p hp)).inv.1.app n := by
+  have e := associatedMorphismEvaluationIso_hom_app hp ξ E
+    (chosenPushforwardsOfCofibered p hp) n h
+  calc _ = (transitionTo ξ h ≫ (assoc hp ξ).pointInclusion
+          (Functor.elementsMk _ (AdicTruncation.obj ξ.base n) (E.quotientPoint n)) ≫
+            (E.levelIso (associated hp ξ) n).hom) ≫
+        (associatedMorphismEvaluationIso hp ξ E (chosenPushforwardsOfCofibered p hp)).hom.1.app n ≫
+        (associatedMorphismEvaluationIso hp ξ E
+          (chosenPushforwardsOfCofibered p hp)).inv.1.app n := by
+        rw [evaluationIso_hom_inv_app, Category.comp_id]
+    _ = _ := by
+        simp only [Category.assoc]
+        rw [reassoc_of% e]
+        exact Category.id_comp _
+
+/-- **Stacks 06SK, 06SL.** Over a fixed representing algebra, morphisms of formal objects over
+the identity correspond to morphisms of their associated morphisms: every morphism
+`ξ̲ ⟶ η̲` is the comparison of exactly one such morphism of formal objects. The proof goes
+through the equivalence of Stacks 06SK, which is faithful and sends the comparison of a
+morphism of formal objects to that morphism, up to the evaluation isomorphisms. -/
+private lemma existsUnique_vertical (hp : IsCofiberedInGroupoids p) (z η : FormalObject p)
+    (hb : z.base = η.base)
+    (t : (elementsMap (restrictedCoyonedaMap (eqToHom hb))).comp (associated hp z) ⟶
+      associated hp η) :
+    ∃! φ : z ⟶ η, φ.base = eqToHom hb ∧ IsComparison hp φ t := by
+  classical
+  obtain ⟨S, zl, ze, zt, ztl⟩ := z
+  obtain ⟨S', yl, ye, yt, ytl⟩ := η
+  dsimp only at hb
+  subst hb
+  set z : FormalObject p := ⟨S, zl, ze, zt, ztl⟩ with hz_def
+  set η : FormalObject p := ⟨S, yl, ye, yt, ytl⟩ with hη_def
+  let E := representableMorphismFormalObjectEquivalence p hp S
+  let θz := associatedMorphismEvaluationIso hp z E (chosenPushforwardsOfCofibered p hp)
+  let θη := associatedMorphismEvaluationIso hp η E (chosenPushforwardsOfCofibered p hp)
+  let t' : associated hp z ⟶ associated hp η := t
+  have N : ∀ (s : associated hp z ⟶ associated hp η) (φ : z ⟶ η) (hφb : φ.base = 𝟙 S),
+      IsComparison hp φ (f := eqToHom rfl) s →
+      E.equivalence.functor.map s ≫ θη.hom =
+        θz.hom ≫ (⟨φ, isHomLift_projection_of_base_eq hφb⟩ :
+          (Functor.Fiber.mk rfl : (FormalObject.projection (p := p)).Fiber z.base) ⟶
+            (Functor.Fiber.mk rfl : (FormalObject.projection (p := p)).Fiber η.base)) := by
+    intro s φ hφb hφ
+    apply Functor.Fiber.hom_ext
+    apply FormalObject.Hom.ext
+    · exact (fiber_hom_base (E.equivalence.functor.map s ≫ θη.hom)).trans
+        (fiber_hom_base (θz.hom ≫ (⟨φ, isHomLift_projection_of_base_eq hφb⟩ :
+          (Functor.Fiber.mk rfl : (FormalObject.projection (p := p)).Fiber z.base) ⟶
+            (Functor.Fiber.mk rfl : (FormalObject.projection (p := p)).Fiber η.base)))).symm
+    · intro n
+      change (E.equivalence.functor.map s).1.app n ≫ θη.hom.1.app n = θz.hom.1.app n ≫ φ.app n
+      let q : (restrictedCoyoneda S).Elements :=
+        Functor.elementsMk _ (AdicTruncation.obj S n) (E.quotientPoint n)
+      have hz : (assoc hp z).level q ≤ n := ((assoc hp z).factor_spec q).2.1 n
+        (maximalIdeal_adicTruncation_pow_succ_eq_bot S n)
+      have hη : (assoc hp η).level q ≤ n := ((assoc hp η).factor_spec q).2.1 n
+        (maximalIdeal_adicTruncation_pow_succ_eq_bot S n)
+      obtain ⟨hl, sq⟩ := hφ q
+      have hl' : (assoc hp z).level q = (assoc hp η).level q := hl
+      have sq' : (assoc hp z).pointInclusion q ≫ s.toNatTrans.app q =
+          φ.app ((assoc hp z).level q) ≫ eqToHom (congrArg η.level hl') ≫
+            (assoc hp η).pointInclusion q := sq
+      have mc : s.toNatTrans.app q ≫ (E.levelIso (associated hp η) n).hom =
+          (E.levelIso (associated hp z) n).hom ≫ (E.equivalence.functor.map s).1.app n :=
+        E.map_comm s n
+      have Bz : transitionTo z hz ≫ (assoc hp z).pointInclusion q ≫
+          (E.levelIso (associated hp z) n).hom = θz.inv.1.app n :=
+        evaluationIso_inv_app hp z E n hz
+      have Bη : transitionTo η hη ≫ (assoc hp η).pointInclusion q ≫
+          (E.levelIso (associated hp η) n).hom = θη.inv.1.app n :=
+        evaluationIso_inv_app hp η E n hη
+      have hiz : θz.hom.1.app n ≫ θz.inv.1.app n = 𝟙 _ := evaluationIso_hom_inv_app hp z E n
+      have hiη : θη.inv.1.app n ≫ θη.hom.1.app n = 𝟙 _ := evaluationIso_inv_hom_app hp η E n
+      have key : θz.inv.1.app n ≫ (E.equivalence.functor.map s).1.app n =
+          φ.app n ≫ θη.inv.1.app n :=
+        (congrArg (· ≫ (E.equivalence.functor.map s).1.app n) Bz.symm).trans
+          ((square_aux mc sq' (transitionTo_comp_app_eqToHom φ hl' hz hη _)).trans
+            (congrArg (φ.app n ≫ ·) Bη))
+      exact conj_aux hiz hiη key
+  let ψ := θz.inv ≫ E.equivalence.functor.map t' ≫ θη.hom
+  have hψb : ψ.1.base = 𝟙 S := (fiber_hom_base ψ).trans (eqToHom_refl _ _)
+  refine ⟨ψ.1, ⟨fiber_hom_base ψ, ?_⟩, ?_⟩
+  · obtain ⟨s, hs⟩ := exists_isComparison hp ψ.1 (f := eqToHom rfl) (fiber_hom_base ψ)
+    have hN := N s.hom ψ.1 hψb hs
+    have h2 : E.equivalence.functor.map t' ≫ θη.hom = θz.hom ≫ ψ :=
+      (Iso.hom_inv_id_assoc θz _).symm
+    have h3 : E.equivalence.functor.map s.hom ≫ θη.hom =
+        E.equivalence.functor.map t' ≫ θη.hom := hN.trans h2.symm
+    have hst : s.hom = t' :=
+      E.equivalence.functor.map_injective ((Iso.cancel_iso_hom_right _ _ θη).mp h3)
+    rw [hst] at hs
+    exact hs
+  · rintro φ ⟨hφb, hφ⟩
+    have hφ1 : φ.base = 𝟙 S := hφb.trans (eqToHom_refl _ _)
+    have hN := N t' φ hφ1 hφ
+    exact congrArg Subtype.val ((Iso.eq_inv_comp θz).mpr hN.symm)
+
+/-- Restricting a based natural isomorphism along a functor, then composing with the inverse,
+gives the identity. -/
+private lemma whiskerLeft_hom_inv_comp
+    {𝒳 𝒴 𝒵 : BasedCategory (ArtinianLocalAlgCat.{u, v, w} Λ k)} (K : 𝒳 ⥤ᵇ 𝒴) {G H : 𝒴 ⥤ᵇ 𝒵}
+    (e : G ≅ H) {L : 𝒳 ⥤ᵇ 𝒵} (c : K.comp G ⟶ L) :
+    BasedCategory.whiskerLeft K e.hom ≫ BasedCategory.whiskerLeft K e.inv ≫ c = c := by
+  rw [← Category.assoc]
+  convert Category.id_comp c
+  ext x
+  exact congrArg (fun α => α.toNatTrans.app (K.obj x)) e.hom_inv_id
+
+/-- Restricting a based natural isomorphism along a functor, then composing with the inverse,
+gives the identity. -/
+private lemma whiskerLeft_inv_hom_comp
+    {𝒳 𝒴 𝒵 : BasedCategory (ArtinianLocalAlgCat.{u, v, w} Λ k)} (K : 𝒳 ⥤ᵇ 𝒴) {G H : 𝒴 ⥤ᵇ 𝒵}
+    (e : G ≅ H) {L : 𝒳 ⥤ᵇ 𝒵} (c : K.comp H ⟶ L) :
+    BasedCategory.whiskerLeft K e.inv ≫ BasedCategory.whiskerLeft K e.hom ≫ c = c :=
+  whiskerLeft_hom_inv_comp K e.symm c
+
+/-- **Stacks 06HC, 06SL.** Every morphism from the restriction of `ξ̲` along a base map `f`
+to `η̲` is the comparison of exactly one morphism of formal objects over `f`. Pushing `ξ`
+forward along `f` reduces this to morphisms over the identity, `existsUnique_vertical`. -/
+private lemma existsUnique_isComparison (hp : IsCofiberedInGroupoids p) (ξ η : FormalObject p)
+    (f : ξ.base ⟶ η.base)
+    (t : (elementsMap (restrictedCoyonedaMap f)).comp (associated hp ξ) ⟶ associated hp η) :
+    ∃! a : ξ ⟶ η, a.base = f ∧ IsComparison hp a t := by
+  classical
+  let q := FormalObject.projection (p := p)
+  have hq := formalObjectProjection_isCofiberedInGroupoids p hp
+  obtain ⟨z, j, hj⟩ : ∃ z : FormalObject p, ∃ j : ξ ⟶ z, q.IsHomLift f j :=
+    exists_pushforward hq f ξ rfl
+  have hzb : z.base = η.base := IsHomLift.codomain_eq q f j
+  have hfj : f = j.base ≫ eqToHom hzb := by
+    have h := IsHomLift.fac q f j
+    simpa [q] using h
+  have hc := isStronglyCocartesian_of_isCofiberedInGroupoids hq f j hj
+  obtain ⟨τ, hτ⟩ := exists_isComparison hp j rfl
+  obtain ⟨t'', ht''⟩ := exists_heq_comparison (congrArg restrictedCoyonedaMap hfj).symm t
+  have hat'' : ∀ a : ξ ⟶ η, a.base = f → IsComparison hp a t → IsComparison hp a t'' :=
+    fun a _ h => h.congr hfj ht''.symm
+  let t' : (elementsMap (restrictedCoyonedaMap (eqToHom hzb))).comp (associated hp z) ⟶
+      associated hp η :=
+    BasedCategory.whiskerLeft (elementsMap (restrictedCoyonedaMap (eqToHom hzb))) τ.inv ≫ t''
+  obtain ⟨φ, ⟨hφb, hφ⟩, huniq⟩ := existsUnique_vertical hp z η hzb t'
+  refine ⟨j ≫ φ, ⟨?_, ?_⟩, ?_⟩
+  · change j.base ≫ φ.base = f
+    rw [hφb, hfj]
+  · have h := isComparison_comp hp hτ hφ
+    refine h.congr hfj.symm ?_
+    refine HEq.trans (heq_of_eq ?_) ht''
+    exact whiskerLeft_hom_inv_comp (elementsMap (restrictedCoyonedaMap (eqToHom hzb))) τ t''
+  · rintro a ⟨ha, hat⟩
+    have hlift : q.IsHomLift f a := isHomLift_projection_of_base_eq ha
+    obtain ⟨b, ⟨hb, hfac⟩, _⟩ := IsStronglyCocartesian.universal_property
+      q f j (𝟙 η.base) f (Category.comp_id f).symm a
+    have hbb : b.base = eqToHom hzb := by
+      have h := IsHomLift.fac' q (𝟙 η.base) b
+      simpa [q] using h
+    obtain ⟨s, hs⟩ := exists_isComparison hp b hbb
+    have h := isComparison_comp hp hτ hs
+    rw [hfac] at h
+    have e : BasedCategory.whiskerLeft (elementsMap (restrictedCoyonedaMap (eqToHom hzb)))
+        τ.hom ≫ s.hom = t'' := h.ext (hat'' a ha hat)
+    have hst : s.hom = t' := by
+      change s.hom = BasedCategory.whiskerLeft _ τ.inv ≫ t''
+      rw [← e]
+      exact (whiskerLeft_inv_hom_comp _ τ s.hom).symm
+    rw [hst] at hs
+    rw [← hfac, huniq b ⟨hbb, hs⟩]
+
+/-- Whiskering a cast of based functors gives a cast. -/
+private lemma whiskerLeft_eqToHom_comp_id_heq
+    {𝒳 𝒴 𝒵 : BasedCategory (ArtinianLocalAlgCat.{u, v, w} Λ k)} (K : 𝒳 ⥤ᵇ 𝒴) {G H : 𝒴 ⥤ᵇ 𝒵}
+    (h : G = H) : BasedCategory.whiskerLeft K (eqToHom h) ≫ 𝟙 (K.comp H) ≍ 𝟙 (K.comp H) := by
+  subst h
+  exact heq_of_eq (by ext; simp; rfl)
+
+/-- The identity whiskered and followed by a cast is a cast. -/
+private lemma whiskerLeft_id_comp_eqToHom_heq
+    {𝒳 𝒴 𝒵 : BasedCategory (ArtinianLocalAlgCat.{u, v, w} Λ k)} (K : 𝒳 ⥤ᵇ 𝒴) (G : 𝒴 ⥤ᵇ 𝒵)
+    {H : 𝒳 ⥤ᵇ 𝒵} (h : K.comp G = H) :
+    BasedCategory.whiskerLeft K (𝟙 G) ≫ eqToHom h ≍ 𝟙 H := by
+  subst h
+  exact heq_of_eq (by ext; simp; rfl)
+
+/-- Replacing the functor of a prorepresentable pair by an isomorphic one, and the morphism to
+`F` by its restriction along the isomorphism, gives an isomorphic pair. -/
+private def isoOfFunctorIso (Y : ProrepresentableMorphism p)
+    {U : ArtinianLocalAlgCat.{u, v, w} Λ k ⥤ Type v} (hU : IsProrepresentable U)
+    (e : U ≅ Y.functor) :
+    (⟨U, hU, (elementsMap e.hom).comp Y.toF⟩ : ProrepresentableMorphism p) ≅ Y where
+  hom := ⟨e.inv, eqToHom (congrArg (fun b => (elementsMap b).comp Y.toF) e.inv_hom_id)⟩
+  inv := ⟨e.hom, 𝟙 _⟩
+  hom_inv_id := Hom.ext_heq e.hom_inv_id (whiskerLeft_eqToHom_comp_id_heq (elementsMap e.hom)
+    (congrArg (fun b => (elementsMap b).comp Y.toF) e.inv_hom_id))
+  inv_hom_id := Hom.ext_heq e.inv_hom_id (whiskerLeft_id_comp_eqToHom_heq (elementsMap e.inv)
+    ((elementsMap e.hom).comp Y.toF) (congrArg (fun b => (elementsMap b).comp Y.toF) e.inv_hom_id))
+
+/-- A pair is isomorphic to the pair with the same functor and an isomorphic morphism to
+`F`. -/
+private def isoOfToFIso (X : ProrepresentableMorphism p)
+    (ψ : BasedFunctor (BasedCategory.ofFunctor (Functor.Elements.π X.functor))
+      (BasedCategory.ofFunctor p)) (c : ψ ≅ X.toF) :
+    (⟨X.functor, X.prorepresentable, ψ⟩ : ProrepresentableMorphism p) ≅ X where
+  hom := ⟨𝟙 _, c.hom⟩
+  inv := ⟨𝟙 _, c.inv⟩
+  hom_inv_id := Hom.ext_heq (Category.id_comp _) (heq_of_eq (by
+    change c.hom ≫ c.inv = 𝟙 _
+    simp))
+  inv_hom_id := Hom.ext_heq (Category.id_comp _) (heq_of_eq (by
+    change c.inv ≫ c.hom = 𝟙 _
+    simp))
+
+/-- **Stacks 06HD.** Giving a formal object of `p` is equivalent to giving a prorepresentable
+functor `U : 𝒞_Λ ⥤ Sets` together with a morphism `U → F` over `𝒞_Λ`: the explicit functor
+`ξ ↦ (underline R|_{𝒞_Λ}, ξ̲)` of Stacks 06HC, with the comparisons of Stacks 06SL on
+morphisms, is an equivalence onto the category of such pairs. It is fully faithful by Stacks
+06SK and 06SL, and essentially surjective because every prorepresentable functor is
+isomorphic to a restricted representable one, over which Stacks 06SK produces the formal
+object. -/
+@[stacks 06HD "the functor `ξ ↦ (R|_{𝒞_Λ}, ξ̲)` is an equivalence"]
+theorem formalObjectToProrepresentableMorphism_isEquivalence
+    (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (hp : IsCofiberedInGroupoids p) :
+    (formalObjectToProrepresentableMorphism p hp).IsEquivalence := by
+  classical
+  have hfaithful : (formalObjectToProrepresentableMorphism p hp).Faithful := by
+    refine ⟨fun {ξ η} {a b} h => ?_⟩
+    obtain ⟨hb, hc⟩ := Hom.base_eq_and_comparison_heq h
+    have hb' : restrictedCoyonedaMap a.base = restrictedCoyonedaMap b.base := hb
+    have hab : a.base = b.base := (restrictedCoyonedaMap_bijective _ _).injective hb'
+    have hsb : IsComparison hp b (associatedComparison hp a) :=
+      (isComparison_associatedComparison hp b).congr hab.symm hc.symm
+    exact (existsUnique_isComparison hp ξ η a.base (associatedComparison hp a)).unique
+      ⟨rfl, isComparison_associatedComparison hp a⟩ ⟨hab.symm, hsb⟩
+  have hfull : (formalObjectToProrepresentableMorphism p hp).Full := by
+    refine ⟨fun {ξ η} g => ?_⟩
+    obtain ⟨f, hf⟩ := (restrictedCoyonedaMap_bijective ξ.base η.base).surjective g.base
+    obtain ⟨t, ht⟩ := exists_heq_comparison hf g.comparison
+    obtain ⟨a, ⟨ha, hat⟩, -⟩ := existsUnique_isComparison hp ξ η f t
+    obtain ⟨t₀, ht₀⟩ := exists_heq_comparison (congrArg restrictedCoyonedaMap ha) t
+    have h₀ : IsComparison hp a t₀ := hat.congr ha.symm ht₀.symm
+    refine ⟨a, Hom.ext_heq ?_ ?_⟩
+    · change restrictedCoyonedaMap a.base = g.base
+      rw [ha, hf]
+    · exact (heq_of_eq ((isComparison_associatedComparison hp a).ext h₀)).trans (ht₀.trans ht)
+  have hsurj : (formalObjectToProrepresentableMorphism p hp).EssSurj := by
+    refine ⟨fun X => ?_⟩
+    obtain ⟨P⟩ := presentation_nonempty hp X
+    exact ⟨P.object, ⟨(isoOfFunctorIso (ofFormalObject hp P.object) X.prorepresentable
+      P.iso).symm ≪≫ isoOfToFIso X _ P.comparison⟩⟩
+  exact ⟨hfaithful, hfull, hsurj⟩
+
+instance (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (hp : IsCofiberedInGroupoids p) :
+    (formalObjectToProrepresentableMorphism p hp).IsEquivalence :=
+  formalObjectToProrepresentableMorphism_isEquivalence p hp
+
+/-- **Stacks 06HD.** The equivalence between formal objects of `p` and prorepresentable
+functors on `𝒞_Λ` with a morphism to `F`, whose functor is
+`formalObjectToProrepresentableMorphism`. -/
+@[stacks 06HD "the equivalence of formal objects with pairs `(U, U → F)`"]
+noncomputable def formalObjectProrepresentableMorphismEquivalence
+    (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (hp : IsCofiberedInGroupoids p) :
+    FormalObject p ≌ ProrepresentableMorphism p :=
+  (formalObjectToProrepresentableMorphism p hp).asEquivalence
+
+/-- The functor of `formalObjectProrepresentableMorphismEquivalence` is the explicit functor
+`ξ ↦ (underline R|_{𝒞_Λ}, ξ̲)`. -/
+theorem formalObjectProrepresentableMorphismEquivalence_functor
+    (p : F ⥤ ArtinianLocalAlgCat.{u, v, w} Λ k) (hp : IsCofiberedInGroupoids p) :
+    (formalObjectProrepresentableMorphismEquivalence p hp).functor =
+      formalObjectToProrepresentableMorphism p hp :=
+  rfl
+
+end Category
 
 end Deformation
 

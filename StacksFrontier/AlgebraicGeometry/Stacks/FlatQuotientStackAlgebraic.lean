@@ -37,9 +37,14 @@ a scheme `S` of a big fppf site. If the source and the target of `G` are flat an
 presentation, then the quotient stack `[U/R]` is an algebraic stack over `S`.
 
 The source states it for a groupoid over `S`; a groupoid over `A` is the more general statement,
-`S` itself being an algebraic space over `S`. -/
-@[stacks 06FI "stated for a groupoid in algebraic spaces over an algebraic space over S, which \
-contains the source's groupoid over S"]
+the source's case being `A = S`, with `S` the final algebraic space over `S`. Nothing is assumed:
+the proof is Artin's theorem **Stacks 06DC**,
+`AlgebraicGeometry.Stack.isAlgebraicStack_of_flatCover`, applied to the projection
+`S_U ⟶ [U/R]` of Stacks 044R, read with the morphisms of `[U/R]` shrunk to the site's universe.
+The projection is representable by algebraic spaces by Stacks 04WZ and Stacks 04TB, and it is
+surjective, flat and locally of finite presentation by **Stacks 06FH**. -/
+@[stacks 06FI "stated for a groupoid in algebraic spaces over an arbitrary algebraic space A over \
+S, the source's groupoid over S being the case A = S; Stacks 06DC, 06FH and 04TB are proved"]
 theorem isAlgebraicStack_quotientStack_of_flat {A : AlgebraicSpaces C S hS}
     (G : GroupoidInAlgebraicSpaces C S hS A)
     (hsflat : Space.IsFlat C S hS G.source.hom)

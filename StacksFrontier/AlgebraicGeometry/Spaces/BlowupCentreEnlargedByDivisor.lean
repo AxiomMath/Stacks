@@ -14,8 +14,9 @@ says that the blowup of `𝔅` in `Z'` is the blowup of `𝔅` in `Z`.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces` is **Stacks 0867, part (1)**: a
-  morphism which is the blowup of `𝔅` in `Z` is also the blowup of `𝔅` in `Z + D`.
+* `AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces` is Stacks 0867, part (1), from the
+  two inputs `h0809` and `h083V` described below: a morphism which is the blowup of `𝔅` in `Z`
+  is also the blowup of `𝔅` in `Z + D`.
 * `AlgebraicGeometry.Space.exists_iso_blowup_sumClosedSubspaces` is the source's phrasing of
   the same statement: every blowup of `𝔅` in `Z + D` is isomorphic over `𝔅` to the blowup of
   `𝔅` in `Z`.
@@ -24,54 +25,33 @@ says that the blowup of `𝔅` in `Z'` is the blowup of `𝔅` in `Z`.
 
 ## How the statement is said here
 
-The library has no construction of the blowup of an algebraic space; what it has is the
-universal property of Stacks 085U, `AlgebraicGeometry.Space.IsBlowupAlong Z b`, which says
-that `b : B' ⟶ 𝔅` is a terminal object of the category `𝒞_Z` of algebraic spaces over `𝔅` on
-which the inverse image of `Z` is an effective Cartier divisor.  Asserting
-`IsBlowupAlong (Z + D) b` therefore says both that the blowup of `𝔅` in `Z + D` exists and
-that it is `b`, which is the source's "the blowup of `𝔅` in `Z'` is isomorphic to `B' ⟶ 𝔅`";
-that reading is `AlgebraicGeometry.Space.exists_iso_blowup_sumClosedSubspaces`.
+The blowup is named by the universal property of Stacks 085U,
+`AlgebraicGeometry.Space.IsBlowupAlong Z b`, which says that `b : B' ⟶ 𝔅` is a terminal object
+of the category `𝒞_Z` of algebraic spaces over `𝔅` on which the inverse image of `Z` is an
+effective Cartier divisor.  Asserting `IsBlowupAlong (Z + D) b` therefore says that `b` is the
+blowup of `𝔅` in `Z + D`, which is the source's "the blowup of `𝔅` in `Z'` is isomorphic to
+`B' ⟶ 𝔅`"; that reading is `AlgebraicGeometry.Space.exists_iso_blowup_sumClosedSubspaces`.
 
 Read through the universal property the content of part (1) is that the two categories
 `𝒞_{Z+D}` and `𝒞_Z` have the same terminal objects.  Since `𝒞_{Z+D} ⊆ 𝒞_Z` and `b` lies in
 the smaller one, terminality in the larger one gives terminality in the smaller, which is
 `CategoryTheory.ObjectProperty.isTerminal_of_le`.
 
-## What is granted
+## The two inputs
 
-Two inputs about effective Cartier divisors are carried as hypotheses, because the library does
-not have them for algebraic spaces.  Both are strictly weaker than the conclusion: neither
-mentions the blowup's universal property.
+The statements here take two facts about effective Cartier divisors as hypotheses, so that this
+file needs few imports.  Neither mentions the blowup's universal property.
 
 * `h0809` is that the inverse image of `D` along `b` is an effective Cartier divisor on `B'`,
-  the algebraic-space analogue of the scheme-level Stacks 0809 used at this point of the
-  source's proof (`AlgebraicGeometry.isPullbackDefined_blowUpToBase` in
-  `StacksFrontier/AlgebraicGeometry/Blowup/Transform/RegularPullback.lean`).
+  Stacks 085X, the algebraic-space analogue of the scheme-level Stacks 0809; it is
+  `AlgebraicGeometry.Space.IsBlowupAlong.isPullbackDefined_of_isEffectiveCartierDivisor`.
 * `h083V` is that the inverse image of `Z + D` along a morphism is an effective Cartier divisor
-  exactly when those of `Z` and of `D` are — one direction is the algebraic-space analogue of
-  Stacks 083V, the other the observation that a factor of an invertible ideal product is
-  invertible.  Both directions compare the defining ideal of `Z + D`, which
-  `AlgebraicGeometry.Space.sumClosedSubspaces` describes on the étale scheme charts, with
-  invertibility on the small étale site of the source, and that comparison is Stacks 083C,
-  recorded as missing in
-  `StacksFrontier/AlgebraicGeometry/Spaces/EffectiveCartierEtaleCharts.lean`: it rests on the
-  identification of modules on the small étale site of a scheme with modules on the scheme
-  (Stacks 03DX(2) and 03LX) and on the descent clause of Stacks 0B8M.
+  exactly when those of `Z` and of `D` are; it is
+  `AlgebraicGeometry.Space.isPullbackDefined_sumClosedSubspaces_iff`.
 
-The source's hypothesis that `D` is an effective Cartier divisor is carried but not used again:
-it is the hypothesis under which the two granted inputs hold.
-
-## What is not proved
-
-Part (2) of Stacks 0867 — that the strict transform of a quasi-coherent module with no nonzero
-sections supported on `|f^{-1}D|` is the same for the centre `Z` and for the centre `Z + D` —
-is not proved.  Over the blowup the two strict transforms are quotients of the same pullback by
-the sections supported on `|pr^{-1}(b^{-1}Z)|` and on `|pr^{-1}(b^{-1}(Z + D))|`
-(`AlgebraicGeometry.Space.strictTransformSheaf`), so the statement is the equality of those two
-submodules of supported sections.  It needs the point set of `Z + D` to be the union of those
-of `Z` and `D`, which again compares the chartwise product ideal with data on the small étale
-site, and the algebraic-space analogue of
-`AlgebraicGeometry.Scheme.Modules.supportedSectionsSubmodule_union_eq`.
+With both discharged, Stacks 0867 — part (1), and part (2) on strict transforms — is
+`AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces_and_strictTransformSheaf_eq` in
+`StacksFrontier/AlgebraicGeometry/Spaces/BlowupCentreEnlargedByDivisorConstructed.lean`.
 
 ## References
 
@@ -120,13 +100,13 @@ space over `S` with `D` an effective Cartier divisor, and let `Z + D` be the clo
 out by the product of their defining ideals.  A morphism `b : B' ⟶ 𝔅` which is the blowup of
 `𝔅` in `Z` is also the blowup of `𝔅` in `Z + D`.
 
-Granted as hypotheses: that the inverse image of `D` along `b` is an effective Cartier divisor
-(Stacks 0809 for algebraic spaces), and that the inverse image of `Z + D` along a morphism is an
-effective Cartier divisor exactly when those of `Z` and of `D` are (Stacks 083V for algebraic
-spaces, and its converse).  See the module documentation. -/
-@[stacks 0867 "part (1): granted, as the hypotheses h0809 and h083V, that the inverse image \
-of D along the blowup is an effective Cartier divisor and that the inverse image of Z + D \
-along a morphism is one exactly when those of Z and of D are"]
+This form takes as hypotheses that the inverse image of `D` along `b` is an effective Cartier
+divisor (Stacks 085X, the algebraic-space counterpart of Stacks 0809), and that the inverse
+image of `Z + D` along a morphism is an effective Cartier divisor exactly when those of `Z` and
+of `D` are (Stacks 083V for algebraic spaces, and its converse).  Both are proved in the
+library, and the statement without them is
+`AlgebraicGeometry.Space.isBlowupAlong_sumClosedSubspaces_of_isEffectiveCartierDivisor`; the
+form with hypotheses is kept because it needs fewer imports. -/
 theorem isBlowupAlong_sumClosedSubspaces {𝔅 B' : AlgebraicSpaces B S hS}
     (Z D : ClosedSubspaces B S hS 𝔅.1)
     (_hD : IsEffectiveCartierDivisor B S hS 𝔅 D)

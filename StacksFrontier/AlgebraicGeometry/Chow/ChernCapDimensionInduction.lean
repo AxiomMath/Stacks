@@ -96,10 +96,9 @@ read for `𝟙 X` as `Stacks.Chow.BivariantClass.mulId` — and a bivariant clas
 every one of its cap operations is, by
 `Stacks.Chow.BivariantClass.eq_zero_iff_capsIntegralFundamentalClassesToZero`. The vanishing
 proved here is of the iterated cap operation quantified over all lists of cap operators that the
-modules supply, which is what that unwinding asks for; it is not stated as the equality of
-bivariant classes, because that would additionally fix which cap operators the first Chern class
-of an invertible module provides. See the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.ChernCapDimensionVanishing`.
+modules supply, which is what that unwinding asks for. The equality of bivariant classes itself is
+`Stacks.Chow.firstChernClassProduct_eq_zero_of_topologicalKrullDim_le`, which is deduced from
+the theorem here.
 
 ## References
 
@@ -280,10 +279,6 @@ inductive hypothesis transported to each of them along the closed immersion.
 The ample invertible module is used only through Stacks 0AYM, and Noetherianness only through
 Stacks 0AYM and the dimension drop; both follow from the source's hypothesis that `X` be of
 finite type over the base, the base being locally Noetherian. -/
-@[stacks 0FDX "the conclusion read on EVERY test scheme locally of finite type, with no bound on \
-its dimension: the cap operation of the product of the d+1 first Chern classes annihilates every \
-Chow class of every such test scheme. This is the clause the source's induction on d proves, and \
-the one the dimension-counting proofs of ChernCapDimensionVanishing do not reach"]
 theorem iteratedChernCapOnChow_ofFn_eq_zero_of_topologicalKrullDim_le (d : ℕ) {X : Scheme.{u}}
     (sX : X ⟶ C.S) [LocallyOfFiniteType sX] [IsNoetherian X] (A : X.Modules)
     [Stacks.Ample.IsInvertibleModule X A] (hA : Stacks.Ample.IsAmple X A)

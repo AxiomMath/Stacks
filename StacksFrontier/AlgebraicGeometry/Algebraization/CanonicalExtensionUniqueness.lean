@@ -73,7 +73,8 @@ namespace Stacks.Algebraization
 
 /-- **Stacks Project, Tag 0EIR.** A coherent adic system on `X` extending `F`, together with
 a chosen pro-isomorphism from the sheaves associated to the global sections of `F`. -/
-@[stacks 0EIR "unique_extension"]
+@[stacks 0EIR "part (1), existence: a coherent adic system (G_n) on X with a chosen \
+pro-isomorphism from the sheaves associated to the global sections of (F_n)"]
 public noncomputable def canonicalExtension
     (S : AlgebraizationSituation.{u})
     (F : Stacks.Coherent.CoherentAdicSystems (idealOnOpen S))
@@ -85,7 +86,8 @@ public noncomputable def canonicalExtension
 
 /-- **Stacks Project, Tag 0EIR.** Two coherent adic extensions of the same pro-object are
 isomorphic by exactly one isomorphism compatible with their chosen pro-isomorphisms. -/
-@[stacks 0EIR "unique_extension"]
+@[stacks 0EIR "part (1), uniqueness: two coherent adic systems on X presenting the same \
+pro-object are isomorphic by exactly one isomorphism compatible with the pro-isomorphisms"]
 public theorem existsUnique_compatibleIso
     (S : AlgebraizationSituation.{u})
     (P : (Ind (Scheme.QuasicoherentModules S.X)ᵒᵖ)ᵒᵖ)

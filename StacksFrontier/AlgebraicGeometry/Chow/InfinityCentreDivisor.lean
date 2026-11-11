@@ -44,6 +44,10 @@ neighbourhoods of `π⁻¹(Z)`, `π : 𝐏¹_X ⟶ X`: the closed subscheme `π�
 and the divisor at infinity restricts to the divisor at infinity of `𝐏¹_{V(ℐⁿ)}`, which is an
 effective Cartier divisor. So no coordinates on `𝐏¹_X` are used.
 
+The other assertions of Stacks 0FBG are listed in the module docstring of
+`StacksFrontier.AlgebraicGeometry.Chow.InfinityCentreBlowup`, under "Where the remaining assertions
+are".
+
 ## Main results
 
 * `Stacks.Chow.mem_span_of_algebraMap_mul_mem_span` — the ring-theoretic step: in the affine

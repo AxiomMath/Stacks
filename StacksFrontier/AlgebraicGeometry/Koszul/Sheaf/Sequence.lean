@@ -161,9 +161,9 @@ theorem seqDual_restrict_naturality {r : ℕ} (f : Sequence O r) {X Y : Cᵒᵖ}
   exact Finset.sum_congr rfl fun i _ => by rw [map_mul, f.map_restrict g i]
 
 /-- **The functional `(f₁, …, f_r) : O^{⊕ r} → O`.** Over each object it is the ring-level
-`Koszul.seqDual` of the family of sections restricted there. -/
-@[stacks 062L "the morphism `(f₁, …, f_r) : O^{⊕ r} → O` the Koszul complex is attached to, \
-not the complex itself"]
+`Koszul.seqDual` of the family of sections restricted there. On a ringed space, the Koszul
+complex of Stacks tag 062L attached to it is
+`Stacks.AlgebraicGeometry.SeqKoszul.koszulDifferentialGradedAlgebra`. -/
 noncomputable def seqExteriorFunctional {r : ℕ} (f : Sequence O r) :
     ExteriorFunctional.{v, u, w, w} (finFree O r) where
   dual X := Koszul.seqDual (f.restrict X)

@@ -25,8 +25,21 @@ formal inverse `c(ℰ)^{-1}`, whose degree-`i` component is given by the recursi
 
   `c(ℰ)^{-1}_0 = 1`,  `c(ℰ)^{-1}_{n+1} = − ∑_{i + j = n} c_{i+1}(ℰ) · c(ℰ)^{-1}_j`,
 
-and nothing bounds the degrees in which that is nonzero. This file constructs the map, the
-product, the multiplication on it and the formal inverse.
+and nothing bounds the degrees in which that is nonzero. This file constructs a **parametric**
+version of that map, for a ring structure and a total Chern class supplied as data, together with
+the product, the Cauchy product on it and the formal inverse.
+
+**This file is not Stacks 0FEL.** The canonical map of the remark, with target the ring
+`Stacks.Chow.TotalChowClass` of total Chow cohomology classes under the Cauchy product of the
+composition of bivariant classes, and value on `[ℰ]` the actual total Chern class
+`Stacks.Chow.totalChernClassOfModule` of a finite locally free module of any (possibly
+non-constant) rank, is `Stacks.Chow.totalChernKGroupMap`, with the remark in full as
+`Stacks.Chow.totalChernKGroupMap_spec`, in
+`StacksFrontier.AlgebraicGeometry.Chow.ChernClassArbitraryRank.KGroupChernClass`. The map
+`Stacks.Chow.chernClassKGroup` below is not that map: its parameter `R` is any commutative graded
+product, not tied to the composition of bivariant classes of Stacks 0FE0, and its parameter `D`
+does not determine the series `D.ch ℰ` (see `Stacks.Chow.TotalChernClassSeries`), so different
+admissible data give different maps.
 
 ## Main definitions
 
@@ -52,9 +65,10 @@ product, the multiplication on it and the formal inverse.
   laws.
 * `Stacks.Chow.TotalChernClassSeries` — that datum at the product and unit of a
   `Stacks.Chow.ChowCohomologySeriesRing`.
-* `Stacks.Chow.chernClassKGroupHom`, `Stacks.Chow.chernClassKGroup` — **Stacks 0FEL**, the map
-  `c : K_0(Vect(X)) ⟶ ∏_{i ≥ 0} A^i(X)`, first as a homomorphism into the group of unital series
-  written additively and then as the map of the source.
+* `Stacks.Chow.chernClassKGroupHom`, `Stacks.Chow.chernClassKGroup` — the parametric map
+  `K_0(Vect(X)) ⟶ ∏_{i ≥ 0} A^i(X)` of a datum `D`, first as a homomorphism into the group of
+  unital series written additively and then as a map into the series; the canonical map of
+  Stacks 0FEL is `Stacks.Chow.totalChernKGroupMap`.
 
 ## Main results
 
@@ -70,9 +84,15 @@ product, the multiplication on it and the formal inverse.
 
 ## Implementation notes
 
-### Why the ring and the Chern classes are parameters
+### Why the ring and the Chern classes are parameters here
 
-Two of the three ingredients of the remark are not in this repository.
+The ingredients of the remark are now all in the library, downstream of this file: the ring
+`Stacks.Chow.TotalChowClass` (`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.TotalClass`), the
+total Chern class `Stacks.Chow.totalChernClassOfModule` of a module of arbitrary rank and its
+Whitney sum formula `Stacks.Chow.totalChernClassOfModule_eq_mul_of_shortExact`
+(`StacksFrontier.AlgebraicGeometry.Chow.ChernClassArbitraryRank.TotalChernClass`), and with them the
+canonical map `Stacks.Chow.totalChernKGroupMap`. The notes below record why this earlier,
+parametric construction carries them; they describe this file only.
 
 The ring structure on `A^*(X)` is composition of bivariant classes, Stacks 0FE0. The composite of
 two bivariant classes **is** constructed, as `Stacks.Chow.bivariantComposite` in
@@ -80,12 +100,13 @@ two bivariant classes **is** constructed, as `Stacks.Chow.bivariantComposite` in
 formula of Stacks 0FE0 by `Stacks.Chow.isBivariantClassComposition_bivariantComposite`. It carries
 neither descent condition: Stacks 02S1 is supplied there by `Stacks.Chow.flatPullbackDescends` and
 Stacks 02S2 by `Stacks.Chow.properPushforwardDescends`. It does still carry the two Gysin-system
-clauses of Stacks 02TA, which are properties of the chosen Gysin system `G` and are open: `G` is a
-parameter of the whole development, an arbitrary one does not satisfy them, and nothing here
-constructs the Gysin map of Stacks 02TO for which they hold. What is missing for the ring is the
-step from that
-composite to a degreewise product `A^i(X) × A^j(X) ⟶ A^{i+j}(X)` and the laws the Cauchy product
-obeys. So the degreewise product, the unit series and the three laws
+clauses of Stacks 02TA, which are properties of the chosen Gysin system `G`: `G` is a parameter of
+the whole development and an arbitrary one does not satisfy them. The Gysin system of Stacks 02TO
+for which they hold is `Stacks.Chow.gysinSystemOfInvertible`, and they are proved for it as
+`Stacks.Chow.gysinSystemOfInvertible_isNaturalUnderProperPushforward` and in
+`StacksFrontier.AlgebraicGeometry.Chow.Gysin42.BaseChangeIsoGysinSystem`. What is missing for the
+ring is the step from that composite to a degreewise product `A^i(X) × A^j(X) ⟶ A^{i+j}(X)` and
+the laws the Cauchy product obeys. So the degreewise product, the unit series and the three laws
 the Cauchy product obeys — associativity, commutativity and the unit law — are collected in
 `Stacks.Chow.ChowCohomologySeriesRing` and carried as a parameter. Every one of its fields is a
 property of the real ring `A^*(X)^∧`; what is *not* assumed is anything about Chern classes, and
@@ -95,10 +116,13 @@ The Chern classes `c_j(ℰ) ∈ A^j(X)` are Stacks 0B7H, which is also character
 constructed in this repository: see the implementation notes of
 `StacksFrontier.AlgebraicGeometry.Chow.ChernClassHigher.Basic`, where the cap products of Stacks
 0B7G enter as the parameter `Stacks.Chow.HigherChernCapRule`. So the series `c(ℰ)` is a field of
-`Stacks.Chow.TotalChernClassSeries`; it is pinned down rather than left free, because that
-structure also carries, for a module of rank `r`, the assertion that the degree-`j` component of
-`c(ℰ)` satisfies the characterization `Stacks.Chow.IsChernClassBivariant` of Stacks 0B7H, and by
-`Stacks.Chow.eq_of_isChernClassBivariant` that determines it uniquely.
+`Stacks.Chow.TotalChernClassSeries`. It is **not** pinned down by that structure: the field
+`ch_isChernClass` only constrains, for a module of globally constant rank `r`, the components of
+degree `j ≤ r`; it asserts no vanishing in degrees above `r`, and it says nothing about a module
+whose rank is not constant, which is constrained only by the Whitney sum formula. On
+`X = X₁ ⊔ X₂`, multiplying `D.ch ℰ` by `u^{n(ℰ)}` for a unital series `u ≠ 1` and
+`n(ℰ) = rk_{p₁}(ℰ) - rk_{p₂}(ℰ)` (points `p_i ∈ X_i`) gives another admissible datum with a
+different map.
 
 ### Where Stacks 02UI enters, and in what form
 
@@ -117,8 +141,11 @@ composite with the two cap operations — the step that turns a convolution of c
 Cauchy product of classes. The first two are available: the Chern classes as
 `Stacks.Chow.chernClass`, relative to the cap products of Stacks 0B7G, and the composite of two
 classes as `Stacks.Chow.bivariantComposite`. The degreewise product assembled from the composite,
-the laws it obeys and the cap-compatibility step are not, so the product form is not deduced here
-and the relation is assumed in the form the construction consumes.
+the laws it obeys and the cap-compatibility step are not available to this file, so the product
+form is not deduced here and the relation is assumed in the form the construction consumes. The
+product form for the genuine classes is proved downstream, for the ring
+`Stacks.Chow.TotalChowClass` and modules of arbitrary rank, as
+`Stacks.Chow.totalChernClassOfModule_eq_mul_of_shortExact`.
 
 ### The degrees carry their own proofs
 
@@ -173,15 +200,17 @@ variable (C : ChowSituation.{u}) (G : GysinSystem C) {X : Scheme.{u}} (sX : X �
 
 /-! ### The target of the Chern class map -/
 
-/-- **The target of Stacks 0FEL.** The product `∏_{i ≥ 0} A^i(X)` of the nonnegative-degree Chow
-cohomology groups of a scheme `X` locally of finite type over the base: a family
-`(a_0, a_1, a_2, …)` with `a_i ∈ A^i(X)`, subject to **no** condition on its support.
+/-- **The underlying group of the target of Stacks 0FEL.** The product `∏_{i ≥ 0} A^i(X)` of
+the nonnegative-degree Chow cohomology groups of a scheme `X` locally of finite type over the
+base: a family `(a_0, a_1, a_2, …)` with `a_i ∈ A^i(X)`, subject to **no** condition on its
+support.
 
 The product and not the direct sum, and not the completion `A^*(X)^∧` of Stacks 0FE0 either: the
 formal inverse of a total Chern class has a component in every degree in general, and that is the
-reason the source writes an infinite product. -/
-@[stacks 0FEL "the target: the product over i >= 0 of the Chow cohomology groups A^i(X), with \
-  A^i(X) the group Stacks.Chow.chowCohomologyComponent of Stacks 0B7E"]
+reason the source writes an infinite product. At the Gysin system
+`Stacks.Chow.gysinSystemOfInvertible` it is the additive group of the ring
+`Stacks.Chow.TotalChowClass`, the target of the canonical map `Stacks.Chow.totalChernKGroupMap`
+of Stacks 0FEL. -/
 abbrev chowCohomologySeries : Type (u + 1) :=
   ∀ i : ℕ, chowCohomologyComponent C G sX (i : ℤ)
 
@@ -458,14 +487,19 @@ open ChowCohomologySeriesRing
 `c(ℰ) ∈ ∏_{i ≥ 0} A^i(X)` with constant term `1`, such that:
 
 * for a module of rank `r`, its degree-`j` component satisfies the characterization of Stacks
-  0B7H, so that it **is** the `j`-th bivariant Chern class `c_j(ℰ)` — the characterization
-  determines the class, by `Stacks.Chow.eq_of_isChernClassBivariant`;
+  0B7H, so that for `j ≤ r` it is the `j`-th bivariant Chern class `c_j(ℰ)`, by
+  `Stacks.Chow.eq_of_isChernClassBivariant`; nothing is asserted in degrees above `r`, nor for a
+  module of non-constant rank, so the datum does **not** determine the series `c(ℰ)`;
 * a module that is not finite locally free gets the unit series, the normalisation
   `AlgebraicGeometry.VectorBundleKZero.classOf` uses for the same modules;
 * **Stacks 02UI**, the Whitney sum formula: a short exact sequence of finite locally free modules
   `0 ⟶ ℰ_1 ⟶ ℰ_2 ⟶ ℰ_3 ⟶ 0` gives `c(ℰ_2) = c(ℰ_1) c(ℰ_3)` for the Cauchy product.
 
-Which fields are irreducible, and which are not.
+Which fields are irreducible for this structure, and which are not. (Downstream of this file the
+library constructs the genuine total Chern class `Stacks.Chow.totalChernClassOfModule`, of any
+rank, in the genuine ring `Stacks.Chow.TotalChowClass`, with the Whitney sum formula
+`Stacks.Chow.totalChernClassOfModule_eq_mul_of_shortExact`; the canonical map of Stacks 0FEL built
+from them, `Stacks.Chow.totalChernKGroupMap`, needs none of the fields below.)
 
 `cap` is irreducible here: nothing in this repository constructs a
 `Stacks.Chow.HigherChernCapRule`. It is Stacks 0B7G, built in the source from the cap product on
@@ -476,8 +510,9 @@ each itself rather than citing it, so none may be assumed instead.
 
 `ch` and `ch_isChernClass` are not irreducible given `cap`. On a module of constant rank `r` the
 series is `Stacks.Chow.chernClassSeriesOfRank`: its components satisfy the characterization, by
-`Stacks.Chow.isChernClassBivariant_chernClassSeriesOfRank`, and it is the only series that does,
-by `Stacks.Chow.chernClassSeriesOfRank_eq`. On a module of non-constant rank the classes are the
+`Stacks.Chow.isChernClassBivariant_chernClassSeriesOfRank`, and it is the only series that does
+*and vanishes above degree `r`*, by `Stacks.Chow.chernClassSeriesOfRank_eq`; the vanishing is not a
+field of this structure. On a module of non-constant rank the classes are the
 rank-locus assembly of Stacks 0ESW, `Stacks.Chow.chernClassArbitraryRank`, whose family of
 constant-rank classes is `Stacks.Chow.rankLocusChernClass`. What stands between those and a
 definition of `ch` on every module is the identification of that assembly with
@@ -526,14 +561,19 @@ structure GradedTotalChernClassSeries (C : ChowSituation.{u}) (G : GysinSystem C
 `c(ℰ) ∈ ∏_{i ≥ 0} A^i(X)` with constant term `1`, such that:
 
 * for a module of rank `r`, its degree-`j` component satisfies the characterization of Stacks
-  0B7H, so that it **is** the `j`-th bivariant Chern class `c_j(ℰ)` — the characterization
-  determines the class, by `Stacks.Chow.eq_of_isChernClassBivariant`;
+  0B7H, so that for `j ≤ r` it is the `j`-th bivariant Chern class `c_j(ℰ)`, by
+  `Stacks.Chow.eq_of_isChernClassBivariant`; nothing is asserted in degrees above `r`, nor for a
+  module of non-constant rank, so the datum does **not** determine the series `c(ℰ)`;
 * a module that is not finite locally free gets the unit series, the normalisation
   `AlgebraicGeometry.VectorBundleKZero.classOf` uses for the same modules;
 * **Stacks 02UI**, the Whitney sum formula: a short exact sequence of finite locally free modules
   `0 ⟶ ℰ_1 ⟶ ℰ_2 ⟶ ℰ_3 ⟶ 0` gives `c(ℰ_2) = c(ℰ_1) c(ℰ_3)` for the Cauchy product.
 
-Which fields are irreducible, and which are not.
+Which fields are irreducible for this structure, and which are not. (Downstream of this file the
+library constructs the genuine total Chern class `Stacks.Chow.totalChernClassOfModule`, of any
+rank, in the genuine ring `Stacks.Chow.TotalChowClass`, with the Whitney sum formula
+`Stacks.Chow.totalChernClassOfModule_eq_mul_of_shortExact`; the canonical map of Stacks 0FEL built
+from them, `Stacks.Chow.totalChernKGroupMap`, needs none of the fields below.)
 
 `cap` is irreducible here: nothing in this repository constructs a
 `Stacks.Chow.HigherChernCapRule`. It is Stacks 0B7G, built in the source from the cap product on
@@ -544,8 +584,9 @@ each itself rather than citing it, so none may be assumed instead.
 
 `ch` and `ch_isChernClass` are not irreducible given `cap`. On a module of constant rank `r` the
 series is `Stacks.Chow.chernClassSeriesOfRank`: its components satisfy the characterization, by
-`Stacks.Chow.isChernClassBivariant_chernClassSeriesOfRank`, and it is the only series that does,
-by `Stacks.Chow.chernClassSeriesOfRank_eq`. On a module of non-constant rank the classes are the
+`Stacks.Chow.isChernClassBivariant_chernClassSeriesOfRank`, and it is the only series that does
+*and vanishes above degree `r`*, by `Stacks.Chow.chernClassSeriesOfRank_eq`; the vanishing is not a
+field of this structure. On a module of non-constant rank the classes are the
 rank-locus assembly of Stacks 0ESW, `Stacks.Chow.chernClassArbitraryRank`, whose family of
 constant-rank classes is `Stacks.Chow.rankLocusChernClass`. What stands between those and a
 definition of `ch` on every module is the identification of that assembly with
@@ -609,11 +650,11 @@ def GradedTotalChernClassSeries.toTotal {C : ChowSituation.{u}} {G : GysinSystem
 
 variable {R : ChowCohomologySeriesRing C G sX}
 
-/-- **Stacks 0FEL, as a homomorphism of groups.** The Chern class map
-`c : K_0(Vect(X)) ⟶ ∏_{i ≥ 0} A^i(X)`, read as a homomorphism from `K_0(Vect(X))` to the group of
-series with constant term `1` written additively. The universal property of `K_0(Vect(X))` applies
-because the Whitney sum formula makes `ℰ ↦ c(ℰ)` additive on short exact sequences once the target
-is written additively; that is the well-definedness the source gets from Stacks 02UI. -/
+/-- **The parametric Chern class map, as a homomorphism of groups.** The map
+`K_0(Vect(X)) ⟶ ∏_{i ≥ 0} A^i(X)` of a datum `D`, read as a homomorphism from `K_0(Vect(X))` to
+the group of series with constant term `1` written additively. The universal property of
+`K_0(Vect(X))` applies because the field `D.ch_shortExact` makes `ℰ ↦ D.ch ℰ` additive on short
+exact sequences once the target is written additively. -/
 def chernClassKGroupHom (D : TotalChernClassSeries C G sX R) :
     AlgebraicGeometry.VectorBundleKZero X →+ Additive (UnitalSeries R) :=
   AlgebraicGeometry.VectorBundleKZero.liftAddHom
@@ -626,42 +667,25 @@ def chernClassKGroupHom (D : TotalChernClassSeries C G sX R) :
       refine congrArg Additive.ofMul (Subtype.ext ?_)
       exact D.ch_shortExact f g w h₁ h₂ h₃ inferInstance inferInstance hex)
 
-/-- The Chern class map of Stacks 0FEL on the class of a module is the total Chern class of that
+/-- The parametric Chern class map on the class of a module is the total Chern class of that
 module, read in the group of series with constant term `1`. -/
 theorem chernClassKGroupHom_classOf (D : TotalChernClassSeries C G sX R) (E : X.Modules) :
     chernClassKGroupHom D (AlgebraicGeometry.VectorBundleKZero.classOf X E) =
       Additive.ofMul (⟨D.ch E, D.ch_apply_zero E⟩ : UnitalSeries R) :=
   AlgebraicGeometry.VectorBundleKZero.liftAddHom_classOf _ _ _ E
 
-/-- **Stacks 0FEL.** The Chern class map
+/-- **The parametric Chern class map** `K_0(Vect(X)) ⟶ ∏_{i ≥ 0} A^i(X)` of a datum `D`: it sends
+the generator `[ℰ]` to the series `D.ch ℰ` and is extended multiplicatively for the Cauchy product
+of `R`, so `−[ℰ]` goes to the formal inverse of `D.ch ℰ`. It is well defined by the field
+`D.ch_shortExact`, a Whitney sum formula in product form.
 
-  `c : K_0(Vect(X)) ⟶ ∏_{i ≥ 0} A^i(X)`,
-
-sending the generator `[ℰ]` to `c(ℰ) = 1 + c_1(ℰ) + c_2(ℰ) + …` and extended multiplicatively;
-so `−[ℰ]` goes to the formal inverse `c(ℰ)^{-1}`, which is why the target is the infinite product.
-It is well defined by the Whitney sum formula of Stacks 02UI. -/
-@[stacks 0FEL "the map c : K_0(Vect(X)) -> prod_{i >= 0} A^i(X) itself, with K_0(Vect(X)) the \
-  Grothendieck group AlgebraicGeometry.VectorBundleKZero of Stacks 0FDK and A^i(X) the Chow \
-  cohomology Stacks.Chow.chowCohomologyComponent of Stacks 0B7E. CARRIED, as the two fields of \
-  the parameters R and D: (1) the ring structure of A^*(X)^∧, Stacks 0FE0 -- composition of \
-  bivariant classes, whose composite StacksDraft.AlgebraicGeometry.Chow.BivariantComposition \
-  .Class constructs as Stacks.Chow.bivariantComposite, though nothing here assembles the ring \
-  out of it -- namely a degreewise product A^i x A^j -> A^{i+j}, additive in each variable, a \
-  unit series, and associativity, commutativity and the unit law for the Cauchy product it \
-  defines; (2) the total Chern class series c(E) of each module; Stacks 0B7H is constructed \
-  here, as Stacks.Chow.chernClass, but relative to the Chern cap products of Stacks 0B7G \
-  that the characterization is read against (the parameter Stacks.Chow.HigherChernCapRule), \
-  which rest on Stacks 02U5 and 02U7 and are not formalized here; and \
-  (3) the Whitney sum formula c(E_2) = c(E_1) c(E_3) of Stacks 02UI in the source's product \
-  form, which is the well-definedness. The repository's Stacks 02UI, \
-  Stacks.Chow.chernCapOnChow_eq_sum_of_shortExact, is the relation read componentwise on Chow \
-  groups between cap products and does not give the product form: that deduction needs the \
-  bivariant Chern classes of Stacks 0B7H, the composition product of Stacks 0FE0 and the \
-  compatibility of the cap operation of a composite with the two cap operations; the first two \
-  are available, the degreewise product built from the composite and the last are not. NOT \
-  carried, and constructed here: the product prod_{i >= 0} A^i(X), the Cauchy \
-  product on it, the formal inverse of a series with constant term 1 and the proof that it \
-  inverts, the group of such series, and the map c with the three properties below"]
+This is **not** the canonical map of Stacks 0FEL: `R` is an arbitrary commutative graded product,
+not the composition of bivariant classes of Stacks 0FE0, and `D` does not determine `D.ch ℰ` (no
+vanishing above the rank, no constraint at non-constant rank; see
+`Stacks.Chow.TotalChernClassSeries`). The canonical map is `Stacks.Chow.totalChernKGroupMap`,
+with target `Stacks.Chow.TotalChowClass` and value the total Chern class
+`Stacks.Chow.totalChernClassOfModule`; the remark in full is
+`Stacks.Chow.totalChernKGroupMap_spec`. -/
 def chernClassKGroup (D : TotalChernClassSeries C G sX R) :
     AlgebraicGeometry.VectorBundleKZero X → chowCohomologySeries C G sX :=
   fun α => (Additive.toMul (chernClassKGroupHom D α) : UnitalSeries R).1
@@ -673,12 +697,9 @@ theorem chernClassKGroup_classOf (D : TotalChernClassSeries C G sX R) (E : X.Mod
     AlgebraicGeometry.VectorBundleKZero.liftAddHom_classOf]
   rfl
 
-/-- **The Chern class map is multiplicative**, which is what "extending multiplicatively" means:
-the sum in `K_0(Vect(X))` goes to the Cauchy product of series. This is the content Stacks 02UI
-supplies. -/
-@[stacks 0FEL "the multiplicativity -- extending multiplicatively -- of the map, which is its \
-  well-definedness on K_0(Vect(X)); the Whitney sum formula of Stacks 02UI is carried, see the \
-  attribute on Stacks.Chow.chernClassKGroup"]
+/-- **The parametric Chern class map is multiplicative**: the sum in `K_0(Vect(X))` goes to the
+Cauchy product of series for `R`. For the canonical map this is
+`Stacks.Chow.totalChernKGroupMap_add`. -/
 theorem chernClassKGroup_add (D : TotalChernClassSeries C G sX R)
     (α β : AlgebraicGeometry.VectorBundleKZero X) :
     chernClassKGroup D (α + β) =
@@ -699,14 +720,12 @@ theorem chernClassKGroup_neg (D : TotalChernClassSeries C G sX R)
   rw [chernClassKGroup, map_neg, toMul_neg]
   rfl
 
-/-- **Stacks 0FEL, the last clause of the remark.** `−[ℰ]` is sent to the formal inverse
-`c(ℰ)^{-1}`: its coefficients are given by the recursion of
-`Stacks.Chow.ChowCohomologySeriesRing.formalInverse_succ`, which is not supported in finitely many
-degrees in general, and the Cauchy product of `c([ℰ])` with it is the unit series. This is why the
-target of the map is the infinite product `∏_{i ≥ 0} A^i(X)` rather than a finite sum. -/
-@[stacks 0FEL "the clause that -[E] is sent to the formal inverse c(E)^{-1}, which is why the \
-  target is an infinite product; the formal inverse is constructed here by the recursion \
-  Stacks.Chow.ChowCohomologySeriesRing.formalInverse_succ and is not carried"]
+/-- **The parametric Chern class map sends `−[ℰ]` to the formal inverse of `D.ch ℰ`**: its
+coefficients are given by the recursion of
+`Stacks.Chow.ChowCohomologySeriesRing.formalInverse_succ`, and the Cauchy product of `c([ℰ])` with
+it is the unit series. For the canonical map of Stacks 0FEL this is
+`Stacks.Chow.totalChernKGroupMap_neg_classOf_mul` and
+`Stacks.Chow.mul_totalChernKGroupMap_neg_classOf`. -/
 theorem chernClassKGroup_neg_classOf (D : TotalChernClassSeries C G sX R) (E : X.Modules) :
     chernClassKGroup D (-AlgebraicGeometry.VectorBundleKZero.classOf X E) =
         R.formalInverse (D.ch E) ∧

@@ -37,10 +37,10 @@ two cohomology functors agree in every degree.
 
 ## Main results
 
-* `Stacks.Cohomology.SpaceModules.extOneEquivFirstCohomology`: the canonical additive
-  equivalence `Ext^1(O_X, F) ≃+ H^1(X, F)`.
+* `Stacks.Cohomology.SpaceModules.extOneEquivFirstCohomology`: an additive equivalence
+  `Ext^1(O_X, F) ≃+ H^1(X, F)`.
 * `Stacks.Cohomology.SpaceModules.extOneEquivFirstCohomology_extClass`: it sends the class of
-  an extension to the connecting image of the unit global section.
+  an extension to the image of the unit global section under `connectingMap`.
 * `Stacks.Cohomology.SpaceModules.extOneEquivFirstCohomology_unique`: that formula determines
   it uniquely.
 * `Stacks.Cohomology.SpaceModules.extOneEquivFirstCohomology_naturality`: it is natural in the
@@ -51,8 +51,12 @@ two cohomology functors agree in every degree.
 The connecting maps of `H^*(X, -)` are transported from the universal cohomological `δ`-functor
 `Stacks.Cohomology.SiteModules.universalCohomologyDeltaFunctor` of Tag 071H along
 `cohomologyIsoSiteCohomology`; the degree-zero normalisation used is the canonical map
-`CategoryTheory.Functor.toRightDerivedZero`, which is what makes
-`extOneEquivFirstCohomology_unique` a genuine uniqueness statement.
+`CategoryTheory.Functor.toRightDerivedZero`. That `δ`-functor structure is fixed by choice, so
+`connectingMap` is not known to be the boundary map of the long exact cohomology sequence: it
+may differ from it by a natural automorphism of `H^1(X, -)`, such as a sign. The statement of
+[Stacks, Tag 0B3A] with the canonical boundary map
+(`Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives`) is in
+`StacksFrontier/Topology/Sheaves/Cohomology/Extensions/ExtOneCanonicalBoundary.lean`.
 
 ## References
 
@@ -173,9 +177,13 @@ theorem forgetGlobalSectionsModule_map_siteConnectingMap_apply
         ((SiteModules.universalCohomologyDeltaFunctor R).δ hS 0
           ((SiteModules.cohomologyZeroMap R).app S.X₃ s)) := rfl
 
-/-- **Stacks 0B3A.** For a ringed space `(X, O_X)` and a sheaf of `O_X`-modules `F`, first
-extensions of the structure sheaf by `F` are canonically first cohomology. -/
-@[stacks 0B3A "canonical bijection"]
+/-- For a ringed space `(X, O_X)` and a sheaf of `O_X`-modules `F`, an additive equivalence
+`Ext^1(O_X, F) ≃+ H^1(X, F)` obtained from the site-level comparison of Tag 03F1. It is
+characterised through `connectingMap`, the connecting maps of the `δ`-functor structure chosen in
+`Stacks.Cohomology.SiteModules.universalCohomologyDeltaFunctor`, which is not known to be the
+boundary map of the long exact cohomology sequence. The bijection of [Stacks, Tag 0B3A],
+characterised by the canonical boundary map, is
+`Stacks.Cohomology.SpaceModules.extOneEquivFirstCohomologyCanonical`. -/
 def extOneEquivFirstCohomology (M : SheafOfModules.{u} R) :
     Abelian.Ext (SheafOfModules.unit R) M 1 ≃+ Hgroup R ⊤ 1 M :=
   (SiteModules.extOneEquivFirstCohomology R M).trans
@@ -188,9 +196,10 @@ private theorem extOneEquivFirstCohomology_apply (M : SheafOfModules.{u} R)
       (cohomologyIsoSiteCohomology R 1).hom.app M (SiteModules.extOneEquivFirstCohomology R M ξ) :=
   rfl
 
-/-- **Stacks 0B3A.** The class of the extension `0 → F → E → O_X → 0` goes to the image of the
-unit global section `1 ∈ Γ(X, O_X)` under the connecting morphism of the extension. -/
-@[stacks 0B3A "image of an extension"]
+/-- The class of the extension `0 → F → E → O_X → 0` goes to the image of the unit global
+section `1 ∈ Γ(X, O_X)` under `connectingMap`, the connecting map of the chosen `δ`-functor
+structure. The statement with the canonical boundary map of [Stacks, Tag 0B3A] is
+`Stacks.Cohomology.SpaceModules.extOneEquivFirstCohomologyCanonical_extClass`. -/
 theorem extOneEquivFirstCohomology_extClass (M E : SheafOfModules.{u} R) (f : M ⟶ E)
     (g : E ⟶ SheafOfModules.unit R) (w : f ≫ g = 0)
     (hS : (ShortComplex.mk f g w).ShortExact) :
@@ -208,8 +217,7 @@ theorem extOneEquivFirstCohomology_extClass (M E : SheafOfModules.{u} R) (f : M 
     SiteModules.extOneEquivFirstCohomology_extClass R M E f g w hS]
   exact congrArg (fun y => (cohomologyIsoSiteCohomology R 1).hom.app M y) hB.symm
 
-/-- **Stacks 0B3A.** The connecting-image formula determines the identification uniquely. -/
-@[stacks 0B3A "uniqueness"]
+/-- The formula through `connectingMap` determines `extOneEquivFirstCohomology` uniquely. -/
 theorem extOneEquivFirstCohomology_unique (M : SheafOfModules.{u} R)
     (e : Abelian.Ext (SheafOfModules.unit R) M 1 ≃+ Hgroup R ⊤ 1 M)
     (he : ∀ (E : SheafOfModules.{u} R) (f : M ⟶ E)
@@ -224,8 +232,8 @@ theorem extOneEquivFirstCohomology_unique (M : SheafOfModules.{u} R)
   rw [← hξ]
   exact (he E f g w hS).trans (extOneEquivFirstCohomology_extClass R M E f g w hS).symm
 
-/-- **Stacks 0B3A.** The identification is natural in the coefficient module sheaf. -/
-@[stacks 0B3A "naturality"]
+/-- The identification `extOneEquivFirstCohomology` is natural in the coefficient module
+sheaf. -/
 theorem extOneEquivFirstCohomology_naturality {M N : SheafOfModules.{u} R} (f : M ⟶ N)
     (e : Abelian.Ext (SheafOfModules.unit R) M 1) :
     extOneEquivFirstCohomology R N

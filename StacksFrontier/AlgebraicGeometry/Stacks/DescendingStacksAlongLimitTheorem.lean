@@ -72,7 +72,7 @@ category `Iᵒᵖ`, and `StackDescentSystem` bounds the cardinality of `Iᵒᵖ`
 the cofinality of the cutoff of the big fppf site, which is what keeps the limit `X` inside the \
 site. The isomorphism `𝒳 ≅ 𝒳_i ×_{X_i} X` over `X` is an equivalence in the 2-category of \
 algebraic stacks whose forward 1-morphism followed by the projection to `X` is 2-isomorphic to \
-the structure 1-morphism of `𝒳`."]
+the structure 1-morphism of `𝒳`. Every step of the source's proof is proved in the library."]
 theorem exists_stage_model_of_isFinitePresentation_unconditional
     (C : StackDescentSystem B S hS hZ I)
     (𝒳 : AlgebraicStacks.{u, w} B S hS) (f : 𝒳 ⟶ C.limitStack.{u, w})

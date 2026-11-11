@@ -306,7 +306,8 @@ theorem formallySmooth_of_surjectiveEtaleChart_of_formallySmoothScheme
   exists_isLift_of_chart hX hY a ha haSurj
     (formallySmooth_chart_comp_of_formallySmoothScheme B S hS hb hsq hψ) hT hT' i hi x y hxy
 
-/-- For a morphism `f : X ⟶ Y` of algebraic spaces over `S`, the following are equivalent:
+/-- **Stacks 061K.** For a morphism `f : X ⟶ Y` of algebraic spaces over `S`, the following are
+equivalent:
 1. `f` is formally smooth;
 2. for every commuting square of étale scheme charts `a : U ⟶ X`, `b : V ⟶ Y`, `ψ : U ⟶ V`, the
    morphism of schemes `ψ` is formally smooth;

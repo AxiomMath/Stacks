@@ -55,7 +55,7 @@ degree; and every derived limit `K` of `(Fₙ)` in `D_QCoh(𝒪_X)` has the same
 @[stacks 0CX5 "the full statement: DQ_X exists and R lim F_n exists in D(O_X); for every \
 coherator DQ_X and every such derived limit L, K = DQ_X(L) is a derived limit of (F_n) in \
 D_QCoh(O_X), and every derived limit K of (F_n) in D_QCoh(O_X) lies in D^b with cohomology \
-sheaves only in degrees at least 0; nothing is granted or assumed"]
+sheaves only in degrees at least 0; proved with no hypothesis beyond Situation 0CX4"]
 theorem derivedLimit_bounded :
     (spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).ι.IsLeftAdjoint ∧
     (∃ L, IsDerivedLimit D.derivedSystem L) ∧

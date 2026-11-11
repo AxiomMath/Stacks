@@ -1,6 +1,6 @@
 module
 
-public import StacksFrontier.Cotangent.LichtenbaumSchlessingerComparisonCanonical.HomologyZeroNegOne
+public import StacksFrontier.Cotangent.LichtenbaumSchlessingerComparison
 
 /-!
 # The canonical comparison
@@ -9,7 +9,10 @@ This file packages the comparison map of complexes `Algebra.Presentation.lsChain
 isomorphisms on `H⁰`, `H^{-1}` and `H^{-2}` into the chain-level comparison
 `Algebra.Presentation.LichtenbaumSchlessingerComparison.canonical`, and deduces the canonical
 map `L_{B/A} → L` in `D(B)` and the isomorphism `τ_{≥ -2} L_{B/A} ≅ L` it induces
-([Stacks, Tag 09CG]).
+([Stacks, Tag 09CG]), which are
+`Algebra.Presentation.cotangentToLichtenbaumSchlessinger` and
+`Algebra.Presentation.truncGECotangentIsoLichtenbaumSchlessinger` of
+`StacksFrontier.Cotangent.LichtenbaumSchlessingerComparison` under other names.
 
 ## References
 
@@ -47,13 +50,12 @@ public theorem isIso_homologyMap_lsChainMap (i : ℤ) (hi : -2 ≤ i) :
 
 /-- The canonical map `L_{B/A} → L` in `D(B)`: the image under the localization functor of the
 map of complexes `Algebra.Presentation.lsChainMap`. It does not depend on the choices `ψ` and
-`λ`: `Algebra.Presentation.Q_map_eq_canonicalCotangentToLichtenbaumSchlessinger`. -/
-@[stacks 09CG "the canonical map L_{B/A} → L in D(B), the class of the map of complexes
-dψ ⊗ 1, λ̄, q built from the choices ψ : P₀ → P and the biderivation λ of the source"]
+`λ`: `Algebra.Presentation.Q_map_eq_canonicalCotangentToLichtenbaumSchlessinger`. It is
+`Algebra.Presentation.cotangentToLichtenbaumSchlessinger` by definition. -/
 public def canonicalCotangentToLichtenbaumSchlessinger :
     DerivedCategory.Q.obj (cotangentComplexULift.{u, v, w} A B) ⟶
       DerivedCategory.Q.obj (lichtenbaumSchlessingerComplex P).complex :=
-  DerivedCategory.Q.map P.lsChainMap
+  cotangentToLichtenbaumSchlessinger P
 
 /-- The canonical map is an isomorphism on the cohomology of the derived category in every
 degree `≥ -2`. -/
@@ -61,21 +63,16 @@ public theorem isIso_homologyFunctor_map_canonicalCotangentToLichtenbaumSchlessi
     (i : ℤ) (hi : -2 ≤ i) :
     IsIso ((DerivedCategory.homologyFunctor (ModuleCat.{max u v w} B) i).map
       (canonicalCotangentToLichtenbaumSchlessinger P)) :=
-  isIso_homologyFunctor_map_cotangentToLichtenbaumSchlessinger
-    (LichtenbaumSchlessingerComparison.canonical P) i hi
+  isIso_homologyFunctor_map_cotangentToLichtenbaumSchlessinger P i hi
 
 /-- The canonical map `L_{B/A} → L` factors through the truncation `τ_{≥ -2} L_{B/A}`, and the
 factorization is an isomorphism. -/
-@[stacks 09CG "the canonical map L_{B/A} → L induces an isomorphism τ_{≥ -2} L_{B/A} → L in
-D(B)"]
 public theorem isIso_descTruncGE_canonicalCotangentToLichtenbaumSchlessinger :
     IsIso (DerivedCategory.TStructure.t.descTruncGE
       (canonicalCotangentToLichtenbaumSchlessinger P) (-2)) :=
-  isIso_descTruncGE_cotangentToLichtenbaumSchlessinger
-    (LichtenbaumSchlessingerComparison.canonical P)
+  isIso_descTruncGE_cotangentToLichtenbaumSchlessinger P
 
 /-- The isomorphism `τ_{≥ -2} L_{B/A} ≅ L` induced by the canonical map. -/
-@[stacks 09CG "the induced map τ_{≥ -2} L_{B/A} → L is an isomorphism in D(B)"]
 public def canonicalTruncGECotangentIsoLichtenbaumSchlessinger :
     (DerivedCategory.TStructure.t.truncGE (-2)).obj
         (DerivedCategory.Q.obj (cotangentComplexULift.{u, v, w} A B)) ≅
@@ -86,7 +83,6 @@ public def canonicalTruncGECotangentIsoLichtenbaumSchlessinger :
 
 /-- The isomorphism `τ_{≥ -2} L_{B/A} ≅ L` is the one induced by the canonical map
 `L_{B/A} → L`: composing it with the projection to the truncation returns that map. -/
-@[stacks 09CG "the isomorphism τ_{≥ -2} L_{B/A} → L is induced by the canonical map L_{B/A} → L"]
 public theorem canonicalTruncGECotangentIsoLichtenbaumSchlessinger_fac :
     (DerivedCategory.TStructure.t.truncGEπ (-2)).app
         (DerivedCategory.Q.obj (cotangentComplexULift.{u, v, w} A B)) ≫

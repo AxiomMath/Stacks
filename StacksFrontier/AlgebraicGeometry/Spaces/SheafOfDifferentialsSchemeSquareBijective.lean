@@ -100,9 +100,10 @@ of the square gives is not a syntactic subterm of it.
 `Stacks.IsIsoComponents.bijective_congr` — a bijection stays one under pointwise equality —
 transports it with no pattern match at all.
 
-**What this file does not give: Stacks 06BI.**  The residue of that tag is
+**What this file does not give: Stacks 06BI.**  That tag needs
 `AlgebraicGeometry.Space.IsSchemeTriangleDifferentialsMono`
-(`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsTriangleChartReduction.lean`), and it
+(`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsTriangleChartReduction.lean`), proved
+elsewhere as `AlgebraicGeometry.Space.pullbackDifferentialsMapSchemeSpaceComparison`, and it
 is not a consequence of anything here, for a structural reason worth recording.  The square above
 controls *postcomposition* with the comparison map of Stacks 04CX — by
 `Space.derivationDirectImageEquiv_sheafOfDifferentialsMap_comp_eq_restrictDerivation`,
@@ -455,7 +456,9 @@ nothing beyond the square.
 The proof is the source's own: the case of a square of schemes, Morphisms, Lemma 01V0, together
 with the étale localization of Stacks 04CU.  The scheme case enters as
 `AlgebraicGeometry.Scheme.Hom.bijective_restrictRelativeDerivation_of_isPullback` through
-`AlgebraicGeometry.Space.schemeSquareDerivationRestriction`. -/
+`AlgebraicGeometry.Space.schemeSquareDerivationRestriction`.  The earlier form
+`AlgebraicGeometry.Space.isIso_of_isSheafOfDifferentialsMap_of_isPullback`, which takes that
+étale localization as an argument, stays as an untagged lemma. -/
 @[stacks 05ZC "the map of 04CX for the base change of X along g is an isomorphism, with the base
   change presented as a cartesian square and the map by the property characterizing it.  The
   étale localization of 04CU and the scheme case 01V0 are both applied as proved"]
@@ -479,7 +482,9 @@ about some decomposition of `Ω_{W/T}`.
 
 The proof is the source's own: the case of schemes, Morphisms, Lemma 01V1, together with the
 étale localization of Stacks 04CU, the scheme case entering through
-`AlgebraicGeometry.Space.schemeSquareDerivationRestriction`. -/
+`AlgebraicGeometry.Space.schemeSquareDerivationRestriction`.  The earlier form
+`AlgebraicGeometry.Space.isIso_biprodDesc_of_isSheafOfDifferentialsMap`, which takes that
+étale localization as an argument, stays as an untagged lemma. -/
 @[stacks 05ZD "the two maps of 04CX out of p^*Omega_{X/T} and q^*Omega_{Y/T} give an
   isomorphism onto Omega_{X x_T Y/T}, with the fibre product presented as a cartesian square and
   each summand by the property characterizing it.  The étale localization of 04CU and the scheme

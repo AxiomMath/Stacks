@@ -381,8 +381,10 @@ theorem untwistTrace_one_spec_galois
   exact (algebraMap F (𝔚.H (spec k k'))).injective h
 
 /-- **Stacks 0FVR for the trace map `∫_X` of the data of Section 0FHA defined by `𝔚`**:
-`∫_{Spec(k')} 1 = [k' : k]`. -/
-@[stacks 0FVR "the same for the trace map ∫ of 𝔚.toWeilData, the λ of (A6)"]
+`∫_{Spec(k')} 1 = [k' : k]`, where `∫_{Spec(k')}` is the trace map of `𝔚.toWeilData`, the `λ`
+of the axiom (A6) at `Spec(k')`. -/
+@[stacks 0FVR "the source's statement for the trace map ∫_{Spec(k')} of 𝔚.toWeilData, the λ of \
+(A6) at Spec(k'), on the data (D0), (D1), (D2') satisfying (A1)-(A7): ∫_{Spec(k')} 1 = [k' : k]"]
 theorem toWeilData_trace_one_spec_galois :
     𝔚.untwistTrace (spec k k') 0 (𝔚.toWeilData.trace (spec k k') 0
       (isNonemptyEquidimensional_of_dimension_zero

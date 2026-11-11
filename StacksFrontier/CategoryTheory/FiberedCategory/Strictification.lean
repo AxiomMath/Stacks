@@ -83,7 +83,13 @@ and `𝒮'` is recovered as the Grothendieck construction `𝒮_F` of that funct
   `CategoryTheory.Functor.SplitFiber.restrict_comp`: the strict functoriality of the pullback
   functors of `𝒮'`, i.e. `g₁^* ∘ g₂^* = (g₂ ∘ g₁)^*`;
 * `CategoryTheory.Functor.exists_isFibredEquivalenceOver_presheafOfCategories`: Stacks 004A;
-* `CategoryTheory.Functor.exists_isFibredEquivalenceOver_presheafOfGroupoids`: Stacks 02XY.
+* `CategoryTheory.Functor.exists_isFibredEquivalenceOver_presheafOfGroupoids`: Stacks 02XY;
+* `CategoryTheory.strictMorPresheaf`: for an honest functor `F : 𝒞ᵒᵖ ⥤ Cat`, the presheaf
+  `Mor(x, y)` on `𝒞/U` with restriction maps the functors `F(h)`, whose presheaf axioms are the
+  functoriality of `F` (Stacks 02ZA);
+* `CategoryTheory.Functor.morPresheafIsoStrictMorPresheaf`: the presheaf `Mor(x, y)` of Stacks
+  02ZB of a fibred category is isomorphic to the strict presheaf `Mor((x, id), (y, id))` of its
+  split model `splitPresheaf p` (Stacks 02ZA).
 
 ## Implementation notes
 
@@ -958,6 +964,250 @@ theorem exists_isFibredEquivalenceOver_presheafOfGroupoids (p : 𝒳 ⥤ 𝒞)
       IsFibredEquivalenceOver p (presheafOfGroupoids F).p Φ :=
   have := hp.isFibered
   ⟨splitPresheafGrpd p hp, toSplit p, isFibredEquivalenceOver_toSplit p⟩
+
+end Functor
+
+/-! ### The presheaf `Mor(x, y)` of a strict functor into `Cat` (Stacks 02ZA) -/
+
+section Strict
+
+variable {𝒞 : Type u₁} [Category.{v₁} 𝒞] (F : 𝒞ᵒᵖ ⥤ Cat.{v₃, u₃}) {U : 𝒞}
+
+/-- For an honest functor `F`, pulling back along `g₁ = h ≫ g₂` is pulling back along `g₂` and then
+along `h`, *on the nose*: this is `g^* ∘ f^* = (f ∘ g)^*` of Stacks 02ZA. -/
+lemma strictMorRestrict_obj_eq {g₁ g₂ : Over U} (h : g₁ ⟶ g₂) (x : F.obj (op U)) :
+    (F.map g₁.hom.op).toFunctor.obj x =
+      (F.map h.left.op).toFunctor.obj ((F.map g₂.hom.op).toFunctor.obj x) := by
+  rw [← Over.w h, op_comp, F.map_comp, Cat.Hom.comp_toFunctor, Functor.comp_obj]
+
+/-- The restriction map of the strict presheaf `Mor(x, y)` along `h : g₁ ⟶ g₂` of `𝒞/U`: apply the
+functor `F(h)` to a section over `g₂`, and read the result through the equalities
+`F(h) (F(g₂) x) = F(g₁) x` of `strictMorRestrict_obj_eq`. No comparison isomorphisms are
+involved. -/
+def strictMorRestrict (x y : F.obj (op U)) {g₁ g₂ : Over U} (h : g₁ ⟶ g₂)
+    (φ : (F.map g₂.hom.op).toFunctor.obj x ⟶ (F.map g₂.hom.op).toFunctor.obj y) :
+    (F.map g₁.hom.op).toFunctor.obj x ⟶ (F.map g₁.hom.op).toFunctor.obj y :=
+  eqToHom (strictMorRestrict_obj_eq F h x) ≫ (F.map h.left.op).toFunctor.map φ ≫
+    eqToHom (strictMorRestrict_obj_eq F h y).symm
+
+/-- Restriction along an identity of `𝒞/U` is the identity, by `F.map_id`. -/
+lemma strictMorRestrict_id (x y : F.obj (op U)) (g : Over U)
+    (φ : (F.map g.hom.op).toFunctor.obj x ⟶ (F.map g.hom.op).toFunctor.obj y) :
+    strictMorRestrict F x y (𝟙 g) φ = φ := by
+  have e : (F.map (Over.Hom.left (𝟙 g)).op).toFunctor = 𝟭 _ := by
+    rw [Over.id_left, op_id, F.map_id, Cat.Hom.id_toFunctor]
+  simp only [strictMorRestrict]
+  rw [Functor.congr_hom e]
+  simp
+
+/-- Restriction along a composite of `𝒞/U` is restriction along the two factors in turn, by
+`F.map_comp`. -/
+lemma strictMorRestrict_comp (x y : F.obj (op U)) {g₁ g₂ g₃ : Over U} (h₁ : g₁ ⟶ g₂)
+    (h₂ : g₂ ⟶ g₃)
+    (φ : (F.map g₃.hom.op).toFunctor.obj x ⟶ (F.map g₃.hom.op).toFunctor.obj y) :
+    strictMorRestrict F x y (h₁ ≫ h₂) φ =
+      strictMorRestrict F x y h₁ (strictMorRestrict F x y h₂ φ) := by
+  have e : (F.map (h₁ ≫ h₂).left.op).toFunctor =
+      (F.map h₂.left.op).toFunctor ⋙ (F.map h₁.left.op).toFunctor := by
+    rw [Over.comp_left, op_comp, F.map_comp, Cat.Hom.comp_toFunctor]
+  simp only [strictMorRestrict]
+  rw [Functor.congr_hom e]
+  simp [eqToHom_map]
+
+/-- **The presheaf `Mor(x, y)` of a split fibred category**, Stacks 02ZA. For an honest functor
+`F : 𝒞ᵒᵖ ⥤ Cat` and objects `x`, `y` of `F(U)`, the presheaf on `𝒞/U` whose sections over
+`f : V ⟶ U` are the morphisms `F(f) x ⟶ F(f) y` of `F(V)`, and whose restriction maps are the
+functors `F(h)`. Because `F(h) ∘ F(f) = F(f ∘ h)` holds on the nose, the presheaf axioms are the
+functoriality of `F` and no comparison isomorphisms `α_{g, f}` are needed. -/
+@[implicit_reducible, stacks 02ZA "for the fibred category of a functor F : 𝒞ᵒᵖ ⥤ Cat, where \
+  g^* ∘ f^* = (f ∘ g)^* on the nose, Lemma 026A with no maps α_{g, f}: the presheaf axioms of \
+  Mor(x, y) are F.map_id and F.map_comp"]
+def strictMorPresheaf (x y : F.obj (op U)) : (Over U)ᵒᵖ ⥤ Type v₃ where
+  obj g := (F.map g.unop.hom.op).toFunctor.obj x ⟶ (F.map g.unop.hom.op).toFunctor.obj y
+  map h := ↾fun φ ↦ strictMorRestrict F x y h.unop φ
+  map_id g := by
+    ext φ
+    exact strictMorRestrict_id F x y g.unop φ
+  map_comp q₁ q₂ := by
+    ext φ
+    exact strictMorRestrict_comp F x y q₂.unop q₁.unop φ
+
+/-- The restriction maps of `CategoryTheory.strictMorPresheaf` are
+`CategoryTheory.strictMorRestrict`. -/
+@[simp]
+lemma strictMorPresheaf_map_apply (x y : F.obj (op U)) {g₁ g₂ : (Over U)ᵒᵖ} (h : g₁ ⟶ g₂)
+    (φ : (strictMorPresheaf F x y).obj g₁) :
+    (strictMorPresheaf F x y).map h φ = strictMorRestrict F x y h.unop φ :=
+  rfl
+
+end Strict
+
+namespace Functor
+
+variable {𝒞 : Type u₁} [Category.{v₁} 𝒞] {𝒳 : Type u₂} [Category.{v₂} 𝒳]
+
+/-! ### `Mor(x, y)` of a fibred category and of its split model -/
+
+section Split
+
+variable (p : 𝒳 ⥤ 𝒞) [p.IsFibered] {U : 𝒞}
+
+/-- The object `(x, id_U)` of the fibre over `U` of the split model of Stacks 004A attached to an
+object `x` of the fibre `𝒳_U`. It is the image of `x` under the comparison functor
+`CategoryTheory.Functor.toSplit`, up to the identification of `p.obj x` with `U`. -/
+abbrev SplitFiber.ofFiber (x : p.Fiber U) : SplitFiber p U :=
+  ⟨U, x, 𝟙 U⟩
+
+/-- The chosen pullback of `x` along `f ≫ 𝟙 U` is the chosen pullback along `f`. -/
+lemma pullbackFiber_comp_id (x : p.Fiber U) {V : 𝒞} (f : V ⟶ U) :
+    pullbackFiber p x (f ≫ 𝟙 U) = pullbackFiber p x f := by
+  rw [Category.comp_id]
+
+/-- Conjugating by an `eqToHom` and back is the identity. -/
+lemma eqToHom_conj_eqToHom_conj {D : Type*} [Category D] {A B A' B' : D} (hA : A' = A)
+    (hB : B' = B) (φ : A ⟶ B) :
+    eqToHom hA.symm ≫ (eqToHom hA ≫ φ ≫ eqToHom hB.symm) ≫ eqToHom hB = φ := by
+  subst hA hB
+  simp
+
+/-- `eqToHom` between objects of the value of `splitPresheaf p` is `eqToHom` in the fibre. -/
+lemma SplitFiber.toFiberHom_splitPresheaf_eqToHom {V : 𝒞} {o o' : (splitPresheaf p).obj (op V)}
+    (h : o = o') :
+    SplitFiber.toFiberHom (V := V) (eqToHom h) = eqToHom (congrArg SplitFiber.toFiber h) := by
+  subst h
+  rfl
+
+/-- Composition in the value of `splitPresheaf p` is composition in the fibre. -/
+lemma SplitFiber.toFiberHom_splitPresheaf_comp {V : 𝒞} {o o' o'' : (splitPresheaf p).obj (op V)}
+    (α : o ⟶ o') (β : o' ⟶ o'') :
+    SplitFiber.toFiberHom (V := V) (α ≫ β) =
+      SplitFiber.toFiberHom (V := V) α ≫ SplitFiber.toFiberHom (V := V) β :=
+  rfl
+
+/-- The restriction functors of `splitPresheaf p` act on morphisms by base change. -/
+lemma SplitFiber.toFiberHom_splitPresheaf_map {V W : 𝒞} (f : op V ⟶ op W)
+    {o o' : (splitPresheaf p).obj (op V)} (α : o ⟶ o') :
+    SplitFiber.toFiberHom (V := W) (((splitPresheaf p).map f).toFunctor.map α) =
+      SplitFiber.restrictHom f.unop (SplitFiber.toFiberHom (V := V) α) :=
+  rfl
+
+/-- The restriction maps of the strict presheaf `Mor(o, o')` of `splitPresheaf p` are base change
+in the fibres of `p`, read through the equalities of the objects of the split model. -/
+lemma SplitFiber.toFiberHom_strictMorRestrict {o o' : (splitPresheaf p).obj (op U)}
+    {g₁ g₂ : Over U} (h : g₁ ⟶ g₂)
+    (ψ : ((splitPresheaf p).map g₂.hom.op).toFunctor.obj o ⟶
+      ((splitPresheaf p).map g₂.hom.op).toFunctor.obj o') :
+    SplitFiber.toFiberHom (V := g₁.left) (strictMorRestrict (splitPresheaf p) o o' h ψ) =
+      eqToHom (congrArg SplitFiber.toFiber (strictMorRestrict_obj_eq (splitPresheaf p) h o)) ≫
+        SplitFiber.restrictHom h.left.op.unop (SplitFiber.toFiberHom (V := g₂.left) ψ) ≫
+        eqToHom (congrArg SplitFiber.toFiber
+          (strictMorRestrict_obj_eq (splitPresheaf p) h o').symm) := by
+  rw [strictMorRestrict, SplitFiber.toFiberHom_splitPresheaf_comp,
+    SplitFiber.toFiberHom_splitPresheaf_comp, SplitFiber.toFiberHom_splitPresheaf_eqToHom,
+    SplitFiber.toFiberHom_splitPresheaf_eqToHom, SplitFiber.toFiberHom_splitPresheaf_map]
+
+/-- `SplitFiber.toFiberHom_strictMorRestrict` at the objects `(x, id)` and `(y, id)`, with the
+objects of the split model written out. -/
+lemma SplitFiber.toFiberHom_strictMorRestrict_ofFiber (x y : p.Fiber U) {g₁ g₂ : Over U}
+    (h : g₁ ⟶ g₂)
+    (ψ : ((splitPresheaf p).map g₂.hom.op).toFunctor.obj (SplitFiber.ofFiber p x) ⟶
+      ((splitPresheaf p).map g₂.hom.op).toFunctor.obj (SplitFiber.ofFiber p y))
+    (E₂ : pullbackFiber p x (g₁.hom ≫ 𝟙 U) = pullbackFiber p x (h.left ≫ g₂.hom ≫ 𝟙 U))
+    (E₄ : pullbackFiber p y (h.left ≫ g₂.hom ≫ 𝟙 U) = pullbackFiber p y (g₁.hom ≫ 𝟙 U)) :
+    SplitFiber.toFiberHom (V := g₁.left)
+        (strictMorRestrict (splitPresheaf p) (SplitFiber.ofFiber p x) (SplitFiber.ofFiber p y) h
+          ψ) =
+      eqToHom E₂ ≫
+        SplitFiber.restrictHom (o := (⟨U, x, g₂.hom ≫ 𝟙 U⟩ : SplitFiber p g₂.left))
+          (o' := ⟨U, y, g₂.hom ≫ 𝟙 U⟩) h.left (SplitFiber.toFiberHom (V := g₂.left) ψ) ≫
+        eqToHom E₄ := by
+  rw [SplitFiber.toFiberHom_strictMorRestrict]
+  rfl
+
+/-- The defining factorization of base change in the split model, at objects `(x, f ≫ 𝟙 U)` and
+`(y, f ≫ 𝟙 U)`. -/
+@[reassoc]
+lemma SplitFiber.restrictHom_ofFiber_fac (x y : p.Fiber U) {V V' : 𝒞} (f : V ⟶ U) (g : V' ⟶ V)
+    (α : pullbackFiber p x (f ≫ 𝟙 U) ⟶ pullbackFiber p y (f ≫ 𝟙 U)) :
+    Fiber.fiberInclusion.map (SplitFiber.restrictHom (o := (⟨U, x, f ≫ 𝟙 U⟩ : SplitFiber p V))
+        (o' := ⟨U, y, f ≫ 𝟙 U⟩) g α) ≫ IsPreFibered.pullbackMap y.2 (g ≫ f ≫ 𝟙 U) =
+      pullbackFiberProj x (f ≫ 𝟙 U) g ≫ Fiber.fiberInclusion.map α ≫
+        IsPreFibered.pullbackMap y.2 (f ≫ 𝟙 U) :=
+  SplitFiber.restrictHom_fac (o := (⟨U, x, f ≫ 𝟙 U⟩ : SplitFiber p V)) (o' := ⟨U, y, f ≫ 𝟙 U⟩) g α
+
+/-- The canonical morphism `g₁^* x ⟶ g₂^* x` over `h : g₁ ⟶ g₂` of `𝒞/U` is the canonical morphism
+`(h ≫ g₂ ≫ 𝟙)^* x ⟶ (g₂ ≫ 𝟙)^* x` of the split model, up to the identifications of chosen
+pullbacks along equal morphisms. -/
+@[reassoc]
+lemma eqToHom_comp_pullbackFiberMap (x : p.Fiber U) {g₁ g₂ : Over U} (h : g₁ ⟶ g₂)
+    (E₁ : (pullbackFiber p x (g₁.hom ≫ 𝟙 U)).1 = (pullbackFiber p x g₁.hom).1)
+    (E₂ : (pullbackFiber p x (g₁.hom ≫ 𝟙 U)).1 = (pullbackFiber p x (h.left ≫ g₂.hom ≫ 𝟙 U)).1)
+    (E₃ : (pullbackFiber p x (g₂.hom ≫ 𝟙 U)).1 = (pullbackFiber p x g₂.hom).1) :
+    eqToHom E₁ ≫ pullbackFiberMap p x h =
+      eqToHom E₂ ≫ pullbackFiberProj x (g₂.hom ≫ 𝟙 U) h.left ≫ eqToHom E₃ := by
+  refine IsStronglyCartesian.ext p g₂.hom (IsPreFibered.pullbackMap x.2 g₂.hom) h.left ?_
+  rw [Category.assoc, pullbackFiberMap_fac, eqToHom_comp_pullbackMap x (Category.comp_id _),
+    Category.assoc, Category.assoc, eqToHom_comp_pullbackMap x (Category.comp_id _),
+    pullbackFiberProj_fac, eqToHom_comp_pullbackMap x (by simp)]
+
+/-- The sections of `Mor(x, y)` over `g` are the sections over `g` of the strict presheaf
+`Mor((x, id), (y, id))` of the split model: both are morphisms between the chosen pullbacks of `x`
+and `y`, along `g` and along `g ≫ 𝟙 U` respectively. -/
+noncomputable def morSplitEquiv (x y : p.Fiber U) (g : Over U) :
+    (pullbackFiber p x g.hom ⟶ pullbackFiber p y g.hom) ≃
+      (((splitPresheaf p).map g.hom.op).toFunctor.obj (SplitFiber.ofFiber p x) ⟶
+        ((splitPresheaf p).map g.hom.op).toFunctor.obj (SplitFiber.ofFiber p y)) where
+  toFun φ := SplitFiber.ofFiberHom (eqToHom (pullbackFiber_comp_id p x g.hom) ≫ φ ≫
+    eqToHom (pullbackFiber_comp_id p y g.hom).symm)
+  invFun ψ := eqToHom (pullbackFiber_comp_id p x g.hom).symm ≫ SplitFiber.toFiberHom ψ ≫
+    eqToHom (pullbackFiber_comp_id p y g.hom)
+  left_inv φ := eqToHom_conj_eqToHom_conj _ _ φ
+  right_inv ψ := SplitFiber.toFiberHom_injective (eqToHom_conj_eqToHom_conj _ _
+    (SplitFiber.toFiberHom ψ))
+
+/-- The underlying morphism of the fibre of `morSplitEquiv p x y g φ`. -/
+lemma toFiberHom_morSplitEquiv (x y : p.Fiber U) (g : Over U)
+    (φ : pullbackFiber p x g.hom ⟶ pullbackFiber p y g.hom) :
+    SplitFiber.toFiberHom (V := g.left) (morSplitEquiv p x y g φ) =
+      eqToHom (pullbackFiber_comp_id p x g.hom) ≫ φ ≫
+        eqToHom (pullbackFiber_comp_id p y g.hom).symm :=
+  rfl
+
+/-- The equivalences `morSplitEquiv` commute with the restriction maps: restricting a section of
+`Mor(x, y)` of `p` along `h : g₁ ⟶ g₂` and transporting it to the split model agrees with
+transporting it and then applying the pullback functor of the split model. -/
+lemma morSplitEquiv_morRestrict (x y : p.Fiber U) {g₁ g₂ : Over U} (h : g₁ ⟶ g₂)
+    (m : pullbackFiber p x g₂.hom ⟶ pullbackFiber p y g₂.hom) :
+    morSplitEquiv p x y g₁ (morRestrict p x y h m) =
+      strictMorRestrict (splitPresheaf p) (SplitFiber.ofFiber p x) (SplitFiber.ofFiber p y) h
+        (morSplitEquiv p x y g₂ m) := by
+  refine SplitFiber.toFiberHom_injective (V := g₁.left) ?_
+  refine fiber_hom_ext_of_cartesian (g₁.hom ≫ 𝟙 U)
+    (IsPreFibered.pullbackMap y.2 (g₁.hom ≫ 𝟙 U))
+    (IsPreFibered.pullbackMap.IsCartesian y.2 (g₁.hom ≫ 𝟙 U)) _ _ ?_
+  rw [toFiberHom_morSplitEquiv, SplitFiber.toFiberHom_strictMorRestrict_ofFiber p x y h _
+      (by rw [← Over.w h, Category.assoc]) (by rw [← Over.w h, Category.assoc]),
+    toFiberHom_morSplitEquiv]
+  simp only [Functor.map_comp, eqToHom_map, Category.assoc]
+  rw [eqToHom_comp_pullbackMap y (Category.comp_id g₁.hom).symm, morRestrict_fac,
+    eqToHom_comp_pullbackMap y (show h.left ≫ g₂.hom ≫ 𝟙 U = g₁.hom ≫ 𝟙 U by simp),
+    SplitFiber.restrictHom_ofFiber_fac]
+  simp only [Functor.map_comp, eqToHom_map, Category.assoc]
+  rw [eqToHom_comp_pullbackMap y (Category.comp_id g₂.hom).symm,
+    eqToHom_comp_pullbackFiberMap_assoc p x h _ _ _]
+
+/-- The presheaf `Mor(x, y)` of Stacks 02ZB of a fibred category `p`, built from the chosen
+pullbacks of `p`, is isomorphic to the strict presheaf `Mor((x, id), (y, id))` of its split model
+`splitPresheaf p` of Stacks 004A. -/
+noncomputable def morPresheafIsoStrictMorPresheaf (x y : p.Fiber U) :
+    morPresheaf p x y ≅
+      strictMorPresheaf (splitPresheaf p) (SplitFiber.ofFiber p x) (SplitFiber.ofFiber p y) :=
+  NatIso.ofComponents (fun g => Equiv.toIso (morSplitEquiv p x y g.unop)) (by
+    rintro ⟨g₂⟩ ⟨g₁⟩ ⟨h⟩
+    ext m
+    exact morSplitEquiv_morRestrict p x y h m)
+
+end Split
 
 end Functor
 

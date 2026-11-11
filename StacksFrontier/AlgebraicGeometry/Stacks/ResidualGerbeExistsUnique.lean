@@ -71,12 +71,15 @@ which is `AlgebraicGeometry.Stack.exists_reduction`, the reduced closed substack
 * `AlgebraicGeometry.Stack.existsUnique_isResidualGerbeAt`: the final assertion of
   **Stacks 06MT**, existence and uniqueness of the residual gerbe.
 
+* `AlgebraicGeometry.Stack.tfae_hasSingletonPointMonomorphism_and_existsUnique_isResidualGerbeAt`:
+  **Stacks 06MT** in full, the equivalence of the three conditions together with the final
+  assertion.
+
 The equivalence of conditions (2) and (3) is
 `AlgebraicGeometry.Stack.hasReducedSingletonPointMonomorphism_iff_hasFlatFieldCoverMonomorphism`
-of `StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeEquivalentConditions`. The equivalences of
-(1) with (2) and with (3) stated there take the existence of reductions as the argument
-`hreduction`; that argument is now the theorem `AlgebraicGeometry.Stack.exists_reduction`, and
-the statements here do without it.
+of `StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeEquivalentConditions`, which also states the
+equivalences of (1) with (2) and with (3), both proved there through
+`AlgebraicGeometry.Stack.exists_reduction`.
 
 ## The passage to the reduction
 
@@ -158,10 +161,6 @@ monomorphism is one by **Stacks 04ZY**. The space `|𝒵_red|` is a singleton be
 surjective on points by the choice of the reduction and injective on them by **Stacks 0500**,
 `|𝒵|` being a singleton; and the unique point of `𝒵_red` maps to the unique point of `𝒵`, hence
 to `x`. -/
-@[stacks 06MT "conditions (1) and (2) are equivalent, unconditionally: the reduction is the \
-theorem `exists_reduction` (Stacks 0509), so nothing is assumed. This supersedes the base's \
-`hasSingletonPointMonomorphism_iff_hasReducedSingletonPointMonomorphism`, which carries \
-`hreduction`"]
 theorem hasReducedSingletonPointMonomorphism_iff_hasSingletonPointMonomorphism
     (𝒳 : AlgebraicStacks.{u, w} B S hS) (x : AlgebraicStacks.points B S hS 𝒳) :
     HasReducedSingletonPointMonomorphism B S hS 𝒳 x ↔
@@ -196,9 +195,6 @@ The equivalence of (1) and (2) is
 and that of (2) and (3) is
 `AlgebraicGeometry.Stack.hasReducedSingletonPointMonomorphism_iff_hasFlatFieldCoverMonomorphism`.
 -/
-@[stacks 06MT "the equivalence of conditions (1), (2) and (3), unconditionally: (1) iff (2) is \
-`hasReducedSingletonPointMonomorphism_iff_hasSingletonPointMonomorphism` of this file, proved \
-from the theorem `exists_reduction`, not the base's `hreduction`-carrying version"]
 theorem tfae_hasSingletonPointMonomorphism
     (𝒳 : AlgebraicStacks.{u, w} B S hS) (x : AlgebraicStacks.points B S hS 𝒳) :
     List.TFAE
@@ -257,10 +253,6 @@ algebraic stack whose space of points is a singleton mapping to `x` admits a mon
 `𝒳` (`HasSingletonPointMonomorphism`). Then there is exactly one strictly full subcategory
 `𝒵_x ⊂ 𝒳` which is a reduced, locally Noetherian algebraic stack whose space of points is a
 singleton mapping to `x`. -/
-@[stacks 06MT "the final assertion: under the equivalent conditions there is a unique strictly \
-full subcategory of X which is a reduced, locally Noetherian algebraic stack whose space of points \
-is a singleton mapping to x; unconditional, through this file's (1) iff (2) and the unconditional \
-06MR"]
 theorem existsUnique_isResidualGerbeAt
     (𝒳 : AlgebraicStacks.{u, w} B S hS) (x : AlgebraicStacks.points B S hS 𝒳)
     (h : HasSingletonPointMonomorphism B S hS 𝒳 x) :
@@ -274,6 +266,35 @@ theorem existsUnique_isResidualGerbeAt
   obtain ⟨Q, hQ⟩ := exists_isResidualGerbeAt_of_isMonomorphism_of_substack B S hS f hf x
     (fun z' => (congrArg _ (hz z')).trans hzx) hP
   exact ⟨Q, hQ, fun Q' hQ' => eq_of_isResidualGerbeAt_of_bootstrap B S hS hQ' hQ⟩
+
+/-- **Stacks 06MT.** Let `𝒳` be an algebraic stack over `S` and let `x` be a point of `|𝒳|`. The
+following are equivalent:
+
+1. there exist an algebraic stack `𝒵` and a monomorphism `𝒵 ⟶ 𝒳` such that `|𝒵|` is a singleton
+   whose image in `|𝒳|` is `x`;
+2. there exist a reduced algebraic stack `𝒵` and a monomorphism `𝒵 ⟶ 𝒳` such that `|𝒵|` is a
+   singleton whose image in `|𝒳|` is `x`;
+3. there exist an algebraic stack `𝒵`, a monomorphism `f : 𝒵 ⟶ 𝒳` and a surjective flat
+   1-morphism `z : Spec(k) ⟶ 𝒵` with `k` a field, such that `x = f(z)`.
+
+Moreover, if these conditions hold, there is a unique strictly full subcategory `𝒵_x ⊂ 𝒳` which is
+a reduced, locally Noetherian algebraic stack whose space of points is a singleton mapping to `x`.
+
+The equivalence is `AlgebraicGeometry.Stack.tfae_hasSingletonPointMonomorphism` and the final
+assertion is `AlgebraicGeometry.Stack.existsUnique_isResidualGerbeAt`. -/
+@[stacks 06MT "the equivalence of conditions (1), (2) and (3), and the existence and uniqueness of \
+the strictly full subcategory Z_x of X which is a reduced, locally Noetherian algebraic stack \
+whose space of points is a singleton mapping to x"]
+theorem tfae_hasSingletonPointMonomorphism_and_existsUnique_isResidualGerbeAt
+    (𝒳 : AlgebraicStacks.{u, w} B S hS) (x : AlgebraicStacks.points B S hS 𝒳) :
+    List.TFAE
+        [HasSingletonPointMonomorphism B S hS 𝒳 x,
+          HasReducedSingletonPointMonomorphism B S hS 𝒳 x,
+          HasFlatFieldCoverMonomorphism B S hS 𝒳 x] ∧
+      (HasSingletonPointMonomorphism B S hS 𝒳 x →
+        ∃! P : ObjectProperty 𝒳.val.val.obj, IsResidualGerbeAt B S hS 𝒳 x P) :=
+  ⟨tfae_hasSingletonPointMonomorphism.{u, w} B S hS 𝒳 x,
+    existsUnique_isResidualGerbeAt.{u, w} B S hS 𝒳 x⟩
 
 end AlgebraicGeometry.Stack
 

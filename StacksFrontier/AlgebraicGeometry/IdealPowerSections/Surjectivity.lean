@@ -689,7 +689,6 @@ public lemma torsionBySet_idealPow_eq_bot
 /-- **Surjectivity in the torsion-free case.** If `I` is finitely generated and annihilates no
 nonzero element of `M`, the canonical map `colim_n Hom_A(I ^ n, M) ⟶ Γ(Spec(A) \ V(I), M̃)` is
 surjective. -/
-@[stacks 01PM "surjectivity when no nonzero element of M is annihilated by I"]
 public theorem canonicalMapToSections_surjective (hI : I.FG)
     (hM : ∀ y : M, (∀ a ∈ I, a • y = 0) → y = 0) :
     Function.Surjective (canonicalMapToSections A I M) := by

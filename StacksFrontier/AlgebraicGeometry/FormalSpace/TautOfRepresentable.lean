@@ -179,7 +179,6 @@ theorem isTaut_of_isWeakIdealOfDefinition_closure_map
 
 /-- A continuous homomorphism `φ : A ⟶ C` of weakly admissible topological rings over `S` whose
 formal spectrum map is representable by objects of the site is taut. -/
-@[stacks 0AN5 "(2) implies (3)"]
 theorem isTaut_of_relativelyRepresentable_formalSpectrumMap
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)

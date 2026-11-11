@@ -306,6 +306,8 @@ variable {K : DifferentialGradedModule.{t, a, z} A} {L : DifferentialGradedModul
 
 /-- The differential `d(f) = d_L ∘ f - (-1)^n f ∘ d_K` of a degree-`n` local homomorphism, a
 degree-`(n + 1)` local homomorphism. -/
+@[stacks 0FRN "the differential d(f) = d_L ∘ f - (-1)^n f ∘ d_K, homogeneous of degree n + 1 and
+A-linear"]
 def diffAt (f : LocalHom K L n U) : LocalHom K L (n + 1) U where
   app i j hij V :=
     (homSections (L.complex.d (i + n) j) (op V.left)).comp (f.app i (i + n) rfl V) -
@@ -388,6 +390,7 @@ theorem _root_.SheafOfModules.complex_d_d_app (Y : CochainComplex (SheafOfModule
     homSections_congr (Y.d_comp_d i j k), homSections_zero]
 
 /-- The differential of the internal hom squares to zero. -/
+@[stacks 0FRN "the differential of the internal hom squares to zero"]
 theorem diffAt_diffAt (f : LocalHom K L n U) : f.diffAt.diffAt = 0 :=
   LocalHom.ext fun i j hij V x => by
     have key : ∀ (q q' : ℤ) (hq : i + 1 + n = q) (hq' : i + 1 + n = q')
@@ -618,6 +621,7 @@ end LocalHom
 
 /-- **The local homomorphisms form a sheaf**: the presheaf `U ↦ SheafHom^n_A(K, L)(U)` satisfies
 the sheaf condition. -/
+@[stacks 0FRN "the local homomorphisms form a sheaf SheafHom^n_A(K, L) of O-modules"]
 theorem localHomPresheaf_isSheaf (K : DifferentialGradedModule.{t, a, z} A)
     (L : DifferentialGradedModule.{t, a, s} A) (n : ℤ) :
     Presheaf.IsSheaf J (localHomPresheaf K L n).presheaf := by
@@ -667,6 +671,8 @@ theorem localHomDiff_app (K : DifferentialGradedModule.{t, a, z} A)
 /-- **The internal hom `SheafHom^dg_A(K, L)`**, as a complex of sheaves of `R`-modules: in degree
 `n` the sheaf of degree-`n` local homomorphisms `K|_U → L|_U`, with differential
 `d(f) = d_L ∘ f - (-1)^n f ∘ d_K`. -/
+@[stacks 0FRN "the internal hom SheafHom^dg_A(K, L) = ⨁_n SheafHom^n_A(K, L), a complex of
+O-modules"]
 noncomputable abbrev sheafHomComplex (K : DifferentialGradedModule.{t, a, z} A)
     (L : DifferentialGradedModule.{t, a, s} A) :
     CochainComplex (SheafOfModules.{max u v z s} R) ℤ where
@@ -696,6 +702,8 @@ theorem sheafHomComplex_d_self (K : DifferentialGradedModule.{t, a, z} A)
 /-- **The constructed complex is the internal hom**: its sections are the local homomorphisms,
 additively, `R`-linearly and compatibly with restriction, and its differential is
 `SheafOfModules.localDiffApp`. -/
+@[stacks 0FRN "the sections of SheafHom^n_A(K, L) over U are the A|_U-linear maps K|_U → L|_U
+homogeneous of degree n, and its differential is d(f) = d_L ∘ f - (-1)^n f ∘ d_K"]
 noncomputable def isInternalHom_sheafHomComplex (K : DifferentialGradedModule.{t, a, z} A)
     (L : DifferentialGradedModule.{t, a, s} A) :
     IsInternalHom K L (sheafHomComplex K L) where

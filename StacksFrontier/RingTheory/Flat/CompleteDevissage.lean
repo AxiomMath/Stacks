@@ -62,9 +62,13 @@ module's support is recorded so that the pointed local dimension can be formed. 
 contraction uses the map `Bᵢ → Aᵢ₊₁`.
 
 The empty dévissage is a separate constructor of `Module.CompleteDevissageAt` and requires the
-original module to be zero.  It has no stage primes and imposes no support condition.  This is
-the zero case of the existence result in Stacks 05I1; the nonempty case retains every condition
-of Stacks 05HZ.
+original module to be zero.  It has no stage primes and imposes no support condition.  Stacks
+05HZ as printed has no empty case: its dévissages have stages `1, …, n` with `n ≥ 1`, and
+condition (4) places the first stage prime in the support of the fibre module, which forces
+`q` into the support of `N`.  So upstream no complete dévissage at `q` of `N` exists when
+`N_q = 0`, and the existence results Stacks 05I1 and 05HR need `N_q ≠ 0` as printed.  Admitting
+the empty dévissage of the zero module is the repository's convention for that case (recorded in
+`errata.md`); the nonempty case retains every condition of Stacks 05HZ.
 
 ## References
 
@@ -323,8 +327,10 @@ public instance (D : NonemptyCompleteDevissageAt R S N q)
 end NonemptyCompleteDevissageAt
 
 /-- A **complete dévissage at `q`** is either the empty dévissage of the zero module,
-or a nonempty dévissage with the prime and dimension conditions of Stacks 05HZ. -/
-@[stacks 05HZ]
+or a nonempty dévissage with the prime and dimension conditions of Stacks 05HZ.  The empty case
+is the repository's convention for `N = 0`; Stacks 05HZ as printed has no empty case. -/
+@[stacks 05HZ "the empty dévissage of N = 0 is added as the repository's convention; the \
+  nonempty case is the printed definition"]
 public inductive CompleteDevissageAt (R : Type u) (S : Type v) (N : Type w)
     [CommRing R] [CommRing S] [Algebra R S] [Algebra.FiniteType R S]
     [AddCommGroup N] [Module S N] [Module.Finite S N]

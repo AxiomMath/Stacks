@@ -334,7 +334,7 @@ canonical map from the lower shriek, along the morphism of ringed topoi
 the structure sheaf of the lisse-étale site to the structure sheaf of `𝒳` — the transpose under
 the adjunction `g_! ⊣ g^*` of **Stacks 0789** (1) of the identification
 `O_{𝒳_{lisse,étale}} = g^{-1}O_𝒳` — is an isomorphism. -/
-@[stacks 078A "part (1)"]
+@[stacks 078A "part (1): `g_!O_{𝒳_{lisse,étale}} = O_𝒳` for every algebraic stack `𝒳`"]
 theorem isIso_unitLowerShriekMap_algebraicStack : IsIso (unitLowerShriekMap.{u, t} B S hS 𝒳) :=
   isIso_subsiteUnitLowerShriekMap_of_bijective_sectionsPrecomp B S hS 𝒳.val.val.p
     𝒳.val.isFiberedInGroupoids (etaleTopology B) (etaleTopology_le_topology B)
@@ -373,7 +373,7 @@ canonical map from the lower shriek, along the morphism of ringed topoi
 structure sheaf of the flat-fppf site to the structure sheaf of `𝒳` — the transpose under the
 adjunction `g_! ⊣ g^*` of **Stacks 0789** (2) of the identification
 `O_{𝒳_{flat,fppf}} = g^{-1}O_𝒳` — is an isomorphism. -/
-@[stacks 078A "part (2)"]
+@[stacks 078A "part (2): `g_!O_{𝒳_{flat,fppf}} = O_𝒳` for every algebraic stack `𝒳`"]
 theorem isIso_unitLowerShriekMap_algebraicStack : IsIso (unitLowerShriekMap B S hS 𝒳) :=
   isIso_subsiteUnitLowerShriekMap_of_bijective_sectionsPrecomp B S hS 𝒳.val.val.p
     𝒳.val.isFiberedInGroupoids B.topology le_rfl (objectProperty B S hS 𝒳)

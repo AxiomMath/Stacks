@@ -91,17 +91,22 @@ algebra on the same variables.
 followed by the comparison of the target resolution with `Lπ_!(i^*Ω_{𝒪/B})`, is the comparison of
 the source resolution. Both comparisons being isomorphisms, so is the map.
 
-### The two carried hypotheses
+### The two trivial-Kan-fibration arguments
 
-Remark 08SE assumes only that `B → C` is injective, and that hypothesis is genuinely used here.
-What is carried are the two trivial-Kan-fibration conditions, named `hεQ` and `hεR`: that the
-augmentations `Q̄_• → C` and `R̄_• → C` are trivial Kan fibrations on underlying simplicial sets.
-These are the halves of the "key fact" of Tag 08SD and of its repetition for `R̄_•` in Remark 08SE
-that the source deduces from Cohomology on Sites, Lemma 21.39.12, i.e. from Tag 08RX, of which
-only the column step is available in this library (
-`StacksFrontier/CategoryTheory/Sites/Cohomology/Simplicial/FlatBaseChangeOfSimplicialModules.lean`).
-The other half of that key fact — degreewise polynomiality — is *not* carried: it is proved here
-from the injectivity of `B → C`, which is also what removes the hypothesis `hP` that
+Remark 08SE assumes that `B → C` is injective, and that hypothesis is genuinely used here. The
+statements of this file additionally take, as arguments `hεQ` and `hεR`, that the augmentations
+`Q̄_• → C` and `R̄_• → C` are trivial Kan fibrations on underlying simplicial sets. These are the
+halves of the "key fact" of Tag 08SD and of its repetition for `R̄_•` in Remark 08SE that the
+source deduces from Cohomology on Sites, Lemma 21.39.12, i.e. from Tag 08RX. Both are theorems
+of this library for `B → C` injective, proved downstream of this file from the Δ-instance of
+Tag 08RX: `CommAlgCat.trivialKanFibrations_baseChangedStandardResolution_of_injective` and
+`CommAlgCat.trivialKanFibrations_relativeBaseChange_of_injective`, in
+`StacksFrontier/Cotangent/Triangle/BaseChangeLegTensor.lean`. The statements of Remark 08SE at
+exactly the source's hypotheses, with both arguments supplied, are in
+`StacksFrontier/Cotangent/Triangle/BaseChangeComparisonOfInjective.lean`, which is where the
+remark's quasi-isomorphisms and identification are registered.
+The other half of that key fact — degreewise polynomiality — is proved here from the
+injectivity of `B → C`, which is also what removes the hypothesis `hP` that
 `CommAlgCat.exists_distTriang_fundamentalVertex_of_isResolution` has to carry.
 
 ## References
@@ -690,11 +695,9 @@ Both `R_•` and `R̄_•` are resolutions of `C` over `B`, so by Tag 08PU each 
 
 That `R̄_•` is a resolution is used twice over: its degreewise polynomiality is
 `CommAlgCat.relativeBaseChange_isPolynomialAlgebra`, which consumes the injectivity of `B → C`,
-while the trivial Kan fibration condition `hεR` is carried. -/
-@[stacks 08SE "the first of the two maps is a quasi-isomorphism. CARRIED as the hypothesis \
-  `hεR`: that the augmentation of R_bullet ⊗_{S_bullet} B to C is a trivial Kan fibration, the \
-  half of the source's appeal to Cohomology on Sites, Lemma 21.39.12 (Tag 08RX) that this \
-  library lacks. Degreewise polynomiality is NOT carried: it is proved from B → C injective"]
+while the trivial Kan fibration condition is the argument `hεR`, supplied by
+`CommAlgCat.trivialKanFibrations_relativeBaseChange_of_injective` in
+`CommAlgCat.isIso_q_relativeBaseChangeCotangentLeg_of_injective`. -/
 theorem isIso_q_relativeBaseChangeCotangentLeg (f : B ⟶ C) (hf : Function.Injective f.hom)
     (hεR : SSet.trivialKanFibrations (Functor.whiskerRight (relativeBaseChange f).hom
       (forget (CommAlgCat.{u} ↥B)))) :
@@ -719,11 +722,9 @@ theorem isIso_q_relativeBaseChangeCotangentLeg (f : B ⟶ C) (hf : Function.Inje
   infer_instance
 
 /-- **The second arrow of the comparison is a quasi-isomorphism**, by Tag 08PU at the two
-resolutions `Q̄_•` and `R̄_•` of `C` over `B` and its functoriality in the resolution. -/
-@[stacks 08SE "the second of the two maps is a quasi-isomorphism. CARRIED as the hypotheses \
-  `hεQ` and `hεR`: that the augmentations of Q_bullet ⊗_{P_bullet} B and R_bullet ⊗_{S_bullet} B \
-  to C are trivial Kan fibrations, the half of Tag 08RX this library lacks. Degreewise \
-  polynomiality of both is NOT carried: it is proved from B → C injective"]
+resolutions `Q̄_•` and `R̄_•` of `C` over `B` and its functoriality in the resolution. The
+arguments `hεQ` and `hεR` are supplied in
+`CommAlgCat.isIso_q_baseChangedCotangentComparison_of_injective`. -/
 theorem isIso_q_baseChangedCotangentComparison (f : B ⟶ C) (hf : Function.Injective f.hom)
     (hεQ : SSet.trivialKanFibrations (Functor.whiskerRight
       (baseChangedStandardResolution A f).hom (forget (CommAlgCat.{u} ↥B))))
@@ -749,11 +750,8 @@ theorem isIso_q_baseChangedCotangentComparison (f : B ⟶ C) (hf : Function.Inje
 inverse of the first.
 
 It is characterised by `CommAlgCat.baseChangedCotangentComplexIso_hom_comp` and
-`CommAlgCat.eq_baseChangedCotangentComplexIso`. -/
-@[stacks 08SE "the canonical identification of Omega[Q_bullet ⊗_{P_bullet} B / B] ⊗ C with \
-  L_{C/B}: the second arrow of the comparison followed by the inverse of the first. CARRIED as \
-  the hypotheses `hεQ` and `hεR`, the trivial-Kan-fibration halves of Tag 08RX, which this \
-  library lacks. The remark's hypothesis that B → C be injective is NOT carried but consumed"]
+`CommAlgCat.eq_baseChangedCotangentComplexIso`. With the arguments `hεQ` and `hεR` supplied it
+is `CommAlgCat.baseChangedCotangentComplexIsoOfInjective`. -/
 noncomputable def baseChangedCotangentComplexIso (f : B ⟶ C) (hf : Function.Injective f.hom)
     (hεQ : SSet.trivialKanFibrations (Functor.whiskerRight
       (baseChangedStandardResolution A f).hom (forget (CommAlgCat.{u} ↥B))))
@@ -773,9 +771,6 @@ private theorem comp_inv_comp_hom {D : Type*} [Category* D] {X V W : D} (g : X �
   rw [Category.assoc, e.inv_hom_id, Category.comp_id]
 
 /-- **The identification of Remark 08SE commutes with the two arrows of the comparison.** -/
-@[stacks 08SE "the characterising property of the identification: composed with the first arrow \
-  of the comparison it is the second, which is what 'composing one with the inverse of the other' \
-  means. Same two carried hypotheses as the identification itself"]
 theorem baseChangedCotangentComplexIso_hom_comp (f : B ⟶ C) (hf : Function.Injective f.hom)
     (hεQ : SSet.trivialKanFibrations (Functor.whiskerRight
       (baseChangedStandardResolution A f).hom (forget (CommAlgCat.{u} ↥B))))
@@ -796,9 +791,6 @@ theorem baseChangedCotangentComplexIso_hom_comp (f : B ⟶ C) (hf : Function.Inj
 /-- **The identification of Remark 08SE is the unique isomorphism commuting with the two arrows of
 the comparison.** This is what pins it down: the first arrow is an isomorphism in `D(C)`, so the
 commutation determines the identification outright. -/
-@[stacks 08SE "uniqueness of the identification: it is the ONLY isomorphism whose composite with \
-  the first arrow of the comparison is the second. Same two carried hypotheses as the \
-  identification itself"]
 theorem eq_baseChangedCotangentComplexIso (f : B ⟶ C) (hf : Function.Injective f.hom)
     (hεQ : SSet.trivialKanFibrations (Functor.whiskerRight
       (baseChangedStandardResolution A f).hom (forget (CommAlgCat.{u} ↥B))))

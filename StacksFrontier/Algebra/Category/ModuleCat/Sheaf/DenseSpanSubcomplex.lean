@@ -65,6 +65,14 @@ def genSet (n : ℤ) (V : Cᵒᵖ) : Set ((K.X n).val.obj V) :=
   {x | ∃ (i : ι) (s : (K.X n).val.obj (op (c i))) (f : V.unop ⟶ c i),
     ⟨n, i, s⟩ ∈ G ∧ (K.X n).val.map f.op s = x}
 
+variable {G} in
+/-- A section over `V` lies in `genSet G n V` iff it is the restriction, along an arrow from `V`
+to an object of the family, of a generator of degree `n`. -/
+theorem mem_genSet_iff {n : ℤ} {V : Cᵒᵖ} {x : (K.X n).val.obj V} :
+    x ∈ genSet G n V ↔ ∃ (i : ι) (s : (K.X n).val.obj (op (c i))) (f : V.unop ⟶ c i),
+      ⟨n, i, s⟩ ∈ G ∧ (K.X n).val.map f.op s = x :=
+  Iff.rfl
+
 /-- **The span of the generators**: the sub-presheaf of modules of the degree-`n` term of `K`
 spanned by the restrictions of the generators of degree `n` along all arrows. -/
 def span (n : ℤ) : (K.X n).val.Submodule where
@@ -75,6 +83,11 @@ def span (n : ℤ) : (K.X n).val.Submodule where
     refine Submodule.subset_span ⟨i, s, g.unop ≫ f, hs, ?_⟩
     change (K.X n).val.map (g.unop ≫ f).op s = (K.X n).val.map g ((K.X n).val.map f.op s)
     exact PresheafOfModules.map_comp_apply (K.X n).val f.op g s
+
+/-- The span over `V` is the submodule spanned by the restrictions of the generators to `V`. -/
+theorem span_obj (n : ℤ) (V : Cᵒᵖ) :
+    (span G n).obj V = Submodule.span (R.obj.obj V) (genSet G n V) :=
+  rfl
 
 /-- **The local closure of the span**, a submodule of the degree-`n` term of `K`. -/
 def closure (n : ℤ) : (K.X n).Submodule :=

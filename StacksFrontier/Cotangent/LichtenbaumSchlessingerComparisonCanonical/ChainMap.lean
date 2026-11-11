@@ -2,7 +2,7 @@ module
 
 public import StacksFrontier.Algebra.Homology.ModuleCatQuasiIsoAtElements
 public import StacksFrontier.Cotangent.ConormalLowDegree
-public import StacksFrontier.Cotangent.LichtenbaumSchlessingerComparison
+public import StacksFrontier.Cotangent.LichtenbaumSchlessingerComparisonBasic
 public import StacksFrontier.Cotangent.LichtenbaumSchlessingerComparisonMap
 public import StacksFrontier.Cotangent.NaiveComparisonIsIso
 import all StacksFrontier.Cotangent.StandardResolutionFrobeniusHomotopy
@@ -56,7 +56,7 @@ source:
   and both sides are homotopy invariant.
 
 The passage from a chain-level comparison to the isomorphism `τ_{≥ -2} L_{B/A} ≅ L` is
-`Algebra.Presentation.isIso_descTruncGE_cotangentToLichtenbaumSchlessinger` of
+`Algebra.Presentation.isIso_descTruncGE_cotangentToLichtenbaumSchlessingerOfComparison` of
 `StacksFrontier.Cotangent.LichtenbaumSchlessingerComparison`.
 
 ## References
@@ -214,12 +214,12 @@ theorem cotangentComplex_d_negThree_negTwo' :
 
 omit P in
 /-- `ULift.down` on the terms of the lifted cotangent complex. -/
-def uliftDown (i : ℤ) : (cotangentComplexULift.{u, v, w} A B).X i →ₗ[B] (𝕂).X i :=
+def uliftDown (i : ℤ) : (uliftCotangentComplex.{u, v, w} A B).X i →ₗ[B] (𝕂).X i :=
   ULift.moduleEquiv.toLinearMap
 
 omit P in
 /-- `ULift.up` on the terms of the lifted cotangent complex. -/
-def uliftUp (i : ℤ) : (𝕂).X i →ₗ[B] (cotangentComplexULift.{u, v, w} A B).X i :=
+def uliftUp (i : ℤ) : (𝕂).X i →ₗ[B] (uliftCotangentComplex.{u, v, w} A B).X i :=
   ULift.moduleEquiv.symm.toLinearMap
 
 omit P in
@@ -236,49 +236,49 @@ theorem uliftUp_injective (i : ℤ) : Function.Injective (uliftUp.{u, v, w} (A :
 omit P in
 /-- `uliftDown` is `ULift.down`. -/
 @[simp]
-theorem uliftDown_apply (i : ℤ) (z : (cotangentComplexULift.{u, v, w} A B).X i) :
+theorem uliftDown_apply (i : ℤ) (z : (uliftCotangentComplex.{u, v, w} A B).X i) :
     uliftDown (A := A) (B := B) i z = z.down := rfl
 
 /-- The component of the comparison in degree `0`. -/
-def lsChainZero : (cotangentComplexULift.{u, v, w} A B).X (0) ⟶
+def lsChainZero : (uliftCotangentComplex.{u, v, w} A B).X (0) ⟶
     (lichtenbaumSchlessingerComplex P).complex.X (0) :=
-  (ConcreteCategory.ofHom (C := ModuleCat B) (X := (cotangentComplexULift.{u, v, w} A B).X (0))
+  (ConcreteCategory.ofHom (C := ModuleCat B) (X := (uliftCotangentComplex.{u, v, w} A B).X (0))
     (P.lsComponentZero ∘ₗ ((cotangentDegreeIsoZero (A := A) (B := B)).hom.hom ∘ₗ
       uliftDown (A := A) (B := B) (0)))) ≫
     (lichtenbaumSchlessingerComplex P).differentialIso.inv
 
 /-- In degree `0`, the comparison is `lsComponentZero` on the cotangent space of `P₀ → B`. -/
-theorem lsChainZero_apply (z : (cotangentComplexULift.{u, v, w} A B).X (0)) :
+theorem lsChainZero_apply (z : (uliftCotangentComplex.{u, v, w} A B).X (0)) :
     (lichtenbaumSchlessingerComplex P).differentialIso.hom (P.lsChainZero z) =
       P.lsComponentZero ((cotangentDegreeIsoZero (A := A) (B := B)).hom z.down) := by
   rw [lsChainZero, ModuleCat.comp_apply, Iso.inv_hom_id_apply]
   rfl
 
 /-- The component of the comparison in degree `-1`. -/
-def lsChainOne : (cotangentComplexULift.{u, v, w} A B).X (-1) ⟶
+def lsChainOne : (uliftCotangentComplex.{u, v, w} A B).X (-1) ⟶
     (lichtenbaumSchlessingerComplex P).complex.X (-1) :=
-  (ConcreteCategory.ofHom (C := ModuleCat B) (X := (cotangentComplexULift.{u, v, w} A B).X (-1))
+  (ConcreteCategory.ofHom (C := ModuleCat B) (X := (uliftCotangentComplex.{u, v, w} A B).X (-1))
     (P.lsComponentOne ∘ₗ ((cotangentDegreeIsoOne (A := A) (B := B)).hom.hom ∘ₗ
       uliftDown (A := A) (B := B) (-1)))) ≫
     (lichtenbaumSchlessingerComplex P).freeIso.inv
 
 /-- In degree `-1`, the comparison is `lsComponentOne` on the cotangent space of `P₁ → B`. -/
-theorem lsChainOne_apply (z : (cotangentComplexULift.{u, v, w} A B).X (-1)) :
+theorem lsChainOne_apply (z : (uliftCotangentComplex.{u, v, w} A B).X (-1)) :
     (lichtenbaumSchlessingerComplex P).freeIso.hom (P.lsChainOne z) =
       P.lsComponentOne ((cotangentDegreeIsoOne (A := A) (B := B)).hom z.down) := by
   rw [lsChainOne, ModuleCat.comp_apply, Iso.inv_hom_id_apply]
   rfl
 
 /-- The component of the comparison in degree `-2`. -/
-def lsChainTwo : (cotangentComplexULift.{u, v, w} A B).X (-2) ⟶
+def lsChainTwo : (uliftCotangentComplex.{u, v, w} A B).X (-2) ⟶
     (lichtenbaumSchlessingerComplex P).complex.X (-2) :=
-  (ConcreteCategory.ofHom (C := ModuleCat B) (X := (cotangentComplexULift.{u, v, w} A B).X (-2))
+  (ConcreteCategory.ofHom (C := ModuleCat B) (X := (uliftCotangentComplex.{u, v, w} A B).X (-2))
     (P.lsComponentTwo ∘ₗ ((cotangentDegreeIsoTwo (A := A) (B := B)).hom.hom ∘ₗ
       uliftDown (A := A) (B := B) (-2)))) ≫
     (lichtenbaumSchlessingerComplex P).relationIso.inv
 
 /-- In degree `-2`, the comparison is `lsComponentTwo` on the cotangent space of `P₂ → B`. -/
-theorem lsChainTwo_apply (z : (cotangentComplexULift.{u, v, w} A B).X (-2)) :
+theorem lsChainTwo_apply (z : (uliftCotangentComplex.{u, v, w} A B).X (-2)) :
     (lichtenbaumSchlessingerComplex P).relationIso.hom (P.lsChainTwo z) =
       P.lsComponentTwo ((cotangentDegreeIsoTwo (A := A) (B := B)).hom z.down) := by
   rw [lsChainTwo, ModuleCat.comp_apply, Iso.inv_hom_id_apply]
@@ -288,8 +288,8 @@ omit P in
 /-- The differential of the lifted cotangent complex is the differential of `L_{B/A}` on
 `ULift.down`. -/
 theorem cotangentComplexULift_d_apply (i j : ℤ)
-    (z : (cotangentComplexULift.{u, v, w} A B).X i) :
-    ((cotangentComplexULift.{u, v, w} A B).d i j z).down = (𝕂).d i j z.down := rfl
+    (z : (uliftCotangentComplex.{u, v, w} A B).X i) :
+    ((uliftCotangentComplex.{u, v, w} A B).d i j z).down = (𝕂).d i j z.down := rfl
 
 /-- Two maps of `B`-modules agree if they agree after an isomorphism on the target. -/
 private theorem hom_eq_of_iso_hom_apply_eq {R : Type*} [CommRing R] {X Y Z : ModuleCat R}
@@ -301,7 +301,7 @@ private theorem hom_eq_of_iso_hom_apply_eq {R : Type*} [CommRing R] {X Y Z : Mod
 /-- The components of the comparison in degrees `-1` and `0` commute with the differentials. -/
 theorem lsChain_square_zero :
     P.lsChainOne ≫ (lichtenbaumSchlessingerComplex P).complex.d (-1) 0 =
-      (cotangentComplexULift.{u, v, w} A B).d (-1) 0 ≫ P.lsChainZero := by
+      (uliftCotangentComplex.{u, v, w} A B).d (-1) 0 ≫ P.lsChainZero := by
   refine hom_eq_of_iso_hom_apply_eq (lichtenbaumSchlessingerComplex P).differentialIso _ _
     fun z => ?_
   have h := LinearMap.congr_fun P.lsComponent_square_zero
@@ -316,7 +316,7 @@ theorem lsChain_square_zero :
 /-- The components of the comparison in degrees `-2` and `-1` commute with the differentials. -/
 theorem lsChain_square_one :
     P.lsChainTwo ≫ (lichtenbaumSchlessingerComplex P).complex.d (-2) (-1) =
-      (cotangentComplexULift.{u, v, w} A B).d (-2) (-1) ≫ P.lsChainOne := by
+      (uliftCotangentComplex.{u, v, w} A B).d (-2) (-1) ≫ P.lsChainOne := by
   let _ := relationModule P
   refine hom_eq_of_iso_hom_apply_eq (lichtenbaumSchlessingerComplex P).freeIso _ _ fun z => ?_
   have h := LinearMap.congr_fun P.lsComponent_square_one
@@ -330,7 +330,7 @@ theorem lsChain_square_one :
 
 /-- The component of the comparison in degree `-2` kills the boundaries from degree `-3`. -/
 theorem lsChain_square_two :
-    (cotangentComplexULift.{u, v, w} A B).d (-3) (-2) ≫ P.lsChainTwo = 0 := by
+    (uliftCotangentComplex.{u, v, w} A B).d (-3) (-2) ≫ P.lsChainTwo = 0 := by
   refine hom_eq_of_iso_hom_apply_eq (lichtenbaumSchlessingerComplex P).relationIso _ _
     fun z => ?_
   have h := LinearMap.congr_fun P.lsComponent_square_two
@@ -344,7 +344,7 @@ theorem lsChain_square_two :
 
 /-- The component of the comparison in degree `i`: the three components above in degrees `0`,
 `-1`, `-2`, and zero elsewhere. -/
-def lsChainComponent (i : ℤ) : (cotangentComplexULift.{u, v, w} A B).X i ⟶
+def lsChainComponent (i : ℤ) : (uliftCotangentComplex.{u, v, w} A B).X i ⟶
     (lichtenbaumSchlessingerComplex P).complex.X i :=
   if h0 : i = 0 then eqToHom (by rw [h0]) ≫ P.lsChainZero ≫ eqToHom (by rw [h0])
   else if h1 : i = -1 then eqToHom (by rw [h1]) ≫ P.lsChainOne ≫ eqToHom (by rw [h1])
@@ -375,7 +375,7 @@ theorem lsChainComponent_eq_zero (i : ℤ) (h0 : i ≠ 0) (h1 : i ≠ -1) (h2 : 
 degrees `0`, `-1`, `-2` it is `dψ ⊗ 1`, `λ̄` and `q`, built from the choices `ψ : P₀ → P` and
 the biderivation `λ : P₁ → F/TrivRel`. -/
 def lsChainMap :
-    cotangentComplexULift.{u, v, w} A B ⟶ (lichtenbaumSchlessingerComplex P).complex where
+    uliftCotangentComplex.{u, v, w} A B ⟶ (lichtenbaumSchlessingerComplex P).complex where
   f := P.lsChainComponent
   comm' i j hij := by
     have hij' : i + 1 = j := hij

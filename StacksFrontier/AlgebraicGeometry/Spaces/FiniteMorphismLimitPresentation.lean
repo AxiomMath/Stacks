@@ -27,17 +27,23 @@ stages.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.integralFiniteSystem_of_isFinite`: **Stacks 07VR**, the inverse
-  system, in the shape `AlgebraicGeometry.Space.IntegralFiniteSystem` in which Stacks 07VS
-  consumes it.
+* `AlgebraicGeometry.Space.integralFiniteSystem_of_isFinite`: the argument of Stacks 07VR over
+  carried inputs, the inverse system in the shape `AlgebraicGeometry.Space.IntegralFiniteSystem`.
+  Stacks 07VR itself, with no carried input, is
+  `AlgebraicGeometry.Space.exists_integralFiniteSystem_of_isFinite` in
+  `StacksFrontier.AlgebraicGeometry.Spaces.FiniteMorphismLimitSystem`.
 
 ## Implementation notes
 
-The two inputs of the source proof are carried, because neither is available: the
-anti-equivalence of Stacks 081V between the algebraic spaces affine over a base and the
-quasi-coherent algebras on it is the structure
-`AlgebraicGeometry.Space.AffineAlgebraAntiEquivalence`, which this library deliberately leaves
-uninhabited, and the colimit presentation of Stacks 086Z is stated nowhere.  A third hypothesis
+The two inputs of the source proof are carried here: the anti-equivalence of Stacks 081V
+between the algebraic spaces affine over a base and the quasi-coherent algebras on it, as the
+structure `AlgebraicGeometry.Space.AffineAlgebraAntiEquivalence`, and the colimit presentation of
+Stacks 086Z.  The library now proves Stacks 086Z
+(`Space.exists_directed_isFinite_isFinitePresentation_locallySurjective_of_isFinite`)
+and inhabits the bounded form of the anti-equivalence
+(`AlgebraicGeometry.Space.boundedAffineAlgebraAntiEquivalence`), and
+`StacksFrontier.AlgebraicGeometry.Spaces.FiniteMorphismLimitSystem` runs the same argument through
+them with no carried input.  A third hypothesis
 is the affine-chart comparison between finiteness of a morphism and finiteness of its
 direct-image algebra, in the three instances in which the proof uses it; Stacks 07VR takes that
 comparison as immediate from the construction of the relative spectrum of Stacks 081W, which
@@ -451,9 +457,12 @@ private theorem epi_of_isLocallySurjective {Y : AlgebraicSpaces B S hS}
 
 variable (B S hS)
 
-/-- **Stacks 07VR.** A finite morphism `f : X ⟶ Y` of algebraic spaces over `S` with `Y`
-quasi-compact and quasi-separated presents `X` as a directed inverse limit of algebraic spaces
-finite and of finite presentation over `Y`.
+/-- The argument of Stacks 07VR over a carried anti-equivalence `E` and a carried Stacks 086Z:
+a finite morphism `f : X ⟶ Y` of algebraic spaces over `S` with `Y` quasi-compact and
+quasi-separated presents `X` as a directed inverse limit of algebraic spaces finite and of
+finite presentation over `Y`.  Stacks 07VR itself is the unconditional
+`AlgebraicGeometry.Space.exists_integralFiniteSystem_of_isFinite`, which also records that the
+transition morphisms are closed immersions.
 
 The direct-image algebra `f_* 𝒪_X` is a finite quasi-coherent `𝒪_Y`-algebra, so `h086Z` writes
 it as a directed colimit of finite algebras of finite presentation with surjective transition
@@ -461,18 +470,7 @@ maps.  Applying the anti-equivalence `E` turns that colimit into a limit of the 
 `X_i = \underline{Spec}_Y(𝒜_i)`; the surjections become monomorphisms, hence closed immersions
 between spaces finite over `Y`, and the limit is computed in presheaves by
 `AlgebraicGeometry.Space.isLimit_affineOverToOver`. -/
-@[no_expose, stacks 07VR "granted `E`, the anti-equivalence of Stacks 081V between the \
-algebraic spaces affine over a base and the quasi-coherent algebras on it, which this \
-library states as a \
-structure with no inhabitant; `h086Z`, the conclusion of Stacks 086Z that a finite \
-quasi-coherent algebra on a quasi-compact quasi-separated algebraic space is a directed \
-colimit of finite algebras of finite presentation with locally surjective transition maps; and \
-`hPushforwardIsFinite`, `hRelativeSpecIsFinite`, `hRelativeSpecIsFinitePresentation`, the \
-affine-chart comparison between finiteness of a morphism and finiteness of its direct-image \
-algebra, which the source takes as immediate from the construction of the relative spectrum of \
-Stacks 081W. `E` and `h086Z` conclude about categories and about algebras, and the comparison \
-is about a single morphism, so none of them is the universally quantified form of this \
-conclusion"]
+@[no_expose]
 def integralFiniteSystem_of_isFinite {X Y : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (f : X ⟶ Y)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
     (hfin : IsFinite B S hS f)

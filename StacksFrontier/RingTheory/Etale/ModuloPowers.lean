@@ -391,7 +391,7 @@ two quotients, is what pins the source's map.
 
 Three departures from the source's form, none of them weakening it.
 
-The hypothesis "`S` is the localization of an étale ring extension of `R`" is carried by an
+The hypothesis "`S` is the localization of an étale ring extension of `R`" is expressed by an
 ambient `R`-algebra `T` with `[Algebra.Etale R T]` and a prime `q` of `T` with
 `[IsLocalization.AtPrime S q]`, rather than by an existential inside the statement; the
 statement is thereby universally quantified over the presentation of `S`, which is how a user
@@ -453,8 +453,9 @@ of an étale `R`-algebra `T` at a prime `q`, and such that the residue field ext
 `R/tⁿR → S/tⁿS` is an isomorphism for every `n`. -/
 @[stacks 0GSD "The hypothesis `t ∈ m_R` and the conclusion are the source's; the map shown
 bijective is the canonical `R/tⁿR → S/tⁿS`. Stated for all `n : ℕ` (the case `n = 0` is the zero
-ring), with `κ(m_R) → κ(m_S)` merely surjective (equivalent, as it is injective automatically),
-and with the étale algebra `T` and the prime `q` as hypotheses rather than an existential."]
+ring), with `κ(m_R) → κ(m_S)` assumed surjective (equivalent, as it is injective automatically);
+the presentation of `S` as the localization of an étale `R`-algebra `T` at a prime `q` is
+universally quantified, which is equivalent to the source's existential."]
 public theorem IsLocalRing.exists_mem_maximalIdeal_bijective_algebraMap_quotient_span_pow
     (R : Type u) [CommRing R] [IsLocalRing R] (S : Type v) [CommRing S] [IsLocalRing S]
     [Algebra R S] [IsLocalHom (algebraMap R S)] (T : Type w) [CommRing T] [Algebra R T]

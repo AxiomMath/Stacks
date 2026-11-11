@@ -18,3 +18,5 @@ add_to_stacks 0105 "An additive functor preserves zero morphisms."
   CategoryTheory.Functor.preservesZeroMorphisms_of_additive
 add_to_stacks 0105 "A functor preserving zero morphisms transforms zero objects to zero objects."
   CategoryTheory.Functor.map_isZero
+add_to_stacks 05E2 "part (1): the contravariant long exact sequence of Ext groups attached to a
+  short exact sequence." CategoryTheory.Abelian.Ext.contravariantSequence_exact

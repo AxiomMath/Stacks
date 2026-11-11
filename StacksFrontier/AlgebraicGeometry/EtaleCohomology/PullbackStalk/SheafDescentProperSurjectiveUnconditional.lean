@@ -109,7 +109,9 @@ public theorem smallEtaleSheafPullbackSystem_pseudofunctor_eq (B : BigEtaleSite.
 proper morphism `f : X ⟶ Y` of a big étale site, the functor sending a sheaf of sets on the small
 étale site of `Y` to its canonical descent datum for `{X ⟶ Y}` is an equivalence of
 categories. -/
-@[stacks 0GF0, sga "4 VIII 9.4"]
+@[stacks 0GF0 "The schemes are the objects of a big étale site `B`, and the functor is the
+library's canonical descent functor `smallEtaleSheafDescentFunctor`, whose pseudofunctor is shown
+equal to the explicit inverse-image pseudofunctor of small étale sheaves.", sga "4 VIII 9.4"]
 public theorem smallEtaleSheafDescentFunctor_isEquivalence_of_isProper_of_surjective
     (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y)
     [Surjective (B.inclusion.map f)] [IsProper (B.inclusion.map f)] :

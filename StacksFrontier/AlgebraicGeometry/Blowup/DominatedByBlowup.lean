@@ -25,9 +25,14 @@ Let `f : X ⟶ S` be proper and an isomorphism over an open `U ⊆ S`. Then ther
 
 * `AlgebraicGeometry.cartierBoundaryReduction` is [Stacks, Tag 080Y]: on a quasi-compact and
   quasi-separated scheme every quasi-compact open admits such a reduction.
-* `AlgebraicGeometry.exists_isAdmissibleBlowup_dominating` is [Stacks, Tag 081T].
+* `AlgebraicGeometry.exists_isAdmissibleBlowup_dominating`: the argument of [Stacks, Tag 081T]
+  from the conclusions of the two results it cites.
 * `AlgebraicGeometry.exists_isAdmissibleBlowup_dominating_of_isCompact` is the same conclusion
   under the source's quasi-compactness assumptions, with the boundary reduction supplied.
+
+[Stacks, Tag 081T] itself, under exactly the source's hypotheses, is
+`AlgebraicGeometry.exists_isAdmissibleBlowup_dominating_of_affineCase` in
+`StacksFrontier/AlgebraicGeometry/Blowup/DominatingBlowupFromFlattening.lean`.
 
 ## Implementation notes
 
@@ -40,14 +45,16 @@ sheaf is finite presentation of the closed immersion it cuts out
 is the inverse image of the support of the centre, because the exceptional ideal is the
 inverse-image ideal sheaf.
 
-The remaining cited result, [Stacks, Tag 081S] — the flattening statement putting the strict
-transform of `X` inside the blowup as an open subscheme — is not available in this development
-and is carried as a hypothesis, in exactly the form the argument consumes.
+The other cited result, [Stacks, Tag 081S] — the flattening statement putting the strict
+transform of `X` inside the blowup as an open subscheme — is proved downstream of this file, as
+`AlgebraicGeometry.strictTransformOpenImmersion_of_isIso_morphismRestrict`. This file takes its
+conclusion `AlgebraicGeometry.StrictTransformOpenImmersion` as an input, so that the argument
+here can also be applied to morphisms for which that conclusion is obtained otherwise.
 
 The source also assumes `S` quasi-compact and quasi-separated and `U` quasi-compact. Those
 hypotheses enter its proof only through [Stacks, Tag 080Y] and [Stacks, Tag 081S], so
 `AlgebraicGeometry.exists_isAdmissibleBlowup_dominating` drops them: once those two conclusions
-are hypotheses the remaining argument uses nothing of them.
+are inputs the remaining argument uses nothing of them.
 
 The blowup is `AlgebraicGeometry.blowUp` and the strict transform is
 `AlgebraicGeometry.strictTransformToBlowUp` of
@@ -196,10 +203,11 @@ public def StrictTransformOpenImmersion (f : X ⟶ S) (U : S.Opens) : Prop :=
 
 /-! ### Tag 081T -/
 
-/-- **Stacks Project, Tag 081T.** A proper morphism `f : X ⟶ S` which is an isomorphism over an
-open `U ⊆ S` is dominated by a `U`-admissible blowup: there are a `U`-admissible blowup
-`b : S' ⟶ S` and a morphism `g : S' ⟶ X` with `g ≫ f = b`. -/
-@[stacks 081T "conditional on cited 080Y and 081S, carried as hypotheses; qc/qs dropped"]
+/-- A proper morphism `f : X ⟶ S` which is an isomorphism over an open `U ⊆ S` is dominated by a
+`U`-admissible blowup, given the conclusions of [Stacks, Tag 080Y] and [Stacks, Tag 081S] for
+`U` and `f`: there are a `U`-admissible blowup `b : S' ⟶ S` and a morphism `g : S' ⟶ X` with
+`g ≫ f = b`. This is the argument of [Stacks, Tag 081T]; the tag itself, under the source's
+hypotheses, is `AlgebraicGeometry.exists_isAdmissibleBlowup_dominating_of_affineCase`. -/
 public theorem exists_isAdmissibleBlowup_dominating (f : X ⟶ S) [IsProper f] (U : S.Opens)
     [IsIso (f ∣_ U)] (h080Y : CartierBoundaryReduction S U)
     (h081S : StrictTransformOpenImmersion f U) :
@@ -294,8 +302,8 @@ public theorem exists_isAdmissibleBlowup_dominating (f : X ⟶ S) [IsProper f] (
   simp
 
 /-- A proper morphism `f : X ⟶ S` over a quasi-compact and quasi-separated scheme which is an
-isomorphism over a quasi-compact open `U ⊆ S` is dominated by a `U`-admissible blowup, granted
-the strict transform of `X` is an open subscheme of some `U`-admissible blowup. Here the
+isomorphism over a quasi-compact open `U ⊆ S` is dominated by a `U`-admissible blowup, given
+that the strict transform of `X` is an open subscheme of some `U`-admissible blowup. Here the
 boundary reduction is no longer a hypothesis: it is
 `AlgebraicGeometry.cartierBoundaryReduction`. -/
 public theorem exists_isAdmissibleBlowup_dominating_of_isCompact (f : X ⟶ S) [IsProper f]

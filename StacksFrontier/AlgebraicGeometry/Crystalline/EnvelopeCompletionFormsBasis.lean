@@ -385,6 +385,7 @@ variable {A : DividedPowerRing.{u}} {ι : Type u} [Fintype ι] [DecidableEq ι]
   {J : Ideal (MvPolynomial ι A)} {hJ : A.ideal.map (algebraMap A (MvPolynomial ι A)) ≤ J}
   (E : DividedPowerEnvelope A (algebraMap A (MvPolynomial ι A)) J hJ)
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- The base change to the envelope of the basis `d x_i` of the Kähler differentials of the
 polynomial algebra. -/
 public def envelopeKaehlerBasis :
@@ -397,6 +398,7 @@ public def envelopeKaehlerBasis :
   ⟨(KaehlerDifferential.mvPolynomialBasis (A : Type u) ι).baseChange E.object, fun i ↦ by
     rw [Module.Basis.baseChange_apply, KaehlerDifferential.mvPolynomialBasis_apply]⟩
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- A basis of `E ⊗_P Ω_{P/A}` of the shape of `Crystalline.envelopeKaehlerBasis`, carried across
 an equality of `A`-algebra structures on `P`. -/
 public def envelopeKaehlerBasisCongr (inst inst' : Algebra (A : Type u) (MvPolynomial ι A))
@@ -416,6 +418,7 @@ public def envelopeKaehlerBasisCongr (inst inst' : Algebra (A : Type u) (MvPolyn
   subst h
   exact c
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- **The divided power differentials `Ω_{E/A,δ}` of the envelope are free on the `d y_i`**, `y_i`
 the image of the variable `x_i`. -/
 public def envelopeDifferentialsBasis :

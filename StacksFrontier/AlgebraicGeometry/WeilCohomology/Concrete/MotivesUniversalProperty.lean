@@ -50,6 +50,11 @@ projector, an inverse of `F(c₂)`). The extension is moreover additive and `ℚ
 assumed to have an additive tensor product (`MonoidalPreadditive`), part of what a `ℚ`-linear
 symmetric monoidal category is.
 
+The abstract results of `StacksFrontier.AlgebraicGeometry.WeilCohomology.Motives.UniversalProperty`
+(`Stacks.WeilCohomology.CorrespondenceStructure.exists_symmetricMonoidal_factorisation` and its
+companions) are the universal property of the Karoubi envelope of a correspondence structure. They
+are auxiliary, the first step of the argument; the statement of Stacks 0FGH is the theorem below.
+
 ## Main results
 
 * `Stacks.WeilCohomology.ChowMotiveCat.universalProperty`: **Stacks 0FGH**.
@@ -90,7 +95,10 @@ correspondences of degree `0` to `𝒞`, such that the image of `F(c₂)` on `F(
 object, factors through a functor `G : M_k ⥤ 𝒞` of symmetric monoidal categories along
 `X ↦ (X, 1, 0)` — by a monoidal isomorphism, `G` being moreover additive and `ℚ`-linear — and the
 factorization is unique: any two are related by a unique monoidal isomorphism compatible with the
-identifications. -/
+identifications.
+
+This is the declaration registered for Stacks 0FGH; the Karoubi-envelope lemmas of
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.Motives.UniversalProperty` are auxiliary. -/
 @[stacks 0FGH "a Q-linear symmetric monoidal functor F on degree-0 correspondences with the image
 of F(c₂) on F(P¹) invertible factors through M_k, uniquely up to unique monoidal isomorphism"]
 theorem universalProperty {𝒞 : Type u₂} [Category.{v₂} 𝒞] [MonoidalCategory 𝒞]

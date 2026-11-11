@@ -20,6 +20,16 @@ surjective, flat and locally of finite presentation, then `𝒴` is an algebraic
   fibred in groupoids with `𝒴` a stack; `𝒳` is a stack because it is representable by an
   algebraic space, so nothing is assumed of it beyond the source's clause (1).
 
+## Implementation notes
+
+The diagonal of `𝒴` is proved representable by Stacks 05XW
+(`AlgebraicGeometry.Stack.hasRepresentableDiagonal_targetCFG_of_flatPresentation`), and the
+smooth surjective cover is the locally-complete-intersection locus `∐_{d ≥ 1} 𝓗_{d, lci}(𝒳/𝒴)`
+of the relative finite Hilbert stack (Stacks 06CI, 06CL, 06CH, 06D9, 06DA). The assembly step
+`AlgebraicGeometry.Stack.isAlgebraicStack_of_flatPresentation` in
+`StacksFrontier.AlgebraicGeometry.Stacks.GroupoidPresentationBootstrap`, which takes the diagonal and
+the cover as arguments, is no longer registered for Stacks 06DC; this file is its registration.
+
 ## References
 
 * [Stacks Project, Tag 05XW](https://stacks.math.columbia.edu/tag/05XW)
@@ -78,9 +88,11 @@ flat and locally of finite presentation, then `𝒴` is an algebraic stack.
 The source asks `𝒳` and `𝒴` to be stacks in groupoids. `𝒳` is one because it is representable
 by an algebraic space (`AlgebraicGeometry.Stack.isStack_of_isRepresentableByAlgebraicSpace`), and
 `𝒴` is a stack in groupoids at every descent universe because it is a stack (Stacks 02ZJ). -/
-@[stacks 06DC "stated for categories fibred in groupoids with the target a stack: the source's \
-requirement that `𝒳` and `𝒴` be stacks in groupoids is implied, for `𝒳` by clause (1) and for \
-`𝒴` by Stacks 02ZJ"]
+@[stacks 06DC "a 1-morphism `F : 𝒳 ⟶ 𝒴` of categories fibred in groupoids over the big fppf \
+site of `S` with `𝒴` a stack; `𝒳` is a stack because it is representable by an algebraic space, \
+and `𝒴` is a stack in groupoids by Stacks 02ZJ; clause (2) is read on every base change to an \
+algebraic space; the diagonal of `𝒴` (Stacks 05XW) and the smooth surjective cover by the \
+lci loci of the relative finite Hilbert stacks are proved, not assumed"]
 theorem isAlgebraicStack_of_flatCover
     {𝒳 𝒴 : CatFiberedInGroupoids.{u, u, u + 1, u + 1} (BigFppfOver B S hS)}
     (F : 𝒳 ⟶ 𝒴)

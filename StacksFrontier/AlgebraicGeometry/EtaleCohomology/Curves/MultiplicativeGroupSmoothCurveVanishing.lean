@@ -93,7 +93,7 @@ The long exact sequence of the fundamental exact sequence of Stacks 03RI,
 `Stacks.EtaleCohomology.shortExact_divisorSequenceOfCurve`, places `H^q(X, 𝐆_m)` between
 `H^{q-1}(X, ⨁_{x ∈ X_0} i_{x,*} 𝐙)`, zero by Stacks 03RL, and `H^q(X, j_* 𝐆_{m,η})`, zero by
 Stacks 03RK; the latter rests on Stacks 03RJ and Stacks 03RG, supplied here. -/
-@[stacks 03RM]
+@[stacks 03RM "the étale cohomology of the multiplicative group on a smooth curve over an algebraically closed field vanishes in degrees at least 2"]
 theorem subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve {k : Type u} [Field k]
     [IsAlgClosed k] {X : Scheme.{u}} (g : X ⟶ Spec (.of k)) [IsCurve k g] [Smooth g]
     (q : ℕ) (hq : 2 ≤ q) :

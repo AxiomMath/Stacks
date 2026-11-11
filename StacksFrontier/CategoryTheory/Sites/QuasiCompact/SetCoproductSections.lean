@@ -157,9 +157,9 @@ in this module's documentation and `not_preservesColimitsOfShape_pempty_of_bot_m
 statement is Stacks 0738 part (3), so this is an exact wrapper of that theorem's third conjunct
 and introduces no new machinery.
 
-`isColimitSectionsFiniteSubcoproductsCocone` below is this statement specialized to the filtered
+`isColimitSectionsFiniteSubcoproductsCocone` above is this statement specialized to the filtered
 diagram of finite sub-coproducts, whose transition maps are monomorphisms; that specialization
-alone does not state the corrected part (1), which is why it is registered separately. -/
+does not state the corrected part (1) in its generality, which is why both are registered. -/
 @[stacks 0935 "part (1), CORRECTED per the approved erratum: evaluation at a quasi-compact object
   carries a filtered colimit with monomorphic transition maps to a colimit of sets, which is
   Stacks 0738 part (3). The source's part (1), that sections commute with arbitrary coproducts, is

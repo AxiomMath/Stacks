@@ -31,7 +31,12 @@ universe v u
 
 open CategoryTheory CategoryTheory.Limits in
 /-- A directed inverse system of quasi-compact and quasi-separated schemes whose transition
-morphisms are affine, equipped with a chosen limit cone and a chosen index. -/
+morphisms are affine, equipped with a chosen limit cone and a chosen index.
+
+The index universe `v` is not bounded here, so a large index preorder is admitted, whose
+categorical limit in `Scheme.{u}` need not be the limit of the source's directed set.
+Situation 086P, whose index is a set, is `AlgebraicGeometry.SmallDescentSituation`, which adds
+`Small.{u} I`. -/
 @[stacks 09RD, sga "6 IV 3.2"]
 structure AlgebraicGeometry.DescentSituation (I : Type v) [Preorder I]
     [IsDirected I (· ≤ ·)] where

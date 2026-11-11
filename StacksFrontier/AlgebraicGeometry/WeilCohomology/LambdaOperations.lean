@@ -37,8 +37,8 @@ units of `K₀(Vect(X))⟦t⟧`, and `λ^r` is the `r`-th coefficient of the des
 * `AlgebraicGeometry.VectorBundleKZero.exteriorClassSeries`: the power series
   `c(ℰ) = ∑ [⋀ⁱ ℰ] tⁱ`, and `exteriorClassUnit` the unit of `K₀(Vect(X))⟦t⟧` it is.
 * `AlgebraicGeometry.VectorBundleKZero.ExteriorPowersData`: the geometric input of the source's
-  proof, and its only hypothesis — the relation in `K₀(Vect(X))` that the filtration of `⋀ⁿ ℱ`
-  along a short exact sequence produces.
+  proof — the relation in `K₀(Vect(X))` that the filtration of `⋀ⁿ ℱ` along a short exact
+  sequence produces, proved on every scheme in `LambdaOperationsScheme`.
 * `AlgebraicGeometry.VectorBundleKZero.exteriorClassAddHom`: the descent of `c` to a
   homomorphism `K₀(Vect(X)) →+ Additive (K₀(Vect(X))⟦t⟧)ˣ`.
 * `AlgebraicGeometry.VectorBundleKZero.lambdaOperation`: **the operation `λ^r`**, the `r`-th
@@ -60,8 +60,9 @@ units of `K₀(Vect(X))⟦t⟧`, and `λ^r` is the `r`-th coefficient of the des
   finite locally free module.
 * `AlgebraicGeometry.VectorBundleKZero.lambdaOperation_pullback`: the compatibility with
   pullback, in the form it is proved in.
-* `AlgebraicGeometry.VectorBundleKZero.exists_lambdaOperations`: **Tag 0FIC**, the three clauses
-  of the source asserted together.
+* `AlgebraicGeometry.VectorBundleKZero.exists_lambdaOperations`: the three clauses of Tag 0FIC
+  for a given `ExteriorPowersData X`; the unconditional statement is
+  `exists_lambdaOperations_pullbackRingHom` in `LambdaOperationsScheme`.
 
 ## Implementation notes
 
@@ -84,33 +85,15 @@ rather than extracted from `IsUnit`: its underlying series is `c(ℰ)` and its i
 `SheafOfModules.TensorExteriorSymmetricAlgebras.exteriorPieceIso_zero`). So no part of the
 construction passes through a choice.
 
-**The one hypothesis, and exactly what is missing.** The source's claim `c(ℱ) = c(ℰ) c(𝒢)` is
+**The geometric input, and where it is proved.** The source's claim `c(ℱ) = c(ℰ) c(𝒢)` is
 proved by viewing the short exact sequence as a two-step filtration of `ℱ`, which induces a
-filtration of `⋀ⁿ ℱ` with `n + 1` steps and graded pieces `⋀ⁱ ℰ ⊗ ⋀^{n - i} 𝒢`. Neither that
-filtration nor its graded identification is constructed anywhere in the library, and it is the
-*sole* obstruction to proving Tag 0FIC outright: everything else the source's proof uses is
-proved here. What constructing it needs is
-
-1. the subobjects `Fᵖ(⋀ⁿ ℱ) = im(⋀ᵖ ℰ ⊗ ⋀^{n - p} ℱ ⟶ ⋀ⁿ ℱ)`, formed from
-   `SheafOfModules.prodWedgeHom` in the abelian category of sheaves of modules;
-2. finite local freeness of each `Fᵖ`, which follows from 3 by descending induction together
-   with the fact that an extension of finite locally free modules is finite locally free;
-3. the graded identification `Fᵖ / Fᵖ⁺¹ ≅ ⋀ᵖ ℰ ⊗ ⋀^{n - p} 𝒢`, whose surjectivity is Tag 01CJ
-   (`SheafOfModules.ExtPresentation.exteriorPresentation_exact`, which identifies
-   `⋀^k 𝒢` as `⋀^k ℱ` modulo the image of `ℰ ⊗ ⋀^{k - 1} ℱ`) and whose injectivity has to be
-   checked on stalks, where the sequence splits;
-4. hence, at the module level, the filtration of `⋀ⁿ(M' ⊕ M'')` by the
-   `⨁_{j ≥ p} ⋀ʲ M' ⊗ ⋀^{n - j} M''`, which is in neither Mathlib's
-   `Mathlib/LinearAlgebra/ExteriorPower/` nor this library.
-
-Tag 01CJ supplies only step `p = 1`, and the only decomposition of an exterior power available
-is the *split* one, `SheafOfModules.exteriorPowerBiprodIso`; a short exact sequence of finite
-locally free modules on a scheme is only locally split, so the split decomposition does not give
-the global relation. (This is why `liftAddHom` cannot be fed the split case alone: it demands
-additivity on *every* short exact sequence of finite locally free modules. In fact the relation
-is not merely used by the source's proof but implied by its statement: any well-defined function
-on `K₀(Vect(X))` sending `[ℰ]` to `[⋀^r ℰ]` must respect `[ℱ] = [ℰ] + [𝒢]`.) The relation is
-therefore the single field of `ExteriorPowersData`, named in the Stacks attribute. It is recorded
+filtration of `⋀ⁿ ℱ` with `n + 1` steps and graded pieces `⋀ⁱ ℰ ⊗ ⋀^{n - i} 𝒢`. This file
+consumes only the relation in `K₀(Vect(X))` that the filtration produces, as the single field of
+`ExteriorPowersData`; the filtration itself is built, and the relation proved on every scheme,
+in `StacksFrontier.AlgebraicGeometry.WeilCohomology.LambdaOperationsScheme`
+(`AlgebraicGeometry.VectorBundleKZero.exteriorPowersData`). (The relation is not merely used by
+the source's proof but implied by its statement: any well-defined function on `K₀(Vect(X))`
+sending `[ℰ]` to `[⋀^r ℰ]` must respect `[ℱ] = [ℰ] + [𝒢]`.) It is recorded
 as the equality of classes in `K₀(Vect(X))` that the defining relation of the Grothendieck group
 turns the filtration into, rather than as a tower of short exact sequences of sheaves, because
 that equality is all that is consumed and is therefore the weaker hypothesis. The same device,
@@ -135,12 +118,11 @@ runs on is the one the rank statement runs on,
 properties carried by the chosen packages `SheafOfModules.algebras`. What
 `lambdaOperation_pullback` does take as hypotheses are the pullback homomorphism of Grothendieck
 rings itself — a ring map sending `[ℰ]` to `[f^*ℰ]` on finite locally free modules — and the
-stability of finite local freeness under pullback. The functoriality of `K₀(Vect(-))` is not
-constructed anywhere in the library, and the source does not prove it either: Derived Categories
-of Schemes, Section 36.38 defines `K₀(Vect(X))` by its universal property with the words "We
-omit the detailed construction". The compatibility proved here is therefore the assertion that
-`λ^r` commutes with any ring homomorphism realising pullback, which is the content of the
-source's clause once that functoriality is available.
+stability of finite local freeness under pullback, so that this file does not depend on the
+functoriality of `K₀(Vect(-))`. Both are constructed in
+`StacksFrontier.AlgebraicGeometry.Chow.VectorBundleKZeroPullback`
+(`AlgebraicGeometry.VectorBundleKZero.pullbackRingHom`), and
+`LambdaOperationsScheme` specialises the compatibility to that ring map.
 
 **Which `⋀ⁿ`.** `AlgebraicGeometry.Scheme.Modules.exteriorPower ℰ n` is the degree-`n` piece of
 the exterior algebra of the chosen package `SheafOfModules.algebras`, the same spelling the
@@ -306,8 +288,8 @@ theorem isUnit_exteriorClassSeries (E : X.Modules) : IsUnit (exteriorClassSeries
 
 /-! ### The geometric input of the source's proof -/
 
-/-- **The geometric input of Tag 0FIC**, and the only thing in the source's proof that the
-library does not supply: along a short exact sequence `0 → ℰ → ℱ → 𝒢 → 0` of finite locally
+/-- **The geometric input of Tag 0FIC**, proved on every scheme as
+`AlgebraicGeometry.VectorBundleKZero.exteriorPowersData`: along a short exact sequence `0 → ℰ → ℱ → 𝒢 → 0` of finite locally
 free modules, `⋀ⁿ ℱ` carries a filtration with `n + 1` steps whose graded pieces are the
 `⋀ⁱ ℰ ⊗ ⋀^{n - i} 𝒢`.
 
@@ -527,23 +509,16 @@ end Pullback
 
 /-! ### The theorem -/
 
-/-- **Stacks Project, Tag 0FIC.** Let `X` be a scheme. There are maps
-`λ^r : K₀(Vect(X)) → K₀(Vect(X))` which send `[ℰ]` to `[⋀^r ℰ]` when `ℰ` is a finite locally
-free `𝒪_X`-module and which are compatible with pullbacks.
+/-- The lambda operations of `lambdaOperation h`, packaged: they send `[ℰ]` to `[⋀^r ℰ]` when
+`ℰ` is a finite locally free `𝒪_X`-module, and commute with any ring map of Grothendieck rings
+realising pullback of finite locally free modules.
 
-All three clauses of the source are present: the operations are produced as a family of maps,
-the second conjunct is their value on the class of a finite locally free module, and the third
-is their commutation with any ring map of Grothendieck rings realising pullback of finite
-locally free modules.
-
-The sole hypothesis `ExteriorPowersData X` is the geometric input of the source's proof: the
-filtration of `⋀ⁿ` along a short exact sequence, which the library does not construct. Finite
-local freeness of `⋀ⁿ ℰ` and the comparison `f^*(⋀^r ℰ) ≅ ⋀^r(f^*ℰ)` of Tag 01CI are not
-assumed; both are proved. -/
-@[stacks 0FIC "all three clauses, granted one hypothesis: the filtration of `⋀ⁿ` along a short \
-  exact sequence of finite locally free modules, which the library does not construct. The \
-  pullback homomorphism of `K₀(Vect(-))`, whose construction the source omits, is also a \
-  hypothesis", sga "6 0 2.9" "partial", sga "6 V 2.2.1" "Second conjunct only"]
+The input `ExteriorPowersData X` is the relation the filtration of `⋀ⁿ` along a short exact
+sequence produces; it is proved on every scheme in
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.LambdaOperationsScheme`
+(`exteriorPowersData`), where Stacks Tag 0FIC is stated with no hypothesis as
+`exists_lambdaOperations_pullbackRingHom`. -/
+@[sga "6 0 2.9" "partial", sga "6 V 2.2.1" "Second conjunct only"]
 theorem exists_lambdaOperations (X : Scheme.{u}) (h : ExteriorPowersData X) :
     ∃ lam : ℕ → VectorBundleKZero X → VectorBundleKZero X,
       (∀ (r : ℕ) (E : X.Modules), IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) E →

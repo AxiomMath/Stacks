@@ -240,7 +240,8 @@ complete dévissage of the global sections at the prime of the distinguished poi
 over a general base makes those sections projective after inverting a global function on the new
 base which does not vanish at the distinguished point. Shrinking the square to the basic opens of
 that function and of its pullback gives the square of the conclusion. -/
-@[stacks 05ID]
+@[stacks 05ID "exactly the source's hypotheses and full conclusion, unconditional: 0399, 05HR with \
+05I0 and 05IB are proved in the library, not assumed"]
 theorem exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt
     {X S : Scheme.{u}} (f : X ⟶ S) (F : X.Modules) (x : X)
     [LocallyOfFinitePresentation f] [F.IsQuasicoherent] [F.IsFinitePresentation]

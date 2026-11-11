@@ -67,8 +67,9 @@ relative-spectrum comparisons costs one delta step rather than a transport.
 ### No `@[stacks 0637]`
 
 Tag 0637 asserts of `C_ZX ⟶ N_ZX` that it exists, that it is a closed immersion and that it is a
-morphism of cones. The two clauses that are formalized are registered on
-`Stacks.Conormal.normalConeToNormalBundle` and `normalConeToNormalBundle_toBase`. That the
+morphism of cones. It is registered on `Stacks.Conormal.normalConeToNormalBundle`,
+`normalConeToNormalBundle_toBase` and, for all three clauses together,
+`Stacks.Conormal.isClosedImmersion_normalConeToNormalBundle_and_coneHom`. That the
 morphism is an *isomorphism* for an effective Cartier divisor is none of the three: it is the
 input the zero section of the normal line cone of [Stacks, Tag 0FEB] needs, and it is strictly
 stronger than Tag 0637's closed-immersion clause while holding under a strictly stronger

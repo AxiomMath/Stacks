@@ -107,7 +107,7 @@ The standard model `CategoryTheory.HasDerivedCategory.standard` is selected by a
 `attribute [local instance]`, as in
 `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/LimitDerivedHom.lean`: the raised priority and the
 hand-written `Abelian` instance of
-`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/ApproximationAffine.lean` are needed only in a
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/ModulesAtSchemeUniverse.lean` are needed only in a
 file whose import closure contains `AlgebraicGeometry.derivedTilde` and the locally small models,
 and the single import above does not bring either in.
 

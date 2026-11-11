@@ -21,11 +21,23 @@ infinite product of spaces with at least two points is never discrete.
 
 The crux is therefore `not_isOpen_singleton_pi_of_infinite`: in an infinite product of spaces with
 at least two points no singleton is open (Mathlib's `Pi.discreteTopology` is available only for a
-`Finite` index type, and this is exactly why). The tag is registered on
-`exists_presheaf_topCat_isSheaf_forget_not_isSheaf`, the existence of the counterexample.
+`Finite` index type, and this is exactly why).
 
-The closing aside of the tag — that the product topology on each `F(U)` *does* give a sheaf of
-topological spaces — is left to the reader there and is not formalized here.
+## Main results
+
+* `not_reflectsIsomorphisms_forget_topCat`: the forgetful functor `Top → Sets` does not reflect
+  isomorphisms (the identity of a two-point set, from the discrete to the indiscrete topology, is
+  a continuous bijection which is not a homeomorphism). That this functor is faithful and
+  commutes with all limits, in particular with products and equalizers, are Mathlib's instances
+  `(forget C).Faithful` (for every concrete category) and `TopCat.forget_preservesLimits`.
+* `not_isSheaf_presheafToDiscreteTypes`: the counterexample — with the discrete topology on each
+  `F(U) = ∏_{i ∈ U} A i`, the underlying presheaf of sets is a sheaf
+  (`isSheaf_presheafToDiscreteTypes_comp_forget`) but `F` is not a sheaf of spaces.
+* `isSheaf_presheafToPiTop`: the closing aside of the tag — with the *product* topology on each
+  `F(U) = ∏_{i ∈ U} A i` one does get a sheaf of topological spaces (on any space `X`, for any
+  family of spaces `A`).
+* `forget_topCat_not_reflectsIsomorphisms_and_presheafToDiscreteTypes`: the whole of Example
+  0075, on `X = ℕ`, carrying the tag.
 -/
 
 @[expose] public section
@@ -144,14 +156,89 @@ theorem not_isSheaf_presheafToDiscreteTypes [DiscreteTopology X] [Infinite X]
   rw [heq] at hopen
   exact not_isOpen_singleton_pi_of_infinite _ hopen
 
+/-- The presheaf of topological spaces on `X` whose sections over an open `U` are the functions
+`(a_x)_{x ∈ U}` with `a_x ∈ A x`, carrying the **product** topology of `∏_{x ∈ U} A x`, with
+restriction the projection onto the coordinates in the smaller open. -/
+def presheafToPiTop (A : X → TopCat.{u}) : X.Presheaf TopCat.{u} where
+  obj U := TopCat.of (∀ x : U.unop, A x)
+  map i := TopCat.ofHom ⟨fun f x => f (i.unop x), continuous_pi fun x => continuous_apply _⟩
+
+/-- The presheaf of sets underlying `presheafToPiTop X A` is the pointwise product presheaf of
+Example 006X. -/
+theorem presheafToPiTop_comp_forget (A : X → TopCat.{u}) :
+    presheafToPiTop X A ⋙ forget TopCat = X.presheafToTypes fun x => A x := rfl
+
+/-- **The aside of Stacks 0075.** Putting the *product* topology on each
+`F(U) = ∏_{x ∈ U} A x` gives a sheaf of topological spaces. Indeed, for every test space `T` the
+presheaf of sets `U ↦ (T ⟶ F(U))` is, by the universal property of the product topology,
+the pointwise product presheaf `U ↦ ∏_{x ∈ U} (T ⟶ A x)`, which is a sheaf by Example 006X. -/
+theorem isSheaf_presheafToPiTop (A : X → TopCat.{u}) : (presheafToPiTop X A).IsSheaf := by
+  intro T
+  refine (CategoryTheory.isSheaf_iff_isSheaf_of_type _ _).1 ?_
+  refine TopCat.Presheaf.isSheaf_of_iso ?_ (TopCat.Presheaf.toTypes_isSheaf X fun x => T ⟶ A x)
+  refine NatIso.ofComponents (fun U => Equiv.toIso
+    { toFun := fun g => TopCat.ofHom
+        ⟨fun t x => g x t, continuous_pi fun x => (g x).hom.continuous⟩
+      invFun := fun f x => f ≫ TopCat.ofHom ⟨fun a => a x, continuous_apply _⟩
+      left_inv := fun g => funext fun _ => TopCat.ext fun _ => rfl
+      right_inv := fun f => TopCat.ext fun _ => rfl }) ?_
+  intro U V i
+  ext g
+  rfl
+
 end Presheaf
 
-/-- **Stacks Tag 0075.** There is a topological space `X` and a presheaf `F` of topological
+section Forget
+
+/-- The forgetful functor `Top → Sets` does not reflect isomorphisms: the identity of a
+two-point set, viewed as a map from the discrete to the indiscrete topology, is a continuous
+bijection, but it is not a homeomorphism. -/
+theorem not_reflectsIsomorphisms_forget_topCat :
+    ¬ (forget TopCat.{u}).ReflectsIsomorphisms := by
+  intro _
+  let f : TopCat.discrete.obj (ULift.{u} Bool) ⟶ TopCat.trivial.obj (ULift.{u} Bool) :=
+    @TopCat.ofHom _ _ ⊥ ⊤ (@ContinuousMap.mk _ _ ⊥ ⊤ id continuous_bot)
+  have : IsIso ((forget TopCat).map f) := (isIso_iff_bijective _).2 Function.bijective_id
+  have : IsIso f := isIso_of_reflects_iso f (forget TopCat)
+  have hopen := ((TopCat.isIso_iff_isHomeomorph f).1 this).isOpenMap {ULift.up true}
+    (isOpen_discrete _)
+  have himage : (fun x => f x) '' {ULift.up true} = {ULift.up true} := Set.image_singleton
+  rw [himage] at hopen
+  rcases (TopologicalSpace.isOpen_top_iff _).1 hopen with h | h
+  · exact Set.singleton_ne_empty _ h
+  · have hmem : (ULift.up false : ULift.{u} Bool) ∈
+        ({ULift.up true} : Set (TopCat.trivial.obj (ULift.{u} Bool))) := h ▸ Set.mem_univ _
+    exact Bool.false_ne_true (congrArg ULift.down (Set.mem_singleton_iff.1 hmem))
+
+end Forget
+
+/-- **Stacks Tag 0075.** The forgetful functor `Top → Sets` is faithful and commutes with
+limits, in particular with products and equalizers (Mathlib's instances `(forget C).Faithful`
+and `TopCat.forget_preservesLimits`), but it does not reflect isomorphisms; and the analogue of
+Lemma 0073 fails for `Top`. Namely, let `X = ℕ` with the discrete topology and let `A i`,
+`i ∈ ℕ`, be discrete spaces. Then `F(U) = ∏_{i ∈ U} A i` with the discrete topology is a
+presheaf of topological spaces whose underlying presheaf of sets is a sheaf (Example 006X); if
+each `A i` has at least two elements, it is not a sheaf of topological spaces; and putting the
+product topology on each `F(U)` instead does give a sheaf of topological spaces. -/
+@[stacks 0075]
+theorem forget_topCat_not_reflectsIsomorphisms_and_presheafToDiscreteTypes :
+    (forget TopCat.{0}).Faithful ∧ Limits.PreservesLimits (forget TopCat.{0}) ∧
+      ¬ (forget TopCat.{0}).ReflectsIsomorphisms ∧
+      ∀ (A : TopCat.of ℕ → Type) [∀ i, TopologicalSpace (A i)] [∀ i, DiscreteTopology (A i)],
+        TopCat.Presheaf.IsSheaf (presheafToDiscreteTypes (TopCat.of ℕ) A ⋙ forget TopCat) ∧
+        ((∀ i, Nontrivial (A i)) → ¬ (presheafToDiscreteTypes (TopCat.of ℕ) A).IsSheaf) ∧
+        (presheafToPiTop (TopCat.of ℕ) fun i => TopCat.of (A i)).IsSheaf :=
+  ⟨inferInstance, inferInstance, not_reflectsIsomorphisms_forget_topCat,
+    fun A _ _ => ⟨isSheaf_presheafToDiscreteTypes_comp_forget _ A,
+      fun _ => not_isSheaf_presheafToDiscreteTypes _ A, isSheaf_presheafToPiTop _ _⟩⟩
+
+/-- There is a topological space `X` and a presheaf `F` of topological
 spaces on `X` whose underlying presheaf of sets is a sheaf, but which is not a sheaf of
 topological spaces: so Lemma 0073 has no analogue for `Top`, the forgetful functor
 `Top → Sets` not reflecting isomorphisms. The witness is the tag's: `X = ℕ` discrete, and
-`F(U) = ∏_{i ∈ U} Bool` with the discrete topology. -/
-@[stacks 0075, ega "0 3.1.4" "failure for top. spaces"]
+`F(U) = ∏_{i ∈ U} Bool` with the discrete topology. The full content of Stacks 0075 is
+`forget_topCat_not_reflectsIsomorphisms_and_presheafToDiscreteTypes`. -/
+@[ega "0 3.1.4" "failure for top. spaces"]
 theorem exists_presheaf_topCat_isSheaf_forget_not_isSheaf :
     ∃ (X : TopCat.{0}) (F : X.Presheaf TopCat.{0}),
       TopCat.Presheaf.IsSheaf (F ⋙ forget TopCat) ∧ ¬ TopCat.Presheaf.IsSheaf F :=

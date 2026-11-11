@@ -54,21 +54,17 @@ Writing `i : X_red ⟶ X` for the reduction's closed immersion, which is surject
   out: Tag 09NZ uses [Tag 09MS](https://stacks.math.columbia.edu/tag/09MS), whose converse half
   carries `[IsLocallyNoetherian X]`, and the remark replaces it by
   [Tag 09MW](https://stacks.math.columbia.edu/tag/09MW), which has no Noetherian hypothesis
-  because the source writes `X` as a directed limit of finite-type `ℤ`-schemes.  That limit
-  argument is not carried out in this repository:
-  `Stacks.AmpleThickeningLimit.isAmple_of_isAmple_modulePullback`, the in-tree converse half of
-  Tag 09MW, still carries `[IsLocallyNoetherian X]` together with the cohomological lift
-  `Stacks.AmpleClosedImmersion.SectionsLiftAfterPower`, and `[IsLocallyNoetherian X]` is not
-  available here.
+  because the source writes `X` as a directed limit of finite-type `ℤ`-schemes.  The converse
+  half of Tag 09MW with no Noetherian hypothesis is
+  `Stacks.AmpleThickeningLimit.isAmple_of_isAmple_modulePullback_of_isHomeomorph`.
 
-So the converse half of Tag 09MW is carried as the named hypothesis
+In this file that step is stated as the proposition
 `Stacks.AmpleNoetherianReduction.AmpleDescendsAlongThickening`, quantified over all schemes, all
-surjective closed immersions between them and all invertible modules — it is the *statement* of
-that half of Tag 09MW, not this theorem's conclusion in disguise, and it mentions no particular
-scheme.  This follows the pattern of
-`Stacks.AmpleClosedImmersion.AffineOfSurjectiveClosedImmersion` and
-`Stacks.AmpleClosedImmersion.SectionsLiftAfterPower`, the two hypotheses under which the converse
-of Tag 09MS is proved in this tree.
+surjective closed immersions between them and all invertible modules — the *statement* of that
+half of Tag 09MW — and the route below takes a proof of it as an argument.  The proposition is
+proved, as `Stacks.AmpleNoetherianReduction.ampleDescendsAlongThickening` in
+`./Unconditional.lean`, which states [Stacks, Tag 09P0] itself as
+`Stacks.AmpleNoetherianReduction.exists_isAmple_of_reduction_of_topologicalKrullDim_le_one`.
 
 ## Which ampleness predicate
 
@@ -87,10 +83,10 @@ predicate is introduced, and the reduction is written with the repository's own 
 
 ## Main results
 
-* `Stacks.AmpleNoetherianReduction.AmpleDescendsAlongThickening`: the converse half of
-  Tag 09MW, isolated as a hypothesis.
+* `Stacks.AmpleNoetherianReduction.AmpleDescendsAlongThickening`: the statement of the
+  converse half of Tag 09MW, as a proposition (proved in `./Unconditional.lean`).
 * `Stacks.AmpleNoetherianReduction.ampleDescendsAlongThickening_of_chevalley_of_sectionsLift`:
-  that hypothesis reduced to two named inputs — Chevalley's criterion for a surjective closed
+  that proposition derived from two named inputs — Chevalley's criterion for a surjective closed
   immersion with no Noetherian hypothesis, and the cohomological lift
   `Stacks.AmpleClosedImmersion.SectionsLiftAfterPower`.
 * `Stacks.AmpleNoetherianReduction.surjective_subschemeι_reduction`,
@@ -99,8 +95,8 @@ predicate is introduced, and the reduction is written with the repository's own 
 * `Stacks.AmpleNoetherianReduction.noetherianSpace_of_reduction`,
   `topologicalKrullDim_le_of_reduction`: the two topological facts about `X` that Tag 09NY needs,
   from the hypotheses on `X_red` alone.
-* `Stacks.AmpleNoetherianReduction.exists_isAmple_of_reduction`: **[Stacks, Tag 09P0]**, granted
-  `AmpleDescendsAlongThickening`.
+* `Stacks.AmpleNoetherianReduction.exists_isAmple_of_reduction`: the route of
+  [Stacks, Tag 09P0], taking a proof of `AmpleDescendsAlongThickening` as an argument.
 * `Stacks.AmpleNoetherianReduction.exists_isAmple_modules_of_reduction`: the same over the second
   Tag 01PS predicate.
 * `Stacks.AmpleNoetherianReduction.isNoetherian_reduction`, `isSeparated_reduction`,
@@ -131,33 +127,31 @@ universe u
 
 namespace Stacks.AmpleNoetherianReduction
 
-/-- **The converse half of [Stacks, Tag 09MW], isolated as a hypothesis.** For every surjective
+/-- **The converse half of [Stacks, Tag 09MW], as a proposition.** For every surjective
 closed immersion `i : Z ⟶ X` of schemes and every invertible `𝒪_X`-module `L`, ampleness of
 `i^* L` gives ampleness of `L`.
 
 This is the statement of that half of Tag 09MW and nothing more: no Noetherian hypothesis
 anywhere, which is what the source's limit argument removes from
 [Stacks, Tag 09MS], and surjectivity of a closed immersion is the source's condition that `i`
-induce a homeomorphism of underlying topological spaces.  The in-tree converse,
-`Stacks.AmpleThickeningLimit.isAmple_of_isAmple_modulePullback`, still carries
-`[IsLocallyNoetherian X]` and the cohomological lift
-`Stacks.AmpleClosedImmersion.SectionsLiftAfterPower`, so it does not discharge this. -/
+induce a homeomorphism of underlying topological spaces.  It is proved, from
+`Stacks.AmpleThickeningLimit.isAmple_of_isAmple_modulePullback_of_isHomeomorph`, as
+`Stacks.AmpleNoetherianReduction.ampleDescendsAlongThickening` in `./Unconditional.lean`. -/
 def AmpleDescendsAlongThickening : Prop :=
   ∀ (Z X : Scheme.{u}) (i : Z ⟶ X) [IsClosedImmersion i] [Surjective i]
       (L : X.Modules) [IsInvertibleModule X L],
     IsAmple Z ((modulePullback i.toLRSHom.toShHom).obj L) → IsAmple X L
 
-/-- **The carried hypothesis reduces to two named inputs.** Granted Chevalley's criterion for a
+/-- **`AmpleDescendsAlongThickening` from two named inputs.** Granted Chevalley's criterion for a
 surjective closed immersion with **no** Noetherian hypothesis, and the cohomological lift
 `Stacks.AmpleClosedImmersion.SectionsLiftAfterPower` for every surjective closed immersion and
 every invertible module, ampleness descends along a surjective closed immersion.
 
-So `Stacks.AmpleNoetherianReduction.AmpleDescendsAlongThickening` is not a black box: it is
-exactly as far from proved as the converse of [Stacks, Tag 09MS] is, with the Noetherian
-hypothesis removed from both of that converse's inputs — which is what the limit argument of
-[Stacks, Tag 09MW] exists to do.  The argument is the one
-`Stacks.AmpleClosedImmersion.isAmple_of_isAmple_modulePullback` runs, repeated here because that
-theorem spends `[IsLocallyNoetherian X]` on its appeal to
+This is a second route to `Stacks.AmpleNoetherianReduction.AmpleDescendsAlongThickening`,
+through the two inputs of the converse of [Stacks, Tag 09MS] with the Noetherian hypothesis
+removed; the proposition itself is proved directly in `./Unconditional.lean`.  The argument is
+the one `Stacks.AmpleClosedImmersion.isAmple_of_isAmple_modulePullback` runs, repeated here
+because that theorem spends `[IsLocallyNoetherian X]` on its appeal to
 `Stacks.AmpleClosedImmersion.isAffineOpen_of_isAffineOpen_preimage`, and
 `[IsLocallyNoetherian X]` is the one hypothesis [Stacks, Tag 09P0] does not have; `hchev` is
 applied to the restriction `i ∣_ X_{t'}` in its place. -/
@@ -223,14 +217,15 @@ theorem topologicalKrullDim_le_of_reduction (X : Scheme.{u})
 
 /-! ### Tag 09P0 -/
 
-/-- **[Stacks, Tag 09P0].** A scheme whose reduction is a Noetherian separated scheme of
-dimension at most one has an ample invertible sheaf, granted the converse half of
-[Stacks, Tag 09MW].
+/-- **The route of [Stacks, Tag 09P0].** A scheme whose reduction is a Noetherian separated
+scheme of dimension at most one has an ample invertible sheaf, given a proof `hdesc` of the
+converse half of [Stacks, Tag 09MW].  The tag itself is
+`Stacks.AmpleNoetherianReduction.exists_isAmple_of_reduction_of_topologicalKrullDim_le_one`, which
+supplies `hdesc`.
 
 The hypotheses are on the reduction only; `X` itself is not assumed Noetherian, which is exactly
 what distinguishes this from [Stacks, Tag 09NZ] and what forces Tag 09MW in place of
 [Stacks, Tag 09MS]. -/
-@[stacks 09P0 "granted the converse half of Tag 09MW as `AmpleDescendsAlongThickening`"]
 theorem exists_isAmple_of_reduction (X : Scheme.{u})
     (hdesc : AmpleDescendsAlongThickening.{u})
     [IsNoetherian (vanishingIdeal (⊤ : Closeds X)).subscheme]

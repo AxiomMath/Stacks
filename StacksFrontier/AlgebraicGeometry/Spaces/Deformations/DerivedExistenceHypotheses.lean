@@ -11,8 +11,10 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Properness.ProperClosedSub
 Tag 0DIR proposes a generalization of Grothendieck's existence theorem in its derived form for
 algebraic spaces (Tag 0DIQ) in which the structure morphism `X → Spec A` is assumed only
 separated and of finite presentation, and each `Kₙ` only pseudo-coherent relative to `Aₙ` and
-supported on a closed subset of `Xₙ` proper over `Aₙ`. The source calls that generalization
-probable and gives no precise statement of it.
+supported on a closed subset of `Xₙ` proper over `Aₙ`. Its precise form and proof, for `X` flat,
+are in `StacksFrontier.AlgebraicGeometry.Spaces.Deformations.DerivedExistenceSupported` and
+`…DerivedExistenceSupportedAffine`; without flatness it fails
+(`StacksFrontier.Examples.Spaces.DerivedExistenceNotFlat`).
 
 What is proved here is the comparison of hypotheses on the geometry. In a situation of
 Tag 0DIK the structure morphism `X → Spec A` is proper, hence separated, and is of finite
@@ -38,12 +40,13 @@ that subset. Its inclusion into the ambient space is proper unconditionally, by
 `AlgebraicGeometry.Space.isProper_ι_reducedClosedSubspace`, so the general statement is that
 inclusion composed with a proper morphism, which is Tag 04XY.
 
-The comparison stops at the geometry. Pseudo-coherence relative to `Aₙ` is Tag 0CSY, which the
-library has only for schemes, and the identification of pseudo-coherence on `Xₙ` with
-pseudo-coherence relative to `Aₙ` for a flat morphism of finite presentation (Tag 0DII) is
-available only in the case of schemes; so the condition the generalization places on `Kₙ` cannot
-be compared with the pseudo-coherence hypothesis of Tag 0DIK. The generalized theorem itself is
-not stated here, the source declining to state it.
+The comparison here stops at the geometry. Pseudo-coherence relative to `Aₙ` is Tag 0CSY,
+`AlgebraicGeometry.Space.IsRelativelyPseudoCoherent`, and its identification with
+pseudo-coherence on `Xₙ` for a flat morphism locally of finite presentation (Tag 0DII) is
+`AlgebraicGeometry.Space.isRelativelyPseudoCoherent_iff_isPseudoCoherent`; the comparison of the
+condition the generalization places on `Kₙ` with the pseudo-coherence hypothesis of Tag 0DIK
+through those results is not carried out in this file. The generalized theorem is stated and
+proved elsewhere (see above).
 
 ## References
 
@@ -85,8 +88,6 @@ variable (D : DerivedExistenceSituation.{u})
 /-- In a situation of Stacks 0DIK the structure morphism `X → Spec A` is separated, being
 proper, and is of finite presentation: the two conditions that the generalization proposed in
 Stacks 0DIR places on `X` hold. -/
-@[stacks 0DIR "comparison of hypotheses on X only; the generalization is merely probable \
-in the source, which gives no precise statement of it, and is not proved here"]
 theorem isSeparated_and_isFinitePresentation :
     IsSeparated D.B (limitBase D.system) D.containsLimitBase D.X.hom.hom ∧
       IsFinitePresentation D.B (limitBase D.system) D.containsLimitBase D.X.hom.hom :=
@@ -95,8 +96,6 @@ theorem isSeparated_and_isFinitePresentation :
 /-- In a situation of Stacks 0DIK every closed subset of the infinitesimal base change `Xₙ` is
 proper over `Spec Aₙ`, since `Xₙ → Spec Aₙ` is proper: the support condition that the
 generalization proposed in Stacks 0DIR places on `Kₙ` holds for every object of `D(𝒪_{Xₙ})`. -/
-@[stacks 0DIR "comparison of hypotheses on Xₙ only; the generalization is merely probable \
-in the source, which gives no precise statement of it, and is not proved here"]
 theorem isProperOver_stageProjection (n : ℕ)
     (T : Set (points D.B (limitBase D.system) D.containsLimitBase
       (spaceAt D.system D.B D.containsLimitBase D.containsBaseAt D.X n).1))

@@ -27,13 +27,19 @@ What that construction is, as an identity between bivariant classes, is
 
   `p^* ∘ c(Z ⟶ X, 𝒩) = ι_* ∘ j^* ∘ C`,
 
-and this file formalizes that relation for a virtual normal bundle of constant rank `r`, proves
-that it determines the class, and builds the class: `Stacks.Chow.virtualNormalGysinClass` is an
-element of `A^r(Z ⟶ X)` whose cap operation is the prescribed one. The class `ι_* ∘ j^* ∘ C` is
-carried as `E` and the flat pullback `p^*` along the base change of the bundle projection is
-carried as `π`; of the three naturality laws of Stacks 0B76 the proper-pushforward one is
-proved and the other two are carried, in the idiom the library uses for its own first Chern
-class. See the implementation notes.
+and this file studies that relation abstractly, for a virtual normal bundle of constant rank `r`:
+the class `ι_* ∘ j^* ∘ C` is a parameter `E` and the flat pullback `p^*` along the base change of
+the bundle projection a parameter `π`. It proves that the relation determines the class, and
+assembles, from the prescribed cap operation and the flat and Gysin laws written for it,
+an element `Stacks.Chow.virtualNormalGysinClass` of `A^r(Z ⟶ X)`.
+
+The class of Stacks 0FBK itself, with `C`, `j`, `ι`, `p^*` and the bijectivity of Stacks 02TY all
+constructed, is `Stacks.Chow.virtualNormalBundleClass` of
+`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.VirtualNormalBundleClassConstruction` and
+`Stacks.Chow.VirtualNormalBundle.virtualNormalClass` at constant rank, and
+`Stacks.Chow.VirtualNormalBundle.completedClass` in `A^*(Z ⟶ X)^∧` at arbitrary rank; the
+statement of the tag, base-change clause included, is
+`StacksFrontier.AlgebraicGeometry.Chow.VirtualNormalClass.Statement`.
 
 ## Main definitions
 
@@ -43,7 +49,7 @@ class. See the implementation notes.
 * `Stacks.Chow.VirtualNormalBundleProjection` — the geometric input of the construction: a
   virtual normal bundle of constant rank `r` for `i`, together with a flat morphism of relative
   dimension `r` standing for the projection of the vector bundle it defines.
-* `Stacks.Chow.IsVirtualNormalGysinClass` — **Stacks 0FBK**, the characterizing relation
+* `Stacks.Chow.IsVirtualNormalGysinClass` — the characterizing relation
   `p^* ∘ c = ι_* ∘ j^* ∘ C` of the construction: on every test scheme, capping with `c` and then
   applying the flat pullback of the bundle projection is capping with `ι_* j^* C`.
 * `Stacks.Chow.virtualNormalGysinCap` — the cap operation `α ↦ β` the construction prescribes,
@@ -51,136 +57,62 @@ class. See the implementation notes.
 * `Stacks.Chow.PiProperNaturality` — Stacks 02RG for the base-change square of the bundle
   projection, the one input the proper-pushforward law needs beyond the laws of `E`.
 * `Stacks.Chow.TransportFlatNaturality`, `Stacks.Chow.TransportGysinNaturality` — the flat and
-  Gysin laws of Stacks 0B76 written for the prescribed cap operation, carried as hypotheses.
-* `Stacks.Chow.virtualNormalGysinClass` — **Stacks 0FBK**, the class `c(Z ⟶ X, 𝒩) ∈ A^r(Z ⟶ X)`.
+  Gysin laws of Stacks 0B76 written for the prescribed cap operation.
+* `Stacks.Chow.virtualNormalGysinClass` — the element of `A^r(Z ⟶ X)` with the prescribed cap
+  operation, given those two laws.
 
 ## Main results
 
-* `Stacks.Chow.eq_of_isVirtualNormalGysinClass` — **Stacks 0FBK**: the relation pins the class
+* `Stacks.Chow.eq_of_isVirtualNormalGysinClass` — the relation pins the class
   down. Any two bivariant classes in `A^r(Z ⟶ X)` satisfying it are equal, so `c(Z ⟶ X, 𝒩)` is
   well defined.
 * `Stacks.Chow.pi_virtualNormalGysinCap` — the prescribed cap operation satisfies the relation,
   so the relation is not vacuous as a condition on cap operations.
 * `Stacks.Chow.isVirtualNormalGysinClass_iff_cap_eq` — a bivariant class satisfies the relation
   exactly when its cap operation is the prescribed one.
-* `Stacks.Chow.isVirtualNormalGysinClass_virtualNormalGysinClass` — **Stacks 0FBK**: the
-  constructed class satisfies the relation, so with the uniqueness above it *is* the class
-  `c(Z ⟶ X, 𝒩)` of the construction and not merely some element of `A^r(Z ⟶ X)`.
+* `Stacks.Chow.isVirtualNormalGysinClass_virtualNormalGysinClass` — the assembled class
+  satisfies the relation.
 
 ## Implementation notes
 
-### Why the construction is a division and not a composition
+### The relation on cap operations
 
-The source defines `c(Z ⟶ X, 𝒩)` by the relation `p^* ∘ c = ι_* ∘ j^* ∘ C` between composites
-of bivariant classes. Composition of bivariant classes is *not* constructible in this
-repository: `Stacks.Chow.IsBivariantClassComposition` records the characterizing property
-of a composite but produces none, the Gysin naturality of Stacks 0B76 for the composite cap
-operation being unproved. Writing the relation as a composition would therefore make it
-unstatable.
-
-So the relation is written on cap operations instead, where no composite is needed. On a test
-scheme `g : T ⟶ X` the three cap operations involved are
+The relation is written on cap operations. On a test scheme `g : T ⟶ X` the three cap
+operations involved are
 
   `c ∩ - : A_k(T) ⟶ A_{k-r}(Z ×_X T)`,  `E ∩ - : A_k(T) ⟶ A_{k-e}(N ×_X T)`,
   `π : A_{k-r}(Z ×_X T) ⟶ A_{k-e}(N ×_X T)`,
 
-and the relation is the equality `π (c ∩ α) = E ∩ α`. This is the `Stacks.Chow` idiom for a
-construction whose existence is out of reach, and it is the shape of
-`Stacks.Chow.IsBivariantClassComposition`; as there, the uniqueness statement
-`Stacks.Chow.eq_of_isVirtualNormalGysinClass` is the content that is independent of existence.
+and the relation is the equality `π (c ∩ α) = E ∩ α`. No transport of degrees appears: the
+degrees `k - r` and `k - e` are those of the cap operations themselves, so the relation is a
+homogeneous equality and not an `HEq`. That is the reason for writing the target degree of `π`
+as `k - e` rather than as `(k - r) + r`.
 
-Note that no transport of degrees appears: the degrees `k - r` and `k - e` are those of the cap
-operations themselves, so the relation is a homogeneous equality and not an `HEq`. That is the
-reason for carrying `π` with its target degree written as `k - e` rather than as `(k - r) + r`.
+### The parameters
 
-### The absent inputs, and that none of them is the conclusion
-
-* `E` is the bivariant class `ι_* ∘ j^* ∘ C` for `N ⟶ X`. Its three inputs are absent. The
-  class `C` of Stacks 0F9J is not in this repository — "the relative projective line of Stacks
-  02S5 with its two sections and its standard affine chart is not available in a form the
-  bivariant machinery can consume", as
-  `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.SpecializationProperPushforward` records while
-  carrying `C` as a hypothesis for the same reason; the blowup of Stacks 0FBG and the open
-  immersion `j` of Stacks 0FBH are absent entirely; and `ι_*` is the proper pushforward of
-  bivariant classes of Stacks 0EPK. So `E` is an arbitrary bivariant class of degree `e` for
-  `N ⟶ X`. It is a class for `N ⟶ X`, not for `Z ⟶ X`, so it is not the conclusion.
-* `π` is the flat pullback along `Stacks.Chow.bundleTestBaseChange`, the base change of the
-  bundle projection. Its naturality is exactly the assertion that `p^*` is a bivariant class,
-  which *is* proved in this repository — `Stacks.Chow.flatPullbackBivariantClass`, Stacks 0B78 —
-  but at the pullback `N ×_Z (Z ×_X T)` rather than at `N ×_X T`, which the construction needs;
-  the two are identified by `CategoryTheory.Limits.pullbackRightPullbackFstIso` and that
-  identification is not carried out here. So `π` is an arbitrary family of additive maps of the
-  displayed types. Being a family of maps between Chow groups, it says nothing about bivariance
-  for `Z ⟶ X`.
-* Injectivity, resp. bijectivity, of `π` is Stacks 02TY, flat pullback along a vector bundle
-  projection being an isomorphism on Chow groups. In this repository that is proved only in rank
-  zero, where the projection is an isomorphism
-  (`Stacks.Chow.flatPullbackChow_bijective_of_isAffineSpaceBundle_zero`), and rank `≥ 1` is
-  recorded there as unreachable. It is the hypothesis the source itself cites at this point. It
-  is a statement about flat pullback on Chow groups and mentions no bivariant class.
+* `E` is an arbitrary bivariant class of degree `e` for `N ⟶ X`, standing in the place of
+  `ι_* ∘ j^* ∘ C`; the genuine class is `Stacks.Chow.virtualNormalConeClass`.
+* `π` is an arbitrary family of additive maps of the displayed types, standing in the place of
+  flat pullback along `Stacks.Chow.bundleTestBaseChange`; the genuine family is
+  `Stacks.Chow.bundleFlatPullbackChow`, whose bijectivity (Stacks 02TY) is
+  `Stacks.Chow.bijective_bundleFlatPullbackChow`.
 * The projection `p : N ⟶ Z` is a field of `Stacks.Chow.VirtualNormalBundleProjection`, which
-  asks of it only flatness and relative dimension the rank of `𝒩`. The vector bundle
-  `Spec_Z(Sym(𝒩^∨))` itself exists here, as `AlgebraicGeometry.Scheme.Modules.vectorBundle`,
-  but is not connected to the Chow development: neither flatness nor the relative dimension of
-  `vectorBundleToBase` is available, so the bundle cannot be fed to
-  `Stacks.Chow.flatPullbackChow` and the projection has to be axiomatized by the two properties
-  of it that the construction uses.
+  asks of it only flatness and relative dimension the rank of `𝒩`.
 
-None of these is the conclusion: none of them is a bivariant class for `Z ⟶ X`, and none asserts
-that one exists. In particular bijectivity of `π` is asked of it as a map of *Chow* groups, on
-each test scheme separately. Asking it of `π` as a map of *bivariant* groups would be the
-conclusion in disguise, since surjectivity there plus `E` would hand over an element of
-`A^r(Z ⟶ X)` with no naturality proved at all.
+None of these is a bivariant class for `Z ⟶ X`, and none asserts that one exists. Bijectivity of
+`π` is asked of it as a map of *Chow* groups, on each test scheme separately.
 
-### The three laws of Stacks 0B76: one proved, two carried
+### The three laws of Stacks 0B76 for the prescribed cap operation
 
-The proper-pushforward law of `Stacks.Chow.virtualNormalGysinCap` is **proved**, in
-`Stacks.Chow.virtualNormalGysinClass`. The argument is the source's "since both `ι_* ∘ j^* ∘ C`
-and `p^*` are bivariant", carried out: apply the injectivity of `π`, rewrite the left side by the
-characterizing relation, move `π` past the pushforward by `Stacks.Chow.PiProperNaturality`, and
-what remains is the proper-pushforward law of `E` at the canonical base-change map
-`Stacks.Chow.bivariantBaseChangeMap`, whose cartesian square and compatibility with the
-projection are `Stacks.Chow.isPullback_bivariantBaseChangeMap` and
-`Stacks.Chow.bivariantBaseChangeMap_comp_fst`. The descent of proper pushforward to Chow groups
-at the `N`-side map, Stacks 02S2, is the standing hypothesis
-`Stacks.Chow.ProperPushforwardDescends`, as it is for `Stacks.Chow.bivariantCompositeCap`.
-
-The flat and Gysin laws are **carried**, as `Stacks.Chow.TransportFlatNaturality` and
-`Stacks.Chow.TransportGysinNaturality`. This is the idiom the library already uses for its own
-constructions of this shape: `Stacks.Chow.firstChernClass` carries the flat and Gysin transports
-of Stacks 0FDW in exactly this form, through
-`Stacks.Chow.IdentityCapRule.TransportFlatNaturality` and
-`Stacks.Chow.IdentityCapRule.TransportGysinNaturality`. The precedent is only partial on the
-other side: `Stacks.Chow.rankBivariantClass` carries, for Stacks 0ESW, the Gysin transport
-*alone*. Its flat transport is proved, by
-`Stacks.Chow.transportFlatNaturality_identityCapRuleZero`, because the degree-zero identity rule
-it is built from is the rule of
-`StacksFrontier.AlgebraicGeometry.Chow.DiagonalGysinIdentity`, whose flat law is the isomorphism
-case of Stacks 02RG. That route is specific to the identity rule and does not transfer to the
-prescribed cap operation below. Each law is the corresponding field of
-`Stacks.Chow.BivariantClass` with the cap operation replaced by the prescribed one, so each is a
-statement *about the prescribed cap operation* and not about any other object; that is what the
-attribute keys below disclose. The same two transports would follow from the two remaining
-naturality properties of `π` exactly as the proper one does, and are carried rather than reduced
-to those because the flat law is an `HEq` and the Gysin law carries a divisor identification,
-so neither reduction is the three-line rewrite the proper one is.
-
-### What is not delivered
-
-The base-change clause, Stacks 0FBJ, is not proved. Its statement needs the bivariant restriction
-of Stacks 0F9Z, and its proof reduces by the same injectivity to the base-change compatibility of
-`E`, which is a statement about the absent `C`.
-
-The constant-rank clause is delivered by the typing: `Stacks.Chow.IsVirtualNormalGysinClass` is
-a predicate on `Stacks.Chow.BivariantClass C G sZ sX i hi (r : ℤ)`, that is on `A^r(Z ⟶ X)`, and
-`r` is the rank of `𝒩`, tied to the geometry by the two fields
-`Stacks.Chow.VirtualNormalBundleProjection.rank` and
-`Stacks.Chow.VirtualNormalBundleProjection.relativeDimension`. That the degree must be `r` and
-nothing else is forced by the relation: the flat pullback `p^*` raises degrees by the relative
-dimension `r` of the projection, so the source degree of `π` is `k - r`. The general-rank
-clause, which places the class in the completed group `A^*(Z ⟶ X)^∧` of
-`Stacks.Chow.completedBivariantGroup`, is not delivered: it needs the decomposition of Stacks
-0FDZ over the connected components of `Z` and a rank constant only on each of them.
+The proper-pushforward law of `Stacks.Chow.virtualNormalGysinCap` is proved, in
+`Stacks.Chow.virtualNormalGysinClass`, from the proper-pushforward law of `E` and
+`Stacks.Chow.PiProperNaturality`: apply the injectivity of `π`, rewrite the left side by the
+characterizing relation, move `π` past the pushforward, and what remains is the
+proper-pushforward law of `E` at the canonical base-change map
+`Stacks.Chow.bivariantBaseChangeMap`. The flat and Gysin laws are the hypotheses
+`Stacks.Chow.TransportFlatNaturality` and `Stacks.Chow.TransportGysinNaturality` of the abstract
+assembly; for the genuine `E` and `π` the class is constructed with all three laws proved, as
+`Stacks.Chow.virtualNormalBundleClass`.
 
 ### The degree of `E` is arbitrary
 
@@ -258,11 +190,10 @@ normal bundle `𝒩` of Stacks 0FBQ for the immersion `i : Z ⟶ X` which has co
 together with the projection `q : N ⟶ Z` of the vector bundle `N = Spec_Z(Sym(𝒩^∨))` that `𝒩`
 defines, of which only flatness and relative dimension `r` are recorded.
 
-The vector bundle itself is available in this repository, as
-`AlgebraicGeometry.Scheme.Modules.vectorBundle`, but neither its flatness nor its relative
-dimension is; so the projection is a field here rather than a construction. See the
-implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.VirtualNormalBundleClass`. -/
+The projection is a field here, so that the abstract relation of this file can be stated for any
+flat morphism of relative dimension `r`. For the genuine projection of the vector bundle these
+two properties are `Stacks.Chow.VirtualNormalBundle.flat_projection_of_rank` and
+`Stacks.Chow.VirtualNormalBundle.relativeDimension_projection_of_rank`. -/
 structure VirtualNormalBundleProjection {Z X N : Scheme.{u}} (i : Z ⟶ X) [IsImmersion i]
     (q : N ⟶ Z) [LocallyOfFiniteType q] (r : ℕ) where
   /-- The virtual normal bundle `𝒩` for `i`, Stacks 0FBQ. -/
@@ -291,7 +222,7 @@ variable (C : ChowSituation.{u}) (G : GysinSystem C) {Z X N : Scheme.{u}}
     chowGroup C (pullback.fst i g ≫ sZ) (k - (r : ℤ)) →+
       chowGroup C (pullback.fst (q ≫ i) g ≫ sN) (k - e))
 
-/-- **Stacks 0FBK.** The relation `p^* ∘ c(Z ⟶ X, 𝒩) = ι_* ∘ j^* ∘ C` that the construction
+/-- The relation `p^* ∘ c(Z ⟶ X, 𝒩) = ι_* ∘ j^* ∘ C` that the construction
 preceding Stacks 0FBK defines the class by, written on cap operations: on every test scheme
 `g : T ⟶ X` and in every degree, capping with `c` and then applying the flat pullback `π` of the
 bundle projection is capping with the class `E = ι_* ∘ j^* ∘ C`.
@@ -305,22 +236,16 @@ The virtual normal bundle enters through the setting argument `_P`, which is wha
 relation to the situation of Stacks 0FBK: it may be formed only when `i` admits a virtual normal
 bundle of constant rank `r` whose vector bundle projection is `q`. The relation itself is a
 condition on `c` alone, so `_P` does not occur in it. -/
-@[stacks 0FBK "the characterizing relation p^* ∘ c = ι_* ∘ j^* ∘ C of the construction, on a \
-degree-r bivariant class for r the rank of 𝒩, with ι_* j^* C carried as E (Stacks 0F9J, 0FBG, \
-0FBH absent) and the flat pullback of the bundle projection carried as π (Stacks 0B78 holds at \
-the other pullback); the bivariance laws and the Stacks 0FBJ base change are not proved"]
 def IsVirtualNormalGysinClass (_P : VirtualNormalBundleProjection i q r)
     (c : BivariantClass C G sZ sX i hi (r : ℤ)) : Prop :=
   ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ) (α : chowGroup C (g ≫ sX) k),
     π g k (c.cap g k α) = E.cap g k α
 
-/-- **Stacks 0FBK.** The relation determines the class: two bivariant classes of degree `r` for
+/-- The relation determines the class: two bivariant classes of degree `r` for
 `Z ⟶ X` which both satisfy it are equal. This is what makes `c(Z ⟶ X, 𝒩)` well defined, and it
 is the content of the construction that does not depend on the class existing. Only injectivity
 of `π` is used, which is the half of Stacks 02TY that the uniqueness assertion of the
 construction rests on. -/
-@[stacks 0FBK "uniqueness: the characterizing relation determines the class in A^r(Z ⟶ X), \
-given injectivity of π (Stacks 02TY)"]
 theorem eq_of_isVirtualNormalGysinClass (P : VirtualNormalBundleProjection i q r)
     (hπ : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),
       Function.Injective (π g k))
@@ -333,9 +258,7 @@ theorem eq_of_isVirtualNormalGysinClass (P : VirtualNormalBundleProjection i q r
 
 /-- The cap operation the construction preceding Stacks 0FBK prescribes: `α ↦ β` where `β` is
 the unique class with `p^* β = ι_* j^* (C ∩ α)`, that is `(p^*)^{-1} ∘ (ι_* ∘ j^* ∘ C)`. The
-inverse exists by Stacks 02TY, carried as bijectivity of `π`. -/
-@[stacks 0FBK "the prescribed cap operation α ↦ β of the construction, as the inverse of π \
-(Stacks 02TY) applied to the cap operation of E"]
+inverse exists when `π` is bijective, which for the genuine flat pullback is Stacks 02TY. -/
 def virtualNormalGysinCap
     (hπ : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),
       Function.Bijective (π g k))
@@ -347,7 +270,6 @@ omit [IsImmersion i] in
 /-- The prescribed cap operation satisfies the characterizing relation,
 `p^* β = ι_* j^* (C ∩ α)`. So the relation is a consistent condition on cap operations, and the
 only thing a bivariant class satisfying it adds to the prescribed operation is bivariance. -/
-@[stacks 0FBK "the prescribed cap operation satisfies the characterizing relation"]
 theorem pi_virtualNormalGysinCap
     (hπ : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),
       Function.Bijective (π g k))
@@ -356,13 +278,11 @@ theorem pi_virtualNormalGysinCap
     π g k (virtualNormalGysinCap C G sZ sX sN i hi q hq r e E π hπ g k α) = E.cap g k α :=
   (AddEquiv.ofBijective (π g k) (hπ g k)).apply_symm_apply (E.cap g k α)
 
-/-- **Stacks 0FBK.** A bivariant class of degree `r` for `Z ⟶ X` satisfies the characterizing
+/-- A bivariant class of degree `r` for `Z ⟶ X` satisfies the characterizing
 relation exactly when its cap operation is the prescribed one. Together with
 `Stacks.Chow.eq_of_isVirtualNormalGysinClass` this says that the construction leaves no freedom:
 the class, if it exists, is the bivariant class whose cap operation is
 `Stacks.Chow.virtualNormalGysinCap`. -/
-@[stacks 0FBK "the relation holds exactly for a class whose cap operation is the prescribed \
-one"]
 theorem isVirtualNormalGysinClass_iff_cap_eq (P : VirtualNormalBundleProjection i q r)
     (hπ : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),
       Function.Bijective (π g k))
@@ -395,10 +315,8 @@ forward along the induced map of the `N`-side base changes.
 
 This is the one input the proper-pushforward law of the prescribed cap operation needs beyond
 the laws of `E`. It is a statement about flat pullback against proper pushforward in a
-cartesian square, Stacks 02RG, which no declaration in this repository carries — the same gap
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FirstChernClass` records for the flat transport of
-the first Chern class. It mentions neither the prescribed cap operation nor any bivariant class
-for `Z ⟶ X`. -/
+cartesian square, Stacks 02RG, for the abstract family `π`. It mentions neither the prescribed
+cap operation nor any bivariant class for `Z ⟶ X`. -/
 def PiProperNaturality : Prop :=
   ∀ {T T' : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (h : T' ⟶ T) [IsProper h]
       (h' : pullback i (h ≫ g) ⟶ pullback i g)
@@ -426,8 +344,8 @@ class of degree `r` for `i : Z ⟶ X`, written for `Stacks.Chow.virtualNormalGys
 `flat_naturality` field of `Stacks.Chow.BivariantClass` with its cap operation replaced by the
 prescribed one.
 
-Carried as a hypothesis, in the idiom of
-`Stacks.Chow.IdentityCapRule.TransportFlatNaturality`. It is an `HEq` for the reason recorded in
+It is stated in the idiom of `Stacks.Chow.IdentityCapRule.TransportFlatNaturality`, as an `HEq`
+for the reason recorded in
 the implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Basic`: the flat
 pullback of a `k`-cycle has degree `k + m`, so the two sides sit in degrees `(k + m) - r` and
 `(k - r) + m`, which are the same integer and not the same term. -/
@@ -463,8 +381,8 @@ degree `r` for `i : Z ⟶ X`, written for `Stacks.Chow.virtualNormalGysinCap`: t
 `gysin_naturality` field of `Stacks.Chow.BivariantClass` with its cap operation replaced by the
 prescribed one.
 
-Carried as a hypothesis, in the idiom of
-`Stacks.Chow.IdentityCapRule.TransportGysinNaturality`. The identification of the base change of
+It is stated in the idiom of `Stacks.Chow.IdentityCapRule.TransportGysinNaturality`. The
+identification of the base change of
 the zero scheme `D ⊆ T` with the zero scheme of the pulled-back section is the isomorphism `ε`,
 and the induced map on Chow groups is proper pushforward along `ε.hom`, exactly as in the field
 itself. -/
@@ -500,31 +418,18 @@ def TransportGysinNaturality
 
 /-! ### The class -/
 
-/-- **Stacks 0FBK.** The bivariant class `c(Z ⟶ X, 𝒩) ∈ A^r(Z ⟶ X)` of the construction
-preceding Stacks 0FBK: the prescribed cap operation `(p^*)^{-1} ∘ (ι_* ∘ j^* ∘ C)` together with
-the three naturality laws of Stacks 0B76.
+/-- The element of `A^r(Z ⟶ X)` with the cap operation `(p^*)^{-1} ∘ (ι_* ∘ j^* ∘ C)` that the
+construction preceding Stacks 0FBK prescribes, assembled for the abstract `E` and `π` from the
+three naturality laws of Stacks 0B76 written for that cap operation.
 
-The proper-pushforward law is **proved**, from the corresponding law of `E` and
+The proper-pushforward law is proved, from the corresponding law of `E` and
 `Stacks.Chow.PiProperNaturality`: this is the source's "since both `ι_* ∘ j^* ∘ C` and `p^*` are
-bivariant", carried out. The flat and Gysin laws are carried as hypotheses, in the idiom the
-library uses for its own rank class at Stacks 0ESW.
-
-The library is not of one mind about attaching a `@[stacks]` attribute to a class that carries
-laws this way, and the choice made here is deliberate. The rank class of Stacks 0ESW is tagged,
-with the carrying disclosed in its key; the first Chern class built the same way in
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FirstChernClass` is deliberately left *untagged*,
-under a section heading saying so. The attribute below follows the rank class: what it claims is
-the statement as written, hypotheses included, and the hypotheses are named in the signature and
-disclosed in the key, so nothing is hidden by tagging it. A reader who prefers the stricter
-convention loses only the attribute, not the mathematics.
+bivariant", carried out. The flat and Gysin laws are the hypotheses `hflat` and `hgysin`. For
+the genuine `E = ι_* ∘ j^* ∘ C` and `π = p^*` the class is constructed with no such hypotheses as
+`Stacks.Chow.virtualNormalBundleClass`.
 
 Its cap operation satisfies the characterizing relation, by
-`Stacks.Chow.isVirtualNormalGysinClass_virtualNormalGysinClass`, so by
-`Stacks.Chow.eq_of_isVirtualNormalGysinClass` it is *the* class of the construction. -/
-@[stacks 0FBK "the bivariant element of A^r(Z ⟶ X) prescribed by the construction, with its \
-proper-pushforward law proved from the same law for E and Stacks 02RG for the bundle \
-base-change square; the flat and Gysin transport laws are carried as named hypotheses, as for \
-the library's own rank class at Tag 0ESW"]
+`Stacks.Chow.isVirtualNormalGysinClass_virtualNormalGysinClass`. -/
 def virtualNormalGysinClass (_P : VirtualNormalBundleProjection i q r)
     (hpp : ProperPushforwardDescends C)
     (hπ : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),
@@ -550,12 +455,9 @@ def virtualNormalGysinClass (_P : VirtualNormalBundleProjection i q r)
     intro T₀ g₀ _ L₀ _ s₀ k₀ _ _ _ _ ε₀ hε₀ hbase₀ α₀
     exact hgysin g₀ L₀ s₀ k₀ ε₀ hε₀ hbase₀ _ α₀
 
-/-- **Stacks 0FBK.** The constructed class satisfies the characterizing relation
+/-- The assembled class satisfies the characterizing relation
 `p^* ∘ c = ι_* ∘ j^* ∘ C`. With `Stacks.Chow.eq_of_isVirtualNormalGysinClass` this identifies it
-as the class `c(Z ⟶ X, 𝒩)` of the construction, and not merely as some element of
-`A^r(Z ⟶ X)`. -/
-@[stacks 0FBK "the constructed element of A^r(Z ⟶ X) satisfies the characterizing relation, \
-hence is the one the construction prescribes"]
+as the unique class satisfying the relation. -/
 theorem isVirtualNormalGysinClass_virtualNormalGysinClass
     (P : VirtualNormalBundleProjection i q r) (hpp : ProperPushforwardDescends C)
     (hπ : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),

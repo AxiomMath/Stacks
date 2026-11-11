@@ -23,6 +23,8 @@ and (3) of Stacks 02ZI for `p'` are conditions (2) and (3) of Stacks 026F for `p
 
 ## Main results
 
+* `CategoryTheory.Functor.isFiberedInGroupoids_stronglyCartesianOver`: the restriction of a fibred
+  category to its strongly cartesian morphisms is fibred in groupoids (Stacks 03WQ).
 * `CategoryTheory.Functor.IsStack.isStackInGroupoids_stronglyCartesianOver`: the category fibred in
   groupoids associated to a stack is a stack in groupoids (Stacks 03YI).
 
@@ -409,6 +411,21 @@ theorem isFiberedInGroupoids (p : 𝒮 ⥤ 𝒞) [p.IsFibered]
 end
 
 end StronglyCartesianWide
+
+/-- **The category fibred in groupoids associated to a fibred category** (Stacks 03WQ). Let
+`p : 𝒮 ⥤ 𝒞` be a fibred category, and let `𝒮'` be the subcategory of `𝒮` with the same objects
+whose morphisms are the strongly cartesian morphisms of `𝒮`, a subcategory because identities are
+strongly cartesian and strongly cartesian morphisms compose
+(`stronglyCartesianOver_isMultiplicative`). Then the restriction `p' : 𝒮' ⥤ 𝒞` of `p` to `𝒮'` is
+fibred in groupoids. -/
+@[stacks 03WQ]
+theorem isFiberedInGroupoids_stronglyCartesianOver (p : 𝒮 ⥤ 𝒞) [p.IsFibered] :
+    haveI : (stronglyCartesianOver p).IsMultiplicative :=
+      stronglyCartesianOver_isMultiplicative p
+    (wideSubcategoryInclusion (stronglyCartesianOver p) ⋙ p).IsFiberedInGroupoids :=
+  haveI : (stronglyCartesianOver p).IsMultiplicative :=
+    stronglyCartesianOver_isMultiplicative p
+  StronglyCartesianWide.isFiberedInGroupoids p
 
 /-- **The category fibred in groupoids associated to a stack is a stack in groupoids.** Let
 `(𝒞, J)` be a site and let `p : 𝒮 ⥤ 𝒞` be a stack (Stacks 026F). Let `p' : 𝒮' ⥤ 𝒞` be the category

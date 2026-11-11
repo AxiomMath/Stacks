@@ -13,9 +13,11 @@ import StacksCore.Tactic.StacksAttribute
 Let `j : U ⟶ X` be a separated étale morphism of quasi-compact and quasi-separated schemes and
 let `Λ` be a ring. The derived upper shriek `Rj^! : D(X_étale, Λ) ⥤ D(U_étale, Λ)` of
 [Stacks, Tag 0G2C], the right adjoint of the derived lower shriek `Rj_! = Rj̄_* ∘ j'_!` of a
-compactification `j = j̄ ∘ j'`, is the inverse image `j^{-1}`, [Stacks, Tag 0GL9]. The proof of
-the source: both `Rj^!` and `j^{-1}` are right adjoint to `Rj_! = j_!`, by [Stacks, Tag 0GL8] and
-[Stacks, Tag 0F5A].
+compactification `j = j̄ ∘ j'`, is the inverse image `j^{-1}`, when the compactification is one
+with `j̄` finite. The proof of the source of [Stacks, Tag 0GL9]: both `Rj^!` and `j^{-1}` are right
+adjoint to `Rj_! = j_!`, by [Stacks, Tag 0GL8] and [Stacks, Tag 0F5A]. [Stacks, Tag 0GL9] itself,
+for every compactification, is
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedUpperShriek.EtaleInverseImage`.
 
 ## Main results
 
@@ -31,11 +33,13 @@ All in the namespace `AlgebraicGeometry.SmallEtale`.
 * `compactificationRightAdjointIsoPullbackMod` — for a compactification `j = j̄ ∘ j'` of an
   étale `j` with `j'` an open immersion and `j̄` finite, every right adjoint of
   `Rj_! = Rj̄_* ∘ j'_!` is isomorphic to `j^{-1}`.
-* `exists_compactification_rightAdjointIso_pullbackMod_mapDerivedCategory` —
-  **[Stacks, Tag 0GL9]**: for `j` separated and étale with `U` quasi-compact and `X`
-  quasi-compact and quasi-separated, `j` has a compactification `j = j̄ ∘ j'` with `j̄` finite,
-  the functor `Rj_! = Rj̄_* ∘ j'_!` of it is a left adjoint, and every right adjoint `Rj^!` of it
-  is isomorphic to `j^{-1} : D(X_étale, Λ) ⥤ D(U_étale, Λ)`.
+* `exists_compactification_rightAdjointIso_pullbackMod_mapDerivedCategory` — for `j`
+  separated and étale with `U` quasi-compact and `X` quasi-compact and quasi-separated, `j` has a
+  compactification `j = j̄ ∘ j'` with `j̄` *finite*, the functor `Rj_! = Rj̄_* ∘ j'_!` of it is a
+  left adjoint, and every right adjoint `Rj^!` of it is isomorphic to
+  `j^{-1} : D(X_étale, Λ) ⥤ D(U_étale, Λ)`. This is [Stacks, Tag 0GL9] for that one
+  compactification only; the statement for every compactification is
+  `Stacks.EtaleCohomology.derivedUpperShriekUnboundedIsoInverseImage`.
 
 ## Implementation notes
 
@@ -133,17 +137,19 @@ def compactificationRightAdjointIsoPullbackMod
 
 end Compactification
 
-/-- **[Stacks, Tag 0GL9].** Let `j : U ⟶ X` be a separated étale morphism of a big étale site
-with `U` quasi-compact and `X` quasi-compact and quasi-separated, and let `Λ` be a ring. Then
-`j` factors as an open immersion `j' : U ⟶ X̄` followed by a finite morphism `j̄ : X̄ ⟶ X`
-(Zariski's main theorem), and for every model of `D(X̄_étale, Λ)` and every total right derived
-functor `Rj̄_*` of `j̄_*`, the derived lower shriek `Rj_! = Rj̄_* ∘ j'_!` of [Stacks, Tag 0G2C]
-has a right adjoint, and every right adjoint `Rj^!` of it is isomorphic to the inverse image
+/-- Let `j : U ⟶ X` be a separated étale morphism of a big étale site with `U` quasi-compact and
+`X` quasi-compact and quasi-separated, and let `Λ` be a ring. Then `j` factors as an open
+immersion `j' : U ⟶ X̄` followed by a finite morphism `j̄ : X̄ ⟶ X` (Zariski's main theorem), and
+for every model of `D(X̄_étale, Λ)` and every total right derived functor `Rj̄_*` of `j̄_*`, the
+derived lower shriek `Rj_! = Rj̄_* ∘ j'_!` of this compactification has a right adjoint, and every
+right adjoint `Rj^!` of it is isomorphic to the inverse image
 `j^{-1} : D(X_étale, Λ) ⥤ D(U_étale, Λ)`.
 
-The compactification is produced, not assumed. -/
-@[stacks 0GL9 "Rj^! of Tag 0G2C is j^{-1}, for every right adjoint of Rj_!",
-  ega "IV 18.12.13" "special case"]
+This is [Stacks, Tag 0GL9] for the one compactification it produces, with `j̄` finite. The source
+takes `Rj^!` to be the right adjoint of `Rj_!` for an arbitrary compactification (canonical by
+[Stacks, Tag 0F7I]); that statement, for every compactification, is
+`Stacks.EtaleCohomology.derivedUpperShriekUnboundedIsoInverseImage`. -/
+@[ega "IV 18.12.13" "special case"]
 theorem exists_compactification_rightAdjointIso_pullbackMod_mapDerivedCategory
     (B : BigEtaleSite.{u}) (Λ : Type u) [Ring Λ] {U X : B.Scheme} (j : U ⟶ X)
     [IsSeparated (B.inclusion.map j)] [Etale (B.inclusion.map j)]

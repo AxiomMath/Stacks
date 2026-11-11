@@ -43,6 +43,17 @@ Tag 0B4Y]). The duality isomorphisms used are
 adjunction `Rf_* ⊣ f^!` and the vanishing of `R^i f_*` above degree one (the fibres of `f` have
 dimension at most one).
 
+*The instance `[IsLocallyNoetherian S.X]`* is no hypothesis of the source: `X` is of finite type
+over the Noetherian ring `A`, and the instance
+`AlgebraicGeometry.RationalSingularitySituation.isLocallyNoetherian_X` supplies it in every
+situation; it is a variable here only because that instance lives in a module downstream of this
+one.
+
+*The earlier formulation.* `AlgebraicGeometry.RationalSingularitySituation.bijective_trace`
+(`DualizingTrace.lean`) proves bijectivity of an arbitrary map `D.trace` under a hypothesis `D`
+equivalent to the conclusion (`nonempty_dualizingTraceSequence_iff`), for an arbitrary dualizing
+`ω_X`; it carries no tag. The tag sits here, on the genuine trace of the normalized `ω_X`.
+
 *The existence of `ω_X`* — that `f^!(ω_A[2])` is a dualizing complex concentrated in degree `-2` —
 is the content of [Stacks, Remark 0B4R] and [Stacks, Example 0AWI] and is not part of this tag.
 

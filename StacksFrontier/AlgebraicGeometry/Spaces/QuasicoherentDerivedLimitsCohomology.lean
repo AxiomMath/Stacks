@@ -38,6 +38,9 @@ cohomology sheaves and surjectivity of the transition maps between them.
 * `AlgebraicGeometry.Space.hasProductsOfShape_nat_derivedCategory_modules`: `D(𝒪_X)` has
   countable products, which is what lets clause (1) speak of a derived inverse limit without
   assuming one exists.
+* `AlgebraicGeometry.Space.isIso_of_isDerivedLimit_truncGETower_ringUniverse`:
+  **[Stacks, Tag 08F6]**, `E = R lim τ_{≥ -n} E` for `E` in `D_QCoh(𝒪_X)`, stated here because
+  the countable product of the tower is supplied by the previous item.
 
 ## Implementation notes
 
@@ -295,6 +298,44 @@ theorem isZero_cohomology_limit_homology_of_isAffineChart_unconditional
       isZero_rightDerived_sectionsFunctor_of_isAffineChart B S hS F hF M hM V hV)
     (epi_sectionsFunctor_map_of_isQuasicoherentOnSite B S hS F hF)
     q U hU p hp
+
+/-- **Stacks Project, Tag 08F6.**  Let `S` be a scheme, let `X` be an algebraic space over `S` and
+let `E` be an object of `D_QCoh(𝒪_X)`.  Then the canonical map from `E` to a derived limit `L` of
+the tower `n ↦ τ_{≥ -n} E` of canonical truncations from below is an isomorphism.
+
+The derived limit is presented by its structural morphism `p` to the product of the tower together
+with the distinguished triangle `hL` characterising it, and the map `c` out of `E` is the canonical
+one because its composites with the product projections are required to be the truncation maps.
+The product exists by `AlgebraicGeometry.Space.hasProductsOfShape_nat_derivedCategory_modules`, so
+the only hypothesis is the quasi-coherence of the cohomology sheaves of `E`. -/
+@[stacks 08F6 "the source's statement: E in D_QCoh is the derived limit of its truncations \
+τ_{≥ -n} E.  The source's two inputs are theorems of this library: the affine étale charts cover \
+the small étale site (04JS) and a quasi-coherent module has no higher cohomology on an affine \
+étale chart (the étale-site analogue of 01XB); the countable product of the tower exists in \
+D(𝒪_X).  The module universe is the universe of the structure rings"]
+theorem isIso_of_isDerivedLimit_truncGETower_ringUniverse
+    (E : DerivedCategory (Modules.{u, u} B S hS F hF))
+    (hE : ∀ q : ℤ, ((DerivedCategory.homologyFunctor
+      (Modules.{u, u} B S hS F hF) q).obj E).IsQuasicoherentOnSite)
+    (L : DerivedCategory (Modules.{u, u} B S hS F hF))
+    (c : E ⟶ L)
+    (p : L ⟶ ∏ᶜ fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
+      (Modules.{u, u} B S hS F hF) E).obj ⟨n⟩)
+    (δ : (∏ᶜ fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
+      (Modules.{u, u} B S hS F hF) E).obj ⟨n⟩) ⟶ L⟦(1 : ℤ)⟧)
+    (hL : Triangle.mk p (Pi.lift fun n : ℕ ↦
+      Pi.π (fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
+        (Modules.{u, u} B S hS F hF) E).obj ⟨n⟩) n -
+        Pi.π (fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
+          (Modules.{u, u} B S hS F hF) E).obj ⟨n⟩) (n + 1) ≫
+          (Stacks.DerivedLimit.truncGETower
+            (Modules.{u, u} B S hS F hF) E).map (homOfLE (Nat.le_succ n)).op) δ ∈
+        distTriang (DerivedCategory (Modules.{u, u} B S hS F hF)))
+    (hc : ∀ n : ℕ, c ≫ p ≫ Pi.π (fun n : ℕ ↦ (Stacks.DerivedLimit.truncGETower
+      (Modules.{u, u} B S hS F hF) E).obj ⟨n⟩) n =
+        (DerivedCategory.TStructure.t.truncGEπ (-(n : ℤ))).app E) :
+    IsIso c :=
+  isIso_of_isDerivedLimit_truncGETower_unconditional B S hS F hF E hE L c p δ hL hc
 
 end AlgebraicGeometry.Space
 

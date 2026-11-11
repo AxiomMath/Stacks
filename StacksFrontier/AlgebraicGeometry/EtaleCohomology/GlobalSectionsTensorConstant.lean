@@ -12,7 +12,6 @@ public import Mathlib.LinearAlgebra.TensorProduct.Map
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import StacksFrontier.AlgebraicGeometry.EilenbergWatts.Devissage
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.DirectSumsOfEtaleCohomology
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Pulling a flat constant coefficient group out of étale cohomology
@@ -63,12 +62,14 @@ free `ℤ`-modules of finite rank, where it is additivity of cohomology over a f
 
 ## Implementation notes
 
-*What is proved and what is not.* The source states its lemma for arbitrary `E ∈ D⁺(X_étale)`
-and `K ∈ D⁺(ℤ)` and reduces it, through stupid truncations, to the case of a single sheaf and a
-single flat module. Only that case is proved here. The reduction needs a derived tensor product
-of abelian sheaves on a site and a derived constant-coefficient functor
-`D⁺(ℤ) ⥤ D⁺(X_étale)`; neither is available, so the general statement cannot yet be written
-down, let alone proved. The hypotheses on `ℰ` and `M` are explicit binders below.
+*Relation to the full statement.* The source states its lemma for arbitrary
+`E ∈ D⁺(X_étale)` and `K ∈ D⁺(ℤ)` and reduces it, through stupid truncations, to the case of a
+single sheaf and a single flat module, which is the case treated in this file, for abelian
+sheaves. The full statement, for the derived tensor product of sheaves of modules over the
+lifted integers and the derived constant sheaf on complexes, is
+`nonempty_derivedSections_tensor_derivedConstantSheaf_iso` (namespace
+`Stacks.EtaleCohomology.DerivedTensorConstant`) in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.DerivedGlobalSectionsTensorConstant`.
 
 *Flatness rather than Lazard's theorem.* The source invokes Lazard's theorem to present a flat
 module as a filtered colimit of free modules of finite rank. Over `ℤ` the presentation is
@@ -587,10 +588,6 @@ finitely generated subgroups, which are free of finite rank because `M` is torsi
 comparison is invertible there by additivity of cohomology over a finite direct sum; and both
 sides commute with the filtered colimit, the left because `- ⊗_ℤ M` is a left adjoint and the
 right by [Stacks, Tag 03Q5]. -/
-@[stacks 0F0E "steps 6-8 of the proof only: the case where `E` in `D⁺(X_étale)` is a single
-abelian sheaf in one degree and `K` in `D⁺(ℤ)` is a single flat `ℤ`-module in one degree, both
-carried as explicit hypotheses, so that the assertion reads `H^p(X, E ⊗_ℤ K̲) = H^p(X, E) ⊗_ℤ K`;
-the reductions of steps 1-5 and the statement for general `E` and `K` are not proved here"]
 theorem isIso_etaleTensorConstComparison (X : Scheme.{u})
     [CompactSpace X] [QuasiSeparatedSpace X] (p : ℕ)
     (E : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})

@@ -28,14 +28,14 @@ That identification is made in two steps: `pullbackSpecIso` turns the closed fib
 `B`-algebra with `B ⧸ I B`.  Both steps change the base-change morphism only by composition with an
 isomorphism, which is absorbed by the three transport lemmas proved first.
 
-The general — proper, not merely finite — case of Tag 0GS2 is reduced to *essential surjectivity*
-alone in `StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence`; that
-remaining input is Grothendieck existence over a complete Noetherian ring together with Artin
-approximation, and none of it is used or available here.  What this file contributes to that
-reduction is a witness for its hypothesis:
-`finiteEtaleBaseChange_essSurj_of_isFinite_of_henselianPair` discharges, for every finite `f`, the
-family of essential-surjectivity statements that
-`isEquivalence_finiteEtaleBaseChange_of_isProper_of_henselianPair_of_essSurj` assumes.
+The general — proper, not merely finite — case of Tag 0GS2 is
+`isEquivalence_finiteEtaleBaseChange_of_isProper_of_henselianPair` in
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperHenselianPair`; it uses
+Grothendieck existence and Artin approximation, none of which is needed here.  The general case is
+reduced to *essential surjectivity* by
+`isEquivalence_finiteEtaleBaseChange_of_isProper_of_henselianPair_of_essSurj`, and
+`finiteEtaleBaseChange_essSurj_of_isFinite_of_henselianPair` proves that family of
+essential-surjectivity statements directly for a finite `f`.
 
 ## Main results
 
@@ -170,10 +170,9 @@ between the two base-change morphisms are absorbed by the transport lemmas: the 
 composite is rebracketed by `pullbackRightPullbackFstIso`, and a pullback projection along the
 isomorphism `X.isoSpec.hom` is itself that isomorphism's inverse precomposed with an isomorphism.
 
-This is the case of Tag 0GS2 in which properness is used only through finiteness: no
-algebraization — neither Grothendieck existence nor Artin approximation — enters. -/
-@[stacks 0GS2 "for a finite morphism `f : X ⟶ Spec A`, which is the case of a proper `f` in \
-which no algebraization is needed"]
+This is the finite case of Tag 0GS2, in which no algebraization — neither Grothendieck existence
+nor Artin approximation — enters. The full statement, for any proper `f`, is
+`isEquivalence_finiteEtaleBaseChange_of_isProper_of_henselianPair`. -/
 theorem isEquivalence_finiteEtaleBaseChange_of_isFinite_of_henselianPair
     (A : Type u) [CommRing A] (I : Ideal A) (hI : HenselianPair A I)
     {X : Scheme.{u}} (f : X ⟶ Spec (.of A)) [IsFinite f] :

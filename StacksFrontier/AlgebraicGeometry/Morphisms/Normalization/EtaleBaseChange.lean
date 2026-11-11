@@ -108,8 +108,8 @@ private theorem mem_genericPoints_pullback_snd
 /-- Let `φ : X ⟶ Y` be an étale morphism of schemes and assume every quasi-compact open of `Y` has
 finitely many irreducible components. Then the square formed by the normalization morphisms of `X`
 and `Y`, the morphism of normalizations induced by `φ` and `φ` itself is cartesian, that is,
-`X^ν = X ×_Y Y^ν`. -/
-@[stacks 07TD "the isomorphism `X^ν = X ×_Y Y^ν`, for an étale morphism"]
+`X^ν = X ×_Y Y^ν`. This is the case of an étale morphism of [Stacks, Tag 07TD], whose full
+statement is `AlgebraicGeometry.existsUnique_normalizationScheme_iso_pullback_of_smooth`. -/
 theorem isPullback_normalizationSchemeMap_of_etale :
     IsPullback
       (normalizationSchemeMap φ (finite_irreducibleComponents_of_smooth φ hY) hY)

@@ -201,7 +201,8 @@ the one-dimensional Noetherian local ring `A_𝔮`, applied to the images of `f`
 
 The proof is the source's: writing `f = a / b`, `g = c / d` expands the sum into four reciprocity
 sums of Stacks 0EAW, each of which vanishes. -/
-@[stacks 0EAX "for every two-dimensional Noetherian local ring, on the total ring of fractions"]
+@[stacks 02QJ "generalization: for every two-dimensional Noetherian local ring, on the total ring \
+of fractions"]
 theorem finsum_heightOneOrd_tameSymbol_totalFraction_eq_zero [IsLocalRing A]
     (hdim : ringKrullDim A = 2) (f g : (FractionRing A)ˣ) :
     ∑ᶠ p : HeightOnePrime A, heightOneOrd hdim p

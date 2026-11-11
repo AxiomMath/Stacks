@@ -286,8 +286,10 @@ It is the map of [Stacks Project, Tag 01R4] applied to the square
 `(Z ⊂ Z') → (W ⊂ W')`, namely `Stacks.ClosedImmersion.conormalSheafMap`, which for the
 inclusions of thickenings needs no reduction of immersions to closed immersions and no quotient
 by the square of the defining ideal. Its characterising property is
-`Stacks.ClosedImmersion.conormalSheafMap_comp_pullback_ι`. -/
-@[stacks 04F7 "the induced morphism of conormal sheaves"]
+`Stacks.ClosedImmersion.conormalSheafMap_comp_pullback_ι`. Read through
+`Stacks.Immersion.conormalSheafSelfIso` between the conormal sheaves of
+`Stacks.Thickenings.universalConormalSheaf`, it is
+`Stacks.Thickenings.universalConormalSheafPullbackMap`, which carries the tag. -/
 noncomputable def universalConormalSheafMap
     (tZ : UniversalFirstOrderThickening h) (tW : UniversalFirstOrderThickening h')
     (f : Z ⟶ W) (g : X ⟶ Y) (comm : h ≫ g = f ≫ h') :

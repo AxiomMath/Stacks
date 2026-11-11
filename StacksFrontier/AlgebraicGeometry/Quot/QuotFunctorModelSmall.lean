@@ -12,8 +12,8 @@ A section of the Quot presheaf `AlgebraicGeometry.Space.QuotSituation.quotSitePr
 scheme `T` of the big fppf site is a morphism `T ⟶ B` together with a quotient of `F_T`, recorded
 by its kernel, a subobject of `F_T`. Such sections form a set in the universe of the site: the
 morphisms `T ⟶ B` are the points of `B` over `T`, and the subobjects of a sheaf of modules on the
-small étale site of `X_T` form a small set. Hence the size clause of Stacks 09TU holds with no
-hypothesis.
+small étale site of `X_T` form a small set. Hence the Quot presheaf always has a model in the
+universe of the site, the form in which Stacks 09TU is stated.
 
 ## Main definitions
 
@@ -59,7 +59,7 @@ def quotFamilyOverEquivSigma (T : BigFppfOver B S hS) :
   left_inv _ := rfl
   right_inv _ := rfl
 
-/-- **The Quot presheaf has a model in the universe of the site** (the size clause of
+/-- **The Quot presheaf has a model in the universe of the site** (an auxiliary step towards
 Stacks 09TU): a presheaf of `Type u` whose sections over every scheme of the site are exactly the
 sections of the Quot presheaf of Stacks 09TR and whose morphism to `B` is the canonical one. -/
 theorem exists_quotSitePresheafModel :

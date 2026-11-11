@@ -33,8 +33,8 @@ local section to the differential of its pullback.
   `f^* Ω_{X/S} ⟶ Ω_{X'/S'}`.
 * `AlgebraicGeometry.SheafOfModules.inverseImageToPullback`: the canonical morphism from the
   inverse image of a module to the restriction of its extension of scalars.
-* `AlgebraicGeometry.SheafOfModules.inverseImageDifferentialMap`: the canonical morphism
-  `f⁻¹Ω_{X/S} ⟶ Ω_{X'/S'}` of `f⁻¹𝒪_X`-modules.
+* `AlgebraicGeometry.SheafOfModules.inverseImageDifferentialMap`: the composite
+  `f⁻¹Ω_{X/S} ⟶ f^*Ω_{X/S} ⟶ Ω_{X'/S'}` of the tensor-unit map with the canonical morphism.
 
 ## Main results
 
@@ -45,15 +45,16 @@ local section to the differential of its pullback.
   of the canonical morphism of differentials.
 * `AlgebraicGeometry.SheafOfModules.differentialMap_adjoint`: the pullback description and
   the pushforward description of that morphism correspond under the adjunction.
-* `AlgebraicGeometry.SheafOfModules.inverseImageDifferentialMap_eq`: the inverse-image
-  morphism factors the scalar-extended one through the canonical comparison.
 
 ## Implementation notes
 
 The characterizing condition is stated on the adjoint morphism into the pushforward of the
 differentials, which simultaneously pins down the pullback and the pushforward descriptions.
 The inverse-image description is a morphism of modules over `f⁻¹𝒪_X`, with the target carrying
-its scalars restricted along `f⁻¹𝒪_X ⟶ 𝒪_{X'}`.
+its scalars restricted along `f⁻¹𝒪_X ⟶ 𝒪_{X'}`. `inverseImageDifferentialMap` is defined
+through the canonical morphism; the map that Stacks builds independently from Tags 08RR and
+08RS, and its agreement with the canonical morphism, are in
+`StacksFrontier.Topology.Sheaves.Modules.Differentials.InverseImageFunctoriality`.
 
 The structural morphism `h⁻¹ 𝒪_S ⟶ 𝒪_X` and the comorphism `𝒪_S ⟶ h_* 𝒪_X` it is adjoint to
 are `Stacks.Sheaves.RingedSpaceDifferentials.inverseImageStructureMap` and
@@ -83,7 +84,7 @@ namespace AlgebraicGeometry.SheafOfModules
 
 /-- The inverse image functor on sheaves of commutative rings is compatible with
 composition. -/
-private noncomputable def pullbackCompIso {A B C : TopCat.{u}} (f : A ⟶ B) (g : B ⟶ C) :
+noncomputable def pullbackCompIso {A B C : TopCat.{u}} (f : A ⟶ B) (g : B ⟶ C) :
     TopCat.Sheaf.pullback CommRingCat (f ≫ g) ≅
       TopCat.Sheaf.pullback CommRingCat g ⋙ TopCat.Sheaf.pullback CommRingCat f :=
   Adjunction.leftAdjointUniq
@@ -136,21 +137,22 @@ private theorem inverseImageStructureMap_comp {A B C : RingedSpace.{u, u}} (f : 
     (f.hom.base ≫ g.hom.base)).homEquiv C.sheaf A.sheaf).symm q) hcomp)
 
 /-- The underlying continuous maps of a commutative square of ringed spaces commute. -/
-private theorem baseComm {X' X S' S : RingedSpace.{u, u}} (f : X' ⟶ X) (h : X ⟶ S)
+theorem comp_base_eq_of_comp_eq {X' X S' S : RingedSpace.{u, u}} (f : X' ⟶ X) (h : X ⟶ S)
     (h' : X' ⟶ S') (g : S' ⟶ S) (hcomm : f ≫ h = h' ≫ g) :
     f.hom.base ≫ h.hom.base = h'.hom.base ≫ g.hom.base := by
   simpa only [AlgebraicGeometry.SheafedSpace.comp_hom_base] using
     congrArg (fun q => q.hom.base) hcomm
 
 /-- The base-change morphism `f⁻¹h⁻¹𝒪_S ⟶ h'⁻¹𝒪_{S'}` of a commutative square. -/
-private noncomputable def inverseImageBaseChangeMap {X' X S' S : RingedSpace.{u, u}}
+noncomputable def inverseImageBaseChangeMap {X' X S' S : RingedSpace.{u, u}}
     (f : X' ⟶ X) (h : X ⟶ S) (h' : X' ⟶ S') (g : S' ⟶ S) (hcomm : f ≫ h = h' ≫ g) :
     (TopCat.Sheaf.pullback CommRingCat f.hom.base).obj
         ((TopCat.Sheaf.pullback CommRingCat h.hom.base).obj S.sheaf) ⟶
       (TopCat.Sheaf.pullback CommRingCat h'.hom.base).obj S'.sheaf :=
   (pullbackCompIso f.hom.base h.hom.base).inv.app S.sheaf ≫
     eqToHom (congrArg (fun q : X'.carrier ⟶ S.carrier =>
-      (TopCat.Sheaf.pullback CommRingCat q).obj S.sheaf) (baseComm f h h' g hcomm)) ≫
+      (TopCat.Sheaf.pullback CommRingCat q).obj S.sheaf)
+      (comp_base_eq_of_comp_eq f h h' g hcomm)) ≫
     (pullbackCompIso h'.hom.base g.hom.base).hom.app S.sheaf ≫
     (TopCat.Sheaf.pullback CommRingCat h'.hom.base).map (inverseImageStructureMap g)
 
@@ -173,6 +175,27 @@ private theorem inverseImageStructureMap_cast {X S : RingedSpace.{u, u}} (p q : 
         inverseImageStructureMap q = inverseImageStructureMap p := by
   cases hpq
   rfl
+
+/-- The square of sheaves of commutative rings on `X'` attached to a commutative square of
+ringed spaces commutes:
+```
+  f⁻¹h⁻¹𝒪_S ---> f⁻¹𝒪_X
+      |             |
+      v             v
+  h'⁻¹𝒪_{S'} --->  𝒪_{X'}
+```
+-/
+theorem inverseImageBaseChangeMap_comm {X' X S' S : RingedSpace.{u, u}}
+    (f : X' ⟶ X) (h : X ⟶ S) (h' : X' ⟶ S') (g : S' ⟶ S) (hcomm : f ≫ h = h' ≫ g) :
+    (TopCat.Sheaf.pullback CommRingCat f.hom.base).map (inverseImageStructureMap h) ≫
+        inverseImageStructureMap f =
+      inverseImageBaseChangeMap f h h' g hcomm ≫ inverseImageStructureMap h' := by
+  refine (cancel_epi ((pullbackCompIso f.hom.base h.hom.base).hom.app S.sheaf)).mp ?_
+  rw [inverseImageStructureMap_comp f h]
+  dsimp only [inverseImageBaseChangeMap]
+  simp only [Category.assoc, Iso.hom_inv_id_app_assoc]
+  rw [inverseImageStructureMap_comp h' g]
+  exact (inverseImageStructureMap_cast (f ≫ h) (h' ≫ g) hcomm).symm
 
 /-- The base-change morphism of a commutative square makes the square of structural
 morphisms commute. -/
@@ -207,12 +230,7 @@ private theorem inverseImageBaseChangeStructureMap_compat {X' X S' S : RingedSpa
         congr 1
         simp [inverseImageBaseChangeStructureMap, adj]
   rw [hleft, hright]
-  refine (cancel_epi ((pullbackCompIso f.hom.base h.hom.base).hom.app S.sheaf)).mp ?_
-  rw [inverseImageStructureMap_comp f h]
-  dsimp only [inverseImageBaseChangeMap]
-  simp only [Category.assoc, Iso.hom_inv_id_app_assoc]
-  rw [inverseImageStructureMap_comp h' g]
-  exact (inverseImageStructureMap_cast (f ≫ h) (h' ≫ g) hcomm).symm
+  exact inverseImageBaseChangeMap_comm f h h' g hcomm
 
 /-- The composite of `f^♯` with the pushforward of the universal derivation is an
 `S`-derivation, and it is the unique one whose value on every local section `a` is the
@@ -415,7 +433,7 @@ noncomputable abbrev inverseImageDifferentialTarget {X' X S' : RingedSpace.{u, u
 
 /-- The inverse-image structural morphism of sheaves of rings is the pushforward transpose of
 the structure morphism of `f`. -/
-private theorem inverseImageRingHom_comp_structureSheafHom {X' X : RingedSpace.{u, u}}
+theorem inverseImageRingHom_comp_structureSheafHom {X' X : RingedSpace.{u, u}}
     (f : X' ⟶ X) :
     inverseImageRingHom f.hom.base X.sheaf ≫
       ((RingedSpaceModuleAdjunction.opensMap f).sheafPushforwardContinuous RingCat
@@ -556,9 +574,12 @@ noncomputable def inverseImageToPullback {X' X : RingedSpace.{u, u}} (f : X' ⟶
         ((RingedSpaceModuleAdjunction.modulePullback f).obj M) :=
   Classical.choose (existsUnique_inverseImageToPullback f M)
 
-/-- The canonical map `f⁻¹Ω_{X/S} ⟶ Ω_{X'/S'}` of `f⁻¹𝒪_X`-modules.
-The target carries its restricted scalar action. -/
-@[stacks 08RU "inverse-image map"]
+/-- The composite `f⁻¹Ω_{X/S} ⟶ f^*Ω_{X/S} ⟶ Ω_{X'/S'}` of `f⁻¹𝒪_X`-modules: the tensor-unit
+map `inverseImageToPullback` followed by the canonical map `c_f = differentialMap`, the target
+carrying its scalars restricted along `f⁻¹𝒪_X ⟶ 𝒪_{X'}`. It is defined through `c_f`; the map
+that Stacks builds independently from Tags 08RR and 08RS is
+`inverseImageDifferentialMapOfFunctoriality`, and the two agree by
+`inverseImageToPullback_comp_differentialMap`. -/
 noncomputable def inverseImageDifferentialMap {X' X S' S : RingedSpace.{u, u}}
     (f : X' ⟶ X) (h : X ⟶ S) (h' : X' ⟶ S') (g : S' ⟶ S) (hcomm : f ≫ h = h' ≫ g) :
     inverseImageModule f.hom.base X.sheaf
@@ -568,9 +589,9 @@ noncomputable def inverseImageDifferentialMap {X' X S' S : RingedSpace.{u, u}}
     (_root_.SheafOfModules.restrictScalars (inverseImageStructureRingMap f)).map
       (differentialMap f h h' g hcomm)
 
-/-- The inverse-image differential map is the restriction of the scalar-extended
-map `c_f`, after the canonical tensor-unit map `f⁻¹Ω ⟶ f*Ω`. -/
-@[stacks 08RU "inverse-image and tensor comparison"]
+/-- Unfolding `inverseImageDifferentialMap`: it is, by definition, the tensor-unit map
+`f⁻¹Ω ⟶ f^*Ω` followed by `c_f`. This is a definitional restatement, not the agreement of
+Tag 08RU, which is `inverseImageToPullback_comp_differentialMap`. -/
 theorem inverseImageDifferentialMap_eq {X' X S' S : RingedSpace.{u, u}}
     (f : X' ⟶ X) (h : X ⟶ S) (h' : X' ⟶ S') (g : S' ⟶ S) (hcomm : f ≫ h = h' ≫ g) :
     inverseImageDifferentialMap f h h' g hcomm =

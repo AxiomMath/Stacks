@@ -7,11 +7,13 @@ public import Mathlib.CategoryTheory.Sites.LocallySurjective
 
 ## Main results
 
-* `Hypothesis`: the section-lifting form of the hypothesis of Stacks 04D7.
-* `preservesEpi`: under that hypothesis the pushforward
-  `u.sheafPushforwardContinuous _ J K` preserves epimorphisms (Stacks 04D7).
+* `Hypothesis`, `preservesEpi`: an auxiliary section-lifting condition, which
+  is the local surjectivity of `u_* η` written out, and the (formal) fact that
+  it makes the pushforward preserve epimorphisms.
 
-Tags covered: 04D7.
+Stacks 04D7 itself, under its factorization hypothesis, is
+`isLocallySurjective_sheafPushforwardContinuous_map` in
+`StacksFrontier.CategoryTheory.Sites.Topos.PreservesEpiFactorization`.
 -/
 
 @[expose] public section
@@ -20,26 +22,18 @@ open CategoryTheory CategoryTheory.Limits Opposite
 
 universe u₁ v₁ u₂ v₂
 
-/-- Section-lifting form of the Stacks Tag 04D7 hypothesis for a continuous
-functor `u : C ⥤ D` between sites `(C, J)` and `(D, K)`.
+/-- An auxiliary section-lifting condition on a continuous functor
+`u : C ⥤ D` between sites `(C, J)` and `(D, K)`: for every `K`-locally
+surjective morphism `η : F ⟶ G` of sheaves of types on `(D, K)`, every object
+`U : C`, and every section `s` of `G` over `u(U)`, there exists a `J`-covering
+family `{f i : W i ⟶ U}_{i : I}` of `U` and sections `τ i` of `F` over
+`u (W i)` such that `η` sends `τ i` to the restriction of `s` along
+`u (f i)`.
 
-This is the operational content of the classical Stacks 04D7 condition:
-for every `K`-locally surjective morphism `η : F ⟶ G` of sheaves of types
-on `(D, K)`, every object `U : C`, and every section `s` of `G` over `u(U)`,
-there exists a `J`-covering family `{f i : W i ⟶ U}_{i : I}` of `U` and
-sections `τ i` of `F` over `u (W i)` such that `η` sends `τ i` to the
-restriction of `s` along `u (f i)`.
-
-This reformulates the categorical factorization condition from Stacks 04D7
-(that for every `K`-cover `{V j → u(U)}` there exists a `J`-cover
-`{W i → U}` such that `∐ h_{u(W i)}^# → h_{u(U)}^#` factors through
-`∐ h_{V j}^# → h_{u(U)}^#`) in a form usable directly with Mathlib's
-`Sheaf.IsLocallySurjective` API. The two formulations are equivalent for
-sheaves of types via Yoneda and the universal property of sheafification:
-the categorical factorization condition produces, for every section `s`
-witnessing local surjectivity, the section-lifts above; conversely, given
-section-lifts one recovers the factorization map from a sheafified
-coproduct of representables. -/
+This is the local surjectivity of every `u_* η` written out on sections; it is
+not the hypothesis of Stacks 04D7, which is `FactorizationCondition`. The
+implication from Stacks' condition to this one is
+`hypothesis_of_factorizationCondition`. -/
 def Hypothesis
     {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
     (u : C ⥤ D) (J : GrothendieckTopology C) (K : GrothendieckTopology D) :
@@ -53,17 +47,14 @@ def Hypothesis
         η.hom.app (op (u.obj (W i))) τ
           = G.obj.map (u.map (f i)).op s
 
-/-- **Stacks 04D7.**
-
-Let `u : C ⥤ D` be a continuous functor between sites `(C, J)` and
-`(D, K)`. Assume `u` satisfies the section-lifting hypothesis of Stacks
-04D7 (`Hypothesis u J K`): for every `K`-locally surjective morphism of
-type-valued sheaves on `(D, K)` and every section on `u(U)`, sections lift
-locally on a `J`-cover of `U`. Then the pushforward functor
+/-- Let `u : C ⥤ D` be a continuous functor between sites `(C, J)` and
+`(D, K)` satisfying the auxiliary section-lifting condition `Hypothesis u J K`.
+Then the pushforward functor
 `u.sheafPushforwardContinuous (Type max u₂ v₂) J K : Sheaf K _ ⥤ Sheaf J _`
-preserves epimorphisms, i.e. transforms surjective maps of sheaves into
-surjective maps of sheaves. -/
-@[stacks 04D7]
+preserves epimorphisms. Since `Hypothesis u J K` is the local surjectivity of
+the pushforwards of locally surjective maps, this is a formal step; the
+statement of Stacks 04D7, under its own hypothesis, is
+`isLocallySurjective_sheafPushforwardContinuous_map`. -/
 theorem preservesEpi
     {C : Type u₁} [Category.{v₁} C] {D : Type u₂} [Category.{v₂} D]
     (u : C ⥤ D) (J : GrothendieckTopology C) (K : GrothendieckTopology D)

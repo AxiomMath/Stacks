@@ -27,7 +27,8 @@ strict (Stacks 08M9) and let `𝒢'` be an `O'`-module flat over `O_{ℬ'}`. Thi
 
 the identification of the two coefficient modules that the source's one-line proof of
 Stacks 08MR — "combine Lemmas 08MP and 08MQ" — appeals to. This is
-`Deformation.ToposThickening.IsIdealProductTensorIso`, until now carried as a hypothesis.
+`Deformation.ToposThickening.IsIdealProductTensorIso`, the argument that
+`Deformation.ToposThickening.moduleMapLift_torsor_of_isFlat` takes, proved here.
 
 ## Main results
 
@@ -118,7 +119,15 @@ variable {X : RingedTopos.{v, u, w}} {X' : RingedTopos.{v', u', w}}
   [S'.J.HasSheafCompose (forget AddCommGrpCat.{wS'})]
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify S.J AddCommGrpCat.{wS}] [S.J.WEqualsLocallyBijective AddCommGrpCat.{wS}]
-  [HasSheafify X'.J AddCommGrpCat.{w}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+
+/-! ### The comparison `f^*J = i^*((f')^*J)`
+
+The pullback along `f'` needs only the weak sheafification of abelian sheaves on `Sh(D)`, which
+these declarations take as an instance argument. -/
+
+section PullbackComparison
+
+variable [HasWeakSheafify X'.J AddCommGrpCat.{w}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   (i : RingedToposHom X X') (t : RingedToposHom S S')
   (f : RingedToposHom X S) (f' : RingedToposHom X' S')
   (hi : FirstOrderThickening i) (ht : FirstOrderThickening t)
@@ -132,6 +141,16 @@ noncomputable abbrev reducedPullbackModule : SheafOfModules.{w}
     (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)) :=
   (pushforwardModuleFunctor i.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj
     ((pullbackModules i.toRingedToposModulesHom).obj G')
+
+omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
+/-- The two spellings of `f^*t^*J`: `Deformation.ToposThickening.basePullbackIdeal`, the pullback
+along `t.toRingedToposModulesHom` and `f.toRingedToposModulesHom`, is the pullback along
+`t.toModulesHom` and `f.toModulesHom`. -/
+theorem basePullbackIdeal_eq_pullbackModules_toModulesHom :
+    basePullbackIdeal t f ht = (pullbackModules f.toModulesHom).obj
+      ((pullbackModules t.toModulesHom).obj ht.idealOfThickening.I) := by
+  rw [f.toModulesHom_eq_toRingedToposModulesHom, t.toModulesHom_eq_toRingedToposModulesHom]
+  rfl
 
 include comm in
 /-- **`f^*J = i^*((f')^*J)`**, the comparison of the two iterated pullbacks of `J` around the
@@ -148,11 +167,22 @@ noncomputable def basePullbackIdealIsoPullback :
   have key := (MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht
     comm).pullbackComparison.app ht.idealOfThickening.I
   rw [← i.toModulesHom_eq_toRingedToposModulesHom]
-  refine Iso.trans (eqToIso (show basePullbackIdeal t f ht =
-      (pullbackModules f.toModulesHom).obj
-        ((pullbackModules t.toModulesHom).obj ht.idealOfThickening.I) from ?_)) key.symm
-  rw [f.toModulesHom_eq_toRingedToposModulesHom, t.toModulesHom_eq_toRingedToposModulesHom]
-  rfl
+  exact eqToIso (basePullbackIdeal_eq_pullbackModules_toModulesHom t f ht) ≪≫ key.symm
+
+end PullbackComparison
+
+/-! ### Stacks 08MQ and 08MR
+
+The flatness criteria of Stacks 08M4 and 08MQ applied here assume `HasSheafify` on `Sh(D)`. -/
+
+section LeftExact
+
+variable [HasSheafify X'.J AddCommGrpCat.{w}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
+  (i : RingedToposHom X X') (t : RingedToposHom S S')
+  (f : RingedToposHom X S) (f' : RingedToposHom X' S')
+  (hi : FirstOrderThickening i) (ht : FirstOrderThickening t)
+  (comm : f'.comp i = t.comp f)
+  (G' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O))
 
 include comm in
 omit [HasWeakSheafify S.J AddCommGrpCat] [S.J.WEqualsLocallyBijective AddCommGrpCat] in
@@ -306,7 +336,9 @@ canonical identification `f^*J ⊗_O 𝒢 ≅ I·𝒢'` of Stacks 08MQ
 Concretely, `α` composed with those identifications is a map into the descent of `I·𝒢'`, which
 `Deformation.ToposThickening.idealProductHomEquiv` (the adjunction `i^* ⊣ i_*`) reads as a map
 `ℱ' ⟶ I·𝒢'`. -/
-@[stacks 08MR]
+@[stacks 08MR "The whole statement, under exactly the source's hypotheses (Situation 08M7, \
+strict morphism, G' flat over O_{B'}), with the action of the source pinned: α sends φ' to \
+φ' + ι ∘ α, read in I·G' through the canonical isomorphism of 08MQ."]
 theorem exists_addTorsor_moduleMapLift
     (F' : SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X'.O))
     (hstrict : (MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).IsStrict)
@@ -341,6 +373,8 @@ theorem exists_addTorsor_moduleMapLift
         ((pullbackModules i.toRingedToposModulesHom).obj G')).symm ≪≫
       idealProductTensorIso i t f f' hi ht comm G' hstrict hG))
     (Equiv.refl _), fun α φ' => hT _ φ'⟩
+
+end LeftExact
 
 end Deformation.ToposThickening
 

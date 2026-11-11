@@ -71,9 +71,10 @@ and `Stacks.AlgebraicGeometry.Tag07ZGTwist.isIso_relativeTwistMap_of_generatedIn
 carry the chart-level statements below along the cover of `U(ψ)` by its pieces.
 
 The parenthetical of Tag 07ZI — that the maps on twists are surjective but in general not
-isomorphisms — is not formalized, exactly as its affine source Tag 01N0 is not: no
-counterexample is recorded in this repository, and the positive content of Tag 07ZK is the
-hypothesis under which they do become isomorphisms.
+isomorphisms — is not proved here: its counterexample is
+`Stacks.AlgebraicGeometry.Tag07ZGTwistCounterexample.exists_epi_not_isIso_relativeTwistMap`, and
+the positive content of Tag 07ZK is the hypothesis under which those maps do become
+isomorphisms.
 
 ## References
 

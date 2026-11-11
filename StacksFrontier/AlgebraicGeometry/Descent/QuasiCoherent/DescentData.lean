@@ -42,6 +42,9 @@ datum is *effective* when it is isomorphic to a canonical one.
   the trivial datum along the given family, naturally in the module.
 * `AlgebraicGeometry.trivialDescentData_hom_self` identifies every transition of the trivial
   datum with the identity.
+* `AlgebraicGeometry.QuasicoherentDescentData.isEffective_iff_exists_iso` unfolds effectivity
+  into the existence of a quasicoherent module `M` on the target with isomorphisms
+  `(f i)^* M ≅ F_i` compatible with the transitions.
 
 ## Implementation notes
 
@@ -70,6 +73,7 @@ isomorphisms, and invariance under isomorphism directly.
 * [Stacks Project, Tag 023B](https://stacks.math.columbia.edu/tag/023B)
 * [Stacks Project, Tag 023C](https://stacks.math.columbia.edu/tag/023C)
 * [Stacks Project, Tag 023D](https://stacks.math.columbia.edu/tag/023D)
+* [Stacks Project, Tag 03O7](https://stacks.math.columbia.edu/tag/03O7)
 -/
 
 @[expose] public section
@@ -316,9 +320,54 @@ variable {I : Type v} {S : Scheme.{u}} {X : I → Scheme.{u}} {f : ∀ i, X i �
 
 /-- A quasicoherent descent datum is effective if it is isomorphic to the canonical descent
 datum of a quasicoherent module on the target. -/
-@[stacks 023D "part (3)", stacks 03O7 "the effectivity clause"]
+@[stacks 023D "part (3)"]
 abbrev IsEffective (D : QuasicoherentDescentData f) : Prop :=
   (canonicalDescentFunctor f).essImage D
+
+/-- A quasicoherent descent datum `D = (F_i, φ_ij)` relative to `f i : X i ⟶ S` is effective
+exactly when there are a quasicoherent module `M` on `S` and isomorphisms
+`φ_i : (f i)^* M ≅ F_i` compatible with the transitions: over every `Y` mapping to `X i₁` and
+`X i₂` compatibly with `S`, the transition `φ_{i₁ i₂}` of `D` is the pullback of `φ_{i₂}`
+composed with the canonical identification of the two pullbacks of `M` and the pullback of
+`φ_{i₁}⁻¹`.  Taking `Y = X i₁ ×_S X i₂` with its projections, this is
+`φ_{i₁ i₂} = pr₁^* φ_{i₂} ∘ pr₀^* φ_{i₁}⁻¹`. -/
+@[stacks 03O7 "the descent datum is `QuasicoherentDescentData f` (quasicoherent components with
+  transition isomorphisms satisfying the cocycle condition); effectivity is the right-hand side,
+  equivalent to `IsEffective`"]
+theorem isEffective_iff_exists_iso (D : QuasicoherentDescentData f) :
+    D.IsEffective ↔
+      ∃ (M : (SheafOfModules.isQuasicoherent S.ringCatSheaf).FullSubcategory)
+        (φ : ∀ i, ((canonicalDescentFunctor f).obj M).obj.obj i ≅ D.obj.obj i),
+        ∀ ⦃Y : Scheme.{u}⦄ (q : Y ⟶ S) ⦃i₁ i₂ : I⦄ (f₁ : Y ⟶ X i₁) (f₂ : Y ⟶ X i₂)
+          (hf₁ : f₁ ≫ f i₁ = q) (hf₂ : f₂ ≫ f i₂ = q),
+          D.obj.hom q f₁ f₂ hf₁ hf₂ =
+            (modulePullbackPseudofunctor.map f₁.op.toLoc).toFunctor.map (φ i₁).inv ≫
+              ((canonicalDescentFunctor f).obj M).obj.hom q f₁ f₂ hf₁ hf₂ ≫
+                (modulePullbackPseudofunctor.map f₂.op.toLoc).toFunctor.map (φ i₂).hom := by
+  constructor
+  · rintro ⟨M, ⟨e⟩⟩
+    obtain ⟨φ, hφ⟩ : ∃ φ : ∀ i,
+        ((canonicalDescentFunctor f).obj M).obj.obj i ≅ D.obj.obj i,
+        ∀ i, (φ i).hom = e.hom.hom.hom i :=
+      ⟨fun i ↦
+        { hom := e.hom.hom.hom i
+          inv := e.inv.hom.hom i
+          hom_inv_id := congr_arg (fun g ↦ g.hom.hom i) e.hom_inv_id
+          inv_hom_id := congr_arg (fun g ↦ g.hom.hom i) e.inv_hom_id }, fun _ ↦ rfl⟩
+    refine ⟨M, φ, fun Y q i₁ i₂ f₁ f₂ hf₁ hf₂ ↦ ?_⟩
+    have h : (modulePullbackPseudofunctor.map f₁.op.toLoc).toFunctor.map (φ i₁).hom ≫
+        D.obj.hom q f₁ f₂ hf₁ hf₂ =
+          ((canonicalDescentFunctor f).obj M).obj.hom q f₁ f₂ hf₁ hf₂ ≫
+            (modulePullbackPseudofunctor.map f₂.op.toLoc).toFunctor.map (φ i₂).hom := by
+      rw [hφ, hφ]
+      exact e.hom.hom.comm q f₁ f₂ hf₁ hf₂
+    rw [← h]
+    exact (Iso.map_inv_hom_id_assoc (φ i₁) _ _).symm
+  · rintro ⟨M, φ, hφ⟩
+    refine ⟨M, ⟨ObjectProperty.isoMk _
+      (Pseudofunctor.DescentData.isoMk φ fun Y q i₁ i₂ f₁ f₂ hf₁ hf₂ ↦ ?_)⟩⟩
+    rw [hφ q f₁ f₂ hf₁ hf₂, ← Functor.map_comp_assoc, Iso.hom_inv_id,
+      CategoryTheory.Functor.map_id, Category.id_comp]
 
 end QuasicoherentDescentData
 

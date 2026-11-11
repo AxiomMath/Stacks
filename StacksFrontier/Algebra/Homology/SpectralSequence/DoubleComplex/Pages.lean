@@ -8,9 +8,12 @@ public import StacksFrontier.Algebra.Homology.SpectralSequence.DoubleComplex.Fil
 # Spectral sequences of double complexes: the pages
 
 The identifications of the pages `E_0`, `E_1`, `E_2` of the spectral sequence of a double complex
-filtered by an arbitrary weight (`isoOnePage`, `isoTwoPage`), the theorem
-`exists_iso_pages_totalFiltration₁` for the first filtration, and the identifications of the pages
-of the second filtration as data (`isoPagesTotalFiltration₂`).
+filtered by an arbitrary weight (`isoOnePage`, `isoTwoPage`), and their instances for the two
+filtrations of [Stacks, Tag 0130]: the identifications as data (`isoZeroPageTotalFiltration₁`,
+`isoOnePageTotalFiltration₁`, `isoTwoPageTotalFiltration₁`, and their `₂` counterparts), and the
+theorems `exists_iso_pages_totalFiltration₁_canonical` and
+`exists_iso_pages_totalFiltration₂_canonical` stating [Stacks, Tag 0130] with the canonical
+identifications and the differentials, with their signs.
 -/
 
 @[expose] public section
@@ -453,6 +456,30 @@ private lemma nonempty_iso_twoPage (q : ℤ) (M : CochainComplex C ℤ) (s : ℤ
     (p : ℤ) : Nonempty ((E.page 2 zero_le_two).X (p, q) ≅ M.homology p) :=
   ⟨isoTwoPage E q M s β hβ p⟩
 
+/-- **`isoTwoPage` on representatives.** The class in `E_2^{p,q} = H(E_1)^{p,q}` of a cycle `z`
+of the first page goes under `isoTwoPage` to the class in `H^p(M)` of the image of `z` under the
+identification `β` of the line `p ↦ E_1^{p,q}` with `M`. The composite on the left is an
+epimorphism followed by isomorphisms, so this property determines `isoTwoPage` uniquely. -/
+lemma homologyπ_iso_hom_isoTwoPage_hom (q : ℤ) (M : CochainComplex C ℤ) (s : ℤˣ)
+    (β : ∀ p, (E.page 1 zero_le_one).X (p, q) ≅ M.X p)
+    (hβ : ∀ p p', p' = p + 1 →
+      (E.page 1 zero_le_one).d (p, q) (p', q) ≫ (β p').hom = (β p).hom ≫ (s • M.d p p'))
+    (p : ℤ) (hc : ((E.page 1 zero_le_one).iCycles (p, q) ≫ (β p).hom) ≫ M.d p (p + 1) = 0) :
+    (E.page 1 zero_le_one).homologyπ (p, q) ≫
+        (E.iso 1 2 (p, q) one_add_one_eq_two zero_le_one).hom ≫ (isoTwoPage E q M s β hβ p).hom =
+      M.liftCycles ((E.page 1 zero_le_one).iCycles (p, q) ≫ (β p).hom) (p + 1) (by simp) hc ≫
+        M.homologyπ p := by
+  rw [iso_hom_comp_isoTwoPage_hom]
+  have h := homologyπ_homologyMapIso_hom
+    (lineScIso (E.page 1 zero_le_one) (fun p => (p, q))
+      (fun p => Prod.ext rfl (by rw [Prod.snd_add, sub_self, add_zero])) M s β hβ p) (𝟙 _)
+    (M.liftCycles ((E.page 1 zero_le_one).iCycles (p, q) ≫ (β p).hom) (p + 1) (by simp) hc)
+    (by
+      rw [Category.id_comp, lineScIso_hom_τ₂]
+      exact (M.liftCycles_i _ _ _ _).symm)
+  rw [Category.id_comp] at h
+  exact h
+
 end Pages
 
 section FirstFiltration
@@ -482,8 +509,9 @@ private lemma columnCycles_arrow (r p q : ℤ) (hr : r ≤ 1) :
 
 variable (K)
 
-/-- **Stacks 0130, the first filtration.** Let `('E_r, 'd_r)` be the spectral sequence of the total
-complex of a double complex `K^{•,•}` filtered by the first coordinate, presented as in
+/-- **The pages of the first filtration, up to some isomorphisms.** Let `('E_r, 'd_r)` be the
+spectral sequence of the total complex of a double complex `K^{•,•}` filtered by the first
+coordinate, presented as in
 [Stacks, Tag 012M] by its pages `Z_r^{p,q}/D_r^{p,q}` and its differentials induced by `d`. Then
 1. `'E_0^{p,q} = K^{p,q}` with `'d_0^{p,q} = (-1)^p d_2^{p,q}`;
 3. `'E_1^{p,q} = H^q(K^{p,•})` with `'d_1^{p,q} = H^q(d_1^{p,•})`;
@@ -492,8 +520,12 @@ complex of a double complex `K^{•,•}` filtered by the first coordinate, pres
 
 That the filtration `F` this is stated for really is `F_I^p Tot^n = ⨁_{i + j = n, i ≥ p} K^{i,j}`
 is the companion statement `isLeast_totalFiltration₁`, which shares the parameters `F` and `hF`
-with this one; the two together are the content of [Stacks, Tag 0130] for the first filtration. -/
-@[stacks 0130 "(1), (3) and (5)"]
+with this one.
+
+This only asserts that some isomorphisms exist. The statement of [Stacks, Tag 0130] (1), (3) and
+(5), with the identifications pinned to the canonical maps (the summand projection on `'E_0`, the
+class of a column cycle on `'E_1`, the induced map on `'E_2`), is
+`exists_iso_pages_totalFiltration₁_canonical`. -/
 public theorem exists_iso_pages_totalFiltration₁
     (F : ∀ (_p n : ℤ), Subobject ((K.total (ComplexShape.up ℤ)).X n))
     (hF : ∀ p n : ℤ, F p n = Subobject.mk ((K.totalFiltration₁.filtration.ι.app (op p)).f n))
@@ -593,6 +625,279 @@ public theorem exists_iso_pages_totalFiltration₁
     subst hp'
     rw [one_smul]
     exact hβd p q) p
+
+section DefForm₁
+
+/-! ### The identifications of the pages of the first filtration as data
+
+The identifications of [Stacks, Tag 0130] (1), (3) and (5), as `def`s pinned down by the
+canonical maps. The filtration is spelled out directly as `K.stepSubobject fun i (_ : ℤ) => i`,
+which is the form the hypotheses `hF`, `hZ`, `hD` of `exists_iso_pages_totalFiltration₁_canonical`
+reduce its data to. -/
+
+variable (E : CohomologicalSpectralSequence C 0)
+  (e : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (_ : n = p + q), (E.page r hr).X (p, q) ≅
+    cokernel (Subobject.ofLE _ _ (inf_le_right :
+      FilteredComplexSpectralSequence.boundaries (K.total (ComplexShape.up ℤ))
+          (K.stepSubobject fun i (_ : ℤ) => i) r p n ⊓
+        FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+          (K.stepSubobject fun i (_ : ℤ) => i) r p n ≤
+      FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+        (K.stepSubobject fun i (_ : ℤ) => i) r p n)))
+  (hδ : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (hn : n = p + q) (p' q' n' : ℤ) (hp' : p' = p + r)
+    (hq' : q' = q - r + 1) (hn' : n' = n + 1),
+    ∃ δ : (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+        (K.stepSubobject fun i (_ : ℤ) => i) r p n : C) ⟶
+        (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+          (K.stepSubobject fun i (_ : ℤ) => i) r p' n' : C),
+      δ ≫ (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+          (K.stepSubobject fun i (_ : ℤ) => i) r p' n').arrow =
+        (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+          (K.stepSubobject fun i (_ : ℤ) => i) r p n).arrow ≫
+          (K.total (ComplexShape.up ℤ)).d n n' ∧
+      cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫ (e r p q n hr hn).inv ≫
+          (E.page r hr).d (p, q) (p', q') =
+        δ ≫ cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫
+          (e r p' q' n' hr (add_eq_of_indices hn hp' hq' hn')).inv)
+
+/-- **Stacks 0130 (1), as a construction.** The identification `'E_0^{p,q} = K^{p,q}` of the
+zeroth page of the spectral sequence of the first filtration, induced by the projection of
+`Tot^{p+q}` onto its summand `K^{p,q}` (`π_isoZeroPageTotalFiltration₁_hom`). -/
+noncomputable def isoZeroPageTotalFiltration₁ (p q : ℤ) :
+    (E.page 0 le_rfl).X (p, q) ≅ (K.X p).X q :=
+  e 0 p q (p + q) le_rfl rfl ≪≫
+    K.zeroPageObjectIso (fun i (_ : ℤ) => i) (fun _ _ => Int.le_add_one le_rfl)
+      (fun _ _ => le_rfl) p (p + q) p q rfl rfl fun _ _ _ ha => ha
+
+/-- **`isoZeroPageTotalFiltration₁` is the summand projection.** On an element of
+`Z_0^{p,q} = F_I^p Tot^{p+q}`, the identification `'E_0^{p,q} = K^{p,q}` is the projection onto
+the summand `K^{p,q}`. -/
+lemma π_isoZeroPageTotalFiltration₁_hom (p q : ℤ) :
+    cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫ (e 0 p q (p + q) le_rfl rfl).inv ≫
+        (isoZeroPageTotalFiltration₁ K E e p q).hom =
+      (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+          (K.stepSubobject fun i (_ : ℤ) => i) 0 p (p + q)).arrow ≫
+        totalSummandπ p q (p + q) rfl := by
+  rw [isoZeroPageTotalFiltration₁, Iso.trans_hom, Iso.inv_hom_id_assoc, π_zeroPageObjectIso_hom]
+
+include hδ in
+/-- **Stacks 0130 (1), the differential.** Under `isoZeroPageTotalFiltration₁` the zeroth
+differential is `(-1)^p d_2^{p,q}`. -/
+lemma isoZeroPageTotalFiltration₁_hom_d (p q q' : ℤ) (hq' : q' = q + 1) :
+    (E.page 0 le_rfl).d (p, q) (p, q') ≫ (isoZeroPageTotalFiltration₁ K E e p q').hom =
+      (isoZeroPageTotalFiltration₁ K E e p q).hom ≫ (p.negOnePow • (K.X p).d q q') := by
+  subst hq'
+  exact zeroPage_d K (fun i (_ : ℤ) => i) (fun _ _ => Int.le_add_one le_rfl) (fun _ _ => le_rfl)
+    E e hδ p q (q + 1) (p + q) (p + (q + 1)) rfl rfl rfl p q p (q + 1) rfl rfl
+    (fun _ _ _ ha => ha) rfl rfl (fun _ _ _ ha => ha) _
+    (totalProjector₁_d_totalSummandπ p q (p + q) (p + (q + 1)) rfl rfl)
+
+private lemma columnCycles_isoZeroPageTotalFiltration₁ (p q : ℤ) :
+    columnCycles 0 p q zero_le_one ≫ cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫
+      (e 0 p q (p + q) le_rfl rfl).inv ≫ (isoZeroPageTotalFiltration₁ K E e p q).hom =
+      (K.X p).iCycles q := by
+  rw [π_isoZeroPageTotalFiltration₁_hom, columnCycles_arrow_assoc, ι_totalSummandπ,
+    Category.comp_id]
+
+include hδ in
+/-- **Stacks 0130 (3), on representatives.** There is an identification
+`'E_1^{p,q} = H^q(K^{p,•})` sending the class of a cycle `z` of the column `K^{p,•}`, read as an
+element of `Z_1^{p,q} ⊆ Tot^{p+q}`, to the class of `z`. -/
+lemma exists_iso_onePage_totalFiltration₁ (p : ℤ) :
+    ∃ β : ∀ q, (E.page 1 zero_le_one).X (p, q) ≅ (K.X p).homology q,
+      ∀ (q : ℤ) (c : (K.X p).cycles q ⟶ (FilteredComplexSpectralSequence.cycles
+          (K.total (ComplexShape.up ℤ)) (K.stepSubobject fun i (_ : ℤ) => i) 1 p (p + q) : C)),
+        c ≫ (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+            (K.stepSubobject fun i (_ : ℤ) => i) 1 p (p + q)).arrow =
+          (K.X p).iCycles q ≫ K.ιTotal (ComplexShape.up ℤ) p q (p + q) rfl →
+        c ≫ cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫
+          (e 1 p q (p + q) zero_le_one rfl).inv ≫ (β q).hom = (K.X p).homologyπ q := by
+  obtain ⟨β, hβ⟩ := exists_iso_onePage K (fun i (_ : ℤ) => i) (fun _ _ => Int.le_add_one le_rfl)
+    (fun _ _ => le_rfl) E e hδ p (K.X p) p.negOnePow (isoZeroPageTotalFiltration₁ K E e p)
+    (isoZeroPageTotalFiltration₁_hom_d K E e hδ p) (fun q => columnCycles 1 p q le_rfl)
+    (fun q => columnCycles 0 p q zero_le_one)
+    (fun q => by rw [columnCycles_arrow, columnCycles_arrow])
+    (columnCycles_isoZeroPageTotalFiltration₁ K E e p)
+  refine ⟨β, fun q c hc => ?_⟩
+  obtain rfl : c = columnCycles 1 p q le_rfl := by
+    rw [← cancel_mono (Subobject.arrow _), hc, columnCycles_arrow]
+  exact hβ q
+
+/-- **Stacks 0130 (3), as a construction.** The identification `'E_1^{p,q} = H^q(K^{p,•})` of the
+first page of the spectral sequence of the first filtration; it is pinned down by
+`isoOnePageTotalFiltration₁_spec`. -/
+noncomputable def isoOnePageTotalFiltration₁ (p q : ℤ) :
+    (E.page 1 zero_le_one).X (p, q) ≅ (K.X p).homology q :=
+  (exists_iso_onePage_totalFiltration₁ K E e hδ p).choose q
+
+/-- **`isoOnePageTotalFiltration₁` on representatives.** It sends the class of a cycle `z` of the
+column `K^{p,•}`, read as an element of `Z_1^{p,q}`, to the class of `z`. The composite on the
+left is an epimorphism, so this property determines `isoOnePageTotalFiltration₁` uniquely. -/
+lemma isoOnePageTotalFiltration₁_spec (p q : ℤ)
+    (c : (K.X p).cycles q ⟶ (FilteredComplexSpectralSequence.cycles
+      (K.total (ComplexShape.up ℤ)) (K.stepSubobject fun i (_ : ℤ) => i) 1 p (p + q) : C))
+    (hc : c ≫ (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+        (K.stepSubobject fun i (_ : ℤ) => i) 1 p (p + q)).arrow =
+      (K.X p).iCycles q ≫ K.ιTotal (ComplexShape.up ℤ) p q (p + q) rfl) :
+    c ≫ cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫
+        (e 1 p q (p + q) zero_le_one rfl).inv ≫ (isoOnePageTotalFiltration₁ K E e hδ p q).hom =
+      (K.X p).homologyπ q :=
+  (exists_iso_onePage_totalFiltration₁ K E e hδ p).choose_spec q c hc
+
+/-- **Stacks 0130 (3), the differential.** Under `isoOnePageTotalFiltration₁` the first
+differential is `H^q(d_1^{p,•})`. -/
+lemma isoOnePageTotalFiltration₁_hom_d (p p' q : ℤ) (hp' : p' = p + 1) :
+    (E.page 1 zero_le_one).d (p, q) (p', q) ≫ (isoOnePageTotalFiltration₁ K E e hδ p' q).hom =
+      (isoOnePageTotalFiltration₁ K E e hδ p q).hom ≫
+        HomologicalComplex.homologyMap (K.d p p') q := by
+  subst hp'
+  exact onePage_d K (fun i (_ : ℤ) => i) E e hδ p (p + 1) q rfl ((K.X p).homologyπ q)
+    ((K.X (p + 1)).homologyπ q) (HomologicalComplex.cyclesMap (K.d p (p + 1)) q) _
+    (HomologicalComplex.homologyπ_naturality _ _) _ _
+    (columnCycles 1 p q le_rfl) (columnCycles 1 (p + 1) q le_rfl)
+    (isoOnePageTotalFiltration₁_spec K E e hδ p q _ (columnCycles_arrow 1 p q le_rfl))
+    (isoOnePageTotalFiltration₁_spec K E e hδ (p + 1) q _ (columnCycles_arrow 1 (p + 1) q le_rfl))
+    (by rw [columnCycles_arrow_assoc, columnCycles_arrow, iCycles_ιTotal_d])
+
+/-- **Stacks 0130 (5), as a construction.** The identification
+`'E_2^{p,q} = H^p_I(H^q_{II}(K^{•,•}))` of the second page of the spectral sequence of the first
+filtration: the page-turning isomorphism of `E` followed by the homology of
+`isoOnePageTotalFiltration₁`. -/
+noncomputable def isoTwoPageTotalFiltration₁ (p q : ℤ) :
+    (E.page 2 zero_le_two).X (p, q) ≅
+      (((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) q).mapHomologicalComplex
+        (ComplexShape.up ℤ)).obj K).homology p :=
+  isoTwoPage E q _ 1 (fun p => isoOnePageTotalFiltration₁ K E e hδ p q)
+    (fun p p' hp' => by
+      rw [one_smul]
+      exact isoOnePageTotalFiltration₁_hom_d K E e hδ p p' q hp') p
+
+/-- **`isoTwoPageTotalFiltration₁` on representatives.** The class in `'E_2^{p,q}` of a cycle `z`
+of `'E_1` goes to the class in `H^p_I(H^q_{II}(K^{•,•}))` of the image of `z` under
+`isoOnePageTotalFiltration₁`. -/
+lemma homologyπ_iso_hom_isoTwoPageTotalFiltration₁_hom (p q : ℤ)
+    (hc : ((E.page 1 zero_le_one).iCycles (p, q) ≫ (isoOnePageTotalFiltration₁ K E e hδ p q).hom) ≫
+      (((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) q).mapHomologicalComplex
+        (ComplexShape.up ℤ)).obj K).d p (p + 1) = 0) :
+    (E.page 1 zero_le_one).homologyπ (p, q) ≫
+        (E.iso 1 2 (p, q) one_add_one_eq_two zero_le_one).hom ≫
+          (isoTwoPageTotalFiltration₁ K E e hδ p q).hom =
+      (((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) q).mapHomologicalComplex
+        (ComplexShape.up ℤ)).obj K).liftCycles
+          ((E.page 1 zero_le_one).iCycles (p, q) ≫ (isoOnePageTotalFiltration₁ K E e hδ p q).hom)
+          (p + 1) (by simp) hc ≫
+        (((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) q).mapHomologicalComplex
+          (ComplexShape.up ℤ)).obj K).homologyπ p :=
+  homologyπ_iso_hom_isoTwoPage_hom E q _ 1 _ _ p hc
+
+end DefForm₁
+
+/-- **Stacks 0130, the first filtration.** Let `('E_r, 'd_r)` be the spectral sequence of the total
+complex of a double complex `K^{•,•}` filtered by the first coordinate,
+`F_I^p Tot^n = ⨁_{i ≥ p} K^{i,n-i}`, presented as in [Stacks, Tag 012M] by its pages
+`Z_r^{p,q}/D_r^{p,q}` and its differentials induced by `d`. Then
+1. `'E_0^{p,q} = K^{p,q}`, by the isomorphism induced by the projection of
+   `Z_0^{p,q} = F_I^p Tot^{p+q}` onto the summand `K^{p,q}`, and under it
+   `'d_0^{p,q} = (-1)^p d_2^{p,q}`;
+3. `'E_1^{p,q} = H^q(K^{p,•})`, by the isomorphism sending the class of a cycle `z` of the column
+   `K^{p,•}` (an element of `Z_1^{p,q}`) to the class of `z`, and under it
+   `'d_1^{p,q} = H^q(d_1^{p,•})`;
+5. `'E_2^{p,q} = H^p_I(H^q_{II}(K^{•,•}))`, the cohomology in degree `p` of the complex
+   `p ↦ H^q(K^{p,•})`, by the isomorphism sending the class of a cycle `z` of `'E_1` to the class
+   of its image under the identification of (3).
+
+Each identification is pinned down by the stated property, the composite on its left being an
+epimorphism. The filtration `F` is identified with `F_I` by `hF`; that `F_I` is the least
+filtration containing the summands of weight `≥ p` is `isLeast_totalFiltration₁`. -/
+@[stacks 0130 "(1), (3) and (5), with the canonical identifications"]
+public theorem exists_iso_pages_totalFiltration₁_canonical
+    (F : ∀ (_p n : ℤ), Subobject ((K.total (ComplexShape.up ℤ)).X n))
+    (hF : ∀ p n : ℤ, F p n = Subobject.mk ((K.totalFiltration₁.filtration.ι.app (op p)).f n))
+    (Z : ∀ (_r _p n : ℤ), Subobject ((K.total (ComplexShape.up ℤ)).X n))
+    (hZ : ∀ r p n : ℤ, Z r p n = F p n ⊓
+      (Subobject.pullback ((K.total (ComplexShape.up ℤ)).d n (n + 1))).obj (F (p + r) (n + 1)))
+    (D : ∀ (_r _p n : ℤ), Subobject ((K.total (ComplexShape.up ℤ)).X n))
+    (hD : ∀ r p n : ℤ, D r p n = Z (r - 1) (p + 1) n ⊔
+      (Subobject.«exists» ((K.total (ComplexShape.up ℤ)).d (n - 1) n)).obj
+        (Z (r - 1) (p - r + 1) (n - 1)))
+    (E : CohomologicalSpectralSequence C 0)
+    (e : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (_ : n = p + q), (E.page r hr).X (p, q) ≅
+      cokernel (Subobject.ofLE _ _ (inf_le_right : D r p n ⊓ Z r p n ≤ Z r p n)))
+    (hδ : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (hn : n = p + q),
+      ∃ δ : (Z r p n : C) ⟶ (Z r (p + r) (n + 1) : C),
+        δ ≫ (Z r (p + r) (n + 1)).arrow =
+          (Z r p n).arrow ≫ (K.total (ComplexShape.up ℤ)).d n (n + 1) ∧
+        cokernel.π (Subobject.ofLE _ _ (inf_le_right : D r p n ⊓ Z r p n ≤ Z r p n)) ≫
+            (e r p q n hr hn).inv ≫ (E.page r hr).d (p, q) (p + r, q - r + 1) =
+          δ ≫ cokernel.π (Subobject.ofLE _ _ (inf_le_right :
+              D r (p + r) (n + 1) ⊓ Z r (p + r) (n + 1) ≤ Z r (p + r) (n + 1))) ≫
+            (e r (p + r) (q - r + 1) (n + 1) hr (by omega)).inv) :
+    (∃ α : ∀ p q : ℤ, (E.page 0 le_rfl).X (p, q) ≅ (K.X p).X q,
+      (∀ p q : ℤ, cokernel.π (Subobject.ofLE _ _
+          (inf_le_right : D 0 p (p + q) ⊓ Z 0 p (p + q) ≤ Z 0 p (p + q))) ≫
+          (e 0 p q (p + q) le_rfl rfl).inv ≫ (α p q).hom =
+        (Z 0 p (p + q)).arrow ≫ totalSummandπ p q (p + q) rfl) ∧
+      ∀ p q : ℤ, (E.page 0 le_rfl).d (p, q) (p, q + 1) ≫ (α p (q + 1)).hom =
+        (α p q).hom ≫ (p.negOnePow • (K.X p).d q (q + 1))) ∧
+    ∃ β : ∀ p q : ℤ, (E.page 1 zero_le_one).X (p, q) ≅ (K.X p).homology q,
+      (∀ (p q : ℤ) (c : (K.X p).cycles q ⟶ (Z 1 p (p + q) : C)),
+        c ≫ (Z 1 p (p + q)).arrow =
+            (K.X p).iCycles q ≫ K.ιTotal (ComplexShape.up ℤ) p q (p + q) rfl →
+          c ≫ cokernel.π (Subobject.ofLE _ _
+              (inf_le_right : D 1 p (p + q) ⊓ Z 1 p (p + q) ≤ Z 1 p (p + q))) ≫
+            (e 1 p q (p + q) zero_le_one rfl).inv ≫ (β p q).hom = (K.X p).homologyπ q) ∧
+      (∀ p q : ℤ, (E.page 1 zero_le_one).d (p, q) (p + 1, q) ≫ (β (p + 1) q).hom =
+        (β p q).hom ≫ HomologicalComplex.homologyMap (K.d p (p + 1)) q) ∧
+      ∃ γ : ∀ p q : ℤ, (E.page 2 zero_le_two).X (p, q) ≅
+          (((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) q).mapHomologicalComplex
+            (ComplexShape.up ℤ)).obj K).homology p,
+        ∀ (p q : ℤ) (hc : ((E.page 1 zero_le_one).iCycles (p, q) ≫ (β p q).hom) ≫
+            (((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) q).mapHomologicalComplex
+              (ComplexShape.up ℤ)).obj K).d p (p + 1) = 0),
+          (E.page 1 zero_le_one).homologyπ (p, q) ≫
+              (E.iso 1 2 (p, q) one_add_one_eq_two zero_le_one).hom ≫ (γ p q).hom =
+            (((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) q).mapHomologicalComplex
+              (ComplexShape.up ℤ)).obj K).liftCycles
+                ((E.page 1 zero_le_one).iCycles (p, q) ≫ (β p q).hom) (p + 1) (by simp) hc ≫
+              (((HomologicalComplex.homologyFunctor C (ComplexShape.up ℤ) q).mapHomologicalComplex
+                (ComplexShape.up ℤ)).obj K).homologyπ p := by
+  have hF' : F = K.stepSubobject fun i (_ : ℤ) => i := by
+    funext p n
+    rw [hF, K.mk_totalFiltration_ι_f]
+  subst hF'
+  have hZ' : Z = FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+      (K.stepSubobject fun i (_ : ℤ) => i) := by
+    funext r p n
+    rw [hZ, FilteredComplexSpectralSequence.cycles]
+  subst hZ'
+  have hD' : D = FilteredComplexSpectralSequence.boundaries (K.total (ComplexShape.up ℤ))
+      (K.stepSubobject fun i (_ : ℤ) => i) := by
+    funext r p n
+    rw [hD, FilteredComplexSpectralSequence.boundaries]
+  subst hD'
+  have hδ' : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (hn : n = p + q) (p' q' n' : ℤ) (hp' : p' = p + r)
+      (hq' : q' = q - r + 1) (hn' : n' = n + 1),
+      ∃ δ : (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+          (K.stepSubobject fun i (_ : ℤ) => i) r p n : C) ⟶
+          (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+            (K.stepSubobject fun i (_ : ℤ) => i) r p' n' : C),
+        δ ≫ (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+            (K.stepSubobject fun i (_ : ℤ) => i) r p' n').arrow =
+          (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+            (K.stepSubobject fun i (_ : ℤ) => i) r p n).arrow ≫
+            (K.total (ComplexShape.up ℤ)).d n n' ∧
+        cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫ (e r p q n hr hn).inv ≫
+            (E.page r hr).d (p, q) (p', q') =
+          δ ≫ cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫
+            (e r p' q' n' hr (by omega)).inv := by
+    rintro r p q n hr hn _ _ _ rfl rfl rfl
+    exact hδ r p q n hr hn
+  refine ⟨⟨isoZeroPageTotalFiltration₁ K E e, π_isoZeroPageTotalFiltration₁_hom K E e,
+      fun p q => isoZeroPageTotalFiltration₁_hom_d K E e hδ' p q (q + 1) rfl⟩,
+    isoOnePageTotalFiltration₁ K E e hδ', isoOnePageTotalFiltration₁_spec K E e hδ',
+    fun p q => isoOnePageTotalFiltration₁_hom_d K E e hδ' p (p + 1) q rfl,
+    isoTwoPageTotalFiltration₁ K E e hδ',
+    homologyπ_iso_hom_isoTwoPageTotalFiltration₁_hom K E e hδ'⟩
 
 end FirstFiltration
 
@@ -824,7 +1129,161 @@ noncomputable def isoPagesTotalFiltration₂ :
     fun p q => isoOnePageTotalFiltration₂ K E e hδ p q,
     fun p q => isoTwoPageTotalFiltration₂ K E e hδ p q⟩
 
+/-- **`isoZeroPageTotalFiltration₂` is the summand projection.** On an element of
+`Z_0^{p,q} = F_{II}^p Tot^{p+q}`, the identification `''E_0^{p,q} = K^{q,p}` is the projection
+onto the summand `K^{q,p}`. -/
+lemma π_isoZeroPageTotalFiltration₂_hom (p q : ℤ) :
+    cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫ (e 0 p q (p + q) le_rfl rfl).inv ≫
+        (isoZeroPageTotalFiltration₂ K E e p q).hom =
+      (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+          (K.stepSubobject fun (_ : ℤ) j => j) 0 p (p + q)).arrow ≫
+        totalSummandπ q p (p + q) (Int.add_comm q p) := by
+  rw [isoZeroPageTotalFiltration₂_eq, Iso.trans_hom, Iso.inv_hom_id_assoc, π_zeroPageObjectIso_hom]
+
+include hδ in
+/-- **Stacks 0130 (4), the differential, on the row.** Under `isoOnePageRow` the first
+differential is `(-1)^q H^q(d_2^{•,p})`. -/
+lemma isoOnePageRow_hom_d (p p' q : ℤ) (hp' : p' = p + 1) :
+    (E.page 1 zero_le_one).d (p, q) (p', q) ≫ (isoOnePageRow K E e hδ p' q).hom =
+      (isoOnePageRow K E e hδ p q).hom ≫
+        (q.negOnePow • HomologicalComplex.homologyMap (K.rowMap p p') q) := by
+  subst hp'
+  exact onePage_d K (fun (_ : ℤ) j => j) E e hδ p (p + 1) q rfl ((K.row p).homologyπ q)
+    ((K.row (p + 1)).homologyπ q)
+    (q.negOnePow • HomologicalComplex.cyclesMap (K.rowMap p (p + 1)) q) _
+    (by rw [Linear.comp_units_smul, Linear.units_smul_comp,
+      HomologicalComplex.homologyπ_naturality])
+    (isoOnePageRow K E e hδ p q) (isoOnePageRow K E e hδ (p + 1) q)
+    (rowCycles 1 p q le_rfl) (rowCycles 1 (p + 1) q le_rfl)
+    (isoOnePageRow_spec K E e hδ p q) (isoOnePageRow_spec K E e hδ (p + 1) q)
+    (by rw [rowCycles_arrow_assoc, rowCycles_arrow, iCycles_row_ιTotal_d])
+
+include hδ in
+/-- **`isoTwoPageTotalFiltration₂` on representatives.** The class in `''E_2^{p,q}` of a cycle `z`
+of `''E_1` goes to the class in `H^p_{II}(H^q_I(K^{•,•}))` of the image of `z` under
+`isoOnePageRow` followed by `rowHomologyIso`. -/
+lemma homologyπ_iso_hom_isoTwoPageTotalFiltration₂_hom (p q : ℤ)
+    (hc : ((E.page 1 zero_le_one).iCycles (p, q) ≫ (isoOnePageRow K E e hδ p q).hom ≫
+      (rowHomologyIso (K := K) p q).hom) ≫ (K.homology q).d p (p + 1) = 0) :
+    (E.page 1 zero_le_one).homologyπ (p, q) ≫
+        (E.iso 1 2 (p, q) one_add_one_eq_two zero_le_one).hom ≫
+          (isoTwoPageTotalFiltration₂ K E e hδ p q).hom =
+      (K.homology q).liftCycles ((E.page 1 zero_le_one).iCycles (p, q) ≫
+          (isoOnePageRow K E e hδ p q).hom ≫ (rowHomologyIso (K := K) p q).hom) (p + 1) (by simp)
+          hc ≫
+        (K.homology q).homologyπ p :=
+  homologyπ_iso_hom_isoTwoPage_hom E q (K.homology q) q.negOnePow
+    (fun p => isoOnePageTotalFiltration₂ K E e hδ p q)
+    (fun p p' hp' => isoOnePageTotalFiltration₂_hom_d K E e hδ p p' q hp') p hc
+
 end DefForm
+
+/-- **Stacks 0130, the second filtration.** Let `(''E_r, ''d_r)` be the spectral sequence of the
+total complex of a double complex `K^{•,•}` filtered by the second coordinate,
+`F_{II}^p Tot^n = ⨁_{j ≥ p} K^{n-j,j}`, presented as in [Stacks, Tag 012M] by its pages
+`Z_r^{p,q}/D_r^{p,q}` and its differentials induced by `d`. Then
+2. `''E_0^{p,q} = K^{q,p}`, by the isomorphism induced by the projection of
+   `Z_0^{p,q} = F_{II}^p Tot^{p+q}` onto the summand `K^{q,p}`, and under it
+   `''d_0^{p,q} = d_1^{q,p}`;
+4. `''E_1^{p,q} = H^q(K^{•,p})`, by the isomorphism sending the class of a cycle `z` of the row
+   `K^{•,p}` (an element of `Z_1^{p,q}`) to the class of `z`, and under it
+   `''d_1^{p,q} = (-1)^q H^q(d_2^{•,p})`;
+6. `''E_2^{p,q} = H^p_{II}(H^q_I(K^{•,•}))`, by the isomorphism sending the class of a cycle `z` of
+   `''E_1` to the class of its image under the identification of (4), followed by the canonical
+   `H^q(K^{•,p}) = H^q_I(K^{•,•})^p` (`rowHomologyIso`).
+
+Each identification is pinned down by the stated property, the composite on its left being an
+epimorphism. The filtration `F` is identified with `F_{II}` by `hF`; that `F_{II}` is the least
+filtration containing the summands of weight `≥ p` is `isLeast_totalFiltration₂`. -/
+@[stacks 0130 "(2), (4) and (6), with the canonical identifications"]
+public theorem exists_iso_pages_totalFiltration₂_canonical
+    (F : ∀ (_p n : ℤ), Subobject ((K.total (ComplexShape.up ℤ)).X n))
+    (hF : ∀ p n : ℤ, F p n = Subobject.mk ((K.totalFiltration₂.filtration.ι.app (op p)).f n))
+    (Z : ∀ (_r _p n : ℤ), Subobject ((K.total (ComplexShape.up ℤ)).X n))
+    (hZ : ∀ r p n : ℤ, Z r p n = F p n ⊓
+      (Subobject.pullback ((K.total (ComplexShape.up ℤ)).d n (n + 1))).obj (F (p + r) (n + 1)))
+    (D : ∀ (_r _p n : ℤ), Subobject ((K.total (ComplexShape.up ℤ)).X n))
+    (hD : ∀ r p n : ℤ, D r p n = Z (r - 1) (p + 1) n ⊔
+      (Subobject.«exists» ((K.total (ComplexShape.up ℤ)).d (n - 1) n)).obj
+        (Z (r - 1) (p - r + 1) (n - 1)))
+    (E : CohomologicalSpectralSequence C 0)
+    (e : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (_ : n = p + q), (E.page r hr).X (p, q) ≅
+      cokernel (Subobject.ofLE _ _ (inf_le_right : D r p n ⊓ Z r p n ≤ Z r p n)))
+    (hδ : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (hn : n = p + q),
+      ∃ δ : (Z r p n : C) ⟶ (Z r (p + r) (n + 1) : C),
+        δ ≫ (Z r (p + r) (n + 1)).arrow =
+          (Z r p n).arrow ≫ (K.total (ComplexShape.up ℤ)).d n (n + 1) ∧
+        cokernel.π (Subobject.ofLE _ _ (inf_le_right : D r p n ⊓ Z r p n ≤ Z r p n)) ≫
+            (e r p q n hr hn).inv ≫ (E.page r hr).d (p, q) (p + r, q - r + 1) =
+          δ ≫ cokernel.π (Subobject.ofLE _ _ (inf_le_right :
+              D r (p + r) (n + 1) ⊓ Z r (p + r) (n + 1) ≤ Z r (p + r) (n + 1))) ≫
+            (e r (p + r) (q - r + 1) (n + 1) hr (by omega)).inv) :
+    (∃ α : ∀ p q : ℤ, (E.page 0 le_rfl).X (p, q) ≅ (K.X q).X p,
+      (∀ p q : ℤ, cokernel.π (Subobject.ofLE _ _
+          (inf_le_right : D 0 p (p + q) ⊓ Z 0 p (p + q) ≤ Z 0 p (p + q))) ≫
+          (e 0 p q (p + q) le_rfl rfl).inv ≫ (α p q).hom =
+        (Z 0 p (p + q)).arrow ≫ totalSummandπ q p (p + q) (Int.add_comm q p)) ∧
+      ∀ p q : ℤ, (E.page 0 le_rfl).d (p, q) (p, q + 1) ≫ (α p (q + 1)).hom =
+        (α p q).hom ≫ (K.d q (q + 1)).f p) ∧
+    ∃ β : ∀ p q : ℤ, (E.page 1 zero_le_one).X (p, q) ≅ (K.row p).homology q,
+      (∀ (p q : ℤ) (c : (K.row p).cycles q ⟶ (Z 1 p (p + q) : C)),
+        c ≫ (Z 1 p (p + q)).arrow =
+            (K.row p).iCycles q ≫ K.ιTotal (ComplexShape.up ℤ) q p (p + q) (Int.add_comm q p) →
+          c ≫ cokernel.π (Subobject.ofLE _ _
+              (inf_le_right : D 1 p (p + q) ⊓ Z 1 p (p + q) ≤ Z 1 p (p + q))) ≫
+            (e 1 p q (p + q) zero_le_one rfl).inv ≫ (β p q).hom = (K.row p).homologyπ q) ∧
+      (∀ p q : ℤ, (E.page 1 zero_le_one).d (p, q) (p + 1, q) ≫ (β (p + 1) q).hom =
+        (β p q).hom ≫ (q.negOnePow • HomologicalComplex.homologyMap (K.rowMap p (p + 1)) q)) ∧
+      ∃ γ : ∀ p q : ℤ, (E.page 2 zero_le_two).X (p, q) ≅ (K.homology q).homology p,
+        ∀ (p q : ℤ) (hc : ((E.page 1 zero_le_one).iCycles (p, q) ≫ (β p q).hom ≫
+            (rowHomologyIso (K := K) p q).hom) ≫ (K.homology q).d p (p + 1) = 0),
+          (E.page 1 zero_le_one).homologyπ (p, q) ≫
+              (E.iso 1 2 (p, q) one_add_one_eq_two zero_le_one).hom ≫ (γ p q).hom =
+            (K.homology q).liftCycles
+                ((E.page 1 zero_le_one).iCycles (p, q) ≫ (β p q).hom ≫
+                  (rowHomologyIso (K := K) p q).hom)
+                (p + 1) (by simp) hc ≫
+              (K.homology q).homologyπ p := by
+  have hF' : F = K.stepSubobject fun (_ : ℤ) j => j := by
+    funext p n
+    rw [hF, K.mk_totalFiltration_ι_f]
+  subst hF'
+  have hZ' : Z = FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+      (K.stepSubobject fun (_ : ℤ) j => j) := by
+    funext r p n
+    rw [hZ, FilteredComplexSpectralSequence.cycles]
+  subst hZ'
+  have hD' : D = FilteredComplexSpectralSequence.boundaries (K.total (ComplexShape.up ℤ))
+      (K.stepSubobject fun (_ : ℤ) j => j) := by
+    funext r p n
+    rw [hD, FilteredComplexSpectralSequence.boundaries]
+  subst hD'
+  have hδ' : ∀ (r p q n : ℤ) (hr : 0 ≤ r) (hn : n = p + q) (p' q' n' : ℤ) (hp' : p' = p + r)
+      (hq' : q' = q - r + 1) (hn' : n' = n + 1),
+      ∃ δ : (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+          (K.stepSubobject fun (_ : ℤ) j => j) r p n : C) ⟶
+          (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+            (K.stepSubobject fun (_ : ℤ) j => j) r p' n' : C),
+        δ ≫ (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+            (K.stepSubobject fun (_ : ℤ) j => j) r p' n').arrow =
+          (FilteredComplexSpectralSequence.cycles (K.total (ComplexShape.up ℤ))
+            (K.stepSubobject fun (_ : ℤ) j => j) r p n).arrow ≫
+            (K.total (ComplexShape.up ℤ)).d n n' ∧
+        cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫ (e r p q n hr hn).inv ≫
+            (E.page r hr).d (p, q) (p', q') =
+          δ ≫ cokernel.π (Subobject.ofLE _ _ inf_le_right) ≫
+            (e r p' q' n' hr (by omega)).inv := by
+    rintro r p q n hr hn _ _ _ rfl rfl rfl
+    exact hδ r p q n hr hn
+  refine ⟨⟨isoZeroPageTotalFiltration₂ K E e, π_isoZeroPageTotalFiltration₂_hom K E e,
+      fun p q => isoZeroPageTotalFiltration₂_hom_d K E e hδ' p q (q + 1) rfl⟩,
+    isoOnePageRow K E e hδ', fun p q c hc => ?_,
+    fun p q => isoOnePageRow_hom_d K E e hδ' p (p + 1) q rfl,
+    isoTwoPageTotalFiltration₂ K E e hδ', fun p q hc => ?_⟩
+  · obtain rfl : c = rowCycles 1 p q le_rfl := by
+      rw [← cancel_mono (Subobject.arrow _), hc, rowCycles_arrow]
+    exact isoOnePageRow_spec K E e hδ' p q
+  · exact homologyπ_iso_hom_isoTwoPageTotalFiltration₂_hom K E e hδ' p q hc
 
 end SecondFiltration
 

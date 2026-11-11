@@ -33,9 +33,11 @@ carried here as hypotheses; the four-step chain between them is proved.
 * `Stacks.Adeles.FieldExtension` and `Stacks.Adeles.TopologicalFieldExtension` — a finite field
   extension, and a finite extension of a topological field carrying its module topology,
   bundled so that they can be produced by an existential statement.
-* `Stacks.Adeles.DrinfeldMakeRho`, `Stacks.Adeles.DrinfeldMakeF`,
-  `Stacks.Adeles.CuspFormsFinite` — Theorem 03VT, Theorem 03VU and Proposition 03VW, each
-  carried as a hypothesis.
+* `Stacks.Adeles.DrinfeldMakeRho`, `Stacks.Adeles.DrinfeldMakeF` — Theorem 03VT and Theorem 03VU,
+  each carried as a hypothesis.
+* `Stacks.Adeles.CuspFormsFinite` — a hypothesis form of Proposition 03VW for `φ_v = q_v`, over
+  an arbitrary field (the proposition itself is proved as
+  `Stacks.Adeles.GlobalFunctionField.cuspFormsWithChar_fg_and_baseChange`).
 * `Stacks.Adeles.CuspFormsFiniteDescent` — the one consequence the source draws from
   Proposition 03VW in the proof of Lemma 03VY, carried as a hypothesis taking Proposition 03VW
   as its input.
@@ -69,10 +71,14 @@ statement formally stronger.
 proved in the Stacks source by citation alone: the proof bodies are `See \cite{D0}.`,
 `See \cite{D1}.` and `See \cite[Proposition 4.7]{dJ-conjecture}.`, and the chapter's
 introduction says that rigorous proofs will be added over time. They are therefore carried as
-hypotheses of the form used by `Stacks.Chow.FlatPullbackDescends`, each asserting its tag and
-nothing more. Each one carries the `stacks` attribute of the result it states: the declaration
-is the formal statement of its tag, which the results below take as a hypothesis, and not a
-proof of it. The one tag of this file whose proof the source does give is 03VY.
+hypotheses of the form used by `Stacks.Chow.FlatPullbackDescends`. `DrinfeldMakeRho` and
+`DrinfeldMakeF` carry the `stacks` attribute of the result they state: each is the formal
+statement of its tag, which the results below take as a hypothesis, and not a proof of it.
+`CuspFormsFinite` carries none: Proposition 03VW is proved, over a function field of a finite
+field, as `Stacks.Adeles.GlobalFunctionField.cuspFormsWithChar_fg_and_baseChange`, and
+`CuspFormsFinite` is the stronger form of its instance `φ_v = q_v` that this file, which works
+over an arbitrary field, takes as a hypothesis. The one tag of this file whose proof the source
+does give is 03VY.
 
 **`DrinfeldMakeRho` and `DrinfeldMakeF` are stated over a parameter base field `F₀`.** The
 source writes `Q_ℓ` and `Q̄_ℓ`; here the base local field is the parameter `F₀` and its
@@ -222,9 +228,18 @@ public def DrinfeldMakeF (K : Type u) [Field K] (Γ : Type v) [Group Γ] [Topolo
               u v = (Place.residueCard v : Ω)⁻¹ *
                 j (Matrix.det (ρ (Frob v) : Matrix (Fin 2) (Fin 2) M))
 
-/-- **Stacks 03VW, carried as a hypothesis.** `C(Λ)` is a finitely generated `Λ`-module for `Λ`
-Noetherian, and `C(Λ) = C(F) ⊗_F Λ` compatibly with `T_v` for `Λ` a field with prime subfield
-`F`.
+/-- **A hypothesis form of Stacks 03VW, for the central character `φ_v = q_v`.** `C(Λ)` is a
+finitely generated `Λ`-module for `Λ` Noetherian, and `C(Λ) = C(F) ⊗_F Λ` compatibly with `T_v`
+for `Λ` a field with prime subfield `F`.
+
+This is not the formalization of Proposition 03VW, and it carries no `stacks` attribute. The
+proposition is proved, for every central character `φ` and with the source's hypotheses, as
+`Stacks.Adeles.GlobalFunctionField.cuspFormsWithChar_fg_and_baseChange`, over a function field
+`K` of a finite field; its instance `φ_v = q_v` is
+`Stacks.Adeles.GlobalFunctionField.cuspFormsCentralChar_fg_and_baseChange`. This structure
+fixes `φ_v = q_v`, works over an arbitrary field `K`, and states clause (1) for every Noetherian
+`Λ` (see below), so it is a different, stronger statement which the results of this file take
+as a hypothesis.
 
 The base change is recorded as the existence of a finite family in `C(F)` which is an `F`-basis
 of `C(F)` and whose image under `F → Λ` is a `Λ`-basis of `C(Λ)`; that is what
@@ -242,15 +257,11 @@ Clause (1) is stated here for every Noetherian `Λ`. The source's section fixes 
 in which `p` is invertible and defines `C(Λ)` only for such `Λ`, so for a Noetherian `Λ` in
 which some `q_v` is not invertible — `Λ = ℤ`, say — the cleared condition `q_v · U_v f = f` is
 not the source's `U_v f = φ_v⁻¹ f` and the proposition asserts nothing. The field `fg` is
-therefore stronger than the source's clause (1), and the attribute records this. Because the
-bundle is consumed whole, anything discharging it owes the stronger statement.
+therefore stronger than the source's clause (1). Because the bundle is consumed whole, anything
+discharging it owes the stronger statement.
 
-The Stacks source proves this by citing de Jong, so it cannot be discharged here: this
-declaration is the formal statement of the proposition, which the results below take as a
-hypothesis. Its two fields are the proposition's two clauses. See the implementation notes of
-`StacksFrontier.NumberTheory.Adeles.SwitchingEll`. -/
-@[stacks 03VW "clauses (1) and (2) both stated; (1) is stated for every Noetherian Λ, dropping
-the standing hypothesis that p is invertible in Λ, so it is stronger than the source's (1)"]
+Its two fields are the proposition's two clauses, in this stronger form. See the implementation
+notes of `StacksFrontier.NumberTheory.Adeles.SwitchingEll`. -/
 public structure CuspFormsFinite (K : Type u) [Field K] : Prop where
   /-- `C(Λ)` is a finitely generated `Λ`-module whenever `Λ` is Noetherian. -/
   fg : ∀ (Λ : Type w) [CommRing Λ] [IsNoetherianRing Λ], (cuspFormsCentralChar K Λ).FG

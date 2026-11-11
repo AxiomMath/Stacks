@@ -49,8 +49,8 @@ Quillen's theorem; in the Stacks Project it is Tag 08SJ, reduced to the base cas
 through the fundamental triangle of Tag 08QX. Both are available, downstream of this file:
 Tag 08QX is `CommAlgCat.productFundamentalTriangle_distinguished` of
 `StacksFrontier/Cotangent/Triangle/ProductDescent.lean`, Tag 08SI is
-`CommAlgCat.nonempty_cotangentComplex_retraction_iso_single` of
-`StacksFrontier/Cotangent/PolynomialRetraction.lean`, and Tag 08SJ is
+`CommAlgCat.nonempty_cotangentComplex_retraction_iso_single_unconditional` of
+`StacksFrontier/Cotangent/PolynomialRetractionUnconditional.lean`, and Tag 08SJ is
 `CommAlgCat.nonempty_cotangentComplex_iso_single_of_isKoszulRegular_sequence` of
 `StacksFrontier/Cotangent/KoszulRegularQuotient.lean` — each of which imports this file and
 consumes the results below. What this file contributes is that the whole of Tag 08SK reduces to

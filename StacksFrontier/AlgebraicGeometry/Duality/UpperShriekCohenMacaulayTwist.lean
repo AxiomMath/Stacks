@@ -78,14 +78,17 @@ theorem isZero_homology_relativeDualizingComplexObj_of_ne
       d i hi)
 
 /-- **`f^!𝒪_Y ≅ ω_{X/Y}[d]`** for a Cohen–Macaulay morphism of relative dimension `d`: the
-complex `f^!𝒪_Y` is concentrated in degree `-d`. -/
-theorem nonempty_relativeDualizingComplexObj_iso_shift
+complex `f^!𝒪_Y` is concentrated in degree `-d`. The isomorphism `L = f^!𝒪_Y[-d] ≅ M[0]` with a
+complex in degree `0` is chosen, and `M` is then identified with `H⁰(L) = ω_{X/Y}` through the
+cohomology of that same isomorphism, so the composite `L ≅ H⁰(L)[0]` induces the identity on
+`H⁰`. -/
+def relativeDualizingComplexObjIsoShift
     (hCM : f.left.IsCohenMacaulay (isLocallyNoetherian_fiber_left f)) (d : ℕ)
     (hd : ∀ x : X.left,
       topologicalKrullDimAt (f.left.fiber (f.left x)) (f.left.asFiber x) = (d : WithBot ℕ∞)) :
-    Nonempty (relativeDualizingComplexObj f j ≅
+    relativeDualizingComplexObj f j ≅
       ((DerivedCategory.singleFunctor X.left.Modules 0).obj (relativeDualizingSheaf f j d))⟦
-        (d : ℤ)⟧) := by
+        (d : ℤ)⟧ := by
   let E := relativeDualizingComplexObj f j
   let L := E⟦-(d : ℤ)⟧
   have hzL : ∀ i : ℤ, i ≠ 0 →
@@ -94,15 +97,28 @@ theorem nonempty_relativeDualizingComplexObj_iso_shift
       (by omega)).of_iso (Dualizing.homologyShiftObjIso E i (-(d : ℤ)))
   have : L.IsGE 0 := (DerivedCategory.isGE_iff L 0).2 fun i hi => hzL i (by omega)
   have : L.IsLE 0 := (DerivedCategory.isLE_iff L 0).2 fun i hi => hzL i (by omega)
-  obtain ⟨M, ⟨eL⟩⟩ := DerivedCategory.exists_iso_singleFunctor_obj_of_isGE_of_isLE L 0
+  let hM := DerivedCategory.exists_iso_singleFunctor_obj_of_isGE_of_isLE L 0
+  let M := hM.choose
+  let eL : L ≅ (DerivedCategory.singleFunctor X.left.Modules 0).obj M := hM.choose_spec.some
   let eM : M ≅ relativeDualizingSheaf f j d :=
     ((DerivedCategory.singleFunctorCompHomologyFunctorIso X.left.Modules 0).app M).symm ≪≫
       (DerivedCategory.homologyFunctor X.left.Modules 0).mapIso eL.symm ≪≫
       Dualizing.homologyShiftObjIso E 0 (-(d : ℤ)) ≪≫
       eqToIso (congrArg (fun n => (DerivedCategory.homologyFunctor X.left.Modules n).obj E)
         (zero_add _))
-  exact ⟨((shiftFunctorCompIsoId _ (-(d : ℤ)) (d : ℤ) (by omega)).app E).symm ≪≫
-    (shiftFunctor _ (d : ℤ)).mapIso (eL ≪≫ (DerivedCategory.singleFunctor _ 0).mapIso eM)⟩
+  exact ((shiftFunctorCompIsoId _ (-(d : ℤ)) (d : ℤ) (by omega)).app E).symm ≪≫
+    (shiftFunctor _ (d : ℤ)).mapIso (eL ≪≫ (DerivedCategory.singleFunctor _ 0).mapIso eM)
+
+/-- **`f^!𝒪_Y ≅ ω_{X/Y}[d]`** for a Cohen–Macaulay morphism of relative dimension `d`: the
+complex `f^!𝒪_Y` is concentrated in degree `-d`. -/
+theorem nonempty_relativeDualizingComplexObj_iso_shift
+    (hCM : f.left.IsCohenMacaulay (isLocallyNoetherian_fiber_left f)) (d : ℕ)
+    (hd : ∀ x : X.left,
+      topologicalKrullDimAt (f.left.fiber (f.left x)) (f.left.asFiber x) = (d : WithBot ℕ∞)) :
+    Nonempty (relativeDualizingComplexObj f j ≅
+      ((DerivedCategory.singleFunctor X.left.Modules 0).obj (relativeDualizingSheaf f j d))⟦
+        (d : ℤ)⟧) :=
+  ⟨relativeDualizingComplexObjIsoShift f j hCM d hd⟩
 
 /-- `ω_{X/Y}[d]` as an object of `D_QCoh(𝒪_X)`, for a Cohen–Macaulay morphism of relative
 dimension `d`; its cohomology is quasi-coherent because it is isomorphic to `f^!𝒪_Y`. -/
@@ -118,6 +134,16 @@ def relativeDualizingSheafShift
       ((DerivedCategory.homologyFunctor X.left.Modules i).mapIso e)
       (((upperShriek f j).obj (derivedStructureSheaf Y.left)).property i)⟩
 
+/-- The isomorphism `f^!𝒪_Y ≅ ω_{X/Y}[d]` in `D_QCoh(𝒪_X)`, from
+`relativeDualizingComplexObjIsoShift`. -/
+def upperShriekStructureSheafIsoRelativeDualizingSheafShift
+    (hCM : f.left.IsCohenMacaulay (isLocallyNoetherian_fiber_left f)) (d : ℕ)
+    (hd : ∀ x : X.left,
+      topologicalKrullDimAt (f.left.fiber (f.left x)) (f.left.asFiber x) = (d : WithBot ℕ∞)) :
+    (upperShriek f j).obj (derivedStructureSheaf Y.left) ≅
+      relativeDualizingSheafShift f j hCM d hd :=
+  ObjectProperty.isoMk _ (relativeDualizingComplexObjIsoShift f j hCM d hd)
+
 /-- `f^!𝒪_Y ≅ ω_{X/Y}[d]` in `D_QCoh(𝒪_X)`. -/
 theorem nonempty_upperShriek_structureSheaf_iso_relativeDualizingSheafShift
     (hCM : f.left.IsCohenMacaulay (isLocallyNoetherian_fiber_left f)) (d : ℕ)
@@ -125,8 +151,27 @@ theorem nonempty_upperShriek_structureSheaf_iso_relativeDualizingSheafShift
       topologicalKrullDimAt (f.left.fiber (f.left x)) (f.left.asFiber x) = (d : WithBot ℕ∞)) :
     Nonempty ((upperShriek f j).obj (derivedStructureSheaf Y.left) ≅
       relativeDualizingSheafShift f j hCM d hd) :=
-  let ⟨e⟩ := nonempty_relativeDualizingComplexObj_iso_shift f j hCM d hd
-  ⟨ObjectProperty.isoMk _ e⟩
+  ⟨upperShriekStructureSheafIsoRelativeDualizingSheafShift f j hCM d hd⟩
+
+/-- **`f^!K ≅ Lf^*K ⊗ᴸ ω_{X/Y}[d]`, from the comparison `μ_{f,K}`.** For a Cohen–Macaulay
+morphism of relative dimension `d`, the inverse of a given isomorphism
+`μ : Lf^*K ⊗ᴸ f^!𝒪_Y ≅ f^!K` (the map `μ_{f,K}` of [Stacks, Tag 0B6U] (e)) followed by
+`Lf^*K ⊗ᴸ -` applied to `upperShriekStructureSheafIsoRelativeDualizingSheafShift`. -/
+def upperShriekIsoPullbackTensorShiftOfIso
+    (hCM : f.left.IsCohenMacaulay (isLocallyNoetherian_fiber_left f)) (d : ℕ)
+    (hd : ∀ x : X.left,
+      topologicalKrullDimAt (f.left.fiber (f.left x)) (f.left.asFiber x) = (d : WithBot ℕ∞))
+    (K : quasiCoherentDerivedCategory Y.left)
+    (μ : ((quasiCoherentDerivedTensor X.left).obj
+        ((quasiCoherentDerivedPullback' f.left).obj K)).obj
+          ((upperShriek f j).obj (derivedStructureSheaf Y.left)) ≅ (upperShriek f j).obj K) :
+    (upperShriek f j).obj K ≅
+      ((quasiCoherentDerivedTensor X.left).obj
+        ((quasiCoherentDerivedPullback' f.left).obj K)).obj
+          (relativeDualizingSheafShift f j hCM d hd) :=
+  μ.symm ≪≫ ((quasiCoherentDerivedTensor X.left).obj
+    ((quasiCoherentDerivedPullback' f.left).obj K)).mapIso
+      (upperShriekStructureSheafIsoRelativeDualizingSheafShift f j hCM d hd)
 
 /-- **`f^!K ≅ Lf^*K ⊗ᴸ ω_{X/Y}[d]`, from the comparison `μ_{f,K}`.** For a Cohen–Macaulay
 morphism of relative dimension `d`, an isomorphism `Lf^*K ⊗ᴸ f^!𝒪_Y ≅ f^!K` (the map `μ_{f,K}`
@@ -143,9 +188,30 @@ theorem nonempty_upperShriek_iso_pullback_tensor_shift_of_iso
       ((quasiCoherentDerivedTensor X.left).obj
         ((quasiCoherentDerivedPullback' f.left).obj K)).obj
           (relativeDualizingSheafShift f j hCM d hd)) :=
-  let ⟨e⟩ := nonempty_upperShriek_structureSheaf_iso_relativeDualizingSheafShift f j hCM d hd
-  ⟨μ.symm ≪≫ ((quasiCoherentDerivedTensor X.left).obj
-    ((quasiCoherentDerivedPullback' f.left).obj K)).mapIso e⟩
+  ⟨upperShriekIsoPullbackTensorShiftOfIso f j hCM d hd K μ⟩
+
+/-- **The relative dualizing complexes over a common base**, as an isomorphism: for
+`f ≫ πY = πX` and a given `μ : Lf^*ω_Y ⊗ᴸ f^!𝒪_Y ≅ f^!ω_Y`, the composition isomorphism
+`(f ≫ πY)^! ≅ f^! ∘ πY^!` on `D⁺_QCoh` at `ω_T`, followed by
+`upperShriekIsoPullbackTensorShiftOfIso`. -/
+def upperShriekCompIsoPullbackTensorShiftOfIso
+    (hCM : f.left.IsCohenMacaulay (isLocallyNoetherian_fiber_left f)) (d : ℕ)
+    (hd : ∀ x : X.left,
+      topologicalKrullDimAt (f.left.fiber (f.left x)) (f.left.asFiber x) = (d : WithBot ℕ∞))
+    {T : FTS S} (πY : Y ⟶ T) (πX : X ⟶ T) (hπ : f ≫ πY = πX)
+    (jY : CompactificationOf (Over.mk πY.left)) (jX : CompactificationOf (Over.mk πX.left))
+    (ωT : quasiCoherentDerivedCategory T.left) (hωT : DerivedCategoryB.IsBoundedBelow ωT.obj)
+    (μ : ((quasiCoherentDerivedTensor X.left).obj
+        ((quasiCoherentDerivedPullback' f.left).obj ((upperShriek πY jY).obj ωT))).obj
+          ((upperShriek f j).obj (derivedStructureSheaf Y.left)) ≅
+        (upperShriek f j).obj ((upperShriek πY jY).obj ωT)) :
+    (upperShriek πX jX).obj ωT ≅
+      ((quasiCoherentDerivedTensor X.left).obj
+        ((quasiCoherentDerivedPullback' f.left).obj ((upperShriek πY jY).obj ωT))).obj
+          (relativeDualizingSheafShift f j hCM d hd) := by
+  subst hπ
+  exact (ObjectProperty.ι _).mapIso ((upperShriekCompIso f πY j jY jX).app ⟨ωT, hωT⟩) ≪≫
+    upperShriekIsoPullbackTensorShiftOfIso f j hCM d hd _ μ
 
 /-- **The relative dualizing complexes over a common base.** Let `πY : Y ⟶ T` and `πX : X ⟶ T`
 be morphisms of `FTS S` with `f ≫ πY = πX`, let `ω_T ∈ D⁺_QCoh(𝒪_T)` and put
@@ -166,10 +232,8 @@ theorem nonempty_upperShriek_comp_iso_pullback_tensor_shift_of_iso
     Nonempty ((upperShriek πX jX).obj ωT ≅
       ((quasiCoherentDerivedTensor X.left).obj
         ((quasiCoherentDerivedPullback' f.left).obj ((upperShriek πY jY).obj ωT))).obj
-          (relativeDualizingSheafShift f j hCM d hd)) := by
-  subst hπ
-  obtain ⟨e⟩ := nonempty_upperShriek_iso_pullback_tensor_shift_of_iso f j hCM d hd _ μ
-  exact ⟨(ObjectProperty.ι _).mapIso ((upperShriekCompIso f πY j jY jX).app ⟨ωT, hωT⟩) ≪≫ e⟩
+          (relativeDualizingSheafShift f j hCM d hd)) :=
+  ⟨upperShriekCompIsoPullbackTensorShiftOfIso f j hCM d hd πY πX hπ jY jX ωT hωT μ⟩
 
 /-- The cohomology sheaves of `N` placed in degree `j` vanish outside degree `j`. -/
 private theorem isZero_homology_singleFunctor_of_ne {Z : Scheme.{u}} (N : Z.Modules) (j k : ℤ)

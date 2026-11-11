@@ -21,9 +21,9 @@ at most one, so over it `p` is finite by [Stacks, Tag 0AB7], and a finite birati
 a normal integral scheme is an isomorphism by [Stacks, Tag 0AB1]. Hence `p` is an isomorphism over
 the punctured spectrum.
 
-This discharges the isomorphism half of the hypothesis
-`AlgebraicGeometry.ModificationIsFinitePresentationAway` of
-`AlgebraicGeometry.definesRationalSingularity_stalk`, and the hypothesis
+This proves the isomorphism half of
+`AlgebraicGeometry.ModificationIsFinitePresentationAway`, used by
+`AlgebraicGeometry.definesRationalSingularity_stalk_of_isModification`, and the hypothesis
 `AlgebraicGeometry.NormalModificationIsIsoAwayFromClosedPoint` of
 `AlgebraicGeometry.exists_normalizedBlowUpSeq_definesRationalSingularity_stalk`.
 

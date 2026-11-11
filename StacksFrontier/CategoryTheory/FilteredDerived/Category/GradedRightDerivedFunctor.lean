@@ -10,13 +10,17 @@ Let `T : A ⥤ B` be an additive functor between abelian categories and suppose 
 injectives. Taking the `p`-th graded piece of the filtered right derived functor of `T` agrees
 with the ordinary right derived functor of the `p`-th graded piece: there is a natural
 isomorphism of functors `DF⁺(A) ⥤ D⁺(B)` between
-`RT ⋙ gr^p` and `gr^p ⋙ RT`.
+`RT ⋙ gr^p` and `gr^p ⋙ RT`. Likewise forgetting the filtration commutes with it: there is a
+natural isomorphism `RT ⋙ forget F ≅ forget F ⋙ RT`.
 
 The comparison is built on a complex of filtered injective objects. There the filtration steps
 of `T` applied termwise are split monomorphisms, so the image filtration of `T` agrees with the
 pointwise image, and `T` preserves the cokernels computing the graded pieces. These two facts
 identify the graded piece of the image filtration with `T` of the graded piece, compatibly with
-morphisms, hence degreewise on complexes and then in the homotopy category.
+morphisms, hence degreewise on complexes and then in the homotopy category. For `forget F` no
+such identification is needed — the underlying object of the image filtration of `T(X)` is
+`T(X)` itself — and what is used is that the underlying complex of a complex of filtered
+injectives is a complex of injectives, on which the unit of `RT` is invertible.
 
 ## Main definitions
 
@@ -31,6 +35,8 @@ morphisms, hence degreewise on complexes and then in the homotopy category.
 
 * `CategoryTheory.FilteredDerived.filteredRightDerivedFunctorGrPIso`: the natural isomorphism
   expressing commutativity of the square of bounded-below derived categories.
+* `CategoryTheory.FilteredDerived.filteredRightDerivedFunctorForgetIso`: the natural isomorphism
+  `RT ⋙ forget F ≅ forget F ⋙ RT` of [Stacks, Tag 015V].
 
 ## Implementation notes
 
@@ -260,14 +266,60 @@ noncomputable def gradedImageHomotopyIso (T : A ⥤ B) [T.Additive] (p : ℤ) :
       exact (HomotopyCategory.quotient B (.up ℤ)).congr_map
         (gradedImageComplexIso_naturality T _ _ p g))
 
+/-- The functor `Fil^f(A) ⥤ Fil^f(B)` induced by `T` lies over `T`: forgetting the image
+filtration of `T(X)` gives back `T` applied to the underlying object of `X`. -/
+noncomputable def mapFiniteFilteredCompForgetIso (T : A ⥤ B) [T.Additive] :
+    mapFiniteFiltered T ⋙ FiniteFilteredObject.forget ≅ FiniteFilteredObject.forget ⋙ T :=
+  Iso.refl _
+
+/-- On the homotopy category, forgetting the image filtration of `T` applied termwise to a
+complex of finite filtered objects is `T` applied termwise to the underlying complex. -/
+noncomputable def mapHomotopyCategoryForgetIso (T : A ⥤ B) [T.Additive] :
+    (mapFiniteFiltered T).mapHomotopyCategory (.up ℤ) ⋙
+        FiniteFilteredObject.forget.mapHomotopyCategory (.up ℤ) ≅
+      FiniteFilteredObject.forget.mapHomotopyCategory (.up ℤ) ⋙
+        T.mapHomotopyCategory (.up ℤ) :=
+  Functor.mapHomotopyCategoryCompIso (mapFiniteFilteredCompForgetIso T) (.up ℤ) ≪≫
+    (Functor.mapHomotopyCategoryCompIso (Iso.refl (FiniteFilteredObject.forget ⋙ T))
+      (.up ℤ)).symm
+
+/-- The underlying complex of a bounded-below complex of filtered injective objects has
+injective terms: each term is a finite filtered object whose filtration steps are injective,
+and its top step is the whole object. -/
+lemma injective_forget_X (K : CochainComplex (FiniteFilteredObject A) ℤ)
+    (hK : CochainComplex.FilteredDerivedCategory.filteredInjectivePlusC A K) (n : ℤ) :
+    Injective (FiniteFilteredObject.forget.obj (K.X n)) := by
+  obtain ⟨p, hp⟩ := (K.X n).property.exists_isIso_ι
+  exact Injective.of_iso (asIso ((K.X n).obj.filtration.ι.app (op p)))
+    (injective_filtration_term K hK n (op p))
+
 variable [HasDerivedCategory.{wA} A] [HasDerivedCategory.{wB} B]
 
 /-- Taking the `p`-th graded piece commutes with the filtered right derived functor: for an
 additive functor `T : A ⥤ B` out of an abelian category with enough injectives, there is a
-natural isomorphism `RT ⋙ gr^p ≅ gr^p ⋙ RT` of functors `DF⁺(A) ⥤ D⁺(B)`.
+natural isomorphism `RT ⋙ gr^p ≅ gr^p ⋙ RT` of functors `DF⁺(A) ⥤ D⁺(B)`, i.e.
+`gr^p ∘ RT ≅ RT ∘ gr^p`, where the `RT` on the left is the filtered right derived functor and
+the one on the right is the right derived functor `D⁺(A) ⥤ D⁺(B)`.
 
-See [Stacks Project, Tag 03TE](https://stacks.math.columbia.edu/tag/03TE). -/
-@[stacks 03TE]
+This is the isomorphism of [Stacks, Tag 015U]. There the filtered right derived functor is
+`RT = T_ext ∘ j'` ([Stacks, Tag 05U2]), with `j'` a quasi-inverse of the equivalence
+`K⁺(Iᶠ) ⥤ DF⁺(A)` of [Stacks, Tag 015Q] and `T_ext` the functor of [Stacks, Tag 05U0],
+`T_ext(I) = ⨁ T(I_q)` with `F^p T_ext(I) = ⨁_{q ≥ p} T(I_q)` for a splitting
+`I ≅ ⨁ I_q`, `F^p I = ⨁_{q ≥ p} I_q`, of a filtered injective object ([Stacks, Tag 015T]).
+Here `filteredRightDerivedFunctor T` is `(toPlus A).inv ⋙ filteredInjectivePlusMapToDerivedPlus T`:
+`j'` is `(toPlus A).inv`, and on `K⁺(Iᶠ)` the functor `T` is applied termwise with the
+filtration `F^p T(I) = T(F^p I) ⊆ T(I)`. On a filtered injective object each `F^p I ⟶ I` is a
+split monomorphism, so `T(F^p I) ⟶ T(I)` is a monomorphism and the image filtration is
+`T(F^p I)` itself (`imageMapOfMonoIso`); under a splitting `I ≅ ⨁ I_q` it is
+`⨁_{q ≥ p} T(I_q)`, which is `T_ext(I)`. The identity
+`gr^p(T_ext(I)) ≅ T(gr^p I)` used by the source is `gradedImageIso`.
+
+See [Stacks Project, Tag 03TE](https://stacks.math.columbia.edu/tag/03TE) and
+[Stacks Project, Tag 015U](https://stacks.math.columbia.edu/tag/015U). -/
+@[stacks 03TE, stacks 015U "the isomorphism `gr^p ∘ RT ≅ RT ∘ gr^p` of functors \
+  `DF⁺(A) ⥤ D⁺(B)`, for `T` additive and `A` with enough injectives, with `RT = T_ext ∘ j'`: \
+  `j'` is `(toPlus A).inv` and `T_ext` is `T` applied termwise on `K⁺(Iᶠ)`, \
+  `F^p T(I) = T(F^p I)` (`imageMapOfMonoIso`)"]
 noncomputable def filteredRightDerivedFunctorGrPIso (T : A ⥤ B) [T.Additive]
     [EnoughInjectives A] (p : ℤ) :
     filteredRightDerivedFunctor T ⋙
@@ -319,6 +371,69 @@ noncomputable def filteredRightDerivedFunctorGrPIso (T : A ⥤ B) [T.Additive]
       (filteredRightDerivedFunctor T ⋙ grB)).symm ≪≫
     Functor.isoWhiskerLeft E.inv e ≪≫
     Functor.isoWhiskerRight E.asEquivalence.counitIso (grA ⋙ T.rightDerivedFunctorPlus)
+
+/-- Forgetting the filtration commutes with the filtered right derived functor: for an
+additive functor `T : A ⥤ B` out of an abelian category with enough injectives, there is a
+natural isomorphism `RT ⋙ forget F ≅ forget F ⋙ RT` of functors `DF⁺(A) ⥤ D⁺(B)`, where the
+`RT` on the left is the filtered right derived functor `DF⁺(A) ⥤ DF⁺(B)` and the one on the
+right is the right derived functor `D⁺(A) ⥤ D⁺(B)`.
+
+The source assumes `T` left exact; only additivity is used. -/
+@[stacks 015V "(forget F) ∘ RT ≅ RT ∘ (forget F) as functors DF⁺(A) ⥤ D⁺(B), for T additive"]
+noncomputable def filteredRightDerivedFunctorForgetIso (T : A ⥤ B) [T.Additive]
+    [EnoughInjectives A] :
+    filteredRightDerivedFunctor T ⋙
+        CochainComplex.FilteredDerivedCategory.liftDFPlus FiniteFilteredObject.forget
+          CochainComplex.FilteredDerivedCategory.forget_inverts ≅
+      CochainComplex.FilteredDerivedCategory.liftDFPlus FiniteFilteredObject.forget
+          CochainComplex.FilteredDerivedCategory.forget_inverts ⋙
+        T.rightDerivedFunctorPlus := by
+  let E := CochainComplex.FilteredDerivedCategory.toPlus A
+  let fA := CochainComplex.FilteredDerivedCategory.liftDFPlus
+    (FiniteFilteredObject.forget (𝒜 := A))
+    CochainComplex.FilteredDerivedCategory.forget_inverts
+  let fB := CochainComplex.FilteredDerivedCategory.liftDFPlus
+    (FiniteFilteredObject.forget (𝒜 := B))
+    CochainComplex.FilteredDerivedCategory.forget_inverts
+  let H : (CochainComplex.FilteredDerivedCategory.filteredInjectivePlus A).FullSubcategory ⥤
+      HomotopyCategory.Plus A :=
+    (HomotopyCategory.plus A).lift
+      ((CochainComplex.FilteredDerivedCategory.filteredInjectivePlus A).ι ⋙
+        FiniteFilteredObject.forget.mapHomotopyCategory (.up ℤ))
+      (fun X => CochainComplex.FilteredDerivedCategory.plus_mapHomotopyCategory_obj _
+        (CochainComplex.FilteredDerivedCategory.filteredInjectivePlus_le_plus _ X.property))
+  let eA : E ⋙ fA ≅ H ⋙ DerivedCategory.Plus.Qh :=
+    (DerivedCategory.TStructure.t.plus.fullyFaithfulι.whiskeringRight _).preimageIso
+      (Functor.isoWhiskerLeft
+        (CochainComplex.FilteredDerivedCategory.filteredInjectivePlus A).ι
+        (Localization.fac _ CochainComplex.FilteredDerivedCategory.forget_inverts
+          CochainComplex.FilteredDerivedCategory.Qh))
+  let eB : filteredInjectivePlusMapToDerivedPlus T ⋙ fB ≅
+      H ⋙ T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh :=
+    (DerivedCategory.TStructure.t.plus.fullyFaithfulι.whiskeringRight _).preimageIso
+      (Functor.isoWhiskerLeft
+        ((CochainComplex.FilteredDerivedCategory.filteredInjectivePlus A).ι ⋙
+          (mapFiniteFiltered T).mapHomotopyCategory (.up ℤ))
+        (Localization.fac _ CochainComplex.FilteredDerivedCategory.forget_inverts
+          CochainComplex.FilteredDerivedCategory.Qh) ≪≫
+        Functor.isoWhiskerRight
+          (Functor.isoWhiskerLeft
+            (CochainComplex.FilteredDerivedCategory.filteredInjectivePlus A).ι
+            (mapHomotopyCategoryForgetIso T)) DerivedCategory.Qh)
+  have hH (X) (n : ℤ) : Injective ((H.obj X).obj.as.X n) :=
+    injective_forget_X X.obj.as (filteredInjectivePlus_as X) n
+  let eT : H ⋙ T.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh ≅
+      H ⋙ DerivedCategory.Plus.Qh ⋙ T.rightDerivedFunctorPlus :=
+    NatIso.ofComponents
+      (fun X => asIso (T.rightDerivedFunctorPlusUnith.app (H.obj X)))
+      (fun f => T.rightDerivedFunctorPlusUnith.naturality (H.map f))
+  let e : E ⋙ (filteredRightDerivedFunctor T ⋙ fB) ≅ E ⋙ (fA ⋙ T.rightDerivedFunctorPlus) :=
+    Functor.isoWhiskerRight (filteredRightDerivedFunctorComparison T) fB ≪≫ eB ≪≫ eT ≪≫
+      Functor.isoWhiskerRight eA.symm T.rightDerivedFunctorPlus
+  exact (Functor.isoWhiskerRight E.asEquivalence.counitIso
+      (filteredRightDerivedFunctor T ⋙ fB)).symm ≪≫
+    Functor.isoWhiskerLeft E.inv e ≪≫
+    Functor.isoWhiskerRight E.asEquivalence.counitIso (fA ⋙ T.rightDerivedFunctorPlus)
 
 end CategoryTheory.FilteredDerived
 

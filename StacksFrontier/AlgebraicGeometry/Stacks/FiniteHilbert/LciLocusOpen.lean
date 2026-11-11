@@ -29,22 +29,16 @@ stack-in-groupoids assertion then follows from Stacks 05UN.
 
 ## The hypotheses this file carries
 
-**Stacks 06CE**, the local-complete-intersection analogue of Stacks 05X8, is available, as
-`AlgebraicGeometry.Space.exists_isOpenSubspace_factorsThrough_iff_isLocalCompleteIntersection` of
-the module `KoszulLocusOnBaseUnconditional` of the directory
-`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.PseudoCoherent.LocalCompleteIntersection`;
-what it produces is an open *subspace* of an algebraic space, whereas the source's third step
-needs an open *subscheme* of `U` cutting out the conjunction of the two conditions on the
-relative map of Stacks 06CK. That conjunction is carried as the explicit hypothesis
-`AlgebraicGeometry.Stack.FiniteHilbert.HasOpenLciLocus`, which is exactly the output of the
-source's steps 1-3. Invariance of membership of the locus under
-isomorphism in `ℋ_d(𝒳/𝒴)` — the independence-of-choice remark following Stacks 06CK, which here
-means transporting a `AlgebraicGeometry.Stack.FiniteHilbert.RelativeMapData` across an
-isomorphism of base objects of the site — is carried as
-`CategoryTheory.ObjectProperty.IsClosedUnderIsomorphisms` of the locus. Finally **Stacks 05UN**,
-that a 1-morphism representable by algebraic spaces into a stack in groupoids has source a stack
-in groupoids, is carried for the full subcategories of `ℋ_d(𝒳/𝒴)`, together with the standing
-fact that `ℋ_d(𝒳/𝒴)` is itself a stack in groupoids.
+The results here are the representability mechanism of the source's proof, stated with the
+output of its first three steps — the open subscheme cut out on the base of a scheme-valued point
+by membership of the locus, `AlgebraicGeometry.Stack.FiniteHilbert.HasOpenLciLocus` — and
+invariance of membership of the locus under isomorphism in `ℋ_d(𝒳/𝒴)` as explicit arguments.
+Both are proved: the open locus, from Stacks 05X8 and Stacks 06CE, is
+`AlgebraicGeometry.Stack.FiniteHilbert.hasOpenLciLocus`, and the invariance is
+`AlgebraicGeometry.Stack.FiniteHilbert.isClosedUnderIsomorphisms_lciLocus`. Stacks 06CL at its
+own hypotheses is registered on the `_of_flat` declarations of
+`StacksFrontier.AlgebraicGeometry.Stacks.FiniteHilbert.LciLocusRepresentable` and
+`StacksFrontier.AlgebraicGeometry.Stacks.FiniteHilbert.LciLocusStack`.
 
 ## Main definitions
 
@@ -54,14 +48,12 @@ fact that `ℋ_d(𝒳/𝒴)` is itself a stack in groupoids.
 ## Main results
 
 * `AlgebraicGeometry.Stack.exists_isOpenImmersion_representing_lciFiniteHilbertInclusion`:
-  **Stacks 06CL**, the inclusion `ℋ_{d,lci}(𝒳/𝒴) ⊂ ℋ_d(𝒳/𝒴)` is representable, by an open
+  given the open locus, the inclusion `ℋ_{d,lci}(𝒳/𝒴) ⊂ ℋ_d(𝒳/𝒴)` is representable, by an open
   subscheme of the base.
 * `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_lciFiniteHilbertInclusion`:
-  **Stacks 06CL**, that inclusion is representable by algebraic spaces.
-* `AlgebraicGeometry.Stack.isOpenImmersion_lciFiniteHilbertInclusion`: **Stacks 06CL**, that
-  inclusion is an open immersion.
-* `AlgebraicGeometry.Stack.isStackInGroupoids_lciFiniteHilbertCategory`: **Stacks 06CL**,
-  `ℋ_{d,lci}(𝒳/𝒴)` is a stack in groupoids.
+  given the open locus, that inclusion is representable by algebraic spaces.
+* `AlgebraicGeometry.Stack.isOpenImmersion_lciFiniteHilbertInclusion`: given the open locus,
+  that inclusion is an open immersion.
 
 ## Implementation notes
 
@@ -148,7 +140,7 @@ private theorem full_twoFibreProductFst (p : A ⥤ C) (q : D ⥤ C) (r : E ⥤ C
       have hXinv : r.IsHomLift (𝟙 X.base) X.iso.inv := inferInstance
       have hXm := IsHomLift.fac' r (𝟙 X.base) X.iso.inv
       have hYm := IsHomLift.fac' r (𝟙 Y.base) Y.iso.hom
-      change eqToHom X.hy.symm ≫ r.map (G₂.map b) ≫ eqToHom Y.hy = _
+      show eqToHom X.hy.symm ≫ r.map (G₂.map b) ≫ eqToHom Y.hy = _
       dsimp [b]
       rw [G₂.map_preimage, r.map_comp, r.map_comp, hXm, hYm]
       simp
@@ -170,7 +162,7 @@ private theorem nonempty_morphismOver_of_image_subset (p : A ⥤ C) (q : D ⥤ C
       map_comp := by intro a b c f g; apply q.map_injective; simp }
   refine ⟨G, CategoryTheory.Functor.ext ho ?_⟩
   intro a b f
-  change q.map (q.preimage _) = _
+  show q.map (q.preimage _) = _
   simp
 
 /-- Two fully faithful functors over the base with the same image are equivalent over the
@@ -256,7 +248,7 @@ private theorem image_equivalenceOver {p : A ⥤ C} {q : D ⥤ C}
 private theorem full_of_equivalenceOver {p : A ⥤ C} {q : D ⥤ C}
     (e : StacksRepresentableCFG.EquivalenceOver p q) [p.Full] : q.Full := by
   have : e.inv.functor.Full := by
-    change e.toEquivalence.inverse.Full
+    show e.toEquivalence.inverse.Full
     infer_instance
   rw [← e.inv.w]
   infer_instance
@@ -394,13 +386,12 @@ private theorem exists_isOpenImmersion_equivalenceOver_lciFiniteHilbertInclusion
   refine ⟨V, hV, nonempty_equivalenceOver_of_image_eq _ _ fun T ↦ ?_⟩
   rw [himg, image_elementsProjection]
 
-/-- **Stacks 06CL.** The inclusion `ℋ_{d,lci}(𝒳/𝒴) ⟶ ℋ_d(𝒳/𝒴)` of the local complete
-intersection locus is representable: every 2-fibre product of it with a scheme-valued point of
-`ℋ_d(𝒳/𝒴)` is represented by an object of the big fppf site of the base which is an open
-subscheme of it, namely the open subscheme cut out by the locus. -/
-@[stacks 06CL "the inclusion ℋ_{d,lci}(𝒳/𝒴) ⊂ ℋ_d(𝒳/𝒴) is representable by an open subscheme \
-of the base, with the open locus of Stacks 05X8 and 06CE and isomorphism-invariance of the \
-locus as explicit hypotheses"]
+/-- The inclusion `ℋ_{d,lci}(𝒳/𝒴) ⟶ ℋ_d(𝒳/𝒴)` of the local complete intersection locus is
+representable: every 2-fibre product of it with a scheme-valued point of `ℋ_d(𝒳/𝒴)` is
+represented by an object of the big fppf site of the base which is an open subscheme of it, namely
+the open subscheme cut out by the locus, given that open locus and isomorphism-invariance of the
+locus. Both inputs are proved, and Stacks 06CL at its own hypotheses is
+`AlgebraicGeometry.Stack.exists_isOpenImmersion_representing_lciFiniteHilbertInclusion_of_flat`. -/
 theorem exists_isOpenImmersion_representing_lciFiniteHilbertInclusion
     (_hFrep : IsRepresentableByAlgebraicSpaces B S hS F)
     (_hFflat : ∀ (U : BigFppfOver B S hS)
@@ -444,12 +435,11 @@ theorem exists_isOpenImmersion_representing_lciFiniteHilbertInclusion
           (presheafOfCategories (yoneda.obj V ⋙ typeToCat)).p) :=
   exists_isOpenImmersion_equivalenceOver_lciFiniteHilbertInclusion hiso hopen
 
-/-- **Stacks 06CL.** The inclusion `ℋ_{d,lci}(𝒳/𝒴) ⟶ ℋ_d(𝒳/𝒴)` of the local complete
-intersection locus is representable by algebraic spaces, the representing algebraic space of a
-base change being the open subscheme of the base cut out by the locus. -/
-@[stacks 06CL "the inclusion ℋ_{d,lci}(𝒳/𝒴) ⊂ ℋ_d(𝒳/𝒴) is representable by algebraic spaces, \
-with the open locus of Stacks 05X8 and 06CE and isomorphism-invariance of the locus as explicit \
-hypotheses"]
+/-- The inclusion `ℋ_{d,lci}(𝒳/𝒴) ⟶ ℋ_d(𝒳/𝒴)` of the local complete intersection locus is
+representable by algebraic spaces, the representing algebraic space of a base change being the
+open subscheme of the base cut out by the locus, given that open locus and isomorphism-invariance
+of the locus. Both inputs are proved, and Stacks 06CL at its own hypotheses is
+`AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_lciFiniteHilbertInclusion_of_flat`. -/
 theorem isRepresentableByAlgebraicSpaces_lciFiniteHilbertInclusion
     (_hFrep : IsRepresentableByAlgebraicSpaces B S hS F)
     (_hFflat : ∀ (U : BigFppfOver B S hS)
@@ -517,15 +507,15 @@ private theorem exists_iso_yoneda_of_equivalenceOver_lciFiniteHilbertInclusion
   intro T
   rw [← image_elementsProjection P T.unop, ← image_equivalenceOver e T.unop, himg]
 
-/-- **Stacks 06CL.** The inclusion `ℋ_{d,lci}(𝒳/𝒴) ⟶ ℋ_d(𝒳/𝒴)` of the local complete
-intersection locus is an open immersion: every algebraic space representing a base change of it
-along a scheme-valued point of `ℋ_d(𝒳/𝒴)` has open immersion structural morphism, read as a
-morphism of algebraic spaces over `S`.
+/-- The inclusion `ℋ_{d,lci}(𝒳/𝒴) ⟶ ℋ_d(𝒳/𝒴)` of the local complete intersection locus is an
+open immersion, given the open locus and isomorphism-invariance of the locus: every algebraic
+space representing a base change of it along a scheme-valued point of `ℋ_d(𝒳/𝒴)` has open
+immersion structural morphism, read as a morphism of algebraic spaces over `S`.
 
 This is the condition of Stacks 04XB at `AlgebraicGeometry.Space.IsOpenImmersion`, written out,
-and the representing algebraic space is the open subscheme of the base cut out by the locus. -/
-@[stacks 06CL "the inclusion ℋ_{d,lci}(𝒳/𝒴) ⊂ ℋ_d(𝒳/𝒴) is an open immersion, with the open \
-locus of Stacks 05X8 and 06CE and isomorphism-invariance of the locus as explicit hypotheses"]
+and the representing algebraic space is the open subscheme of the base cut out by the locus. Both
+inputs are proved, and Stacks 06CL at its own hypotheses is
+`AlgebraicGeometry.Stack.isOpenImmersion_lciFiniteHilbertInclusion_of_flat`. -/
 theorem isOpenImmersion_lciFiniteHilbertInclusion
     (_hFrep : IsRepresentableByAlgebraicSpaces B S hS F)
     (_hFflat : ∀ (U : BigFppfOver B S hS)
@@ -575,14 +565,11 @@ theorem isOpenImmersion_lciFiniteHilbertInclusion
     hopen U y hy P he.some
   exact isOpenImmersion_algebraicSpaceMap_of_iso_yoneda B S hS U P hP V i hV
 
-/-- **Stacks 06CL.** The local complete intersection locus `ℋ_{d,lci}(𝒳/𝒴)` is a stack in
-groupoids over the big fppf site of `S`.
-
-By Stacks 05UN this follows from the representability by algebraic spaces of the inclusion into
-`ℋ_d(𝒳/𝒴)` together with `ℋ_d(𝒳/𝒴)` being a stack in groupoids. -/
-@[stacks 06CL "ℋ_{d,lci}(𝒳/𝒴) is a stack in groupoids, with Stacks 05UN for the full \
-subcategories of ℋ_d(𝒳/𝒴), that ℋ_d(𝒳/𝒴) is a stack in groupoids, the open locus of Stacks \
-05X8 and 06CE and isomorphism-invariance of the locus as explicit hypotheses"]
+/-- The local complete intersection locus `ℋ_{d,lci}(𝒳/𝒴)` is a stack in groupoids, from
+Stacks 05UN for full subcategories of `ℋ_d(𝒳/𝒴)`, `ℋ_d(𝒳/𝒴)` being a stack in groupoids, the
+open lci locus and its isomorphism-invariance, all taken as arguments here. All of them are
+proved in the library; Stacks 06CL itself is
+`AlgebraicGeometry.Stack.isStackInGroupoids_lciFiniteHilbertCategory_of_flat`. -/
 theorem isStackInGroupoids_lciFiniteHilbertCategory
     (hFrep : IsRepresentableByAlgebraicSpaces B S hS F)
     (hFflat : ∀ (U : BigFppfOver B S hS)
@@ -630,6 +617,7 @@ theorem isStackInGroupoids_lciFiniteHilbertCategory
     (lciFiniteHilbertInclusion (B := B) (S := S) (hS := hS) (𝒳 := 𝒳) (𝒴 := 𝒴) (F := F) (d := d))
     (isRepresentableByAlgebraicSpaces_lciFiniteHilbertInclusion hFrep hFflat hFlfp hiso hopen)
     hHd
+
 
 end AlgebraicGeometry.Stack
 

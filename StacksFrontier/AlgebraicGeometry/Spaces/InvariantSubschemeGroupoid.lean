@@ -66,7 +66,7 @@ results below need no input beyond the presentation and the extending groupoid s
 the three assertions of Stacks 07TW in the shape of the source: an étale equivalence relation
 `R` on `U`, its quotient `X = U/R`, and invariance in the sense of Stacks 03BC part (4). The
 general chart form of the same three statements is tagged in
-`StacksFrontier/AlgebraicGeometry/Spaces/InvariantSubspace.lean`.
+`StacksFrontier/AlgebraicGeometry/Descent/ImmersionEtaleDescent.lean`.
 
 ## References
 

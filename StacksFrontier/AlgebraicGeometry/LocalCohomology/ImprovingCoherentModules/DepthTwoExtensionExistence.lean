@@ -51,29 +51,22 @@ spelling is the one of `AlgebraicGeometry.IsDepthTwoExtension` and of
 `AlgebraicGeometry.isIso_unit_restrict_pushforward_of_depth_ge_two`, so the statements below fit
 together with the existing depth results without transport.
 
-Two inputs of the source's existence proof are absent from this library and are carried as
-hypotheses rather than discharged.  Both are named precisely in the statements, and neither is a
-restatement of the conclusion.
+Two inputs of the source's existence proof are taken here as hypotheses rather than discharged,
+so that the statements need no dualizing complex.  Both are named precisely in the statements,
+and neither is a restatement of the conclusion.  Both are proved elsewhere in this library.
 
-* **Coherence of the extension.**  The source proves that the colimit of the pushforwards is
-  coherent by computing, on an affine open `Spec(A)` with `F' ↔ M'`, a short exact sequence
-  `0 → M' → M'' → H¹_T(M') → 0` and applying Faltings' finiteness criterion
-  [Stacks, Tag 0EFD] — now available as
-  `Stacks.LocalCohomology.finite_localCohomologyWithSupportIn_iff_depth_add_dim` — to the
-  dualizing complex supplied by `AlgebraicGeometry.LocallyHasDualizingComplex`.  Neither the
-  short exact sequence nor the colimit of pushforwards is built in this library, so coherence of
-  the extension is part of `AlgebraicGeometry.IsStabilizedOpenExtension` instead of being
-  deduced.  This is why the dualizing hypothesis and the depth hypothesis on immediate
-  specializations of [Stacks, Tag 0EI3] do not appear below: they enter the source's argument
-  only through that finiteness, so the statements here are correspondingly stronger.
+* **Coherence of the extension.**  The source proves the colimit of the pushforwards coherent
+  from Faltings' finiteness criterion [Stacks, Tag 0EFD], using the dualizing hypothesis and the
+  depth hypothesis on immediate specializations; here it is part of
+  `AlgebraicGeometry.IsStabilizedOpenExtension`.  Under those two hypotheses it is
+  `AlgebraicGeometry.exists_isStabilizedOpenExtension_depthOneQuotient_of_hasDualizingComplex`.
 * **The depth bound outside an open.**  That a coherent module which is the pushforward of its
   own restriction to an open `V` has stalks of depth at least two outside `V` is
-  [Stacks, Tag 0EY0] part (3), the converse of
-  `AlgebraicGeometry.isIso_unit_restrict_pushforward_of_depth_ge_two`.  Its proof uses flat base
-  change [Stacks, Tag 02KH], which this library does not have in the required form, so the bound
-  is carried as the hypothesis `hdepthOutside`, stated for every open and every coherent module
-  on `X`.  The same gap is carried in the same way by
-  `AlgebraicGeometry.existsUnique_iso_pullback_pushforward_restrict_of_depth`.
+  [Stacks, Tag 0EY0] part (3), carried here as `hdepthOutside` and proved as
+  `AlgebraicGeometry.two_le_depth_stalk_of_isIso_unit_outside`.
+
+The complete [Stacks, Tag 0EI3], at the source's hypotheses, is
+`AlgebraicGeometry.existsUnique_isDepthTwoExtension_and_pullback`.
 
 `AlgebraicGeometry.LocallyHasDualizingComplex` asks every affine open of `X` to carry a
 dualizing complex over its ring of sections, which is the form [Stacks, Tag 0EFD] consumes.  The
@@ -226,12 +219,17 @@ public theorem isDepthTwoExtension_comp_of_isStabilizedOpenExtension
     obtain ⟨V, -, hxV, -, hunit⟩ := hψ.2 x
     exact hdepthOutside V G hψ.1 hunit x (hxV hx)
 
-/-- **Stacks Project, Tag 0EI3, existence.** A coherent module on a Noetherian scheme admits a
-map to a coherent module which is an isomorphism on the stalks away from a
-specialization-stable subset and whose stalks on that subset have depth at least two.
+/-- **Existence of a depth-two extension from a stabilized open extension.**  (A step towards
+[Stacks, Tag 0EI3]; the complete statement is
+`AlgebraicGeometry.existsUnique_isDepthTwoExtension_and_pullback`.)  A coherent module on a
+Noetherian scheme admits a map to a coherent module which is an isomorphism on the stalks away
+from a specialization-stable subset and whose stalks on that subset have depth at least two.
 
-Two inputs of the source's proof are carried as hypotheses, because this library does not have
-them.
+Two inputs of the source's proof are taken as hypotheses here, so that the statement needs no
+dualizing complex.  Both are proved elsewhere in this library: `hext` for a scheme which locally
+has a dualizing complex by
+`AlgebraicGeometry.exists_isStabilizedOpenExtension_depthOneQuotient_of_hasDualizingComplex`, and
+`hdepthOutside` by `AlgebraicGeometry.two_le_depth_stalk_of_isIso_unit_outside`.
 
 * `hext` asks for the extension of the depth-one quotient of `F` across `T` by sections over the
   opens whose complement lies in `T` — the colimit of the pushforwards `j_{V,*}(F'|_V)` — as a
@@ -244,8 +242,6 @@ them.
 
 The map itself, the clause away from `T` and the depth clause on `T` are proved.  See the
 implementation notes of this module. -/
-@[stacks 0EI3 "existence, conditional on a coherent stabilized open extension of the depth-one \
-quotient along the subset and on Tag 0EY0 part (3)"]
 public theorem exists_isDepthTwoExtension
     (X : Scheme.{u}) [IsNoetherian X] (T : Set X) (hT : StableUnderSpecialization T)
     (F : X.Modules) [F.IsCoherent]

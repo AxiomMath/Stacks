@@ -18,7 +18,8 @@ direct images, and the counit compatibility of the exact adjunctions `Liₙ^* �
 * `AlgebraicGeometry.Space.compUnit_comp_mapDerivedCategoryCompNatIso_hom_app_sheafOfModules`:
   the unit property of `RingTheory.TorIndependence.mapDerivedCategoryCompNatIso` for categories
   of sheaves of modules, with the preadditive structure that instance synthesis finds.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.transitionAdjunction_counit_fac`: the counit of
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.transitionAdjunction_counit_fac`: the
+  counit of
   `Liₙ^* ⊣ Riₙ,*` is induced by the degreewise counit.
 
 ## References
@@ -75,12 +76,12 @@ theorem compUnit_comp_mapDerivedCategoryCompNatIso_hom_app_sheafOfModules
 end ExactComposition
 
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
 open Stacks.Cohomology.DerivedPushforward (pullbackMapHomotopy pushforwardMapHomotopy
   pullbackAdjPushforwardMapHomotopy)
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- The counit of `Liₙ^* ⊣ Riₙ,*` (exact form) is induced by the degreewise counit. -/
 theorem transitionAdjunction_counit_fac (n : ℕ)
@@ -108,7 +109,7 @@ theorem transitionAdjunction_counit_fac (n : ℕ)
       (smallEtaleRingedToposHom D.B (limitBase D.system) D.containsLimitBase
         (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n))) K
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space
 

@@ -15,7 +15,11 @@ public import StacksCore.Tactic.StacksAttribute
 Let `X` be a quasi-compact and quasi-separated scheme and let `η` be a generic point of an
 irreducible component of `X`. An abelian sheaf on `X_étale` whose stalk at a geometric point
 `η̄` above `η` vanishes is a filtered colimit of constructible abelian sheaves each of whose
-supports is contained in a closed subscheme of `X` not containing `η`. This is Stacks 0F0M (1).
+supports is contained in a closed subscheme of `X` not containing `η`, granted a presentation of
+the sheaf as a filtered colimit of constructible abelian sheaves and the vanishing of transition
+maps at `η̄`. This is the reduction behind Stacks 0F0M (1); the statement of Stacks 0F0M itself,
+with both inputs proved, is in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ZeroStalkAtGenericPointColimit`.
 
 ## Main results
 
@@ -28,9 +32,11 @@ supports is contained in a closed subscheme of `X` not containing `η`. This is 
   constructible set avoiding a generic point of an irreducible component has closure avoiding it.
   This is the last step of the source proof, cited there to Topology, Lemma 005K.
 * `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_notMem_supportSheaf` —
-  the whole of Stacks 0F0M (1) except its last step: the supports of the terms do not contain `η`.
+  the reduction except its last step: the supports of the terms do not contain `η`.
 * `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem` —
-  **Stacks 0F0M (1)**, with two inputs carried as hypotheses, see below.
+  the reduction behind Stacks 0F0M (1), taking two inputs of the proof as arguments, see below.
+  Stacks 0F0M (1) is
+  `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem_of_torsion`.
 
 ## Implementation notes
 
@@ -48,17 +54,18 @@ transition maps; that this is again a filtered colimit of `ℱ` is
 `CategoryTheory.Limits.isColimitArrowImageCocone`, and is the mechanism of the proof in the
 source, there described as a reindexing of the directed set.
 
-Two inputs of the source proof are carried as explicit hypotheses, each of them an input the
-library does not have available in the shape the proof uses.
+Two inputs of the source proof are taken as explicit arguments here, so that the reduction does
+not depend on how they are proved; both are supplied in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ZeroStalkAtGenericPointColimit`.
 
-* `h03SA` is Stacks 03SA, that a torsion abelian sheaf is a filtered colimit of constructible
-  abelian sheaves. The library does not have it; this is also the only place the torsion
-  hypothesis of the source statement is used, so it does not appear here.
-* `h095P` is Stacks 095P, that a filtered system of constructible sheaves whose colimit has
-  vanishing stalk at `η̄` has, out of every stage, a transition map with vanishing stalk at `η̄`.
-  The library has Stacks 095P itself
-  (`AlgebraicGeometry.isEssentiallyConstantWith_of_isConstructibleAbelianSheaf_colimit`) but not
-  the restriction of a sheaf to the point `η` along which the source applies it.
+* `h03SA` is Stacks 03SA (2), that a torsion abelian sheaf is a filtered colimit of constructible
+  abelian sheaves, proved as
+  `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_qcqs`. This is the
+  only place the torsion hypothesis of the source statement is used, so it does not appear here.
+* `h095P` is Stacks 095P in the form the proof uses it: a filtered system of constructible sheaves
+  whose colimit has vanishing stalk at `η̄` has, out of every stage, a transition map with
+  vanishing stalk at `η̄`. It is proved as
+  `AlgebraicGeometry.exists_smallEtaleGeometricStalkFunctor_map_eq_zero`.
 
 The last step of the source proof, from `η ∉ E` for a constructible `E` to `η ∉ closure E`, is
 *proved*, as `Topology.notMem_closure_of_mem_genericPoints_of_isConstructible`. The source cites
@@ -161,7 +168,7 @@ public theorem isConstructibleAbelianSheaf_image
     (Abelian.imageIsoImage f)
     (ObjectProperty.prop_kernel _ (cokernel.π f) hG (ObjectProperty.prop_cokernel _ f hF hG))
 
-/-- **Stacks 0F0M (1), with the support condition before taking closures.** Let `X` be a scheme,
+/-- **The reduction behind Stacks 0F0M (1), with the support condition before taking closures.** Let `X` be a scheme,
 let `η` be a point of `X` and let `η̄` be a geometric point above it. An abelian sheaf `ℱ` on the
 small étale site of `X` whose stalk at `η̄` is zero is a filtered colimit of constructible abelian
 sheaves whose supports do not contain `η`.
@@ -171,7 +178,7 @@ contain `η`" by "the support is contained in a closed subscheme not containing 
 hypothesis that `X` be quasi-compact and quasi-separated nor the hypothesis that `η` be a generic
 point of an irreducible component is needed for this much.
 
-`h03SA` and `h095P` are carried, as described in the module documentation. -/
+`h03SA` and `h095P` are the inputs described in the module documentation. -/
 public theorem exists_isFilteredColimit_isConstructibleAbelianSheaf_notMem_supportSheaf
     (η : X.obj) (p : GeometricPoint X.obj) (hp : GeometricPoint.LiesOver p η)
     (ℱ : Sheaf (SmallEtale.topology B X.obj X.property) AddCommGrpCat.{u + 1})
@@ -219,22 +226,21 @@ variable [CompactSpace X.obj] [QuasiSeparatedSpace X.obj]
     ((SmallEtale.topology B Z.obj Z.property).over V).WEqualsLocallyBijective
       AddCommGrpCat.{u + 1}]
 
-/-- **Stacks 0F0M (1).** Let `X` be a quasi-compact and quasi-separated scheme and let `η` be a
-generic point of an irreducible component of `X`. Let `ℱ` be an abelian sheaf on the small étale
-site of `X` whose stalk at a geometric point `η̄` above `η` is zero. Then `ℱ` is a filtered
-colimit of constructible abelian sheaves, each of whose supports is contained in a closed subset
-of `X` — equivalently a closed subscheme of `X` — not containing `η`.
+/-- **The reduction behind Stacks 0F0M (1).** Let `X` be a quasi-compact and quasi-separated
+scheme and let `η` be a generic point of an irreducible component of `X`. Let `ℱ` be an abelian
+sheaf on the small étale site of `X` whose stalk at a geometric point `η̄` above `η` is zero, given
+as a filtered colimit of constructible abelian sheaves (`h03SA`), and such that any such
+presentation has, out of every stage, a transition map vanishing at `η̄` (`h095P`). Then `ℱ` is a
+filtered colimit of constructible abelian sheaves, each of whose supports is contained in a closed
+subset of `X` — equivalently a closed subscheme of `X` — not containing `η`.
 
-Two inputs of the source proof are carried as hypotheses, as described in the module
-documentation: `h03SA` is Stacks 03SA for torsion abelian sheaves, the presentation of `ℱ` as a
-filtered colimit of constructible abelian sheaves, which is also where the torsion hypothesis of
-the source statement is used and so does not appear here; and `h095P` is Stacks 095P in the form
-the proof uses it, after restriction to `η`. Everything else is proved: the construction of the
-index category and of the diagram, that it is filtered and that its colimit is `ℱ` again,
-constructibility of its terms by Stacks 03RZ, vanishing of their stalks at `η̄`, constructibility
-of their supports by Stacks 09YS (2), and that the closure of such a support avoids `η`. -/
-@[stacks 0F0M "part (1), abelian sheaves, with Stacks 03SA for torsion abelian sheaves (h03SA) \
-and Stacks 095P after restriction to η (h095P) carried as hypotheses"]
+The two inputs are described in the module documentation; both are proved in the library, and
+Stacks 0F0M (1) itself, for torsion `ℱ`, is
+`AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem_of_torsion`.
+What is proved here is the rest of the source argument: the construction of the index category and
+of the diagram, that it is filtered and that its colimit is `ℱ` again, constructibility of its
+terms by Stacks 03RZ, vanishing of their stalks at `η̄`, constructibility of their supports by
+Stacks 09YS (2), and that the closure of such a support avoids `η`. -/
 public theorem exists_isFilteredColimit_isConstructibleAbelianSheaf_support_notMem
     (η : X.obj) (hη : η ∈ genericPoints X.obj)
     (p : GeometricPoint X.obj) (hp : GeometricPoint.LiesOver p η)

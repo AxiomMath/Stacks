@@ -24,19 +24,23 @@ This file proves the formal combination, for a cofiltered system of stages `Z i`
 `U ∪ W i` — each covered by `U` and by `W i`, an object `M` of the big fppf site under the
 system `W` and an object `N` under the system `Wn` of the intersections `W i ∩ U`: base change
 exhibits the `2`-fibre product `FP_U ×_{FP_N} FP_M` as the filtered `2`-colimit of the
-categories `FP_{Z i}`. The two limit identifications, for `M` and for `N`, are carried as
-hypotheses in the form of `IsFinitePresentationColimit` of
-`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationClosedFibreGlueing`, and so is
-Stacks 0E8Z at the stage; see the section on what is and is not proved below.
+categories `FP_{Z i}`, as soon as `FP_M` and `FP_N` are the `2`-colimits of the `FP_{W i}` and of
+the `FP_{Wn i}` (in the form of `IsFinitePresentationColimit` of
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationClosedFibreGlueing`) and base
+change is an equivalence at each stage. The specialisation to Stacks 0E91 itself, where these
+inputs are proved, is in
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationLocalRingGlueingRealised`.
 
-The `2`-colimit of categories is deliberately not constructed. The conclusion is stated the way
-an equivalence out of a filtered `2`-colimit means concretely, which is the shape in which
-`IsFinitePresentationColimit` states the colimit identifications it carries: every object of the
-`2`-fibre product is, up to isomorphism, the image of an object over some stage; every morphism
-between the images of two objects of a stage is the image of a morphism at a later stage; and two
-morphisms of a stage whose images agree already agree at a later stage. A morphism of the
-`2`-fibre product is a pair of morphisms, so the fullness condition is read on the two
-components.
+The conclusion of this file is stated the way an equivalence out of a filtered `2`-colimit means
+concretely, which is the shape in which `IsFinitePresentationColimit` states the colimit
+identifications it takes as input: every object of the `2`-fibre product is, up to isomorphism,
+the image of an object over some stage; every morphism between the images of two objects of a
+stage is the image of a morphism at a later stage; and two morphisms of a stage whose images
+agree already agree at a later stage. A morphism of the `2`-fibre product is a pair of
+morphisms, so the fullness condition is read on the two components. The `2`-colimit category
+`AlgebraicGeometry.FinitePresentationSpacesOver.StageColimit` and the equivalence out of it are
+built from these three conditions in
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationStageColimitEquivalence`.
 
 ## Main definitions
 
@@ -75,20 +79,19 @@ changes to `N`.
   `AlgebraicGeometry.FinitePresentationSpacesOver.faithful_glueingColimit`: the three
   conditions.
 * `AlgebraicGeometry.FinitePresentationSpacesOver.isGlueingColimitEquivalence_of_colimit`:
-  **the `2`-fibre product is the filtered `2`-colimit of the categories over the stages**, which
-  is Stacks 0E91 granted the carried hypotheses.
+  **the `2`-fibre product is the filtered `2`-colimit of the categories over the stages**, for
+  an abstract system of stages; it is the formal step of Stacks 0E91.
 
-## What is proved of Stacks 0E91, and what is not
+## The proof, and where its inputs come from
 
-Proved: that the three conditions above hold, from the carried hypotheses. The arguments are the
-ones of Stacks 0E91. Essential surjectivity: the object over `M` comes from a stage `W i`, the
-comparison over `N` descends to an isomorphism over some `Wn j`, and the glueing datum so
-obtained over the stage `Z j` is the image of a space over `Z j`. Fullness: the component over
-`M` comes from a stage, the square condition of the `2`-fibre product then holds over a later
-`Wn k`, and at the stage `Z k` the comparison functor is full. Faithfulness: the two morphisms
-agree after base change to some `W j`, hence their images at the stage `Z j` agree.
+The arguments are the ones of Stacks 0E91. Essential surjectivity: the object over `M` comes
+from a stage `W i`, the comparison over `N` descends to an isomorphism over some `Wn j`, and the
+glueing datum so obtained over the stage `Z j` is the image of a space over `Z j`. Fullness: the
+component over `M` comes from a stage, the square condition of the `2`-fibre product then holds
+over a later `Wn k`, and at the stage `Z k` the comparison functor is full. Faithfulness: the two
+morphisms agree after base change to some `W j`, hence their images at the stage `Z j` agree.
 
-Carried as hypotheses:
+The theorem is stated for an abstract system of stages, and takes three inputs:
 
 * `hloc : IsFinitePresentationColimit B S hS W M pM hpM`, that base change along the cone `pM`
   exhibits `FP_M` as the cofiltered `2`-colimit of the `FP_{W i}`;
@@ -96,33 +99,22 @@ Carried as hypotheses:
   `FP_{Wn i}`;
 * `hstage : ∀ i, (glueingFunctor B S hS (hsqW i).w).IsEquivalence`, Stacks 0E8Z at the stage.
 
-The first two are carried for the reason they are carried in Stacks 0E90: the theorem never says
-that `M` is `Spec 𝒪_{S,s}` or that `N` is `V`, and specialising it to Stacks 0E91 requires the
-cofiltered diagram of affine open neighbourhoods of `s`, the identification of `Spec 𝒪_{S,s}`
-with its limit, and the identification of `V` with the limit of the `W i ∩ U` — which are
-quasi-compact because `U` is retrocompact in `S`. Those limit identifications are not available
-in this library for the big fppf site. Granted them, the two hypotheses are what Stacks 07SK
-provides: `AlgebraicGeometry.Space.exists_model_of_finitePresentation`,
-`AlgebraicGeometry.Space.exists_morphism_after_baseChange` and
-`AlgebraicGeometry.Space.eventually_eq_of_baseChange_eq` of
-`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationDescent`.
-
-The third is carried because this library proves Stacks 0E8Z, in
-`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_glueingFunctor` of
-`StacksFrontier.AlgebraicGeometry.Spaces.FinitePresentationSliceGlueing`, only for a base that is
-terminal in the site: the glueing construction there is built from the products `U ⨯ X` of the
-site and the subterminality of `U` and `W`, both of which use terminality of the base. A stage
-`Z i = U ∪ W i` is a proper open of `S` as soon as `s` is not a closed point whose complement is
-`U`, which is exactly the situation of Stacks 0E91 that Stacks 0E90 excludes, so the equivalence
-at the stage cannot be obtained from the terminal case without comparing the presheaves on the
-site of `S` with those on the site of `Z i`. That comparison is not available here. The
-hypothesis is a statement about the comparison functors of the stage squares,
-into the `2`-fibre products `FP_U ×_{FP_{Wn i}} FP_{W i}`; it says nothing about the comparison
-functors out of the stages into `FP_U ×_{FP_N} FP_M` whose joint equivalence is the conclusion.
-
-The geometry of Stacks 0E91 enters only through these hypotheses: that the stages are the opens
-`U ∪ W i`, that the `W i` are neighbourhoods of `s`, and that `U` is retrocompact in `S` are what
-make `hstage`, `hloc` and `hoverlap` hold, and no point-set hypothesis is needed besides them.
+For the situation of Stacks 0E91 — `M = Spec 𝒪_{S,s}`, `W i` the affine open neighbourhoods of
+`s` inside a fixed one, `Wn i = W i ∩ U`, `N = V` and `Z i = U ∪ W i` — all three are theorems of
+this library: `hloc` is
+`FinitePresentationSpacesOver.isFinitePresentationColimit_restrictedSpecStalkSiteCone`,
+`hoverlap` is
+`AlgebraicGeometry.FinitePresentationSpacesOver.isFinitePresentationColimit_opensSpecStalkSiteCone`
+(which uses that `U` is retrocompact in `S`, so that the `W i ∩ U` are quasi-compact), and
+`hstage` is
+`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_glueingFunctor_glueingStage`, from
+Stacks 0E8Z over a subterminal base
+(`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_glueingFunctor_of_mono_hom`).
+They are combined with the theorem of this file in
+`AlgebraicGeometry.FinitePresentationSpacesOver.isGlueingColimitEquivalence_specStalk`, and the
+equivalence of categories of Stacks 0E91 is
+`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_specStalkStageColimitFunctor`, both
+in `StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationLocalRingGlueingRealised`.
 
 ## Implementation notes
 
@@ -373,7 +365,9 @@ filtered `2`-colimit of categories is expressed: every object of the `2`-fibre p
 to isomorphism, the image of an object over some stage; a morphism between the images of two
 objects of a stage is the image of a morphism at a later stage; and two morphisms of a stage
 whose images agree already agree at a later stage. The `2`-colimit category itself is
-deliberately not constructed.
+`AlgebraicGeometry.FinitePresentationSpacesOver.StageColimit`, and the equivalence out of it is
+deduced from these three conditions in
+`StacksFrontier.AlgebraicGeometry.Spaces.Limits.FinitePresentationStageColimitEquivalence`.
 
 A morphism of the `2`-fibre product is a pair of morphisms, so the fullness condition is stated
 on the two components: `f` is a morphism at the later stage `j` whose base changes to `U` and to
@@ -573,23 +567,12 @@ the point `s` have the `2`-fibre product `FP_U ×_{FP_V} FP_{Spec 𝒪_{S,s}}` a
 `2`-colimit**, when `M` is a cofiltered limit of the stages `W i` and `N` the corresponding
 limit of the `Wn i = U ∩ W i`, and the stages `Z i = U ∪ W i` are covered by `U` and `W i`.
 
-This is Stacks 0E91. What the theorem proves is the formal combination: the comparison functors
-`FP_{Z i} ⥤ FP_U ×_{FP_N} FP_M` are jointly essentially surjective, full and faithful in the
-sense of an equivalence out of a filtered `2`-colimit, which is the content of
-`AlgebraicGeometry.FinitePresentationSpacesOver.IsGlueingColimitEquivalence`. -/
-@[stacks 0E91 "the equivalence out of the filtered 2-colimit, in the concrete form: the \
-comparison functors out of the stages are jointly essentially surjective, full and faithful. \
-The 2-colimit category itself is not constructed. The theorem is stated for an arbitrary object \
-`M` of the site equipped with a cofiltered system of opens `W i` under it, an object `N` over \
-the system of the `Wn i`, and a system of stages `Z i` covered by `U` and `W i`, such that base \
-change exhibits `FP_M` as the cofiltered 2-colimit of the `FP_{W i}` and `FP_N` as that of the \
-`FP_{Wn i}` — the hypotheses `hloc` and `hoverlap`. For `M = Spec O_{S,s}`, `W i` the affine \
-open neighbourhoods of `s`, `Wn i = W i ∩ U` and `Z i = U ∪ W i` these two are what Stacks 07SK \
-gives once the `W i` are known to have `Spec O_{S,s}` as their limit and the `Wn i` to have \
-`V = Spec O_{S,s} ∩ U` as theirs — the `Wn i` being quasi-compact because `U` is retrocompact \
-in `S`. Neither limit identification is available in this library, which is why the two colimit \
-statements are carried as hypotheses rather than proved; `hstage` is Stacks 0E8Z at the stage \
-`Z i`, which this library proves only for a base that is terminal in the site"]
+This is the formal step of Stacks 0E91, for an abstract system of stages: the comparison
+functors `FP_{Z i} ⥤ FP_U ×_{FP_N} FP_M` are jointly essentially surjective, full and faithful
+in the sense of an equivalence out of a filtered `2`-colimit, which is the content of
+`AlgebraicGeometry.FinitePresentationSpacesOver.IsGlueingColimitEquivalence`. The inputs `hloc`,
+`hoverlap` and `hstage` are proved for the stages of Stacks 0E91, and the tag itself is
+`AlgebraicGeometry.FinitePresentationSpacesOver.isEquivalence_specStalkStageColimitFunctor`. -/
 theorem isGlueingColimitEquivalence_of_colimit :
     IsGlueingColimitEquivalence B S hS Z jU jM
       (glueingSquare B S hS hsqW hjMW hpNU hpNW) hjUZ

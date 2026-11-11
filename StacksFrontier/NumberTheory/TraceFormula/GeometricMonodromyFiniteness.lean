@@ -21,13 +21,14 @@ Let `k` be a finite field of characteristic `p`, let `X` be a smooth, geometrica
 projective curve over `k`, and let `ℓ` be a prime different from `p`. The Conjecture of the
 section on automorphic forms and sheaves predicts that for every continuous representation
 `ρ : π₁(X) → GL_n(F_ℓ[[t]])` the image `ρ(π₁(X_K))` of the geometric fundamental group is
-finite, where `K` is an algebraically closed extension of `k`. The two results of that section
-recorded here are the two ranges in which the Conjecture is known: rank at most two (de Jong)
-and `2n < ℓ` (Gaitsgory, granted further inputs).
+finite, where `K` is an algebraically closed extension of `k`. The section states two ranges in
+which the Conjecture is known: rank at most two (de Jong, Tag 03VZ) and `2n < ℓ` "modulo some
+unproven things" (Gaitsgory, Tag 03W0).
 
-Both are research theorems whose proofs the source replaces by a citation, so neither is proved
-here. What is proved here is the passage from the shape in which the sources leave their
-conclusion to the shape in which the Conjecture states it. A source produces a finite étale
+Both are research theorems whose proofs the source replaces by a citation, and neither is
+proved here; neither is formalized either (see "What is not proved" below). What is proved here
+is the passage from the shape in which the sources leave their conclusion to the shape in which
+the Conjecture states it. A source produces a finite étale
 covering of the geometric curve over which the representation becomes trivial — on fundamental
 groups, an open subgroup of `π₁(X_K, x)` inside the kernel of the restricted representation.
 From that, and from the compactness of the étale fundamental group, it follows that the
@@ -47,7 +48,7 @@ map to `π₁(X, x)` followed by `ρ` — is finite, which is the Conjecture's c
 * `Stacks.TraceFormula.IsTrivialOnOpenSubgroup` — the conclusion the two sources are cited for:
   the restricted representation is trivial on an open subgroup of `π₁(X_K, x)`.
 * `Stacks.TraceFormula.FSheafFormalism` and `Stacks.TraceFormula.ExtendedGeometricSatake` —
-  records of the two theories Gaitsgory assumes.
+  records of some of the data of the theories Gaitsgory assumes, without their axioms.
 
 ## Main results
 
@@ -56,25 +57,27 @@ map to `π₁(X, x)` followed by `ρ` — is finite, which is the Conjecture's c
 * `Stacks.TraceFormula.finite_geometricMonodromy_of_isTrivialOnOpenSubgroup` — the geometric
   monodromy group is finite as soon as the restricted representation is trivial on an open
   subgroup of the geometric fundamental group.
-* `Stacks.TraceFormula.finite_geometricMonodromy_of_rank_le_two` — Tag 03VZ, the Conjecture in
-  rank at most two, granted de Jong's conclusion.
-* `Stacks.TraceFormula.finite_geometricMonodromy_of_two_mul_lt` — Tag 03W0, the Conjecture when
-  `2n < ℓ`, granted the two theories Gaitsgory assumes and his conclusion.
+* `Stacks.TraceFormula.finite_geometricMonodromy_of_rank_le_two` and
+  `Stacks.TraceFormula.finite_geometricMonodromy_of_two_mul_lt` — the compactness step above,
+  stated in the ranges of Tags 03VZ and 03W0; neither is the tagged theorem (see below).
 
 ## What is not proved
 
-Neither de Jong's theorem nor Gaitsgory's theorem is proved. In each of the two tagged results
-the source's conclusion is a hypothesis, stated as `IsTrivialOnOpenSubgroup`, namely that the
-representation restricted to the geometric fundamental group dies on an open subgroup; the
-hypothesis is an implication whose antecedents are exactly the hypotheses the source imposes
-(projectivity of the curve, `ℓ ≠ p`, and the rank or residue-characteristic bound), so that the
-citation is visible as such. For Tag 03W0 the two theories Gaitsgory assumes are hypotheses as
-well: `FSheafFormalism`, the constructible `F_ℓ((t))`-sheaf theory with its six operations and
-its Frobenius-trace function of Gaitsgory §1.4, and `ExtendedGeometricSatake`, the extension of
-the geometric Satake equivalence to an arbitrary ground field with `F_ℓ((t))`- and
-`F_ℓ[[t]]`-coefficients used in §1.6 and Theorem 2.2. Tag 03W0 is explicitly conditional on
-these — the source says the Conjecture holds for `ℓ > 2n` modulo some unproven things — and the
-hypotheses are where that conditionality is recorded.
+Neither de Jong's theorem nor Gaitsgory's theorem is proved or formalized. The two theorems
+`finite_geometricMonodromy_of_rank_le_two` and `finite_geometricMonodromy_of_two_mul_lt` take
+`IsTrivialOnOpenSubgroup` — the representation restricted to the geometric fundamental group
+dies on an open subgroup — as a hypothesis. Since the geometric fundamental group is compact and
+`GL_n(F_ℓ[[t]])` is Hausdorff, that hypothesis is equivalent to the finiteness of the geometric
+monodromy group, which is the conclusion. So these theorems state the compactness step and
+nothing of the cited theorems' content; they do not formalize Tags 03VZ and 03W0.
+
+Tag 03W0 itself is formalized in `StacksFrontier.NumberTheory.TraceFormula.GaitsgoryFiniteness`:
+from the arithmetic input of Gaitsgory's construction (the coefficients of the characteristic
+polynomials of Frobenius are algebraic over `F_ℓ`), finiteness of the geometric monodromy group is
+proved there by Chebotarev density, Burnside's theorem on the absolutely irreducible blocks, and
+finiteness of `H¹(X_k̄, 𝐙/ℓ)` on the unipotent part. The record types `FSheafFormalism` and
+`ExtendedGeometricSatake` here hold some of the data of Gaitsgory's sheaf theories but none of
+their axioms, so any type can be made into an instance of them and they constrain nothing.
 
 A third hypothesis is a gap in the library rather than in the sources: the finiteness of the
 fibres of the fibre functor on finite étale covers, which is part of the Galois-category theory
@@ -200,11 +203,12 @@ theorem finite_geometricMonodromy_of_isTrivialOnOpenSubgroup
   exact (finite_range_of_isOpen_le_ker
     (geometricRestriction k K f x ρ).toMonoidHom hUopen hUker).to_subtype
 
-/-- The theory of constructible `F_ℓ((t))`-sheaves assumed in Gaitsgory §1.4: for every scheme a
-type of sheaf objects, the perverse ones among them, the six operations, and the function
-attached to a sheaf by the Frobenius-trace correspondence, with its compatibility with pullback
-and with tensor product. None of this is available in the library, so it is recorded here as
-assumed data; nothing below constructs an instance of it. -/
+/-- Some of the data of the theory of constructible `F_ℓ((t))`-sheaves assumed in Gaitsgory
+§1.4: for every scheme a type of sheaf objects, a predicate called perverse, operations named
+after the six operations, and a function called the Frobenius trace, compatible with pullback
+and with tensor product. Beyond those two compatibilities the record has no axioms (no
+adjunctions, no triangulated structure, no sheaf–function dictionary), so it is inhabited by
+degenerate data (one-point sheaf types, trace `0`) and does not model the theory. -/
 structure FSheafFormalism (k : Type u) [Field k] (ℓ : ℕ) where
   /-- The objects of the constructible derived category of `F_ℓ((t))`-sheaves on a scheme. -/
   sheaf : Scheme.{u} → Type (u + 1)
@@ -240,8 +244,9 @@ Gaitsgory §1.6 and Theorem 2.2: for every rank, the spherical perverse objects 
 `F_ℓ((t))`-sheaf formalism on the affine Grassmannian are the representations of the Langlands
 dual group, and the same holds with `F_ℓ[[t]]`-coefficients. The affine Grassmannian itself is
 assumed here, as a scheme over the ground field together with its structure morphism, since the
-library has no construction of it; like the formalism it is relative to, this is a record of
-assumed data. -/
+library has no construction of it. The record has no axioms: the Grassmannian is an arbitrary
+scheme and the equivalences are between arbitrary types, so it is inhabited by degenerate data
+and does not model the Satake equivalence. -/
 structure ExtendedGeometricSatake (k : Type u) [Field k] (ℓ : ℕ)
     (formalism : FSheafFormalism k ℓ) where
   /-- A presentation of the affine Grassmannian of `GL_m` over the ground field. -/
@@ -267,13 +272,11 @@ geometrically irreducible curve over a finite field of characteristic `p` and a 
 every continuous representation of the étale fundamental group of rank at most two over
 `F_ℓ[[t]]` has finite geometric monodromy.
 
-The theorem is de Jong's and is not proved here. His conclusion is the hypothesis `hdeJong`,
-an implication whose antecedents are the hypotheses his theorem imposes — the curve is
-projective, `ℓ` differs from the characteristic, and the rank is at most two — and whose
-consequent is that the representation becomes trivial on an open subgroup of the geometric
-fundamental group, which is the form in which a finite étale trivializing covering reads on
-fundamental groups. What is proved is that this yields the Conjecture's conclusion for the
-geometric monodromy group. -/
+This is not de Jong's theorem. The hypothesis `hdeJong` concludes that the representation
+becomes trivial on an open subgroup of the geometric fundamental group, which by compactness is
+equivalent to the finiteness of the geometric monodromy group; so the statement is the
+compactness step `finite_geometricMonodromy_of_isTrivialOnOpenSubgroup` in the range `n ≤ 2`,
+not Tag 03VZ, which is not formalized. -/
 theorem finite_geometricMonodromy_of_rank_le_two [Finite k] [IsAlgClosed K] [Smooth f]
     (p : ℕ) [CharP k p] [Fact ℓ.Prime]
     (x : GeometricPoint (geometricBaseChange k K f))
@@ -285,24 +288,19 @@ theorem finite_geometricMonodromy_of_rank_le_two [Finite k] [IsAlgClosed K] [Smo
     Finite (geometricMonodromy k K f x ρ) :=
   finite_geometricMonodromy_of_isTrivialOnOpenSubgroup k K f x ρ (hdeJong hproj hℓp hn)
 
-/-- **Stacks Project, Tag 03W0.** *The Conjecture holds if `ℓ > 2n` modulo some unproven
-things.* For a smooth, projective, geometrically irreducible curve over a finite field of
-characteristic `p` and a prime `ℓ ≠ p` with `2n < ℓ`, every continuous representation of the
-étale fundamental group of rank `n` over `F_ℓ[[t]]` has finite geometric monodromy.
+/-- **The compactness step in the range `2n < ℓ`.** For a smooth, projective, geometrically
+irreducible curve over a finite field of characteristic `p` and a prime `ℓ ≠ p` with `2n < ℓ`,
+a continuous representation of the étale fundamental group of rank `n` over `F_ℓ[[t]]` whose
+restriction to the geometric fundamental group is trivial on an open subgroup has finite
+geometric monodromy.
 
-The theorem is Gaitsgory's, it is not proved here, and the source states it as conditional.
-The unproven things it is conditional on are hypotheses: `formalism`, the constructible
-`F_ℓ((t))`-sheaf theory of §1.4, and `satake`, the extended geometric Satake equivalence of
-§1.6 and Theorem 2.2 for that formalism. Granted those two, Gaitsgory's conclusion is the
-hypothesis `hGaitsgory`, whose remaining antecedents are the hypotheses his theorem imposes —
-the curve is projective, `ℓ` differs from the characteristic, and `2n < ℓ` — and whose
-consequent is that the representation becomes trivial on an open subgroup of the geometric
-fundamental group. What is proved is that this yields the Conjecture's conclusion for the
-geometric monodromy group. -/
-@[stacks 03W0 "Gaitsgory's range 2n < ℓ of the Conjecture; the F-sheaf formalism of §1.4 and \
-the extended geometric Satake equivalence of §1.6 and Theorem 2.2 are hypotheses, as is his \
-conclusion that the representation is then trivial on an open subgroup of the geometric \
-fundamental group, and what is proved is that this makes the geometric monodromy group finite"]
+This is not Gaitsgory's theorem (Tag 03W0). The hypothesis `hGaitsgory` concludes that the
+representation becomes trivial on an open subgroup of the geometric fundamental group, which by
+compactness is equivalent to the finiteness of the geometric monodromy group; and `formalism` and
+`satake` are records without axioms, which constrain nothing. Tag 03W0 is
+`Stacks.TraceFormula.finite_geometricMonodromy_of_hasAlgebraicFrobeniusCharpoly` in
+`StacksFrontier.NumberTheory.TraceFormula.GaitsgoryFiniteness`, which derives the finiteness from
+the arithmetic input of Gaitsgory's construction by an actual argument. -/
 theorem finite_geometricMonodromy_of_two_mul_lt [Finite k] [IsAlgClosed K] [Smooth f]
     (p : ℕ) [CharP k p] [Fact ℓ.Prime]
     (x : GeometricPoint (geometricBaseChange k K f))

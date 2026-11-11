@@ -21,6 +21,10 @@ two, and the admissible sequence `(ε, 1)` gives a generator of its determinant.
 
 ## Implementation notes
 
+Over the field `k` the admissibility condition is vacuous, so this is the `k`-linear variant
+of the generator in Stacks Tag 02PP. The source's statement, over the dual-number ring, is
+`DualNumber.span_symbol_dualNumberSequence_eq_top`.
+
 The dual numbers and the class `ε` are Mathlib's `DualNumber k` and `DualNumber.eps`. The
 equality `DualNumber.dualNumberModuleLength` is what lets the displayed two-term sequence be
 indexed by the module length.
@@ -82,9 +86,9 @@ private lemma dualGeneratorEntries_span_eq_top (k : Type u) [Field k] :
       (Submodule.subset_span ⟨⟨0, by simp [dualNumberModuleLength]⟩,
         by simp [dualGeneratorEntries]⟩)
 
-/-- **Stacks Project, Tag 02PP.** The symbol `[ε, 1]` generates the determinant of the dual
-numbers over `k`. -/
-@[stacks 02PP "dual_generator"]
+/-- The symbol `[ε, 1]` generates the determinant of the dual numbers regarded as a vector space
+over `k`. This is the `k`-linear variant of the generator in Stacks Tag 02PP; the statement over
+the dual numbers themselves is `DualNumber.span_symbol_dualNumberSequence_eq_top`. -/
 theorem span_symbol_dualGenerator_eq_top (k : Type u) [Field k] :
     (IsLocalRing.ResidueField k) ∙ symbol (dualGenerator k) = ⊤ :=
   span_symbol_eq_top (by

@@ -31,6 +31,9 @@ tag at the end of the file.
 ## Main results
 
 * `Stacks.ClosedImmersion.exactFunctor_closedInclusionPushforward`: `i_*` is exact.
+* `Stacks.ClosedImmersion.closedInclusionPushforward_full_faithful_and_essImage_iff`: Stacks
+  00AG in full — `i_*` is fully faithful with essential image the sheaves whose stalks vanish
+  off the image of `i`.
 * `Stacks.ClosedImmersion.essImage_closedInclusionPushforward_iff_forall_stalk_isZero` and
   `Stacks.ClosedImmersion.essImage_closedInclusionPushforward_iff_support_subset`: the
   essential image of `i_*` consists exactly of the abelian sheaves supported on the image
@@ -251,6 +254,25 @@ theorem essImage_closedInclusionPushforward_iff_support_subset
       Stacks.AbelianSheaf.support G ⊆ Set.range i.hom :=
   (essImage_closedInclusionPushforward_iff_forall_stalk_isZero i hi G).trans
     (Stacks.AbelianSheaf.support_subset_iff G _).symm
+
+/-! ### Stacks 00AG -/
+
+/-- **Stacks 00AG.** Let `i : Z ⟶ X` be a closed embedding of topological spaces. The
+pushforward `i_* : Ab(Z) ⥤ Ab(X)` on sheaves of abelian groups is fully faithful, and its
+essential image consists exactly of the sheaves `G` with `G_x = 0` for every `x ∈ X` outside
+the image of `i`.
+
+Fullness and faithfulness are `closedInclusion_pushforward_full` and
+`closedInclusion_pushforward_faithful`; the description of the essential image, in both
+directions, is `essImage_closedInclusionPushforward_iff_forall_stalk_isZero`. -/
+@[stacks 00AG]
+theorem closedInclusionPushforward_full_faithful_and_essImage_iff
+    (hi : IsClosedEmbedding i.hom) :
+    (closedInclusionPushforward Z X i).Full ∧ (closedInclusionPushforward Z X i).Faithful ∧
+      ∀ G : TopCat.Sheaf AddCommGrpCat.{u} X, (closedInclusionPushforward Z X i).essImage G ↔
+        ∀ x : X, x ∉ Set.range i.hom → IsZero (G.presheaf.stalk x) :=
+  ⟨closedInclusion_pushforward_full Z X i hi, closedInclusion_pushforward_faithful Z X i hi,
+    essImage_closedInclusionPushforward_iff_forall_stalk_isZero i hi⟩
 
 /-! ### The remaining clauses of the tag
 

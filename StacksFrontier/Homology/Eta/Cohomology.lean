@@ -26,8 +26,9 @@ with the differential the restriction of the localized `d^i`.
   `A`-linear map `H^i(M^•) → H^i(η_f M^•)`. It is surjective
   (`Stacks.Decalage.Cohomology.etaCohomologyMap_surjective`) and its kernel is exactly the
   `f`-torsion submodule `H^i(M^•)[f]` (`Stacks.Decalage.Cohomology.etaCohomologyMap_eq_zero_iff`).
-* `Stacks.Decalage.Cohomology.tag_0F7P_iso`: hence the canonical isomorphism
-  `H^i(M^•) / H^i(M^•)[f] ≅ H^i(η_f M^•)`.
+* `Stacks.Decalage.Cohomology.bijective_etaCohomologyTorsionMap`: hence the canonical map
+  `Stacks.Decalage.Cohomology.etaCohomologyTorsionMap : H^i(M^•) / H^i(M^•)[f] → H^i(η_f M^•)`,
+  `[z] ↦ [f^i z]`, is an isomorphism (Stacks Tag 0F7P).
 
 ## Implementation notes
 
@@ -441,6 +442,43 @@ theorem mem_ker_etaCohomologyMap_iff (j : ℤ) (ξ : Hcohom C j) :
     ξ ∈ LinearMap.ker (etaCohomologyMap C j) ↔ f • ξ = 0 :=
   LinearMap.mem_ker.trans (etaCohomologyMap_eq_zero_iff C j ξ)
 
+/-- The kernel of multiplication by `f^{j+1}` is the `f`-torsion submodule
+`H^{j+1}(M^•)[f] = ker (ξ ↦ f • ξ)`. -/
+theorem ker_etaCohomologyMap (j : ℤ) :
+    LinearMap.ker (etaCohomologyMap C j) =
+      LinearMap.ker (f • LinearMap.id (R := A) (M := Hcohom C j)) := by
+  ext ξ
+  rw [mem_ker_etaCohomologyMap_iff, LinearMap.mem_ker, LinearMap.smul_apply,
+    LinearMap.id_apply]
+
+/-- The map `H^{j+1}(M^•) / H^{j+1}(M^•)[f] → H^{j+1}(η_f M^•)` induced by multiplication by
+`f^{j+1}`, i.e. by `etaCohomologyMap`, which kills the `f`-torsion
+`H^{j+1}(M^•)[f] = ker (ξ ↦ f • ξ)`. -/
+noncomputable def etaCohomologyTorsionMap (j : ℤ) :
+    (Hcohom C j ⧸ LinearMap.ker (f • LinearMap.id (R := A) (M := Hcohom C j))) →ₗ[A]
+      Heta C j :=
+  (LinearMap.ker (f • LinearMap.id (R := A) (M := Hcohom C j))).liftQ (etaCohomologyMap C j)
+    (ker_etaCohomologyMap C j).ge
+
+/-- **The canonical isomorphism of Tag 0F7P.** For a complex `M^•` of `f`-torsion free
+`A`-modules, the map `H^{j+1}(M^•) / H^{j+1}(M^•)[f] → H^{j+1}(η_f M^•)` (with
+`H^{j+1}(M^•)[f] = ker (ξ ↦ f • ξ)` the `f`-torsion) sending the class of a
+cocycle `z` to the class of `f^{j+1} z` is bijective, i.e. an isomorphism of `A`-modules.  The
+source's index `i` is `j + 1` here, and every `i ∈ ℤ` arises. -/
+@[stacks 0F7P "the map H^i(M)/H^i(M)[f] → H^i(η_f M), [z] ↦ [f^i z], is bijective, for every \
+complex of f-torsion free modules; i = j + 1, and f need not be a nonzerodivisor on A"]
+theorem bijective_etaCohomologyTorsionMap (j : ℤ) :
+    Function.Bijective (etaCohomologyTorsionMap C j) ∧
+      ∀ z : Zc C j,
+        etaCohomologyTorsionMap C j (Submodule.Quotient.mk (Submodule.Quotient.mk z)) =
+          Submodule.Quotient.mk (⟨fpowZ C j z, fpowZ_mem_Zeta C j z⟩ : Zeta C j) := by
+  refine ⟨⟨?_, ?_⟩, fun z => rfl⟩
+  · rw [← LinearMap.ker_eq_bot, etaCohomologyTorsionMap, Submodule.ker_liftQ,
+      ker_etaCohomologyMap, Submodule.mkQ_map_self]
+  · rw [← LinearMap.range_eq_top, etaCohomologyTorsionMap, Submodule.range_liftQ,
+      LinearMap.range_eq_top]
+    exact etaCohomologyMap_surjective C j
+
 end Complex
 
 /-! ## Main Statement (Stacks Tag 0F7P) -/
@@ -460,9 +498,10 @@ theorem tag_0F7P (C : FTFComplex A f) (j : ℤ) :
   ⟨etaCohomologyMap C j, etaCohomologyMap_surjective C j,
     fun z => ⟨fpowZ_mem_Zeta C j z, etaCohomologyMap_mk C j z⟩, etaCohomologyMap_eq_zero_iff C j⟩
 
-/-- **Stacks Tag 0F7P (isomorphism form).** Multiplication by `f^{j+1}` descends to a canonical
-isomorphism `H^{j+1}(M^•) / H^{j+1}(M^•)[f] ≅ H^{j+1}(η_f M^•)`. -/
-@[stacks 0F7P]
+/-- Existential packaging of `etaCohomologyMap` and `etaCohomologyEquiv`: some linear map
+`Φ` with kernel the `f`-torsion, and an isomorphism out of `H^{j+1}(M^•) / ker Φ` through
+which `Φ` factors.  The Stacks statement, with the canonical map named, is
+`bijective_etaCohomologyTorsionMap`. -/
 theorem tag_0F7P_iso (C : FTFComplex A f) (j : ℤ) :
     ∃ (Φ : Hcohom C j →ₗ[A] Heta C j)
       (e : (Hcohom C j ⧸ LinearMap.ker Φ) ≃ₗ[A] Heta C j),

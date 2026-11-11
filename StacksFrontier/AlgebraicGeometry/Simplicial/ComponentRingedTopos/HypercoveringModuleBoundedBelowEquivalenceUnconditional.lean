@@ -228,7 +228,7 @@ of the derived pullback `La^*` to the bounded below subcategories and whose inve
 restriction of the derived direct image `R a_*`. Here `D⁺(O_C)` is the full subcategory of
 bounded below objects of `D(O_C)`, and `D⁺_𝒜(O)` that of bounded below objects of `D(O)` all of
 whose cohomology modules are cartesian. Nothing is assumed beyond the hypotheses of the source. -/
-@[stacks 0DA2]
+@[stacks 0DA2 "cartesian O-modules are weak Serre; La^* : D⁺(O_C) ≌ D⁺_𝒜(O), inverse Ra_*"]
 theorem exists_derivedPullbackEquivalence_hypercoveringOfTerminal :
     (hypercoveringCartesianModules J H OC).IsWeakSerreClass ∧
       ∃ e : (AlgebraicGeometry.RingedToposHom.derivedPlusTarget

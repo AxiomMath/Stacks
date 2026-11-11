@@ -32,6 +32,7 @@ universes of the ring and of the modules independent.
 
 ## References
 
+* [Stacks Project, Tag 0952](https://stacks.math.columbia.edu/tag/0952)
 * [Stacks Project, Tag 0A6R](https://stacks.math.columbia.edu/tag/0A6R)
 -/
 
@@ -96,10 +97,13 @@ lemma localCohomologyRightAdjoint_nonempty
     rw [he, P.ι.map_comp, Category.assoc, he]
   exact ⟨⟨Adjunction.rightAdjointOfEquiv e hn, Adjunction.adjunctionOfEquivRight e hn⟩⟩
 
-/-- **Stacks 0A6R, local cohomology right adjoint.** The inclusion of the derived category of
-objects with `I`-power-torsion cohomology has a right adjoint. This construction supplies the
-functor denoted `RΓ_Z` for `Z = V(I)`. -/
-@[stacks 0A6R "local_cohomology_right_adjoint"]
+/-- **Stacks 0A6R, local cohomology right adjoint.** Let `A` be a ring and `I ⊆ A` a finitely
+generated ideal. The inclusion `D_{I^∞-torsion}(A) → D(A)` of the derived category of objects with
+`I`-power-torsion cohomology has a right adjoint. This construction supplies the functor
+`RΓ_Z : D(A) → D_{I^∞-torsion}(A)` for `Z = V(I)` of equation (47.9.0.1), the functor which
+Section 47.9 of the Stacks project, [Stacks, Tag 0952], sets out to construct. -/
+@[stacks 0952 "RΓ_Z : D(A) → D_{I^∞-torsion}(A) of (47.9.0.1), right adjoint to the inclusion",
+  stacks 0A6R "local_cohomology_right_adjoint"]
 noncomputable def localCohomologyRightAdjoint
     (A : Type u) [CommRing A] (I : Ideal A) (hI : I.FG) :
     Σ F : DerivedCategory (ModuleCat.{v} A) ⥤

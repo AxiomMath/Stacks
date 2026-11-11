@@ -11,20 +11,23 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.SeparationSmallerBase
 /-!
 # Morphisms out of quasi-compact and quasi-separated algebraic stacks, absolutely (Stacks 075S)
 
-`StacksFrontier/AlgebraicGeometry/Stacks/QuasiCompactQuasiSeparatedStack.lean` states the three
-parts of **Stacks 075S** over the base scheme `S` of the big fppf site, with the separation
-conditions read as `AlgebraicGeometry.Stack.IsQuasiSeparatedOver` (**Stacks 050D** part (4)) and
-under the extra hypothesis `QuasiSeparatedSpace S`. That hypothesis is not in the source, and it
-is not removable at `S`: the proof of part (1) cancels the structure morphism to `S`, and
-quasi-compactness of that morphism for a quasi-compact algebraic stack is compactness of `W ×_S V`
-for affine objects `W`, `V` of the site, which fails over a base scheme that is not
-quasi-separated.
+**Stacks 075S** is stated for algebraic stacks over an arbitrary base scheme `S`, with
+quasi-separatedness of an algebraic stack read *absolutely*: quasi-separated over `Spec ℤ`
+(**Stacks 050D** part (8)). This file states the three parts that way, with separation as
+`AlgebraicGeometry.Stack.AlgebraicStacks.IsAbsolutelyQuasiSeparated` and no hypothesis on `S`;
+the argument `hZ`, that the site contains the terminal scheme, is the parameter of that absolute
+notion. These are the declarations registered for the tag.
 
-This file states the three parts as the source states them — separation read *absolutely*, as
-`AlgebraicGeometry.Stack.AlgebraicStacks.IsAbsolutelyQuasiSeparated` (**Stacks 050D** part (8)),
-and no hypothesis on `S` at all. The source's `Spec ℤ` is the terminal scheme `⊤_ Scheme`, which
-is affine and hence quasi-separated unconditionally, so the relative statement applies *there* with
-nothing to assume, and the conclusion is carried back to `S`.
+`StacksFrontier/AlgebraicGeometry/Stacks/QuasiCompactQuasiSeparatedStack.lean` proves the relative
+variant, with the separation conditions read over `S` as
+`AlgebraicGeometry.Stack.IsQuasiSeparatedOver` (**Stacks 050D** part (4)) and under the hypothesis
+`QuasiSeparatedSpace S`. That hypothesis is needed for the relative reading: its proof of part (1)
+cancels the structure morphism to `S`, and quasi-compactness of that morphism for a quasi-compact
+algebraic stack is compactness of `W ×_S V` for affine objects `W`, `V` of the site, which fails
+over a base scheme that is not quasi-separated. The source's products are over `Spec ℤ` instead.
+The source's `Spec ℤ` is the terminal scheme `⊤_ Scheme`, which is affine and hence
+quasi-separated unconditionally, so the relative statement applies *there* with nothing to assume,
+and the conclusion is carried back to `S`.
 
 ## Main results
 
@@ -37,10 +40,10 @@ nothing to assume, and the conclusion is carried back to `S`.
 
 ## Implementation notes
 
-Only part (1) changes base. Quasi-compactness of a 1-morphism is **Stacks 050U**, the condition
-that every base change of it by a quasi-compact algebraic stack is quasi-compact, so the statement
-to be carried from the terminal scheme back to `S` is quasi-compactness of a 2-fibre product. Two
-results do that, and nothing else is needed:
+Part (1) is the one part that changes base. Quasi-compactness of a 1-morphism is **Stacks 050U**,
+the condition that every base change of it by a quasi-compact algebraic stack is quasi-compact, so
+the statement to be carried from the terminal scheme back to `S` is quasi-compactness of a
+2-fibre product. Two results do that, and nothing else is needed:
 
 * `AlgebraicGeometry.Stack.changeBaseTwoFibreProductInv`, an equivalence of categories, identifies
   the 2-fibre product of the views with the view of the 2-fibre product, so

@@ -425,10 +425,24 @@ section Unbounded
 
 variable {X Y S : Scheme.{u}} (a : X ⟶ S) (b : Y ⟶ S)
 
-/-- **The relative Künneth map of the box product for arbitrary complexes**
-`Ra_*(𝓕^•) ⊗^𝐋_{𝒪_S} Rb_*(𝓖^•) ⟶ Rf_*(Tot(𝓕^• ⊠ 𝓖^•))`, with the total complex formed over
-`f^{-1}𝒪_S`: the Künneth map of [Stacks, Tag 0FLP] for the inverse-image ringed spaces, followed
-by `Rf_*` of steps (4) and (5), `boxTotalComplexDerivedComparison`. -/
+/-- **The relative cup product of [Stacks, Tag 0G4B]**
+
+`Ra_*(𝓕^•) ⊗^𝐋_{𝒪_S} Rb_*(𝓖^•) ⟶ Rf_*(Tot(𝓕^• ⊠ 𝓖^•))`
+
+in `D(𝒪_S)`, for `𝓕^•` on `X/S` and `𝓖^•` on `Y/S` arbitrary `ℤ`-indexed complexes of
+quasi-coherent modules whose differentials are differential operators of finite order, with no
+boundedness condition, and `f` the structure morphism of `X ×_S Y`. The total complex is the
+direct-sum totalization of the double complex `𝓕^i ⊠ 𝓖^j`, whose maps are `f^{-1}𝒪_S`-linear, so
+it is formed over `f^{-1}𝒪_S`. The map is the composite of the five maps of the source: the
+Künneth map of [Stacks, Tag 0FLP] for the inverse-image ringed spaces, which is the two pullback
+maps and the relative cup product of [Stacks, Remark 0B68], followed by `Rf_*` of steps (4)
+and (5), `boxTotalComplexDerivedComparison`. -/
+@[stacks 0G4B "the map, for arbitrary complexes `F^•`, `G^•` as in the source: the composite of \
+the five maps of the source, steps (1) to (3) being the Künneth map of Tag 0FLP for the \
+inverse-image ringed spaces (the pullbacks `Lp^*`, which computes `p^{-1}` along \
+`(X ×_S Y, f^{-1}𝒪_S) ⟶ (X, a^{-1}𝒪_S)`), steps (4) and (5) being \
+`boxTotalComplexDerivedComparison`; `Tot(F^• ⊠ G^•)` is the direct-sum total complex, formed over \
+`f^{-1}𝒪_S`"]
 def relativeBoxKunnethMapUnbounded
     (K : CochainComplex (FiniteOrderDifferentialOperatorCategory a) ℤ)
     (L : CochainComplex (FiniteOrderDifferentialOperatorCategory b) ℤ) :

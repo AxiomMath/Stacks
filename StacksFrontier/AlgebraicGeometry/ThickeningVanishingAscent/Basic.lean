@@ -58,9 +58,11 @@ conclusion is upstairs: this is an **ascent**, in the direction opposite to base
 The source of [Stacks, Tag 0D4F] performs this step by making `Rg'_* (M')^{⊗ d}` a **perfect**
 object whose formation commutes with base change ([Stacks, Tag 0B91] (1)), identifying its
 pullback with a finite locally free module in degree `0` ([Stacks, Tag 0D4E]) and transporting
-that back up along `j` by the universal property of [Stacks, Tag 0BDK].  The perfection half of
-[Stacks, Tag 0B91] is absent from this library and [Stacks, Tag 0BDK] is proved only along open
-immersions, so that route is closed.  **It is not needed.**
+that back up along `j` by the universal property of [Stacks, Tag 0BDK].  [Stacks, Tag 0B91] is
+proved in full
+(`ProperFlatBaseChange.isPerfect_derivedPushforward_and_isIso_baseChange_of_isProper`), but
+[Stacks, Tag 0BDK] is proved only along open immersions, so that route is closed.  **It is not
+needed.**
 
 * **The comparison.** `g'` is flat, so `AlgebraicGeometry.torIndependent_of_flat_left` makes the
   square Tor independent and [Stacks, Tag 08IB]

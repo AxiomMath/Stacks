@@ -60,14 +60,19 @@ They are always related by `A = A'`, by `A_fin ⊆ A`, `B_fin ⊆ B`, `A_fin ⊆
 
 ## Main results
 
-* `Module.relativeAssassin_comparison`: the five comparisons above, for the six sets
-  described by the hypotheses `hA`, `hA'`, `hAfin`, `hA'fin`, `hB`, `hBfin`.
+* `Module.relativeAssassin_comparison_annihilator`: the five comparisons above, for the six sets
+  described by the hypotheses `hA`, `hA'`, `hAfin`, `hA'fin`, `hB`, `hBfin`, with `Ass` the
+  associated primes: the primes equal to the annihilator of an element.
+* `Module.relativeAssassin_comparison`: the same comparisons with `Ass` read as Mathlib's
+  `associatedPrimes`.
 
 ## Implementation notes
 
-`Ass` is Mathlib's `associatedPrimes`: the primes equal to the *radical* of the annihilator of
-an element. This agrees with the annihilator reading over a Noetherian ring
-(`isAssociatedPrime_iff`).
+In `Module.relativeAssassin_comparison_annihilator`, `𝔮 ∈ Ass_S(P)` means that the prime `𝔮`
+is the annihilator of some element of `P`, spelled `∃ m : P, (⊥ : Submodule S P).colon {m} = 𝔮`.
+In `Module.relativeAssassin_comparison`, `Ass` is Mathlib's `associatedPrimes`: the primes equal
+to the *radical* of the annihilator of an element. The two agree over a Noetherian ring
+(`Submodule.isAssociatedPrime_iff`), but not in general.
 
 `N / 𝔭N` is spelled `N ⧸ (Ideal.map (algebraMap R S) 𝔭 • ⊤)`, which is canonically isomorphic
 to `N ⊗[R] (R ⧸ 𝔭)`. The fibre module of `A'` is spelled as the base change
@@ -738,8 +743,261 @@ private theorem exists_mem_quot_of_mem_tensor_finite [IsNoetherianRing R] [Modul
 
 end Steps
 
+/-! ### Comparisons for associated primes read as exact annihilators
+
+Here `𝔮 ∈ Ass_S(P)` means that `𝔮` is prime and equal to the annihilator of some element of
+`P`, spelled `∃ m : P, (⊥ : Submodule S P).colon {m} = 𝔮`. -/
+
+section ExactSteps
+
+open _root_.Stacks.AssociatedPrimes.FlatBaseChange (quotSMulEquivTensorQuot)
+
+/-- An ideal which is the annihilator of an element stays one along a linear equivalence. -/
+private theorem exists_colon_eq_of_linearEquiv {S P Q : Type*} [CommRing S] [AddCommGroup P]
+    [Module S P] [AddCommGroup Q] [Module S Q] (e : P ≃ₗ[S] Q) {I : Ideal S}
+    (h : ∃ m : P, (⊥ : Submodule S P).colon {m} = I) :
+    ∃ m : Q, (⊥ : Submodule S Q).colon {m} = I := by
+  obtain ⟨m, hm⟩ := h
+  exact ⟨e m, (colon_map_eq e.toLinearMap e.injective m).trans hm⟩
+
+/-- Over a Noetherian ring a prime is the annihilator of an element if and only if it is an
+associated prime in Mathlib's sense. -/
+private theorem exists_colon_eq_iff_mem_associatedPrimes {S P : Type*} [CommRing S]
+    [IsNoetherianRing S] [AddCommGroup P] [Module S P] {q : Ideal S} (hq : q.IsPrime) :
+    (∃ m : P, (⊥ : Submodule S P).colon {m} = q) ↔ q ∈ associatedPrimes S P := by
+  constructor
+  · rintro ⟨m, hm⟩
+    exact (Submodule.isAssociatedPrime_iff (N := (⊥ : Submodule S P))).mpr ⟨hq, m, hm.symm⟩
+  · intro h
+    obtain ⟨-, m, hm⟩ := (Submodule.isAssociatedPrime_iff (N := (⊥ : Submodule S P))).mp h
+    exact ⟨m, hm.symm⟩
+
+/-- Stacks 02M3 for annihilators: a prime which is the annihilator of an element of the middle
+term of a short exact sequence is the annihilator of an element of one of the outer terms. -/
+private theorem exists_colon_eq_or_of_exact {S M₁ M₂ M₃ : Type*} [CommRing S] [AddCommGroup M₁]
+    [Module S M₁] [AddCommGroup M₂] [Module S M₂] [AddCommGroup M₃] [Module S M₃]
+    (f : M₁ →ₗ[S] M₂) (g : M₂ →ₗ[S] M₃) (hf : Function.Injective f) (hfg : Function.Exact f g)
+    {q : Ideal S} (hq : q.IsPrime) (h : ∃ m : M₂, (⊥ : Submodule S M₂).colon {m} = q) :
+    (∃ m : M₁, (⊥ : Submodule S M₁).colon {m} = q) ∨
+      ∃ m : M₃, (⊥ : Submodule S M₃).colon {m} = q := by
+  obtain ⟨m, hm⟩ := h
+  have e : ∀ t : S, t • m = 0 ↔ t ∈ q := fun t => by rw [← hm, mem_colon_singleton, mem_bot]
+  by_cases H : ∃ a : S, a • m ≠ 0 ∧ a • m ∈ LinearMap.range f
+  · obtain ⟨a, ha0, hrange⟩ := H
+    obtain ⟨y, hy⟩ := LinearMap.mem_range.mp hrange
+    have ha : a ∉ q := fun haq => ha0 ((e a).mpr haq)
+    refine Or.inl ⟨y, ?_⟩
+    rw [← colon_map_eq f hf y, hy]
+    ext s
+    rw [mem_colon_singleton, mem_bot, smul_smul, e]
+    exact ⟨fun h => (hq.mem_or_mem h).resolve_right ha, fun h => q.mul_mem_right a h⟩
+  · have H' : ∀ a : S, a • m ≠ 0 → a • m ∉ LinearMap.range f := fun a h1 h2 => H ⟨a, h1, h2⟩
+    refine Or.inr ⟨g m, le_antisymm (fun s hs => ?_) (hm.ge.trans (colon_le_colon_map g m))⟩
+    rw [mem_colon_singleton, mem_bot, ← map_smul] at hs
+    obtain ⟨y, hy⟩ := (hfg (s • m)).mp hs
+    rw [← e]
+    by_contra hne
+    exact H' s hne (LinearMap.mem_range.mpr ⟨y, hy⟩)
+
+variable {R : Type u} {S : Type v} [CommRing R] [CommRing S] [Algebra R S]
+
+section Localized
+
+variable {M : Type*} [AddCommGroup M] [Module S M] [Module R M] [IsScalarTower R S M]
+  {M' : Type*} [AddCommGroup M'] [Module S M'] [Module R M'] [IsScalarTower R S M']
+
+/-- Stacks 05BZ (2) for annihilators: a prime avoiding the denominators which is the annihilator
+of an element of a module is the annihilator of its image in the localization. -/
+private theorem exists_colon_eq_of_isLocalizedModule (T : Submonoid R) (f : M →ₗ[S] M')
+    [IsLocalizedModule T (f.restrictScalars R)] {q : Ideal S} (hq : q.IsPrime)
+    (hT : ∀ r ∈ T, algebraMap R S r ∉ q) (h : ∃ z : M, (⊥ : Submodule S M).colon {z} = q) :
+    ∃ w : M', (⊥ : Submodule S M').colon {w} = q := by
+  obtain ⟨z, hz⟩ := h
+  refine ⟨f z, le_antisymm (fun s hs => ?_) (hz.ge.trans (colon_le_colon_map f z))⟩
+  rw [mem_colon_singleton, mem_bot] at hs
+  obtain ⟨r, hr, hrz⟩ := exists_smul_eq_zero_of_map_eq_zero T f (x := s • z)
+    (by rwa [map_smul])
+  have key : algebraMap R S r * s ∈ q := by
+    rw [← hz, mem_colon_singleton, mem_bot, mul_smul, algebraMap_smul]
+    exact hrz
+  exact (hq.mem_or_mem key).resolve_left (hT r hr)
+
+/-- Stacks 05C0 for annihilators: if the denominators act injectively, a prime which is the
+annihilator of an element of the localization is the annihilator of an element of the module. -/
+private theorem exists_colon_eq_of_isLocalizedModule_of_isSMulRegular (T : Submonoid R)
+    (f : M →ₗ[S] M') [IsLocalizedModule T (f.restrictScalars R)]
+    (hreg : ∀ r ∈ T, IsSMulRegular M r) {q : Ideal S} (hq : q.IsPrime)
+    (h : ∃ w : M', (⊥ : Submodule S M').colon {w} = q) :
+    ∃ z : M, (⊥ : Submodule S M).colon {z} = q := by
+  obtain ⟨w, hw⟩ := h
+  have e : ∀ t : S, t • w = 0 ↔ t ∈ q := fun t => by rw [← hw, mem_colon_singleton, mem_bot]
+  have hT : ∀ r ∈ T, algebraMap R S r ∉ q := by
+    intro r hr hmem
+    rw [← e, algebraMap_smul] at hmem
+    have hw0 : w = 0 := IsLocalizedModule.smul_injective (f.restrictScalars R) ⟨r, hr⟩
+      (by simpa [Submonoid.smul_def] using hmem)
+    exact hq.ne_top (by rw [← hw, hw0]; simp)
+  obtain ⟨⟨z, ⟨r, hr⟩⟩, hzr⟩ := IsLocalizedModule.surj T (f.restrictScalars R) w
+  have hfz : ∀ t : S, f (t • z) = (t * algebraMap R S r) • w := fun t => by
+    have hfz : f z = algebraMap R S r • w := by
+      simpa [Submonoid.smul_def, algebraMap_smul] using hzr.symm
+    rw [map_smul, hfz, smul_smul]
+  refine ⟨z, le_antisymm (fun s hs => ?_) (fun s hs => ?_)⟩
+  · rw [mem_colon_singleton, mem_bot] at hs
+    have h0 : (s * algebraMap R S r) • w = 0 := by rw [← hfz, hs, map_zero]
+    exact (hq.mem_or_mem ((e _).mp h0)).resolve_right (hT r hr)
+  · rw [← e] at hs
+    rw [mem_colon_singleton, mem_bot]
+    obtain ⟨r'', hr'', h'⟩ := exists_smul_eq_zero_of_map_eq_zero T f (x := s • z)
+      (by rw [hfz, mul_comm, mul_smul, hs, smul_zero])
+    exact hreg r'' hr'' (h'.trans (smul_zero r'').symm)
+
+end Localized
+
+variable (N : Type w) [AddCommGroup N] [Module S N] [Module R N] [IsScalarTower R S N]
+
+/-- Stacks 05BY and 05BZ (1) for annihilators: a prime `𝔮` of `S` is the annihilator of an
+element of `N ⊗_R κ(𝔭)` if and only if it is the contraction of a prime of the fibre ring
+`S ⊗_R κ(𝔭)` which is the annihilator of an element of `(S ⊗_R κ(𝔭)) ⊗_S N`. -/
+private theorem exists_colon_eq_fibre_iff (q : PrimeSpectrum S) :
+    (∃ m : N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField,
+      (⊥ : Submodule S
+        (N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField)).colon {m} =
+        q.asIdeal) ↔
+    ∃ Q : PrimeSpectrum (S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField),
+      (∃ m : (S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField) ⊗[S] N,
+        (⊥ : Submodule (S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField)
+          ((S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField) ⊗[S] N)).colon
+          {m} = Q.asIdeal) ∧
+      PrimeSpectrum.comap (algebraMap S
+        (S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField)) Q = q := by
+  set p := (PrimeSpectrum.comap (algebraMap R S) q).asIdeal
+  constructor
+  · intro h
+    obtain ⟨z, hz⟩ := exists_colon_eq_of_linearEquiv (fibreEquiv (N := N) p).symm h
+    have hc := colon_bot_comap (S := S) (S ⊗[R] p.ResidueField) z
+    rw [hz] at hc
+    have hJ : ((⊥ : Submodule (S ⊗[R] p.ResidueField) ((S ⊗[R] p.ResidueField) ⊗[S] N)).colon
+        {z}).IsPrime :=
+      isPrime_of_comap_isPrime (exists_isUnit_mul_eq_algebraMap p) (hc ▸ q.isPrime)
+    exact ⟨⟨_, hJ⟩, ⟨z, rfl⟩, PrimeSpectrum.ext hc.symm⟩
+  · rintro ⟨Q, ⟨z, hz⟩, hQq⟩
+    refine exists_colon_eq_of_linearEquiv (fibreEquiv (N := N) p) ⟨z, ?_⟩
+    rw [colon_bot_comap (S := S) (S ⊗[R] p.ResidueField) z, hz]
+    exact congrArg PrimeSpectrum.asIdeal hQq
+
+/-- Stacks 05BZ (2) for annihilators: with `𝔭 = R ∩ 𝔮`, a prime which is the annihilator of an
+element of `N / 𝔭N` is the annihilator of an element of the fibre `N ⊗_R κ(𝔭)`. -/
+private theorem exists_colon_eq_fibre_of_quot (q : PrimeSpectrum S)
+    (h : ∃ w : N ⧸ ((PrimeSpectrum.comap (algebraMap R S) q).asIdeal.map (algebraMap R S) •
+        (⊤ : Submodule S N)),
+      (⊥ : Submodule S (N ⧸ ((PrimeSpectrum.comap (algebraMap R S) q).asIdeal.map
+        (algebraMap R S) • (⊤ : Submodule S N)))).colon {w} = q.asIdeal) :
+    ∃ m : N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField,
+      (⊥ : Submodule S
+        (N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField)).colon {m} =
+        q.asIdeal := by
+  have hloc := isLocalizedModule_fibreMk (S := S) N
+    (PrimeSpectrum.comap (algebraMap R S) q).asIdeal
+  exact exists_colon_eq_of_isLocalizedModule
+    (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.primeCompl
+    (fibreMk N (PrimeSpectrum.comap (algebraMap R S) q).asIdeal) q.isPrime
+    (fun r hr hmem => hr hmem)
+    (exists_colon_eq_of_linearEquiv
+      (quotSMulEquivTensorQuot (N := N) (PrimeSpectrum.comap (algebraMap R S) q).asIdeal) h)
+
+/-- Stacks 05C0 for annihilators and a flat `N`: with `𝔭 = R ∩ 𝔮`, a prime which is the
+annihilator of an element of the fibre `N ⊗_R κ(𝔭)` is the annihilator of an element of
+`N / 𝔭N`. -/
+private theorem exists_colon_eq_quot_of_fibre_of_flat [Module.Flat R N] (q : PrimeSpectrum S)
+    (h : ∃ m : N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField,
+      (⊥ : Submodule S
+        (N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField)).colon {m} =
+        q.asIdeal) :
+    ∃ w : N ⧸ ((PrimeSpectrum.comap (algebraMap R S) q).asIdeal.map (algebraMap R S) •
+        (⊤ : Submodule S N)),
+      (⊥ : Submodule S (N ⧸ ((PrimeSpectrum.comap (algebraMap R S) q).asIdeal.map
+        (algebraMap R S) • (⊤ : Submodule S N)))).colon {w} = q.asIdeal := by
+  have hloc := isLocalizedModule_fibreMk (S := S) N
+    (PrimeSpectrum.comap (algebraMap R S) q).asIdeal
+  exact exists_colon_eq_of_linearEquiv
+    (quotSMulEquivTensorQuot (N := N) (PrimeSpectrum.comap (algebraMap R S) q).asIdeal).symm
+    (exists_colon_eq_of_isLocalizedModule_of_isSMulRegular
+      (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.primeCompl
+      (fibreMk N (PrimeSpectrum.comap (algebraMap R S) q).asIdeal)
+      (fun r hr => isSMulRegular_tensor_quotient_of_flat N _ hr) q.isPrime h)
+
+/-- For a flat `N`, if a prime `𝔮` of `S` is the annihilator of an element of `N / 𝔭'N`, then
+`𝔭' = R ∩ 𝔮`. -/
+private theorem comap_eq_of_exists_colon_eq_quot_of_flat [Module.Flat R N] (q : PrimeSpectrum S)
+    (p : PrimeSpectrum R)
+    (h : ∃ w : N ⧸ (p.asIdeal.map (algebraMap R S) • (⊤ : Submodule S N)),
+      (⊥ : Submodule S (N ⧸ (p.asIdeal.map (algebraMap R S) • (⊤ : Submodule S N)))).colon {w} =
+        q.asIdeal) :
+    PrimeSpectrum.comap (algebraMap R S) q = p := by
+  obtain ⟨z, hz⟩ := exists_colon_eq_of_linearEquiv (quotSMulEquivTensorQuot (N := N) p.asIdeal) h
+  refine PrimeSpectrum.ext (le_antisymm ?_ ?_)
+  · intro r hr
+    by_contra hnp
+    have hr' : algebraMap R S r ∈ q.asIdeal := hr
+    rw [← hz, mem_colon_singleton, algebraMap_smul, mem_bot] at hr'
+    have hz0 : z = 0 :=
+      isSMulRegular_tensor_quotient_of_flat N p.asIdeal hnp (by simpa using hr')
+    exact q.isPrime.ne_top (by rw [← hz, hz0]; simp)
+  · intro r hr
+    have h : algebraMap R S r ∈ q.asIdeal := by
+      rw [← hz, mem_colon_singleton, algebraMap_smul, mem_bot]
+      exact smul_eq_zero_of_mem N p.asIdeal hr z
+    exact h
+
+/-- For a flat `N`, a prime which is the annihilator of an element of `N ⊗_R M` is the
+annihilator of an element of `N ⊗_R M'` for a finite `M' ⊆ M`. -/
+private theorem exists_finite_of_exists_colon_eq_tensor_of_flat [Module.Flat R N] (q : Ideal S)
+    (M : Type (max u v)) [AddCommGroup M] [Module R M]
+    (h : ∃ z : N ⊗[R] M, (⊥ : Submodule S (N ⊗[R] M)).colon {z} = q) :
+    ∃ (M' : Type (max u v)) (_ : AddCommGroup M') (_ : Module R M') (_ : Module.Finite R M'),
+      ∃ z : N ⊗[R] M', (⊥ : Submodule S (N ⊗[R] M')).colon {z} = q := by
+  obtain ⟨z, hz⟩ := h
+  obtain ⟨M₀, hfin₀, hsub⟩ := TensorProduct.exists_finite_submodule_right_of_setFinite
+    (M := N) {z} (Set.finite_singleton z)
+  obtain ⟨z₀, hz₀⟩ := hsub rfl
+  refine ⟨M₀, inferInstance, inferInstance, hfin₀, z₀, ?_⟩
+  rw [← hz, ← hz₀]
+  exact (colon_map_eq (AlgebraTensorModule.lTensor S N M₀.subtype)
+    (Module.Flat.lTensor_preserves_injective_linearMap (M := N) M₀.subtype
+      (Submodule.injective_subtype M₀)) z₀).symm
+
+/-- For a flat `N` over a Noetherian `R`, a prime which is the annihilator of an element of
+`N ⊗_R M` with `M` a finite `R`-module is the annihilator of an element of `N ⊗_R R/𝔭` for some
+prime `𝔭` of `R`. -/
+private theorem exists_prime_exists_colon_eq_tensor_quot [IsNoetherianRing R] [Module.Flat R N]
+    {q : Ideal S} (hq : q.IsPrime) (M : Type (max u v)) [AddCommGroup M] [Module R M]
+    [Module.Finite R M] (h : ∃ z : N ⊗[R] M, (⊥ : Submodule S (N ⊗[R] M)).colon {z} = q) :
+    ∃ p : PrimeSpectrum R, ∃ z : N ⊗[R] (R ⧸ p.asIdeal),
+      (⊥ : Submodule S (N ⊗[R] (R ⧸ p.asIdeal))).colon {z} = q := by
+  revert h
+  refine IsNoetherianRing.induction_on_isQuotientEquivQuotientPrime (A := R) (M := M)
+    ‹Module.Finite R M›
+    (motive := fun P _ _ _ => (∃ z : N ⊗[R] P, (⊥ : Submodule S (N ⊗[R] P)).colon {z} = q) →
+      ∃ p : PrimeSpectrum R, ∃ z : N ⊗[R] (R ⧸ p.asIdeal),
+        (⊥ : Submodule S (N ⊗[R] (R ⧸ p.asIdeal))).colon {z} = q)
+    (fun P _ _ _ _ ⟨z, hz⟩ => absurd hz (fun hz' => hq.ne_top (by
+      rw [← hz', Subsingleton.elim z 0]; simp)))
+    (fun P _ _ _ p e hz => ⟨p, exists_colon_eq_of_linearEquiv
+      (AlgebraTensorModule.congr (LinearEquiv.refl S N) e) hz⟩)
+    (fun P₁ _ _ _ P₂ _ _ _ P₃ _ _ _ f g hf _ hfg ih₁ ih₃ hz => ?_)
+  rcases exists_colon_eq_or_of_exact
+    (AlgebraTensorModule.lTensor S N f) (AlgebraTensorModule.lTensor S N g)
+    (Module.Flat.lTensor_preserves_injective_linearMap (M := N) f hf)
+    (Module.Flat.lTensor_exact N hfg) hq hz with h1 | h3
+  · exact ih₁ h1
+  · exact ih₃ h3
+
+end ExactSteps
+
 /-- The comparisons of Stacks 05GB between the six sets of primes `A`, `A'`, `A_fin`, `A'_fin`,
-`B` and `B_fin`; this is the statement of `Module.relativeAssassin_comparison`. -/
+`B` and `B_fin`, with `Ass` read as Mathlib's `associatedPrimes` (primes equal to the radical of
+the annihilator of an element); this is the statement of `Module.relativeAssassin_comparison`. -/
 public theorem solution (R : Type u) (S : Type v) [CommRing R] [CommRing S]
     [Algebra R S] (N : Type w) [AddCommGroup N] [Module S N] [Module R N] [IsScalarTower R S N]
     {A A' Afin A'fin B Bfin : Set (PrimeSpectrum S)}
@@ -823,22 +1081,138 @@ public theorem solution (R : Type u) (S : Type v) [CommRing R] [CommRing S]
     rintro q ⟨M, i1, i2, i3, h⟩
     exact exists_mem_quot_of_mem_tensor_finite N q.asIdeal M h
 
+/-- Let `R → S` be a ring map and let `N` be an `S`-module. A prime `𝔮` of `S` is associated to an
+`S`-module `P` when it is the annihilator of some element of `P`, that is
+`(⊥ : Submodule S P).colon {m} = 𝔮` for some `m : P`. With `𝔭 = R ∩ 𝔮`, let `A` be the set of
+primes `𝔮` associated to `N ⊗_R κ(𝔭)`, `A'` the set of contractions of the primes of the fibre
+ring `S ⊗_R κ(𝔭)` associated to `(S ⊗_R κ(𝔭)) ⊗_S N ≅ N ⊗_R κ(𝔭)` over the fibre ring, `A_fin`
+the set of primes associated to `N / 𝔭N`, `A'_fin` the set of primes associated to `N / 𝔭'N`
+for some prime `𝔭'` of `R`, `B` the set of primes associated to `N ⊗_R M` for some `R`-module
+`M`, and `B_fin` the same with `M` finite. Then (1) `A = A'`; (2) `A_fin ⊆ A`, `B_fin ⊆ B`,
+`A_fin ⊆ A'_fin ⊆ B_fin` and `A ⊆ B`; (3) if `S` is Noetherian then `A = A_fin` and
+`B = B_fin`; (4) if `N` is flat over `R` then `A = A_fin = A'_fin` and `B = B_fin`; (5) if `R`
+is Noetherian and `N` is flat over `R` then all six sets are equal. -/
+@[stacks 05GB]
+public theorem _root_.Module.relativeAssassin_comparison_annihilator (R : Type u) (S : Type v)
+    [CommRing R] [CommRing S] [Algebra R S] (N : Type w) [AddCommGroup N] [Module S N]
+    [Module R N] [IsScalarTower R S N] {A A' Afin A'fin B Bfin : Set (PrimeSpectrum S)}
+    (hA : A = {q | ∃ m : N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField,
+      (⊥ : Submodule S
+        (N ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField)).colon {m} =
+        q.asIdeal})
+    (hA' : A' = {q | ∃ Q : PrimeSpectrum
+        (S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField),
+        (∃ m : (S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField) ⊗[S] N,
+          (⊥ : Submodule (S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField)
+            ((S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField) ⊗[S]
+              N)).colon {m} = Q.asIdeal) ∧
+        PrimeSpectrum.comap (algebraMap S
+          (S ⊗[R] (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField)) Q = q})
+    (hAfin : Afin = {q | ∃ w : N ⧸ ((PrimeSpectrum.comap (algebraMap R S) q).asIdeal.map
+        (algebraMap R S) • (⊤ : Submodule S N)),
+      (⊥ : Submodule S (N ⧸ ((PrimeSpectrum.comap (algebraMap R S) q).asIdeal.map
+        (algebraMap R S) • (⊤ : Submodule S N)))).colon {w} = q.asIdeal})
+    (hA'fin : A'fin = {q | ∃ p : PrimeSpectrum R,
+      ∃ w : N ⧸ (p.asIdeal.map (algebraMap R S) • (⊤ : Submodule S N)),
+        (⊥ : Submodule S (N ⧸ (p.asIdeal.map (algebraMap R S) • (⊤ : Submodule S N)))).colon
+          {w} = q.asIdeal})
+    (hB : B = {q | ∃ (M : Type (max u v)) (_ : AddCommGroup M) (_ : Module R M),
+      ∃ z : N ⊗[R] M, (⊥ : Submodule S (N ⊗[R] M)).colon {z} = q.asIdeal})
+    (hBfin : Bfin = {q | ∃ (M : Type (max u v)) (_ : AddCommGroup M) (_ : Module R M)
+      (_ : Module.Finite R M),
+      ∃ z : N ⊗[R] M, (⊥ : Submodule S (N ⊗[R] M)).colon {z} = q.asIdeal}) :
+    A = A' ∧
+    (Afin ⊆ A ∧ Bfin ⊆ B ∧ Afin ⊆ A'fin ∧ A'fin ⊆ Bfin ∧ A ⊆ B) ∧
+    (IsNoetherianRing S → A = Afin ∧ B = Bfin) ∧
+    (Module.Flat R N → A = Afin ∧ Afin = A'fin ∧ B = Bfin) ∧
+    (IsNoetherianRing R → Module.Flat R N →
+      A = A' ∧ A' = Afin ∧ Afin = A'fin ∧ A'fin = Bfin ∧ Bfin = B) := by
+  have h1 : A = A' := by
+    subst hA hA'
+    ext q
+    exact exists_colon_eq_fibre_iff N q
+  have h2A : Afin ⊆ A := by
+    subst hA hAfin
+    exact fun q h => exists_colon_eq_fibre_of_quot N q h
+  have h2AB : A ⊆ B := by
+    subst hA hB
+    intro q hq
+    exact ⟨ULift.{v} (PrimeSpectrum.comap (algebraMap R S) q).asIdeal.ResidueField,
+      inferInstance, inferInstance, exists_colon_eq_of_linearEquiv
+        (AlgebraTensorModule.congr (LinearEquiv.refl S N) ULift.moduleEquiv).symm hq⟩
+  have hBB : Bfin ⊆ B := by
+    subst hB hBfin
+    rintro q ⟨M, i1, i2, _, h⟩
+    exact ⟨M, i1, i2, h⟩
+  have hAA'fin : Afin ⊆ A'fin := by
+    subst hAfin hA'fin
+    exact fun q hq => ⟨PrimeSpectrum.comap (algebraMap R S) q, hq⟩
+  have hA'finB : A'fin ⊆ Bfin := by
+    subst hA'fin hBfin
+    rintro q ⟨p, hp⟩
+    have : Module.Finite R (R ⧸ p.asIdeal) :=
+      Module.Finite.of_surjective p.asIdeal.mkQ p.asIdeal.mkQ_surjective
+    have : Module.Finite R (ULift.{v} (R ⧸ p.asIdeal)) :=
+      Module.Finite.equiv ULift.moduleEquiv.symm
+    exact ⟨ULift.{v} (R ⧸ p.asIdeal), inferInstance, inferInstance, inferInstance,
+      exists_colon_eq_of_linearEquiv
+        (AlgebraTensorModule.congr (LinearEquiv.refl S N) ULift.moduleEquiv).symm
+        (exists_colon_eq_of_linearEquiv
+          (FlatBaseChange.quotSMulEquivTensorQuot (N := N) p.asIdeal) hp)⟩
+  have hAfl : Module.Flat R N → A = Afin := by
+    intro _
+    subst hA hAfin
+    exact Set.Subset.antisymm (fun q hq => exists_colon_eq_quot_of_fibre_of_flat N q hq) h2A
+  have hfl : Module.Flat R N → Afin = A'fin := by
+    intro _
+    subst hAfin hA'fin
+    refine Set.Subset.antisymm hAA'fin ?_
+    rintro q ⟨p, hp⟩
+    obtain rfl := comap_eq_of_exists_colon_eq_quot_of_flat N q p hp
+    exact hp
+  have hBfl : Module.Flat R N → B = Bfin := by
+    intro _
+    subst hB hBfin
+    refine Set.Subset.antisymm ?_ hBB
+    rintro q ⟨M, i1, i2, h⟩
+    exact exists_finite_of_exists_colon_eq_tensor_of_flat N q.asIdeal M h
+  refine ⟨h1, ⟨h2A, hBB, hAA'fin, hA'finB, h2AB⟩, ?_, fun hN => ⟨hAfl hN, hfl hN, hBfl hN⟩, ?_⟩
+  · intro _
+    subst hA hAfin hB hBfin
+    refine ⟨Set.Subset.antisymm (fun q hq => ?_) h2A, Set.Subset.antisymm ?_ hBB⟩
+    · exact (exists_colon_eq_iff_mem_associatedPrimes q.isPrime).mpr
+        (mem_quot_of_mem_fibre_of_noetherian N q
+          ((exists_colon_eq_iff_mem_associatedPrimes q.isPrime).mp hq))
+    · rintro q ⟨M, i1, i2, h⟩
+      obtain ⟨M', i1', i2', i3', h'⟩ := exists_finite_of_mem_tensor_of_noetherian N q.asIdeal M
+        ((exists_colon_eq_iff_mem_associatedPrimes q.isPrime).mp h)
+      exact ⟨M', i1', i2', i3', (exists_colon_eq_iff_mem_associatedPrimes q.isPrime).mpr h'⟩
+  · intro _ hN
+    refine ⟨h1, h1.symm.trans (hAfl hN), hfl hN, Set.Subset.antisymm hA'finB ?_, (hBfl hN).symm⟩
+    subst hA'fin hBfin
+    rintro q ⟨M, i1, i2, i3, h⟩
+    obtain ⟨p, hp⟩ := exists_prime_exists_colon_eq_tensor_quot N q.isPrime M h
+    exact ⟨p, exists_colon_eq_of_linearEquiv
+      (FlatBaseChange.quotSMulEquivTensorQuot (N := N) p.asIdeal).symm hp⟩
+
 end Stacks.AssociatedPrimes.RelativeAssassin
 
 open TensorProduct
 
 namespace Module
 
-/-- Let `R → S` be a ring map, let `N` be an `S`-module, and let `A`, `A'`, `A_fin`, `A'_fin`, `B`,
-`B_fin` be the six sets of primes of `S` attached to this data: with `𝔭 = R ∩ 𝔮`, the primes `𝔮`
-associated to `N ⊗_R κ(𝔭)` over `S`, those in the image of the primes associated to `N ⊗_R κ(𝔭)`
-over the fibre ring `S ⊗_R κ(𝔭)`, those associated to `N / 𝔭N`, those associated to `N / 𝔭'N` for
-some prime `𝔭'` of `R`, those associated to `N ⊗_R M` for some `R`-module `M`, and those associated
-to `N ⊗_R M` for some finite `R`-module `M`. Then (1) `A = A'`; (2) `A_fin ⊆ A`, `B_fin ⊆ B`,
-`A_fin ⊆ A'_fin ⊆ B_fin` and `A ⊆ B`; (3) if `S` is Noetherian then `A = A_fin` and `B = B_fin`;
-(4) if `N` is flat over `R` then `A = A_fin = A'_fin` and `B = B_fin`; (5) if `R` is Noetherian and
-`N` is flat over `R` then all six sets are equal. -/
-@[stacks 05GB]
+/-- The comparisons of `Module.relativeAssassin_comparison_annihilator` with `Ass` read as
+Mathlib's `associatedPrimes`, whose members are the primes equal to the *radical* of the
+annihilator of an element. With `𝔭 = R ∩ 𝔮`, the six sets are the primes `𝔮` of `S` in
+`associatedPrimes` of `N ⊗_R κ(𝔭)`, the contractions of those of `(S ⊗_R κ(𝔭)) ⊗_S N` over the
+fibre ring, those of `N / 𝔭N`, those of `N / 𝔭'N` for some prime `𝔭'` of `R`, those of `N ⊗_R M`
+for some `R`-module `M`, and those of `N ⊗_R M` for some finite `R`-module `M`. Then (1)
+`A = A'`; (2) `A_fin ⊆ A`, `B_fin ⊆ B`, `A_fin ⊆ A'_fin ⊆ B_fin` and `A ⊆ B`; (3) if `S` is
+Noetherian then `A = A_fin` and `B = B_fin`; (4) if `N` is flat over `R` then
+`A = A_fin = A'_fin` and `B = B_fin`; (5) if `R` is Noetherian and `N` is flat over `R` then all
+six sets are equal. This radical-annihilator variant agrees with
+`Module.relativeAssassin_comparison_annihilator` when `S` is Noetherian
+(`Submodule.isAssociatedPrime_iff`). -/
 public theorem relativeAssassin_comparison (R : Type u) (S : Type v) [CommRing R] [CommRing S]
     [Algebra R S] (N : Type w) [AddCommGroup N] [Module S N] [Module R N] [IsScalarTower R S N]
     {A A' Afin A'fin B Bfin : Set (PrimeSpectrum S)}

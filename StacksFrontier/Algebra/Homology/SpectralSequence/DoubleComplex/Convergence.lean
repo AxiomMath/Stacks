@@ -31,9 +31,10 @@ variable {K}
 
 variable (K)
 
-/-- **Stacks 0130, the second filtration.** Let `(''E_r, ''d_r)` be the spectral sequence of the
-total complex of a double complex `K^{•,•}` filtered by the second coordinate, presented as in
-[Stacks, Tag 012M] by its pages `Z_r^{p,q}/D_r^{p,q}` and its differentials induced by `d`. Then
+/-- **The pages of the second filtration, up to some isomorphisms.** Let `(''E_r, ''d_r)` be the
+spectral sequence of the total complex of a double complex `K^{•,•}` filtered by the second
+coordinate, presented as in [Stacks, Tag 012M] by its pages `Z_r^{p,q}/D_r^{p,q}` and its
+differentials induced by `d`. Then
 2. `''E_0^{p,q} = K^{q,p}` with `''d_0^{p,q} = d_1^{q,p}`;
 4. `''E_1^{p,q} = H^q(K^{•,p})` with `''d_1^{p,q} = (-1)^q H^q(d_2^{•,p})`; here `H^q(K^{•,p})`
    is written as the `p`-th term of `H^q_I(K^{•,•})`, whose differential is induced by `d_2`;
@@ -42,8 +43,11 @@ total complex of a double complex `K^{•,•}` filtered by the second coordinat
 That the filtration `F` this is stated for really is
 `F_{II}^p Tot^n = ⨁_{i + j = n, j ≥ p} K^{i,j}` is the companion statement
 `isLeast_totalFiltration₂`, which shares the parameters `F` and `hF` with this one; the two
-together are the content of [Stacks, Tag 0130] for the second filtration. -/
-@[stacks 0130 "(2), (4) and (6)"]
+together describe the second filtration.
+
+This only asserts that some isomorphisms exist. The statement of [Stacks, Tag 0130] (2), (4) and
+(6), with the identifications pinned to the canonical maps, is
+`exists_iso_pages_totalFiltration₂_canonical`. -/
 public theorem exists_iso_pages_totalFiltration₂
     (F : ∀ (_p n : ℤ), Subobject ((K.total (ComplexShape.up ℤ)).X n))
     (hF : ∀ p n : ℤ, F p n = Subobject.mk ((K.totalFiltration₂.filtration.ι.app (op p)).f n))

@@ -20,8 +20,10 @@ proof of [Stacks, Tag 0F7J] which shows independence of the compactification `Ȳ
   compactifications of `g`.
 * `Stacks.EtaleCohomology.derivedLowerShriekCompIso_hom_app_second`: for two arbitrary
   compactifications of `g`.
-* `Stacks.EtaleCohomology.derivedLowerShriekCompIso_assoc`: **Stacks 0F7K**, the associativity of
-  these isomorphisms.
+* `Stacks.EtaleCohomology.derivedLowerShriekCompIso_assoc`: **Stacks 0F7K** on
+  `D⁺_tors(X_étale, Λ)`, the associativity of these isomorphisms. The statement on unbounded
+  derived categories for a torsion ring is
+  `Stacks.EtaleCohomology.derivedLowerShriekUnboundedCompIso_assoc`.
 -/
 
 @[expose] public noncomputable section
@@ -916,8 +918,9 @@ compactification `Z̄` of `Z` (and of `X` over `Ȳ`) the statement is
 `Stacks.EtaleCohomology.derivedLowerShriekCompIso_assoc_of_tower`, and the isomorphisms of
 [Stacks, Tag 0F7J] do not depend on the compactifications
 (`Stacks.EtaleCohomology.derivedLowerShriekCompIso_hom_app_second` and its first and third slot
-companions). -/
-@[stacks 0F7K]
+companions). The statement on the unbounded derived categories `D(X_étale, Λ)`, for a torsion
+ring `Λ`, is `Stacks.EtaleCohomology.derivedLowerShriekUnboundedCompIso_assoc`. -/
+@[stacks 0F7K "D⁺_tors(X_et, Λ)"]
 theorem derivedLowerShriekCompIso_assoc (jf : CompactificationOf (Over.mk f))
     (jg : CompactificationOf (Over.mk g)) (jh : CompactificationOf (Over.mk h))
     (jfg : CompactificationOf (Over.mk (f ≫ g))) (jgh : CompactificationOf (Over.mk (g ≫ h)))

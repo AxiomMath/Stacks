@@ -301,12 +301,10 @@ and `ℰ`, `ℱ` finite locally free `𝒪_X`-modules of ranks `r` and `s`. Then
 
 in the Chow cohomology ring `A^*(X)` of Stacks 0B7E, `c₁` being the bivariant Chern class of
 Stacks 0B7H. -/
-@[stacks 0FA6 "the first displayed identity c_1(E tensor F) = r c_1(F) + s c_1(E), in the Chow \
-cohomology ring A^*(X) of Stacks 0B7E at the bivariant Chern classes of Stacks 0B7H, for X locally \
-of finite type over the base and E, F finite locally free of ranks r and s; nothing else is \
-assumed.  The tensor product is AlgebraicGeometry.Scheme.Modules.tensorObj, of rank r*s by Stacks \
-02U9.  The same identity in the ring of total classes prod_p A^p(X) is \
-Stacks.Chow.totalChern_tensorObj_homComponent_one"]
+@[stacks 0FA6 "first displayed identity: for X locally of finite type over the base and \
+finite locally free E, F of ranks r and s, c_1(E ⊗ F) = r c_1(F) + s c_1(E) in the Chow \
+cohomology ring A^*(X) (Stacks 0B7E), c_1 the bivariant Chern class of Stacks 0B7H and E ⊗ F \
+the module Scheme.Modules.tensorObj E F of rank r*s (Stacks 02U9)"]
 theorem chernClass_tensorObj_one_chowCohomology (E F : X.Modules) (r s : ℕ)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E r]
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} F s] :
@@ -325,14 +323,11 @@ base and `ℰ`, `ℱ` finite locally free `𝒪_X`-modules of ranks `r` and `s`.
 
 in the Chow cohomology ring `A^*(X)` of Stacks 0B7E, `c_i` being the bivariant Chern classes of
 Stacks 0B7H and the products those of the ring `A^*(X)`. -/
-@[stacks 0FA6 "the second displayed identity c_2(E tensor F) = r c_2(F) + s c_2(E) + \
-binom(r,2) c_1(F)^2 + (rs - 1) c_1(F) c_1(E) + binom(s,2) c_1(E)^2, in the Chow cohomology ring \
-A^*(X) of Stacks 0B7E at the bivariant Chern classes of Stacks 0B7H, the products being the \
-multiplication of A^*(X), for X locally of finite type over the base and E, F finite locally free \
-of ranks r and s; nothing else is assumed.  The coefficient rs - 1 is an integer.  The tensor \
-product is AlgebraicGeometry.Scheme.Modules.tensorObj, of rank r*s by Stacks 02U9.  The same \
-identity in the ring of total classes prod_p A^p(X) is \
-Stacks.Chow.totalChern_tensorObj_homComponent_two"]
+@[stacks 0FA6 "second displayed identity: for X locally of finite type over the base and \
+finite locally free E, F of ranks r and s, c_2(E ⊗ F) = r c_2(F) + s c_2(E) + \
+binom(r,2) c_1(F)^2 + (rs - 1) c_1(F) c_1(E) + binom(s,2) c_1(E)^2 in the Chow cohomology \
+ring A^*(X) (Stacks 0B7E), with its multiplication, c_i the bivariant Chern classes of \
+Stacks 0B7H, rs - 1 taken in ℤ, and E ⊗ F the module Scheme.Modules.tensorObj E F"]
 theorem chernClass_tensorObj_two_chowCohomology (E F : X.Modules) (r s : ℕ)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} E r]
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} F s] :

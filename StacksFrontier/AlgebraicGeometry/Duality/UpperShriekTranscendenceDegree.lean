@@ -22,7 +22,7 @@ the category of schemes separated and of finite type over `S` of [Stacks, Tag 0F
 2. `trdeg_{κ(f ξ)} κ(ξ) ≤ r` for every generic point `ξ` of an irreducible component of `X`
    containing `x`.
 
-This file proves the vanishing half of [Stacks, Tag 0E9V] (Lemma 48.21.4):
+This file proves the geometric reduction of the vanishing half of [Stacks, Tag 0E9V]:
 
   `H^i(f^!𝒪_Y)_x ≠ 0  ⟹  -r ≤ i`,
 
@@ -34,56 +34,52 @@ of `f` at a point.
 ## Main results
 
 * `Stacks.Duality.neg_le_of_nontrivial_stalk_homology_upperShriek_of_residueTrdeg_le` — the
-  vanishing half of **[Stacks, Tag 0E9V]**.
+  vanishing half of [Stacks, Tag 0E9V], from a chart description and the ring-level vanishing,
+  both taken as hypotheses here and discharged in
+  `StacksFrontier.AlgebraicGeometry.Duality.UpperShriekTranscendenceDegreeVanishing`.
 * `Stacks.Duality.TranscendenceDegreeBoundOn` — hypothesis (2) of [Stacks, Tag 0E9R] for a map
   of rings, and `Stacks.Duality.RelativeDualizingVanishesBelow` — clause (1) of that tag at the
-  sharp bound `r`, the ring-theoretic input carried below.
+  sharp bound `r`, the ring-theoretic input taken as a hypothesis below.
 * `Stacks.Duality.trdeg_le_residueTrdeg_spec` — the dictionary between the geometric reading of
   hypothesis (2) and the algebraic one, `Algebra.trdeg κ(φ⁻¹𝔮) κ(𝔮) ≤ r`.
 
-## Relation to the source, and what is carried
+## Relation to the source, and where the tag is proved
 
 *The source's proof.* The statement is local on `X`, so one chooses affine charts
 `Spec Γ(X, U) → X` over `Spec Γ(Y, V) → Y` through `x`; on them `f^!𝒪_Y` is the relative
 dualizing complex `ω^•_{Γ(X,U)/Γ(Y,V)}` by Remark [Stacks, Tag 0BV2]; and the bound is
 [Stacks, Tag 0E9R].
 
-*Two hypotheses are carried, both visible in the binders.*
+*This file* takes the two inputs of that proof as hypotheses of
+`neg_le_of_nontrivial_stalk_homology_upperShriek_of_residueTrdeg_le`:
 
-* `h0BV2` is the affine-chart description of `f^!𝒪_Y`, in the *cofinal* shape: every open
-  neighbourhood of `x` contains an affine chart carrying it.  That is clause (b) of
-  [Stacks, Tag 0BV2], which the repository's Tag 0BV2
-  (`Stacks.Duality.restrictedUpperShriekIsoOfOpenSquare`) does not claim because
-  [Stacks, Tag 0AA1] is absent here; the library's [Stacks, Tag 0B6U] (a) carries it in the same
-  shape, with `∀ x` in place of the cofinality in the neighbourhood.  Cofinality is what lets
-  the chart be shrunk, which hypothesis (2) requires: a chart too large has generic points of
-  components that do not specialize to `x`.  `h0BV2` asserts only an isomorphism and contains
-  no degree bound.
-* `h0E9R` is clause (1) of [Stacks, Tag 0E9R] at the sharp bound `r`.  What this library has,
-  namely `subsingleton_localizedModule_homology_relativeDualizingComplex` in the namespace
-  `Dualizing.PolynomialPresentation`, is the same vanishing at the *crude* bound given by the
-  number of variables of the presentation, which is a weakening; the sharp bound is what the
-  source extracts from the dimension formula [Stacks, Tag 0BAE], and it is not available here.
+* `h0BV2`, the affine-chart description of `f^!𝒪_Y` in the *cofinal* shape (every open
+  neighbourhood of `x` contains an affine chart carrying it).  Cofinality is what lets the chart
+  be shrunk, which hypothesis (2) requires: a chart too large has generic points of components
+  that do not specialize to `x`.
+* `h0E9R`, clause (1) of [Stacks, Tag 0E9R] at the sharp bound `r`.
 
-*What is proved here* is the whole geometric reduction: the shrinking of the chart so that
-every generic point of one of its components specializes to `x`
-(`exists_open_genericPoints_specialize` together with the transport of components along the
-open immersion `Spec Γ(X, U) → X`), the identification of the residue transcendence degrees
-across the chart square (through `Stacks.Chow.residueTrdeg_eq_of_comp_eq_comp`), the
-Cohen–Macaulay transport `𝒪_{Y, y} ≅ Γ(Y, V)_𝔭`, and the stalk dictionary that carries the
-conclusion back from the chart to `x`.
+and proves the whole geometric reduction: the shrinking of the chart so that every generic point
+of one of its components specializes to `x` (`exists_open_genericPoints_specialize` together with
+the transport of components along the open immersion `Spec Γ(X, U) → X`), the identification of
+the residue transcendence degrees across the chart square (through
+`Stacks.Chow.residueTrdeg_eq_of_comp_eq_comp`), the Cohen–Macaulay transport
+`𝒪_{Y, y} ≅ Γ(Y, V)_𝔭`, and the stalk dictionary that carries the conclusion back from the chart
+to `x`.
 
-*The `(S_2)` clause of Tag 0E9V is NOT claimed here.*  Tag 0E9V also asserts that the stalk
-`H^{-r}(f^!𝒪_Y)_x` satisfies Serre's condition `(S_2)` as an `𝒪_{X,x}`-module.  That clause
-needs the `(S_2)` clause of [Stacks, Tag 0E9R], which this library claims only for a *surjective*
-ring map, in
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingSerreSurjective`; for a general
-finite type map the engine,
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingSerre`, still has one
-identification standing — together with a module-level stalk dictionary, the
-identification of the stalk of a cohomology sheaf with a localization *as a module over the
-stalk ring*, not merely as an abelian group, which is what the dictionary below provides.
-Nothing about `(S_2)` is stated below.
+*Both inputs are proved in the library*, and [Stacks, Tag 0E9V] is proved in full, under exactly
+the source's hypotheses, as
+`Stacks.Duality.neg_le_and_propertySkModule_stalk_homology_upperShriek_of_residueTrdeg_le` in
+`StacksFrontier.AlgebraicGeometry.Duality.UpperShriekTranscendenceDegreeVanishing`:
+
+* `h0BV2` is discharged by `Stacks.Duality.exists_chart_of_upperShriekStructureSheafCharts` from
+  `Stacks.Duality.upperShriekStructureSheafCharts`;
+* `h0E9R` is discharged by `Stacks.Duality.relativeDualizingVanishesBelow`;
+* the vanishing alone is
+  `Stacks.Duality.neg_le_of_nontrivial_stalk_homology_upperShriek_of_residueTrdeg_le_unconditional`;
+* the `(S_2)` property of the stalk `H^{-r}(f^!𝒪_Y)_x` as an `𝒪_{X,x}`-module is
+  `Stacks.Duality.propertySkModule_modulesStalk_homology_upperShriek_of_residueTrdeg_le`, in
+  `StacksFrontier.AlgebraicGeometry.Duality.UpperShriekTranscendenceDegreeCharts`.
 
 ## Implementation notes
 
@@ -271,7 +267,7 @@ private theorem closure_singleton_mem_irreducibleComponents_of_mem_minimalPrimes
       (by rwa [c.isPrime.isRadical.radical])
   exact key a h
 
-/-! ### The hypotheses of Tag 0E9R, and its clause (1) as a carried statement -/
+/-! ### The hypotheses of Tag 0E9R, and its clause (1) as a statement -/
 
 /-- **Hypothesis (2) of [Stacks, Tag 0E9R] for a ring map `φ : R ⟶ A`.** At every minimal prime
 of `A` the residue-field extension over its contraction along `φ` has transcendence degree at
@@ -288,11 +284,9 @@ rings presented by `p`, a Cohen–Macaulay prime `𝔭` of the base and the tran
 bound `r`, the cohomology of the relative dualizing complex `ω^•_{A/R} = φ^!(R)` vanishes in
 degrees below `-r` after localizing at the image of `𝔭`.
 
-This is the ring-theoretic input of [Stacks, Tag 0E9V] which this library does not have:
-`Dualizing.PolynomialPresentation.subsingleton_localizedModule_homology_relativeDualizingComplex`
-proves the same vanishing only at the crude bound given by the number of variables of `p`, and
-the sharp bound `r` is what the source extracts from the dimension formula [Stacks, Tag 0BAE].
-It is therefore carried as a hypothesis. -/
+This is the ring-theoretic input of [Stacks, Tag 0E9V].  It is proved for every `r` as
+`Stacks.Duality.relativeDualizingVanishesBelow`, in
+`StacksFrontier.AlgebraicGeometry.Duality.UpperShriekTranscendenceDegreeVanishing`. -/
 public def RelativeDualizingVanishesBelow (r : ℕ) : Prop :=
   ∀ {R A : CommRingCat.{u}} (φ : R ⟶ A) [IsNoetherianRing R] [IsNoetherianRing A]
     (p : Dualizing.PolynomialPresentation φ.hom) (𝔭 : Ideal R) [𝔭.IsPrime],
@@ -330,18 +324,18 @@ variable {S : Scheme.{u}} [IsNoetherian S] {X Y : AlgebraicGeometry.FTS S}
   [IsLocallyNoetherian X.left] [IsLocallyNoetherian Y.left] (f : X ⟶ Y)
   (j : AlgebraicGeometry.CompactificationOf (Over.mk f.left))
 
-/-- **Stacks Project, Tag 0E9V (Lemma 48.21.4), the vanishing.** In Situation
+/-- **The vanishing half of [Stacks, Tag 0E9V], from a chart description.** In Situation
 [Stacks, Tag 0F42], let `f : X ⟶ Y` be a morphism of `FTS S` and let `x ∈ X` with image
 `y ∈ Y`.  Assume `𝒪_{Y, y}` is Cohen–Macaulay and that the residue transcendence degree of `f`
 is at most `r` at every generic point of an irreducible component of `X` containing `x`.  Then
 
   `H^i(f^!𝒪_Y)_x ≠ 0  ⟹  -r ≤ i`.
 
-Two hypotheses are carried.  `h0BV2` is the affine-chart description of `f^!𝒪_Y` of Remark
-[Stacks, Tag 0BV2], in the cofinal shape: every open neighbourhood of `x` contains an affine
-chart on which the description holds.  `h0E9R` is clause (1) of [Stacks, Tag 0E9R] at the sharp
-bound `r`, which this library has only at the crude bound given by the number of variables of
-the presentation.
+Two further hypotheses are taken.  `h0BV2` is the affine-chart description of `f^!𝒪_Y` of
+Remark [Stacks, Tag 0BV2], in the cofinal shape: every open neighbourhood of `x` contains an
+affine chart on which the description holds.  `h0E9R` is clause (1) of [Stacks, Tag 0E9R] at the
+sharp bound `r`.  Both are proved in the library, and the version without them is
+`neg_le_of_nontrivial_stalk_homology_upperShriek_of_residueTrdeg_le_unconditional`.
 
 Everything else is proved here: the reduction of the geometric hypotheses to the chart — the
 Cohen–Macaulay transport `𝒪_{Y, y} ≅ Γ(Y, V)_𝔭`, the identification of the residue
@@ -416,31 +410,5 @@ theorem neg_le_of_nontrivial_stalk_homology_upperShriek_of_residueTrdeg_le
 end Shriek
 
 end Stacks.Duality
-
-/-! ### Registration against Stacks 0E9V
-
-Stacks 0E9V is **not** proved.  Of its two conclusions only the vanishing bound is established
-here, and that conditionally; the `(S_2)` property of the stalk `H^{-r}(f^!𝒪_Y)_x` is not
-claimed anywhere in this file.  The two carried hypotheses are clause (b) of Stacks 0BV2 — which
-needs Stacks 0AA1, absent from this repository — and clause (1) of Stacks 0E9R at the *sharp*
-bound, where the library proves only the crude bound.
--/
-
-add_to_stacks 0E9V "THE VANISHING BOUND ONLY; the tag is NOT proved. Proved: in the stated
-situation, if the stalk at x of H^i(f^! O_Y) is nontrivial then -r <= i. NOT PROVED: the second
-conclusion, that the stalk H^{-r}(f^! O_Y)_x is (S_2) as an O_{X,x}-module -- nothing about (S_2)
-is stated in this file, and the module-level stalk dictionary it needs does not exist in the
-library (only the abelian-group version does). TWO HYPOTHESES ARE CARRIED, neither dischargeable
-here. h0BV2 is clause (b) of Stacks 0BV2, the affine formula for f^! O_Y, which needs Stacks 0AA1
-(f^! = Lf^*[1] for A^1_V -> V), absent from this repository; the library's Stacks 0BV2 explicitly
-declines clause (b). NOTE IT IS CARRIED IN A STRENGTHENED FORM relative to the library's Stacks 0BV5
-and 0B6U, which take one chart: here it must be COFINAL in neighbourhoods of x, which is what
-permits the chart shrinking. h0E9R is clause (1) of Stacks 0E9R at the SHARP bound r, whereas the
-library's subsingleton_localizedModule_homology_relativeDualizingComplex gives only the crude
-bound (the number of variables); the sharp bound needs the dimension formula of Stacks 0BAE via
-the duality formula of Stacks 0E9L localized at a maximal ideal. Stacks 0E9L itself is proved in
-general as Dualizing.PolynomialPresentation.nonempty_upperShriekFunctor_natIso_dualizingDerivedHom;
-the passage to the localization is the base change of Stacks 0BZV, conditional in this library."
-  Stacks.Duality.neg_le_of_nontrivial_stalk_homology_upperShriek_of_residueTrdeg_le
 
 end

@@ -67,11 +67,14 @@ satisfies the set-theoretic condition of Stacks 0AIS is a formal algebraic space
 
 The set-theoretic condition cannot be dropped: without it the statement is false
 (`AlgebraicGeometry.FormalSpace.not_forall_isFormalAlgebraicSpace_colimit_thickenings`). -/
-@[stacks 0AIU "corrected form: the printed statement is false, the colimit need not satisfy \
-the set-theoretic condition of Stacks 0AIS that Definition 0AIM asks of a formal algebraic space \
-(AlgebraicGeometry.FormalSpace.not_forall_isFormalAlgebraicSpace_colimit_thickenings); stated \
-for a sheaf isomorphic to the colimit which satisfies that condition, under the source's \
-hypotheses otherwise"]
+@[stacks 0AIU "corrected form (errata.md, 2026-10-27, entry 0GVM, 0AIU): the printed \
+statement is false, since for an index set large compared with the site the colimit admits no \
+surjection from an object of the site, so it fails the set-theoretic condition of Stacks 0AIS \
+that Definition 0AIM includes in being a formal algebraic space \
+(AlgebraicGeometry.FormalSpace.not_forall_isFormalAlgebraicSpace_colimit_thickenings). The \
+correction adds exactly that clause of the conclusion to the hypotheses, for a sheaf isomorphic \
+to the colimit; the source's other hypotheses are unchanged and its charts are constructed in \
+the proof"]
 theorem isFormalAlgebraicSpace_of_colimit_isRepresentableThickeningULift
     (Λ : Type (u + 1)) [Preorder Λ] [Nonempty Λ] [IsDirected Λ (· ≤ ·)]
     (E : Λ ⥤ FppfSheaf B S hS)

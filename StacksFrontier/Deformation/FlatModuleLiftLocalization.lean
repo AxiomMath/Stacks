@@ -525,63 +525,13 @@ Flatness of `N` over `A` is not assumed, in either form: `N` is isomorphic to `Q
 is `A`-flat, so `flat_base_of_baseChangeEquiv` supplies it. The source does not assume it either.
 
 The localization of `P` at the image of `g` is realized as `(P')_g ⊗_{A'} A`, which
-`IsLocalization.Away.tensorBaseChange` identifies with it. -/
-@[stacks 0DZ2 "a RESTRICTED form of 0DZ2, restricted by exactly two hypotheses: `hzeroP`, \
-which asks the thickening `P' → P` to be square-zero rather than merely nilpotent, and \
-`Module.Finite P M`, which asks `M` to be finite over `P`. NEITHER IS REMOVABLE, because the \
-UNRESTRICTED statement is FALSE — a Stacks ERRATUM — so \
-what 0DZ2 asserts in this library is the implication (1) => (2), registered on \
-`Deformation.HasFlatModuleLift.baseChange`. It is refuted, at every universe, by \
-`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatement`, and in the form \
-that writes out every one of the source's hypotheses by \
-`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatementFaithful`. That \
-witness satisfies both of the hypotheses whose removal is at issue in the other direction: its \
-`ker(A' → A) = (t)` has `t³ = 0` and `t² ≠ 0`, so it is nilpotent and not square-zero, and its \
-`M` IS finite over `P`. What follows is why each restriction is there. \
-Corrected: `M` is assumed finite over `P`. The source's statement omits it, its \
-own proof uses it — `here we use that P is Noetherian and M finite`, when invoking Stacks 0A6A \
-to commute `Ext²` with the flat base change `P → Q` — and that step is FALSE without it, not \
-merely unproved: for `k` countable, `P = k[x, y]`, `Q = k[[x, y]]`, `A' = k[ε]/(ε²)`, \
-`J' = (x, y)` and the non-finite `A`-flat module `M = ⨁ₙ P/(xⁿ, yⁿ)`, the comparison \
-`Ext²_P(M, M ⊗_P IP) ⊗_P Q → Ext²_Q(M ⊗_P Q, (M ⊗_P Q) ⊗_Q IQ)` is the multiplication map \
-`T ⊗_P Q → T` of a copy of `Q` sitting inside the infinite product `T` that `Ext` out of an \
-infinite direct sum produces, and `Q ⊗_P Q → Q` has a nonzero kernel. Nothing weaker will do \
-either: over the Noetherian `P` that 0DZ2 assumes, the `(-3)`-pseudo-coherence that Stacks 087Q \
-needs in degree `2` is equivalent to finiteness. The computation, and the Mayer–Vietoris \
-identification of what a finiteness-free proof would still owe, are in the implementation notes \
-of this file; the equivalence itself is not refuted for a non-finite `M`, only the source's \
-proof of it. Also: the thickening `P' → P` is \
-assumed square-zero rather than merely nilpotent, which is what the obstruction calculus of \
-Stacks 0DYR needs in order to have an obstruction class at all. Those are the only two \
-deviations: the kernel of `A' → A` itself is assumed only nilpotent, as in the source, and \
-squareness of the second thickening `Q' → Q` is derived rather than assumed, by \
-`Deformation.sq_ker_algebraMap_tensorProduct_eq_bot_of_tower`; so this statement is strictly \
-stronger than the one registered on \
-`Deformation.exists_flat_lift_iff_exists_flat_lift_baseChange_of_localizationLift`. The \
-dévissage from the square-zero thickening to the source's nilpotent one is NOT available from \
-0DZ2's own hypotheses. The source's reduction is `details omitted`; with `A'' = A'/I^{n-1}` \
-every hypothesis of the lemma transports to the stage `A'' → A`, including local liftability, \
-which reduces along the already-proved forward direction, so the induction produces an \
-`A''`-flat `P''`-lift `M''` of `M` — and then needs the obstruction class of the square-zero \
-step `A' → A''` to be independent of which `A''`-flat `P''`-lift of `M` it is evaluated on. \
-Grant that and the induction closes; it is false already for `I³ = 0`. All of this is now a \
-Lean object rather than a paragraph: the tower of quotients is \
-`Deformation.squareZero_devissage`, a lift across one step of it is a lift across the composite \
-by `Deformation.hasFlatModuleLift_comp`, the generic step of the induction with its missing \
-input named is `Deformation.hasFlatModuleLift_of_obstructionIndependentOfLift`, that input is \
-`Deformation.ObstructionIndependentOfLift`, and it is UNSATISFIABLE — \
-`Deformation.not_obstructionIndependentOfLift`, at every universe, by the elementary witness \
-`A' = ℤ/8`, `Q' = A'[ε]/(ε²)`, where the two lifts `Q''/(ε)` and `Q''/(ε − 2)` over \
-`Q'' = Q'/4Q'` have the same reduction and only the first lifts. So the source's route to the \
-nilpotent case is closed, not untried. In the shape the source's own `k` would take it: over \
-`A' = k[t]/(t³)`, `P' = k[t, x]/(t³, x²)`, the module `M = k` has the `A'`-flat `P'`-lift \
-`P'/(x)`, while its `A''`-flat `P''`-lift `P''/(x - t)` has none, the two obstructions \
-differing by the Yoneda square of the separating class in `Ext¹_{k[x]/(x²)}(k, k)`; and that \
-is a legitimate instance of 0DZ2, with `Q' = P'` and `J' = P'`. Selecting `M''` instead by \
-`Q'' ⊗ M'' ≅ N''` would need base change to be surjective on isomorphism classes of lifts, \
-i.e. `Ext¹_P(M, M ⊗_P ĪP)` to be `J'`-power torsion by Stacks 0A6A and 05EC, which fails \
-already for a hypersurface `M = P/(f)`. Full diagnosis in the implementation notes of this \
-file"]
+`IsLocalization.Away.tensorBaseChange` identifies with it.
+
+Stacks 0DZ2 as printed is false (Stacks erratum, see `errata.md`); the tag sits on the corrected
+equivalence `Deformation.exists_flatModuleLift_iff_baseChange_of_sq_zero`, which is proved from
+this theorem, and on the implication (1) ⇒ (2), `Deformation.HasFlatModuleLift.baseChange`.
+Why neither `hzeroP` nor finiteness of `M` can be dropped from the source's proof is in the
+implementation notes of this file. -/
 theorem exists_flat_lift_iff_exists_flat_lift_baseChange_of_localizationLift_of_isNilpotent_ker
     (A' A P' Q' : Type u) [CommRing A'] [CommRing A] [CommRing P'] [CommRing Q']
     [Algebra A' A] [Algebra A' P'] [Algebra A' Q'] [Algebra P' Q'] [IsScalarTower A' P' Q']
@@ -692,28 +642,11 @@ Flatness of `N` over `A` is not assumed here either; see
 `exists_flat_lift_iff_exists_flat_lift_baseChange_of_localizationLift_of_isNilpotent_ker`.
 
 The localization of `P` at the image of `g` is realized as `(P')_g ⊗_{A'} A`, which
-`IsLocalization.Away.tensorBaseChange` identifies with it. -/
-@[stacks 0DZ2 "a RESTRICTED form of 0DZ2, restricted by `hzeroA` — the kernel of `A' → A` is \
-assumed square-zero rather than merely nilpotent — and by `Module.Finite P M`. NEITHER IS \
-REMOVABLE: the UNRESTRICTED statement is FALSE — a Stacks ERRATUM — \
-so what 0DZ2 asserts in this library is the implication (1) => (2), registered on \
-`Deformation.HasFlatModuleLift.baseChange`. It is refuted at every universe by \
-`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatement` and, with every \
-source hypothesis written out, by \
-`Deformation.Examples.ArtinSchreier.not_flatModuleLiftBaseChangeStatementFaithful`, whose \
-witness has a nilpotent non-square-zero `ker(A' → A)` and a finite `M`. Why each restriction is \
-there: `M` is assumed finite over `P` — the source's statement omits it, its \
-own proof uses it when invoking Stacks 0A6A to commute `Ext²` with the flat base change \
-`P → Q`, and that step is false without it, by the counterexample written out in the \
-implementation notes of this file; \
-and the kernel of `A' → A` is assumed square-zero rather than merely nilpotent, which is what \
-makes both the nilpotence of that kernel and squareness of the thickening `P' → P` theorems \
-here rather than hypotheses. \
-This is the weaker of the two registrations: \
-`exists_flat_lift_iff_exists_flat_lift_baseChange_of_localizationLift_of_isNilpotent_ker` \
-carries the source's nilpotence on that kernel and asks squareness only of the thickening \
-`P' → P`, and the clause there records why the dévissage to the source's nilpotent thickening \
-is not available from 0DZ2's own hypotheses"]
+`IsLocalization.Away.tensorBaseChange` identifies with it.
+
+This is a consequence of
+`exists_flat_lift_iff_exists_flat_lift_baseChange_of_localizationLift_of_isNilpotent_ker`; the
+Stacks 0DZ2 registration is `Deformation.exists_flatModuleLift_iff_baseChange_of_sq_zero`. -/
 theorem exists_flat_lift_iff_exists_flat_lift_baseChange_of_localizationLift
     (A' A P' Q' : Type u) [CommRing A'] [CommRing A] [CommRing P'] [CommRing Q']
     [Algebra A' A] [Algebra A' P'] [Algebra A' Q'] [Algebra P' Q'] [IsScalarTower A' P' Q']

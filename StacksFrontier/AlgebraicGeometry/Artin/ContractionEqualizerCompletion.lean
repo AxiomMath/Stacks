@@ -65,8 +65,9 @@ Noetherian formal algebraic space — the second half of the remark's "observe" 
 
 The other half of that sentence, that `E_W` is a locally Noetherian formal algebraic space, is
 not proved here either: `E_W ⟶ V_{/Z}` is a base change of the diagonal of `W`, representable
-by schemes by Stacks 0AIP, so it would follow from Stacks 0AIZ for `V_{/Z}` together with
-Stacks 0AJI and Stacks 0AQ8, none of which this library has without hypotheses.
+by schemes by Stacks 0AIP, so it would follow from Stacks 0AIZ for `V_{/Z}`
+(`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionSheaf_of_isClosed`) together
+with Stacks 0AJI and Stacks 0AQ8, which this library does not have without hypotheses.
 
 ## References
 

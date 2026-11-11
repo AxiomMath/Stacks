@@ -320,8 +320,6 @@ Pushforward along a closed immersion is exact
 (`preservesFiniteColimits_modulePushforward_of_isClosedImmersion`), so it induces a functor on
 derived categories which is its own total right derived functor; the comparison is the
 uniqueness isomorphism of `exists_mapDerivedCategoryIsoTotalRightDerived`. -/
-@[stacks 0E2K "the comparison of the exact-functor and right-derived-functor models of \
-  pushforward along a closed immersion"]
 theorem exists_closedImmersionDerivedPushforwardComparison {Z X : Scheme.{u}} (i : Z ⟶ X)
     [AlgebraicGeometry.IsClosedImmersion i] :
     ∃ e : (modulePushforward i.toLRSHom.toShHom).mapDerivedCategory ≅

@@ -7,11 +7,11 @@ public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
-# `δ`-functors and pre-triangulated subcategories
+# `δ`-functors and faithful triangulated functors
 
-This file collects the two notions attached to a functor which the definition of a
-triangulated category brings with it: a `δ`-functor from an abelian category to a
-triangulated category, and the inclusion of a pre-triangulated subcategory.
+This file collects two notions attached to a functor into a triangulated category: a
+`δ`-functor from an abelian category to a triangulated category, and a faithful triangulated
+functor between pre-triangulated categories.
 
 ## `δ`-functors
 
@@ -32,19 +32,18 @@ remarks, strictly speaking it does not make sense to say that a given functor `�
 given `G`. The basic example, [StackProject 0152], is the localization functor
 `Q : Comp(𝒜) ⥤ D(𝒜)` with `δ = -p ∘ q⁻¹`.
 
-## Pre-triangulated subcategories
+## Faithful triangulated functors
 
-Let `D` be a pre-triangulated category. A *pre-triangulated subcategory* of `D` is a pair
-`(D', T')` where `D'` is an additive subcategory of `D` which is preserved by the shift
-`[1]`, in such a way that `[1] : D' → D'` is an auto-equivalence, and where `T'` is a set of
-distinguished triangles of `D` all of whose objects and morphisms lie in `D'`, such that
-`(D', [1], T')` is itself a pre-triangulated category. If `D` is triangulated, then such a
-pair is a *triangulated subcategory* when `(D', [1], T')` is moreover triangulated.
-
-Such a pair is described here by its inclusion functor: the data are a pre-triangulated
-category `C` (playing the role of `(D', [1], T')`, so that `T'` is `distTriang C`) together
-with a faithful functor `ι : C ⥤ D` which commutes with the shift and carries distinguished
-triangles to distinguished triangles, the latter being the inclusion `T' ⊆ T`.
+`CategoryTheory.Functor.IsPretriangulatedSubcategory ι` says that a functor `ι : C ⥤ D`
+between pre-triangulated categories, equipped with a commutation with the shift, is faithful
+and sends distinguished triangles to distinguished triangles. This is *not* the notion of a
+pre-triangulated subcategory of [Stacks, Tag 05QM]: a faithful exact functor need not be the
+inclusion of a subcategory (for instance the direct sum functor `D × D ⥤ D` is faithful and
+exact, but not injective on objects). The definition of Tag 05QM, with an actual (not
+necessarily full) additive subcategory `D' ⊆ D` and a set `T'` of distinguished triangles of
+`D`, is `CategoryTheory.Pretriangulated.PretriangulatedSubcategory` (and
+`CategoryTheory.Pretriangulated.TriangulatedSubcategory`) in
+`StacksFrontier.CategoryTheory.Triangulated.Subcategory`.
 
 ## Main definitions
 
@@ -55,7 +54,7 @@ triangles to distinguished triangles, the latter being the inclusion `T' ⊆ T`.
   abelian categories, is a `δ`-functor ([Stacks, Tag 0151]).
 * `CategoryTheory.Functor.IsPretriangulatedSubcategory`: the property of a functor
   `ι : C ⥤ D` between pre-triangulated categories, equipped with a commutation with the
-  shift, that it exhibits `C` as a pre-triangulated subcategory of `D`.
+  shift, that it is faithful and triangulated.
 
 ## Implementation notes
 
@@ -99,54 +98,19 @@ an abelian `A` with `HasDerivedCategory A`, the fields are `DerivedCategory.tria
 verbatim, which is [StackProject 0152]; that example is not trivial, since a nonsplit short
 exact sequence forces `δ ≠ 0` (which is why `Comp(𝒜) ⥤ K(𝒜)` admits no such structure).
 
-### Pre-triangulated subcategories
+### Faithful triangulated functors
 
-The set `T'` of triangles is not extra data here: it is the set of distinguished triangles
-of `C`, and the source's conditions on it are exactly the two parents of the class. That
-every object and morphism occurring in a triangle of `T'` lies in `D'` is automatic once the
-triangle is a triangle of `C`, and `T' ⊆ T` is `CategoryTheory.Functor.map_distinguished`.
-
-Condition (1) of the source — `D'` additive, preserved by `[1]`, with `[1] : D' → D'` an
-auto-equivalence — is carried by the typeclass hypotheses of `Pretriangulated C`:
-`Preadditive C` and `HasZeroObject C` for additivity, and `HasShift C ℤ`, a shift by the
-*group* `ℤ`, for a shift acting by auto-equivalences. Additivity of the inclusion is not an
-extra hypothesis either: `CategoryTheory.Functor.IsTriangulated.instAdditive` derives
-`ι.Additive`. The source identifies `ι (X[1])` with `(ι X)[1]` by the identity; here that
-identification is the datum `ι.CommShift ℤ`, a coherent isomorphism, which is what makes the
-notion invariant under equivalences of `C`.
-
-Injectivity of `ι` on objects is deliberately not imposed. For the inclusion of a literal
-subcategory it holds, and then the objects `ι X` and the morphisms `ι f` do form a
-pre-triangulated subcategory of `D` in the sense of the source, onto which `ι` is an
-isomorphism of categories; but no statement about pre-triangulated subcategories uses it,
-and imposing it would destroy invariance under equivalence.
-
-For a *full* subcategory — the case the source's footnote singles out, and the subject of
-Lemma 05QX — Mathlib's `CategoryTheory.ObjectProperty.IsTriangulated P` provides both
-`Pretriangulated P.FullSubcategory` and `P.ι.IsTriangulated`, so that `P.ι` is a
-pre-triangulated subcategory in the present sense, and `T'` is then the set of distinguished
-triangles of `D` whose three objects all satisfy `P`, as the footnote asserts.
-
-A *triangulated* subcategory needs no separate definition: it is a pre-triangulated
-subcategory `ι : C ⥤ D` with `D` triangulated for which `CategoryTheory.IsTriangulated C`
-holds as well. When `ι` is in addition full this is automatic, by
-`CategoryTheory.IsTriangulated.of_fully_faithful_triangulated_functor`.
-
-Faithfulness. (1) Both parents are used and neither is implied by the other: faithfulness of
-`ι` is what makes `C` a subcategory of `D` rather than an arbitrary pre-triangulated
-category over it, and `ι.IsTriangulated` is the source's `T' ⊆ T`. (2) The ambient data are
-the source's: one pre-triangulated category `D`, one pre-triangulated category `C` for the
-subcategory, and a single shift on each, compared along `ι.CommShift ℤ`; no other shift,
-category or triangle set enters. (3) The inclusion is pinned as the datum `ι` rather than
-asserted to exist, and the triangles of the subcategory are pinned as `distTriang C`, whose
-`ι`-images the class places inside `distTriang D`. (4) Not degenerate: `𝟭 D` is an instance,
-exhibiting `D` as a pre-triangulated subcategory of itself, and for any `P : ObjectProperty D`
-with `P.IsTriangulated` the inclusion `P.ι` is one, which is the full-subcategory case above.
+The class `IsPretriangulatedSubcategory` has exactly the two parents `ι.Faithful` and
+`ι.IsTriangulated`. It is satisfied by the inclusion of a pre-triangulated subcategory in the
+sense of [Stacks, Tag 05QM], but also by functors that are not inclusions of subcategories,
+such as the direct sum functor `D × D ⥤ D`; it is therefore not the formalization of
+Tag 05QM, which is `CategoryTheory.Pretriangulated.PretriangulatedSubcategory`. For a full
+subcategory given by `P : ObjectProperty D` with `P.IsTriangulated`, Mathlib provides
+`Pretriangulated P.FullSubcategory` and `P.ι.IsTriangulated`, so `P.ι` is an instance.
 
 ## References
 
 * [StackProject 0150](https://stacks.math.columbia.edu/tag/0150)
-* [StacksProject 05QM](https://stacks.math.columbia.edu/tag/05QM)
 -/
 
 @[expose] public section
@@ -234,13 +198,14 @@ variable {C : Type u} {D : Type u'} [Category.{v} C] [Category.{v'} D]
   [HasZeroObject D] [HasShift D ℤ] [Preadditive D] [∀ n : ℤ, (shiftFunctor D n).Additive]
   [Pretriangulated D]
 
-/-- **Stacks 05QM.** A functor `ι : C ⥤ D` between pre-triangulated categories, equipped
-with a commutation with the shift, *exhibits `C` as a pre-triangulated subcategory of `D`*
-if it is faithful and sends distinguished triangles of `C` to distinguished triangles of
-`D`. The set of triangles `T'` of the source is then `distTriang C`, and `T' ⊆ T` is
-`CategoryTheory.Functor.map_distinguished`. If `D` is triangulated, `C` is a *triangulated
-subcategory* of `D` when moreover `CategoryTheory.IsTriangulated C`. -/
-@[stacks 05QM]
+/-- A functor `ι : C ⥤ D` between pre-triangulated categories, equipped with a commutation
+with the shift, is a *faithful triangulated functor* if it is faithful and sends distinguished
+triangles of `C` to distinguished triangles of `D`.
+
+Despite its name, this is not the pre-triangulated subcategory of [Stacks, Tag 05QM]: a
+faithful exact functor need not be the inclusion of a subcategory (the direct sum functor
+`D × D ⥤ D` is faithful and exact). Tag 05QM is
+`CategoryTheory.Pretriangulated.PretriangulatedSubcategory`. -/
 public class IsPretriangulatedSubcategory (ι : C ⥤ D) [ι.CommShift ℤ] : Prop
     extends ι.Faithful, ι.IsTriangulated
 
@@ -856,3 +821,14 @@ end
 end
 
 add_to_stacks 05QY CategoryTheory.Functor.IsTriangulated.instAdditive
+
+/- Stacks 0145 defines a triangulated category as a pre-triangulated one (TR1-TR3, Mathlib's
+`Pretriangulated`, which carries the upstream `@[stacks 0145]`) satisfying TR4. Mathlib's
+`IsTriangulated` is TR4 verbatim: in `Octahedron`, `Z₁₂, Z₁₃, Z₂₃` are `Q₁, Q₂, Q₃`, the maps
+`m₁, m₃` are `a, b`, `mem` is TR4(a) with third map `w₂₃ ≫ v₁₂⟦1⟧' = p₁[1] ∘ d₃`, and
+`comm₁, comm₂` (resp. `comm₃, comm₄`) are the squares of the morphism of triangles `(id, g, a)`
+of TR4(b) (resp. `(f, id, b)` of TR4(c)); the composite `g ∘ f` enters as `u₁₃` with
+`u₁₂ ≫ u₂₃ = u₁₃`. -/
+add_to_stacks 0145 "triangulated category: TR4 (the octahedron axiom) on top of \
+  `Pretriangulated` (TR1-TR3); `Octahedron.m₁, m₃` are the maps `a, b` of TR4"
+  CategoryTheory.IsTriangulated

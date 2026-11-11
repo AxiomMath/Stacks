@@ -4,6 +4,7 @@ public import Mathlib
 public import StacksFrontier.Homology.ExtendScalars.Flat
 public import StacksFrontier.Homology.PseudoCoherent.Coherent
 public import StacksFrontier.Homology.PseudoCoherent.Module
+public import StacksFrontier.RingTheory.Ext.BaseChange
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
@@ -65,25 +66,9 @@ base change for Ext and `a` is the Ext--tensor comparison followed by `n ⊗ s �
 degree-zero instance of that square, expressed through `uliftExtLinearEquiv₀`, is the Hom
 base-change map on the original modules.
 
-The flat base change for Ext that supplies `c` is Stacks 087N, proved by dimension shifting
-along a projective presentation. This file carries its own `private` copy of that argument,
-under a `Poly` suffix:
-`extFlatBaseChangeComparisonPoly`, `extendScalars_preservesFiniteColimitsPoly`,
-`extendScalars_preservesFiniteLimits_of_flatPoly`,
-`extendScalars_preservesProjectiveObjectsPoly`, `flat_base_change_ext_zeroPoly`,
-`extFlatBaseChangeComparison_naturality_morPoly`,
-`extFlatBaseChangeComparison_naturality_deltaPoly` and `flat_base_change_extPoly`.
-
-These are dedup targets against `StacksFrontier.RingTheory.Ext.BaseChange`, which owns tag 087N
-and provides `extFlatBaseChangeComparison` and `flat_base_change_ext`. The copies here exist
-only because that module is currently universe-*monomorphic* — it fixes `{R R' : Type}` and
-`ModuleCat.{0}` — whereas the base-change statement below needs the `universe uR uS v` forms,
-with both module categories in the common universe `max uR uS v`. Once
-`StacksFrontier.RingTheory.Ext.BaseChange` is generalised to `universe uR uS v`, every `Poly`
-declaration in this file should be deleted and its single use in
-`baseChangeComparison_bijective` repointed to the 087N module's own
-`extFlatBaseChangeComparison` / `flat_base_change_ext`. Nothing here is tagged, so no second
-provider of 087N is created in the meantime.
+The flat base change for Ext that supplies `c` is Stacks 087N,
+`extendScalarsExtComparison_bijective` in `StacksFrontier.RingTheory.Ext.BaseChange`, used here with
+both module categories in the universe `max uR uS v`.
 
 ## References
 
@@ -518,236 +503,6 @@ section BaseChange
 
 open CategoryTheory.Abelian
 
-/-! ### A universe-polymorphic copy of flat base change for Ext
-
-The declarations in this section duplicate `StacksFrontier.RingTheory.Ext.BaseChange` (tag 087N) in
-the `universe uR uS v` form the base-change theorem below needs. They are `private` and
-untagged; see the module docstring for the dedup plan. -/
-
-section Port
-
-universe uR uS v
-
-/-- Pin the module universe of the scalar-extension adjunction, so that instance search for
-`IsLeftAdjoint` does not have to solve a universe maximum. -/
-local instance extendScalarsIsLeftAdjointPoly
-    {R : Type uR} {S : Type uS} [CommRing R] [CommRing S] (f : R →+* S) :
-    (ModuleCat.extendScalars.{uR, uS, max uR uS v} f).IsLeftAdjoint :=
-  (ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).isLeftAdjoint
-
-/-- The comparison map `Ext^i_{R'}(M ⊗_R R', N') → Ext^i_R(M, N')`, the functorial action of the
-exact functor `restrictScalars f` on Ext followed by precomposition with the degree-zero class
-of the unit of the scalar-extension adjunction. -/
-private noncomputable def extFlatBaseChangeComparisonPoly {R : Type uR} {R' : Type uS}
-    [CommRing R] [CommRing R']
-    (f : R →+* R') (M : ModuleCat.{max uR uS v} R) (N' : ModuleCat.{max uR uS v} R') (i : ℕ) :
-    Ext.{max uR uS v} ((ModuleCat.extendScalars f).obj M) N' i →+
-      Ext.{max uR uS v} M ((ModuleCat.restrictScalars f).obj N') i :=
-  ((Ext.mk₀ ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.app M)).precomp
-      ((ModuleCat.restrictScalars f).obj N') (zero_add i)).comp
-    ((ModuleCat.restrictScalars f).mapExtAddHom ((ModuleCat.extendScalars f).obj M) N' i)
-
-/-- Extension of scalars preserves finite colimits, being a left adjoint. -/
-private theorem extendScalars_preservesFiniteColimitsPoly {R : Type uR} {R' : Type uS}
-    [CommRing R] [CommRing R'] (f : R →+* R') :
-    Limits.PreservesFiniteColimits (ModuleCat.extendScalars.{uR, uS, max uR uS v} f) :=
-  have : Limits.PreservesColimitsOfSize.{max uR uS v, max uR uS v}
-      (ModuleCat.extendScalars.{uR, uS, max uR uS v} f) :=
-    (ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).leftAdjoint_preservesColimits
-  Limits.PreservesColimitsOfSize.preservesFiniteColimits _
-
-/-- Extension of scalars along a flat ring map preserves finite limits: flatness makes tensoring
-preserve exact sequences of modules in arbitrary universes. This is the only place flatness
-enters the base-change argument. -/
-private theorem extendScalars_preservesFiniteLimits_of_flatPoly {R : Type uR} {R' : Type uS}
-    [CommRing R] [CommRing R'] {f : R →+* R'} (hf : f.Flat) :
-    Limits.PreservesFiniteLimits (ModuleCat.extendScalars.{uR, uS, max uR uS v} f) := by
-  let := f.toAlgebra
-  have : Module.Flat R R' := hf
-  let F := ModuleCat.extendScalars.{uR, uS, max uR uS v} f
-  have : F.Additive := by
-    have : Limits.PreservesBinaryBiproducts F :=
-      Limits.preservesBinaryBiproducts_of_preservesBinaryCoproducts F
-    exact Functor.additive_of_preservesBinaryBiproducts F
-  have h : ∀ S : ShortComplex (ModuleCat.{max uR uS v} R),
-      S.Exact → (S.map F).Exact := by
-    intro S hS
-    rw [ShortComplex.ShortExact.moduleCat_exact_iff_function_exact] at hS ⊢
-    exact Module.Flat.lTensor_exact R' hS
-  have hF : Limits.PreservesFiniteLimits F ∧ Limits.PreservesFiniteColimits F :=
-    ((Functor.exact_tfae F).out 2 4).mp h
-  exact hF.1
-
-/-- Extension of scalars preserves projective objects, being left adjoint to restriction of
-scalars, which preserves epimorphisms. -/
-private theorem extendScalars_preservesProjectiveObjectsPoly {R : Type uR} {R' : Type uS}
-    [CommRing R] [CommRing R'] (f : R →+* R') :
-    (ModuleCat.extendScalars.{uR, uS, max uR uS v} f).PreservesProjectiveObjects := by
-  have : (ModuleCat.restrictScalars.{max uR uS v} f).PreservesEpimorphisms := inferInstance
-  exact Functor.preservesProjectiveObjects_of_adjunction_of_preservesEpimorphisms
-    (ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f)
-
-/-- In degree zero the comparison map is the scalar-extension adjunction bijection
-`Hom_{R'}(M ⊗_R R', N') ≃ Hom_R(M, N')`, transported along `Ext.homEquiv₀`. No flatness is
-needed. -/
-private theorem flat_base_change_ext_zeroPoly {R : Type uR} {R' : Type uS}
-    [CommRing R] [CommRing R']
-    (f : R →+* R') (M : ModuleCat.{max uR uS v} R) (N' : ModuleCat.{max uR uS v} R') :
-    Function.Bijective (extFlatBaseChangeComparisonPoly f M N' 0) := by
-  have key : ⇑(extFlatBaseChangeComparisonPoly f M N' 0)
-      = ⇑Ext.homEquiv₀.symm ∘
-          ⇑((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).homEquiv M N')
-          ∘ ⇑Ext.homEquiv₀ := by
-    funext x
-    obtain ⟨g, rfl⟩ := Ext.homEquiv₀.symm.surjective x
-    simp only [Function.comp_apply, Equiv.apply_symm_apply]
-    have hinner : (ModuleCat.restrictScalars f).mapExtAddHom
-          ((ModuleCat.extendScalars f).obj M) N' 0 (Ext.homEquiv₀.symm g)
-        = Ext.mk₀ ((ModuleCat.restrictScalars f).map g) := by
-      rw [Functor.mapExtAddHom_apply, Ext.homEquiv₀_symm_apply, Ext.mapExactFunctor_mk₀]
-    have hrhs : Ext.homEquiv₀.symm
-          ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).homEquiv M N' g)
-        = (Ext.mk₀
-              ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.app M)).precomp
-            ((ModuleCat.restrictScalars f).obj N') (zero_add 0)
-            (Ext.mk₀ ((ModuleCat.restrictScalars f).map g)) := by
-      rw [Adjunction.homEquiv_apply, Ext.homEquiv₀_symm_apply, ← Ext.mk₀_comp_mk₀]
-      rfl
-    rw [hrhs]
-    change (Ext.mk₀
-        ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.app M)).precomp
-        ((ModuleCat.restrictScalars f).obj N') (zero_add 0)
-        ((ModuleCat.restrictScalars f).mapExtAddHom
-          ((ModuleCat.extendScalars f).obj M) N' 0 (Ext.homEquiv₀.symm g)) = _
-    rw [hinner]
-  rw [key]
-  exact Ext.homEquiv₀.symm.bijective.comp
-    (((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).homEquiv M N').bijective.comp
-      Ext.homEquiv₀.bijective)
-
-/-- The comparison map sends `y` to the unit class composed with the restriction of `y`. -/
-private theorem extFlatBaseChangeComparisonPoly_apply {R : Type uR} {R' : Type uS}
-    [CommRing R] [CommRing R'] (f : R →+* R') (M : ModuleCat.{max uR uS v} R)
-    (N' : ModuleCat.{max uR uS v} R') (k : ℕ)
-    (y : Ext.{max uR uS v} ((ModuleCat.extendScalars f).obj M) N' k) :
-    extFlatBaseChangeComparisonPoly f M N' k y
-      = (Ext.mk₀ ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.app M)).comp
-          (Ext.mapExactFunctor (ModuleCat.restrictScalars.{max uR uS v} f) y)
-          (zero_add k) := by
-  rw [extFlatBaseChangeComparisonPoly]
-  change ((Ext.mk₀
-      ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.app M)).precomp
-      ((ModuleCat.restrictScalars f).obj N') (zero_add k))
-      ((ModuleCat.restrictScalars f).mapExtAddHom
-        ((ModuleCat.extendScalars f).obj M) N' k y) = _
-  rw [Ext.precomp, Ext.bilinearComp_apply_apply, Functor.mapExtAddHom_apply]
-
-/-- Covariant naturality of the comparison map in the source, the horizontal square of the
-morphism of contravariant long exact Ext sequences. -/
-private theorem extFlatBaseChangeComparison_naturality_morPoly {R : Type uR} {R' : Type uS}
-    [CommRing R] [CommRing R']
-    (f : R →+* R') {M₁ M₂ : ModuleCat.{max uR uS v} R} (u : M₁ ⟶ M₂)
-    (N' : ModuleCat.{max uR uS v} R') (i : ℕ)
-    (x : Ext.{max uR uS v} ((ModuleCat.extendScalars f).obj M₂) N' i) :
-    (Ext.mk₀ u).precomp ((ModuleCat.restrictScalars f).obj N') (zero_add i)
-        (extFlatBaseChangeComparisonPoly f M₂ N' i x)
-      = extFlatBaseChangeComparisonPoly f M₁ N' i
-          ((Ext.mk₀ ((ModuleCat.extendScalars f).map u)).precomp N' (zero_add i) x) := by
-  have hnat := (ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.naturality u
-  simp only [Functor.comp_map, Functor.id_obj, Functor.id_map] at hnat
-  rw [extFlatBaseChangeComparisonPoly_apply, extFlatBaseChangeComparisonPoly_apply,
-    Ext.bilinearComp_apply_apply, Ext.bilinearComp_apply_apply,
-    Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀]
-  rw [← Ext.comp_assoc (Ext.mk₀ u) _ _ (zero_add 0) (zero_add i) (by omega)]
-  rw [← Ext.comp_assoc
-      (Ext.mk₀ ((ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit.app M₁)) _ _
-      (zero_add 0) (zero_add i) (by omega)]
-  rw [Ext.mk₀_comp_mk₀, Ext.mk₀_comp_mk₀, hnat]
-
-/-- Compatibility of the comparison map with the connecting homomorphisms of the two
-contravariant long exact Ext sequences attached to a short exact sequence and its image under
-extension of scalars. -/
-private theorem extFlatBaseChangeComparison_naturality_deltaPoly {R : Type uR} {R' : Type uS}
-    [CommRing R] [CommRing R']
-    (f : R →+* R') (S : ShortComplex (ModuleCat.{max uR uS v} R)) (hS : S.ShortExact)
-    (hLS : (S.map (ModuleCat.extendScalars f)).ShortExact)
-    (N' : ModuleCat.{max uR uS v} R') (i j : ℕ) (hi : 1 + i = j)
-    (x : Ext.{max uR uS v} ((ModuleCat.extendScalars f).obj S.X₁) N' i) :
-    extFlatBaseChangeComparisonPoly f S.X₃ N' j (hLS.extClass.comp x hi)
-      = hS.extClass.comp (extFlatBaseChangeComparisonPoly f S.X₁ N' i x) hi := by
-  rw [extFlatBaseChangeComparisonPoly_apply, extFlatBaseChangeComparisonPoly_apply]
-  rw [Ext.mapExactFunctor_comp, Ext.mapExactFunctor_extClass]
-  set η := (ModuleCat.extendRestrictScalarsAdj.{max uR v, uR, uS} f).unit with hη
-  rw [← Ext.comp_assoc (Ext.mk₀ (η.app S.X₃))
-      ((ShortComplex.ShortExact.map_of_exact hLS
-        (ModuleCat.restrictScalars.{max uR uS v} f)).extClass)
-      (Ext.mapExactFunctor (ModuleCat.restrictScalars.{max uR uS v} f) x)
-      (zero_add 1) hi (by omega)]
-  rw [← Ext.comp_assoc hS.extClass (Ext.mk₀ (η.app S.X₁))
-      (Ext.mapExactFunctor (ModuleCat.restrictScalars.{max uR uS v} f) x)
-      (add_zero 1) (zero_add i) (by omega)]
-  congr 1
-  exact (hS.extClass_naturality
-    (ShortComplex.ShortExact.map_of_exact hLS (ModuleCat.restrictScalars.{max uR uS v} f))
-    (S.mapNatTrans η)).symm
-
-set_option maxHeartbeats 800000 in
--- The five-lemma step elaborates Ext sequences over two rings in a common larger universe.
-/-- Flat base change for Ext: for a flat ring map the comparison map is bijective in every
-degree. Proved by dimension shifting along a projective presentation of the source, with the
-five lemma applied to the morphism of contravariant long exact Ext sequences. -/
-private theorem flat_base_change_extPoly {R : Type uR} {R' : Type uS}
-    [CommRing R] [CommRing R']
-    (f : R →+* R') (hf : f.Flat) (M : ModuleCat.{max uR uS v} R)
-    (N' : ModuleCat.{max uR uS v} R') (i : ℕ) :
-    Function.Bijective (extFlatBaseChangeComparisonPoly f M N' i) := by
-  induction i generalizing M with
-  | zero => exact flat_base_change_ext_zeroPoly f M N'
-  | succ n ih =>
-    have hlim : Limits.PreservesFiniteLimits
-        (ModuleCat.extendScalars.{uR, uS, max uR uS v} f) :=
-      extendScalars_preservesFiniteLimits_of_flatPoly hf
-    have hcolim : Limits.PreservesFiniteColimits
-        (ModuleCat.extendScalars.{uR, uS, max uR uS v} f) :=
-      extendScalars_preservesFiniteColimitsPoly f
-    have hadd : (ModuleCat.extendScalars.{uR, uS, max uR uS v} f).Additive :=
-      extendScalars_additive f
-    have hproj : (ModuleCat.extendScalars.{uR, uS, max uR uS v} f).PreservesProjectiveObjects :=
-      extendScalars_preservesProjectiveObjectsPoly f
-    set S := M.projectiveShortComplex with hSdef
-    have hS : S.ShortExact := M.shortExact_projectiveShortComplex
-    have hPproj : Projective S.X₂ := inferInstance
-    have hLS : (S.map (ModuleCat.extendScalars f)).ShortExact := hS.map_of_exact _
-    have hLPproj : Projective (S.map (ModuleCat.extendScalars f)).X₂ :=
-      (ModuleCat.extendScalars f).projective_obj_of_projective hPproj
-    refine AddMonoidHom.bijective_of_surjective_of_bijective_of_right_exact _ _ _ _
-      (extFlatBaseChangeComparisonPoly f S.X₂ N' n)
-      (extFlatBaseChangeComparisonPoly f S.X₁ N' n)
-      (extFlatBaseChangeComparisonPoly f S.X₃ N' (n + 1))
-      ?hc₁ ?hc₂
-      ((ShortComplex.ab_exact_iff_function_exact _).mp
-        (Ext.contravariant_sequence_exact₁' hLS N' n (n + 1) (add_comm 1 n)))
-      ((ShortComplex.ab_exact_iff_function_exact _).mp
-        (Ext.contravariant_sequence_exact₁' hS ((ModuleCat.restrictScalars f).obj N')
-          n (n + 1) (add_comm 1 n)))
-      (ih _).surjective (ih _)
-      ?hf₂ ?hg₂
-    case hc₁ =>
-      ext x
-      exact extFlatBaseChangeComparison_naturality_morPoly f S.f N' n x
-    case hc₂ =>
-      ext x
-      exact (extFlatBaseChangeComparison_naturality_deltaPoly f S hS hLS N' n (n + 1)
-        (add_comm 1 n) x).symm
-    case hf₂ =>
-      exact fun x₃ ↦ Ext.contravariant_sequence_exact₃ hLS _ x₃
-        (Ext.eq_zero_of_projective _) (add_comm 1 n)
-    case hg₂ =>
-      exact fun y₃ ↦ Ext.contravariant_sequence_exact₃ hS _ y₃
-        (Ext.eq_zero_of_projective _) (add_comm 1 n)
-
-end Port
-
 /-! ### Stacks 087R -/
 
 universe uR uS uM uN w
@@ -852,7 +607,7 @@ private theorem baseChangeComparison_bijective
   have heq : ((Ext.mk₀ η).precomp
       ((ModuleCat.restrictScalars f).obj Z) (zero_add i)).comp
       ((ModuleCat.restrictScalars f).mapExtAddHom Y Z i) =
-      (extFlatBaseChangeComparisonPoly.{uR, uS, v} f X Z i).comp
+      (extendScalarsExtComparison.{uR, uS, max uR v} f X Z i).comp
         ((Ext.mk₀ e.hom).precomp Z (zero_add i)) := by
     ext x
     change (Ext.mk₀ η).comp (x.mapExactFunctor (ModuleCat.restrictScalars f)) (zero_add i) =
@@ -862,7 +617,8 @@ private theorem baseChangeComparison_bijective
     rw [Ext.mapExactFunctor_comp, Ext.mapExactFunctor_mk₀,
       ← Ext.comp_assoc_of_second_deg_zero, Ext.mk₀_comp_mk₀, hη]
   rw [heq]
-  exact (flat_base_change_extPoly.{uR, uS, v} f hf X Z i).comp (precomp_iso_bijective e Z i)
+  exact (extendScalarsExtComparison_bijective.{uR, uS, max uR v} f hf X Z i).comp
+    (precomp_iso_bijective e Z i)
 
 end Proof
 
@@ -1011,7 +767,8 @@ theorem baseChange_ext_bijective_of_pseudoCoherent
   · intro hi
     subst i
     intro x
-    induction x using TensorProduct.inductionOn with
+    induction x using TensorProduct.induction_on with
+    | zero => simp only [map_zero]
     | add x y hx hy => simpa only [map_add] using congrArg₂ (· + ·) hx hy
     | tmul z s =>
       obtain ⟨f, rfl⟩ := (Ext.linearEquiv₀ (R := R)).symm.surjective z

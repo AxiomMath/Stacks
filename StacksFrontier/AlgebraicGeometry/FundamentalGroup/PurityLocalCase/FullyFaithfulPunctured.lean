@@ -36,8 +36,9 @@ Stacks 0EKT, and Stacks 0EL8 turns that into full faithfulness of `FÉt_U ⟶ F�
   Stacks 0EK5 in which hypothesis (c)(ii) holds.
 * `…LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_dualizingComplex` —
   **Stacks 0EK5**, with hypothesis (c) the disjunction of (c)(i) and (c)(ii).
-* `…LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_henselian`
-  — **Stacks 0BLJ**.
+* `…LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_`
+  `henselianLocalRing_or` — **Stacks 0BLJ**, with the source's henselian hypothesis
+  "`A` henselian or `(A, (f))` a henselian pair".
 
 ## Implementation notes
 
@@ -135,7 +136,8 @@ is fully faithful on the finite locally free sheaves by Stacks 0EKS,
 `Stacks.Algebraization.completionFullyFaithfulOnFiniteLocallyFree_of_isAdicComplete_of_`
 `annihilated`, and
 `fullyFaithful_finiteEtaleRestriction_of_completionFullyFaithfulOnFiniteLocallyFree` concludes. -/
-@[stacks 0BM6]
+@[stacks 0BM6 "for an arbitrary Noetherian local ring `A`, with `H¹_𝔪(A)` and `H²_𝔪(A)` killed by \
+a power of `f` and with `A` henselian or `(A, (f))` a henselian pair"]
 public theorem fullyFaithful_finiteEtaleRestriction_of_annihilated_of_henselian
     (S : LocalLefschetzSituation.{u})
     (hS : HenselianLocalRing S.A ∨ HenselianPair S.A S.principalIdeal)
@@ -212,7 +214,8 @@ The proof is the source's: branch (c)(i) implies branch (c)(ii), by
 Stacks 0A80 because it has a dualizing complex — and under (c)(ii) the statement is
 `fullyFaithful_finiteEtaleRestriction_of_depth_add_dim`: reduction to the `𝔪`-adic completion by
 Stacks 0BLI, then Stacks 0EKT and Stacks 0EL8. -/
-@[stacks 0EK5]
+@[stacks 0EK5 "for an arbitrary Noetherian local ring `A` with a dualizing complex and `(A, (f))` \
+a henselian pair, hypothesis (c) being the disjunction of branches (i) and (ii)"]
 public theorem fullyFaithful_finiteEtaleRestriction_of_dualizingComplex
     (S : LocalLefschetzSituation.{u})
     (hdual : ∃ omega : DerivedCategory (ModuleCat.{u} S.A), Dualizing.IsDualizingComplex omega)
@@ -234,18 +237,19 @@ public theorem fullyFaithful_finiteEtaleRestriction_of_dualizingComplex
   · exact hdepth
 
 /-- **[Stacks, Tag 0BLJ].** In the local Lefschetz situation assume that `A` has depth at least
-`3` and that the pair `(A, (f))` is henselian. Then `FÉt_U ⟶ FÉt_{U₀}` is fully faithful.
+`3` and that `A` is henselian or, more generally, that the pair `(A, (f))` is henselian. Then
+`FÉt_U ⟶ FÉt_{U₀}` is fully faithful.
 
-This is the source's proof: depth at least `3` forces `H¹_𝔪(A) = H²_𝔪(A) = 0` by
-[Stacks, Tag 0AVZ], through `Stacks.LocalCohomology.isZero_localCohomology_of_lt_depth`, so the
-annihilation hypothesis of Stacks 0BM6 holds with any exponent and
-`fullyFaithful_finiteEtaleRestriction_of_annihilated_of_henselian` applies. The henselian
-hypothesis is the more general of the two forms the source offers — `(A, (f))` a henselian pair,
-rather than `A` henselian. -/
-@[stacks 0BLJ]
-public theorem fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_henselian
+The henselian hypothesis `hS` is the source's disjunction. This is the source's proof: depth at
+least `3` forces `H¹_𝔪(A) = H²_𝔪(A) = 0` by [Stacks, Tag 0AVZ], through
+`Stacks.LocalCohomology.isZero_localCohomology_of_lt_depth`, so the annihilation hypothesis of
+Stacks 0BM6 holds with any exponent and
+`fullyFaithful_finiteEtaleRestriction_of_annihilated_of_henselian` applies. -/
+@[stacks 0BLJ "for an arbitrary Noetherian local ring `A` of depth at least `3`, with `A` \
+henselian or `(A, (f))` a henselian pair"]
+public theorem fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_henselianLocalRing_or
     (S : LocalLefschetzSituation.{u})
-    (hS : HenselianPair S.A S.principalIdeal)
+    (hS : HenselianLocalRing S.A ∨ HenselianPair S.A S.principalIdeal)
     (hdepth : 3 ≤ Module.depth S.A (maximalIdeal S.A) S.A) :
     Nonempty (finiteEtaleBaseChange S.U₀ToU).FullyFaithful := by
   have h3 : ((3 : ℕ) : ℕ∞) ≤ Module.depth S.A (maximalIdeal S.A) S.A := by
@@ -265,8 +269,19 @@ public theorem fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_henseli
           (ModuleCat.of S.A S.A) i).symm
     have hsub := ModuleCat.subsingleton_of_isZero hzero
     exact ⟨0, fun _ => hsub.elim _ _⟩
-  exact fullyFaithful_finiteEtaleRestriction_of_annihilated_of_henselian S (Or.inr hS)
+  exact fullyFaithful_finiteEtaleRestriction_of_annihilated_of_henselian S hS
     (hann 1 (by norm_num)) (hann 2 (by norm_num))
+
+/-- In the local Lefschetz situation, if `A` has depth at least `3` and the pair `(A, (f))` is
+henselian, then `FÉt_U ⟶ FÉt_{U₀}` is fully faithful. This is the henselian-pair branch of
+Stacks 0BLJ, `fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_henselianLocalRing_or`. -/
+public theorem fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_henselian
+    (S : LocalLefschetzSituation.{u})
+    (hS : HenselianPair S.A S.principalIdeal)
+    (hdepth : 3 ≤ Module.depth S.A (maximalIdeal S.A) S.A) :
+    Nonempty (finiteEtaleBaseChange S.U₀ToU).FullyFaithful :=
+  S.fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_henselianLocalRing_or (Or.inr hS)
+    hdepth
 
 end LocalLefschetzSituation
 

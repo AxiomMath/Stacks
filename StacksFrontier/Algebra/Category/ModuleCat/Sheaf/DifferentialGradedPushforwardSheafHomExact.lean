@@ -190,6 +190,7 @@ noncomputable def pushforwardConcreteDGFunctor
 
 /-- **The internal hom `SheafHom^dg_{𝒜'}(𝒩, -)`, extended to homogeneous maps** by
 postcomposition. -/
+@[stacks 0FRP "SheafHom^dg_B(N, -) as a functor of differential graded categories"]
 noncomputable def sheafHomConcreteDGFunctor (N : DifferentialGradedBimodule.{u, a, z} A A') :
     ConcreteDGFunctor.{u, a, a, s, max u z s} A' A where
   functor := sheafHomFunctor N

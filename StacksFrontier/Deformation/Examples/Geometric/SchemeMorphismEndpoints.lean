@@ -80,10 +80,11 @@ paragraph of the source's proof is its geometric content — which pairs of firs
 deformations of the endpoints `f` deforms along — with the identification of the obstruction to
 that with an Ext class left out.
 
-Three hypotheses are carried rather than proved, each because the library does not have the
-corresponding clause. Condition (RS) for the category of all flat families of morphisms of
-schemes is the first assertion of [Stacks Project, Tag 0E3U], carried exactly as
-`Deformation.Examples.isDeformationCategory_schemeMorphismDeformationCategory` carries it; and
+Three hypotheses are carried rather than proved. That `Def_{X ⟶ Y}` is a deformation category
+is the second assertion of [Stacks Project, Tag 0E3U], which the library proves
+as `Deformation.Examples.isDeformationCategory_schemeMorphismDeformationCategoryProjection` in
+`StacksFrontier.Deformation.Examples.Geometric.SchemeMorphismsRimSchlessingerUnconditional`, a
+module this file does not import; and
 that `Def_X` and `Def_Y` are deformation categories is the assertion of
 [Stacks Project, Tag 0DY8] for `Deformation.Examples.SchemeDeformationCategory`, which the
 library proves for the category of all flat families of schemes

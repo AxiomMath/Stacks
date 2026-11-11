@@ -18,11 +18,11 @@ that a single square of analytic spaces commute.
 
 The remark is explicitly *not* mathematically precise: `An_S` and `Y ↦ Y^an` are called
 fictitious in the source, and the final sentence asserts the equivalence with condition (4)
-only "under some assumptions of faithfulness of the analytification functor", which the
-source does not state. What *is* precise is everything the remark asks of the fiction, once
-that fiction is carried as a hypothesis rather than constructed: the properties (a)–(d)
-listed below, the square itself, and the remark's own observation that the square makes
-sense. That is what this module formalizes.
+"under some assumptions of faithfulness of the analytification functor", which the source does
+not formulate. Once that fiction is carried as a hypothesis rather than constructed, this
+module formalizes the properties (a)–(d) listed below, the square itself, and the remark's own
+observation that the square makes sense; the equivalence, under a precise set of faithfulness
+assumptions, is in `StacksFrontier.AlgebraicGeometry.Artin.AnalyticReformulationEquivalence`.
 
 ## What is formalized and what is not
 
@@ -45,10 +45,13 @@ sentence "this makes sense as `g^rig : (X'_{/T'})^rig ⟶ W^rig` is an isomorphi
 `AlgebraicGeometry.Artin.ContractionSituation.isIso_rigFunctor_map_g_and_range_pointsMap_ι_U'`.
 
 The final clause of the remark — that the requirement is *equivalent* to compatibility
-condition (4) — is **deliberately not stated anywhere in this module**, not even as a
-hypothesis. The source conditions it on unstated faithfulness assumptions, so there is no
-precise statement to formalize; claiming the equivalence would assert something the source
-does not.
+condition (4) "under some assumptions of faithfulness of the analytification functor" — is
+`ContractionSituation.analyticSquareCommutes_iff_nonempty_compatibilityWitness`
+in `StacksFrontier.AlgebraicGeometry.Artin.AnalyticReformulationEquivalence`. The source does not
+formulate the assumptions; that module states a precise set of them,
+`AlgebraicGeometry.Artin.Analytification.FaithfulnessHypotheses`, and proves the equivalence
+under them. It is kept out of this module because it needs the dilatation theorem and the
+compatibility witnesses of the contraction development.
 
 ## Main definitions
 
@@ -203,9 +206,9 @@ An_S, (b) that the analytification of a reduction Y_red ⟶ Y is a closed immers
 Y^rig ⟶ Y^an as its open complement, (c) that for an algebraic space Y and a closed Z the \
 analytification of Y_{/Z} ⟶ Y is an open immersion and induces an open immersion can : \
 (Y_{/Z})^rig ⟶ (Y ∖ Z)^an, and (d) that the rigid part of a formal modification is an \
-isomorphism. The remark's closing claim, that the resulting requirement is equivalent to \
-compatibility condition (4), is not stated: the source makes it only under assumptions of \
-faithfulness of the analytification functor that it does not formulate"]
+isomorphism. The remark's closing claim, that under assumptions of faithfulness the resulting \
+requirement is equivalent to compatibility condition (4), is \
+ContractionSituation.analyticSquareCommutes_iff_nonempty_compatibilityWitness"]
 structure Analytification (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (An : Type v) [Category.{w} An] where
   /-- The analytification functor `Y ↦ Y^an`. -/
@@ -323,15 +326,17 @@ data as the remark posits. The two horizontal morphisms are the comparison morph
 property (c), the right-hand column is the analytification of `u'`, and the left-hand column
 is `x̂^rig` followed by the inverse of the isomorphism `g^rig` of property (d).
 
-This is a requirement on the given data, and only that. Whether it is equivalent to
-compatibility condition (4) is left open: the source asserts that equivalence only under
-assumptions of faithfulness of the analytification functor which it does not state. -/
+This is a requirement on the given data, and only that. Its equivalence with compatibility
+condition (4), which the source asserts under assumptions of faithfulness of the
+analytification functor, is
+`ContractionSituation.analyticSquareCommutes_iff_nonempty_compatibilityWitness`. -/
 @[stacks 0GID "the requirement that the displayed square of analytic spaces commute: the \
 comparison morphism can : (V_{/Z})^rig ⟶ (V ∖ Z)^an followed by the analytification of u' \
 agrees with x̂^rig followed by the inverse of the isomorphism g^rig and then by can : \
 (X'_{/T'})^rig ⟶ (X' ∖ T')^an. It is stated as a requirement on the posited analytification \
-data, exactly as the source states it, and is not asserted to be equivalent to compatibility \
-condition (4)"]
+data, exactly as the source states it; its equivalence with compatibility condition (4) under \
+assumptions of faithfulness is \
+ContractionSituation.analyticSquareCommutes_iff_nonempty_compatibilityWitness"]
 def AnalyticSquareCommutes {V : BigFppfOver B S hS} (t : PreCompatibilityTriple c V) : Prop :=
   d.can (yoneda.obj V) (isAlgebraicSpace_yoneda B S hS V) t.Z t.isClosed_Z ≫
       d.anFunctor.map (Space.sheafifiedULiftMap B S hS t.u') =

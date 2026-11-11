@@ -36,12 +36,25 @@ public import Mathlib.Topology.Sheaves.Init
 open UniqueFactorizationMonoid
 
 /-- The property that every nonzero ideal of `R` can be written as a product
-of nonzero prime ideals, uniquely up to permutation. -/
-@[stacks 034W]
+of nonzero prime ideals, uniquely up to permutation.
+
+This is the factorization condition of Stacks 034W without the requirement that `R` be a
+domain; on its own it is strictly weaker: the zero ring satisfies it vacuously, and so does
+`k[x]/(x²)`, whose only nonzero ideals are the maximal ideal `(x)` (with `(x)² = 0`) and the unit
+ideal (the empty product). The Stacks definition of a Dedekind domain is
+`IsStacksDedekindDomain`. -/
 def HasUniquePrimeIdealFactorization (R : Type*) [CommRing R] : Prop :=
   ∀ I : Ideal R, I ≠ ⊥ →
     ∃! f : Multiset (Ideal R),
       (∀ P ∈ f, P.IsPrime ∧ P ≠ ⊥) ∧ f.prod = I
+
+/-- A *Dedekind domain* in the sense of the Stacks project: a domain `R` in which every nonzero
+ideal can be written as a product of nonzero prime ideals, uniquely up to permutation. It agrees
+with Mathlib's `IsDedekindDomain` by `isStacksDedekindDomain_iff_isDedekindDomain`. -/
+@[stacks 034W "a domain (`IsDomain R`) in which every nonzero ideal is a product of nonzero \
+  prime ideals, uniquely up to permutation (`HasUniquePrimeIdealFactorization R`)"]
+def IsStacksDedekindDomain (R : Type*) [CommRing R] : Prop :=
+  IsDomain R ∧ HasUniquePrimeIdealFactorization R
 
 /-- A Dedekind domain `R` has the property that every nonzero ideal admits a
 unique factorization (as a multiset) into nonzero prime ideals. -/

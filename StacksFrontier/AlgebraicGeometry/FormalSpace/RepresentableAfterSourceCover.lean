@@ -315,7 +315,6 @@ Stacks 0APY, and representability descends along the étale covering by
 `AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_of_etaleCover_comp`. Of the
 hypothesis that `X` is a formal algebraic space only the set-theoretic condition of Stacks 0AIS
 is used, and affineness of the `Vᵢ` is not used. -/
-@[stacks 0AN4 "condition (5) implies condition (1)"]
 theorem isRepresentable_of_isRepresentableAfterSourceCover {X Y : FppfSheaf B S hS}
     (f : X ⟶ Y) (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hf : IsRepresentableAfterSourceCover B S hS f) :

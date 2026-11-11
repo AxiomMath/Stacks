@@ -66,10 +66,11 @@ blocked for want of them.**
   the bijection is `AlgebraicGeometry.Space.toDual_definingIdealSheaf_bijective'` (line 340) and
   the order isomorphism with its kernel formula is
   `AlgebraicGeometry.Space.closedSubspaceQuasicoherentIdealOrderIso` (line 358).
-* The *whole* forward implication of Descent 03DX(2), for an arbitrary `𝒪_X`-module, is
+* The *whole* forward implication of the chart criterion (quasi-coherent ⟹ cartesian on affine
+  charts), for an arbitrary `𝒪_X`-module, is
   `AlgebraicGeometry.Space.isCartesianOnAffineCharts_of_isQuasicoherentOnSite`
-  (`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentCartesianOnAffineCharts.lean:640`, carrying
-  `@[stacks 03DX]`), by the descent argument of Stacks 0H04 on the affine étale site.  It is
+  (`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentCartesianOnAffineCharts.lean`), by the
+  descent argument of Stacks 0H04 on the affine étale site.  It is
   restated in the `h03DX` spelling the two order isomorphisms below use, so that it can be
   supplied with no adapter, as
   `AlgebraicGeometry.Space.SmallEtale.isCartesianOnAffineCharts_of_isQuasicoherentOnSite`

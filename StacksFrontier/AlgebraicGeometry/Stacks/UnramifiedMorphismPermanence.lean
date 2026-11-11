@@ -26,9 +26,12 @@ and **Stacks 03ZJ**.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isUnramified_comp`: **Stacks 0CIU**.
-* `AlgebraicGeometry.Stack.isUnramified_baseChange`: **Stacks 0CIV**, for the canonical 2-fibre
-  product square.
+* `AlgebraicGeometry.Stack.isUnramified_comp`: composition of unramified 1-morphisms, over the
+  arguments `hT` and `hForward`; **Stacks 0CIU** with both discharged is
+  `AlgebraicGeometry.Stack.AlgebraicStacks.isUnramified_comp`, in
+  `StacksFrontier.AlgebraicGeometry.Stacks.UnramifiedMorphismComp`.
+* `AlgebraicGeometry.Stack.isUnramified_baseChange`: base change of an unramified 1-morphism
+  along the canonical 2-fibre product square, the shape **Stacks 0CIV** takes in Stacks 0CII.
 
 ## Implementation notes
 
@@ -41,18 +44,22 @@ That property is the packaged form of Stacks 03ZH, part (1), in
 statements, the two étale-smooth locality hypotheses and the two permanence inputs all refer to
 that one term.
 
-Both transfer theorems carry the substantial direction of **Stacks 06N3** as an explicit
-hypothesis, since the structure theorem behind it is not in this library; it enters only through
+Both transfer theorems take the implication (1) ⇒ (2) of **Stacks 06N3** as an argument
+`hForward : AlgebraicGeometry.Stack.ExistsEtalePresentationOfIsAbsolutelyDM`, together with the
+containment `hT` of the terminal scheme it is stated over; it enters only through
 **Stacks 0CIA**, which supplies the surjective étale presentations of the 2-fibre products the
-source's arguments choose. That hypothesis,
-`AlgebraicGeometry.Stack.ExistsEtalePresentationOfIsAbsolutelyDM` together with the containment
-`hT` of the terminal scheme it is stated over, is therefore carried here too. It is a statement
-about Deligne–Mumford algebraic stacks and surjective étale presentations by schemes, with no
-occurrence of unramifiedness, so it is not an instance of either conclusion below.
+source's arguments choose. The theorems below keep that argument. The library proves it, as
+`AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM` in
+`StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordPresentationExistence`, so each theorem below
+holds outright once that term is supplied.
 
-Stacks 0CIV is stated for the canonical 2-fibre product square
-`AlgebraicGeometry.Stack.AlgebraicStacks.twoFibreProductSquare`, which is the shape Stacks 0CII
-is stated at; its second projection is the base change of `f` along `g`.
+`AlgebraicGeometry.Stack.isUnramified_baseChange` is stated for the canonical 2-fibre product
+square `AlgebraicGeometry.Stack.AlgebraicStacks.twoFibreProductSquare`, which is the shape
+Stacks 0CII is stated at; its second projection is the base change of `f` along `g`. Stacks 0CIV
+itself, for an arbitrary 2-fibre product square and with no further argument, is
+`AlgebraicGeometry.Stack.isUnramified_baseChange_of_isUnramifiedOnEveryEtaleDiagram` and
+`AlgebraicGeometry.Stack.isUnramified_snd_of_isTwoFibreProduct`, in
+`StacksFrontier.AlgebraicGeometry.Stacks.UnramifiedBaseChange`.
 
 Inside `AlgebraicGeometry.Stack` the bare `IsUnramified` is the stack notion of Stacks 0CIT, so
 the algebraic-space notion of Stacks 03ZH is written out qualified.
@@ -86,17 +93,17 @@ universe u w
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **Stacks 0CIU.** A composite of unramified 1-morphisms of algebraic stacks over `S` is
-unramified.
+/-- A composite of unramified 1-morphisms of algebraic stacks over `S` is unramified, given the
+containment `hT` of the terminal scheme in the site and the implication (1) ⇒ (2) of
+**Stacks 06N3** as `hForward`. Both are discharged in
+`AlgebraicGeometry.Stack.AlgebraicStacks.isUnramified_comp` (**Stacks 0CIU**), by
+`AlgebraicGeometry.BigFppfSite.contains_terminal` and
+`AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM`.
 
 This is **Stacks 0CIH** at unramifiedness of morphisms of algebraic spaces: that property is
 étale-smooth local on the source-and-target by the unramified entry of **Stacks 0CG3** and stable
 under composition by **Stacks 03ZI**, and unramifiedness of a 1-morphism of algebraic stacks is
 exactly the property of Deligne–Mumford 1-morphisms that **Stacks 0CIG** induces from it. -/
-@[stacks 0CIU "with the substantial direction of Stacks 06N3 as the explicit hypothesis hForward
-  (the structure theorem behind it, Stacks 06MD, 06N0, 06N2, 06G2, 06G3, is absent from the
-  library); it is inherited from Stacks 0CIH, where it enters only through
-  Stacks 0CIA"]
 theorem isUnramified_comp
     (hT : B.Contains (⊤_ Scheme.{u}))
     (hForward : ExistsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS hT)
@@ -108,30 +115,31 @@ theorem isUnramified_comp
     (fun p q hp hq => (Space.isUnramified_isStableUnderComposition B S hS).comp_mem p q hp hq)
     hT hForward f g hf hg
 
-/-- **Stacks 0CIV.** The base change of an unramified 1-morphism of algebraic stacks over `S`
-along an arbitrary 1-morphism is unramified: for `f : 𝒳 ⟶ 𝒴` unramified and `g : 𝒵 ⟶ 𝒴`
-arbitrary, the second projection of the canonical 2-fibre product square of `(f, g)` — the base
-change of `f` over `𝒵` — is unramified.
+/-- The base change of an unramified 1-morphism of algebraic stacks over `S` along an arbitrary
+1-morphism is unramified: for `f : 𝒳 ⟶ 𝒴` unramified and `g : 𝒵 ⟶ 𝒴` arbitrary, the second
+projection of the canonical 2-fibre product square of `(f, g)` — the base change of `f` over
+`𝒵` — is unramified.
 
 This is **Stacks 0CII** at unramifiedness of morphisms of algebraic spaces: that property is
 étale-smooth local on the source-and-target by the unramified entry of **Stacks 0CG3** and stable
 under base change by **Stacks 03ZJ**, and unramifiedness of a 1-morphism of algebraic stacks is
-exactly the property of Deligne–Mumford 1-morphisms that **Stacks 0CIG** induces from it. -/
-@[stacks 0CIV "for the canonical 2-fibre product square of Stacks 003Q, which is the shape the
-  Stacks 0CII is stated at, and with the substantial direction of Stacks 06N3 as the
-  explicit hypothesis hForward (the structure theorem behind it, Stacks 06MD, 06N0, 06N2, 06G2,
-  06G3, is absent from the library); both are inherited from Stacks 0CII, where
-  hForward enters only through Stacks 0CIA"]
+exactly the property of Deligne–Mumford 1-morphisms that **Stacks 0CIG** induces from it. The
+argument `hForward` is the implication (1) ⇒ (2) of **Stacks 06N3**, which Stacks 0CII takes as
+an argument and the library proves as
+`AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM`.
+
+**Stacks 0CIV** itself, for an arbitrary 2-fibre product square, is
+`AlgebraicGeometry.Stack.isUnramified_baseChange_of_isUnramifiedOnEveryEtaleDiagram`. -/
 theorem isUnramified_baseChange
     (hT : B.Contains (⊤_ Scheme.{u}))
-    (hForward : ExistsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS hT)
+    (_hForward : ExistsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS hT)
     {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒵 ⟶ 𝒴)
     (hf : IsUnramified B S hS f) :
     IsUnramified B S hS (AlgebraicStacks.twoFibreProductSquare B S hS f g).snd :=
   letI : (Space.unramifiedMorphismProperty B S hS).IsStableUnderBaseChange :=
     Space.isUnramified_isStableUnderBaseChange B S hS
   hasEtaleSmoothLocalProperty_baseChange.{u, w} B S hS (Space.unramifiedMorphismProperty B S hS)
-    (Space.isUnramified_isEtaleSmoothLocalOnSourceAndTarget B S hS) hT hForward f g hf
+    (Space.isUnramified_isEtaleSmoothLocalOnSourceAndTarget B S hS) f g hf
 
 end AlgebraicGeometry.Stack
 

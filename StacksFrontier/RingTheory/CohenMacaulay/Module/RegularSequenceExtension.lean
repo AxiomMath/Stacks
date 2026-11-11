@@ -399,7 +399,9 @@ The defining notion of the section, Stacks `00N3` (`M` is Cohen-Macaulay if
 `StacksFrontier.RingTheory.CohenMacaulay.Defs` (with `Module.depthSup` from
 `StacksFrontier.RingTheory.Depth.Defs.Defs`).
 
-* `IsMaximalCohenMacaulayModule` : Stacks `00NF`, `depth M = dim R`.
+* `IsMaximalCohenMacaulayModule` : the equation `depthSup M = dim R`, which is Stacks `00NF`
+  (`Module.IsMaximalCohenMacaulay`) for `M ≠ 0`
+  (`isMaximalCohenMacaulayModule_iff_isMaximalCohenMacaulay`) but differs from it at `M = 0`.
 * `IsLocallyCohenMacaulayModule` : Stacks `0AAH`, the notion for a Noetherian ring that need not
   be local: `M_p` is a Cohen-Macaulay `R_p`-module for every prime `p` in `Supp M`. The source
   says "for all primes"; see the declaration's docstring for why that wording is an erratum.
@@ -649,12 +651,30 @@ theorem coheight_eq_supportDim_of_mem_associatedPrimes_of_isCohenMacaulayModule
   have : (n : ℕ∞) + 1 ≤ (n : ℕ∞) := hstep.trans hback
   exact absurd this (by exact_mod_cast Nat.not_succ_le_self n)
 
-/-- **Stacks 00NF.** A finite module `M` over a Noetherian local ring `R` is *maximal
-Cohen-Macaulay* if `depth M = dim R`, i.e. if its depth is as large as it can possibly be. -/
-@[stacks 00NF]
+/-- The equation `depthSup M = dim R` for a finite module `M` over a Noetherian local ring `R`,
+written with `Module.depthSup` rather than with the depth `Module.depth` of Stacks `00LI`.
+
+This is not Stacks Definition `00NF`, which is `Module.IsMaximalCohenMacaulay`
+(`StacksFrontier.RingTheory.CohenMacaulay.Defs`). The two agree for `M ≠ 0`
+(`isMaximalCohenMacaulayModule_iff_isMaximalCohenMacaulay`), but they differ at `M = 0` when
+`dim R = 0`: `Module.depthSup` of the zero module is `0`, while its depth is `∞`. So over an
+Artinian local ring, for instance a field, the zero module satisfies this predicate, although it
+is not maximal Cohen-Macaulay in the sense of Stacks `00NF`. -/
 def IsMaximalCohenMacaulayModule (R : Type*) [CommRing R] [IsNoetherianRing R] [IsLocalRing R]
     (M : Type*) [AddCommGroup M] [Module R M] [Module.Finite R M] : Prop :=
   (Module.depthSup R (maximalIdeal R) M : WithBot ℕ∞) = ringKrullDim R
+
+/-- For a nonzero finite module `M` over a Noetherian local ring `R`, the predicate
+`IsMaximalCohenMacaulayModule R M` is Stacks Definition `00NF`, `Module.IsMaximalCohenMacaulay R M`:
+since `𝔪 M ≠ M` by Nakayama's lemma, `Module.depthSup` and the depth `Module.depth` of `M` agree. -/
+theorem isMaximalCohenMacaulayModule_iff_isMaximalCohenMacaulay [Nontrivial M] :
+    IsMaximalCohenMacaulayModule R M ↔ Module.IsMaximalCohenMacaulay R M := by
+  have hne : maximalIdeal R • (⊤ : Submodule R M) ≠ ⊤ :=
+    .symm <| Submodule.top_ne_ideal_smul_of_le_jacobson_annihilator <| by
+      rw [IsLocalRing.jacobson_eq_maximalIdeal _
+        (mt Module.annihilator_eq_top_iff.mp (not_subsingleton M))]
+  rw [IsMaximalCohenMacaulayModule, Module.IsMaximalCohenMacaulay, Module.depth,
+    ite_eq_right hne, ← Module.depthSup_eq_iSup]
 
 /-- A Cohen-Macaulay module whose support is all of `Spec R` is maximal Cohen-Macaulay, since
 then `dim (Supp M) = dim R`. This is the remark following Stacks `00NF`. -/

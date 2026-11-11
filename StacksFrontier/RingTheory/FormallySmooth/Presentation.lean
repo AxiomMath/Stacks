@@ -58,6 +58,9 @@ The presentation `P` is a variable of the statement, so it gives both the "for s
 
 * `Stacks.FormallySmooth.PresentationTFAE.solution`: the four conditions above are equivalent.
 * `Algebra.FormallySmooth.tfae_of_surjective`: the same statement.
+* `Algebra.FormallySmooth.tfae_lifting_of_surjective`: Stacks 031J in full, adding the lifting
+  property of Stacks 00TI as a condition; in the four conditions above the first is Mathlib's
+  `Algebra.FormallySmooth`, which is by definition the fourth.
 
 ## References
 
@@ -119,10 +122,12 @@ surjection with kernel `J`. The following are equivalent:
 2. the surjection `P ⧸ J² → S` admits an `R`-algebra section;
 3. the sequence `0 → J/J² → S ⊗[P] Ω[P⁄R] → Ω[S⁄R] → 0` is split short exact, i.e. its first map
    is injective and its second map admits an `S`-linear section;
-4. `Ω[S⁄R]` is a projective `S`-module and `H₁(NL_{S/R}) = 0`. -/
-@[stacks 031J "Stated for a variable formally smooth presentation, giving the source's `for some
-P` and `for all P` forms at once; see the module docstring.",
-  ega "0 20.4.9" "discrete case",
+4. `Ω[S⁄R]` is a projective `S`-module and `H₁(NL_{S/R}) = 0`.
+
+Mathlib's `Algebra.FormallySmooth R S` is defined as condition 4, so the first item here is Stacks'
+condition (6), not the lifting property of Stacks 00TI. The complete Stacks statement, with the
+lifting property as a separate condition, is `Algebra.FormallySmooth.tfae_lifting_of_surjective`. -/
+@[ega "0 20.4.9" "discrete case",
   ega "IV 17.2.3" "(i), affine case"]
 public theorem Algebra.FormallySmooth.tfae_of_surjective
     {R : Type*} {S : Type*} {P : Type*} [CommRing R] [CommRing S] [CommRing P]
@@ -135,5 +140,42 @@ public theorem Algebra.FormallySmooth.tfae_of_surjective
           ∃ σ : Ω[S⁄R] →ₗ[S] S ⊗[P] Ω[P⁄R], mapBaseChange R P S ∘ₗ σ = LinearMap.id,
         Module.Projective S Ω[S⁄R] ∧ Subsingleton (Algebra.H1Cotangent R S) ] :=
   Stacks.FormallySmooth.PresentationTFAE.solution hf
+
+/-- **Stacks 031J.** Let `R → S` be a ring map, let `P` be a formally smooth `R`-algebra and let
+`P → S` be a surjection with kernel `J`. The following are equivalent:
+
+1. `S` is formally smooth over `R` in the sense of Stacks 00TI: for every `R`-algebra `B` and every
+   ideal `I ⊆ B` of square zero, every `R`-algebra map `S → B ⧸ I` lifts to an `R`-algebra map
+   `S → B`;
+2. the surjection `P ⧸ J² → S` admits an `R`-algebra section;
+3. the sequence `0 → J/J² → S ⊗[P] Ω[P⁄R] → Ω[S⁄R] → 0` is split short exact, i.e. its first map
+   is injective and its second map admits an `S`-linear section;
+4. `Ω[S⁄R]` is a projective `S`-module and `H₁(NL_{S/R}) = 0`;
+5. `S` is an `Algebra.FormallySmooth R`-algebra (Mathlib's definition, which is condition 4).
+
+The lifting condition quantifies over `R`-algebras `B` in the universe `max u v`, where `R : Type u`
+and `S : Type v`, the universe in which Mathlib proves the lifting criterion. -/
+@[stacks 031J "The presentation `P` is a variable, so conditions 2 and 3 hold for some `P` iff they
+hold for every `P` (each is equivalent to condition 1); Stacks' conditions (2)/(3) are item 2,
+(4)/(5) are item 3 and (6) is item 4. Item 5 is Mathlib's `Algebra.FormallySmooth`, which is (6)
+by definition."]
+public theorem Algebra.FormallySmooth.tfae_lifting_of_surjective.{u, v, w}
+    {R : Type u} {S : Type v} {P : Type w} [CommRing R] [CommRing S] [CommRing P]
+    [Algebra R S] [Algebra R P] [Algebra P S] [IsScalarTower R P S]
+    [Algebra.FormallySmooth R P] (hf : Function.Surjective (algebraMap P S)) :
+    List.TFAE
+      [ ∀ ⦃B : Type (max u v)⦄ [CommRing B] [Algebra R B] (I : Ideal B), I ^ 2 = ⊥ →
+          Function.Surjective ((Ideal.Quotient.mkₐ R I).comp : (S →ₐ[R] B) → S →ₐ[R] B ⧸ I),
+        ∃ g, (IsScalarTower.toAlgHom R P S).kerSquareLift.comp g = AlgHom.id R S,
+        Function.Injective (kerCotangentToTensor R P S) ∧
+          ∃ σ : Ω[S⁄R] →ₗ[S] S ⊗[P] Ω[P⁄R], mapBaseChange R P S ∘ₗ σ = LinearMap.id,
+        Module.Projective S Ω[S⁄R] ∧ Subsingleton (Algebra.H1Cotangent R S),
+        Algebra.FormallySmooth R S ] := by
+  have h := Algebra.FormallySmooth.tfae_of_surjective (R := R) hf
+  tfae_have 1 ↔ 5 := (Algebra.FormallySmooth.iff_comp_surjective (R := R) (A := S)).symm
+  tfae_have 5 ↔ 2 := h.out 1 2
+  tfae_have 5 ↔ 3 := h.out 1 3
+  tfae_have 5 ↔ 4 := h.out 1 4
+  tfae_finish
 
 end

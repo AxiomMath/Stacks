@@ -62,6 +62,9 @@ on sheaves of sets but is exact on sheaves of abelian groups (Sheaves, Stacks 00
 
 ## Main results
 
+* `Functor.isIso_homEquiv_symm_whiskerLeft_toSheafify_of_isAlmostCocontinuous`: Stacks 04B8 —
+  for `u` continuous and almost cocontinuous and `G` a presheaf of sets on `D` with a single
+  section over every sheaf theoretically empty object, `(u^p G)^# ⟶ u^p(G^#)` is an isomorphism.
 *
 `Functor.preservesColimitsOfShape_sheafPushforwardContinuous_of_isAlmostCocontinuous`:
   Stacks 04B9 — for `u` continuous and almost cocontinuous, `u^s : Sh(D) ⥤ Sh(C)` preserves
@@ -405,6 +408,42 @@ end Stacks.Sites.ConnectedColimitRestriction
 namespace CategoryTheory.Functor
 
 @[expose] public section
+
+open Stacks.Sites.ConnectedColimitRestriction in
+/-- **Stacks 04B8.** Let `(C, J)` and `(D, K)` be sites and let `u : C ⥤ D` be continuous and
+almost cocontinuous (Stacks 04B7). Let `G` be a presheaf of sets on `D` such that `G(V)` is a
+singleton whenever `V` is sheaf theoretically empty. Then `(u^p G)^# = u^p(G^#)`: the canonical
+morphism of sheaves `(u^p G)^# ⟶ u^s(G^#)`, the transpose under the sheafification adjunction of
+`u^p` of the unit `G ⟶ G^#`, is an isomorphism.
+
+Sheaves are of sets in the universe `max u₁ v₁` of a site whose objects lie in `Type u₁` and whose
+morphisms lie in `Type v₁`, as for Mathlib's sheafification of presheaves of types; in particular
+this covers small sites with sheaves of sets. In that setting sheafification exists on both sites
+and inverts exactly the locally bijective morphisms
+(`CategoryTheory.GrothendieckTopology.WEqualsLocallyBijective`), both by instances. -/
+@[stacks 04B8 "For `u` continuous and almost cocontinuous and `G` a presheaf of sets on `D` with
+  `G(V)` a singleton for every sheaf theoretically empty `V`, the canonical morphism
+  `(u^p G)^# ⟶ u^p(G^#)` is an isomorphism."]
+public theorem isIso_homEquiv_symm_whiskerLeft_toSheafify_of_isAlmostCocontinuous
+    {C : Type u₁} [Category.{v₁} C] {D : Type u₁} [Category.{v₁} D] (u : C ⥤ D)
+    (J : GrothendieckTopology C) (K : GrothendieckTopology D) [u.IsContinuous J K]
+    (hu : IsAlmostCocontinuous u J K) (G : Dᵒᵖ ⥤ Type (max u₁ v₁))
+    (hG : ∀ V : D, SheafTheoreticallyEmptySite K V → Nonempty (Unique (G.obj (op V)))) :
+    IsIso (((sheafificationAdjunction J (Type (max u₁ v₁))).homEquiv (u.op ⋙ G)
+      ((u.sheafPushforwardContinuous (Type (max u₁ v₁)) J K).obj
+        ((presheafToSheaf K (Type (max u₁ v₁))).obj G))).symm
+      (Functor.whiskerLeft u.op (toSheafify K G))) := by
+  have hW : J.W (Functor.whiskerLeft u.op (toSheafify K G)) :=
+    W_whiskerLeft_toSheafify u hu G fun V hV => (hG V hV).some
+  have : IsIso ((sheafToPresheaf J (Type (max u₁ v₁))).map
+      (((sheafificationAdjunction J (Type (max u₁ v₁))).homEquiv (u.op ⋙ G)
+        ((u.sheafPushforwardContinuous (Type (max u₁ v₁)) J K).obj
+          ((presheafToSheaf K (Type (max u₁ v₁))).obj G))).symm
+        (Functor.whiskerLeft u.op (toSheafify K G)))) :=
+    isIso_sheafifyLift _
+      ((u.sheafPushforwardContinuous (Type (max u₁ v₁)) J K).obj
+        ((presheafToSheaf K (Type (max u₁ v₁))).obj G)).property hW
+  exact isIso_of_reflects_iso _ (sheafToPresheaf J (Type (max u₁ v₁)))
 
 open Stacks.Sites.ConnectedColimitRestriction in
 /-- **Stacks 04B9.** Let `(C, J)` and `(D, K)` be sites and let `u : C ⥤ D` be continuous and

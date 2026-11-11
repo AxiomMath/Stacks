@@ -29,10 +29,14 @@ realizing space.
   `AlgebraicGeometry.preservesFiniteLimits_smallEtaleSheafFiberOver`: the fibre functor at a
   localized point of the small étale site is additive and left exact on sheaves of `Λ`-modules,
   as instances at the single module universe `u + 1` the site forces.
-* `AlgebraicGeometry.exists_etaleCover_constantFiniteProjectiveComplex`: **Tag 09BI with its
-  finite-Tor-dimension input named at the points of the site.** One finite complex of finite
-  projective `Λ`-modules whose constant complex represents `K` over every member of one étale
-  covering of `X`.
+* `AlgebraicGeometry.exists_etaleCover_constantFiniteProjectiveComplex`: the trivialization of
+  Tag 09BI for a bounded `K` whose derived fibres have bounded flat representatives. One finite
+  complex of finite projective `Λ`-modules whose constant complex represents `K` over every member
+  of one étale covering of `X`. Tag 09BI itself, for an object of `D_{ctf}(X_{étale}, Λ)` with
+  locally constant cohomology sheaves, is
+  `AlgebraicGeometry.exists_etaleCover_constantFiniteProjectiveComplex_of_canonicalCtf` in
+  `StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstantPerfectComplexCtf`, which derives the
+  hypotheses of this statement from membership of `D_{ctf}`.
 
 ## Implementation notes
 
@@ -47,15 +51,10 @@ the derived fibre of a complex carrying a constant model over `V` with the compl
 coefficients of that model. The constructible half of `D_{ctf}` is carried by `hK`, as local
 constancy of finite type of the cohomology sheaves.
 
-Deriving `hflat` from locally finite Tor dimension of the reading of `K` over the constant
-coefficient ring sheaf of Stacks 03TR is the one step not taken here. Its ingredients are in the
-tree — `AlgebraicGeometry.exists_hasTorAmplitude_derivedRestriction_of_point`, Stacks 08G1
-(`Stacks.SheafOfModules.DerivedTensorProduct.exists_flatRepresentative_of_hasTorAmplitude`), the
-slice comparison `AlgebraicGeometry.moduleSheafOverConstantCoefficientsSheafFiberComplexIso`,
-the exactness of slice restriction at the slice spelling of the sheaf of rings
-(`Stacks.SheafOfModules.sliceRestrictionOfSize`) and the flatness of the stalk
-`AlgebraicGeometry.flat_coefficientStalk` — but assembling them asks for the derived tensor
-products of the slices of the constant coefficient ringed site, which this file does not build.
+The boundedness of `K`, the finite type of its cohomology sheaves and `hflat` are derived from
+membership of `K` in `D_{ctf}(X_{étale}, Λ)` (Tag 03TQ) in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ConstantPerfectComplexCtf`, where Tag 09BI is
+registered.
 
 The universes collapse: the objects of the small étale site lie in `Type (u + 1)`, its morphisms
 in `Type u` and the coefficients in `Type u`, so the module universe `max u v r` of the
@@ -127,17 +126,20 @@ local instance hasColimitsOfSize_moduleCat_succ :
 variable [IsNoetherianRing Λ] [ConnectedSpace X.obj]
   [HasSheafify (SmallEtale.topology B X.obj X.property) (ModuleCat.{u + 1} Λ)]
 
-/-- **Tag 09BI, with its finite-Tor-dimension input named at the points of the site.**
+/-- **The trivialization of Tag 09BI, for a bounded complex with flat derived fibres.**
 
 Let `X` be a connected scheme in a big étale site and `Λ` a Noetherian ring. Let `K` be a bounded
 object of the derived category of sheaves of `Λ`-modules on the small étale site of `X` whose
 cohomology sheaves are locally constant of finite type, and suppose that at every point `q` of
 the site lifting to an object `V` the derived fibre of the restriction to the slice over `V` of a
-representative of `K` has a bounded flat representative over `Λ` — the finite-Tor-dimension half
-of membership in `D_{ctf}(X_{étale}, Λ)`. Then there is a single finite complex `E` of finite
-projective `Λ`-modules and an étale covering of `X` over every member of which `K` becomes the
-constant complex attached to `E`. -/
-@[stacks 09BI]
+representative of `K` has a bounded flat representative over `Λ`. Then there is a single finite
+complex `E` of finite projective `Λ`-modules and an étale covering of `X` over every member of
+which `K` becomes the constant complex attached to `E`.
+
+Boundedness, finite type and `hflat` are not the hypotheses of the source, which asks only that
+`K` lie in `D_{ctf}(X_{étale}, Λ)` and have locally constant cohomology sheaves; they follow from
+those, and Tag 09BI with the source's hypotheses is
+`AlgebraicGeometry.exists_etaleCover_constantFiniteProjectiveComplex_of_canonicalCtf`. -/
 theorem exists_etaleCover_constantFiniteProjectiveComplex
     (K : DerivedCategory.Bounded
       (Sheaf (SmallEtale.topology B X.obj X.property) (ModuleCat.{u + 1} Λ)))

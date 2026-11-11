@@ -124,10 +124,9 @@ add_to_stacks 030B "(3) ⇒ (1)" IsIntegrallyClosed.of_isLocalization_maximal
 -- commutative ring is the Stacks condition `y = u⁻¹ x`; the relation is symmetric
 -- (`Associated.comm`).
 add_to_stacks 034P "(1) associates" Associated
--- Item (3) of Stacks 034P, for `x ≠ 0`: the ideal `(x)` is prime exactly when `x` is a prime
--- element in Mathlib's sense. Stacks also calls `0` prime in a domain, since `(0)` is then a
--- prime ideal, whereas Mathlib's `Prime` excludes `0`; that case is not covered.
-add_to_stacks 034P "(3) prime element, for nonzero elements" Ideal.span_singleton_prime
+-- Items (1)-(3) of Stacks 034P, each compared with Mathlib's notion, are stated in
+-- `StacksFrontier.RingTheory.UniqueFactorizationDomain.Basic`; item (3) there includes `x = 0`,
+-- which Mathlib's `Prime` excludes, and uses `Ideal.span_singleton_prime` for `x ≠ 0`.
 
 add_to_stacks 00EU "localization at a minimal prime is zero-dimensional"
   Ring.KrullDimLE.of_isLocalization
@@ -209,7 +208,9 @@ add_to_stacks 00IE "(1) Gamma is a totally ordered abelian group (with \
 add_to_stacks 00IE "(2) the valuation v : K^* -> Gamma" ValuationRing.valuation
 add_to_stacks 00IE "(1),(2) value group and valuation of a valuation \
   subring" ValuationSubring.valuation
-add_to_stacks 00IE "(3) discrete valuation ring" IsDiscreteValuationRing
+add_to_stacks 00IE "(3) discrete valuation ring, in Mathlib's form: a local PID which is not a \
+  field; for a valuation ring this is Stacks' Gamma = Z by \
+  ValuationRing.isDiscreteValuationRing_iff_nonempty_mulEquiv_int" IsDiscreteValuationRing
 add_to_stacks 00IE "(3) Gamma = Z => DVR" Valuation.valuationSubring_isDiscreteValuationRing
 add_to_stacks 00IE "(3) DVR => valuation discrete" IsDiscreteValuationRing.isRankOneDiscrete
 add_to_stacks 00IE "(3) discrete valuation has value group = \
@@ -298,3 +299,5 @@ add_to_stacks 046W "uniqueness: a `k`-map into any perfect extension exists"
   IsPurelyInseparable.instNonemptyAlgHomOfPerfectField
 add_to_stacks 046W "uniqueness: such a `k`-map is unique"
   instSubsingletonAlgHomOfIsPurelyInseparable
+add_to_stacks 00D6 "item (3): the scalar multiplication `x • ⟦⟨i, m⟩⟧ = ⟦⟨i, x • m⟩⟧`"
+  DirectLimit.smul_def

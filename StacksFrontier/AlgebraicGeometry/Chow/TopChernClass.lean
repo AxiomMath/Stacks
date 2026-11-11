@@ -7,7 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.Chow.ChernClassHigher.TotalChernC
 public import StacksFrontier.AlgebraicGeometry.FiniteLocallyFree.RankDecomposition
 
 /-!
-# The top Chern class of a finite locally free module
+# The assembly of the top Chern class of a finite locally free module
 
 Let `(S, δ)` be the base situation of chapter 42, let `X` be locally of finite type over `S` and
 let `E` be a finite locally free `𝒪_X`-module. The rank of `E` is locally constant, so `X` is the
@@ -24,16 +24,25 @@ is what gives it a component of the completed group. When only finitely many of 
 nonempty, only finitely many degrees occur in total and the class already lies in the ordinary
 graded group `A^*(X) = ⊕_p A^p(X)`, where it is the finite sum displayed above.
 
+This file does the assembly only: it takes the classes on the connected components as a family
+`c`, of the right degrees but otherwise arbitrary and not tied to `E`, and places them in the
+completed and in the graded group. The top Chern class of Stacks 0FA4 itself, built from the Chern
+classes of `E`, is `Stacks.Chow.topChernClassOfInvertible` and
+`Stacks.Chow.topChernClassFiniteOfInvertible` (in
+`StacksFrontier.AlgebraicGeometry.Chow.TopChernClassOfInvertible`), and
+`Stacks.Chow.topChernClassCompleted` and `Stacks.Chow.topChernClassOfFinite` (in
+`StacksFrontier.AlgebraicGeometry.Chow.ChernClassArbitraryRank.TopChernClass`).
+
 ## Main definitions
 
 * `AlgebraicGeometry.Scheme.Modules.rankOnConnectedComponent` — the rank of `E` on a connected
   component of `X`.
 * `Stacks.Chow.connectedComponentBivariantEquiv` — the identification of `A^p(X)` with the
   product of the `A^p(X_i)` over the connected components of `X`.
-* `Stacks.Chow.topChernClass` — the top Chern class, in the completed bivariant group.
+* `Stacks.Chow.topChernClass` — the class of a family `c` in the completed bivariant group.
 * `Stacks.Chow.topChernClassDegree` — its degree-`p` part, as a bivariant class on `X`.
-* `Stacks.Chow.topChernClassFinite` — the top Chern class as an ordinary nonhomogeneous bivariant
-  class, when only finitely many rank loci are nonempty.
+* `Stacks.Chow.topChernClassFinite` — the class of a family `c` as an ordinary nonhomogeneous
+  bivariant class, when only finitely many rank loci are nonempty.
 
 ## Main results
 
@@ -42,8 +51,8 @@ graded group `A^*(X) = ⊕_p A^p(X)`, where it is the finite sum displayed above
   component lies in the locus of the rank `E` has on it, and each rank locus is the union of the
   components of that rank.
 * `Stacks.Chow.topChernClass_rankStratum` and `Stacks.Chow.topChernClass_of_ne_rank` — on the
-  locus where the rank is `r` the top Chern class is `c_r` in degree `r`, and it vanishes in every
-  other degree.
+  locus where the rank is `r` the assembled class is the given class in degree `r`, and it
+  vanishes in every other degree.
 * `Stacks.Chow.finite_degrees_topChernClass` — if only finitely many rank loci are nonempty, only
   finitely many degrees occur.
 * `Stacks.Chow.topChernClassFinite_component` — the finite sum has the top Chern class as its
@@ -53,12 +62,14 @@ graded group `A^*(X) = ⊕_p A^p(X)`, where it is the finite sum displayed above
 
 ## Implementation notes
 
-The Chern classes themselves are carried as a parameter `c` rather than taken from
+The Chern classes are carried as a parameter `c` rather than taken from
 `Stacks.Chow.chernClassBivariant`, the class of Stacks 0B7H: that construction carries the Chern
 class cap products of Stacks 02U5 and 02U7 as data and the three naturality axioms of Stacks 0B76
 for them as hypotheses, and none of that is used below, where all that is needed of `c i` is that
 it is a bivariant class of the rank's degree on the component `X_i`. The same convention is used
-by `Stacks.Chow.totalLocalizedChernClass`.
+by `Stacks.Chow.totalLocalizedChernClass`. Nothing here ties `c` to `E`, so these declarations
+are not the definition of Stacks 0FA4; they become it at `c i = c_r(E|_{X_i})`, and
+`Stacks.Chow.topChernClassOfInvertible` is the same assembly applied to those classes.
 
 The components of the completed bivariant group of Stacks 0FE0 are indexed by the connected
 components of `X`, so the family `c` is indexed by them too: `c i` is the Chern class
@@ -201,18 +212,19 @@ variable (c : ∀ i : ConnectedComponents X,
     (Scheme.Hom.resConnectedComponent_comp_ι_comp (𝟙 X) (Category.id_comp sX) i)
     (Scheme.Modules.rankOnConnectedComponent E i : ℤ))
 
-/-- **Stacks 0FA4.** The top Chern class `c_top(E) = Σ_r c_r(E|_{X_r})` of a finite locally free
-module `E` on `X`, as an element of the completed bivariant group `A^*(X)^∧`: on a connected
-component `X_i` of `X` the rank of `E` is a constant `r`, and there the class is the `r`-th Chern
-class `c i` of `E|_{X_i}`, placed in degree `r`. -/
-@[stacks 0FA4 "completed top Chern class"]
+/-- The assembly of Stacks 0FA4 for a given family `c`: the element of the completed bivariant
+group `A^*(X)^∧` that is, on each connected component `X_i` of `X`, the class `c i` placed in
+the degree `r` of the rank of `E` on `X_i`. The family `c` is an arbitrary family of bivariant
+classes of these degrees, not tied to `E`; with `c i = c_r(E|_{X_i})` this is the top Chern class
+`c_top(E) = Σ_r c_r(E|_{X_r})`. The top Chern class itself, built from the Chern classes of `E`,
+is `Stacks.Chow.topChernClassOfInvertible` (and `Stacks.Chow.topChernClassCompleted`). -/
 def topChernClass : completedBivariantGroup C G sX sX (𝟙 X) (Category.id_comp sX) :=
   fun i ↦ DirectSum.of _ (Scheme.Modules.rankOnConnectedComponent E i : ℤ) (c i)
 
-/-- **Stacks 0FA4.** On the locus where `E` has rank `r` the top Chern class is the `r`-th Chern
-class, in degree `r`: a connected component `X_i` lies in the locus of the rank `r` of `E` on it,
-and the degree-`r` part of `c_top(E)` there is `c_r(E|_{X_i})`. -/
-@[stacks 0FA4 "rank-locus Chern component"]
+/-- On the locus where `E` has rank `r` the assembled class `Stacks.Chow.topChernClass` is the
+given class `c i`, in degree `r`: a connected component `X_i` lies in the locus of the rank `r` of
+`E` on it, and the degree-`r` part of the assembled class there is `c i`. For the top Chern class
+built from the Chern classes of `E` see `Stacks.Chow.topChernClassOfInvertible_rankStratum`. -/
 theorem topChernClass_rankStratum (i : ConnectedComponents X) :
     X.connectedComponentOpens i ≤
         Scheme.Modules.rankStratum E (Scheme.Modules.rankOnConnectedComponent E i) ∧
@@ -220,19 +232,17 @@ theorem topChernClass_rankStratum (i : ConnectedComponents X) :
   ⟨Scheme.Modules.connectedComponentOpens_le_rankStratum E i,
     DirectSum.of_eq_same (Scheme.Modules.rankOnConnectedComponent E i : ℤ) (c i)⟩
 
-/-- **Stacks 0FA4.** The top Chern class has no component in a degree other than the rank: on a
-connected component on which `E` has rank `r`, the degree-`p` part of `c_top(E)` vanishes for
-every `p ≠ r`. -/
-@[stacks 0FA4 "off-rank vanishing"]
+/-- The assembled class `Stacks.Chow.topChernClass` of a family `c` has no component in a degree
+other than the rank: on a connected component on which `E` has rank `r`, its degree-`p` part
+vanishes for every `p ≠ r`. -/
 theorem topChernClass_of_ne_rank (i : ConnectedComponents X) (p : ℤ)
     (h : p ≠ (Scheme.Modules.rankOnConnectedComponent E i : ℤ)) :
     topChernClass C G sX E c i p = 0 :=
   DirectSum.of_eq_of_ne (Scheme.Modules.rankOnConnectedComponent E i : ℤ) p (c i) h
 
-/-- **Stacks 0FA4.** If only finitely many of the loci `X_r` are nonempty, then only finitely many
-degrees occur in the top Chern class, so it lies in the ordinary graded group `A^*(X)` inside its
-completion. -/
-@[stacks 0FA4 "finite-rank-locus case"]
+/-- If only finitely many of the loci `X_r` are nonempty, then only finitely many degrees occur in
+the assembled class `Stacks.Chow.topChernClass` of a family `c`, so it lies in the ordinary
+graded group `A^*(X)` inside its completion. -/
 theorem finite_degrees_topChernClass
     (hfin : {r : ℕ | (Scheme.Modules.rankStratum E r : Set X).Nonempty}.Finite) :
     {p : ℤ | ∃ i : ConnectedComponents X, topChernClass C G sX E c i p ≠ 0}.Finite := by
@@ -264,10 +274,12 @@ theorem connectedComponentBivariantEquiv_topChernClassDegree (p : ℤ)
       topChernClass C G sX E c i p :=
   congrFun (AddEquiv.apply_symm_apply _ _) i
 
-/-- **Stacks 0FA4.** The top Chern class `c_top(E) = Σ_r c_r(E|_{X_r})` as an ordinary
-nonhomogeneous bivariant class on `X`, when only finitely many of the loci `X_r` are nonempty: the
-sum, over the ranks `r` that occur, of the degree-`r` part of the top Chern class. -/
-@[stacks 0FA4 "ordinary finite top Chern class"]
+/-- The finite form of the assembly of Stacks 0FA4 for a given family `c`, when only finitely many
+of the loci `X_r` are nonempty: the ordinary nonhomogeneous bivariant class on `X` that is the
+sum, over the ranks `r` that occur, of the degree-`r` part of `Stacks.Chow.topChernClass`. The
+family `c` is arbitrary, not tied to `E`; the top Chern class `Σ_r c_r(E|_{X_r})` built from the
+Chern classes of `E` is `Stacks.Chow.topChernClassFiniteOfInvertible` (and
+`Stacks.Chow.topChernClassOfFinite`). -/
 def topChernClassFinite
     (hfin : {r : ℕ | (Scheme.Modules.rankStratum E r : Set X).Nonempty}.Finite) :
     nonhomogeneousBivariantGroup C G sX sX (𝟙 X) (Category.id_comp sX) :=
@@ -307,10 +319,9 @@ theorem topChernClassFinite_eq_zero
   intro b hb
   exact DirectSum.of_eq_of_ne (b : ℤ) p _ (Ne.symm (hp b (hfin.mem_toFinset.1 hb)))
 
-/-- **Stacks 0FA4.** The finite sum `Σ_r c_r(E|_{X_r})` has the completed top Chern class as its
-image under the identification of Stacks 0FDZ: in every degree and on every connected component,
-its restriction is the corresponding part of `c_top(E)`. -/
-@[stacks 0FA4 "finite-class canonical image"]
+/-- The finite sum `Stacks.Chow.topChernClassFinite` of a family `c` has the completed class
+`Stacks.Chow.topChernClass` of `c` as its image under the identification of Stacks 0FDZ: in every
+degree and on every connected component, its restriction is the corresponding part of it. -/
 theorem topChernClassFinite_component
     (hfin : {r : ℕ | (Scheme.Modules.rankStratum E r : Set X).Nonempty}.Finite) (p : ℤ)
     (i : ConnectedComponents X) :
@@ -329,11 +340,10 @@ theorem topChernClassFinite_component
       topChernClass_of_ne_rank C G sX E c i p
         (Ne.symm (hp' _ (Scheme.Modules.nonempty_rankStratum_rankOnConnectedComponent E i)))]
 
-/-- **Stacks 0FA4.** On the locus where `E` has rank `r`, the component of the finite sum
-`Σ_r c_r(E|_{X_r})` in degree `r` is the `r`-th Chern class: a connected component `X_i` lies in
-the locus of the rank `r` of `E` on it, and the degree-`r` component of the sum there is
-`c_r(E|_{X_i})`. -/
-@[stacks 0FA4 "finite-sum rank component"]
+/-- On the locus where `E` has rank `r`, the component of the finite sum
+`Stacks.Chow.topChernClassFinite` of a family `c` in degree `r` is the given class: a connected
+component `X_i` lies in the locus of the rank `r` of `E` on it, and the degree-`r` component of
+the sum there is `c i`. -/
 theorem topChernClassFinite_rankStratum
     (hfin : {r : ℕ | (Scheme.Modules.rankStratum E r : Set X).Nonempty}.Finite)
     (i : ConnectedComponents X) :
@@ -348,10 +358,9 @@ theorem topChernClassFinite_rankStratum
       (Scheme.Modules.rankOnConnectedComponent E i : ℤ) i).trans
         (topChernClass_rankStratum C G sX E c i).2⟩
 
-/-- **Stacks 0FA4.** The finite sum `Σ_r c_r(E|_{X_r})` has no component in a degree other than
-the rank: on a connected component on which `E` has rank `r`, its degree-`p` component vanishes
-for every `p ≠ r`. -/
-@[stacks 0FA4 "finite-sum off-rank component"]
+/-- The finite sum `Stacks.Chow.topChernClassFinite` of a family `c` has no component in a degree
+other than the rank: on a connected component on which `E` has rank `r`, its degree-`p` component
+vanishes for every `p ≠ r`. -/
 theorem topChernClassFinite_of_ne_rank
     (hfin : {r : ℕ | (Scheme.Modules.rankStratum E r : Set X).Nonempty}.Finite)
     (i : ConnectedComponents X) (p : ℤ)

@@ -30,13 +30,17 @@ rationally equivalent to zero.
   the integral closed subspaces of `X`, so that the Weil divisor of Stacks 0EPU becomes a
   candidate cycle in the sense of Stacks 0EDZ.
 * `AlgebraicGeometry.Space.divisorCycleOfSection` and
-  `AlgebraicGeometry.Space.divisorCycleOfSectionOfGenerating` are **Stacks 0EQE, part (1)**:
-  `div_ℒ(s)` as an element of `Z_{n-1}(X)`.
+  `AlgebraicGeometry.Space.divisorCycleOfSectionOfGenerating`: `div_ℒ(s)` as an element of
+  `Z_{n-1}(X)`, for an arbitrary `𝒪_X`-module and an arbitrary ratio family; Stacks 0EQE,
+  part (1), for an invertible `ℒ` and the generators of Stacks 0EPR is
+  `AlgebraicGeometry.Space.sectionWeilDivisor`.
 * `AlgebraicGeometry.Space.principalDivisorCycleCoefficients`: the coefficients of the
   principal divisor `div(f)` of a rational function, through the embeddings of `R(X)` into the
   total fraction rings at the generic points of the prime divisors.
-* `AlgebraicGeometry.Space.firstChernClassCapFundamental` is **Stacks 0EQE, part (2)**:
-  `c₁(ℒ) ∩ [X] ∈ CH_{n-1}(X)`.
+* `AlgebraicGeometry.Space.firstChernClassCapFundamental`: the class of `div_ℒ(s)` in a Chow
+  target `AlgebraicGeometry.Space.ChowTarget`; Stacks 0EQE, part (2), in the Chow group
+  `AlgebraicGeometry.Space.chowGroup` of Stacks 0EQ6 is
+  `AlgebraicGeometry.Space.weilDivisorOfInvertibleSheaf`.
 
 ## Main results
 
@@ -46,8 +50,10 @@ rationally equivalent to zero.
 * `AlgebraicGeometry.Space.divisorCycleCoefficients_sub_divisorCycleCoefficients`: the
   difference of the divisors of two nonzero meromorphic sections is the principal divisor of
   their ratio. This is Stacks 0EPT, read coefficientwise.
-* `AlgebraicGeometry.Space.firstChernClassCapFundamental_eq` is the well-definedness of
-  **Stacks 0EQE, part (2)**: `c₁(ℒ) ∩ [X]` is independent of the chosen section.
+* `AlgebraicGeometry.Space.firstChernClassCapFundamental_eq`: the class of `div_ℒ(s)` in a Chow
+  target is independent of the chosen section, given that `div(f)` is one of the target's
+  principal divisors; in `AlgebraicGeometry.Space.chowGroup` this is
+  `AlgebraicGeometry.Space.chowClass_sectionWeilDivisor`.
 
 ## Implementation notes
 
@@ -75,18 +81,16 @@ for an arbitrary `𝒪_X`-module. Decency of `|X|` follows from goodness, throug
 `AlgebraicGeometry.Space.BaseSpaceDimensionSituation.isDecentSpace_of_isGood`; it is carried as
 the argument `hdec` only because the order of vanishing is phrased through it.
 
-Part (2) needs a Chow group `CH_{n-1}(X)`, of which only part (1) of Stacks 0EQ6 exists in this
-repository; `AlgebraicGeometry.Space.ChowTarget` packages it as a parameter and is reused
-unchanged. Its field `principalDivisors` is the set of principal divisors that Stacks 0EQ6
-part (1) consumes, and the principal divisor `div(f)` of Stacks 0ENP does not exist here
-either: that `div(f)` is one of them — more precisely that the coefficient family
-`AlgebraicGeometry.Space.principalDivisorCycleCoefficients`, which is built here with a real
-body out of the embeddings `emb`, is the pushforward of a member of
-`chow.principalDivisors` — is therefore the explicit hypothesis `hprincipal` of
-`AlgebraicGeometry.Space.firstChernClassCapFundamental_eq`. It is an assumption about the
-parameter being instantiated correctly, not an assumption of the conclusion: the conclusion is
-an equality of classes, and the mathematical content of the proof, that the two divisors differ
-by `div(f)`, is proved from Stacks 0EPT rather than assumed.
+The class of `div_ℒ(s)` is formed here in an arbitrary Chow target
+`AlgebraicGeometry.Space.ChowTarget`, with the embeddings `R(X) → Q(𝒪^h_{X,ξ})` as the parameter
+`emb`; that `div(f)` is one of the target's principal divisors is an argument of
+`AlgebraicGeometry.Space.firstChernClassCapFundamental_eq`. Stacks 0EQE itself, for an invertible
+`ℒ`, the generators of Stacks 0EPR, the canonical embeddings of Stacks 0ENK
+(`AlgebraicGeometry.Space.genericFractionEmbedding`) and the Chow group
+`AlgebraicGeometry.Space.chowGroup` of Stacks 0EQ6, is
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.WeilDivisorOfInvertibleSheaf`, which builds on the
+coefficient families of this file; the principal divisor of Stacks 0ENP is in
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.PrincipalDivisor`.
 
 ## References
 
@@ -218,10 +222,10 @@ variable [∀ W : PrimeDivisor D.site D.base D.base_mem X,
   Ring.KrullDimLE 1 ↥(W.genericHenselianLocalRing D.site D.base D.base_mem hX.1 hdec)]
 variable (L : Modules.{u, max u z} D.site D.base D.base_mem X hX.1)
 
-/-- **Stacks 0EQE, part (1), coefficientwise.** The coefficients of the Weil divisor
-`div_ℒ(s) = ∑_Z ord_{Z,ℒ}(s) [Z]` of a nonzero meromorphic section `s` of `ℒ`, indexed by the
-integral closed subspaces of `X`: the coefficient at `Z` is `ord_{Z,ℒ}(s)` when `Z` is a prime
-divisor, that is when its point set has codimension one in `|X|`, and is zero otherwise. -/
+/-- The coefficients of the Weil divisor `div_ℒ(s) = ∑_Z ord_{Z,ℒ}(s) [Z]` of a nonzero
+meromorphic section `s` of `ℒ`, indexed by the integral closed subspaces of `X`: the coefficient
+at `Z` is `ord_{Z,ℒ}(s)` when `Z` is a prime divisor, that is when its point set has codimension
+one in `|X|`, and is zero otherwise. -/
 def divisorCycleCoefficients (s : MeromorphicSection.{u, z} D.site D.base D.base_mem X hX.1 L)
     (ratio : LocalRatioFamily.{u, z} D.site D.base D.base_mem hX.1 hdec L)
     (Z : IntegralClosedSubspace D.site D.base D.base_mem X) : ℤ :=
@@ -252,9 +256,9 @@ theorem divisorCycleCoefficients_of_codimension_ne_one
     divisorCycleCoefficients D sX hX hdec L s ratio Z = 0 :=
   dite_eq_right h
 
-/-- **Stacks 0EQE, part (1), well-definedness of the indexing.** The coefficient of `div_ℒ(s)`
-at the integral closed subspace underlying a prime divisor `W` is `ord_{W,ℒ}(s)`; in
-particular it does not depend on which prime divisor with that subspace is used. -/
+/-- The coefficient of `div_ℒ(s)` at the integral closed subspace underlying a prime divisor
+`W` is `ord_{W,ℒ}(s)`; in particular it does not depend on which prime divisor with that
+subspace is used. -/
 @[simp]
 theorem divisorCycleCoefficients_toIntegralClosedSubspace
     (s : MeromorphicSection.{u, z} D.site D.base D.base_mem X hX.1 L)
@@ -302,7 +306,7 @@ theorem locallyFinite_divisorCycleCoefficients_ne_zero
     IntegralClosedSubspace.toIntegralClosedSubspace_toPrimeDivisor D.site D.base D.base_mem
       hX.1 Z hcod⟩
 
-/-- **Stacks 0EQE, part (1).** The coefficients of `div_ℒ(s)` form an `(n-1)`-cycle on `X`:
+/-- The coefficients of `div_ℒ(s)` form an `(n-1)`-cycle on `X`:
 their support is locally finite by Stacks 0EPS, and an integral closed subspace carrying a
 nonzero coefficient is a prime divisor, hence has δ-dimension `n - 1` by Stacks 0EPZ. -/
 theorem divisorCycleCoefficients_mem_cyclesOfDimension
@@ -323,19 +327,13 @@ theorem divisorCycleCoefficients_mem_cyclesOfDimension
     exact hZ (divisorCycleCoefficients_of_codimension_ne_one D sX hX hdec L s ratio hc)
   exact ((isPrimeDivisor_tfae_of_isIntegralSpace D sX hX hint d hd hn Z).out 2 3).mp hcod
 
-/-- **Stacks 0EQE, part (1).** The *Weil divisor associated to a nonzero meromorphic section `s`
-of `ℒ`*, that is `div_ℒ(s) = ∑_Z ord_{Z,ℒ}(s) [Z]` of Stacks 0EPU, as an element of
-`Z_{n-1}(X)`: it is an `(n-1)`-cycle because a prime divisor of an integral good algebraic
-space of δ-dimension `n` has δ-dimension `n - 1` by Stacks 0EPZ.
-
-Local finiteness of the prime divisors with `ord_{Z,ℒ}(s) ≠ 0` is Stacks 0EPS, here the
-hypothesis `hfin`; `AlgebraicGeometry.Space.divisorCycleOfSectionOfGenerating` discharges it
-from a nonempty open subspace over which `s` generates `ℒ`. -/
-@[stacks 0EQE "part (1): div_ℒ(s) = ∑ ord_{Z,ℒ}(s) [Z] as an element of Z_{n-1}(X); the
-δ-dimension of a prime divisor is n-1 by Stacks 0EPZ, whose dimension-function hypotheses d and
-hd are Stacks 0EDN, carried; local finiteness of the prime divisors with ord ≠ 0 is Stacks
-0EPS, the hypothesis hfin; the ratio family at the generic points is the parameter ratio, as in
-Stacks 0EPR and 0EPU"]
+/-- The Weil divisor `div_ℒ(s) = ∑_Z ord_{Z,ℒ}(s) [Z]` of Stacks 0EPU of a meromorphic section
+`s` of an `𝒪_X`-module `ℒ`, read at a ratio family `ratio`, as an element of `Z_{n-1}(X)` once
+its support is locally finite: it is an `(n-1)`-cycle because a prime divisor of an integral
+good algebraic space of δ-dimension `n` has δ-dimension `n - 1` by Stacks 0EPZ.
+`AlgebraicGeometry.Space.divisorCycleOfSectionOfGenerating` gets the local finiteness from a
+nonempty open subspace over which `s` generates `ℒ`. Stacks 0EQE, part (1), is
+`AlgebraicGeometry.Space.sectionWeilDivisor`. -/
 def divisorCycleOfSection (s : MeromorphicSection.{u, z} D.site D.base D.base_mem X hX.1 L)
     (ratio : LocalRatioFamily.{u, z} D.site D.base D.base_mem hX.1 hdec L)
     (hfin : LocallyFinite fun W : PrimeDivisor D.site D.base D.base_mem X =>
@@ -366,14 +364,10 @@ theorem divisorCycleOfSection_coe
       divisorCycleCoefficients D sX hX hdec L s ratio :=
   rfl
 
-/-- **Stacks 0EQE, part (1).** The Weil divisor `div_ℒ(s) = ∑_Z ord_{Z,ℒ}(s) [Z]` of a nonzero
-meromorphic section `s` of `ℒ` as an element of `Z_{n-1}(X)`, with the local finiteness of its
-support supplied by Stacks 0EPS from a nonempty open subset of `|X|` containing the generic
-point of no prime divisor along which `s` has nonzero order — the open subspace over which `s`
-generates `ℒ`. -/
-@[stacks 0EQE "part (1): div_ℒ(s) in Z_{n-1}(X), with local finiteness supplied by Stacks 0EPS
-from the open subspace U over which s generates ℒ; the δ-dimension of a prime divisor is n-1 by
-Stacks 0EPZ, whose dimension-function hypotheses d and hd are Stacks 0EDN, carried"]
+/-- The Weil divisor `div_ℒ(s) = ∑_Z ord_{Z,ℒ}(s) [Z]` of a meromorphic section `s` of `ℒ` as
+an element of `Z_{n-1}(X)`, with the local finiteness of its support supplied by Stacks 0EPS
+from a nonempty open subset of `|X|` containing the generic point of no prime divisor along
+which `s` has nonzero order — the open subspace over which `s` generates `ℒ`. -/
 def divisorCycleOfSectionOfGenerating
     (hN : HasEtaleLocalProperty D.site D.base D.base_mem X
       (fun Y : Scheme.{u} => IsLocallyNoetherian Y))
@@ -399,8 +393,9 @@ indexed by the integral closed subspaces of `X`: the coefficient at a prime divi
 order of vanishing `ord_Z(f)` of the image of `f` in the total fraction ring at the generic
 point of `Z`, and the coefficient at a subspace which is not a prime divisor is zero.
 
-The canonical embedding `R(X) → Q(𝒪^h_{X,ξ})` of Stacks 0ENK is not available in this library,
-so the family of embeddings is the parameter `emb`, exactly as in Stacks 0EPT. -/
+The family of embeddings is the parameter `emb`; for the canonical embeddings of Stacks 0ENK,
+`AlgebraicGeometry.Space.genericFractionEmbedding`, the family is
+`AlgebraicGeometry.Space.canonicalPrincipalCycleCoefficients`. -/
 def principalDivisorCycleCoefficients
     (emb : ∀ W : PrimeDivisor D.site D.base D.base_mem X,
       rationalFunctions D.site D.base D.base_mem hX.1 →+*
@@ -449,17 +444,11 @@ section Class
 
 variable {CH : Type w} [AddCommGroup CH] {n : ℤ}
 
-/-- **Stacks 0EQE, part (2).** The *Weil divisor associated to `ℒ`*, that is
-`c₁(ℒ) ∩ [X] = [div_ℒ(s)] ∈ CH_{n-1}(X)`, the class of the Weil divisor of a nonzero
-meromorphic section `s` of `ℒ`.
-
-The class is independent of the chosen section:
-`AlgebraicGeometry.Space.firstChernClassCapFundamental_eq`. The Chow group `CH_{n-1}(X)` is the
-parameter `chow`, only part (1) of Stacks 0EQ6 being available in this library. -/
-@[stacks 0EQE "part (2): c₁(ℒ) ∩ [X] = class of div_ℒ(s) in CH_{n-1}(X); CH_{n-1}(X) together
-with its class map and its principal divisors is carried as the ChowTarget parameter chow,
-standing in for Stacks 0EQ6 parts (2)-(4); independence of the chosen section s is
-firstChernClassCapFundamental_eq"]
+/-- The class `[div_ℒ(s)]` of the Weil divisor of a meromorphic section `s` of `ℒ` in a Chow
+target `chow`. Its independence of the chosen section is
+`AlgebraicGeometry.Space.firstChernClassCapFundamental_eq`. Stacks 0EQE, part (2), the class
+`c₁(ℒ) ∩ [X]` in the Chow group `AlgebraicGeometry.Space.chowGroup` of Stacks 0EQ6, is
+`AlgebraicGeometry.Space.weilDivisorOfInvertibleSheaf`. -/
 def firstChernClassCapFundamental
     (chow : ChowTarget.{u, w, v} D sX hX (n - 1) CH)
     (s : MeromorphicSection.{u, z} D.site D.base D.base_mem X hX.1 L)
@@ -473,20 +462,15 @@ def firstChernClassCapFundamental
     (hn : deltaDimensionClosed D sX hX Set.univ isClosed_univ = (n : EInt)) : CH :=
   chow.cls (divisorCycleOfSection D sX hX hdec L s ratio hfin hint d hd hn)
 
-/-- **Stacks 0EQE, part (2), well-definedness.** The class `c₁(ℒ) ∩ [X]` does not depend on the
-chosen nonzero meromorphic section of `ℒ`.
+/-- The class of `div_ℒ(s)` in a Chow target does not depend on the chosen meromorphic section
+of `ℒ`.
 
 If the ratios of `s` and `s'` at the generic points of the prime divisors differ by the image of
 a rational function `f`, then `div_ℒ(s) - div_ℒ(s') = div(f)` by Stacks 0EPT, and `div(f)` is
 rationally equivalent to zero by Stacks 0EQ6: it is the one-member family `∑ (i_j)_* div(f_j)`
-of part (1), taken on `X` itself. That `div(f)` is one of the principal divisors of the Chow
-group parameter is the hypothesis `hprincipal`, the principal divisor of Stacks 0ENP not being
-available in this library. -/
-@[stacks 0EQE "part (2), well-definedness: c₁(ℒ) ∩ [X] is independent of the chosen nonzero
-meromorphic section, by Stacks 0EPT; the principal divisor div(f) of Stacks 0ENP is not carried
-here, so that the cycle div(f) belongs to the principal divisors of the ChowTarget parameter —
-the input of Stacks 0EQ6 part (1) — is the hypothesis hprincipal, and Stacks 0EQ6 parts (2) and
-(4) are the parameter's field cls_cycleFamilySum_eq_zero"]
+of part (1), taken on `X` itself, once it is one of the principal divisors of `chow`. In the
+Chow group `AlgebraicGeometry.Space.chowGroup` this is
+`AlgebraicGeometry.Space.chowClass_sectionWeilDivisor`. -/
 theorem firstChernClassCapFundamental_eq
     (chow : ChowTarget.{u, w, v} D sX hX (n - 1) CH)
     (s s' : MeromorphicSection.{u, z} D.site D.base D.base_mem X hX.1 L)

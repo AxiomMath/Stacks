@@ -237,11 +237,6 @@ hypothesis beyond the ones the tag states — transported to the presentation
 `A_{n-i}(X) ⟶ A_{n-(i+1)}(X)` of the same operation by
 `Stacks.Chow.firstChernCapStep_apply`. It discharges every `hcommLN`-style hypothesis of
 `StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.TensorChernClasses`. -/
-@[stacks 02TJ "the identity for the degree-raising steps Stacks.Chow.firstChernCapStep that the \
-Chern class power-sum operators of Stacks 0F9B are built from, with no hypothesis: it is \
-Stacks.Chow.GenuineChern.firstChernClassCapChow_comm, which is the tag itself with nothing \
-carried, transported along the equality of degrees n - i = (n - (i+1)) + 1 that separates the \
-two presentations of c_1(L) cap -"]
 theorem firstChernCapStepsCommute (hA : InvertibleChernCapDescends C p A)
     (hB : InvertibleChernCapDescends C p B) :
     FirstChernCapStepsCommute C p n A B hA hB := by

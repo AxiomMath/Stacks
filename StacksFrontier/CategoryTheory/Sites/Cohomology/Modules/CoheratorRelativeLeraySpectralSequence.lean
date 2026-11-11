@@ -112,11 +112,13 @@ any form; the fibre-product reading of [Stacks, Tag 075G] that would supply it i
 derived-presheaf form formalized at
 `StacksFrontier/AlgebraicGeometry/Stacks/Sheaves/HigherDirectImage.lean`.
 
-**[Stacks, Tag 077A] is not proved here**, and is absent from the library.  That proposition
-constructs `f_{QCoh,*}` as a right adjoint of quasi-coherent pullback for a quasi-compact
-quasi-separated morphism and shows the `R^i f_{QCoh,*}` form a `δ`-functor; the
-quasi-compactness and quasi-separatedness of `f` and `g` enter 0783 only through it.  What is
-used here is only its *definition* of `R^i (-)_{QCoh,*}` as `Q ∘ R^i (-)_* ∘ i`, reproduced as
+**[Stacks, Tag 077A] is not used here.**  That proposition constructs `f_{QCoh,*}` as a right
+adjoint of quasi-coherent pullback for a quasi-compact quasi-separated morphism and shows the
+`R^i f_{QCoh,*}` form a `δ`-functor; the library proves it for algebraic stacks, as
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImageDeltaFunctor`, which does
+not apply to the ringed topoi of this file, and the quasi-compactness and quasi-separatedness
+of `f` and `g` enter 0783 only through it.  What is used here is only its *definition* of
+`R^i (-)_{QCoh,*}` as `Q ∘ R^i (-)_* ∘ i`, reproduced as
 `Stacks.Cohomology.Leray.quasicoherentHigherDirectImage` for the inner factor and as
 `Stacks.Cohomology.Leray.quasicoherentRelativeHigherDirectImage` for the outer one.
 
@@ -328,7 +330,8 @@ hypotheses rather than instantiated. -/
 @[stacks 0783 "the E₂ page R^p g_{QCoh,*}(R^q f_{QCoh,*} ℱ) and convergence, FOR RINGED TOPOI, \
 not algebraic stacks, hence NOT a generalization: 0734 is proved at RingedTopos.{u,u,u}, a \
 stack's is {u,u+1,u}. Carried: the 0778 coherators, 0779(3)(2)(1) and 0775(2), the last absent \
-here; 077A is absent too, only its recipe Q ∘ R^i(-)_* ∘ i is reused. See the module docstring",
+here; 077A is proved for algebraic stacks, not for these ringed topoi, so only its recipe \
+Q ∘ R^i(-)_* ∘ i is reused. See the module docstring",
   ega "0 12.2.4" "more general",
   sga "2 VIII 3.1" "more general",
   sga "4 V 5.3" "more general",

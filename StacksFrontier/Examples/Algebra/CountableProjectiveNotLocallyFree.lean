@@ -35,9 +35,10 @@ proper ideal, so those standard opens alone cannot cover `Spec R`.
 This is the countable form of the first of the two examples of the source section, the one whose
 summands have rank between zero and one: `εₙ R` has rank one at the primes avoiding `εₙ` and
 rank zero at the others, so the summands are finite locally free but not of constant rank one.
-The source's second example, whose summands are invertible, is a different construction — a
-colimit of tensor products of coordinate rings of punctured curves over `ℚ`, with the failure of
-local freeness read off from Chern classes and zero-cycles — and is not formalized here.
+The source's second example, whose summands are invertible, is a colimit of tensor products of
+coordinate rings of punctured curves over `ℚ`. The rank-one statement uses the punctured conic
+`u² + v² = 1` for every factor, and replaces the Chern classes of the source by a mod-two Euler
+characteristic; see `StacksFrontier.Examples.Algebra.RankOneSumNotLocallyFree.Reduction`.
 
 ## References
 
@@ -295,27 +296,12 @@ private theorem not_isLocallyFree_totalModule :
 
 /-! ### The example -/
 
-/-- **Stacks 05WL, with finite locally free summands in place of rank one.** There is a countable
-ring `R` and a projective `R`-module which is a direct sum of countably many finite locally free
-modules but is not itself locally free.
+/-- There is a countable ring `R` and a projective `R`-module which is a direct sum of countably
+many finite locally free modules but is not itself locally free.
 
 The summands `εₙ R` have rank one at the primes avoiding `εₙ` and rank zero at the others, so
-they are finite locally free but not of rank one as the tag asks; the rank-one case belongs to the
-source's second construction and is not formalized here. See the implementation notes of
-`StacksFrontier.Examples.Algebra.CountableProjectiveNotLocallyFree`. -/
-@[stacks 05WL "the summands are finite locally free but NOT of rank one, which is the one way \
-this is weaker than the tag; the countability of the ring and the direct-sum presentation are as \
-the tag states them. The rank-one case is unreachable from this construction: the summands \
-`εₙ R` localize to zero at every prime containing `εₙ`, a Boolean ring of 𝔽₂-sequences has no \
-invertible ideals at all, and the mechanism that defeats local freeness here — every element of \
-a localization of the direct sum is annihilated by a nonzero scalar — is incompatible with \
-rank-one summands, which are faithful at every prime; by Bass's theorem on big projective \
-modules a rank-one example needs a non-noetherian ring of unbounded dimension. It therefore \
-requires the source's own second construction, `B_∞ = colim (A_1 ⊗_ℚ ⋯ ⊗_ℚ A_n)` with the \
-invertible `L_i = Γ(U_i, ℒ_i)`, whose failure of local freeness is read off from the vanishing \
-of higher Chern classes of a direct sum of invertible sheaves on a product of curves — the \
-machinery of Stacks 02TA, 02TH, 02TJ and 02TM, of which only 02TH is available unconditionally \
-in this repository"]
+they are finite locally free but not of rank one. The rank-one statement of Stacks 05WL is in
+`StacksFrontier.Examples.Algebra.RankOneSumNotLocallyFree.Reduction`. -/
 theorem exists_countable_projective_directSum_isFiniteLocallyFree_not_isLocallyFree :
     ∃ (R : Type u) (hR : CommRing R),
       letI : CommRing R := hR

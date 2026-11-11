@@ -42,21 +42,28 @@ square agrees with pushforward after inverse image.
 * `Stacks.EtaleCohomology.hasEnoughObjects_hasFlatConnectedFactorization` — **Tag 0EY5** read
   on the small étale site: for `f` flat, locally of finite presentation and with geometrically
   reduced fibres, the objects with such a factorization cover every object.
-* `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_etaleLocalFactorization` —
-  **Tag 0EZX**: in a cartesian square with `f` flat and the covering condition, the base
-  change map is an isomorphism on every sheaf of sets.
+* `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_etaleLocalFactorization` — the
+  globalization half of Tag 0EZX: in a cartesian square with `f` flat and the covering
+  condition, the base change map is an isomorphism on every sheaf of sets provided it is
+  bijective on sections over the objects with a flat such factorization (`hlocal`).
 
-Tags 0EYR, 0EYS and 0EZZ, which build on these, are proved with no residual hypothesis in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.PushforwardBaseChangeUnconditional`.
+Tag 0EZX itself, and Tags 0EYR, 0EYS and 0EZZ, which build on these, are proved with no
+residual hypothesis in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.PushforwardBaseChangeUnconditional`; Tag 0EZX is
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_etaleLocalFactorizationCover` there.
 
 ## Implementation notes
 
 The section comparison being bijective under the stated hypotheses on `U ⟶ V` is Tag 0A3H,
 read through the identification of the restriction of `f⁻¹G` to `U_étale` with the pullback of
-the restriction of `G` to `V_étale` of Tag 03EF. Neither is available in the form needed here,
-so it is carried as a declared hypothesis: as
-`Stacks.EtaleCohomology.SmallEtaleSectionsComparisonIsIso`, and, in the form the
-cartesian square needs it, as the hypothesis `hlocal` of Tag 0EZX.
+the restriction of `G` to `V_étale` of Tag 03EF. This file only states it, as
+`Stacks.EtaleCohomology.SmallEtaleSectionsComparisonIsIso`, and, in the form the cartesian
+square needs it, as the hypothesis `hlocal` of
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_etaleLocalFactorization`. Both are
+proved for every morphism of schemes in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.PushforwardBaseChangeUnconditional`, as
+`Stacks.EtaleCohomology.smallEtaleSectionsComparisonIsIso` and
+`Stacks.EtaleCohomology.local_baseChange_compatible`.
 
 The globalization step common to both is that a map of sheaves bijective on sections over a
 family of objects covering every object is an isomorphism, which is Tag 0H6Y in the form of
@@ -366,19 +373,16 @@ theorem isIso_smallEtaleSetBaseChange_of_hasEnoughObjects (f : X ⟶ S) (h : Y �
       hEnough fun {_} hU => (hlocal hU).surjective
   exact (Sheaf.isLocallyBijective_iff_isIso φ).mp ⟨hInj, hSurj⟩
 
-/-- **Stacks Project, Tag 0EZX.** In a cartesian square of schemes with `f : X ⟶ S` flat, if
-every object of the small étale site of `X` has an étale covering whose members factor through
-an étale `S`-scheme by a quasi-compact morphism with geometrically connected fibres, then the
-canonical base change map `f⁻¹ g_* F ⟶ h_* e⁻¹ F` is an isomorphism for every sheaf of sets
-`F` on the small étale site of `T`. -/
-@[stacks 0EZX "The chain of four identifications of the source's first paragraph -- that the
-sections of `f⁻¹ g_* F` and of `h_* e⁻¹ F` over an object with such a factorization are both
-the sections of `F` over `V ×_S T`, compatibly with the base change map -- rests on Tag 0A3H
-(used twice, once for `f` and once for `e`) read through Tag 03EF, and is carried as the
-declared hypothesis `hlocal`. What is supplied here is the source's second paragraph: the
-covering condition gives enough objects with a flat such factorization, flatness coming from
-`f` by `hasFlatConnectedFactorization_of_quasiCompact`, and a map of sheaves bijective on
-sections over a family of objects covering every object is an isomorphism."]
+/-- The globalization step of Tag 0EZX, with the local bijectivity `hlocal` as an argument:
+in a cartesian square of schemes with `f : X ⟶ S` flat, if every object of the small étale site
+of `X` has an étale covering whose members factor through an étale `S`-scheme by a
+quasi-compact morphism with geometrically connected fibres, and the base change map is
+bijective on sections over the objects carrying a flat such factorization, then the canonical
+base change map `f⁻¹ g_* F ⟶ h_* e⁻¹ F` is an isomorphism for the sheaf of sets `F` on the
+small étale site of `T`. The hypothesis `hlocal` always holds, by
+`Stacks.EtaleCohomology.local_baseChange_compatible`; Tag 0EZX with no such hypothesis is
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_etaleLocalFactorizationCover` in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.PushforwardBaseChangeUnconditional`. -/
 theorem isIso_smallEtaleSetBaseChange_of_etaleLocalFactorization (f : X ⟶ S) (h : Y ⟶ X)
     (e : Y ⟶ T) (g : T ⟶ S) (sq : IsPullback h e f g) [Flat f]
     (F : Sheaf (smallEtaleTopology T) (Type (max (u + 1) v)))

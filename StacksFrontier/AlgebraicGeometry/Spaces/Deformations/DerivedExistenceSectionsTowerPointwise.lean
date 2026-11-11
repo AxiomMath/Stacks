@@ -31,9 +31,10 @@ composition).
   of its base change map.
 * `AlgebraicGeometry.Space.tensorSections_towerStep_app`: its instance for algebraic spaces over
   affine bases.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.tensorSections_towerStep`: its instance in
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.tensorSections_towerStep`: its instance
+  in
   Situation 0DIK.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.towerMap_eq_smallEtaleToposPushforward`:
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.towerMap_eq_smallEtaleToposPushforward`:
   `towerMap_eq` with its middle factor in the vocabulary of `smallEtaleDerivedModuleAdjunction`.
 
 ## References
@@ -357,9 +358,9 @@ theorem tensorSections_towerStep_app
 
 end TwoSquares
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- **The transition maps of the tower of Situation 0DIK through `smallEtaleToposPushforward`**:
 `towerMap_eq` with its middle factor in the vocabulary of `smallEtaleDerivedModuleAdjunction`. -/
@@ -462,7 +463,7 @@ theorem tensorSections_towerStep (E : smallEtaleToposDerivedCategory D.X.left) (
     (D.stageToposDerivedPushforwardIso n) (D.towerMap n)
     (D.towerMap_eq_smallEtaleToposPushforward n)
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space
 

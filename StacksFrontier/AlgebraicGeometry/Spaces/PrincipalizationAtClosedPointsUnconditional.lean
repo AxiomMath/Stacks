@@ -50,16 +50,16 @@ ideal.
 
 ## How the statement is said
 
-As for the base declaration `AlgebraicGeometry.Space.exists_blowupFactorization_isPullbackDefined`
-of the same tag: the quasi-coherent sheaf of ideals `ℐ` is named by the closed subspace `Z` it
-cuts out (Stacks 03MB), "`𝒪_X/ℐ` supported on `T`" is `|Z| ⊆ T`, "`ℐ𝒪_{X_m}` is invertible"
-is `AlgebraicGeometry.Space.IsPullbackDefined` of Stacks 083Y for the composite `X_m ⟶ X`, and
-the sequence is `AlgebraicGeometry.Space.BlowupFactorization` with centres over `T`.
+As for `AlgebraicGeometry.Space.exists_blowupFactorization_isPullbackDefined`: the
+quasi-coherent sheaf of ideals `ℐ` is named by the closed subspace `Z` it cuts out (Stacks 03MB),
+"`𝒪_X/ℐ` supported on `T`" is `|Z| ⊆ T`, "`ℐ𝒪_{X_m}` is invertible" is
+`AlgebraicGeometry.Space.IsPullbackDefined` of Stacks 083Y for the composite `X_m ⟶ X`, and the
+sequence is `AlgebraicGeometry.Space.BlowupFactorization` with centres over `T`.
 
-## Relation to the base declaration
+## Relation to `exists_blowupFactorization_isPullbackDefined`
 
-The base declaration `AlgebraicGeometry.Space.exists_blowupFactorization_isPullbackDefined`
-carries three hypotheses which are not the source's: `blowupExists` (existence of the blowing up
+The induction `AlgebraicGeometry.Space.exists_blowupFactorization_isPullbackDefined` takes three
+hypotheses which are not the source's: `blowupExists` (existence of the blowing up
 of *every* algebraic space at a closed point), `pullbackOfEffectiveCartier` (an algebraic-space
 form of Stacks 0809) and `splitting` (a local form of Stacks 0AGT, for every algebraic space,
 against a free colength function). The theorem here discharges all of them by a different route,
@@ -262,7 +262,8 @@ there is a sequence**
 **where `X_{j+1} ⟶ X_j` is the blowing up of `X_j` at a closed point `x_j` lying above a point
 of `T`, such that `ℐ𝒪_{X_m}` is an invertible ideal sheaf** — that is, such that the inverse
 image of `Z` along the composite `X_m ⟶ X` is an effective Cartier divisor. -/
-@[stacks 0BHG]
+@[stacks 0BHG "the lemma in full, with the source's hypotheses and conclusion and nothing
+carried"]
 theorem exists_blowupFactorization_isPullbackDefined_of_isNoetherian
     (hterm : B.Contains (⊤_ Scheme.{u}))
     (X : AlgebraicSpaces B S hS) (hX : IsNoetherian B S hS hterm X.1)

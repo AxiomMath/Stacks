@@ -33,14 +33,16 @@ clause of the covering stack. Likewise the fibred-in-groupoids witness that
 `CategoryTheory.CatFiberedInGroupoids` it builds is the one the statement started from.
 
 The reverse implication is what makes the equivalence worth stating. The hypothesis `hcover` of
-`AlgebraicGeometry.Stack.isAlgebraicStack_of_flatPresentation` — **Stacks 06DC** — is exactly
+`AlgebraicGeometry.Stack.isAlgebraicStack_of_flatPresentation` — the assembly step of **Stacks
+06DC** — is exactly
 the right-hand side here, and the conclusion of that theorem is exactly the left-hand side. The
 two further hypotheses of the equivalence below are available there: `hstack` is a hypothesis of
 that theorem, and `hdiagonal` is what it now proves from its flat presentation by **Stacks
 05XW**. So `hcover` is *equivalent* to the conclusion it is used to produce: nothing weaker than
-Artin's theorem on representability of flat groupoids can discharge it, and a declaration
-assuming it assumes the tag it registers. It is the one input of Stacks 06DC still carried, the
-diagonal input having been discharged. The same observation is made at
+Artin's theorem on representability of flat groupoids can discharge it. Stacks 06DC itself is
+`AlgebraicGeometry.Stack.isAlgebraicStack_of_flatCover`, which builds the cover from the
+locally-complete-intersection locus of the relative Hilbert stack instead of assuming it. The
+same observation is made at
 `AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection_iff` about Stacks 0AMP and
 Stacks 04S6 part (3).
 
@@ -97,7 +99,8 @@ it is covered by an algebraic stack.** Both implications are about the same two 
   `AlgebraicGeometry.Stack.exists_smoothSurjectiveAlgebraicCover_of_isAlgebraicStack`.
 
 In particular the hypothesis `hcover` of
-`AlgebraicGeometry.Stack.isAlgebraicStack_of_flatPresentation` (**Stacks 06DC**) is equivalent,
+`AlgebraicGeometry.Stack.isAlgebraicStack_of_flatPresentation` (the assembly step of **Stacks
+06DC**) is equivalent,
 under the remaining hypotheses of that theorem, to its conclusion. -/
 theorem isAlgebraicStack_iff_exists_smoothSurjectiveAlgebraicCover
     (hstack : 𝒴.val.p.IsStack (BigFppfOver.topology B S hS))

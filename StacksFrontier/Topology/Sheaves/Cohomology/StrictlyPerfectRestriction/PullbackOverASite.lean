@@ -137,8 +137,13 @@ structure IsStrictlyPerfect {X : AlgebraicGeometry.RingedSpace.{0, 0}}
 /-- **Stacks Tag 09U6, Lemma 20.46.4.** Let `f : (X, O_X) → (Y, O_Y)` be a morphism
 of ringed spaces, with pullback functor `f^* : Mod(O_Y) ⥤ Mod(O_X)`. If `F^•` is a
 strictly perfect complex of `O_Y`-modules, then `f^* F^•` (the termwise pullback of
-`F^•`) is a strictly perfect complex of `O_X`-modules. -/
-@[stacks 09U6]
+`F^•`) is a strictly perfect complex of `O_X`-modules.
+
+This is the universe-0 statement over the self-contained vocabulary of this file. The general
+statement, for ringed spaces `RingedSpace.{u, u}` and over the strictly-perfect vocabulary of
+chapter 20 (`StrictlyPerfect.IsStrictlyPerfect`), is
+`Stacks.StrictlyPerfect.Pullback.isStrictlyPerfect_modulePullback`, which carries the Stacks
+attribution for 09U6. -/
 theorem pullback_isStrictlyPerfect {X Y : AlgebraicGeometry.RingedSpace.{0, 0}} (f : X ⟶ Y)
     (F : HomologicalComplex (Modules Y) (ComplexShape.up ℤ))
     (hF : IsStrictlyPerfect F) :

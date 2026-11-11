@@ -2,16 +2,18 @@ module
 
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent
 public import StacksFrontier.CategoryTheory.Sites.Modules.Colimits
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Finite presentation of a sheaf of modules is local on a covering family
 
 Stacks 03DN asserts that each of the local conditions of Stacks 03DL may be tested on the
 members of any family covering the final object.  This file proves the clause for finite
-presentation: a sheaf of modules on a site is of finite presentation exactly when its
-restrictions to the members of some covering family are, and exactly when those restrictions
-admit finite global presentations.
+presentation for Mathlib's `SheafOfModules.IsFinitePresentation`: a sheaf of modules on a site
+is of finite presentation in that sense exactly when its restrictions to the members of some
+covering family are, and exactly when those restrictions admit finite global presentations.
+Stacks 03DN(7) itself, for the finite presentation of Stacks 03DL(7)
+(`SheafOfModules.IsFinitePresentationOnSite`), is deduced from these in
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.LocalOnCover.FinitePresentationOnSite`.
 
 Both equivalences come down to moving a presentation between a slice site and an iterated
 slice site.  In one direction a finite global presentation of `M` over `U` is transported
@@ -26,11 +28,12 @@ quasi-coherence datum for `M` because a covering family of covering families cov
 
 * `Stacks.SheafOfModules.isFinitePresentation_iff_exists_cover_isFinitePresentation`: finite
   presentation is equivalent to finite presentation of the restrictions to the members of
-  some covering family.  This is the equivalence of conditions (a) and (b) of Stacks 03DN for
-  finite presentation.
+  some covering family.  This is the form of conditions (a) and (b) of Stacks 03DN(7) for
+  Mathlib's predicate.
 * `Stacks.SheafOfModules.isFinitePresentation_iff_exists_cover_finite_presentations`: finite
   presentation is equivalent to the existence of finite global presentations of those
-  restrictions.  This is the equivalence of conditions (a) and (c).
+  restrictions.  Mathlib's predicate is defined as condition (c), so this unpacks the
+  definition.
 
 ## Implementation notes
 
@@ -149,10 +152,11 @@ variable {C : Type u} [Category.{v} C] {J : GrothendieckTopology C}
   [∀ (U : C), HasWeakSheafify (J.over U) AddCommGrpCat.{w}]
   [∀ (U : C), (J.over U).WEqualsLocallyBijective AddCommGrpCat.{w}]
 
-/-- **Stacks 03DN, finite presentation.** A sheaf of modules is of finite presentation if and
-only if its restrictions to the members of some covering family of the final object are of
-finite presentation. -/
-@[stacks 03DN "finite_presentation"]
+/-- A sheaf of modules is of finite presentation in Mathlib's sense if and only if its
+restrictions to the members of some covering family of the final object are.  Stacks 03DN(7),
+(a) ⟺ (b), for the finite presentation of Stacks 03DL(7), is
+`Stacks.SheafOfModules.isFinitePresentationOnSite_iff_exists_cover_isFinitePresentationOnSite`.
+-/
 theorem isFinitePresentation_iff_exists_cover_isFinitePresentation
     [∀ (U : C), ∀ (V : Over U),
       HasWeakSheafify ((J.over U).over V) AddCommGrpCat.{w}]
@@ -195,10 +199,11 @@ theorem isFinitePresentation_iff_exists_cover_isFinitePresentation
       · exact inferInstanceAs (Finite ((D i.1).presentation i.2).relations.I)
     exact ⟨q.shrink, ⟨fun i => hq.isFinite_presentation i.2.choose⟩⟩
 
-/-- **Stacks 03DN, finite presentation.** A sheaf of modules is of finite presentation if and
-only if its restrictions to the members of some covering family of the final object have
-finite global presentations. -/
-@[stacks 03DN "finite_presentation"]
+/-- A sheaf of modules is of finite presentation in Mathlib's sense if and only if its
+restrictions to the members of some covering family of the final object have finite global
+presentations; Mathlib's predicate is defined this way, so this unpacks the definition.
+Stacks 03DN(7), (a) ⟺ (c), for the finite presentation of Stacks 03DL(7), is
+`Stacks.SheafOfModules.isFinitePresentationOnSite_iff_exists_cover_finite_presentations`. -/
 theorem isFinitePresentation_iff_exists_cover_finite_presentations :
     M.IsFinitePresentation ↔
       ∃ (I : Type u) (U : I → C), J.CoversTop U ∧

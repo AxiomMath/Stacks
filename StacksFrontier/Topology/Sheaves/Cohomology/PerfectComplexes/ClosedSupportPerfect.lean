@@ -195,13 +195,11 @@ theorem nestedOpenToAmbientIso_hom_fac {X : RingedSpace.{u, u}}
 
 /-! ### Pullback of strictly perfect complexes
 
-Main carries tag 09U6 only at `RingedSpace.{0, 0}` and over a self-contained universe-0 copy
-of the strictly perfect vocabulary (in
-`StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfectRestriction.PullbackOverASite`),
-connected by no lemma to `StrictlyPerfect.IsStrictlyPerfect`. The statement is therefore
-proved again here at
-`RingedSpace.{u, u}`, over the vocabulary chapter 20 actually uses. It is deliberately left
-untagged: 09U6 is already placed on main. -/
+Tag 09U6 is carried by `Stacks.StrictlyPerfect.Pullback.isStrictlyPerfect_modulePullback`
+(in `StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfectRestriction.PullbackOnRingedSpaces`),
+at `RingedSpace.{u, u}` over the same vocabulary. The statement is proved again here, on the
+finite-free comparison `RingedSpace.finiteFreeIsoFree` of this development, and is left
+untagged. -/
 
 /-- Pullback of sheaves of modules along a morphism of ringed spaces is a left adjoint. -/
 instance modulePullback_isLeftAdjoint {X Y : RingedSpace.{u, u}} (f : X ⟶ Y) :

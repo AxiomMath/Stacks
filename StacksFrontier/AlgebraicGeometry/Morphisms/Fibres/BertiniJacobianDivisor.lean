@@ -523,11 +523,9 @@ dimension exactly `n` at each of its closed points, and `n + 1 ≤ dim V`. The s
 of these — it runs the count on one irreducible component at a time and reads `n + 1 ≤ dim V`
 off the surjectivity of `ev_x` — so `hdim` is an equidimensionality assumption added here and
 `hnr` a numerical one. `[IsAlgClosed D.k]` is the case the source reduces to by
-[Stacks, Tag 02FY], a reduction not formalized here. -/
--- The `@[stacks 0FD6]` registration is deliberately absent here: this statement assumes its
--- own input, and the pointwise carriers (:612, :673) and
--- forGeneral_smooth_specializedDivisor_of_basis (BertiniFieldBaseChangeDescent.lean:276) assume
--- no dimension data.
+[Stacks, Tag 02FY], a reduction carried out in `BertiniFieldBaseChangeDescent`; the tag itself
+is `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`. -/
 theorem forGeneral_smooth_specializedDivisor_of_generates [IsAlgClosed D.k] [Smooth D.toBase]
     [QuasiCompact D.toBase] [NoetherianSpace D.universalDivisorScheme]
     (hgen : D.Generates) {m n : ℕ} (hm : Module.finrank D.k D.V = m + 1)
@@ -603,13 +601,11 @@ that theorem, and in addition:
   equidimensionality, no bound on `dim X`, and no numerical hypothesis `n + 1 ≤ dim V` remain.
 
 What remains in the signature and is **not** a hypothesis of the source: `[IsAlgClosed D.k]`,
-the case the source reduces to by [Stacks, Tag 02FY], a reduction not formalized here; and that
-hypothesis (3) is taken at the standing basis of the linear system read through `Fin (m + 1)`
-rather than at an arbitrary basis. -/
-@[stacks 0FD6 "the conclusion from hypotheses (2) and (3) with no proof obligation assumed and \
-no dimension data assumed -- the whole of the source's proof is discharged, the count being run \
-at each closed point with the local dimension of X there -- but over an algebraically closed \
-field, and with (3) taken at the standing basis; the source assumes neither of those two"]
+the case the source reduces to by [Stacks, Tag 02FY], a reduction carried out in
+`BertiniFieldBaseChangeDescent`; and that hypothesis (3) is taken at the standing basis of the
+linear system read through `Fin (m + 1)` rather than at an arbitrary basis. The tag itself is
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`. -/
 theorem forGeneral_smooth_specializedDivisor_of_generates_pointwise [IsAlgClosed D.k]
     [Smooth D.toBase] [QuasiCompact D.toBase] (hgen : D.Generates) {m : ℕ}
     (hm : Module.finrank D.k D.V = m + 1)
@@ -663,21 +659,9 @@ source's argument is discharged, and so is all the dimension data: no equidimens
 no bound on `dim X`, no inequality `n + 1 ≤ dim V`, and no Noetherianness of `H_univ` is
 assumed, the count being run at each closed point of `X` with the local dimension of `X` there.
 `[IsAlgClosed D.k]` is the case the source reduces to by [Stacks, Tag 02FY]; that reduction is
-**not** formalized here, and it is not a loose end but a development of its own — it needs the
-base change of the standing situation along `k → k̄`, which nothing in the library constructs,
-and above all the transfer of hypothesis (3) itself, for which the base-change compatibility of
-`AlgebraicGeometry.toProjectiveSpaceOfModule` is missing. -/
-@[stacks 0FD6 "the conclusion from hypotheses (2) and (3) with no proof obligation and no \
-dimension data assumed, and with (3) at an arbitrary basis of the linear system -- the whole of \
-the source's proof is discharged, the count being run at each closed point with the local \
-dimension of X there. TWO hypotheses here are not the source's: that k is algebraically closed, \
-the case Tag 02FY reduces to, and [QuasiCompact D.toBase]. Situation 0G47 assumes only that X \
-is a scheme over k and Tag 0FD6 adds only smoothness, so quasi-compactness is an addition; it \
-is NOT clause (1) of this project's Hypotheses bundle, which is Tag 0G4F's hypothesis, not \
-0G47's standing situation. (3) is also still spelled at a basis rather than on the intrinsic \
-morphism phi_(L, psi), but that is now only a spelling: the two agree by \
-Stacks.Bertini.FamilyDivisors.isImmersive_congr_basis, so the hypothesis does not depend on \
-which basis it is read at"]
+carried out in `BertiniFieldBaseChangeImmersion` and `BertiniFieldBaseChangeDescent`, and the tag
+itself is `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`. -/
 theorem forGeneral_smooth_specializedDivisor_of_generates_pointwise_of_basis [IsAlgClosed D.k]
     [Smooth D.toBase] [QuasiCompact D.toBase] (hgen : D.Generates) {m : ℕ}
     (b : Module.Basis (Fin (m + 1)) D.k D.V)

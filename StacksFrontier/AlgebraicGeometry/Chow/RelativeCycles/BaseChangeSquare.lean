@@ -76,6 +76,7 @@ variable (f : X ⟶ S) [LocallyOfFiniteType f] {g : T ⟶ S} {a : P ⟶ X} {p : 
 with right-hand column `f : X ⟶ S`, bottom edge `g : T ⟶ S` and left-hand column `p : P ⟶ T`,
 the base change `g^*α`, read on the fibres of `p` through the canonical isomorphism
 `P ≅ X ×_S T` over `T`. -/
+@[stacks 0H4N "base change of a family of cycles on fibres through a cartesian square"]
 def baseChangeFamilyOfIsPullback (α : FamilyOfCycles f r) : FamilyOfCycles p r :=
   fun t => fiberCycleRestrict (pullback.snd f g) p sq.isoPullback.hom sq.isoPullback_hom_snd t r
     (baseChangeFamily f g r α t)

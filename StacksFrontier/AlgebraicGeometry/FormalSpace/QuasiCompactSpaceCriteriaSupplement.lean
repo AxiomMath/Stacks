@@ -71,7 +71,6 @@ presentation; joint surjectivity on points is surjectivity on points of it, whic
 representable by algebraic spaces is surjectivity in the sense of Stacks 03XZ by
 `AlgebraicGeometry.FormalSpace.hasPropertyULift_isSurjectiveULift_iff`; and Stacks 05VM turns a
 representable surjective flat cover into a surjection of sheaves. -/
-@[stacks 0AJ9 "the implication (1) ⇒ (2)"]
 theorem hasFiniteFormalAtlas_of_isQuasiCompactSpaceULift_of_isReduction
     {X Xred : FppfSheaf B S hS} {i : Xred ⟶ X} (hX : IsFormalAlgebraicSpace B S hS X)
     (hi : IsReduction B S hS X Xred i)
@@ -115,7 +114,6 @@ formal algebraic space being the source's own hypothesis on `X` and being implie
 other reduction is canonically isomorphic to this one by
 `AlgebraicGeometry.FormalSpace.Reduction.iso`, and the general statement applies to it directly,
 so nothing depends on the choice. -/
-@[stacks 0AJ9 "the implication (3) ⇒ (1)"]
 theorem IsQuasiCompactSpace.isQuasiCompactSpaceULift_reduction_space {X : FppfSheaf B S hS}
     (h : IsQuasiCompactSpace B S hS X) :
     Space.IsQuasiCompactSpaceULift.{u + 1} B S hS

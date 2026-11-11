@@ -64,8 +64,9 @@ bundle of `𝒩`, `C ∈ A^0(W_∞ ⟶ X)` the class of Stacks 0F9J, `j : C_ZX �
 `T ×_X N` for every `T ⟶ X` locally of finite type) if and only if it is the class
 `c(Z ⟶ X, 𝒩)` of the construction; such a class exists because `p^*` is bijective on Chow groups
 (Stacks 02TY). -/
-@[stacks 0FBK "(1), constant rank r: c(Z → X, 𝒩) ∈ A^r(Z → X) exists and is the unique class with \
-p^* ∘ c = ι_* ∘ j^* ∘ C"]
+@[stacks 0FBK "(1), constant rank r: a class c ∈ A^r(Z → X) equals the constructed class \
+c(Z → X, 𝒩) iff p^* ∘ c = ι_* ∘ j^* ∘ C on Chow groups of T ×_X N for every T → X locally of \
+finite type, so c(Z → X, 𝒩) is the unique class with this property"]
 theorem eq_virtualNormalClass_iff (r : ℕ)
     [SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} 𝒩.bundle r]
     (c : BivariantClass C (gysinSystemOfInvertible C) sZ sX i hZ r) :

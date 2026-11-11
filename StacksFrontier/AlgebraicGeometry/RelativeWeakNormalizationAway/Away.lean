@@ -9,8 +9,10 @@ Let `A → B` be an algebra inducing a dominant morphism on spectra, let `r` be 
 and let `Af` and `Bf` be the localizations of `A` and `B` away from `r`. Writing `B'` for the
 relative weak normalization of `A` in `B` of
 [Stacks, Tag 0H3J](https://stacks.math.columbia.edu/tag/0H3J), this file proves that the relative
-weak normalization of `Af` in `Bf` is the localization of `B'` away from `r`. This is
-[Stacks, Tag 0H3K](https://stacks.math.columbia.edu/tag/0H3K).
+weak normalization of `Af` in `Bf` is the localization of `B'` away from `r`. This is the case
+of a principal localization of [Stacks, Tag 0H3K](https://stacks.math.columbia.edu/tag/0H3K);
+the statement for an arbitrary multiplicative subset of `A` is
+`AlgebraicGeometry.relativeWeakNormalization_localization`, which carries the tag.
 
 The statement is in the `IsLocalization.Away` shape rather than as an equality of subalgebras of
 `Bf`, because that is the shape
@@ -27,8 +29,8 @@ localization of its value on the open. The same shape is used by Mathlib's
 
 ## Main results
 
-* `AlgebraicGeometry.isLocalizationAway_relativeWeakNormalization`: Stacks 0H3K, for an
-  arbitrary compatible algebra structure.
+* `AlgebraicGeometry.isLocalizationAway_relativeWeakNormalization`: Stacks 0H3K for a principal
+  localization, for an arbitrary compatible algebra structure.
 * `AlgebraicGeometry.isLocalizationAway_relativeWeakNormalization'`: the same for the canonical
   algebra structure.
 
@@ -70,9 +72,10 @@ def relativeWeakNormalizationToLocalization (r : A) [IsLocalization.Away r Af]
   map_zero' := Subtype.ext (by simp)
   map_add' x y := Subtype.ext (by simp)
 
-/-- **Stacks 0H3K.** Formation of the relative weak normalization commutes with localization of
-the base: the relative weak normalization of `Af` in `Bf` is the localization away from `r` of
-the relative weak normalization of `A` in `B`. -/
+/-- **Stacks 0H3K**, for a principal localization. Formation of the relative weak normalization
+commutes with localization of the base: the relative weak normalization of `Af` in `Bf` is the
+localization away from `r` of the relative weak normalization of `A` in `B`. The statement for an
+arbitrary multiplicative subset is `AlgebraicGeometry.relativeWeakNormalization_localization`. -/
 theorem isLocalizationAway_relativeWeakNormalization (r : A) [IsLocalization.Away r Af]
     [IsLocalization.Away (algebraMap A B r) Bf]
     (hdom : IsDominant (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op))
@@ -98,7 +101,7 @@ theorem isLocalizationAway_relativeWeakNormalization (r : A) [IsLocalization.Awa
       (algebraMap Af (relativeWeakNormalization Af Bf))
   · exact exists_pow_mul_mem_relativeWeakNormalization r hdom
 
-/-- **Stacks 0H3K**, for the canonical algebra structure of
+/-- **Stacks 0H3K** for a principal localization, with the canonical algebra structure of
 `AlgebraicGeometry.relativeWeakNormalizationToLocalization`. -/
 theorem isLocalizationAway_relativeWeakNormalization' (r : A) [IsLocalization.Away r Af]
     [IsLocalization.Away (algebraMap A B r) Bf]

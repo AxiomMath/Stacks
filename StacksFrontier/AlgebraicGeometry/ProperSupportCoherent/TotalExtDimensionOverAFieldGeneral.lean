@@ -13,18 +13,23 @@ be a perfect object of `D(𝒪_X)`. [Stacks, Tag 0FYC] asserts that
 `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K) < ∞`.
 
 The statements below take no hypotheses beyond properness of `X`, perfectness of `E` and
-boundedness with coherent cohomology of `K`.
+boundedness with coherent cohomology of `K`; the first two are stated for an arbitrary model of
+the derived global sections functor, the last for the total right derived functor.
 
 ## Main results
 
 * `ProperSupportCoherent.finite_setOf_not_subsingleton_ext_of_isPerfect_general`:
   `Ext^i_X(E, K) = 0` for all but finitely many `i`.
 * `Stacks.AlgebraicGeometry.ProperSupportCoherent.cardinalSum_rank_ext_lt_aleph0_general`: the
-  finiteness of `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K)`.
+  finiteness of `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K)`, for any model `RΓ` of derived global sections.
+* `Stacks.AlgebraicGeometry.ProperSupportCoherent.cardinalSum_rank_ext_lt_aleph0_of_isProper`:
+  [Stacks, Tag 0FYC], with `RΓ(X, -)` the total right derived functor of global sections.
 
 ## Implementation notes
 
-`RΓ(X, -)` enters as a functor `RΓ` together with its structure morphism `α`, the `k`-module
+In the first two results `RΓ(X, -)` enters as a functor `RΓ` together with its structure
+morphism `α`; in the last it is the total right derived functor of global sections, which exists
+since `𝒪_X`-modules form a Grothendieck abelian category. In all of them the `k`-module
 structure on the Ext groups is
 `Stacks.AlgebraicGeometry.ProperSupportCoherent.linearModulesOfOverField`, installed as a local
 instance, and the derived category is the standard model.
@@ -91,8 +96,10 @@ include α in
 `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K) < ∞`,
 
 the dimensions being taken for the canonical `k`-structure induced by the structure morphism
-`X ⟶ Spec k`, the sum being the cardinal sum over all of `ℤ` and `< ∞` being `< ℵ₀`. -/
-@[stacks 0FYC]
+`X ⟶ Spec k`, the sum being the cardinal sum over all of `ℤ` and `< ∞` being `< ℵ₀`.
+
+This form is stated for any model `RΓ` of the derived global sections functor; the statement of
+[Stacks, Tag 0FYC] without it is `cardinalSum_rank_ext_lt_aleph0_of_isProper`. -/
 theorem cardinalSum_rank_ext_lt_aleph0_general
     (hE : Stacks.Cohomology.PerfectComplexes.IsPerfect (X := X.left.toRingedSpace) E)
     (hK : DerivedCategoryB.derivedCategoryBBounded
@@ -111,6 +118,38 @@ theorem cardinalSum_rank_ext_lt_aleph0_general
     fun n => Module.rank_lt_aleph0_iff.2 (hExtFinite n)
 
 end MainGeneral
+
+/-- **Stacks Project, Tag 0FYC.** Let `X` be a scheme proper over a field `k`, let
+`K ∈ D^b_Coh(𝒪_X)` and let `E ∈ D(𝒪_X)` be perfect. Then
+
+`∑_{i ∈ ℤ} dim_k Ext^i_X(E, K) < ∞`,
+
+the dimensions being taken for the canonical `k`-structure induced by the structure morphism
+`X ⟶ Spec k`, the sum being the cardinal sum over all of `ℤ` and `< ∞` being `< ℵ₀`.
+
+The hypotheses are exactly those of the source. The derived global sections functor `RΓ(X, -)`
+used in the proof is the total right derived functor of global sections, which exists because
+`𝒪_X`-modules form a Grothendieck abelian category
+(`Stacks.Duality.hasRightDerivedFunctor_of_isGrothendieckAbelian`); the theorem is then
+`cardinalSum_rank_ext_lt_aleph0_general` at that functor. -/
+@[stacks 0FYC]
+theorem cardinalSum_rank_ext_lt_aleph0_of_isProper {k : Type u} [Field k]
+    (X : Over (Spec (.of k))) [IsProper X.hom] (E K : DerivedCategory X.left.Modules)
+    (hE : Stacks.Cohomology.PerfectComplexes.IsPerfect (X := X.left.toRingedSpace) E)
+    (hK : DerivedCategoryB.derivedCategoryBBounded
+      (fun M : X.left.Modules => M.IsCoherent) K) :
+    Cardinal.sum (fun n : ℤ => Module.rank k (DerivedCategory.Ext E K n)) <
+      Cardinal.aleph0 := by
+  let F := (sectionsFunctor X.left ⊤).mapHomotopyCategory (ComplexShape.up ℤ) ⋙
+    DerivedCategory.Qh
+  have : F.HasRightDerivedFunctor
+      (HomotopyCategory.quasiIso X.left.Modules (ComplexShape.up ℤ)) :=
+    Stacks.Duality.hasRightDerivedFunctor_of_isGrothendieckAbelian F
+  exact cardinalSum_rank_ext_lt_aleph0_general X
+    (F.totalRightDerived DerivedCategory.Qh
+      (HomotopyCategory.quasiIso X.left.Modules (ComplexShape.up ℤ)))
+    (F.totalRightDerivedUnit DerivedCategory.Qh
+      (HomotopyCategory.quasiIso X.left.Modules (ComplexShape.up ℤ))) E K hE hK
 
 end Stacks.AlgebraicGeometry.ProperSupportCoherent
 

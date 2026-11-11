@@ -34,8 +34,10 @@ commutes in `D(𝒪')`, where `ψ` is the commutativity constraint on the derive
 * `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.pullbackTensorComparisonBraided` — that
   proposition, **proved**.
 * `Stacks.Cohomology.RelativeCupProductOnRingedTopoi.relativeCupProduct_braiding_unconditional` —
-  **[Stacks, Tag 0FPM]**, with `ψ` the genuine constraint of [Stacks, Tag 0FPT] on both edges,
-  for all `K, L` in `D(𝒪)`, and with nothing assumed.
+  **[Stacks, Tag 0FPM]** for a morphism of ringed topoi presented by a morphism of sites, with
+  `ψ` the genuine constraint of [Stacks, Tag 0FPT] on both edges, for all `K, L` in `D(𝒪)`, and
+  with nothing assumed.  The tag for an arbitrary morphism of ringed topoi is registered on
+  `Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_braiding`.
 
 ## Implementation notes
 
@@ -225,16 +227,12 @@ source draws them.  `ψ` is the commutativity constraint of [Stacks, Tag 0FPT],
 categories — not a symmetry supplied as data — and no hypothesis is placed on `K` or `L`.
 
 Nothing is assumed.  The braidedness of the comparison of [Stacks, Tag 07A4], which is the whole
-content of the tag, is `pullbackTensorComparisonBraided` above. -/
-@[stacks 0FPM "the whole tag, unconditionally: for a morphism of ringed topoi and all K, L in \
-  D(𝒪), the commutativity square of the relative cup product commutes.  ψ on both edges is the \
-  genuine commutativity constraint of Tag 0FPT (canonicalBraidingHom, the braiding of \
-  canonicalDerivedSymmetric, whose tensor product is the derived tensor product of Tag 06YU on \
-  the nose) rather than a symmetry supplied as data, and its naturality is proved rather than \
-  assumed.  The one-time hypothesis PullbackTensorComparisonBraided -- that the comparison of \
-  Tag 07A4 is braided, i.e. that Lf^* is a braided and not merely a monoidal functor -- is now \
-  proved too, as pullbackTensorComparisonBraided, by descent along Tag 06YS from a pair of \
-  K-flat complexes with flat terms through the braided clause of Tag 03EL on modules"]
+content of the tag, is `pullbackTensorComparisonBraided` above.
+
+The morphism here is presented by a continuous functor of the underlying sites that is a
+morphism of sites (`AlgebraicGeometry.RingedToposSiteHom` with `hmos`), which not every morphism
+of ringed topoi is.  The tag, for an arbitrary morphism of ringed topoi, is
+`Stacks.Cohomology.RelativeCupProductOfToposHom.relativeCupProduct_braiding`. -/
 theorem relativeCupProduct_braiding_unconditional (K L : DerivedModules X.O) :
     relativeCupProduct f hmos K L ≫
         (derivedPushforward f).map (canonicalBraidingHom X.O K L) =

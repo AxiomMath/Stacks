@@ -20,7 +20,9 @@ The reduction of the essential surjectivity of `F` to the case `n = 1` is
 is the base change of Stacks 0BGY along the single morphism `Uᵢ ⟶ X`, taken at the closed
 subspace `{xᵢ}`. This file identifies the two sides of that base change with the categories the
 reduction speaks about, so that the essential surjectivity of the base-change functor of
-Stacks 0BGY, once available at each `(Uᵢ ⟶ X, {xᵢ})`, is exactly what the reduction consumes.
+Stacks 0BGY at each `(Uᵢ ⟶ X, {xᵢ})` is exactly what the reduction consumes. That essential
+surjectivity is proved in `AlgebraicGeometry.Space.essSurj_baseChangeFunctor`, and Stacks 0BHB
+itself is `AlgebraicGeometry.Space.ClosedPointNeighborhoods.isEquivalence_restrictionFunctor`.
 
 Two identifications are needed. The subspace of `Uᵢ` over which a restricted modification is
 unchanged is the inverse image of `X ∖ {xᵢ}`, and that inverse image is `Uᵢ ∖ {uᵢ}`: the only
@@ -146,10 +148,11 @@ theorem essSurj_restrictionFunctor_of_exists
     obtain ⟨M, hM, he⟩ := hsingle i N.obj N.property
     exact ⟨⟨M, hM⟩, he⟩
 
-/-- **Stacks 0BHB**, the essential surjectivity of `F`, granted the case `n = 1`. If the
+/-- The essential surjectivity of `F` from that of the single-point base changes. If the
 base-change functor of Stacks 0BGY along `Uᵢ ⟶ X`, taken outside `X ∖ {xᵢ}`, is essentially
-surjective for every `i`, then the functor `F` of Stacks 0BHA is essentially surjective. -/
-@[stacks 0BHB "essential surjectivity of the functor, granted the case n = 1 of Stacks 0BGY"]
+surjective for every `i`, then the functor `F` of Stacks 0BHA is essentially surjective.
+Stacks 0BHB itself is
+`AlgebraicGeometry.Space.ClosedPointNeighborhoods.isEquivalence_restrictionFunctor`. -/
 theorem essSurj_restrictionFunctor_of_essSurj
     (hES : ∀ i : Fin n,
       (baseChangeFunctor B S hS (D.toSpaceHom i) (D.openAwayFromSinglePoint i)).1.EssSurj) :

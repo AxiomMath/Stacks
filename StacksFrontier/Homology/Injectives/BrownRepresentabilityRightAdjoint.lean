@@ -27,7 +27,7 @@ modules on a site with sections in `Type v`. The direct sums `F` must preserve a
 category of `A` may be any model `HasDerivedCategory.{z} A`, and the morphisms of the target `D`
 may live in any universe.
 
-These are the universes of the source's statement. The declarations
+These are the universes of the source's statement. The untagged declaration
 `Stacks.Injectives.exists_exact_rightAdjoint` and
 `Stacks.Injectives.isRepresentable_of_isGrothendieckAbelian` ask instead for
 `IsGrothendieckAbelian.{max w u v} A`. No category with a nonzero object `G` and objects in a
@@ -97,9 +97,9 @@ theorem rightAdjointObjIsDefined_of_isGrothendieckAbelian
   rw [r.homEquiv_comp]
   exact ObjectProperty.shrinkAb_map_addEquiv P f.op _
 
-/-- **[Stacks, Tag 0F5Y].** Let `A` be a Grothendieck abelian category and `D` a pretriangulated
-category. An exact functor `F : D(A) ⥤ D` which transforms direct sums into direct sums, and whose
-morphism groups `Hom(F W, Y)` are small, is a left adjoint. -/
+/-- The adjoint-existence part of [Stacks, Tag 0F5Y]. Let `A` be a Grothendieck abelian category
+and `D` a pretriangulated category. An exact functor `F : D(A) ⥤ D` which transforms direct sums
+into direct sums, and whose morphism groups `Hom(F W, Y)` are small, is a left adjoint. -/
 theorem isLeftAdjoint_of_isGrothendieckAbelian
     (hsmall : ∀ (W : DerivedCategory A) (Y : D), Small.{v} (F.obj W ⟶ Y)) :
     F.IsLeftAdjoint :=
@@ -115,9 +115,9 @@ Here `A` is Grothendieck abelian relative to its morphism universe `v` and the d
 indexed by `Type v`. The smallness of `Hom(F W, Y)` is the source's standing convention that
 morphisms form sets, read at that universe. It is also necessary: if `F ⊣ G`, then
 `Hom(F W, Y) ≃ Hom(W, G Y)`, and the derived category of `A` is locally `Type v`-small. -/
-@[stacks 0F5Y "A Grothendieck abelian relative to its morphism universe, direct sums indexed by \
-it; the base `exists_exact_rightAdjoint` assumes IsGrothendieckAbelian at the object universe, \
-which no nonzero category satisfies"]
+@[stacks 0F5Y "A Grothendieck abelian relative to its morphism universe v, direct sums indexed \
+by Type v, Hom(F W, Y) Type v-small (the source's convention that morphisms form sets); D may be \
+any pretriangulated category"]
 theorem exists_exact_rightAdjoint_of_isGrothendieckAbelian
     (hsmall : ∀ (W : DerivedCategory A) (Y : D), Small.{v} (F.obj W ⟶ Y)) :
     ∃ (G : D ⥤ DerivedCategory A) (_ : F ⊣ G) (commShift : G.CommShift ℤ),

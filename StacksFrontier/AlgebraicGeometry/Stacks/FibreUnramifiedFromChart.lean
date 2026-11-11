@@ -95,7 +95,7 @@ See the module documentation of
 
 No `@[stacks]` attribute is claimed: this is a step of the chart construction of **Stacks 06N3**,
 whose registration sits on
-`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack`.
+`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional`.
 
 ## References
 

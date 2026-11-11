@@ -489,7 +489,11 @@ section `0 : P ⟶ L`. Then, writing `j : Spec_P(⨁_{m ∈ ℤ} 𝒪_P(m)) ⟶ 
   of `Z` in `L`. -/
 @[stacks 0EKG "the commutative diagram Spec_P(⨁_{m ∈ ℤ} O_P(m)) → L = Spec_P(⨁_{m ≥ 0} O_P(m)) → P \
 over U → X → Z, with π a cone whose zero section maps set theoretically onto the inverse image \
-of Z in L", ega "II 8.6.3" "special case"]
+of Z in L", ega "II 8.6.3" "special case",
+  stacks 0EKF "the commutative diagram of the section: π : L = Proj(B) → P is a cone, \
+L = Spec_P(⨁_{m ≥ 0} O_P(m)) with vertex 0 : P → L, π ∘ 0 = id_P, U = Spec_P(⨁_{m ∈ Z} O_P(m)) \
+over P is the part of L over U ⊆ X, the squares over U → X → Z commute, and 0 maps set \
+theoretically onto the inverse image of Z in L"]
 theorem projAndSpec_diagram :
     -- `π` is a cone over `P`, graded by the nonnegative twists
     (truncationCone 𝒜).π = pi 𝒜 ∧

@@ -12,10 +12,12 @@ In the situation of [Stacks, Tag 0C61] let `f : X ⟶ X'` contract an irreducibl
 of the special fibre, and let `C'_i = f(C_i)` for `i < n` be the components of the special fibre
 of the contracted model. Write `wᵢ = [κᵢ : k]` and `w'ᵢ = [κ'ᵢ : k]` for the weights. The maps
 `κᵢ ← κ'ᵢ → κₙ` of [Stacks, Tag 0C6C] (2) show that `w'ᵢ` divides `wᵢ`, and divides `wₙ` when
-`Cᵢ` meets `Cₙ`. Together with [Stacks, Tag 0C6C] (1) and [Stacks, Tag 0CA8] this is
-[Stacks, Tag 0CA9]: when `Cₙ` is an exceptional curve of the first kind, the numerical type
-associated to `X'` is the contraction of Tag 0C77 of the numerical type associated to `X`, except
-that its weights `w'ᵢ` are only known to divide `wᵢ`.
+`Cᵢ` meets `Cₙ`. Together with [Stacks, Tag 0C6C] (1) and [Stacks, Tag 0CA8] this gives the
+geometric half of [Stacks, Tag 0CA9]: when `Cₙ` is an exceptional curve of the first kind, the
+numerical type associated to `X'` is the contraction of Tag 0C77 of the numerical type associated
+to `X`, except that its weights `w'ᵢ` are divisors of `wᵢ`. The full comparison of Tag 0CA9 is
+`associatedNumericalType_contraction_comparison` in
+`StacksFrontier.AlgebraicGeometry.Curves.Models.ContractExceptionalComponentNumericalType`.
 
 ## Main results
 
@@ -25,7 +27,7 @@ that its weights `w'ᵢ` are only known to divide `wᵢ`.
 * `Stacks.Models.RegularProperModelSituation.contractedComponentWeight_eq_of_inter_eq_empty` —
   `w'ᵢ = wᵢ` when `Cᵢ ∩ Cₙ = ∅`.
 * `Stacks.Models.RegularProperModelSituation.isContractionUpToWeight_associatedNumericalType` —
-  [Stacks, Tag 0CA9].
+  the numerical type of `X'` is a contraction up to weight of that of `X`.
 
 ## References
 
@@ -128,7 +130,7 @@ public theorem contractedComponentWeight_eq_of_inter_eq_empty
   exact h0.symm
 
 open AlgebraicGeometry.NumericalType in
-/-- **Stacks Project, Tag 0CA9.** Let `f : X ⟶ X'` contract a component `C_n` of the special
+/-- **The numerical type after contracting an exceptional curve.** Let `f : X ⟶ X'` contract a component `C_n` of the special
 fibre of a regular proper model which is an exceptional curve of the first kind. Enumerate the
 components of `X_k` by `e`, with `C_n` last, and those of `X'_k` by `e'`, compatibly with
 `C'_i = f(C_i)`. Let `T` and `T'` be the numerical types associated to `X` and `X'`. Then `n` is a
@@ -136,13 +138,11 @@ components of `X_k` by `e`, with `C_n` last, and those of `X'_k` by `e'`, compat
 weights: `n' = n - 1`, `m'_i = m_i`, `a'_{ij} = a_{ij} - a_{in}a_{jn}/a_{nn}`, `g'_i` is the genus
 formula at `w'_i`, and `w'_i` is a positive integer dividing `w_i`. Moreover `w'_i` divides `w_n`
 whenever `a_{in} ≠ 0`, i.e. whenever `C_i` meets `C_n`, and `w'_i = w_i` whenever `a_{in} = 0`. The
-source asserts `w'_i ∣ w_n` without that condition; it is stated here only where the maps
-`κ_i ← κ'_i → κ_n` of Tag 0C6C (2) exist, since for a component missing `C_n` the weight is `w_i`,
-which need not divide `w_n`
-(`AlgebraicGeometry.NumericalType.exists_intersection_eq_zero_not_weight_dvd`). -/
-@[stacks 0CA9 "corrected: the numerical type of X' is the 0C77 contraction of that of X except \
-for w'_i, a positive integer dividing w_i; w'_i | w_n is stated only when C_i meets C_n, where \
-0C6C (2) gives the maps; when C_i misses C_n, w'_i = w_i"]
+divisibility `w'_i ∣ w_n` is stated where the maps `κ_i ← κ'_i → κ_n` of Tag 0C6C (2) exist; for a
+component missing `C_n` the weight is `w_i`, which need not divide `w_n`
+(`AlgebraicGeometry.NumericalType.exists_intersection_eq_zero_not_weight_dvd`). This is the
+geometric part of Tag 0CA9, whose full statement is
+`associatedNumericalType_contraction_comparison`. -/
 public theorem isContractionUpToWeight_associatedNumericalType
     [DecidableEq (irreducibleComponents S.specialFiber)]
     (hf : IsContractionOfExceptionalCurve (S.specialFiberComponentIdeal N) f)

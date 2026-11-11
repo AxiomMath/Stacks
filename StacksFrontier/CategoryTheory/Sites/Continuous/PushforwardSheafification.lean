@@ -9,10 +9,13 @@ public import Mathlib.CategoryTheory.Sites.CoverLifting
 * `PushforwardSheafificationCompatible`: the assertion that restricting a presheaf along `G.op` and
   then sheafifying
   agrees with sheafifying and then pushing forward.
-* `nonempty_pushforwardContinuousSheafificationCompatibility`: this natural isomorphism exists
-  (Stacks 00WY).
+* `nonempty_pushforwardContinuousSheafificationCompatibility`: this natural isomorphism exists.
 
-Tags covered: 00WY.
+This is the analogue, for the restriction `u^p` along a functor that is both cocontinuous and
+continuous, of Stacks Lemma 00XM (`(u^p G)^# = (u^p (G^#))^#` for cocontinuous `u`); it assumes
+continuity in addition, so it is not registered as 00XM. It is not Stacks 00WY, which concerns
+the left adjoint `u_p` along a continuous functor: that is
+`CategoryTheory.Functor.lanCompPresheafToSheafIsoSheafPullback`.
 -/
 
 @[expose] public section
@@ -31,10 +34,10 @@ def PushforwardSheafificationCompatible (C : Type*) [Category C] (D : Type*) [Ca
   Nonempty ((Functor.whiskeringLeft _ _ A).obj G.op ⋙ presheafToSheaf J A ≅
     presheafToSheaf K A ⋙ G.sheafPushforwardContinuous A J K)
 
-/-- **Stacks 00WY.** The natural isomorphism asserted by `PushforwardSheafificationCompatible`
-  exists; it is
-`Functor.pushforwardContinuousSheafificationCompatibility`. -/
-@[stacks 00WY]
+/-- The natural isomorphism asserted by `PushforwardSheafificationCompatible` exists; it is
+`Functor.pushforwardContinuousSheafificationCompatibility`. This is a statement about the
+restriction `u^p` along a cocontinuous and continuous functor (compare Stacks 00XM, which needs
+only cocontinuity), not Stacks 00WY. -/
 theorem nonempty_pushforwardContinuousSheafificationCompatibility (C : Type*) [Category C] (D :
   Type*) [Category D]
     (J : GrothendieckTopology C) (K : GrothendieckTopology D)

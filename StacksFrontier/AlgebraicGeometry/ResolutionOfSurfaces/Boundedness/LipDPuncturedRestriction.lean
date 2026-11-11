@@ -36,8 +36,6 @@ primitive on `f⁻¹(U)`, they form a family of rational functions to which the 
 so each is regular on the corresponding member of the cover, and correcting the `eⱼ` by these
 sections makes them agree on overlaps and glue to a global primitive.
 
-No `@[stacks]` attribute is attached: Tag 0AXB is not proved here.
-
 ## References
 
 * [Stacks Project, Tag 0AXB](https://stacks.math.columbia.edu/tag/0AXB)
@@ -475,6 +473,8 @@ kernel is represented, through an injective resolution `I` of `𝒪_X`, by a coc
 which has primitives on `f⁻¹(U)` and on the members of an open cover of `X` (locality of
 cohomology, [Stacks, Tag 01E3]); `exists_d_eq_of_local_primitives` glues them, using the polar
 lemma in place of the projective-bundle construction of the source's proof. -/
+@[stacks 0AXB "in Situation 0AX8 with X normal, the restriction map H^1(X, O_X) -> \
+H^1(f^{-1}(U), O_X) is injective; the source's Nagata hypothesis on A is not needed"]
 theorem firstCohomologyRestriction_injective [IsNormal V.X] :
     Function.Injective V.firstCohomologyRestriction := by
   have : IsIntegral V.X := V.modification.source_isIntegral

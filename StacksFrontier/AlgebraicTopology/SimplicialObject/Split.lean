@@ -27,10 +27,11 @@ with maps `ι n : N n ⟶ X _⦋n⦌` such that, for every `n`, the induced map
 `∐_{φ : ⦋n⦌ ↠ ⦋m⦌} N m ⟶ X _⦋n⦌`, whose component at a surjection `φ` is `N m ↪ X _⦋m⦌ ⟶ X _⦋n⦌`,
 is an isomorphism.
 
-A simplicial *set* has at most one splitting: for an arbitrary splitting `s` of `X` the map `s.ι n`
-is injective with image exactly the nondegenerate `n`-simplices, so the subobject of `X _⦋n⦌` it
-describes is the one of nondegenerate simplices. Existence is Mathlib's `SSet.splitting`, whose
-`N m` is the set of nondegenerate `m`-simplices.
+A simplicial *set* has a unique splitting, given by the nondegenerate simplices: Mathlib's
+`SSet.splitting` is a splitting whose `N m` is the set of nondegenerate `m`-simplices, and for an
+arbitrary splitting `s` of `X` the map `s.ι n` is injective with image exactly the nondegenerate
+`n`-simplices, so the subobject of `X _⦋n⦌` it describes is the one of nondegenerate simplices.
+The two halves are bundled in `StacksFrontier.AlgebraicTopology.SimplicialSet.Splitting`.
 
 A simplicial object of an *abelian* category is always split, by the subobjects `N(U₀) = U₀` and
 `N(U_m) = ⋂_{i = 0}^{m - 1} Ker(d^m_i) ⊆ U_m`, the intersection of the kernels of all face maps
@@ -47,7 +48,8 @@ exactly when `N(f)_m` has it for every `m`.
 
 * `SSet.Splitting.existsUnique_equiv_nonDegenerate`: for every splitting `s` of a simplicial set
   `X` and every `n`, there is a unique bijection `s.N n ≃ X.nonDegenerate n` compatible with the
-  maps to `X _⦋n⦌`.
+  maps to `X _⦋n⦌`; together with Mathlib's `SSet.splitting` this gives Stacks 017R, stated in
+  `StacksFrontier.AlgebraicTopology.SimplicialSet.Splitting`.
 * `CategoryTheory.SimplicialObject.exists_splittingFunctor_mk_ι_eq_inf_kernelSubobject`: a
   simplicial object of an abelian category has a splitting with `N(U_m) = ⋂_{i < m} Ker(d^m_i)`,
   functorially in the simplicial object.
@@ -57,6 +59,9 @@ exactly when `N(f)_m` has it for every `m`.
 * `AlgebraicTopology.NormalizedMooreComplex.mono_epi_isIso_app_iff_map_f`: a morphism of simplicial
   objects of an abelian category is a monomorphism (resp. an epimorphism, an isomorphism) in every
   degree if and only if the induced morphism of normalized Moore complexes is one in every degree.
+  Mathlib's normalized Moore complex uses `⋂_{i = 1}^{m} Ker(d^m_i)`; the same statement for the
+  source's `N(U_m) = ⋂_{i = 0}^{m - 1} Ker(d^m_i)` is
+  `CategoryTheory.SimplicialObject.mono_epi_isIso_app_iff_normalizedMooreMap`, further down.
 
 ### References
 
@@ -80,6 +85,8 @@ namespace CategoryTheory.SimplicialObject
 
 variable {C : Type u} [Category.{v} C]
 
+@[expose] public section
+
 /-- **Stacks 017P**, for full simplicial objects.
 A splitting by subobjects is a Mathlib splitting whose structure maps `N(U_n) ⟶ U_n` are
 monomorphisms, so that they represent the subobjects required by the source definition. -/
@@ -96,13 +103,13 @@ namespace SubobjectSplitting
 variable {r : ℕ} (X : SimplicialObject.Truncated C r)
 
 /-- The target truncated simplex of a surjection out of `Δ`. -/
-private def target (Δ : (SimplexCategory.Truncated r)ᵒᵖ)
+def target (Δ : (SimplexCategory.Truncated r)ᵒᵖ)
     (A : SimplicialObject.Splitting.IndexSet (op Δ.unop.obj)) :
     SimplexCategory.Truncated r :=
   ⟨A.1.unop, (SimplexCategory.len_le_of_epi A.e).trans Δ.unop.property⟩
 
 /-- The surjection in the truncated simplex category underlying an index of the splitting. -/
-private def hom (Δ : (SimplexCategory.Truncated r)ᵒᵖ)
+def hom (Δ : (SimplexCategory.Truncated r)ᵒᵖ)
     (A : SimplicialObject.Splitting.IndexSet (op Δ.unop.obj)) :
     Δ.unop ⟶ target Δ A :=
   ObjectProperty.homMk A.e
@@ -110,14 +117,14 @@ private def hom (Δ : (SimplexCategory.Truncated r)ᵒᵖ)
 variable (N : SimplexCategory.Truncated r → C)
 
 /-- The family of summands indexed by all surjections out of a truncated simplex. -/
-private def summand (Δ : (SimplexCategory.Truncated r)ᵒᵖ)
+def summand (Δ : (SimplexCategory.Truncated r)ᵒᵖ)
     (A : SimplicialObject.Splitting.IndexSet (op Δ.unop.obj)) : C :=
   N (target Δ A)
 
 variable (ι : ∀ Δ, N Δ ⟶ X.obj (op Δ))
 
 /-- The canonical coproduct cofan attached to proposed nondegenerate subobjects. -/
-private abbrev cofan' (Δ : (SimplexCategory.Truncated r)ᵒᵖ) :
+abbrev cofan' (Δ : (SimplexCategory.Truncated r)ᵒᵖ) :
     Cofan (summand N Δ) :=
   Cofan.mk (X.obj Δ) (fun A ↦ ι (target Δ A) ≫ X.map (hom Δ A).op)
 
@@ -139,6 +146,8 @@ structure SubobjectSplitting {r : ℕ} (X : SimplicialObject.Truncated C r) wher
   isColimit' : ∀ Δ, IsColimit (SubobjectSplitting.cofan' X N ι Δ)
 
 end Truncated
+
+end
 
 /-! ### Summandwise retracts of coproduct decompositions -/
 
@@ -584,11 +593,10 @@ section Statement
 
 variable {X : SSet.{u}}
 
-/-- **Stacks 017R**.
-If `s` is a splitting of a simplicial set `X`, then for every `n` there is a unique bijection
-between `s.N n` and the set of nondegenerate `n`-simplices of `X` compatible with the maps `s.ι n`
-and `Subtype.val` to `X _⦋n⦌`. -/
-@[stacks 017R]
+/-- The uniqueness half of Stacks 017R: if `s` is a splitting of a simplicial set `X`, then for
+every `n` there is a unique bijection between `s.N n` and the set of nondegenerate `n`-simplices of
+`X` compatible with the maps `s.ι n` and `Subtype.val` to `X _⦋n⦌`. The full lemma, existence
+included, is `SSet.exists_splitting_and_forall_existsUnique_equiv_nonDegenerate`. -/
 public theorem Splitting.existsUnique_equiv_nonDegenerate (s : X.Splitting) (n : ℕ) :
     ∃! e : s.N n ≃ X.nonDegenerate n, ∀ x, (e x : X _⦋n⦌) = s.ι n x :=
   ⟨(Equiv.ofInjective _ (ι_injective s n)).trans (Equiv.subtypeEquivProp (range_ι s n)),
@@ -630,12 +638,18 @@ section Statement
 
 variable {A : Type u} [Category.{v} A] [Abelian A] {U V : SimplicialObject A}
 
-/-- **Stacks 017W**.
-The normalized Moore complex functor `N` of an abelian category reflects (and preserves) degreewise
-monomorphisms, epimorphisms and isomorphisms: for a morphism `f : U ⟶ V` of simplicial objects, `f`
-is a monomorphism in each degree if and only if `N(f)_m` is a monomorphism for every `m`, and
-likewise for epimorphisms and for isomorphisms. -/
-@[stacks 017W]
+/-- **Stacks 017W**, in Mathlib's convention.
+Mathlib's normalized Moore complex functor `N` of an abelian category reflects (and preserves)
+degreewise monomorphisms, epimorphisms and isomorphisms: for a morphism `f : U ⟶ V` of simplicial
+objects, `f` is a monomorphism in each degree if and only if `N(f)_m` is a monomorphism for every
+`m`, and likewise for epimorphisms and for isomorphisms. Here `N(U)_m = ⋂_{i = 1}^{m} Ker(d^m_i)`,
+the kernels of all faces but the first, whereas the source's `N(U_m)` of [Stacks, Tag 017V] is
+`⋂_{i = 0}^{m - 1} Ker(d^m_i)`, the kernels of all faces but the last; the statement in the
+source's convention is `CategoryTheory.SimplicialObject.mono_epi_isIso_app_iff_normalizedMooreMap`,
+deduced from this one through the order-reversal. -/
+@[stacks 017W "in Mathlib's convention N(U)_m = ⋂_{i = 1}^{m} Ker(d^m_i), not the source's \
+  ⋂_{i = 0}^{m - 1} Ker(d^m_i); the source's convention is \
+  `SimplicialObject.mono_epi_isIso_app_iff_normalizedMooreMap`"]
 public theorem NormalizedMooreComplex.mono_epi_isIso_app_iff_map_f (f : U ⟶ V) :
     ((∀ Δ : SimplexCategoryᵒᵖ, Mono (f.app Δ)) ↔
         ∀ m : ℕ, Mono (((normalizedMooreComplex A).map f).f m)) ∧
@@ -673,12 +687,16 @@ Moore object `N(V_m) = ⋂_{i < m} Ker(d^m_i)` of [Stacks, Tag 017V]. That split
   `φ : [m] → [i]` with `i ≤ n`.
 * `normalizedMoore`: the normalized Moore object `⋂_{i < m} Ker(d^m_i) ⊆ U_m`, equal to `U_0`
   for `m = 0`.
+* `normalizedMooreMap`: the restriction `N(f)_m : N(U_m) ⟶ N(V_m)` of `f_m` for `f : U ⟶ V`.
 * `Degen`: the degenerate subobject `Σ_{φ : [m] → [k], k < m} Im(U(φ)) ⊆ U_m`.
 * `revObj`: the simplicial object `SimplexCategory.rev.op ⋙ U`, whose face maps are those of `U`
   reindexed by `Fin.rev`.
 
 ### Main results
 
+* `mono_epi_isIso_app_iff_normalizedMooreMap`: Stacks 017W in the source's convention, `f` is a
+  monomorphism (resp. an epimorphism, an isomorphism) in every degree if and only if `N(f)_m` is
+  one for every `m`.
 * `Usub_isSubSimplicial`: `U(ψ)` maps `U'_m` into `U'_{m'}` for every `ψ : [m'] → [m]`.
 * `Usub_eq_top_of_le`: `U'_i = U_i` for every `i ≤ n`.
 * `Usub_inf_moore_eq_bot`: `U'_m ⊓ N(U_m) = ⊥` for every `m > n`.
@@ -686,6 +704,7 @@ Moore object `N(V_m) = ⋂_{i < m} Ker(d^m_i)` of [Stacks, Tag 017V]. That split
 
 ### References
 
+* [Stacks, Tag 017W](https://stacks.math.columbia.edu/tag/017W)
 * [Stacks, Tag 017Y](https://stacks.math.columbia.edu/tag/017Y)
 -/
 
@@ -841,6 +860,89 @@ of `U` in degree `k + 1`. -/
 theorem objX_revObj_eq (U : SimplicialObject C) (k : ℕ) :
     AlgebraicTopology.NormalizedMooreComplex.objX (revObj U) (k+1) = normalizedMoore U (k+1) := by
   rw [objX_revObj_add_one, normalizedMoore]
+
+/-- Mathlib's normalized Moore object of `revObj U` in degree `m` is the Stacks Moore object of
+`U` in degree `m`, for every `m`. -/
+private lemma objX_revObj_eq_normalizedMoore (U : SimplicialObject C) (m : ℕ) :
+    AlgebraicTopology.NormalizedMooreComplex.objX (revObj U) m = normalizedMoore U m := by
+  cases m with
+  | zero => exact AlgebraicTopology.NormalizedMooreComplex.objX_zero _
+  | succ k => exact objX_revObj_eq U k
+
+/-- A morphism of simplicial objects carries the Stacks-convention normalized Moore subobject of
+its source into that of its target, in every degree. -/
+theorem normalizedMoore_factors_arrow_comp_app {U V : SimplicialObject C} (f : U ⟶ V) (m : ℕ) :
+    (normalizedMoore V m).Factors
+      ((normalizedMoore U m).arrow ≫ f.app (Opposite.op (SimplexCategory.mk m))) := by
+  cases m with
+  | zero => exact Subobject.top_factors _
+  | succ k =>
+      change (Finset.univ.inf (fun i : Fin (k + 1) =>
+          kernelSubobject (V.δ i.castSucc))).Factors
+        ((Finset.univ.inf (fun j : Fin (k + 1) =>
+          kernelSubobject (U.δ j.castSucc))).arrow ≫
+            f.app (Opposite.op (SimplexCategory.mk (k + 1))))
+      rw [Subobject.finset_inf_factors]
+      intro i _
+      refine kernelSubobject_factors _ _ ?_
+      rw [Category.assoc, SimplicialObject.δ, ← f.naturality, ← Category.assoc,
+        ← SimplicialObject.δ_def,
+        finset_inf_kernelSubobject_arrow_comp (fun j : Fin (k + 1) ↦ U.δ j.castSucc) _ i
+          (Finset.mem_univ _), zero_comp]
+
+/-- The morphism `N(f)_m : N(U_m) ⟶ N(V_m)` induced by a morphism `f : U ⟶ V` of simplicial
+objects on the Stacks-convention normalized Moore objects `N(U_m) = ⋂_{i = 0}^{m - 1} Ker(d^m_i)`
+of [Stacks, Tag 017V]: the restriction of `f_m : U_m ⟶ V_m`. -/
+noncomputable def normalizedMooreMap {U V : SimplicialObject C} (f : U ⟶ V) (m : ℕ) :
+    (normalizedMoore U m : C) ⟶ normalizedMoore V m :=
+  (normalizedMoore V m).factorThru _ (normalizedMoore_factors_arrow_comp_app f m)
+
+/-- The morphism `N(f)_m` is the restriction of `f_m`. -/
+@[reassoc (attr := simp)]
+theorem normalizedMooreMap_arrow {U V : SimplicialObject C} (f : U ⟶ V) (m : ℕ) :
+    normalizedMooreMap f m ≫ (normalizedMoore V m).arrow =
+      (normalizedMoore U m).arrow ≫ f.app (Opposite.op (SimplexCategory.mk m)) :=
+  Subobject.factorThru_arrow _ _ _
+
+omit [Abelian C] in
+/-- A property of morphisms holds for the restriction of `h` to subobjects `P` and `Q` exactly
+when it holds for its restriction to equal subobjects `P'` and `Q'`. -/
+private lemma factorThru_arrow_comp_iff {X Y : C} {P P' : Subobject X} {Q Q' : Subobject Y}
+    (hP : P = P') (hQ : Q = Q') (h : X ⟶ Y) (hf : Q.Factors (P.arrow ≫ h))
+    (hf' : Q'.Factors (P'.arrow ≫ h)) (p : ∀ {A B : C}, (A ⟶ B) → Prop) :
+    p (Q.factorThru _ hf) ↔ p (Q'.factorThru _ hf') := by
+  subst hP hQ
+  rfl
+
+/-- The normalized Moore complex of the order-reversal, applied to the reversal of `f`, is
+`N(f)` in the Stacks convention, as far as any property of morphisms can tell. -/
+private lemma map_revObj_f_iff {U V : SimplicialObject C} (f : U ⟶ V) (m : ℕ)
+    (p : ∀ {A B : C}, (A ⟶ B) → Prop) :
+    p (((normalizedMooreComplex C).map (Functor.whiskerLeft SimplexCategory.rev.op f)).f m) ↔
+      p (normalizedMooreMap f m) :=
+  factorThru_arrow_comp_iff (objX_revObj_eq_normalizedMoore U m)
+    (objX_revObj_eq_normalizedMoore V m) (f.app (Opposite.op (SimplexCategory.mk m)))
+    (objX_factors_arrow_comp_app (revObj U) (revObj V) (Functor.whiskerLeft rev.op f) m) _ p
+
+/-- **Stacks 017W**, in the source's convention.
+Let `f : U ⟶ V` be a morphism of simplicial objects of an abelian category, and let
+`N(f)_m : N(U_m) ⟶ N(V_m)` be its restriction to the normalized Moore objects
+`N(U_m) = ⋂_{i = 0}^{m - 1} Ker(d^m_i)` of [Stacks, Tag 017V]. Then `f_m` is a monomorphism for
+every `m` if and only if `N(f)_m` is one for every `m`; likewise for epimorphisms and for
+isomorphisms. It is deduced from
+`AlgebraicTopology.NormalizedMooreComplex.mono_epi_isIso_app_iff_map_f`, stated for Mathlib's
+`⋂_{i = 1}^{m} Ker(d^m_i)`, applied to the order-reversals of `U` and `V`. -/
+@[stacks 017W "N(U)_m = ⋂_{i = 0}^{m - 1} Ker(d^m_i) as in the source (`normalizedMoore`); the \
+  statement is an equivalence, of which the source states the reflection direction"]
+theorem mono_epi_isIso_app_iff_normalizedMooreMap {U V : SimplicialObject C} (f : U ⟶ V) :
+    ((∀ Δ : SimplexCategoryᵒᵖ, Mono (f.app Δ)) ↔ ∀ m : ℕ, Mono (normalizedMooreMap f m)) ∧
+      ((∀ Δ : SimplexCategoryᵒᵖ, Epi (f.app Δ)) ↔ ∀ m : ℕ, Epi (normalizedMooreMap f m)) ∧
+      ((∀ Δ : SimplexCategoryᵒᵖ, IsIso (f.app Δ)) ↔ ∀ m : ℕ, IsIso (normalizedMooreMap f m)) := by
+  obtain ⟨h₁, h₂, h₃⟩ := NormalizedMooreComplex.mono_epi_isIso_app_iff_map_f
+    (Functor.whiskerLeft SimplexCategory.rev.op f)
+  exact ⟨h₁.trans (forall_congr' fun m => map_revObj_f_iff f m fun g => Mono g),
+    h₂.trans (forall_congr' fun m => map_revObj_f_iff f m fun g => Epi g),
+    h₃.trans (forall_congr' fun m => map_revObj_f_iff f m fun g => IsIso g)⟩
 
 /-- **Stacks 017X**.
 The last face carries the Stacks-convention normalized Moore subobject in degree `n + 1` into the

@@ -28,7 +28,14 @@ the complex is exact there.
 
 ## Main results
 
-* `Algebra.isOpen_setOf_injective_and_exact_baseChange_fiber`: Stacks 00RB.
+* `Algebra.isOpen_setOf_injective_and_exact_baseChange_fiber`: Stacks 00RB for fibres that are
+  Cohen–Macaulay *and equidimensional* of dimension `d`.
+
+The source states 00RB for fibres Cohen–Macaulay of dimension `d`, with no equidimensionality,
+and that statement is
+`Algebra.isOpen_setOf_exact_baseChange_fiber_of_flat_of_isMaximalCohenMacaulay`
+(`StacksFrontier.RingTheory.Flat.FiberExactLocusFlat`), which carries the tag; it is proved there
+through Theorem 00RC, with no hypothesis on the fibres at all.
 
 ## Implementation notes
 
@@ -42,7 +49,9 @@ The fibre complex `F_𝔮 ⊗_R κ(𝔭)` is written as the base change `A ⊗_S
 canonical `S`-algebra structure.
 
 The fibre hypothesis is spelled out as in Stacks 00RA: each nonzero fibre `S ⊗_R κ(𝔭)` has
-Cohen–Macaulay local rings, is equidimensional, and has Krull dimension `d`.
+Cohen–Macaulay local rings, is equidimensional, and has Krull dimension `d`. Equidimensionality is
+stronger than the source's hypothesis on 00RB (`R = k`, `S = k × k[x]`, `d = 1`), and is what the
+appeal to Stacks 00RA consumes.
 
 The source applies Stacks 00MI to the whole complex; its proof is an application, at each spot
 separately, of the local criterion for flatness in the form
@@ -571,11 +580,12 @@ open Stacks.Depth.RegularSequence
 `S ⊗_R κ(𝔭)` are Cohen–Macaulay and equidimensional of dimension `d`, and let
 `0 → S^{n_{e+1}} →[φ e] S^{n_e} → ⋯ → S^{n_1} →[φ 0] S^{n_0}` be a complex of finite free
 `S`-modules. Then the set of primes `𝔮` of `S` at which the complex
-`F_𝔮 ⊗_R κ(𝔭) = F ⊗_S S_𝔮/𝔭S_𝔮`, `𝔭 = 𝔮 ∩ R`, is exact is open in `Spec S`. -/
-@[stacks 00RB "The complex is indexed as in 00N1: `φ k : S^{n (k+1)} → S^{n k}`, read for
-`k ≤ e`, and exactness is injectivity of `φ e` and exactness at `S^{n_e}, …, S^{n_1}`.
-`F_𝔮 ⊗_R κ(𝔭)` is the base change of `F` along `S → S_𝔮/𝔭S_𝔮`, the ring of 00RA, which is
-`S_𝔮 ⊗_R κ(𝔭)`. The fibre hypothesis is spelled out as in 00RA. See the module docstring."]
+`F_𝔮 ⊗_R κ(𝔭) = F ⊗_S S_𝔮/𝔭S_𝔮`, `𝔭 = 𝔮 ∩ R`, is exact is open in `Spec S`.
+
+This is Stacks 00RB under the stronger fibre hypothesis of Stacks 00RA (equidimensional fibres),
+by the source's route through 00N1 and 00RA. Stacks 00RB as stated, for fibres Cohen–Macaulay of
+dimension `d`, is
+`Algebra.isOpen_setOf_exact_baseChange_fiber_of_flat_of_isMaximalCohenMacaulay`. -/
 public theorem Algebra.isOpen_setOf_injective_and_exact_baseChange_fiber
     {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] [IsNoetherianRing R]
     [Algebra.FiniteType R S] [Module.Flat R S] (d : ℕ)

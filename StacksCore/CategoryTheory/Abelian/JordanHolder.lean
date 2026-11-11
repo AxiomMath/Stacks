@@ -1,8 +1,8 @@
 module
 
+public import Mathlib.Order.OrderIsoNat
 public import StacksCore.CategoryTheory.Abelian.Subobject
 public import StacksCore.CategoryTheory.Subobject.NoetherianObject
-public import Mathlib.Order.OrderIsoNat
 
 /-! ## Finite filtrations with simple subquotients
 

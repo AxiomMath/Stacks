@@ -32,9 +32,13 @@ and the vanishing of [Stacks, Tag 0B90] (in the namespace `AlgebraicGeometry`,
 
 ## Main results
 
-* `Stacks.AbelMap.picardScheme_clause_one`, `Stacks.AbelMap.picardScheme_clause_two`,
-  `Stacks.AbelMap.picardScheme_clause_three`, `Stacks.AbelMap.picardScheme_clauses_four_five_six`:
-  [Stacks, Tag 0BA0], clauses (1)-(6).
+* `Stacks.AbelMap.picardScheme_clause_one`, `Stacks.AbelMap.picardScheme_clause_three`,
+  `Stacks.AbelMap.picardScheme_clauses_four_five_six`: [Stacks, Tag 0BA0], clauses (1), (3) and
+  (4)-(6). Clause (2), that the natural map on `k`-points is a bijection, is
+  `Stacks.AbelMap.picardScheme_clause_two_bijOn`
+  (`StacksFrontier/AlgebraicGeometry/Picard/PicardSchemeCurvePoints.lean`);
+  `Stacks.AbelMap.picardScheme_clause_two` records only that the two sets are equipotent.
+  The whole tag is `Stacks.RigidifiedPicard.exists_picardScheme`.
 * `Stacks.AbelMap.exists_hilbertSchemeOfRank_of_isSepClosed`: the Hilbert scheme `Hilb^d_{X/k}`
   exists in the site ([Stacks, Tag 0B9I]).
 * `Stacks.AbelMap.isAbelianVariety_picardDegreeZero_of_isSepClosed`,
@@ -100,8 +104,11 @@ theorem picardScheme_clause_one :
   picardScheme_clause_one_of B hX hk f hproj (twistToNormalized'_of_isSepClosed B hX hk f hproj)
 
 include hproj in
-/-- **Stacks Project, Tag 0BA0, clause (2).** -/
-@[stacks 0BA0 "(2)"]
+/-- The `k`-points of `Pic^d_{X/k}` and the invertible `𝒪_X`-modules of degree `d` are in bijection.
+This records only that the two sets are equipotent, which is weaker than clause (2) of
+[Stacks, Tag 0BA0]: clause (2) says that the natural map is a bijection, and that is
+`Stacks.AbelMap.picardScheme_clause_two_bijOn`. The whole tag is
+`Stacks.RigidifiedPicard.exists_picardScheme`. -/
 theorem picardScheme_clause_two (d : ℤ) :
     haveI := geometricallyIrreducible_of_isSepClosed B hX hk f
     haveI := isProjectiveVariety_of_isProjective B hX hk f hproj

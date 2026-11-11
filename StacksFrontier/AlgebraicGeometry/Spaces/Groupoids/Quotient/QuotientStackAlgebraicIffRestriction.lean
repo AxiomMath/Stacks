@@ -32,6 +32,11 @@ This file proves both implications.
   forward implication of Stacks 06PJ.
 * `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_iff_restrictionAlong`: Stacks 06PJ.
 
+The forward implication for a groupoid exhibited as a restriction by an arbitrary morphism of
+groupoids, rather than the canonical restriction of Stacks 044B, is
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_restriction` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.GroupoidPresentationQuotientAlgebraic`.
+
 ## References
 
 * [Stacks Project, Tag 026O](https://stacks.math.columbia.edu/tag/026O)

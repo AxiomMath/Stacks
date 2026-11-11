@@ -14,9 +14,9 @@ admits a *global* presentation, `SheafOfModules.HasGlobalPresentation`.  On the 
 site `T.Opens` of an **affine** scheme no covering is needed: a quasi-coherent `𝒪_T`-module is
 the module associated with a module over the coordinate ring `Γ(T, ⊤)`, so a presentation of
 that module by generators and relations transports to a presentation of the sheaf on the nose.
-That is the presentation step of Stacks 03DX, and it is what this file proves.  The registration
-below carries that step with a clause string naming it; 03DX states its clauses as equivalences
-of categories, and those statements are carried in
+That is the presentation step of the proof of Stacks 03DX, and it is what this file proves.  The
+step is not itself a clause of 03DX and carries no `@[stacks 03DX]`; 03DX states its clauses as
+equivalences of categories, and those statements are carried in
 `StacksDraft.AlgebraicGeometry.Descent.AssociatedModule`, clause (1) at
 `AlgebraicGeometry.BigFppfOver.isEquivalence_associatedModuleQcohOnSite_fppf` and clause (2) at
 `AlgebraicGeometry.SmallEtale.isEquivalence_associatedModuleQcohOnSite'` and
@@ -165,7 +165,7 @@ theorem hasGlobalPresentation_of_isQuasicoherent (T : Scheme.{u}) [IsAffine T]
   have := hM
   (quasicoherentPresentationOfIsAffine T M).hasGlobalPresentation
 
-/-- **Stacks 03DX, the presentation step, on the Zariski site.**  A quasi-coherent
+/-- **The presentation step of Stacks 03DX, on the Zariski site.**  A quasi-coherent
 `𝒪_T`-module on an affine scheme `T` has a *global* presentation: it is the module associated
 with a module over the coordinate ring `Γ(T, ⊤)`, and a presentation of that module by
 generators and relations transports to a presentation of the sheaf over the whole of `T`.
@@ -176,13 +176,12 @@ needed.  The two quasi-coherence predicates agree on the Zariski site by
 `SheafOfModules.isQuasicoherent_iff_isQuasicoherentOnSite`, whose size hypothesis is automatic
 there.
 
-The clause string records exactly this much: a quasi-coherent module on an affine has a global
-presentation.  Stacks 03DX states its clauses as equivalences of categories, and those are
+This is a step of the proof of Stacks 03DX, not a clause of it, and carries no
+`@[stacks 03DX]`.  Stacks 03DX states its clauses as equivalences of categories, and those are
 carried by the declarations named in the module docstring, whose descent arguments consume what
 is proved here; the same statement at an affine object of the big fppf site is
 `AlgebraicGeometry.BigFppfOver.hasGlobalPresentation_over_of_isQuasicoherentOnSite`. -/
-@[stacks 03DX "a quasi-coherent module on an affine has a global presentation",
-  sga "6 0 2.5" "partial"]
+@[sga "6 0 2.5" "partial"]
 theorem hasGlobalPresentation_of_isQuasicoherentOnSite (T : Scheme.{u}) [IsAffine T]
     (M : SheafOfModules.{u} T.ringCatSheaf) (hM : M.IsQuasicoherentOnSite) :
     M.HasGlobalPresentation :=

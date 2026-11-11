@@ -25,7 +25,8 @@ by the relation
   `i_* ∘ j^* ∘ C = p^* ∘ c(Z ⟶ X, 𝒩)`,
 
 which pins `c(Z ⟶ X, 𝒩)` down because flat pullback along a vector bundle projection is bijective
-on Chow groups (Stacks 02TY). This file proves that the relation does pin it down.
+on Chow groups (Stacks 02TY). This file proves that the relation does pin it down, for any
+bivariant classes standing in the places of `p^*` and `i_* ∘ j^* ∘ C`.
 
 ## Main definitions
 
@@ -41,44 +42,30 @@ on Chow groups (Stacks 02TY). This file proves that the relation does pin it dow
   bivariant classes: if the outer factor has injective cap operations, then the composition
   formula of `Stacks.Chow.IsBivariantClassComposition` determines the inner factor.
 * `Stacks.Chow.cap_eq_of_isVirtualNormalGysinRelation` and
-  `Stacks.Chow.eq_of_isVirtualNormalGysinRelation` — **Stacks 0FBK**, the clause that makes the
-  construction legitimate: the relation `i_* ∘ j^* ∘ C = p^* ∘ c(Z ⟶ X, 𝒩)` determines
+  `Stacks.Chow.eq_of_isVirtualNormalGysinRelation` — the step of the proof of Stacks 0FBK that
+  makes the construction legitimate, for abstract classes `p^*` and `i_* ∘ j^* ∘ C`: the relation
+  `i_* ∘ j^* ∘ C = p^* ∘ c(Z ⟶ X, 𝒩)` determines
   `c(Z ⟶ X, 𝒩)`, both as a class and operation by operation.
 
 ## Implementation notes
 
-### Which part of Stacks 0FBK is here, and which is not
+### Relation to the construction of the class
 
-The source proof of Stacks 0FBK has two halves. The first is "`i_* ∘ j^* ∘ C = p^* ∘ c` defines
-`c`, since `p^*` is bijective on Chow groups"; that is what is proved here, as
-`Stacks.Chow.eq_of_isVirtualNormalGysinRelation`, with the bijectivity of `p^*` weakened to the
-injectivity that the argument actually uses. The second is the compatibility with base change of
-Stacks 0FBJ, and it is **not** here.
+The source proof of Stacks 0FBK begins with "`i_* ∘ j^* ∘ C = p^* ∘ c` defines `c`, since `p^*`
+is bijective on Chow groups". This file proves that step in an abstract form, as
+`Stacks.Chow.eq_of_isVirtualNormalGysinRelation`: the classes `p^*` and `i_* ∘ j^* ∘ C` are the
+parameters `flat` and `b`, the bijectivity of `p^*` is weakened to the injectivity
+`Stacks.Chow.BivariantClass.CapInjective` that the argument uses, and the relation is expressed by
+the characterization `Stacks.Chow.IsBivariantClassComposition` of Stacks 0FE0, with `p^*` as the
+outer factor and `c(Z ⟶ X, 𝒩)` as the inner one.
 
-Neither is the *existence* of `c(Z ⟶ X, 𝒩)`, and the reason is not this file's: three of the four
-ingredients of the construction are absent from this repository.
-
-* The class `C ∈ A^0(W_∞ ⟶ X)` of Stacks 0F9J needs the deformation space `b : W ⟶ 𝐏^1_X` of
-  Stacks 0FBH, which is not here, so `i_* ∘ j^* ∘ C` cannot be written down; it appears below as
-  the parameter `b`, a bivariant class for `N ⟶ X`.
-* The flat pullback `p^*` as a bivariant class is Stacks 0B78, which is not here either; it
-  appears below as the parameter `flat`.
-* That `p^*` is bijective on Chow groups is Stacks 02TY, also absent; the injectivity it supplies
-  appears below as the hypothesis `Stacks.Chow.BivariantClass.CapInjective`. Only surjectivity
-  would be needed for existence, and only in relative dimension zero is anything of that kind
-  available here (`Stacks.Chow.flatPullbackChow_surjective_of_isAffineSpaceBundle_zero`, the
-  trivial case of Stacks 02TT).
-* Composition of bivariant classes is in this repository only as the characterization
-  `Stacks.Chow.IsBivariantClassComposition`, no composite being constructed; see the
-  implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.BivariantComposition.Basic`. So the
-  relation of the display is expressed by that characterization, with `p^*` as the outer factor
-  and `c(Z ⟶ X, 𝒩)` as the inner one.
-
-Consequently the delivered statement is a uniqueness statement, and it is not vacuous: it says
-that any two constructions of `c(Z ⟶ X, 𝒩)` from the relation agree, which is exactly the step the
-source calls legitimate. Downstream consumers that carry `c(Z ⟶ X, 𝒩)` as a parameter — Stacks
-0FBS and Stacks 0FEC among them — can now carry it together with the relation that characterizes
-it rather than as an unconstrained class.
+The class itself, with all of its ingredients constructed, is built elsewhere:
+`Stacks.Chow.VirtualNormalBundle.virtualNormalClass` and
+`Stacks.Chow.virtualNormalBundleClass` at constant rank (with the class `C` of Stacks 0F9J, the
+deformation space of Stacks 0FBH, the flat pullback `p^*` of Stacks 0B78 and the bijectivity of
+Stacks 02TY all supplied), and `Stacks.Chow.VirtualNormalBundle.completedClass` in
+`A^*(Z ⟶ X)^∧` at arbitrary rank, with the base-change clause. The statement of Stacks 0FBK is
+`StacksFrontier.AlgebraicGeometry.Chow.VirtualNormalClass.Statement`.
 
 ### Degrees
 
@@ -229,19 +216,11 @@ variable (C : ChowSituation.{u}) (G : GysinSystem C) {Z X : Scheme.{u}} (sZ : Z 
     (comp_comp_structureMorphism_eq rfl hi) (p + q)}
   {c c' : BivariantClass C G sZ sX i hi q}
 
-/-- **Stacks 0FBK.** The relation `i_* ∘ j^* ∘ C = p^* ∘ c(Z ⟶ X, 𝒩)` determines the cap
+/-- The relation `i_* ∘ j^* ∘ C = p^* ∘ c(Z ⟶ X, 𝒩)` of Stacks 0FBK determines the cap
 operations of `c(Z ⟶ X, 𝒩)`: on every test scheme and in every degree, two bivariant classes
 satisfying it cap the same way. Here `p : N = 𝐕(𝒩^∨) ⟶ Z` is the projection of the vector bundle
 of the virtual normal bundle, `flat` stands for its flat pullback `p^*` and `b` for
 `i_* ∘ j^* ∘ C`, and the hypothesis on `flat` is the injectivity of Stacks 02TY. -/
-@[stacks 0FBK "the defining relation i_* ∘ j^* ∘ C = p^* ∘ c(Z → X, 𝒩) determines the cap \
-operations of the class, operation by operation; p^* is carried as a bivariant class for the \
-projection of the vector bundle of 𝒩 (Stacks 0B78 being absent) and its bijectivity (Stacks \
-02TY) as the injectivity the argument uses, the class i_* ∘ j^* ∘ C is carried too (the \
-deformation space of Stacks 0FBH and the class of Stacks 0F9J being absent), and the relation is \
-expressed by the composition characterization of Stacks 0FE0, no composite of bivariant classes \
-being constructed in this repository; neither the existence of the class nor the base-change \
-compatibility of Stacks 0FBJ is proved"]
 theorem cap_eq_of_isVirtualNormalGysinRelation (hinj : flat.CapInjective)
     (h : IsBivariantClassComposition C G (N.projection ≫ sZ) sZ sX N.projection i rfl hi hpp p q
       flat c b)
@@ -252,18 +231,10 @@ theorem cap_eq_of_isVirtualNormalGysinRelation (hinj : flat.CapInjective)
     c.cap t k α = c'.cap t k α :=
   cap_eq_of_isBivariantClassComposition_left (hpp := hpp) hinj h h' t k α
 
-/-- **Stacks 0FBK.** The class `c(Z ⟶ X, 𝒩)` attached to an immersion with a virtual normal
+/-- The class `c(Z ⟶ X, 𝒩)` of Stacks 0FBK attached to an immersion with a virtual normal
 bundle is determined by the relation `i_* ∘ j^* ∘ C = p^* ∘ c(Z ⟶ X, 𝒩)`: two bivariant classes
 of the same degree for `i` that both satisfy it are equal. This is the step the source calls
 legitimate because `p^*` is bijective on Chow groups, and injectivity is all it uses. -/
-@[stacks 0FBK "the defining relation i_* ∘ j^* ∘ C = p^* ∘ c(Z → X, 𝒩) determines the class in \
-A^q(Z → X), the case q = r being the rank-r clause; p^* is carried as a bivariant class for the \
-projection of the vector bundle of 𝒩 (Stacks 0B78 being absent) and its bijectivity (Stacks \
-02TY) as the injectivity the argument uses, the class i_* ∘ j^* ∘ C is carried too (the \
-deformation space of Stacks 0FBH and the class of Stacks 0F9J being absent), and the relation is \
-expressed by the composition characterization of Stacks 0FE0, no composite of bivariant classes \
-being constructed in this repository; neither the existence of the class nor the base-change \
-compatibility of Stacks 0FBJ is proved"]
 theorem eq_of_isVirtualNormalGysinRelation (hinj : flat.CapInjective)
     (h : IsBivariantClassComposition C G (N.projection ≫ sZ) sZ sX N.projection i rfl hi hpp p q
       flat c b)

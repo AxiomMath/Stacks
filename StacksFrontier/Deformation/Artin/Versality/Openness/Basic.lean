@@ -142,8 +142,14 @@ open AlgebraicGeometry CategoryTheory
 
 universe u vX vY wX wY
 
-/-- Versality of objects at finite-type points persists on an open neighbourhood. -/
-@[stacks 07XQ "part (1)"]
+/-- Versality of objects at finite-type points persists on an open neighbourhood, for a category
+`X` with a functor `q` to the category of all schemes over `S`.
+
+This is the body of Stacks 07XQ (1), but its argument `q` is a category fibred in groupoids over
+all schemes over `S`, not over a big fppf site `(Sch/S)_{fppf}`: for `q = p ⋙ Over.post
+B.inclusion` with `p` fibred in groupoids over the big fppf site `B`, the fibredness hypothesis
+fails as soon as `p` has an object (`not_isFiberedInGroupoids_comp_post`). The definition of
+record of Stacks 07XQ (1) is `Deformation.Artin.IsOpenVersalityOverSite`. -/
 public abbrev IsOpenVersality {S : Scheme.{u}} {X : Type vX} [Category.{wX} X]
     (q : X ⥤ Over S) (_hq : q.IsFiberedInGroupoids) : Prop :=
   ∀ (U : Over S), LocallyOfFiniteType U.hom →
@@ -156,8 +162,11 @@ public abbrev IsOpenVersality {S : Scheme.{u}} {X : Type vX} [Category.{wX} X]
           IsVersalAt U q u x hx
 
 /-- A morphism has openness of versality if its 2-fibre product with every
-scheme over a target object has openness of versality. -/
-@[stacks 07XQ "part (2)"]
+scheme over a target object has openness of versality.
+
+This is the body of Stacks 07XQ (2) for categories fibred in groupoids over all schemes over `S`,
+which no nonempty category over a big fppf site is (see `Deformation.Artin.IsOpenVersality`). The
+definition of record of Stacks 07XQ (2) is `Deformation.Artin.IsOpenVersalityMorphismOverSite`. -/
 public noncomputable abbrev IsOpenVersalityMorphism {S : Scheme.{u}}
     {X : Type vX} [Category.{wX} X] {Y : Type vY} [Category.{wY} Y]
     (pX : X ⥤ Over S) (pY : Y ⥤ Over S) (F : X ⥤ Y)
@@ -185,6 +194,61 @@ public noncomputable abbrev IsOpenVersalityMorphism {S : Scheme.{u}}
         (TwoFibreProductOver.fst (Over.forget U.left) rX rY G F)
         (TwoFibreProductOver.fst_isFiberedInGroupoids U.left rX rY F G
           hrX hrY hF' hG)
+
+/-- **Openness of versality** (Stacks 07XQ (1)). Let `p : X ⥤ (Sch/S)_{fppf}` be a category
+fibred in groupoids over the big fppf site `B` of `S`. Then `X` satisfies openness of versality if
+for every scheme `U` locally of finite type over `S`, every object `x` of `X` over `U` and every
+finite type point `u₀ ∈ U` such that `x` is versal at `u₀`, there is an open neighbourhood
+`u₀ ∈ U' ⊆ U` such that `x` is versal at every finite type point of `U'`.
+
+Versality is read through `q = p ⋙ Over.post B.inclusion`, the structure functor to all schemes
+over `S`; the objects of `X` lie over schemes of the site, so quantifying over every scheme `U`
+over `S` with an object `x` over it is quantifying over the schemes of the site. The definition
+does not use that `S` is locally Noetherian, the standing assumption of Stacks 07XQ. -/
+@[stacks 07XQ "part (1): openness of versality of a category fibred in groupoids over
+  `(Sch/S)_{fppf}`"]
+public abbrev IsOpenVersalityOverSite (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {X : Type vX} [Category.{wX} X] (p : X ⥤ BigFppfOver B S hS)
+    (_hp : p.IsFiberedInGroupoids) : Prop :=
+  ∀ (U : Over S), LocallyOfFiniteType U.hom →
+    ∀ (x : X) (hx : (p ⋙ Over.post B.inclusion).obj x = U) (u₀ : U.left),
+      IsFiniteTypePoint u₀ →
+      IsVersalAt U (p ⋙ Over.post B.inclusion) u₀ x hx →
+      ∃ V : U.left.Opens, u₀ ∈ V.1 ∧
+        ∀ (u : U.left), u ∈ V.1 →
+          IsFiniteTypePoint u →
+          IsVersalAt U (p ⋙ Over.post B.inclusion) u x hx
+
+/-- **Openness of versality of a 1-morphism** (Stacks 07XQ (2)). Let `F : X ⥤ Y` be a
+1-morphism of categories fibred in groupoids `pX`, `pY` over the big fppf site `B` of `S`. Then
+`F` satisfies openness of versality if for every scheme `V` of the site locally of finite type
+over `S` and every object `y` of `Y` over `V`, the 2-fibre product
+`(Sch/V)_{fppf} ×_{y, Y, F} X` satisfies openness of versality, as a category over the big fppf
+site of `V`.
+
+The object `y` of `Y` over `V` enters, as in Stacks, through the 1-morphism
+`(Sch/V)_{fppf} ⥤ Y` it defines: a functor `y` with `y ⋙ pY = Over.map V.hom`. The
+first projection of the 2-fibre product is fibred in groupoids
+(`AlgebraicGeometry.Stack.fst_isFiberedInGroupoids_overMap`), so the condition is
+`Deformation.Artin.IsOpenVersalityOverSite` for it, written out. The definition does not use
+that `S` is locally Noetherian, the standing assumption of Stacks 07XQ. -/
+@[stacks 07XQ "part (2): openness of versality of a 1-morphism of categories fibred in groupoids
+  over `(Sch/S)_{fppf}`"]
+public abbrev IsOpenVersalityMorphismOverSite (B : BigFppfSite.{u}) (S : Scheme.{u})
+    (hS : B.Contains S) {X : Type vX} [Category.{wX} X] {Y : Type vY} [Category.{wY} Y]
+    (pX : X ⥤ BigFppfOver B S hS) (pY : Y ⥤ BigFppfOver B S hS) (F : X ⥤ Y)
+    (_hpX : pX.IsFiberedInGroupoids) (_hpY : pY.IsFiberedInGroupoids)
+    (_hF : F ⋙ pY = pX) : Prop :=
+  ∀ (V : BigFppfOver B S hS), LocallyOfFiniteType (B.inclusion.map V.hom) →
+    ∀ (y : BigFppfOver B V.left.1 V.left.2 ⥤ Y), y ⋙ pY = Over.map V.hom →
+      let q := TwoFibreProductOver.fst (Over.map V.hom) pX pY y F ⋙ Over.post B.inclusion
+      ∀ (U : Over V.left.1), LocallyOfFiniteType U.hom →
+        ∀ (x : TwoFibreProductOver (Over.map V.hom) pX pY y F) (hx : q.obj x = U)
+          (u₀ : U.left),
+          IsFiniteTypePoint u₀ →
+          IsVersalAt U q u₀ x hx →
+          ∃ W : U.left.Opens, u₀ ∈ W.1 ∧
+            ∀ u ∈ W.1, IsFiniteTypePoint u → IsVersalAt U q u x hx
 
 end
 

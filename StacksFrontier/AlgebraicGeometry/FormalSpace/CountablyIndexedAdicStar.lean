@@ -21,14 +21,21 @@ finitely generated ideal of definition.
   a decreasing sequence of ideals is complete and separated for its limit topology.
 * `isAdic_idealSequenceLimit_of_countable_zeroLocus`: the ring-level form of clause (1) of
   Stacks tag 0APW.
-* `isAdicStar_countableCompletion`: **clause (1) of Stacks tag 0APW**, the sheaf-level form: the
-  completion of `Spec A` along a closed set `T` cut out by countably many equations, presented as
-  the colimit of the quotient spectra of a cofinal sequence of ideals, is adic\*.
+* `isAdicStar_countableCompletion`: the sheaf-level form of clause (1) of Stacks tag 0APW for the
+  colimit of the quotient spectra of a given cofinal sequence of ideals cutting out a closed set
+  `T` cut out by countably many equations. Stacks 0APW (1) itself, for the formal completion
+  `X_{/T}` with its countable indexedness (Stacks 0AIJ) as hypothesis, is
+  `AlgebraicGeometry.FormalSpace.isAdicStar_zeroLocusCompletion_of_isCountablyIndexed` in
+  `StacksFrontier/AlgebraicGeometry/FormalSpace/CountablyIndexedCompletionAdicStar.lean`, which
+  identifies that colimit with `X_{/T}`.
 
 Clause (2) of Stacks tag 0APW — that the conclusion fails without the countability of the
 equations — is Gabber's example: its ring-theoretic halves are in
-`AlgebraicGeometry.FormalSpace.CountablyIndexedNotAdicStarExample` and the sheaf-level
-statement is `AlgebraicGeometry.FormalSpace.CountablyIndexedNotAdicStarSheaf`.
+`AlgebraicGeometry.FormalSpace.CountablyIndexedNotAdicStarExample`, the sheaf-level statement
+for the colimit along the cofinal sequence is in
+`AlgebraicGeometry.FormalSpace.CountablyIndexedNotAdicStarSheaf`, and the statement for the
+formal completion `X_{/T}` is
+`AlgebraicGeometry.FormalSpace.isCountablyIndexed_not_isAdicStar_zeroLocusCompletion_gabber`.
 
 ## Implementation notes
 
@@ -1207,15 +1214,17 @@ theorem isAdicStar_of_squareCofinal (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS :
     idealSequenceLimitTopology A J' hJ'dec, isTopologicalRing_idealSequenceLimit A J' hJ'dec,
     isLinearTopology_idealSequenceLimit A J' hJ'dec, ⟨hwa, ⟨pres⟩⟩, hQAdic, JQ, hJQdef, hJQfg⟩
 
-/-- **Stacks 0APW (1).** Let `T ⊆ Spec A` be a closed set cut out by countably many equations
-`e : ℕ → A`, and suppose the completion `X_{/T}` of `X = Spec A` along `T` is countably indexed,
-in the sense that some decreasing sequence `J` of ideals cutting out `T` is cofinal among all
-ideals cutting out `T`. Then `X_{/T}`, which is the colimit of the quotient spectra
-`Spec (A ⧸ J n)`, is adic\*. The presenting ring is the inverse limit `lim A ⧸ J' n` along a
-square-cofinal reindexing `J' = J ∘ idx` of `J`; passing to that subsequence does not change the
-colimit, since the reindexing functor is final. -/
-@[stacks 0APW "clause (1): a countably indexed completion whose closed set is cut out by \
-countably many equations is adic star"]
+/-- **The sheaf-level form of clause (1) of Stacks 0APW, for a given cofinal sequence.** Let
+`T ⊆ Spec A` be a closed set cut out by countably many equations `e : ℕ → A`, and let `J` be a
+decreasing sequence of ideals cutting out `T` and cofinal among all ideals cutting out `T`. Then
+the colimit of the quotient spectra `Spec (A ⧸ J n)` is adic\*. The presenting ring is the
+inverse limit `lim A ⧸ J' n` along a square-cofinal reindexing `J' = J ∘ idx` of `J`; passing to
+that subsequence does not change the colimit, since the reindexing functor is final.
+
+This takes the cofinal sequence as data rather than the countable indexedness of `X_{/T}`, and
+concludes for the colimit rather than for `X_{/T}`. Stacks 0APW (1) as stated, for the formal
+completion with the hypothesis of Stacks 0AIJ, is
+`AlgebraicGeometry.FormalSpace.isAdicStar_zeroLocusCompletion_of_isCountablyIndexed`. -/
 theorem isAdicStar_countableCompletion (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) (f : Spec (.of A) ⟶ S) (hA : B.Contains (Spec (.of A)))
     {T : Set (PrimeSpectrum A)} (J : ℕ → Ideal A) (hJ : IsCofinalVanishingSequence A T J)

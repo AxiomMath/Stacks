@@ -32,11 +32,18 @@ decomposing an arbitrary finite generating set into its homogeneous components.
 * `Module.Finite.exists_finset_homogeneous_span_eq_top`: the same for a finite graded module.
 * `Submodule.IsHomogeneous.le_of_le_smul_of_le_irrelevant`: the graded Nakayama lemma in the form
   above.
+* `LinearMap.isHomogeneous_range`, `Submodule.isHomogeneous_span`: the range of a
+  degree-preserving map and the span of homogeneous elements are homogeneous submodules.
+* `Module.subsingleton_of_irrelevant_smul_top_eq_top`,
+  `Submodule.IsHomogeneous.eq_top_of_sup_irrelevant_smul_eq_top`: the
+  assertions (1) and (2) of the source, each in the source's form; assertions (3) and (4), which
+  involve quotient modules, are in `StacksFrontier.RingTheory.GradedAlgebra.NakayamaQuotient`.
 
 ## Implementation notes
 
-The four assertions of the source are specializations of this one statement, in the order in which
-the source deduces them from one another:
+The four assertions of the source are stated separately, (1) and (2) below and (3) and (4) in
+`StacksFrontier.RingTheory.GradedAlgebra.NakayamaQuotient`, and each is proved by specializing the
+general statement:
 
 * (1) `𝒜₊M = M` and `M` finite imply `M = 0`: take `N = ⊥`, `N' = ⊤` and `I = 𝒜₊`, so that `N'.FG`
   is `Module.Finite A M` and the hypothesis reads `⊤ ≤ ⊥ ⊔ 𝒜₊ • ⊤`.
@@ -50,9 +57,9 @@ the source deduces them from one another:
 Finiteness is asked of `N'` alone and the conclusion is the inclusion `N' ≤ N` rather than an
 equality of `M` with `N`; the ideal is an arbitrary `I ≤ 𝒜₊` rather than `𝒜₊` itself. This is the
 shape of the ungraded sibling `Submodule.le_of_le_smul_of_le_jacobson_bot`, which hypothesizes
-`I ≤ Ideal.jacobson ⊥` rather than fixing the Jacobson radical. It contains the source's parts
-(1), (3) and (4) — where the finite module is the ambient one — at `N' = ⊤`, and an arbitrary `I`
-is what the application to a homogeneous ideal `I ⊆ 𝒜₊` and the modules `M/IᵏM` needs.
+`I ≤ Ideal.jacobson ⊥` rather than fixing the Jacobson radical. The source's parts (1), (3) and
+(4), where the finite module is the ambient one, are its case `N' = ⊤`, and an arbitrary `I` is
+what the application to a homogeneous ideal `I ⊆ 𝒜₊` and the modules `M/IᵏM` needs.
 
 Extracting a homogeneous generating set uses neither the grading of `A` nor the order on the
 degrees, only the decomposition of `M`, and is stated at that generality: a finite set of
@@ -237,8 +244,12 @@ end Homogeneous
 
 /-- **Stacks 0EKB** (graded Nakayama). Let `A = ⨁ᵢ 𝒜ᵢ` be a graded ring and `M = ⨁_d ℳ_d` a
 graded `A`-module. Let `N, N' ⊆ M` be graded submodules with `N'` finitely generated, and let
-`I ⊆ 𝒜₊ = ⨁_{i > 0} 𝒜ᵢ` be an ideal. If `N' ⊆ N + I N'`, then `N' ⊆ N`. -/
-@[stacks 0EKB]
+`I ⊆ 𝒜₊ = ⨁_{i > 0} 𝒜ᵢ` be an ideal. If `N' ⊆ N + I N'`, then `N' ⊆ N`. The four assertions of
+the source are its specializations `Module.subsingleton_of_irrelevant_smul_top_eq_top`,
+`Submodule.IsHomogeneous.eq_top_of_sup_irrelevant_smul_eq_top`,
+`LinearMap.surjective_of_surjective_mapQ_irrelevant_smul_top` and
+`Submodule.span_range_eq_top_of_span_range_mkQ_irrelevant_eq_top`. -/
+@[stacks 0EKB "the generalization from which (1)-(4) follow"]
 public theorem Submodule.IsHomogeneous.le_of_le_smul_of_le_irrelevant
     {ιA ιM σA σM A M : Type*} [CommSemiring A] [AddCommMonoid M] [Module A M]
     [DecidableEq ιA] [AddCommMonoid ιA] [PartialOrder ιA] [CanonicallyOrderedAdd ιA]
@@ -253,5 +264,117 @@ public theorem Submodule.IsHomogeneous.le_of_le_smul_of_le_irrelevant
   obtain ⟨P, hP, hspan⟩ := hN'.exists_finset_homogeneous_span_eq hfg
   rw [← hspan] at hle ⊢
   exact span_image_le_of_le_sup_smul hI hN hP hle
+
+section HomogeneousSubmodules
+
+variable {ιA ιM σA σM σP A M P : Type*} [Semiring A] [AddCommMonoid M] [Module A M]
+  [AddCommMonoid P] [Module A P]
+  [DecidableEq ιM] [SetLike σM M] [AddSubmonoidClass σM M] {ℳ : ιM → σM}
+  [DirectSum.Decomposition ℳ]
+  [SetLike σP P] [AddSubmonoidClass σP P] {𝒩 : ιM → σP} [DirectSum.Decomposition 𝒩]
+
+/-- A degree-preserving linear map commutes with taking homogeneous components: the degree-`i`
+component of `f x` is the image of the degree-`i` component of `x`. -/
+public theorem LinearMap.decompose_apply_of_forall_mem (f : P →ₗ[A] M)
+    (hf : ∀ i, ∀ x ∈ 𝒩 i, f x ∈ ℳ i) (x : P) (i : ιM) :
+    (DirectSum.decompose ℳ (f x) i : M) = f (DirectSum.decompose 𝒩 x i) := by
+  classical
+  conv_lhs => rw [← DirectSum.sum_support_decompose 𝒩 x, map_sum, DirectSum.decompose_sum,
+    DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum]
+  by_cases hi : i ∈ (DirectSum.decompose 𝒩 x).support
+  · rw [Finset.sum_eq_single_of_mem i hi fun e _ hne =>
+      DirectSum.decompose_of_mem_ne ℳ (hf e _ (DirectSum.decompose 𝒩 x e).2) hne]
+    exact DirectSum.decompose_of_mem_same ℳ (hf i _ (DirectSum.decompose 𝒩 x i).2)
+  · rw [DFinsupp.notMem_support_iff.mp hi, ZeroMemClass.coe_zero, map_zero]
+    exact Finset.sum_eq_zero fun e he => DirectSum.decompose_of_mem_ne ℳ
+      (hf e _ (DirectSum.decompose 𝒩 x e).2) fun h => hi (h ▸ he)
+
+/-- The range of a degree-preserving linear map between graded modules is a homogeneous
+submodule. -/
+public theorem LinearMap.isHomogeneous_range (f : P →ₗ[A] M)
+    (hf : ∀ i, ∀ x ∈ 𝒩 i, f x ∈ ℳ i) : (LinearMap.range f).IsHomogeneous ℳ := by
+  rintro i _ ⟨x, rfl⟩
+  rw [f.decompose_apply_of_forall_mem hf]
+  exact LinearMap.mem_range_self f _
+
+variable [DecidableEq ιA] [AddMonoid ιA] [SetLike σA A] [AddSubmonoidClass σA A] [VAdd ιA ιM]
+
+/-- For a homogeneous element `x` of a submodule `p`, every homogeneous component of `a • x` lies
+in `p`: it is the sum of those `aₖ • x` whose degree is the given one. -/
+private theorem decompose_smul_mem_of_mem (𝒜 : ιA → σA) [GradedRing 𝒜] [SetLike.GradedSMul 𝒜 ℳ]
+    (p : Submodule A M) {j : ιM} {x : M} (hxj : x ∈ ℳ j)
+    (hx : x ∈ p) (a : A) (i : ιM) : (DirectSum.decompose ℳ (a • x) i : M) ∈ p := by
+  classical
+  rw [← DirectSum.sum_support_decompose 𝒜 a, Finset.sum_smul, DirectSum.decompose_sum,
+    DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum]
+  refine Submodule.sum_mem _ fun k _ => ?_
+  have hmem := SetLike.GradedSMul.smul_mem (DirectSum.decompose 𝒜 a k).2 hxj
+  by_cases h : k +ᵥ j = i
+  · rw [← h, DirectSum.decompose_of_mem_same ℳ hmem]
+    exact p.smul_mem _ hx
+  · rw [DirectSum.decompose_of_mem_ne ℳ hmem h]
+    exact p.zero_mem
+
+/-- The span of a set of homogeneous elements of a graded module is a homogeneous submodule. -/
+public theorem Submodule.isHomogeneous_span {𝒜 : ιA → σA} [GradedRing 𝒜]
+    [SetLike.GradedSMul 𝒜 ℳ] {s : Set M} (hs : ∀ x ∈ s, ∃ i, x ∈ ℳ i) :
+    (Submodule.span A s).IsHomogeneous ℳ := by
+  classical
+  intro i y hy
+  induction hy using Submodule.span_induction generalizing i with
+  | mem x hx =>
+    obtain ⟨j, hxj⟩ := hs x hx
+    by_cases h : j = i
+    · rw [← h, DirectSum.decompose_of_mem_same ℳ hxj]
+      exact Submodule.subset_span hx
+    · rw [DirectSum.decompose_of_mem_ne ℳ hxj h]
+      exact zero_mem _
+  | zero => simp
+  | add y z _ _ ihy ihz =>
+    rw [DirectSum.decompose_add, DirectSum.add_apply, AddMemClass.coe_add]
+    exact add_mem (ihy i) (ihz i)
+  | smul a z _ ihz =>
+    rw [← DirectSum.sum_support_decompose ℳ z, Finset.smul_sum, DirectSum.decompose_sum,
+      DFinsupp.finsetSum_apply, AddSubmonoidClass.coe_finsetSum]
+    exact Submodule.sum_mem _ fun e _ =>
+      decompose_smul_mem_of_mem 𝒜 _ (DirectSum.decompose ℳ z e).2 (ihz e) a i
+
+end HomogeneousSubmodules
+
+section Items
+
+variable {ιA ιM σA σM A M : Type*}
+  [DecidableEq ιA] [AddCommMonoid ιA] [PartialOrder ιA] [CanonicallyOrderedAdd ιA]
+  [DecidableEq ιM] [PartialOrder ιM] [AddAction ιA ιM] [IsOrderedCancelVAdd ιA ιM]
+
+/-- **Stacks 0EKB (1)**. Let `A = ⨁ᵢ 𝒜ᵢ` be a graded ring and `M = ⨁_d ℳ_d` a graded `A`-module.
+If `𝒜₊ M = M` and `M` is finite, then `M = 0`. -/
+@[stacks 0EKB "(1)"]
+public theorem Module.subsingleton_of_irrelevant_smul_top_eq_top
+    [CommSemiring A] [AddCommMonoid M] [Module A M]
+    [SetLike σA A] [AddSubmonoidClass σA A] (𝒜 : ιA → σA) [GradedRing 𝒜]
+    [SetLike σM M] [AddSubmonoidClass σM M] (ℳ : ιM → σM) [DirectSum.Decomposition ℳ]
+    [SetLike.GradedSMul 𝒜 ℳ] [Module.Finite A M]
+    (h : (𝒜₊.toIdeal • ⊤ : Submodule A M) = ⊤) : Subsingleton M := by
+  have hle : (⊤ : Submodule A M) ≤ ⊥ :=
+    Submodule.IsHomogeneous.le_of_le_smul_of_le_irrelevant (ℳ := ℳ)
+      (fun _ _ hx => by rw [(Submodule.mem_bot A).mp hx, decompose_zero]; exact zero_mem _)
+      (fun _ _ _ => Submodule.mem_top) Module.Finite.fg_top le_rfl (by rw [h]; exact le_sup_right)
+  exact (Submodule.subsingleton_iff A).mp (subsingleton_of_top_le_bot hle)
+
+/-- **Stacks 0EKB (2)**. Let `A = ⨁ᵢ 𝒜ᵢ` be a graded ring and `M = ⨁_d ℳ_d` a graded `A`-module.
+If `N, N' ⊆ M` are graded submodules, `M = N + 𝒜₊ N'` and `N'` is finite, then `M = N`. -/
+@[stacks 0EKB "(2)"]
+public theorem Submodule.IsHomogeneous.eq_top_of_sup_irrelevant_smul_eq_top
+    [CommSemiring A] [AddCommMonoid M] [Module A M]
+    [SetLike σA A] [AddSubmonoidClass σA A] {𝒜 : ιA → σA} [GradedRing 𝒜]
+    [SetLike σM M] [AddSubmonoidClass σM M] {ℳ : ιM → σM} [DirectSum.Decomposition ℳ]
+    [SetLike.GradedSMul 𝒜 ℳ] {N N' : Submodule A M}
+    (hN : N.IsHomogeneous ℳ) (hN' : N'.IsHomogeneous ℳ) (hfg : N'.FG)
+    (h : N ⊔ 𝒜₊.toIdeal • N' = ⊤) : N = ⊤ := by
+  have hN'N : N' ≤ N := hN.le_of_le_smul_of_le_irrelevant hN' hfg le_rfl (h ▸ le_top)
+  exact top_le_iff.mp (h ▸ sup_le le_rfl (Submodule.smul_le_right.trans hN'N))
+
+end Items
 
 end

@@ -227,7 +227,9 @@ abbrev IsResidualGerbeAt
 
 /-- Condition (2) of **Stacks 06MT** implies its condition (1): a reduced one-point substack is in
 particular a one-point substack. This is the direction the source calls immediate; the converse,
-which replaces the substack by its reduction, is not proved here. -/
+which replaces the substack by its reduction, is
+`AlgebraicGeometry.Stack.hasReducedSingletonPointMonomorphism_of_hasSingletonPointMonomorphism`
+of `StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeEquivalentConditions`. -/
 theorem hasSingletonPointMonomorphism_of_reduced
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (𝒳 : AlgebraicStacks.{u, w} B S hS)
@@ -254,10 +256,9 @@ conjuncts of `hP`.
 
 Nothing here picks `P` out. Uniqueness of the object property, and with it the definite article
 in "*the* residual gerbe", is the final assertion of Stacks 06MT; the library proves it as
-`AlgebraicGeometry.Stack.eq_of_isResidualGerbeAt_of_bootstrap`, and the existence of such an
-object property relative to Stacks 06FI, as `AlgebraicGeometry.Stack`
-`.exists_isResidualGerbeAt_of_hasReducedSingletonPointMonomorphism`, both in
-`StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeEquivalentConditions`. -/
+`AlgebraicGeometry.Stack.eq_of_isResidualGerbeAt_of_bootstrap`, and existence together
+with uniqueness under the equivalent conditions as
+`AlgebraicGeometry.Stack.existsUnique_isResidualGerbeAt` of `StacksFrontier.AlgebraicGeometry.Stacks.ResidualGerbeExistsUnique`. -/
 @[stacks 06MU "part (2), the residual gerbe as an algebraic stack: the strictly full subcategory \
 of X cut out by an object property meeting the specification IsResidualGerbeAt of Stacks 06MT"]
 abbrev residualGerbe

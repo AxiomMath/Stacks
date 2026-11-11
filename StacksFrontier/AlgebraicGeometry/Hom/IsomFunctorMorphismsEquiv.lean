@@ -59,9 +59,11 @@ the big fppf site of `S`:
 
 Here `Isom(F, G)` is the presheaf built from the pseudofunctoriality of direct images
 `AlgebraicGeometry.Space.modulePushforwardCoherence`. -/
-@[stacks 0D3T "the whole identification: the map (h, u) |-> the morphism T -> Isom(F, G) is a \
-bijection from all pairs of h : T -> base and an isomorphism u : F_T -> G_T onto all morphisms \
-from T into Isom(F, G), for any algebraic space T over S, with no hypothesis"]
+@[stacks 0D3T "the whole identification, in Situation 08JT: for any algebraic space T over S, \
+the map (h, u) |-> the morphism T -> Isom(F, G) is a bijection from all pairs of h : T -> base \
+and an isomorphism u : F_T -> G_T of the pullbacks to X x_{base, h} T onto all morphisms from T \
+into Isom(F, G); the pseudofunctoriality of direct images and both descent clauses are supplied \
+by library results, so the statement takes no hypothesis"]
 theorem bijective_isomMorOfSpaceIsom (T : AlgebraicSpaces B S hS) :
     Function.Bijective (fun p : (Σ h : T ⟶ s.base,
         {u : s.spaceHomAt (Over.mk h) // s.IsIsomOverAt u}) =>

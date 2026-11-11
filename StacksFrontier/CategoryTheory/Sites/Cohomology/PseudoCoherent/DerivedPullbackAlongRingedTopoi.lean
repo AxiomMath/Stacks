@@ -32,7 +32,7 @@ Write `p` for the property "`W` carries such an approximation of `K|_W`".
   computed degreewise since a strictly perfect complex is bounded above with flat terms, strict
   perfectness is preserved by Stacks 08H3, and the target is identified with
   `(Lf^* E)|_{u(W)}` by the derived localization square
-  (`AlgebraicGeometry.RingedSite.Hom.nonempty_derivedPullbackLocalizedIso`).
+  (`AlgebraicGeometry.RingedSite.Hom.nonempty_derivedPullbackLocalizedIso_of_noFiniteLimits`).
 * Carrying such a derived approximation along an arrow `V ⟶ u(W)` of `C` costs nothing:
   restriction to a smaller slice is exact, so it preserves strict perfectness and both
   cohomological conditions. This is what makes the covering produced in the first step usable,
@@ -42,9 +42,19 @@ Write `p` for the property "`W` carries such an approximation of `K|_W`".
   `AlgebraicGeometry.RingedSite.exists_coveringSieve_approximation_of_derived`, and Stacks 08FU
   (3) assembles.
 
+None of this uses finite limits on either site or left exactness of `u`: Stacks 08H2 needs only
+that `u_s` preserves the final object, and the derived localization square
+`AlgebraicGeometry.RingedSite.Hom.nonempty_derivedPullbackLocalizedIso_of_noFiniteLimits` holds
+for every morphism of ringed sites.
+
 ## Main results
 
-* `AlgebraicGeometry.RingedSite.Hom.isPseudoCoherentFrom_derivedPullback`: **Stacks 08H4.**
+* `AlgebraicGeometry.RingedSite.Hom.isPseudoCoherentFrom_derivedPullback`: the derived pullback
+  of an `m`-pseudo-coherent object is `m`-pseudo-coherent, for sites in `Type` with finite limits
+  and a left exact `u`. This is a special case of Stacks 08H4; the tag itself, for an arbitrary
+  morphism of ringed sites at `RingedSite.{u, u, u}` with no finite limits, is
+  `AlgebraicGeometry.RingedSite.Hom.isPseudoCoherentFrom_derivedPullback_general`, in the
+  module `DerivedPullbackAlongRingedTopoiGeneral` beside this one.
 
 ## References
 
@@ -226,9 +236,7 @@ omit [X.J.HasSheafCompose (forget RingCat.{0})] [Y.J.HasSheafCompose (forget Rin
   [∀ U : X.C, (X.J.over U).HasSheafCompose (forget RingCat.{0})]
   [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget RingCat.{0})]
   [∀ U : X.C, (X.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})]
-  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})]
-  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
-  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})] in
 /-- **The pullback of a strictly perfect approximation is a derived strictly perfect
 approximation over the image object.** If `K` has a strictly perfect approximation in degrees
 `> m` over `W`, then `Lf^* E` has one in the derived category over `u(W)`.
@@ -308,11 +316,12 @@ omit [X.J.HasSheafCompose (forget RingCat.{0})] [Y.J.HasSheafCompose (forget Rin
   [∀ U : X.C, (X.J.over U).HasSheafCompose (forget RingCat.{0})]
   [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget RingCat.{0})]
   [∀ U : X.C, (X.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})]
-  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})]
-  [∀ U : X.C, (X.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})]
-  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget₂ CommRingCat.{0} RingCat.{0})] in
-/-- **Stacks 08H4.** The derived pullback along a morphism of ringed sites of an
-`m`-pseudo-coherent object of `D(O')` is `m`-pseudo-coherent.
+  [∀ U : Y.C, (Y.J.over U).HasSheafCompose (forget AddCommGrpCat.{0})] in
+/-- The derived pullback along a morphism of ringed sites of an `m`-pseudo-coherent object of
+`D(O')` is `m`-pseudo-coherent, in the special case of sites in `Type` with finite limits and a
+functor `u` preserving them. Stacks 08H4 itself, for an arbitrary morphism of ringed sites at
+`RingedSite.{u, u, u}` and with none of these three classes, is
+`AlgebraicGeometry.RingedSite.Hom.isPseudoCoherentFrom_derivedPullback_general`.
 
 Stacks 08H2 makes the objects `u(W)` cover the final object of `Sh(C)`, and
 `CategoryTheory.GrothendieckTopology.coversTop_obj_subtype` refines that covering to the `u(W)`
@@ -321,7 +330,6 @@ approximation is a derived strictly perfect approximation of `(Lf^* E)|_{u(W)}`
 (`hasDerivedApproximation_image`), and it descends along any arrow into `u(W)` by exactness of
 restriction (`hasDerivedApproximation_of_hom`), which is what the arrows of that covering
 supply. -/
-@[stacks 08H4]
 theorem Hom.isPseudoCoherentFrom_derivedPullback
     (E : DerivedCategory
       (SheafOfModules.{0} (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos Y).O)))

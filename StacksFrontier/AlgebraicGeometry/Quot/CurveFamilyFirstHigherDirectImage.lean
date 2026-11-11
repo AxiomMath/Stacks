@@ -32,8 +32,9 @@ point `s` of the base scheme `S`. Stacks 0E1J asserts:
   **Stacks 0E1J, part (1).**
 * `AlgebraicGeometry.CurveFamily.isFiniteLocallyFreeOnSite_firstDirectImage_of_residueField`:
   **Stacks 0E1J, part (2).**
-* `AlgebraicGeometry.CurveFamily.nonempty_modulePullback_firstDirectImage_iso_of_residueField`:
-  **Stacks 0E1J, part (3).**
+* `AlgebraicGeometry.CurveFamily.isIso_firstDirectImageBaseChangeMap_of_residueField`:
+  **Stacks 0E1J, part (3)**: the base change map `h^*(R¹f_*𝒪_X) ⟶ R¹f'_*𝒪_{X'}` is an
+  isomorphism.
 
 ## Implementation notes
 
@@ -46,7 +47,8 @@ isomorphism of sheaves of rings on the small étale site of `S`, and "universall
 holds for the base change of `f` along every morphism `Y ⟶ S` from an algebraic space. "Finite
 locally free" is Stacks 03DL (2) on the small étale site of `S`. In part (3), the morphisms
 `h : S' → S` with their base changes are the morphisms of families of curves (Stacks 0D4Z),
-whose squares are cartesian.
+whose squares are cartesian, and "`h^*(R¹f_*𝒪_X) = R¹f'_*𝒪_{X'}`" is that the base change map
+`AlgebraicGeometry.CurveFamily.firstDirectImageBaseChangeMap` is an isomorphism.
 
 ## References
 
@@ -209,14 +211,26 @@ theorem isFiniteLocallyFreeOnSite_firstDirectImage_of_residueField (X : CurveFam
 /-- Let `f : X → S` be a family of curves with `κ(s) = H⁰(X_s, 𝒪_{X_s})` for every point `s ∈ S`.
 For every morphism `h : S' → S`, with `f' : X' → S'` the base change — that is, for every
 morphism of families of curves `a : X' ⟶ X`, whose square is cartesian, over `h = a.baseMap` —
-we have `h^*(R¹f_*𝒪_X) ≅ R¹f'_*𝒪_{X'}`. -/
+the base change map `h^*(R¹f_*𝒪_X) ⟶ R¹f'_*𝒪_{X'}`
+(`AlgebraicGeometry.CurveFamily.firstDirectImageBaseChangeMap`) is an isomorphism. -/
 @[stacks 0E1J "(3)"]
+theorem isIso_firstDirectImageBaseChangeMap_of_residueField (X : CurveFamily B hZ)
+    (h : X.HasResidueFieldGlobalFunctions) (F : CurveFamily B hZ) (a : F ⟶ X) :
+    IsIso (firstDirectImageBaseChangeMap a) :=
+  X.isIso_firstDirectImageBaseChangeMap_of_bijective_algebraMap_fibre
+    (X.bijective_algebraMap_globalFunctions_fibre_of_residueField h) F a
+
+/-- Let `f : X → S` be a family of curves with `κ(s) = H⁰(X_s, 𝒪_{X_s})` for every point `s ∈ S`.
+For every morphism of families of curves `a : X' ⟶ X` over `h = a.baseMap`, there is an
+isomorphism `h^*(R¹f_*𝒪_X) ≅ R¹f'_*𝒪_{X'}`: the base change map, which is invertible by
+`AlgebraicGeometry.CurveFamily.isIso_firstDirectImageBaseChangeMap_of_residueField`
+(Stacks 0E1J (3)). -/
 theorem nonempty_modulePullback_firstDirectImage_iso_of_residueField (X : CurveFamily B hZ)
     (h : X.HasResidueFieldGlobalFunctions) (F : CurveFamily B hZ) (a : F ⟶ X) :
     Nonempty ((Space.modulePullback B integerBase hZ (schemeSpaceMap a.baseMap)).obj
         (X.firstDirectImage B hZ) ≅ F.firstDirectImage B hZ) :=
-  X.nonempty_modulePullback_firstDirectImage_iso_of_bijective_algebraMap_fibre
-    (X.bijective_algebraMap_globalFunctions_fibre_of_residueField h) F a
+  have := X.isIso_firstDirectImageBaseChangeMap_of_residueField h F a
+  ⟨asIso (firstDirectImageBaseChangeMap a)⟩
 
 end CurveFamily
 

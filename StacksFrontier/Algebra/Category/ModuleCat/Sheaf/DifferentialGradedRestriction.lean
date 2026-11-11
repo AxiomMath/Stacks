@@ -120,11 +120,11 @@ modules abelian, and so make quasi-isomorphisms available, appear exactly in the
 they are needed. No triangulated structure is used or asserted, matching
 `DifferentialGradedDerivedCategory.lean`.
 
-**What is *not* here.** Tag 0FRP also asserts that `- ⊗_{A, φ} B` is left adjoint to `res_φ`.
-The tensor product of a right differential graded module with a differential graded bimodule is
-not constructed in this development — `DifferentialGradedTensor.lean` characterizes it by a
-universal property instead — so that adjunction is not stated here; `toBimodule` supplies the
-bimodule `{}_A B_B` which is the missing datum for writing the base change functor down.
+**The adjunction is elsewhere.** Tag 0FRP also asserts that `- ⊗_{A, φ} B` is left adjoint to
+`res_φ`. That is
+`SheafOfModules.DifferentialGradedModule.baseChangeRestrictionAdjunction` in
+`DifferentialGradedBaseChangeAdjunction.lean`, where the base change functor is the tensor
+product with the bimodule `{}_A B_B` supplied by `toBimodule` here.
 
 ## References
 

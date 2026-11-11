@@ -31,8 +31,9 @@ Nagata with a dualizing complex `ω_A^•`. Writing `ω_X` for the dualizing mod
   local ring carrying no nonzero linear map to the residue field is zero.
 * `AlgebraicGeometry.firstCohomologySheafAsBaseModule_unit`: at the structure sheaf the
   definition above is `AlgebraicGeometry.firstCohomologyAsBaseModule`.
-* `AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_dualizingModule`:
-  [Stacks, Tag 0AXD], the Grauert-Riemenschneider vanishing.
+* `AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_dualizingModule`: the
+  Grauert-Riemenschneider vanishing of [Stacks, Tag 0AXD] granted its finiteness and duality
+  inputs; the unconditional form is in `Vanishing/GrauertRiemenschneiderUnconditional.lean`.
 
 ## What is granted, and what is not
 
@@ -57,9 +58,12 @@ zero by [Stacks, Tag 0AXC]. The two computations making the dualization work are
 `RHom_A(Rf_*ω_X^•, ω_A^•) = Rf_*RHom_{𝒪_X}(ω_X^•, ω_X^•) = Rf_*𝒪_X`, because
 `ω_X^• = f^!ω_A^•` is a dualizing complex on `X` ([Stacks, Tags 0GEW, 0AA3]); and `α` is
 obtained from a map `R¹f_*ω_X → κ` because `ω_X^• = ω_X[2]`, which holds since a Noetherian
-normal two-dimensional scheme is Cohen-Macaulay ([Stacks, Tags 0B3D, 0AWT, 0AWI]). None of
-`Rf_*`, `f^!` or `RHom_A(-, ω_A^•)` is available at this point in the library, so the outcome
-of that step is carried instead: `hvanish` says every `A`-linear map `H¹(X, ω_X) → κ` is zero.
+normal two-dimensional scheme is Cohen-Macaulay ([Stacks, Tags 0B3D, 0AWT, 0AWI]). This file
+does not import `Rf_*`, `f^!` or `RHom_A(-, ω_A^•)`, so here the outcome of that step is carried
+instead: `hvanish` says every `A`-linear map `H¹(X, ω_X) → κ` is zero. Both inputs are discharged
+downstream, and the unconditional statement is
+`AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_of_properRightAdjoint_isoShiftTwo`
+of `Vanishing/GrauertRiemenschneiderUnconditional.lean`.
 
 What is proved is the passage from those two to the conclusion, which is Nakayama's lemma: a
 finite module over a local ring with no nonzero linear map to the residue field vanishes. The
@@ -70,7 +74,8 @@ duality step.
 `ω_X` is the dualizing module of `X` in the sense of [Stacks, Tag 0B4R], a coherent module some
 shift of which is a dualizing complex. The source's further convention, that `ω_X` is
 *normalized* with respect to `ω_A` — that `ω_X[2]` is `f^!` of the normalization of `ω_A^•` — is
-not expressible without `f^!`, and it too is used by the source only inside the duality step, so
+not expressed here, as `f^!` is not imported, and it too is used by the source only inside the
+duality step, so
 it is subsumed in `hvanish` and is not a separate hypothesis. Without it the conclusion would be
 false for a general dualizing module, since the dualizing modules on `X` differ by tensoring
 with an invertible module.
@@ -165,9 +170,9 @@ namespace VanishingSituation
 
 variable (V : VanishingSituation.{u})
 
-/-- **Stacks Project, Tag 0AXD** (Grauert-Riemenschneider). In the vanishing situation of
-[Stacks, Tag 0AX8] with `X` normal and `A` Nagata carrying a dualizing complex `ω_A^•`, the
-first cohomology of the dualizing module `ω_X` of `X` vanishes; over the affine base
+/-- **Grauert-Riemenschneider, granted two inputs** ([Stacks, Tag 0AXD]). In the vanishing
+situation of [Stacks, Tag 0AX8] with `X` normal and `A` Nagata carrying a dualizing complex
+`ω_A^•`, the first cohomology of the dualizing module `ω_X` of `X` vanishes; over the affine base
 `S = Spec(A)` this is `R¹f_*ω_X = 0`.
 
 The two hypotheses carried from the source's proof are `hfin`, the finiteness of `H¹(X, ω_X)`
@@ -176,20 +181,10 @@ over `A`, which comes from coherence of the higher direct images under the prope
 `hvanish`, the outcome of the source's duality step, in which a nonzero `R¹f_*ω_X → κ` is
 dualized by `RHom_A(-, ω_A^•)` into a nonzero `κ[-1] → Rf_*𝒪_X` and contradicts
 [Stacks, Tag 0AXC]. The normalization of `ω_X` with respect to `ω_A` is used by the source only
-inside that step and is subsumed in `hvanish`. -/
-@[stacks 0AXD "the conclusion R^1 f_* omega_X = 0 read over the affine base S = Spec(A) as \
-the vanishing of H^1(X, omega_X) as an A-module (Tag 01XJ), granted two inputs of the \
-source's proof as named hypotheses: hfin, the finiteness of H^1(X, omega_X) over A, which is \
-coherence of the higher direct image of a coherent module under a proper morphism (Tag 02O5) \
-and is used by the source where it produces a nonzero map R^1 f_* omega_X -> kappa; and \
-hvanish, the source's duality step, in which RHom_A(-, omega_A^bullet) carries a nonzero \
-alpha : Rf_* omega_X^bullet -> kappa[1] to a nonzero beta : kappa[-1] -> Rf_* O_X and \
-contradicts Tag 0AXC, using RHom_A(kappa[1], omega_A^bullet) = kappa[-1] for a normalized \
-omega_A^bullet (Tag 0A7M), RHom_A(Rf_* omega_X^bullet, omega_A^bullet) = Rf_* O_X (Tags 0GEW, \
-0AA3) and omega_X^bullet = omega_X[2] (Tags 0B3D, 0AWT, 0AWI), carried as the vanishing of \
-every A-linear map H^1(X, omega_X) -> kappa, which also subsumes the source's normalization of \
-omega_X with respect to omega_A (Tag 0B4R), not expressible without f^!; what is proved is the \
-passage from those two to the conclusion, by Nakayama"]
+inside that step and is subsumed in `hvanish`.
+
+The unconditional statement, with both inputs discharged, is
+`AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_of_properRightAdjoint_isoShiftTwo`. -/
 theorem isZero_firstCohomology_dualizingModule [IsNormal V.X] [IsLocallyNoetherian V.X]
     (hnag : IsNagataRing V.A)
     (ωA : DerivedCategory (ModuleCat.{u} V.A)) (hωA : Dualizing.IsDualizingComplex ωA)

@@ -29,10 +29,14 @@ rational singularities is possible for `A`.
 ## Main results
 
 * `isReductionToRationalSingularitiesPossible_of_smul_traceCokernel_eq_zero`, in the namespace
-  `Stacks.ResolutionOfSurfaces`, is [Stacks, Tag 0B4S]: reduction to rational singularities is
-  possible for a local normal Nagata domain of dimension two with a dualizing module as soon as
-  a nonzero element of the ring annihilates the cokernel of the trace map of every normal
-  modification of its spectrum.
+  `Stacks.ResolutionOfSurfaces`: reduction to rational singularities is possible for a local
+  normal Nagata domain of dimension two with a dualizing module as soon as a nonzero element of
+  the ring annihilates the cokernel of a trace map of every normal modification of its spectrum,
+  given a `TraceCokernelDuality` datum and a uniform length bound. It is the argument of
+  [Stacks, Tag 0B4S] downstream of its duality step; the tag itself, with no such datum, is
+  `Stacks.ResolutionOfSurfaces`
+  `.isReductionToRationalSingularitiesPossible_of_smul_baseTraceCokernel_eq_zero` of
+  `Boundedness/TraceCokernelImageLift.lean`.
 
 ## Implementation notes
 
@@ -119,11 +123,17 @@ structure TraceCokernelDuality (A : Type u) [CommRing A] [IsDomain A]
   surjective_matlisDualOfCokernel : ∀ (X : Scheme.{u}) [IsNormal X] (f : X ⟶ Spec (.of A)),
     IsModification f → Function.Surjective (matlisDualOfCokernel X f)
 
-/-- **Stacks Project, Tag 0B4S.** Let `A` be a local normal Nagata domain of dimension two with a
-dualizing module `ω_A`. If some nonzero `d ∈ A` annihilates the cokernel of the trace map
-`Γ(X, ω_X) ⟶ ω_A` for every modification `f : X ⟶ Spec A` with `X` normal, then reduction to
-rational singularities is possible for `A`: the `A`-module lengths of `H¹(X, 𝒪_X)` admit a common
-finite bound over all such `X`.
+/-- **The argument of [Stacks, Tag 0B4S] downstream of its duality step.** Let `A` be a local
+normal Nagata domain of dimension two with a dualizing module `ω_A`, and let `D` be a
+`TraceCokernelDuality` datum. If some nonzero `d ∈ A` annihilates the cokernel of the trace map
+`D.trace X f : Γ(X, ω_X) ⟶ ω_A` for every modification `f : X ⟶ Spec A` with `X` normal, and the
+bound `hbound` holds, then reduction to rational singularities is possible for `A`: the
+`A`-module lengths of `H¹(X, 𝒪_X)` admit a common finite bound over all such `X`.
+
+The tag itself, with the trace of [Stacks, Tag 0AWG] and no datum or bound assumed, is
+`Stacks.ResolutionOfSurfaces`
+`.isReductionToRationalSingularitiesPossible_of_smul_baseTraceCokernel_eq_zero` of
+`Boundedness/TraceCokernelImageLift.lean`.
 
 Duality presents the Matlis dual `Hom_A(H¹(X, 𝒪_X), E)` as a quotient of the cokernel of the
 trace — the field `TraceCokernelDuality.matlisDualOfCokernel` of `D` — so `d` annihilates that
@@ -131,12 +141,6 @@ dual, and an injective hull of the residue field being a cogenerator, `d` then a
 `H¹(X, 𝒪_X)` itself. Each `H¹(X, 𝒪_X)` is therefore its own `d`-torsion submodule, and the
 uniform bound `hbound` on the lengths of the cokernels of `A ⟶ H⁰(Z, 𝒪_Z)`, for `Z ⊂ X` cut out
 by `d`, bounds their lengths through the identification [Stacks, Tag 0AXK]. -/
-@[stacks 0B4S "reduction to rational singularities from a nonzero element annihilating the \
-cokernel of the trace map of every normal modification; the identification of that cokernel with \
-the Matlis dual of H¹(X, 𝒪_X) — Grauert–Riemenschneider vanishing (Tag 0AXD) with duality \
-(Tag 0AUE) and local duality (Tag 0AAK) — is the field matlisDualOfCokernel of the hypothesis D, \
-and the uniform bound on the lengths of the cokernels of A ⟶ H⁰(Z, 𝒪_Z) (Tag 0AXJ) is the \
-hypothesis hbound"]
 theorem isReductionToRationalSingularitiesPossible_of_smul_traceCokernel_eq_zero
     (A : Type u) [CommRing A] [IsLocalRing A] [IsNormalDomain A] [IsNagataRing A]
     (_hdim : ringKrullDim A = 2)

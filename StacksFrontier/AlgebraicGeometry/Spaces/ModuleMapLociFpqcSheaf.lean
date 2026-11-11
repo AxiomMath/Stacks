@@ -11,8 +11,9 @@ public import StacksCore.Tactic.StacksAttribute
 
 In the situation of Stacks 083F — a morphism `f : X ⟶ Y` of algebraic spaces over a scheme `S`
 and a map `u : ℱ ⟶ 𝒢` of quasi-coherent `𝒪_X`-modules — the four loci `F_iso`, `F_inj`,
-`F_surj` and `F_zero` are subterminal presheaves on the test schemes over `Y`.  **Stacks 083H**
-says that each of them is a sheaf for the fpqc topology.
+`F_surj` and `F_zero` are subterminal presheaves on the test schemes over `Y` (for `F_inj`, on the
+test schemes with flat morphisms).  **Stacks 083H** says that each of them is a sheaf for the
+fpqc topology.
 
 Being subterminal, such a presheaf is a sheaf exactly when a section over every member of a
 covering sieve produces a section over its target, that is, exactly when the condition it
@@ -25,8 +26,14 @@ hypothesis on the supports, because the ranges of the induced maps on points cov
 ## Main results
 
 * `AlgebraicGeometry.Space.ModuleMapSituation.isSheaf_isoFunctor`,
-  `.isSheaf_injFunctor`, `.isSheaf_surjFunctor` and `.isSheaf_zeroFunctor` are the four clauses
-  of **Stacks 083H**.
+  `.isSheaf_surjFunctor` and `.isSheaf_zeroFunctor` are the clauses of **Stacks 083H** for
+  `F_iso`, `F_surj` and `F_zero`.  The injectivity functor `F_inj`, defined by injectivity of
+  `u_T`, is stable only under flat base change, so, as in Stacks 05MJ, it lives on the test
+  schemes over `Y` with flat morphisms; its clause,
+  `AlgebraicGeometry.Space.ModuleMapSituation.isSheaf_flatInjFunctor`, is in
+  `StacksFrontier.AlgebraicGeometry.Spaces.ModuleMapInjLocusFlatFpqcSheaf`.
+* `AlgebraicGeometry.Space.ModuleMapSituation.isSheaf_injFunctor`: the locus of universal
+  injectivity, a functor on all test schemes, is an fpqc sheaf as well.
 
 ## Implementation notes
 
@@ -45,6 +52,7 @@ image of the given covering sieve.
 * [Stacks Project, Tag 083F](https://stacks.math.columbia.edu/tag/083F)
 * [Stacks Project, Tag 083I](https://stacks.math.columbia.edu/tag/083I)
 * [Stacks Project, Tag 03MQ](https://stacks.math.columbia.edu/tag/03MQ)
+* [Stacks Project, Tag 05MJ](https://stacks.math.columbia.edu/tag/05MJ)
 -/
 
 @[expose] public noncomputable section
@@ -150,8 +158,12 @@ theorem isSheaf_isoFunctor :
     (D.baseChangeHom (modulePullbackSystem B S hS) T) fun i => ?_
   exact (D.isIso_baseChangeMap_map_iff (modulePullbackSystem B S hS) (k i)).2 (hne (k i) (hk i))
 
-/-- **Stacks 083H**, universal injectivity clause.  The locus of test schemes over `Y` on which
-the base change of `u` is universally injective is a sheaf for the fpqc topology.
+/-- **The universal-injectivity locus is an fpqc sheaf.**  The locus of test schemes over `Y` on
+which the base change of `u` is universally injective, that is, injective after every further
+base change, is a sheaf for the fpqc topology on all test schemes over `Y`.  This is a variant
+of the injectivity clause of Stacks 083H, not that clause itself: Stacks' `F_inj` asks that
+`u_T` be injective, a condition stable only under flat base change, and its sheaf property is
+`AlgebraicGeometry.Space.ModuleMapSituation.isSheaf_flatInjFunctor`.
 
 The locus is subterminal, so the sheaf condition is the implication from universal injectivity
 at every member of a covering sieve to universal injectivity at its target.  The latter asks
@@ -160,7 +172,6 @@ the covering sieve is a covering sieve of `T''`, and injectivity at each member 
 is one instance of universal injectivity at the corresponding member of the given sieve, so
 injectivity at `T''` follows by descent along the flat jointly surjective family of base-change
 spaces. -/
-@[stacks 083H "F_inj"]
 theorem isSheaf_injFunctor :
     Presheaf.IsSheaf (fpqcTopology D.Y) (D.injFunctor (modulePullbackSystem B S hS)) := by
   refine D.isSheaf_fpqcTopology_of_forall_mem_sieve

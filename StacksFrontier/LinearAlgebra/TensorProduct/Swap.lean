@@ -388,8 +388,13 @@ Argument: the `-1`-eigenspace has dimension `(n^2 − n)/2` by
 `finrank (V ⊗ V) = n * n = n^2` (`Submodule.finrank_add_eq_of_isCompl` and
 `Module.finrank_tensorProduct`). The remaining `+1`-dimension is then
 `n^2 − (n^2 − n)/2 = (n^2 + n)/2`, a nat-arithmetic identity (both `n^2 ± n`
-are even). -/
-@[stacks 00M4]
+are even).
+
+This is the eigenvalue count of the example in Stacks, Remark 00M4. The remark itself, about
+the self-map of `Tor_0(V, V)` given by the symmetry of Tag 00M3, is
+`torSymm_zero_self_ne_one_and_ne_neg_one`, which identifies that self-map with `swapMap`. -/
+@[stacks 00M4 "supporting part: the eigenspace dimensions of the switch map in the example; \
+  the Tor statement is torSymm_zero_self_ne_one_and_ne_neg_one"]
 theorem swap_eigenspace_dim
     (hk : (2 : k) ≠ 0) (n : ℕ) (hn : Module.finrank k V = n) :
     Module.finrank k (swapEigenspace k V (1 : k)) = (n ^ 2 + n) / 2 ∧
@@ -477,8 +482,12 @@ Argument: if `σ` were diagonalizable then `⨆ λ, eigenspace λ = ⊤`. But in
 characteristic `2` every eigenspace is contained in `eigenspace 1`
 (`swap_eigenspace_le_one_char2`), so `⨆ λ, eigenspace λ ≤ eigenspace 1`, whence
 `eigenspace 1 = ⊤`, i.e. `σ x = x` for all `x`. This contradicts `swap_ne_id`,
-which produces a tensor moved by `σ`. -/
-@[stacks 00M4]
+which produces a tensor moved by `σ`.
+
+This is the characteristic `2` sentence of the example in Stacks, Remark 00M4; the remark itself
+is `torSymm_zero_self_ne_one_and_ne_neg_one`. -/
+@[stacks 00M4 "supporting part: the switch map of the example is not diagonalizable in \
+  characteristic 2; the Tor statement is torSymm_zero_self_ne_one_and_ne_neg_one"]
 theorem swap_not_isDiagonalizable
     (hk : (2 : k) = 0) (hn : 2 ≤ Module.finrank k V) :
     ¬ IsDiagonalizable (swapMap k V) := by

@@ -93,8 +93,8 @@ as it is here in **one** spelling throughout, with the passage between spellings
 on the rings and the differentials only, where it is affordable.
 
 No `@[stacks 07LG]` and no `@[stacks 07LA]` attribute is placed: [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`, and [Stacks, Tag 07LA] carries its tag where it is
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`, and [Stacks, Tag 07LA] carries its tag where it is
 proved, in `StacksFrontier/AlgebraicGeometry/Crystalline/Cosimplicial/CompletedForms.lean`; the
 statement below is that lemma read at one cosimplicial module, not a second proof of it.
 

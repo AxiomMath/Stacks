@@ -13,9 +13,12 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 This file relates smoothness of algebras to separability of field extensions.
 
-* Stacks 07ND. Let `R → S` be a finite type map of domains, let `K` and `L` be the fraction
-  fields of `R` and `S`, and let `L` carry the induced `K`-algebra structure. Then `S` is smooth
-  over `R` at the generic point `𝔮 = (0)` of `Spec S` if and only if `L/K` is separable.
+* Stacks 07ND, formal-smoothness form. Let `R → S` be a finite type map of domains, let `K` and
+  `L` be the fraction fields of `R` and `S`, and let `L` carry the induced `K`-algebra structure.
+  Then `S_{(0)} = L` is formally smooth over `R` if and only if `L/K` is separable. Stacks 07ND
+  itself, with smoothness at `(0)` in the sense of Definition 00TB, is
+  `Algebra.smoothAt_bot_iff_isSeparableExtension` in `StacksFrontier.RingTheory.Smooth.GenericPoint`,
+  derived from this one.
 * Stacks 037X. Let `K/k` be a finitely generated field extension. Then `K/k` is separable if and
   only if some smooth `k`-subalgebra of `K` has `K` as its fraction field, if and only if `K` is a
   localization of a smooth `k`-algebra.
@@ -28,9 +31,10 @@ is purely inseparable and `K → S` is smooth nowhere.
 
 ## Main results
 
-* `Algebra.isSmoothAt_bot_iff_isSeparableExtension`: Stacks 07ND, smoothness of a finite type
-  extension of domains at the zero ideal is separability of the induced extension of fraction
-  fields.
+* `Algebra.isSmoothAt_bot_iff_isSeparableExtension`: the formal-smoothness form of Stacks 07ND,
+  with Mathlib's `Algebra.IsSmoothAt R (⊥ : Ideal S)` (formal smoothness of `S_{(0)} = L` over
+  `R`) in place of Definition 00TB; Stacks 07ND proper is
+  `Algebra.smoothAt_bot_iff_isSeparableExtension` (`StacksFrontier.RingTheory.Smooth.GenericPoint`).
 * `Algebra.IsSeparableExtension.tfae_exists_smooth`: Stacks 037X, for a finitely generated field
   extension `K/k`, separability of `K/k`, the existence of a smooth `k`-subalgebra of `K` having
   `K` as its fraction field, and the existence of a smooth `k`-algebra having `K` as a
@@ -40,12 +44,22 @@ is purely inseparable and `K → S` is smooth nowhere.
 
 ### Smoothness at the generic point
 
-Smoothness at a prime `𝔮` is `Algebra.IsSmoothAt R 𝔮`, formal smoothness of `S_𝔮` over `R`; for
-a finite type algebra this is Definition 00TB, the existence of `g ∉ 𝔮` with `S_g` smooth
-(Lemma 00TA, `Algebra.basicOpen_subset_smoothLocus_iff_smooth` with `Algebra.isOpen_smoothLocus`).
-Any model of the local ring computes it, a localization being determined up to a canonical
-isomorphism of `S`-algebras. At `𝔮 = (0)` on a domain the local ring is the fraction field: the
-multiplicative complement of the prime `(0)` is the set of nonzero divisors
+Smoothness at a prime `𝔮` in the sense of Definition 00TB is `Algebra.SmoothAt R S 𝔮`: some
+`g ∉ 𝔮` has `S_g` smooth, hence of finite presentation, over `R`. Mathlib's
+`Algebra.IsSmoothAt R 𝔮` is only formal smoothness of `S_𝔮` over `R`; the first implies the second
+(`Algebra.isSmoothAt_of_smoothAt`), and the two agree once some `S_g`, `g ∉ 𝔮`, is of finite
+presentation over `R` (Lemma 00TA, `Algebra.IsSmoothAt.exists_notMem_smooth`). For `𝔮 = (0)` such
+a `g` exists by generic finite presentation (Lemma 00FG,
+`GenericFinitePresentation.generic_finite_presentation`), which is where `Algebra.FiniteType R S`
+and the injectivity of `R → S` are used. So Lemma 07ND is first proved for `Algebra.IsSmoothAt`
+(`Algebra.isSmoothAt_bot_iff_isSeparableExtension`) and then transported to Definition 00TB
+(`Algebra.smoothAt_bot_iff_isSeparableExtension`, in `StacksFrontier.RingTheory.Smooth.GenericPoint`);
+the converse direction of the source's proof makes the same reduction to finite presentation via
+Lemma 00FG.
+
+Any model of the local ring computes `Algebra.IsSmoothAt`, a localization being determined up to
+a canonical isomorphism of `S`-algebras. At `𝔮 = (0)` on a domain the local ring is the fraction
+field: the multiplicative complement of the prime `(0)` is the set of nonzero divisors
 (`Ideal.primeCompl_bot`), so a fraction field of `S` *is* a localization of `S` at `(0)`. Both
 sides of Lemma 07ND are therefore statements about the single extension `L`, and the proof is the
 two-step chain
@@ -62,11 +76,12 @@ reducedness (Lemmas 00TT, 04KN, 030W, 00TV and 00TG); identifying `S_{(0)}` with
 the base change `S ⊗_R K`, the passage to a nonzero `g ∈ S`, and the reduction to finite
 presentation (Lemma 00FG).
 
-Two hypotheses of Lemma 07ND are not used, both because Lemma 0321 is an equivalence for an
-arbitrary field extension. `Algebra.FiniteType R S` is not needed: finite generation of `L/K` plays
-no role once separability is characterized by formal smoothness rather than by the existence of a
-separating transcendence basis. `IsDomain R` is not needed either, being implied by
-`IsFractionRing R K` with `K` a field. Both are kept, matching the statement of Stacks 07ND.
+For the formal-smoothness form two hypotheses of Lemma 07ND are not used, both because Lemma 0321
+is an equivalence for an arbitrary field extension. `Algebra.FiniteType R S` is not needed there:
+finite generation of `L/K` plays no role once separability is characterized by formal smoothness
+rather than by the existence of a separating transcendence basis; it is used for Definition 00TB,
+through Lemma 00FG. `IsDomain R` is not needed either, being implied by `IsFractionRing R K` with
+`K` a field. Both are kept, matching the statement of Stacks 07ND.
 
 The fraction fields are abstract: `K` and `L` are any fields with `IsFractionRing R K` and
 `IsFractionRing S L`, rather than the models `FractionRing R` and `FractionRing S`, and the
@@ -196,15 +211,15 @@ end
 
 @[expose] public section
 
-/-- **Smoothness at the generic point is separability of the fraction field extension**
-(Stacks 07ND). Let `R → S` be a finite type map of domains, let `K` and `L` be the fraction fields
-of `R` and `S`, and let `L` be a `K`-algebra compatibly with both towers — which forces `R → S` to
-be injective. Then `S` is smooth over `R` at `𝔮 = (0)` if and only if `L/K` is separable. -/
-@[stacks 07ND "Smoothness at `(0)` is `Algebra.IsSmoothAt R (⊥ : Ideal S)`, as in the sibling 00TV;
-separability of the possibly transcendental extension `L/K` is `Algebra.IsSeparableExtension`,
-Definition 030O (2), not `Algebra.IsSeparable`. The fraction fields are abstract, pinned by
-`IsFractionRing`, and the source's injectivity of `R → S` is implied by the compatible `K`-algebra
-structure on `L` rather than assumed. See the module docstring."]
+/-- **Formal smoothness at the generic point is separability of the fraction field extension.**
+Let `R → S` be a finite type map of domains, let `K` and `L` be the fraction fields of `R` and `S`,
+and let `L` be a `K`-algebra compatibly with both towers — which forces `R → S` to be injective.
+Then `S_{(0)} = L` is formally smooth over `R` (Mathlib's `Algebra.IsSmoothAt R (⊥ : Ideal S)`)
+if and only if `L/K` is separable.
+
+This is the formal-smoothness form of Stacks 07ND: `Algebra.IsSmoothAt` is not Definition 00TB,
+which also asks for finite presentation of some `S_g`, `g ≠ 0`. The statement with Definition 00TB
+is `Algebra.smoothAt_bot_iff_isSeparableExtension`. -/
 public theorem Algebra.isSmoothAt_bot_iff_isSeparableExtension (R S K L : Type*)
     [CommRing R] [CommRing S] [Field K] [Field L] [IsDomain R] [IsDomain S]
     [Algebra R S] [Algebra.FiniteType R S] [Algebra R K] [IsFractionRing R K]

@@ -67,11 +67,11 @@ each stands to the statement here.  One of them is no longer a hypothesis of any
 is *not* a restatement of the statement here and does not follow from it.
 
 * `AlgebraicGeometry.Space.SheafOfDifferentialsSchemeSiteComparison`
-  (`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSmoothFiniteLocallyFree.lean:175`)
+  (`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSmoothFiniteLocallyFree.lean`)
   transports *finite local freeness*, clause (2) of Stacks 03DL, across the two sites.  It is
   **no longer a hypothesis**: it is proved as
   `AlgebraicGeometry.Space.sheafOfDifferentialsSchemeSiteComparison`
-  (`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSmoothFiniteLocallyFree.lean:199`)
+  (`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSiteTransport.lean`)
   from the statement here together with Stacks 05VG for that clause at `τ = étale`,
   `AlgebraicGeometry.SmallEtale.isFiniteLocallyFreeOnSite_associatedModule` (
   `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleFiniteLocallyFree.lean:277`),

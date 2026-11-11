@@ -2,7 +2,6 @@ module
 
 public import StacksFrontier.CategoryTheory.Sites.Localization.RingedSiteMorphismLocalization
 public import StacksFrontier.CategoryTheory.Sites.Modules.LocallyRingedSites.MorphismsGeneral
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Stacks 04J0 at independent site universes
@@ -77,7 +76,7 @@ namespace HomGeneral
 
 variable {X : RingedSite.{uX, vX, w}} {Y : RingedSite.{uY, vY, w}} (f : HomGeneral X Y) (V : Y.C)
 
-/-- **Stacks 04J0 at independent site universes.** The localization of a morphism of ringed
+/-- **The construction of Stacks 04J0 at independent site universes.** The localization of a morphism of ringed
 sites at an object `V` of the target, with the object and morphism universes of the source
 independent of those of the target: the underlying functor is `Over.post u` and the structure map
 is the restriction `j_V^{-1}(f^♯)` of the structure map of `f`.
@@ -91,11 +90,9 @@ independent universes, so nothing has to be redone for it here.
 Clause (a) of Stacks 03CF, that `Over.post u` again defines a morphism of sites, is the
 hypothesis `hu`.  It is available in this repository only for two sites small in one universe
 (`CategoryTheory.Functor.isMorphismOfSites_overPost_of_isMorphismOfSites`), which is the one case
-in which `AlgebraicGeometry.RingedSite.Hom` already applies; see the module docstring. -/
-@[stacks 04J0 "(1): the localized morphism of ringed sites at independent object and morphism
-  universes, with its canonical structure map `(f')♯ = j_V^{-1}(f♯)`. Clause (a) of 03CF is a
-  hypothesis here; the single-universe case is
-  `AlgebraicGeometry.RingedSite.Hom.localized`."]
+in which `AlgebraicGeometry.RingedSite.Hom` already applies; see the module docstring.  Stacks
+04J0 itself is registered on `AlgebraicGeometry.RingedSite.Hom.localized`, which needs no such
+hypothesis. -/
 noncomputable def localized
     (hu : IsMorphismOfSites.{w} (Over.post (X := V) f.u) (Y.J.over V) (X.J.over (f.u.obj V))) :
     HomGeneral (X.over (f.u.obj V)) (Y.over V) where

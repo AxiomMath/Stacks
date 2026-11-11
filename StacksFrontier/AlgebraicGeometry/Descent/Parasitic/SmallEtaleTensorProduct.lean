@@ -21,9 +21,11 @@ tensor product of two quasi-coherent modules is quasi-coherent.
   sheafify.
 * `AlgebraicGeometry.smallEtale_wEqualsLocallyBijective` — on the small étale site the weak
   equivalences for abelian sheafification are the locally bijective maps.
-* `AlgebraicGeometry.tensorSheaf_isQuasicoherent` (elsewhere) is the tensor-product clause of
-  Tag 0GNB; it is stated for an arbitrary ringed space, hence applies to the small étale site
-  of a scheme without a second, site-specific tensor construction.
+* The tensor-product clause, clause (5), of Tag 0GNB is
+  `AlgebraicGeometry.SmallEtale.tensorSheaf_isQuasicoherentOnSite` (elsewhere), stated on the
+  small étale site itself.  `AlgebraicGeometry.tensorSheaf_isQuasicoherent` is the ringed-space
+  result, Tag 01CE: the small étale site is not the site of opens of a topological space, so that
+  theorem does not apply to it.
 
 ## Implementation notes
 
@@ -62,8 +64,6 @@ sheafification are exactly the locally bijective ones. -/
 @[instance] public theorem smallEtale_wEqualsLocallyBijective :
     (SmallEtale.topology B S hS).WEqualsLocallyBijective AddCommGrpCat.{u} :=
   .ofEssentiallySmall (SmallEtale.topology B S hS)
-
-add_to_stacks 0GNB "tensor_products" AlgebraicGeometry.tensorSheaf_isQuasicoherent
 
 end AlgebraicGeometry
 

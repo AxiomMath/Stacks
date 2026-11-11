@@ -104,10 +104,13 @@ private theorem isDenseSubsite_associatedTopology_of_isStackificationEquivalence
   letI : q.IsFibered := hq.isFibered
   hF.isDenseSubsite_of_isStackificationEquivalence' (BigFppfOver.topology B S hS) hp hq heq
 
-/-- **Stacks 06WR, the `Mod` clause.** Let `f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in
-groupoids over the big fppf category of `S`. If `f` induces an equivalence of stackifications,
-then the inverse image of sheaves of modules of Stacks 06WE is an equivalence
-`Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳)`.
+/-- **The `Mod` clause of Stacks 06WR, under the local criteria of Stacks 02ZN.** Let
+`f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in groupoids over the big fppf category of `S`
+satisfying the two local criteria of Stacks 02ZN,
+`CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence'`. Then the inverse image
+of sheaves of modules of Stacks 06WE is an equivalence `Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳)`. Stacks 06WR itself,
+with the hypothesis that `f` induces an equivalence of stackifications, is
+`AlgebraicGeometry.Stack.isEquivalence_modulePullback_of_isStackification_of_isEquivalenceOver`.
 
 Equivalence of stackifications makes `f` a dense subsite inclusion for the associated fppf
 topologies, by the engine of Stacks 06WQ; the structure sheaf of `𝒳` is the restriction along
@@ -254,9 +257,12 @@ noncomputable def quasicoherentPullback_univ :
     fun M => isQuasicoherentOnSite_modulePullback.{u, v, w, m} B S hS p q hp hq f hF.comp_eq
       M.obj
 
-/-- **Stacks 06WR, the `QCoh` clause.** If `f : 𝒳 ⥤ 𝒴` induces an equivalence of
-stackifications, then the inverse image of quasi-coherent modules is an equivalence
-`QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳)`.
+/-- **The `QCoh` clause of Stacks 06WR, under the local criteria of Stacks 02ZN.** If
+`f : 𝒳 ⥤ 𝒴` satisfies the two local criteria of Stacks 02ZN,
+`CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence'`, then the inverse image
+of quasi-coherent modules is an equivalence `QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳)`. Stacks 06WR itself, with
+the hypothesis that `f` induces an equivalence of stackifications, is
+`isEquivalence_quasicoherentPullback_of_isStackification_of_isEquivalenceOver`.
 
 Fullness and faithfulness come from the equivalence on all modules, since `QCoh` is a full
 subcategory; essential surjectivity needs in addition that `f^*` reflects quasi-coherence,

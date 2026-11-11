@@ -91,7 +91,7 @@ a coherent `ℱ'` on a scheme proper over `Spec B` whose cohomology is `⨁ₙ H
 `moduleFinite_gradedCohomologySum_gradedAction`; nothing about them is weakened or assumed away.
 
 No `@[stacks]` attribute is attached. Tag 0897 has its site on
-`GradedProperCohomology/Basic.lean` and tag 02O8 on
+`moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology` and tag 02O8 on
 `Stacks.Cohomology.FormalFunctions.isCohomologyReesFinite_of_isCoherent`; neither is moved or
 duplicated, and the statements here are instances of the first in the vocabulary of the second.
 

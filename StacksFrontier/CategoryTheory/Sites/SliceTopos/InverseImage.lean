@@ -19,7 +19,9 @@ isomorphism `(f')⁻¹ j_{U!} ≅ j_{V!} f⁻¹` obtained from it by uniqueness 
 `sheafPullbackOverPostIso` there.  This file settles the remaining two:
 
 * **clause (c)**, the description of `(f')⁻¹` through the identifications `Sh(C/V) = Sh(C)/h_V^#`
-  and `Sh(D/U) = Sh(D)/h_U^#` of Stacks 00Y1, is `sheafFunctorToOverCompOverPostIso`;
+  and `Sh(D/U) = Sh(D)/h_U^#` of Stacks 00Y1, is `sheafFunctorToOverCompOverPostIso` (with the
+  identification `yonedaIso`; with Stacks 04D3's identification it is
+  `sheafFunctorToOverCompOverPostSheafifyYonedaIso` of `InverseImageYoneda.lean`);
 * **clause (b)**, the commutativity of the square of topoi `(f')⁻¹ j_V⁻¹ = j_U⁻¹ f⁻¹`, is
   `overPullbackCompSheafPullbackOverPostIso`.
 
@@ -41,9 +43,10 @@ entire residual obligation is a single equation between two morphisms. Nothing h
 statement.
 
 Second, discharging that equation.  Two routes are available.  One may prove it for 04D3's
-identification `f⁻¹h_V^# ≅ h_U^#` — a computation with `Adjunction.leftAdjointUniq`, not carried out
-here.  Or one may *define* the identification so that the equation holds, which is what `yonedaIso`
-does; for that the defined morphism has to be invertible, and that is where `(f')⁻¹⊤ ≅ ⊤` is used.
+identification `f⁻¹h_V^# ≅ h_U^#` — a computation with `Adjunction.leftAdjointUniq`, carried out
+in `Sites/SliceTopos/InverseImageYoneda.lean`.  Or one may *define* the identification so that
+the equation holds, which is what `yonedaIso` does; for that the defined morphism has to be
+invertible, and that is where `(f')⁻¹⊤ ≅ ⊤` is used.
 `(f')⁻¹⊤ ≅ ⊤` is available *independently* of clause (c), from clause (a)
 (`Functor.isMorphismOfSites_overPost_of_isMorphismOfSites`), so the route is not circular; that is
 `isIso_hom_sheafFunctorToOver_sheafPullback_terminal`.  Stacks instead derives exactness of
@@ -56,11 +59,12 @@ products separately for exactness), which is what keeps this route open.
 Clause (c) reads `(f')⁻¹(H ⟶ h_V^#) = (f⁻¹H ⟶ h_U^#)`, and the target of the second arrow is
 literally `f⁻¹h_V^#`; Stacks silently identifies it with `h_U^#` by Lemma 04D3.  Here that
 identification is `yonedaIso`, and it is forced: given `underlyingIso`, the triangle at the
-terminal sheaf determines it uniquely.  What is *not* proved is that `yonedaIso` coincides with
-04D3's `sheafPullbackSheafifyYonedaIso`.  That single equation is this file's whole residue, and
-`sheafFunctorToOverCompOverPostIso_of_eq` isolates it: from it, clause (c) with 04D3's
-identification follows at once, and with it Stacks 04IU and 04IW.  Clause (b) does not mention the
-identification at all, so it is unconditional.
+terminal sheaf determines it uniquely.  That `yonedaIso` coincides with 04D3's
+`sheafPullbackSheafifyYonedaIso` is `yonedaIso_eq_sheafPullbackSheafifyYonedaIso` in
+`Sites/SliceTopos/InverseImageYoneda.lean`; `sheafFunctorToOverCompOverPostIso_of_eq` turns that
+equation into clause (c) with 04D3's identification, which is
+`sheafFunctorToOverCompOverPostSheafifyYonedaIso` there, and with it Stacks 04IU and 04IW.
+Clause (b) does not mention the identification at all.
 
 ## The hypotheses, and why they are 03CF's own
 
@@ -123,7 +127,8 @@ as an explicit `eqToIso` through the statements rather than to lean on the `rfl`
 * `CategoryTheory.SliceTopos.sheafFunctorToOverCompOverPostIso` (Stacks 03CF (c)).
 * `CategoryTheory.SliceTopos.overPullbackCompSheafPullbackOverPostIso` (Stacks 03CF (b)).
 * `CategoryTheory.SliceTopos.sheafFunctorToOverCompOverPostIso_of_eq`: clause (c) with 04D3's
-  identification, from the one equation this file does not prove.
+  identification, from the equation `yonedaIso = sheafPullbackSheafifyYonedaIso`, which is
+  proved in `Sites/SliceTopos/InverseImageYoneda.lean`.
 * `CategoryTheory.SliceTopos.overPullbackCompSheafPullbackOverPostMate`: the Beck-Chevalley mate of
   clause (d), a *computable* 2-cell of the shape of clause (b), and
   `CategoryTheory.SliceTopos.overPullbackCompSheafPullbackOverPostMate_comp_counit`, the equation
@@ -194,7 +199,8 @@ namely the composite
 of the two terminal-object structure maps with `underlyingIso`.
 
 Stacks reaches the same identification from Lemma 04D3, as `f⁻¹h_V^# = h_{u(V)}^#`; that
-`yonedaIso` agrees with `sheafPullbackSheafifyYonedaIso` is *not* proved here. -/
+`yonedaIso` agrees with `sheafPullbackSheafifyYonedaIso` is
+`yonedaIso_eq_sheafPullbackSheafifyYonedaIso` in `Sites/SliceTopos/InverseImageYoneda.lean`. -/
 def yonedaIso (hu : u.IsMorphismOfSites J K) :
     (u.sheafPullback (Type u) J K).obj ((presheafToSheaf J (Type u)).obj (yoneda.obj V)) ≅
       (presheafToSheaf K (Type u)).obj (yoneda.obj (u.obj V)) :=
@@ -216,10 +222,6 @@ to its structure map":
 The two sides agree after `Over.forget` by `underlyingIso`, and by `Over.comp_hom_of_terminal` the
 remaining triangle need only be checked at the terminal sheaf, where `yonedaIso` was defined to
 make it commute. -/
-@[stacks 03CF "Clause (c): under 00Y1's identifications `(f')⁻¹` sends `(H ⟶ h_V^#)` to
-  `(f⁻¹H ⟶ h_U^#)`. Proved in 03CF's own generality, from `u.IsMorphismOfSites` alone, and with
-  the identification `f⁻¹h_V^# ≅ h_U^#` given by `yonedaIso`, which is NOT proved equal to 04D3's
-  `sheafPullbackSheafifyYonedaIso`."]
 def sheafFunctorToOverCompOverPostIso (hu : u.IsMorphismOfSites J K) :
     (Over.post (X := V) u).sheafPullback (Type u) (J.over V) (K.over (u.obj V)) ⋙
         sheafFunctorToOver (U := u.obj V) K ≅
@@ -301,14 +303,13 @@ def overPullbackCompSheafPullbackOverPostIso (hu : u.IsMorphismOfSites J K) :
       Functor.isoWhiskerLeft (u.sheafPullback (Type u) J K)
         (overPullbackCompSheafFunctorToOverIso (U := u.obj V) K).symm)
 
-/-- **Clause (c) with Stacks 04D3's identification, from the file's residue.**
+/-- **Clause (c) with Stacks 04D3's identification, from the equation of identifications.**
 
 Stacks writes clause (c) using `f⁻¹h_V^# = h_{u(V)}^#` of Lemma 04D3.  Given that 04D3's
 isomorphism is the one forced by the triangle at the terminal sheaf — the single equation
-`yonedaIso = sheafPullbackSheafifyYonedaIso` that this file does not prove — clause (c) holds in
-Stacks' own formulation, and Stacks 04IU and 04IW follow from it together with 04IQ and 04IS.
-
-This is stated to make the residue machine-checkable and reusable rather than only described. -/
+`yonedaIso = sheafPullbackSheafifyYonedaIso`, proved in `InverseImageYoneda.lean` — clause (c)
+holds in Stacks' own formulation, and Stacks 04IU and 04IW follow from it together with 04IQ and
+04IS.  `InverseImageYoneda.lean` applies it to obtain clause (c) in Stacks' own formulation. -/
 def sheafFunctorToOverCompOverPostIso_of_eq (hu : u.IsMorphismOfSites J K)
     (h : yonedaIso J K u V hu = sheafPullbackSheafifyYonedaIso u J K V) :
     (Over.post (X := V) u).sheafPullback (Type u) (J.over V) (K.over (u.obj V)) ⋙

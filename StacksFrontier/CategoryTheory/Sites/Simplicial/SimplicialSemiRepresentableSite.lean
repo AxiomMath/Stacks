@@ -47,8 +47,9 @@ of topoi of the continuous and cocontinuous localization functors `j_n : C/K_n �
 * `CategoryTheory.SimplicialSemiRepresentable.totalPushforward_eq`: the total morphism of topoi
   of Stacks 0D70 and the morphism of topoi of `j_total` have equal direct images.
 * `CategoryTheory.GrothendieckTopology.isSite_coverings`: the covering families of a
-  Grothendieck topology satisfy the site axioms when the fibre products called for by the base
-  change axiom exist, and
+  Grothendieck topology satisfy the site axioms when all fibre products of covering families
+  with arbitrary morphisms exist, which for these families means that the category has all fibre
+  products, and
   `CategoryTheory.GrothendieckTopology.topologyOfCoverings_coverings`: they generate the
   topology they came from.
 * `CategoryTheory.SemiRepresentable.componentwiseTopology_hasPullbacks`: those fibre products
@@ -74,13 +75,15 @@ functions. That is `CategoryTheory.SemiRepresentable.componentOverFunctor`.
 
 The site axioms for the covering families of `C/K_n` are an instance of a general fact: the
 covering families of a Grothendieck topology satisfy them as soon as the fibre products called
-for by the base change axiom exist. The standing hypothesis is therefore that those fibre
-products exist for `J`, which is the existence half of the base change axiom for the source's
-site `C` and is the same hypothesis under which Stacks 0D85 is available; no fibre products
-outside the covering families of `J` are used. They are propagated to `C/K_n` componentwise: a
-cospan of a disjoint union of categories lies in a single component, since the disjoint union
-has no arrows between components, and the forgetful functor of a slice creates connected
-limits.
+for by the base change axiom exist. The standing hypothesis is therefore
+`[J.toCoverage.HasPullbacks]`, the hypothesis under which Stacks 0D85 is formalized here. It is
+stronger than the source's assumption that `C` is a site: the maximal presieve of an object is a
+covering family of `J`, so the hypothesis asks for all fibre products in `C`. The constructions
+for an arbitrary site, with the covering families along whose members all fibre products exist,
+are in `StacksFrontier.CategoryTheory.Sites.Simplicial.SimplicialSemiRepresentableStacksSite`. The
+fibre products are propagated to `C/K_n` componentwise: a cospan of a disjoint union of
+categories lies in a single component, since the disjoint union has no arrows between
+components, and the forgetful functor of a slice creates connected limits.
 
 `CategoryTheory.SemiRepresentable.Continuity` carries private versions of the auxiliary facts
 about arrows of a disjoint union used below (`ComponentOverHom` and friends); the versions here
@@ -210,8 +213,12 @@ covering — satisfy the isomorphism, composition and base change axioms of a si
 fibre products required by the base change axiom exist. This is what makes a Grothendieck
 topology presentable by covering families, as the simplicial-site situation requires.
 
-The hypothesis is exactly the existence half of the base change axiom for the covering families
-of `J`: no fibre products outside the covering families are needed. -/
+The hypothesis is much stronger than the base change axiom of a site. The maximal presieve of an
+object generates the maximal sieve, so it is a covering family of `J`, and
+`[J.toCoverage.HasPullbacks]` asks for the fibre product of every pair of morphisms with a common
+target: it holds exactly when the category has all fibre products. For an arbitrary site, the
+covering families of `J` along whose members all fibre products exist are the ones satisfying the
+site axioms; that is `CategoryTheory.GrothendieckTopology.isSite_stableCoverings`. -/
 @[sga "3 IV 4.6.4" "special case"]
 theorem GrothendieckTopology.isSite_coverings (J : GrothendieckTopology C)
     [J.toCoverage.HasPullbacks] :
@@ -580,11 +587,12 @@ instance componentOverMap_isCocontinuous {m n : SimplexCategory} (φ : m ⟶ n) 
 
 /-! ### The augmentation defined by the degree-zero localization functor -/
 
-/-- **Stacks 0D8B.** The localization functor `j_0 : C/K_0 ⥤ C` defines an augmentation of the
-simplicial site `n ↦ C/K_n` towards `(C, J)`, as in case (B) of Stacks 0D6Z: it is cocontinuous,
-and its composite with the functor of a vertex of simplicial degree `n` is the localization
-functor `j_n`, which does not mention the vertex. -/
-@[stacks 0D8B "j_0 defines an augmentation a_0 : Sh(C/K_0) to Sh(C), case (B) of 0D6Z"]
+/-- The special case under `[J.toCoverage.HasPullbacks]` of Stacks 0D8B, whose tag is on
+`CategoryTheory.SimplicialSemiRepresentable.stableAugmentation` for an arbitrary site. The
+localization functor `j_0 : C/K_0 ⥤ C` defines an augmentation of the simplicial site `n ↦ C/K_n`
+towards `(C, J)`, as in case (B) of Stacks 0D6Z: it is cocontinuous, and its composite with the
+functor of a vertex of simplicial degree `n` is the localization functor `j_n`, which does not
+mention the vertex. -/
 def augmentation : (simplicialSite J K).Augmentation (Cat.of C) J where
   functor := sliceForget K (op (SimplexCategory.mk 0))
   isCocontinuous := sliceForget_isCocontinuous J K (SimplexCategory.mk 0)
@@ -596,10 +604,11 @@ def situationAugmentation :
     SimplicialSiteSituation.Augmentation (situation J K) (Cat.of C) J :=
   augmentation J K
 
-/-- **Stacks 0D8B.** The functor underlying that augmentation is the degree-zero localization
-functor `j_0`. Together with `CategoryTheory.SimplicialSemiRepresentable.augmentation` this is
-the assertion that `j_0` defines the augmentation. -/
-@[stacks 0D8B "the functor underlying that augmentation is j_0"]
+/-- The special case under `[J.toCoverage.HasPullbacks]` of Stacks 0D8B, whose tag is on
+`CategoryTheory.SimplicialSemiRepresentable.stableAugmentation_functor` for an arbitrary site. The
+functor underlying that augmentation is the degree-zero localization functor `j_0`. Together with
+`CategoryTheory.SimplicialSemiRepresentable.augmentation` this is the assertion that `j_0` defines
+the augmentation. -/
 theorem augmentation_functor :
     (augmentation J K).functor = sliceForget K (op (SimplexCategory.mk 0)) := rfl
 
@@ -689,16 +698,16 @@ noncomputable def totalLocalizationMorphism :
   preservesFiniteLimits :=
     Functor.preservesFiniteLimits_sheafPushforwardContinuous _ _ (totalForget K) (Type u)
 
-/-- **Stacks 0D8B.** The morphism of topoi `a_n : Sh(C/K_n) ⟶ Sh(C)` which Stacks 0D70 attaches
-to the augmentation `j_0` is the morphism of topoi of the localization functor `j_n`: their
-direct images agree canonically.
+/-- The special case under `[J.toCoverage.HasPullbacks]` of Stacks 0D8B, whose tag is on
+`CategoryTheory.SimplicialSemiRepresentable.stableComponentPushforwardIso` for an arbitrary site.
+The morphism of topoi `a_n : Sh(C/K_n) ⟶ Sh(C)` which Stacks 0D70 attaches to the augmentation `j_0`
+is the morphism of topoi of the localization functor `j_n`: their direct images agree canonically.
 
 This one is an isomorphism and not an equality. Stacks 0D70 attaches to the augmentation the
 composite of the degree-zero morphism of topoi with the transition morphism of a vertex, whose
 direct image is a composite of two direct images; the direct image of `j_n` is a single one, for
 the composite site functor `C/K_n ⥤ C/K_0 ⥤ C`, which equals `j_n`. Direct images along
 cocontinuous functors compose only up to the canonical comparison, which is what this is. -/
-@[stacks 0D8B "a_n is the morphism of topoi of j_n: direct images"]
 noncomputable def componentPushforwardIso (n : SimplexCategory) :
     (SimplicialSiteSituation.Augmentation.componentAugmentation (situation J K) (Cat.of C) J
         (situationAugmentation J K) n).pushforward ≅
@@ -727,9 +736,9 @@ noncomputable def componentPushforwardIso (n : SimplexCategory) :
         ((situation J K).componentTopology n) J _ _ h3 h4
         (slicesMap_comp_sliceForget K (SimplexCategory.const (SimplexCategory.mk 0) n 0).op)
 
-/-- **Stacks 0D8B.** The same identification in inverse images, obtained from uniqueness of left
-adjoints. -/
-@[stacks 0D8B "a_n is the morphism of topoi of j_n: inverse images"]
+/-- The special case under `[J.toCoverage.HasPullbacks]` of Stacks 0D8B, whose tag is on
+`CategoryTheory.SimplicialSemiRepresentable.stableComponentInverseImageIso` for an arbitrary site.
+The same identification in inverse images, obtained from uniqueness of left adjoints. -/
 noncomputable def componentInverseImageIso (n : SimplexCategory) :
     (SimplicialSiteSituation.Augmentation.componentAugmentation (situation J K) (Cat.of C) J
         (situationAugmentation J K) n).inverseImage ≅
@@ -749,11 +758,12 @@ private theorem sheafPushforwardCocontinuous_congr {X Y : Type u} [SmallCategory
   subst h
   rfl
 
-/-- **Stacks 0D8B.** The morphism of topoi `a : Sh((C/K)_total) ⟶ Sh(C)` which Stacks 0D70
-attaches to the augmentation `j_0` is the morphism of topoi of the localization functor
-`j_total`: their direct images are *equal*, not merely isomorphic, because the cocontinuous
-functor which Stacks 0D70 attaches to the augmentation is `j_total` on the nose. -/
-@[stacks 0D8B "a is the morphism of topoi of j_total: the direct images are equal"]
+/-- The special case under `[J.toCoverage.HasPullbacks]` of Stacks 0D8B, whose tag is on
+`CategoryTheory.SimplicialSemiRepresentable.stableTotalPushforward_eq` for an arbitrary site. The
+morphism of topoi `a : Sh((C/K)_total) ⟶ Sh(C)` which Stacks 0D70 attaches to the augmentation `j_0`
+is the morphism of topoi of the localization functor `j_total`: their direct images are *equal*, not
+merely isomorphic, because the cocontinuous functor which Stacks 0D70 attaches to the augmentation
+is `j_total` on the nose. -/
 theorem totalPushforward_eq :
     (CocontinuousSimplicialSite.Augmentation.totalMorphismOfTopoi
         (augmentation J K)).pushforward = (totalLocalizationMorphism J K).pushforward := by
@@ -776,9 +786,9 @@ noncomputable def totalPushforwardIso :
     ((situation J K).totalTopology) J _ _ h1 (totalForget_isCocontinuous J K)
     (totalAugmentationFunctor_eq J K)
 
-/-- **Stacks 0D8B.** The same identification in inverse images, obtained from uniqueness of left
-adjoints. -/
-@[stacks 0D8B "a is the morphism of topoi of j_total: inverse images"]
+/-- The special case under `[J.toCoverage.HasPullbacks]` of Stacks 0D8B, whose tag is on
+`CategoryTheory.SimplicialSemiRepresentable.stableTotalInverseImageIso` for an arbitrary site. The
+same identification in inverse images, obtained from uniqueness of left adjoints. -/
 noncomputable def totalInverseImageIso :
     (CocontinuousSimplicialSite.Augmentation.totalMorphismOfTopoi
         (augmentation J K)).inverseImage ≅ (totalLocalizationMorphism J K).inverseImage :=

@@ -223,7 +223,10 @@ canonical splitting of Remark Stacks 08ML.
   `baseIdealTensor_shortExact`) the class `o(ℱ, f^*𝒥₃ ⊗_O ℱ, 1)` of Stacks 08VW (1) for the third
   column, which vanishes exactly when `ℱ` lifts to an `O'₃`-module flat over `O_{ℬ'₃}` (the last
   conjunct). -/
-@[stacks 08VY]
+@[stacks 08VY "the full statement in Situation 08VX: π^*ℱ and h^*ℱ'₂ are flat over O_{ℬ'₁} \
+and restrict to ℱ, their difference lies in the Ext¹_O(ℱ, f^*𝒥₁ ⊗ ℱ)-torsor of 08VW (2), and \
+its boundary along the short exact sequence of the f^*𝒥ₖ ⊗ ℱ is the 08VW obstruction for the \
+third column, which vanishes exactly when ℱ lifts to an O'₃-module flat over O_{ℬ'₃}."]
 theorem boundary_difference_trivialLift_pulledLift_eq_obstruction
     [HasExt.{e} (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf (baseRing i)))]
     [HasExt.{e} (SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))]

@@ -35,7 +35,10 @@ vanishes by hypothesis, so its first vertex vanishes. Composing the two base cha
 
 * `CommAlgCat.cotangentComplexDerived_iso_fundamentalVertex₁_diagonal`: the identification
   `L_{B/A} = L_{(B ⊗_A B)/B} ⊗^𝐋_{(B ⊗_A B)} B` of the first two steps of the proof.
-* `CommAlgCat.isZero_cotangentComplexDerived_of_torIndependent`: **[Stacks, Tag 08R1]**.
+* `CommAlgCat.isZero_cotangentComplexDerived_of_torIndependent`: [Stacks, Tag 08R1] for a
+  distinguished triangle of the tower `B → B ⊗_A B → B` given as a parameter; the triangle is
+  supplied from Proposition 08QX in
+  `CommAlgCat.isZero_cotangentComplexDerived_of_torIndependent_unconditional`.
 
 ## Implementation notes
 
@@ -51,14 +54,16 @@ vanishing of `CommAlgCat.fundamentalVertex₃ (B ⊗_A B) B`, which is
 relative cotangent complex of the multiplication map as an object of `D(B)`, so it is the
 source's hypothesis and not the vanishing of an auxiliary zero object.
 
-*The one carried hypothesis.* Proposition 08QX — that the three vertices of the display 92.7.0.1
-form a distinguished triangle — is not formalized in this library, and the triangle needed here
-is for the tower `B → B ⊗_A B → B` whose second map is surjective, so the triangle of Tag 08SD
-(which assumes an injective map) cannot supply it either. It is therefore carried as the
-hypothesis `hT`, in the shape Proposition 08QX gives it and in the spelling of
-`CommAlgCat.fundamentalVertex₁`, `CommAlgCat.fundamentalVertex₂` and
-`CommAlgCat.fundamentalVertex₃`. This is the pattern of
-`CommAlgCat.exists_tensorProduct_nine_diagram` for Tag 09D9.
+*The triangle as a parameter.* The theorem here takes the distinguished triangle on the three
+vertices of the display 92.7.0.1 for the tower `B → B ⊗_A B → B` as a parameter `hT`, in the
+spelling of `CommAlgCat.fundamentalVertex₁`, `CommAlgCat.fundamentalVertex₂` and
+`CommAlgCat.fundamentalVertex₃`, because this file is upstream of Proposition 08QX. Proposition
+08QX is proved in the library, for arbitrary ring maps, as
+`CommAlgCat.productFundamentalTriangle_distinguished` of
+`StacksFrontier.Cotangent.Triangle.ProductDescent`, and
+`CommAlgCat.isZero_cotangentComplexDerived_of_torIndependent_unconditional` of
+`StacksFrontier.Cotangent.EtaleVanishingUnconditional` supplies `hT` from it: that declaration is
+[Stacks, Tag 08R1] with exactly the source's hypotheses, and carries the tag.
 
 *Which inclusion is which.* `B ⊗_A B` is a `B`-algebra through `b ↦ b ⊗ 1`, which is the
 instance Mathlib provides, and `L_{(B ⊗_A B)/B}` is taken relative to it. The base change of
@@ -171,25 +176,18 @@ def cotangentComplexDerived_iso_fundamentalVertex₁_diagonal
         (B' := CommAlgCat.of B (B ⊗[A] B)) Algebra.TensorProduct.includeRight hTor
         (bijective_baseChangeUnit_includeRight A B))
 
-/-- **[Stacks, Tag 08R1].** Let `A → B` be a ring map such that `Tor^A_i(B, B) = 0` for `i > 0`
-and such that `L_{B/(B ⊗_A B)} = 0`. Then `L_{B/A} = 0` in `D(B)`.
+/-- **[Stacks, Tag 08R1] for a given triangle.** Let `A → B` be a ring map such that
+`Tor^A_i(B, B) = 0` for `i > 0` and such that `L_{B/(B ⊗_A B)} = 0`, and let `hT` be a
+distinguished triangle on the three vertices of the display of the tower `B → B ⊗_A B → B`,
+whose second map is the multiplication. Then `L_{B/A} = 0` in `D(B)`.
 
-The fundamental triangle of the tower `B → B ⊗_A B → B`, whose second map is the multiplication,
-is the carried hypothesis `hT`: Proposition 08QX is not formalized in this library and the
-triangle of Tag 08SD needs an injective map. Its middle vertex `L_{B/B}` vanishes by
-`CommAlgCat.isZero_cotangentComplex_self`, and its third vertex `L_{B/(B ⊗_A B)}` vanishes by
-`hCot`, so its first vertex vanishes; and that first vertex is `L_{B/A}` by
+The triangle is a parameter because this file is upstream of Proposition 08QX, which supplies it
+for arbitrary ring maps; `CommAlgCat.isZero_cotangentComplexDerived_of_torIndependent_unconditional`
+is the lemma with exactly the source's hypotheses. The middle vertex `L_{B/B}` vanishes by
+`CommAlgCat.isZero_cotangentComplex_self`, and the third vertex `L_{B/(B ⊗_A B)}` vanishes by
+`hCot`, so the first vertex vanishes; and that first vertex is `L_{B/A}` by
 `CommAlgCat.cotangentComplexDerived_iso_fundamentalVertex₁_diagonal`, which is where `hTor` is
 consumed. -/
-@[stacks 08R1 "the lemma in full, with ONE carried hypothesis: the distinguished triangle of \
-Proposition 08QX for the tower `B → B ⊗_A B → B`, carried as `hT` because Stacks 08QX is not \
-formalized in this library and the triangle of Tag 08SD assumes an injective map whereas the \
-multiplication `B ⊗_A B → B` is surjective. BOTH hypotheses of the source are used: the \
-vanishing of the higher `Tor^A_i(B, B)` is `hTor`, consumed by Stacks 08QQ \
-(`CommAlgCat.derivedCotangentComplexBaseChangeIso`) in identifying the first vertex of the \
-triangle with `L_{B/A}`, and `L_{B/(B ⊗_A B)} = 0` is `hCot`, the vanishing of the third vertex. \
-The `B ⊗_A B`-algebra structure on `B` is the multiplication map, \
-`CommAlgCat.diagonalAlgebra`"]
 theorem isZero_cotangentComplexDerived_of_torIndependent
     (hTor : RingTheory.TorIndependence.TorIndependent A B (B : Type u))
     {α : fundamentalVertex₁.{u, u} B (B ⊗[A] B) B ⟶ fundamentalVertex₂.{u, u} B B}

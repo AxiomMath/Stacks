@@ -56,6 +56,9 @@ identifies `B` with `Φ(Ψ(B))` and upgrades the hypothesis to weak generation o
 * `DifferentialGraded.Bimodule.linear_derivedTensorFunctor_of_isEquivalence`: **Stacks 09SS**, the
   `R`-linearity of that equivalence and of its quasi-inverse, which completes the conclusion of
   Tag 09S7 that both assertions transport.
+* `isEquivalence_linear_derivedTensorFunctor_of_generator_isCompactObject`, again in
+  `DifferentialGraded.Bimodule`: **Stacks 09SS** in full — both assertions together, each
+  concluding that `- ⊗_A^𝐋 N` is an exact `R`-linear equivalence with `R`-linear quasi-inverse.
 
 ## Implementation notes
 
@@ -249,7 +252,6 @@ As for Tag 09S7, the functor is exact and `R`-linear before any hypothesis (Tags
 assertion of the remark — that a weak generator of `D_{compact}(B, d)` suffices once `RHom(N, B)`
 is a compact object of `D(A, d)` — is the statement below,
 `isEquivalence_derivedTensorFunctor_of_isWeakTriangulatedGenerator_isCompactObject`. -/
-@[stacks 09SS "replacing condition (2) of 09S7 by classical generation of D_compact(B, d)"]
 theorem isEquivalence_derivedTensorFunctor_of_triangEnvelope_eq_isCompactObject (N : Bimodule A B)
     [IsCompactObject.{u} ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj N.rightModule)]
     (h2 : (ObjectProperty.singleton ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj
@@ -417,6 +419,63 @@ theorem linear_derivedTensorFunctor_of_isEquivalence (N : Bimodule A B)
   have hfun : (derivedTensorFunctor N).asEquivalence.functor.Linear R :=
     derivedTensorFunctor_linear N
   exact ⟨hfun, Equivalence.inverseLinear R _⟩
+
+/-- **Stacks 09SS.** Let `(A, d)` and `(B, d)` be differential graded algebras over a commutative
+ring `R` and let `N` be a differential graded `(A, B)`-bimodule. Assume conditions (1) and (3) of
+[Stacks, Tag 09S7]:
+
+1. the class of `N` in `D(B, d)` is a compact object, and
+3. the canonical map `H^k(A) → Hom_{D(B,d)}(N, N[k])` of
+   `DifferentialGraded.Bimodule.cohomologyEndomorphismComparison` is bijective for every `k : ℤ`.
+
+Then each of the following replacements of condition (2) of Tag 09S7 still makes
+`- ⊗_A^𝐋 N : D(A, d) ⥤ D(B, d)` an `R`-linear equivalence of triangulated categories, that is,
+an equivalence which is exact (`Functor.IsTriangulated`), `R`-linear, and whose quasi-inverse is
+`R`-linear:
+
+* `N` is a classical generator for `D_{compact}(B, d)`: the triangulated envelope of the class of
+  `N` (the smallest strictly full triangulated subcategory closed under direct summands containing
+  it) is exactly the subcategory of compact objects of `D(B, d)`;
+* `RHom(N, B)` is a compact object of `D(A, d)`, and `N` is a weak generator for
+  `D_{compact}(B, d)`: a compact object `X` of `D(B, d)` with `Hom_{D(B,d)}(N, X[n]) = 0` for every
+  `n : ℤ` is zero.
+
+These are the two assertions of the remark, proved respectively by
+`isEquivalence_derivedTensorFunctor_of_triangEnvelope_eq_isCompactObject` and
+`isEquivalence_derivedTensorFunctor_of_isWeakTriangulatedGenerator_isCompactObject` above (the
+source omits the proof of the second; it is supplied there). Exactness of `- ⊗_A^𝐋 N` is
+`DifferentialGraded.Bimodule.derivedTensorFunctor_isTriangulated` (Tags 09LR and 09LS), its
+`R`-linearity `DifferentialGraded.Bimodule.derivedTensorFunctor_linear` (Tag 09S7), and the
+`R`-linearity of the quasi-inverse is Mathlib's `CategoryTheory.Equivalence.inverseLinear`. -/
+@[stacks 09SS "both assertions: classical generation of D_compact(B, d), or weak generation of \
+D_compact(B, d) when RHom(N, B) is compact, may replace condition (2) of 09S7"]
+theorem isEquivalence_linear_derivedTensorFunctor_of_generator_isCompactObject
+    (N : Bimodule A B)
+    [IsCompactObject.{u} ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj N.rightModule)]
+    (h3 : ∀ k : ℤ, Function.Bijective (N.cohomologyEndomorphismComparison k)) :
+    ((ObjectProperty.singleton ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj
+        N.rightModule)).triangEnvelope = IsCompactObject.{u, _, _} (C := derivedCategory' B) →
+      ∃ _ : (derivedTensorFunctor N).IsEquivalence, (derivedTensorFunctor N).IsTriangulated ∧
+        (derivedTensorFunctor N).Linear R ∧ (derivedTensorFunctor N).inv.Linear R) ∧
+    (IsCompactObject.{u} ((derivedHomData A B N.rightModule N.leftAction).functor.obj
+        ((toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj (regularModule B))) →
+      (∀ X : derivedCategory' B, IsCompactObject.{u} X →
+        (∀ (n : ℤ) (f : (toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj N.rightModule ⟶
+          X⟦n⟧), f = 0) → IsZero X) →
+      ∃ _ : (derivedTensorFunctor N).IsEquivalence, (derivedTensorFunctor N).IsTriangulated ∧
+        (derivedTensorFunctor N).Linear R ∧ (derivedTensorFunctor N).inv.Linear R) := by
+  have key : ∀ _ : (derivedTensorFunctor N).IsEquivalence, (derivedTensorFunctor N).IsTriangulated ∧
+      (derivedTensorFunctor N).Linear R ∧ (derivedTensorFunctor N).inv.Linear R := fun _ =>
+    have hfun : (derivedTensorFunctor N).asEquivalence.functor.Linear R :=
+      derivedTensorFunctor_linear N
+    ⟨inferInstance, derivedTensorFunctor_linear N,
+      Equivalence.inverseLinear R (derivedTensorFunctor N).asEquivalence⟩
+  refine ⟨fun h2 => ?_, fun hc h2 => ?_⟩
+  · have := isEquivalence_derivedTensorFunctor_of_triangEnvelope_eq_isCompactObject N h2 h3
+    exact ⟨this, key this⟩
+  · have :=
+      isEquivalence_derivedTensorFunctor_of_isWeakTriangulatedGenerator_isCompactObject N h2 h3
+    exact ⟨this, key this⟩
 
 end DifferentialGraded.Bimodule
 

@@ -15,7 +15,15 @@ Let `0 → ℱ₁ → ℱ₂ → ℱ₃ → 0` be a short exact sequence of abel
 is a `1`-coboundary in the Čech complex of `ℱ₂` which takes values in `ℱ₁`. Such a covering with
 such lifts exists, the assignment is a `1`-cocycle of `ℱ₁`, its class in `Ȟ¹(𝒰, ℱ₁)` does not
 depend on the chosen lifts, and on a common refinement it does not depend on the chosen covering
-either. That class is the boundary map `δ(τ)`, and it is additive in `τ`.
+either. That class is the boundary map `δ(τ)` of Stacks 02AP, and it is additive in `τ`.
+
+The assignment above is `deltaCochain`. It is the *negative* of the Čech coboundary
+`cechD U ℱ₂ 0 τ̃`: with the differential `(d t)_{i₀i₁} = t_{i₁} - t_{i₀}` of Stacks 01FG, the
+coboundary of the lifts is `(i₀, i₁) ↦ τ̃_{i₁} - τ̃_{i₀}` (`deltaCochain_eq_neg_cechD`). The
+statements phrased with `cechD U ℱ₂ 0 τ̃` (`exists_cocycle_of_localLifts` and the class lemmas
+next to it) therefore describe the cocycle of `-δ(τ)`, the opposite-sign convention; the
+statements phrased with `deltaCochain` (`exists_cocycle_deltaCochain_of_localLifts` and the
+`…_deltaCochain` class lemmas) describe the cocycle of `δ(τ)` with the sign of the source.
 
 The statements are about abelian presheaves and take the exactness properties they use as
 hypotheses: injectivity of `ℱ₁(V) → ℱ₂(V)` for every open `V`, exactness of
@@ -29,8 +37,15 @@ indexed by `Fin 1 → I`.
 * `Stacks.Cohomology.CechBoundary.exists_covering_localLifts`: a locally surjective `ℱ₂ → ℱ₃`
   gives every section of `ℱ₃` over `W` an open covering of `W` and a `0`-cochain of `ℱ₂` lifting
   its restrictions.
+* `Stacks.Cohomology.CechBoundary.exists_cocycle_deltaCochain_of_localLifts`: the cochain
+  `(i₀, i₁) ↦ τ̃_{i₀} - τ̃_{i₁}` of a `0`-cochain of lifts is the image of a `1`-cocycle of `ℱ₁`;
+  `cls_eq_of_push_eq_deltaCochain`, `cls_add_of_push_eq_deltaCochain`,
+  `cls_eq_of_refinement_of_push_eq_deltaCochain` and
+  `exists_common_refinement_cls_eq_of_push_eq_deltaCochain` are the well-definedness, additivity
+  and independence statements for its class `δ(τ)`.
 * `Stacks.Cohomology.CechBoundary.exists_cocycle_of_localLifts`: the coboundary of a `0`-cochain
-  of lifts is the image of a `1`-cocycle of `ℱ₁`.
+  of lifts, which is `-deltaCochain`, is the image of a `1`-cocycle of `ℱ₁`; the class lemmas
+  below are stated for this cocycle, so they are about `-δ(τ)`.
 * `Stacks.Cohomology.CechBoundary.cls_eq_of_localLifts`: two systems of lifts of the same section
   give `1`-cocycles with the same class in `Ȟ¹(𝒰, ℱ₁)`.
 * `Stacks.Cohomology.CechBoundary.cls_add_of_localLifts`: the class attached to a sum of sections
@@ -134,8 +149,11 @@ variable {W : Opens X} (hle : ∀ i : Fin 1 → I, inter U i ≤ W)
 
 /-- Let `φ : ℱ₁ ⟶ ℱ₂` be injective on sections and `ℱ₁ → ℱ₂ → ℱ₃` exact in the middle on
 sections. If `τ` is a section of `ℱ₃` over `W` and `lift` is a `0`-cochain of `ℱ₂` lifting the
-restrictions of `τ`, then the coboundary of `lift` is the image of a `1`-cocycle of `ℱ₁`. -/
-@[stacks 02AP "the cocycle"]
+restrictions of `τ`, then the coboundary of `lift` is the image of a `1`-cocycle of `ℱ₁`.
+
+The coboundary `(cechD U ℱ₂ 0 lift)(i₀, i₁) = lift_{i₁} - lift_{i₀}` is the negative of the
+cochain of Stacks 02AP, so the class of this cocycle is `-δ(τ)`; the source's sign is
+`exists_cocycle_deltaCochain_of_localLifts`. -/
 theorem exists_cocycle_of_localLifts
     (hmono : ∀ V : Opens X, Function.Injective (φ.app (op V)))
     (hexact : ∀ (V : Opens X) (b : ToType (ℱ₂.obj (op V))), ψ.app (op V) b = 0 →
@@ -157,8 +175,8 @@ theorem exists_cocycle_of_localLifts
 
 /-- Let `φ : ℱ₁ ⟶ ℱ₂` be injective on sections and `ℱ₁ → ℱ₂ → ℱ₃` exact in the middle on
 sections. Two systems of lifts of the same section give `1`-cocycles of `ℱ₁` with the same class
-in `Ȟ¹(𝒰, ℱ₁)`. -/
-@[stacks 02AP "well-definedness in the lifts"]
+in `Ȟ¹(𝒰, ℱ₁)`. The cocycles here are those of `exists_cocycle_of_localLifts`, of class `-δ(τ)`;
+`cls_eq_of_push_eq_deltaCochain` is the same statement with the sign of Stacks 02AP. -/
 theorem cls_eq_of_localLifts
     (hmono : ∀ V : Opens X, Function.Injective (φ.app (op V)))
     (hexact : ∀ (V : Opens X) (b : ToType (ℱ₂.obj (op V))), ψ.app (op V) b = 0 →
@@ -185,8 +203,9 @@ theorem cls_eq_of_localLifts
   exact h0.symm
 
 /-- Let `φ : ℱ₁ ⟶ ℱ₂` be injective on sections. The class attached to the sum of two systems of
-local lifts is the sum of the two classes. -/
-@[stacks 02AP "additivity of the boundary map"]
+local lifts is the sum of the two classes. The cocycles here are those of
+`exists_cocycle_of_localLifts`, of class `-δ(τ)`; `cls_add_of_push_eq_deltaCochain` is the same
+statement with the sign of Stacks 02AP. -/
 theorem cls_add_of_localLifts
     (hmono : ∀ V : Opens X, Function.Injective (φ.app (op V)))
     {lift' : Cochain U ℱ₂ 0} {c c' d : cocycles1 U ℱ₁}
@@ -216,8 +235,9 @@ variable {I' : Type w'} {K : Type w''}
 sections. Let `𝒰` and `𝒰'` be two families of opens over `W`, each carrying a system of lifts of
 the same section `τ` of `ℱ₃`, and let `𝒱` be a common refinement of the two: a family of opens
 with refinement functions into the index sets of `𝒰` and of `𝒰'`. Then the two classes attached
-to `τ` have the same image in `Ȟ¹(𝒱, ℱ₁)`. -/
-@[stacks 02AP "independence of the covering, on a given common refinement"]
+to `τ` have the same image in `Ȟ¹(𝒱, ℱ₁)`. The cocycles here are those of
+`exists_cocycle_of_localLifts`, of class `-δ(τ)`; `cls_eq_of_refinement_of_push_eq_deltaCochain`
+is the same statement with the sign of Stacks 02AP. -/
 theorem cls_eq_of_refinement_of_localLifts
     (U' : I' → Opens X) (V : K → Opens X)
     (r : K → I) (hr : ∀ k, V k ≤ U (r k))
@@ -258,8 +278,10 @@ theorem cls_eq_of_refinement_of_localLifts
 /-- Let `φ : ℱ₁ ⟶ ℱ₂` be injective on sections and `ℱ₁ → ℱ₂ → ℱ₃` exact in the middle on
 sections. Two families of opens covering `W`, each carrying a system of lifts of the same section
 `τ` of `ℱ₃`, admit a common refinement covering `W`, the family of their pairwise intersections,
-on which the two classes attached to `τ` agree. -/
-@[stacks 02AP "independence of the covering"]
+on which the two classes attached to `τ` agree. The cocycles here are those of
+`exists_cocycle_of_localLifts`, of class `-δ(τ)`;
+`exists_common_refinement_cls_eq_of_push_eq_deltaCochain` is the same statement with the sign of
+Stacks 02AP. -/
 theorem exists_common_refinement_cls_eq_of_localLifts
     (U' : I' → Opens X) (hU : W = ⨆ i, U i) (hU' : W = ⨆ i', U' i')
     (hmono : ∀ V₀ : Opens X, Function.Injective (φ.app (op V₀)))
@@ -279,6 +301,169 @@ theorem exists_common_refinement_cls_eq_of_localLifts
   refine ⟨fun p => U p.1 ⊓ U' p.2, Prod.fst, fun _ => inf_le_left, Prod.snd,
     fun _ => inf_le_right, eq_iSup_inf_of_eq_iSup U hU hU', ?_⟩
   exact cls_eq_of_refinement_of_localLifts U φ ψ (inter_le_of_eq_iSup hU) U' _ _ _ _ _
+    (inter_le_of_eq_iSup hU') hmono hexact hlift hlift' hc hc'
+
+/-! ### The cocycle with the sign of Stacks 02AP -/
+
+/-- The intersection `U_{i₀i₁}` of a pair of indices lies in the member `U_{i_a}`, written as
+the intersection of the one-term tuple `(i_a)`. -/
+theorem inter_le_inter_const (i : Fin 2 → I) (a : Fin 2) :
+    inter U i ≤ inter U (fun _ : Fin 1 => i a) :=
+  le_iInf fun _ => iInf_le (fun k => U (i k)) a
+
+/-- The Čech `1`-cochain `(i₀, i₁) ↦ τ̃_{i₀}|_{U_{i₀i₁}} - τ̃_{i₁}|_{U_{i₀i₁}}` attached to a
+`0`-cochain `τ̃`: the assignment of Stacks 02AP. It is the negative of the Čech coboundary of `τ̃`
+(`deltaCochain_eq_neg_cechD`). -/
+@[stacks 02AP "the assignment `(i₀, i₁) ↦ τ̃_{i₀}|_{U_{i₀i₁}} - τ̃_{i₁}|_{U_{i₀i₁}}`"]
+def deltaCochain {ℱ : TopCat.Presheaf AddCommGrpCat.{v} X} (t : Cochain U ℱ 0) :
+    Cochain U ℱ 1 := fun i =>
+  restr ℱ (inter_le_inter_const U i 0) (t fun _ => i 0) -
+    restr ℱ (inter_le_inter_const U i 1) (t fun _ => i 1)
+
+/-- The value of `deltaCochain` at a pair of indices `(i₀, i₁)` is `τ̃_{i₀} - τ̃_{i₁}`. -/
+theorem deltaCochain_apply {ℱ : TopCat.Presheaf AddCommGrpCat.{v} X} (t : Cochain U ℱ 0)
+    (i : Fin 2 → I) :
+    deltaCochain U t i =
+      restr ℱ (inter_le_inter_const U i 0) (t fun _ => i 0) -
+        restr ℱ (inter_le_inter_const U i 1) (t fun _ => i 1) := rfl
+
+/-- Restrictions of the values of a `0`-cochain at equal index tuples agree. -/
+theorem restr_cochain_congr {ℱ : TopCat.Presheaf AddCommGrpCat.{v} X} (t : Cochain U ℱ 0)
+    {a b : Fin 1 → I} (hab : a = b) {V : Opens X} (ha : V ≤ inter U a) (hb : V ≤ inter U b) :
+    restr ℱ ha (t a) = restr ℱ hb (t b) := by
+  subst hab
+  rfl
+
+/-- The cochain `(i₀, i₁) ↦ τ̃_{i₀} - τ̃_{i₁}` of Stacks 02AP is the negative of the Čech
+coboundary of `τ̃`, whose value at `(i₀, i₁)` is `τ̃_{i₁} - τ̃_{i₀}`. -/
+theorem deltaCochain_eq_neg_cechD {ℱ : TopCat.Presheaf AddCommGrpCat.{v} X}
+    (t : Cochain U ℱ 0) : deltaCochain U t = -cechD U ℱ 0 t := by
+  funext i
+  have h0 : i ∘ (0 : Fin 2).succAbove = fun _ => i 1 :=
+    funext fun k => by rw [Subsingleton.elim k 0]; rfl
+  have h1 : i ∘ (1 : Fin 2).succAbove = fun _ => i 0 :=
+    funext fun k => by rw [Subsingleton.elim k 0]; rfl
+  rw [deltaCochain_apply, Cochain.neg_apply, cechD_apply, Fin.sum_univ_two, Fin.val_zero,
+    Fin.val_one, pow_zero, pow_one, one_zsmul, neg_one_zsmul,
+    restr_cochain_congr U t h0 (inter_le_omit U i 0) (inter_le_inter_const U i 1),
+    restr_cochain_congr U t h1 (inter_le_omit U i 1) (inter_le_inter_const U i 0)]
+  abel
+
+/-- A cocycle whose image is `deltaCochain` of the lifts has negative with image the Čech
+coboundary of the lifts. -/
+theorem push_neg_eq_cechD_of_push_eq_deltaCochain {c : cocycles1 U ℱ₁}
+    (hc : push U φ 1 (c : Cochain U ℱ₁ 1) = deltaCochain U lift) :
+    push U φ 1 ((-c : cocycles1 U ℱ₁) : Cochain U ℱ₁ 1) = cechD U ℱ₂ 0 lift := by
+  change push U φ 1 (-(c : Cochain U ℱ₁ 1)) = _
+  rw [map_neg, hc, deltaCochain_eq_neg_cechD, neg_neg]
+
+/-- **Stacks 02AP, the cocycle.** Let `φ : ℱ₁ ⟶ ℱ₂` be injective on sections and
+`ℱ₁ → ℱ₂ → ℱ₃` exact in the middle on sections. If `τ` is a section of `ℱ₃` over `W` and `τ̃` is a
+`0`-cochain of `ℱ₂` lifting the restrictions of `τ`, then the cochain
+`(i₀, i₁) ↦ τ̃_{i₀}|_{U_{i₀i₁}} - τ̃_{i₁}|_{U_{i₀i₁}}` is the image of a `1`-cocycle of `ℱ₁`. -/
+@[stacks 02AP "the cocycle `(i₀, i₁) ↦ τ̃_{i₀} - τ̃_{i₁}` with values in `ℱ₁`"]
+theorem exists_cocycle_deltaCochain_of_localLifts
+    (hmono : ∀ V : Opens X, Function.Injective (φ.app (op V)))
+    (hexact : ∀ (V : Opens X) (b : ToType (ℱ₂.obj (op V))), ψ.app (op V) b = 0 →
+      ∃ a, φ.app (op V) a = b)
+    (hlift : ∀ i, ψ.app (op (inter U i)) (lift i) = restr ℱ₃ (hle i) τ) :
+    ∃ c : cocycles1 U ℱ₁, push U φ 1 (c : Cochain U ℱ₁ 1) = deltaCochain U lift := by
+  obtain ⟨c, hc⟩ := exists_cocycle_of_localLifts U φ ψ hle hmono hexact hlift
+  refine ⟨-c, ?_⟩
+  change push U φ 1 (-(c : Cochain U ℱ₁ 1)) = _
+  rw [map_neg, hc, deltaCochain_eq_neg_cechD]
+
+/-- **Stacks 02AP, independence of the lifts.** Let `φ : ℱ₁ ⟶ ℱ₂` be injective on sections and
+`ℱ₁ → ℱ₂ → ℱ₃` exact in the middle on sections. Two systems of lifts of the same section give
+cocycles `(i₀, i₁) ↦ τ̃_{i₀} - τ̃_{i₁}` with the same class in `Ȟ¹(𝒰, ℱ₁)`. -/
+@[stacks 02AP "the class `δ(τ)` does not depend on the lifts"]
+theorem cls_eq_of_push_eq_deltaCochain
+    (hmono : ∀ V : Opens X, Function.Injective (φ.app (op V)))
+    (hexact : ∀ (V : Opens X) (b : ToType (ℱ₂.obj (op V))), ψ.app (op V) b = 0 →
+      ∃ a, φ.app (op V) a = b)
+    {lift' : Cochain U ℱ₂ 0}
+    (hlift : ∀ i, ψ.app (op (inter U i)) (lift i) = restr ℱ₃ (hle i) τ)
+    (hlift' : ∀ i, ψ.app (op (inter U i)) (lift' i) = restr ℱ₃ (hle i) τ)
+    {c c' : cocycles1 U ℱ₁}
+    (hc : push U φ 1 (c : Cochain U ℱ₁ 1) = deltaCochain U lift)
+    (hc' : push U φ 1 (c' : Cochain U ℱ₁ 1) = deltaCochain U lift') :
+    cls U ℱ₁ c = cls U ℱ₁ c' := by
+  have h := cls_eq_of_localLifts U φ ψ hle hmono hexact hlift hlift'
+    (push_neg_eq_cechD_of_push_eq_deltaCochain U φ hc)
+    (push_neg_eq_cechD_of_push_eq_deltaCochain U φ hc')
+  rwa [cls, cls, QuotientAddGroup.mk_neg, QuotientAddGroup.mk_neg, neg_inj] at h
+
+/-- **Stacks 02AP, additivity of `δ`.** Let `φ : ℱ₁ ⟶ ℱ₂` be injective on sections. The class of
+the cocycle `(i₀, i₁) ↦ τ̃_{i₀} - τ̃_{i₁}` attached to the sum of two systems of local lifts is the
+sum of the two classes. -/
+@[stacks 02AP "additivity of the boundary map `δ`"]
+theorem cls_add_of_push_eq_deltaCochain
+    (hmono : ∀ V : Opens X, Function.Injective (φ.app (op V)))
+    {lift' : Cochain U ℱ₂ 0} {c c' d : cocycles1 U ℱ₁}
+    (hc : push U φ 1 (c : Cochain U ℱ₁ 1) = deltaCochain U lift)
+    (hc' : push U φ 1 (c' : Cochain U ℱ₁ 1) = deltaCochain U lift')
+    (hd : push U φ 1 (d : Cochain U ℱ₁ 1) = deltaCochain U (lift + lift')) :
+    cls U ℱ₁ d = cls U ℱ₁ c + cls U ℱ₁ c' := by
+  have h := cls_add_of_localLifts U φ hmono
+    (push_neg_eq_cechD_of_push_eq_deltaCochain U φ hc)
+    (push_neg_eq_cechD_of_push_eq_deltaCochain U φ hc')
+    (push_neg_eq_cechD_of_push_eq_deltaCochain U φ hd)
+  rwa [cls, cls, cls, QuotientAddGroup.mk_neg, QuotientAddGroup.mk_neg, QuotientAddGroup.mk_neg,
+    ← neg_add, neg_inj] at h
+
+/-- **Stacks 02AP, independence of the covering on a common refinement.** Let `φ : ℱ₁ ⟶ ℱ₂` be
+injective on sections and `ℱ₁ → ℱ₂ → ℱ₃` exact in the middle on sections. Let `𝒰` and `𝒰'` be
+two families of opens over `W`, each with a system of lifts of the same section `τ` of `ℱ₃`, and
+let `𝒱` be a common refinement of the two. Then the classes of the two cocycles
+`(i₀, i₁) ↦ τ̃_{i₀} - τ̃_{i₁}` have the same image in `Ȟ¹(𝒱, ℱ₁)`. -/
+@[stacks 02AP "the class `δ(τ)` agrees on a given common refinement of two coverings"]
+theorem cls_eq_of_refinement_of_push_eq_deltaCochain
+    (U' : I' → Opens X) (V : K → Opens X)
+    (r : K → I) (hr : ∀ k, V k ≤ U (r k))
+    (r' : K → I') (hr' : ∀ k, V k ≤ U' (r' k))
+    (hle' : ∀ i : Fin 1 → I', inter U' i ≤ W)
+    (hmono : ∀ V₀ : Opens X, Function.Injective (φ.app (op V₀)))
+    (hexact : ∀ (V₀ : Opens X) (b : ToType (ℱ₂.obj (op V₀))), ψ.app (op V₀) b = 0 →
+      ∃ a, φ.app (op V₀) a = b)
+    {lift' : Cochain U' ℱ₂ 0}
+    (hlift : ∀ i, ψ.app (op (inter U i)) (lift i) = restr ℱ₃ (hle i) τ)
+    (hlift' : ∀ i, ψ.app (op (inter U' i)) (lift' i) = restr ℱ₃ (hle' i) τ)
+    {c : cocycles1 U ℱ₁} {c' : cocycles1 U' ℱ₁}
+    (hc : push U φ 1 (c : Cochain U ℱ₁ 1) = deltaCochain U lift)
+    (hc' : push U' φ 1 (c' : Cochain U' ℱ₁ 1) = deltaCochain U' lift') :
+    refinementCechH1 U V r hr ℱ₁ (cls U ℱ₁ c) =
+      refinementCechH1 U' V r' hr' ℱ₁ (cls U' ℱ₁ c') := by
+  have h := cls_eq_of_refinement_of_localLifts U φ ψ hle U' V r hr r' hr' hle' hmono hexact
+    hlift hlift' (push_neg_eq_cechD_of_push_eq_deltaCochain U φ hc)
+    (push_neg_eq_cechD_of_push_eq_deltaCochain U' φ hc')
+  rwa [cls, cls, QuotientAddGroup.mk_neg, QuotientAddGroup.mk_neg, map_neg, map_neg,
+    neg_inj] at h
+
+/-- **Stacks 02AP, independence of the covering.** Let `φ : ℱ₁ ⟶ ℱ₂` be injective on sections
+and `ℱ₁ → ℱ₂ → ℱ₃` exact in the middle on sections. Two families of opens covering `W`, each with
+a system of lifts of the same section `τ` of `ℱ₃`, admit a common refinement covering `W`, the
+family of their pairwise intersections, on which the classes of the two cocycles
+`(i₀, i₁) ↦ τ̃_{i₀} - τ̃_{i₁}` agree. -/
+@[stacks 02AP "the class `δ(τ)` does not depend on the covering"]
+theorem exists_common_refinement_cls_eq_of_push_eq_deltaCochain
+    (U' : I' → Opens X) (hU : W = ⨆ i, U i) (hU' : W = ⨆ i', U' i')
+    (hmono : ∀ V₀ : Opens X, Function.Injective (φ.app (op V₀)))
+    (hexact : ∀ (V₀ : Opens X) (b : ToType (ℱ₂.obj (op V₀))), ψ.app (op V₀) b = 0 →
+      ∃ a, φ.app (op V₀) a = b)
+    {lift' : Cochain U' ℱ₂ 0}
+    (hlift : ∀ i, ψ.app (op (inter U i)) (lift i) = restr ℱ₃ (inter_le_of_eq_iSup hU i) τ)
+    (hlift' : ∀ i, ψ.app (op (inter U' i)) (lift' i) = restr ℱ₃ (inter_le_of_eq_iSup hU' i) τ)
+    {c : cocycles1 U ℱ₁} {c' : cocycles1 U' ℱ₁}
+    (hc : push U φ 1 (c : Cochain U ℱ₁ 1) = deltaCochain U lift)
+    (hc' : push U' φ 1 (c' : Cochain U' ℱ₁ 1) = deltaCochain U' lift') :
+    ∃ (V : I × I' → Opens X) (r : I × I' → I) (hr : ∀ k, V k ≤ U (r k))
+      (r' : I × I' → I') (hr' : ∀ k, V k ≤ U' (r' k)),
+      W = ⨆ k, V k ∧
+        refinementCechH1 U V r hr ℱ₁ (cls U ℱ₁ c) =
+          refinementCechH1 U' V r' hr' ℱ₁ (cls U' ℱ₁ c') := by
+  refine ⟨fun p => U p.1 ⊓ U' p.2, Prod.fst, fun _ => inf_le_left, Prod.snd,
+    fun _ => inf_le_right, eq_iSup_inf_of_eq_iSup U hU hU', ?_⟩
+  exact cls_eq_of_refinement_of_push_eq_deltaCochain U φ ψ (inter_le_of_eq_iSup hU) U' _ _ _ _ _
     (inter_le_of_eq_iSup hU') hmono hexact hlift hlift' hc hc'
 
 end Stacks.Cohomology.CechBoundary

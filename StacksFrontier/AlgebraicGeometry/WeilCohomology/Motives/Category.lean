@@ -65,8 +65,10 @@ monoidal axioms of Stacks 0FG7 use; it is the content of Stacks 0FG2, carried th
 `Stacks.WeilCohomology.CorrespondenceStructure.linear` as an instance hypothesis on the
 single-degree category, and what is proved is the step that Stacks 0FGA actually needs: passing
 from an `R`-linear category to its Karoubi envelope. The symmetric monoidal structure of `M_k`
-is Stacks 0FGC and is not constructed here; the monoidal structure used by the duality of Stacks
-0FGI is base's monoidal structure on the category of correspondences itself, Stacks 0FG7.
+is Stacks 0FGC; it is not constructed on this abstract Karoubi envelope, but on the concrete
+category of Chow motives, as `Stacks.WeilCohomology.ChowMotiveCat.monoidalCategory`. The
+monoidal structure used by the duality of Stacks 0FGI is base's monoidal structure on the
+category of correspondences itself, Stacks 0FG7.
 
 ## References
 

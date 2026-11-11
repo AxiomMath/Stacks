@@ -26,11 +26,14 @@ which is an isomorphism over `X ∖ closure {x}`; since `ω_{X/Y}` is `(S₂)` b
 particular `𝒪_{X, x}`, is Gorenstein.
 
 Everything in that paragraph *except* the construction of the map and the `(S₂)` property of
-`ω_{X/Y}` is proved here.  Those two are the content of Tags 0EA0 and 0E9V, neither of which is
-available in this library, so they appear as explicit data: the map `φ` is an argument, the
-locus where it is already an isomorphism is a hypothesis, and the `(S₂)` consequence is the
-hypothesis that the stalk of the target has positive depth at the points of `closure {x}`.  No
-`@[stacks ...]` attribute appears below; these are auxiliary lemmas, not a tag.
+`ω_{X/Y}` is proved here.  Those two are the content of Tags 0EA0 and 0E9V, which are proved
+elsewhere in the library (0E9V as
+`Stacks.Duality.neg_le_and_propertySkModule_stalk_homology_upperShriek_of_residueTrdeg_le`);
+the lemmas below are stated for an arbitrary scheme, so they appear as explicit data: the map
+`φ` is an argument, the locus where it is already an isomorphism is a hypothesis, and the `(S₂)`
+consequence is the hypothesis that the stalk of the target has positive depth at the points of
+`closure {x}`.  No `@[stacks ...]` attribute appears below; these are auxiliary lemmas, not a
+tag.
 
 ## Main results
 

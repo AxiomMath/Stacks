@@ -1,8 +1,10 @@
 module
 
 public import Mathlib.Algebra.Homology.ShortComplex.PreservesHomology
+public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.IsPullback.Kernels
 public import StacksFrontier.Algebra.Module.Adequate.LaurentLargeLift
 public import StacksFrontier.Algebra.Module.Adequate.SplittingSymmetricLarge
+public import StacksFrontier.AlgebraicGeometry.Adequate.HigherExtsBase.Biproducts
 
 /-!
 # Tag 06V7: splitting an extension of a linearly adequate functor, at independent universes
@@ -28,6 +30,8 @@ discipline of `AdequateFunctor.ModuleValuedFunctor.{max u v w, v} A`.
   (Stacks 06V7): the splitting, from the two properties of the kernel term that it uses.
 * `AdequateFunctor.exists_retraction_of_shortExact_large` (Stacks 06V7): an extension of a
   linearly adequate functor by an adequate functor admits a retraction onto its kernel term.
+* `AdequateFunctor.projective_of_isLinearlyAdequate` (Stacks 06V7): a linearly adequate functor
+  is a projective object of the abelian category of adequate functors.
 
 ## Implementation notes
 
@@ -273,6 +277,44 @@ public lemma exists_retraction_of_shortExact_large {A : Type u} [CommRing A]
   exists_retraction_of_shortExact_of_baseChange_weightOne_large i p hip hS
     (adequate_preservesFlatBaseChange_large.{u, v, w} F hF)
     (adequate_hasWeightOneCoproduct_large.{u, max u v, w} F hF) hL
+
+/-- **Stacks 06V7**, the conclusion: a linearly adequate functor `L` is a projective object of
+the abelian category `(AdequateFunctor.adequate A).FullSubcategory` of adequate functors on the
+commutative `A`-algebras.
+
+An epimorphism `e : E ⟶ X` of adequate functors is an epimorphism of module-valued functors,
+because adequate functors are closed under cokernels (Stacks 06V2). Given `f : L ⟶ X`, the
+pullback `P = E ×_X L` maps onto `L` with kernel isomorphic to `Ker(e)`, which is adequate by
+Stacks 06V3; so `0 → Ker(e) → P → L → 0` splits by
+`AdequateFunctor.exists_retraction_of_shortExact_large`, and a section `L ⟶ P` followed by the
+projection to `E` lifts `f` through `e`. -/
+@[stacks 06V7 "L is a projective object of the abelian category of adequate functors"]
+public theorem projective_of_isLinearlyAdequate {A : Type u} [CommRing A]
+    (L : (adequate.{u, v, max u v w} A).FullSubcategory)
+    (hL : IsLinearlyAdequate (𝟭 _) L.obj) :
+    Projective L := by
+  constructor
+  intro E X f e _
+  have := (adequate.{u, v, max u v w} A).preservesEpimorphisms_ι_of_isNormalMonoCategory
+  have : Epi e.hom := (adequate.{u, v, max u v w} A).ι.map_epi e
+  let q := pullback.snd e.hom f.hom
+  have sq := (IsPullback.of_hasPullback e.hom f.hom).flip
+  have := isIso_kernel_map_of_isPullback sq
+  have hK : IsAdequate (𝟭 _) (kernel q) :=
+    (isAdequate_kernel e.hom E.property X.property).of_iso
+      (asIso (kernel.map _ _ _ _ sq.w))
+  let S := ShortComplex.mk (kernel.ι q) q (kernel.condition q)
+  have hS : S.ShortExact :=
+    ShortComplex.ShortExact.mk' (ShortComplex.exact_kernel q) inferInstance inferInstance
+  obtain ⟨r, hr⟩ := exists_retraction_of_shortExact_large.{u, v, w}
+    (kernel.ι q) q (kernel.condition q) hS hK hL
+  let spl := ShortComplex.Splitting.ofExactOfRetraction S hS.exact r hr hS.epi_g
+  refine ⟨ObjectProperty.homMk (spl.s ≫ pullback.fst e.hom f.hom), ?_⟩
+  ext1
+  change (spl.s ≫ pullback.fst e.hom f.hom) ≫ e.hom = f.hom
+  rw [Category.assoc, pullback.condition, ← Category.assoc]
+  change (spl.s ≫ S.g) ≫ f.hom = f.hom
+  rw [spl.s_g, Category.id_comp]
 
 end AdequateFunctor
 

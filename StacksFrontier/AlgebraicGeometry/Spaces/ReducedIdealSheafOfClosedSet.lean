@@ -100,8 +100,13 @@ theorem idealZeroLocus_reducedIdealSheaf (X : AlgebraicSpaces B S hS)
       (range_pointsMap_ι_reducedClosedSubspace B S hS X.1 X.2 T hT)
 
 /-- **Every closed set of points of an algebraic space is the zero locus of a quasi-coherent
-sheaf of ideals.** -/
-@[stacks 03IP "a section, not a lemma: a closed set is cut out by a quasi-coherent sheaf of ideals"]
+sheaf of ideals.**
+
+This is a corollary of Stacks 03IQ (the reduced closed subspace on a closed set of points) and
+Stacks 03MB (the defining ideal sheaf of a closed subspace is quasi-coherent); it is not a
+statement of the Stacks project and carries no `@[stacks]` tag. In particular it is not the
+content of Section 03IP ("Reduced spaces"), which is registered on
+`AlgebraicGeometry.Space.existsUnique_reducedClosedSubspace`. -/
 theorem exists_isQuasicoherentOnSite_idealZeroLocus_eq (X : AlgebraicSpaces B S hS)
     (T : Set (points B S hS X.1)) (hT : IsClosed T) :
     ∃ I : (SheafOfModules.unit (structureRingSheaf B S hS X)).Submodule,

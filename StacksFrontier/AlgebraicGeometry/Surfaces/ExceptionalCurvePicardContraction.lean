@@ -53,11 +53,8 @@ The converse inclusion at `Pic(X)` — that a class of degree zero on `E` is pul
 `b_*ℒ` is invertible with `b^*b_*ℒ ⟶ ℒ` an isomorphism is checked after flat base change to the
 spectrum of the regular local ring at the contracted point, where every invertible module is a
 multiple of `𝒪_X(E)`. That last input is the generation half of
-[Stacks, Tag 0C5G](https://stacks.math.columbia.edu/tag/0C5G), which the library carries as the
-hypothesis `hgen` of
-`AlgebraicGeometry.Scheme.IdealSheafData.IsExceptionalCurveOfFirstKind.picardGroupEquivInt`; it
-needs a trivialization of an invertible module over `X ∖ E` to be read as a regular meromorphic
-section of it on `X`, and nothing in the library does that.
+[Stacks, Tag 0C5G](https://stacks.math.columbia.edu/tag/0C5G),
+`AlgebraicGeometry.surjective_zsmul_picardClass_exceptionalIdealData`.
 
 ## References
 

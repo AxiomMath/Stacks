@@ -44,9 +44,10 @@ lets the three isomorphisms above be read as the single statement
 * `CategoryTheory.OverShriek.sheafFunctorToOverCompPushforwardIso` (Stacks 04IQ):
   `j_{F,*} = j_{U,*}`.
 
-## What is not done
-
-The assertion of Stacks 04GZ that `Sh(C)/F` is a topos is not formalized here.
+The assertion of Stacks 04GZ that `Sh(C)/F` is a topos, and the construction of `j_{F,*}` on a
+small site, are `CategoryTheory.Sheaf.exists_over_equiv_sheaf` and
+`MorphismOfTopoi.sheafOverLocalization` in
+`StacksFrontier.CategoryTheory.Sites.ToposLocalizationSheaf`.
 -/
 
 @[expose] public section
@@ -199,8 +200,8 @@ def toOverCompInverseIso :
 /-- **Stacks 04IQ**, on pushforwards: `j_{F,*} = j_{U,*}` for `F = h_U^#`, i.e.
 `Φ_U ⋙ j_{F,*} ≅ j_{U,*}`.
 
-Both pushforwards are taken as data, as in Stacks 04GZ, 04H0 and 04IR: `p` is a right adjoint of
-`j_F^{-1} = toOver F` and `q` a right adjoint of `j_U^{-1}`. -/
+Both pushforwards are taken as data, as in `MorphismOfTopoi.overLocalization` and Stacks 04H0 and
+04IR: `p` is a right adjoint of `j_F^{-1} = toOver F` and `q` a right adjoint of `j_U^{-1}`. -/
 @[stacks 04IQ "j_{F,*} = j_{U,*} for F = h_U^#: the pushforwards agree"]
 def sheafFunctorToOverCompPushforwardIso
     {p : Over ((presheafToSheaf J (Type v)).obj (yoneda.obj U)) ⥤ Sheaf J (Type v)}

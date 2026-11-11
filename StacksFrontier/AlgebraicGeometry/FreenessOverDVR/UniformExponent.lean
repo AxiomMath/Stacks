@@ -42,10 +42,10 @@ two module-theoretic mechanisms that produce that integer; the geometric stateme
 addition the reduction to the case of a section (Krull-Akizuki together with the valuative
 criterion of properness), the identification of `R Γ(X, ℰ)` with a direct sum of its
 cohomology modules over a discrete valuation ring, and finiteness of those cohomology modules.
-None of that is proved here. The tag itself is carried by
-`StacksFrontier/AlgebraicGeometry/FreenessOverDVR/Triviality.lean`, which assembles the exponents
-built below with the summand counting of `InvariantFactorCount.lean` and the endgame of
-`CyclicSummands.lean`.
+None of that is proved here. The tag itself is carried by `exists_thickening_exponent_free` in
+`StacksFrontier/AlgebraicGeometry/FreenessOverDVR/FreenessCriterion.lean`; the section-based route,
+from `TrivialityInput`, is `Triviality.lean`, which assembles the exponents built below with the
+summand counting of `InvariantFactorCount.lean` and the endgame of `CyclicSummands.lean`.
 
 In the source proof the `k` of `exists_forall_pow_smul_top_inf_torsion_eq_bot` is the exponent
 with `(𝒪_X)_tors ∩ π ^ k 𝒪_X = 0`, and the `e` of `eq_top_of_sup_sup_pow_smul_top_eq_top` is

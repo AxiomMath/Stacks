@@ -36,7 +36,7 @@ definition (`AlgebraicGeometry.Space.chartSchemeAlgebra_sections`) the sections 
 
 ## References
 
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 * [Stacks Project, Tag 000R](https://stacks.math.columbia.edu/tag/000R)
 * [Stacks Project, Tag 01LP](https://stacks.math.columbia.edu/tag/01LP)
 * [Stacks Project, Tag 081V](https://stacks.math.columbia.edu/tag/081V)

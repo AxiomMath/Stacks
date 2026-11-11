@@ -44,8 +44,8 @@ Three things come for free with it.
 
 Exactly those of `...SmallSite.computes07LG_of_doubleComplex`, with `hrows` replaced.  **No tag
 attribute is placed**: this is a reduction with named hypotheses, and [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.  See the module documentation of
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.  See the module documentation of
 `Computes07LGFromDoubleComplex.lean` for what each hypothesis is and why.
 
 ## Main result
@@ -101,7 +101,7 @@ negative integer, both sides vanishing there.
 
 Every other hypothesis is kept verbatim; see the module documentation of
 `Computes07LGFromDoubleComplex.lean` for what each one is.  **No tag attribute is placed** on this
-reduction; [Stacks, Tag 07LG] is `...SmallSite.crystalPairDeRhamComplex_computesCohomology`. -/
+reduction; [Stacks, Tag 07LG] is `...SmallSite.crystalPairDeRhamDerivedPlusIso`. -/
 public theorem computes07LG_of_doubleComplex_rowwise
     (K : ∀ F : SheafOfModules.{u} (structureSheaf S), F.IsQuasicoherentOnSite →
       CochainComplex (CosimplicialObject AddCommGrpCat.{u + 1}) ℕ)

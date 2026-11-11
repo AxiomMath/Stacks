@@ -34,8 +34,15 @@ finitely presented way.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiDMOver_of_isRepresentableByAlgebraicSpace`:
   **Stacks 050E**, part (3), at the structure 1-morphism — an algebraic stack representable by
   an algebraic space is quasi-DM over its base.
-* `AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiDM_tfae_hasQuasiFiniteFlatSpaceCover`:
-  **Stacks 06UE**.
+* `AlgebraicGeometry.Stack.AlgebraicStacks`
+  `.hasQuasiFiniteFlatSpaceCoverOnSomeFlatBaseChange_of_onEveryBaseChange`:
+  **Stacks 06UE**, (2) ⟹ (3).
+* `AlgebraicGeometry.Stack.AlgebraicStacks`
+  `.isQuasiDM_of_hasQuasiFiniteFlatSpaceCoverOnSomeFlatBaseChange`: **Stacks 06UE**, (3) ⟹ (1).
+
+The full equivalence of **Stacks 06UE**, with no hypothesis beyond the source's, is
+`AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiDM_tfae_hasQuasiFiniteFlatSpaceCover_unconditional`
+in `StacksFrontier.AlgebraicGeometry.Stacks.QuasiDMRelativePresentationUnconditional`.
 
 ## Implementation notes
 
@@ -49,17 +56,14 @@ what says it agrees there with the general Definition 101.23.2 of a locally quas
 `AlgebraicGeometry.Stack.HasQuasiDMPresentation`, which this file's substantial direction
 consumes.
 
-Two hypotheses are carried that the source does not state.
-
-* `hZ`, that the ambient big fppf site contains the terminal scheme. The absolute quasi-DM
-  condition of **Stacks 050D**, part (6), is read over `Spec(ℤ)`, so every consumer of it needs
-  that object in the site; the same hypothesis appears in **Stacks 06MB** and **06MF**.
-* `hPresentation`, the substantial direction of **Stacks 06MF**
-  (`AlgebraicGeometry.Stack.ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM`), which is carried
-  there too: it is the structure theorem building a flat locally quasi-finite chart near every
-  finite type point, whose proof runs through **Stacks 06MD**, **06ME**, **06G2** and **06G3**,
-  none of which is in this library. It is used only for (1) ⟹ (2); the implications
-  (2) ⟹ (3) and (3) ⟹ (1) are unconditional.
+The implications (2) ⟹ (3) and (3) ⟹ (1) here are unconditional, apart from `hZ`, that the
+ambient big fppf site contains the terminal scheme, which the absolute quasi-DM condition of
+**Stacks 050D**, part (6), needs and which `AlgebraicGeometry.BigFppfSite.contains_terminal`
+proves. The variant (1) ⟹ (2) in this file takes the substantial direction of **Stacks 06MF**
+(`AlgebraicGeometry.Stack.ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM`) as `hPresentation`;
+that direction is proved as `AlgebraicGeometry.Stack.hasQuasiDMPresentation_of_isAbsolutelyQuasiDM`,
+and the unconditional (1) ⟹ (2) is in
+`StacksFrontier.AlgebraicGeometry.Stacks.QuasiDMRelativePresentationUnconditional`.
 
 ## References
 
@@ -188,18 +192,12 @@ theorem isQuasiDM_of_hasQuasiFiniteFlatSpaceCoverOnSomeFlatBaseChange (f : 𝒳 
   exact (isAbsolutelyQuasiDM_iff_isQuasiDMOver B S hS hZ _).1
     (isAbsolutelyQuasiDM_of_isLocallyQuasiFinite_flatCover B S hS hZ p h𝒰 hpS hpF hpL hpQ)
 
-/-- **Stacks 06UE.** For a 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks over `S` the following
-are equivalent: `f` is quasi-DM; every base change of `f` along an algebraic space over `𝒴` has
-a surjective, flat, locally finitely presented, locally quasi-finite cover by an algebraic
-space; and some algebraic space surjective, flat and locally of finite presentation over `𝒴`
-carries a base change of `f` with such a cover.
-
-The hypothesis `hPresentation` is the substantial direction of **Stacks 06MF**, carried in this
-library; it is used only for (1) ⟹ (2). -/
-@[stacks 06UE "granted the substantial direction of Tag 06MF, the quasi-DM presentation
-  theorem, as the hypothesis `hPresentation`, and granted the containment of the terminal
-  scheme in the site as the hypothesis `hZ`, which the absolute quasi-DM condition of
-  Tag 050D part (6) needs. Only (1) implies (2) uses `hPresentation`"]
+/-- The equivalence of **Stacks 06UE** with the substantial direction of **Stacks 06MF** taken
+as the hypothesis `hPresentation`, used only for (1) ⟹ (2). That direction is proved as
+`AlgebraicGeometry.Stack.hasQuasiDMPresentation_of_isAbsolutelyQuasiDM`, and the equivalence
+without `hPresentation` and `hZ` is
+`AlgebraicGeometry.Stack.AlgebraicStacks.isQuasiDM_tfae_hasQuasiFiniteFlatSpaceCover_unconditional`.
+-/
 theorem isQuasiDM_tfae_hasQuasiFiniteFlatSpaceCover
     (hPresentation : Stack.ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM.{u, w} B S hS hZ)
     (f : 𝒳 ⟶ 𝒴) :

@@ -17,7 +17,8 @@ across the subset as a coherent module.
 * `AlgebraicGeometry.two_le_depth_stalk_of_isIso_unit_outside`: the hypothesis
   `hdepthOutside`, as a theorem.
 * `AlgebraicGeometry.exists_isDepthTwoExtension_of_isStabilizedOpenExtension`:
-  **[Stacks, Tag 0EI3], existence**, conditional on `hext` alone.
+  existence of a depth-two extension from `hext` alone (a step towards [Stacks, Tag 0EI3],
+  whose complete statement is `AlgebraicGeometry.existsUnique_isDepthTwoExtension_and_pullback`).
 * `AlgebraicGeometry.exists_isNestedImprovement_of_isStabilizedOpenExtension`:
   **[Stacks, Tag 0EI4], existence**, conditional on `hext` alone.
 
@@ -60,9 +61,6 @@ public theorem two_le_depth_stalk_of_isIso_unit_outside (X : Scheme.{u}) [IsNoet
 isomorphism on the stalks away from a specialization-stable subset and whose stalks on that
 subset have depth at least two, as soon as the depth-one quotient has a stabilized open
 extension across the subset. -/
-@[stacks 0EI3 "existence, conditional only on a coherent stabilized open extension of the \
-depth-one quotient along the subset; the other hypothesis of \
-exists_isDepthTwoExtension, namely Tag 0EY0 part (3), is discharged here"]
 public theorem exists_isDepthTwoExtension_of_isStabilizedOpenExtension
     (X : Scheme.{u}) [IsNoetherian X] (T : Set X) (hT : StableUnderSpecialization T)
     (F : X.Modules) [F.IsCoherent]
@@ -75,9 +73,6 @@ public theorem exists_isDepthTwoExtension_of_isStabilizedOpenExtension
 /-- A coherent module on a Noetherian scheme admits an improvement along a nested pair `T' ⊆ T`
 of subsets stable under specialization, as soon as the depth-one quotient along `T` has a
 stabilized open extension across `T'`. -/
-@[stacks 0EI4 "existence, conditional only on a coherent stabilized open extension of the \
-depth-one quotient along T'; the other hypothesis of exists_isNestedImprovement, namely Tag \
-0EY0 part (3), is discharged here"]
 public theorem exists_isNestedImprovement_of_isStabilizedOpenExtension
     (X : Scheme.{u}) [IsNoetherian X] (T T' : Set X) (hTT' : T' ⊆ T)
     (hT : StableUnderSpecialization T) (F : X.Modules) [F.IsCoherent]

@@ -317,8 +317,6 @@ Backwards this is `AlgebraicGeometry.FormalSpace.formalSpectrumMap_tfae_of_cutof
 Forwards, a cutoff which is not regular has cofinality below it, and then
 `AlgebraicGeometry.FormalSpace.exists_not_tfae_formalSpectrumMap_of_cof_lt` produces a taut
 homomorphism for which the equivalence fails. -/
-@[stacks 0AN5 "the equivalence of (1), (2) and (3) for all weakly admissible rings holds over \
-a site exactly when its cutoff is a regular cardinal"]
 theorem forall_formalSpectrumMap_tfae_iff_cutoff_isRegular :
     (∀ (S : Scheme.{u}) (hS : B.Contains S) (A : Type u) [CommRing A] [TopologicalSpace A]
       [IsTopologicalRing A] [IsLinearTopology A A] (C : Type u) [CommRing C]
@@ -350,7 +348,6 @@ statement holds, in the form of all three equivalences, over a site whose cutoff
 (`AlgebraicGeometry.FormalSpace.formalSpectrumMap_tfae_of_cutoff_isRegular`) and for a
 countably indexed target over any site
 (`AlgebraicGeometry.FormalSpace.formalSpectrumMap_tfae_of_isCountablyGenerated`). -/
-@[stacks 0AN5 "false as stated over a site whose cutoff is singular: (3) does not imply (2)"]
 theorem exists_bigFppfSite_isTaut_not_relativelyRepresentable :
     ∃ (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (A : Type u) (_ : CommRing A)
       (_ : TopologicalSpace A) (_ : IsTopologicalRing A) (_ : IsLinearTopology A A)

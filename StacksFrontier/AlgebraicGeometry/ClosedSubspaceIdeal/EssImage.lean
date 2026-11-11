@@ -5,14 +5,16 @@ public import StacksFrontier.AlgebraicGeometry.ClosedImmersion.ClosedSubspaceExi
 /-!
 # Sheaves supported on a closed subset, with the object universe freed
 
-`Stacks.essImage_pushforward_subsetInclusion_iff` (Stacks Tag 00AH, in
-`StacksFrontier.Topology.Sheaves.ClosedImmersion.PushforwardAlgStruct`) is stated for an
-`AlgebraicStructureType.{u, u}`, i.e. for a category whose objects and whose homs live in
-the same universe. `CommRingCat.{u}` is not of that shape: its homs live in `Type u` but its
-objects in `Type (u + 1)`, so it is an `AlgebraicStructureType.{u, u + 1}`. The implication
-that is needed downstream — stalks terminal off a closed set implies the sheaf is pushed
-forward from that set — is therefore redone, with the object universe kept independent of the
-hom universe, in `Stacks.ClosedImmersion`
+Stacks Tag 00AH is `Stacks.essImage_sheafPushforward_subsetInclusion_iff` (with
+`Stacks.full_and_faithful_sheafPushforward_subsetInclusion`), in
+`StacksFrontier.Topology.Sheaves.ClosedImmersion.PushforwardAlgStruct`. It is stated for an
+`AlgebraicStructureType.{u, w}` with the object universe `w` independent of the hom universe
+`u`, so it applies to `CommRingCat.{u}`, an `AlgebraicStructureType.{u, u + 1}`. The older
+`Stacks.essImage_pushforward_subsetInclusion_iff` in the same file is stated for an
+`AlgebraicStructureType.{u, u}` and does not apply to `CommRingCat.{u}`. The implication that
+is needed downstream — stalks terminal off a closed set implies the sheaf is pushed forward from
+that set — was proved separately, with the object universe kept independent of the hom
+universe and under `HasColimits`, in `Stacks.ClosedImmersion`
 (`StacksFrontier/AlgebraicGeometry/ClosedImmersion/ClosedSubspaceExistence.lean`). Those
 declarations are re-exported here and nothing is redeclared.
 

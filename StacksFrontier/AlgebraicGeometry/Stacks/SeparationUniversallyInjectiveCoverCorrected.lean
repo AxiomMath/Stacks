@@ -188,10 +188,11 @@ Without it the statement fails, the obstruction being separatedness of `i`:
 whenever `g` is representable by algebraic spaces,
 `AlgebraicGeometry.Stack.AlgebraicStacks`
 `.isSeparated_of_isSeparated_comp_of_universallyInjective_of_isRepresentableByAlgebraicSpaces`. -/
-@[stacks 0CPQ "corrected form: the relative diagonal of g is assumed separated, which holds when \
-g is representable by algebraic spaces and is strictly weaker than the conclusion; the published \
-statement fails, see \
-Stacks.Examples.not_forall_isSeparated_of_isSeparated_comp_of_universallyInjective"]
+@[stacks 0CPQ "corrected form; the statement as written is false, see \
+Stacks.Examples.not_forall_isSeparated_of_isSeparated_comp_of_universallyInjective. The added \
+assumption is that the relative diagonal of g is separated, which is strictly weaker than g \
+separated and holds whenever g is representable by algebraic spaces; the counterexample violates \
+exactly it"]
 theorem isSeparated_of_isSeparated_comp_of_universallyInjective_of_isSeparated_diagonal
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {𝒳 𝒴 𝒵 : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒴 ⟶ 𝒵)

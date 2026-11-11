@@ -69,6 +69,7 @@ local notation "hE₀" => tensorPowerPresentationEnvelope_prime_nilpotent s g
 local notation "C₀" => polynomialEnvelopeCoordinates s (tensorPowerPresentation s g 0)
   (tensorPowerPresentation_surjective s g hg 0)
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- `Ω̂_{E/A,δ}` is a module over the completed envelope `D`, as the completion of a module over
 the envelope `E`. -/
 instance moduleEnvelopeCompletionTensorPowerDifferentials :
@@ -98,6 +99,7 @@ theorem tensorPowerDerivation_eq_mapAddHom
             (T₀).object.dividedPowers) (dividedPowerDifferential_add _)) b).symm
   exact DFunLike.congr_fun h x
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- Step one: `Ω̂_{E/A,δ} ≃ Ω̂¹_{E/A,δ}`. -/
 def tensorPowerOneFormsEquivAux₁ :
     letI : Algebra (s.A : Type u) (T₀).object := (T₀).structureMap.toRingHom.toAlgebra
@@ -107,12 +109,14 @@ def tensorPowerOneFormsEquivAux₁ :
   letI : Algebra (s.A : Type u) (T₀).object := (T₀).structureMap.toRingHom.toAlgebra
   (completedOneFormsEquiv s.p (s.A : Type u) (T₀).object.dividedPowers).symm
 
-/-- **The two spellings of `Ω_D` agree**: the completion `Ω̂_{E/A,δ}` of the divided power
-differentials of the envelope `E` (`Crystalline.completedTensorPowerDifferentials`), and the
-completed one-forms `Ω̂¹_{D/A,γ̂}` of the completed ring `D = Ê` itself
-(`Crystalline.envelopeCompletionForms`), linearly over `D`. -/
-def tensorPowerOneFormsEquiv :
-    completedTensorPowerDifferentials s g 0 ≃ₗ[envelopeCompletion E₀ s.p hE₀] (C₀).forms :=
+omit [Fintype ι] [DecidableEq ι] in
+/-- **The two spellings of `Ω_D` agree, for any family of variables**: the completion
+`Ω̂_{E/A,δ}` of the divided power differentials of the envelope `E`
+(`Crystalline.completedTensorPowerDifferentials`), and the completed one-forms `Ω̂¹_{D/A,γ̂}` of
+the completed ring `D = Ê` itself (`Crystalline.envelopeCompletionForms`), linearly over `D`. -/
+def tensorPowerOneFormsEquivForms :
+    completedTensorPowerDifferentials s g 0 ≃ₗ[envelopeCompletion E₀ s.p hE₀]
+      envelopeCompletionForms E₀ s.p hE₀ 1 :=
   letI : Algebra (s.A : Type u) (T₀).object := (T₀).structureMap.toRingHom.toAlgebra
   ((tensorPowerOneFormsEquivAux₁ s g).trans
     ((completedFormsOfCompletionEquiv s.p (s.A : Type u) (T₀).object.dividedPowers hE₀ 1).trans
@@ -122,6 +126,14 @@ def tensorPowerOneFormsEquiv :
       inferInstance (algebraBaseEnvelopeCompletion E₀ s.p hE₀)
       (Algebra.algebra_ext _ _ fun _ ↦ rfl))) :
     _ ≃ₗ[AdicCompletion (pAdicIdeal (A := ((T₀).object : Type u)) s.p) (T₀).object] _)
+
+/-- **The two spellings of `Ω_D` agree**: the completion `Ω̂_{E/A,δ}` of the divided power
+differentials of the envelope `E` (`Crystalline.completedTensorPowerDifferentials`), and the
+completed one-forms `Ω̂¹_{D/A,γ̂}` of the completed ring `D = Ê` itself
+(`Crystalline.envelopeCompletionForms`), linearly over `D`. -/
+def tensorPowerOneFormsEquiv :
+    completedTensorPowerDifferentials s g 0 ≃ₗ[envelopeCompletion E₀ s.p hE₀] (C₀).forms :=
+  tensorPowerOneFormsEquivForms s g
 
 omit [Fintype ι] [DecidableEq ι] in
 /-- Step one carries the universal derivation of [Stacks, Tag 07JA] to the universal
@@ -182,12 +194,45 @@ theorem tensorPowerOneFormsEquiv_derivation (x : envelopeCompletion E₀ s.p hE�
     tensorPowerOneFormsEquiv s g hg (tensorPowerDerivation s g hg 0 x) = (C₀).diff x :=
   (tensorPowerOneFormsEquiv_apply s g hg _).trans (tensorPowerOneFormsEquivAux_derivation s g hg x)
 
+omit [Fintype ι] [DecidableEq ι] in
 /-- **The differentials `d x_i ∈ Ω̂_{E/A,δ}` of the variables** of the presentation, the
 coordinates of the pairs of [Stacks, Lemma 60.17.3, Tag 07JG]. -/
 def tensorPowerVariableDifferential (i : ι) : completedTensorPowerDifferentials s g 0 :=
   tensorPowerDerivation s g hg 0 (algebraMap (T₀).object
     (AdicCompletion (pAdicIdeal (A := ((T₀).object : Type u)) s.p) (T₀).object)
     ((T₀).algebraMap.toRingHom (MvPolynomial.X ((0 : Fin 1), i))))
+
+omit [Fintype ι] [DecidableEq ι] in
+/-- The value of `Crystalline.tensorPowerOneFormsEquivForms`. -/
+theorem tensorPowerOneFormsEquivForms_apply (ω : completedTensorPowerDifferentials s g 0) :
+    letI : Algebra (s.A : Type u) (T₀).object := (T₀).structureMap.toRingHom.toAlgebra
+    tensorPowerOneFormsEquivForms s g ω = completedDividedPowerFormsAlgebraCongr s.p (s.A : Type u)
+      (B := AdicCompletion (pAdicIdeal (A := ((T₀).object : Type u)) s.p) (T₀).object)
+      (completedDividedPowers (T₀).object.ideal (T₀).object.dividedPowers s.p hE₀).1 1
+      inferInstance (algebraBaseEnvelopeCompletion E₀ s.p hE₀)
+      (Algebra.algebra_ext _ _ fun _ ↦ rfl)
+      (completedFormsOfCompletionEquiv s.p (s.A : Type u) (T₀).object.dividedPowers hE₀ 1
+        (tensorPowerOneFormsEquivAux₁ s g ω)) :=
+  rfl
+
+omit [Fintype ι] [DecidableEq ι] in
+/-- **The identification carries the universal derivation `d : D → Ω̂_{E/A,δ}` of
+[Stacks, Tag 07JA] to the universal differential `D → Ω̂¹_{D/A,γ̂}`**, for any family of
+variables. -/
+theorem tensorPowerOneFormsEquivForms_derivation (x : envelopeCompletion E₀ s.p hE₀) :
+    tensorPowerOneFormsEquivForms s g (tensorPowerDerivation s g hg 0 x) =
+      envelopeCompletionFormsDifferential E₀ s.p hE₀ x :=
+  (tensorPowerOneFormsEquivForms_apply s g _).trans (tensorPowerOneFormsEquivAux_derivation s g hg
+      x)
+
+omit [Fintype ι] [DecidableEq ι] in
+/-- The identification carries `d x_i` to the coordinate differential `d x_{(0,i)}`, for any
+family of variables. -/
+theorem tensorPowerOneFormsEquivForms_variableDifferential (i : ι) :
+    tensorPowerOneFormsEquivForms s g (tensorPowerVariableDifferential s g hg i) =
+      envelopeCompletionFormsDifferential E₀ s.p hE₀
+        (envelopeCompletionCoord E₀ s.p hE₀ ((Equiv.uniqueProd ι (Fin 1)).symm i)) :=
+  tensorPowerOneFormsEquivForms_derivation s g hg _
 
 /-- The identification carries `d x_i` to the coordinate differential `d x_{(0,i)}`. -/
 theorem tensorPowerOneFormsEquiv_variableDifferential (i : ι) :

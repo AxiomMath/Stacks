@@ -339,7 +339,14 @@ isomorphic, over `U`, to the normalization `U^ν ⟶ U` of the scheme `U`
 (`AlgebraicGeometry.Space.normSpace`, `AlgebraicGeometry.Space.normSpaceProj`; Stacks 035N).
 
 The finiteness of irreducible components of the quasi-compact opens of `U` that the
-normalization of `U` needs is condition (2) of Stacks 0GMI for the smooth chart `f`. -/
+normalization of `U` needs is condition (2) of Stacks 0GMI for the smooth chart `f`.
+
+Nothing beyond the hypothesis of Stacks 0GMI is assumed: the normalized groupoid, the 2-fibre
+product along the presenting chart and its descent to an arbitrary smooth chart are all
+constructed. This is the complete registration of Stacks 0GMJ; the integrality step of
+`StacksFrontier.AlgebraicGeometry.Stacks.NormalizationMorphism` and the presenting-chart step of
+`StacksFrontier.AlgebraicGeometry.Stacks.NormalizationChartFibreProduct`, which take the normalized
+groupoid as data, are not tagged. -/
 @[stacks 0GMJ]
 theorem isIntegralHom_normalization_and_isTwoFibreProduct_normSpace :
     AlgebraicStacks.IsIntegralHom B S hS (normalization 𝒳 h𝒳) ∧

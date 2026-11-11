@@ -148,7 +148,9 @@ dimension one in the sense of part (2) of Stacks 06LR), and let `(ω^•_{X/S}, 
 dualizing complex of `f` (Stacks 0E5X). Then `ω^•_{X/S} = ω_{X/S}[1]` for a pseudo-coherent
 `𝒪_X`-module `ω_{X/S}` flat over `S` whose formation commutes with arbitrary base change: for
 every morphism of families of curves `X' ⟶ X` over `S' ⟶ S` (a cartesian square), every relative
-dualizing complex of `X'/S'` is `(g'^*ω_{X/S})[1]`, `g' : X' ⟶ X` the projection. -/
+dualizing complex of `X'/S'` is `(g'^*ω_{X/S})[1]`, `g' : X' ⟶ X` the projection. The special
+case of Gorenstein fibres over a scheme total space is
+`Stacks.Duality.CurveFibres.isZero_homology_relativeDualizingComplex`, which is not registered. -/
 @[stacks 0E6P]
 theorem CurveFamily.exists_iso_shift_relativeDualizingComplex (X : CurveFamily B hZ)
     (hcm : Space.IsCohenMacaulay B integerBase hZ X.toBase.hom)
@@ -577,8 +579,18 @@ a relative dualizing complex (Stacks 0E5X). Then the relative dualizing sheaf
 `ω_{X/S} = H^{-1}(ω^•_{X/S})` (Stacks 0E6Q) is an invertible `𝒪_X`-module, and its formation
 commutes with arbitrary base change: for every morphism of families of curves `X' ⟶ X` over
 `S' ⟶ S` (a cartesian square) and every relative dualizing complex of `X'/S'`, the relative
-dualizing sheaf of `X'/S'` is the pullback of `ω_{X/S}` along the projection `g' : X' ⟶ X`. -/
-@[stacks 0E6R]
+dualizing sheaf of `X'/S'` is the pullback of `ω_{X/S}` along the projection `g' : X' ⟶ X`.
+
+This is Stacks 0E6R in its own generality: `X` is an algebraic space and `S` an arbitrary scheme
+of the big fppf site, the family is flat, proper, of finite presentation and of relative dimension
+at most one (`AlgebraicGeometry.CurveFamily`, Stacks 0D4Z), and both conditions of
+`AlgebraicGeometry.IsGorensteinDimOneFamily` are quantified over the points of `X`, so empty
+fibres are allowed and `f` need not be surjective. The base change `S' ⟶ S` is arbitrary.
+
+The base change clause only asserts that some isomorphism exists. Stacks 0E6R is registered on
+`AlgebraicGeometry.CurveFamily.isInvertibleModule_relativeDualizingSheaf_and_baseChangeIso`, which
+states that the canonical base change isomorphism, built from the unique trace-compatible
+isomorphism of relative dualizing complexes, is the one. -/
 theorem CurveFamily.isInvertibleModule_relativeDualizingSheaf (X : CurveFamily B hZ)
     (hX : IsGorensteinDimOneFamily B hZ X)
     (D : RelativeDualizingComplex B.contains_terminal X.toBase X.proper X.flat

@@ -18,7 +18,11 @@ in a big fppf site `B`, and suppose the *composite* `π ≫ f` is representable 
 surjective and integral, surjective and proper, or surjective and flat and locally of finite
 presentation. Then spaces-étale sheaves on `Y` are equivalent to descent data for the singleton
 family `{X ⟶ Y}`, even though `f` itself carries none of those hypotheses. This is
-**Stacks 0GFV**.
+**Stacks 0GFV**; this file proves the refinement step, from the statement of Stacks 0GFU for every
+morphism, and
+`AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable_comp` of
+`StacksFrontier.AlgebraicGeometry.Spaces.Topologies.SpacesEtaleDescentSchemeTarget` combines it with
+the proof of Stacks 0GFU there.
 
 The source proof is one sentence: it is the formal consequence of Stacks 0GFU — the same
 statement when the morphism carrying the hypotheses *is* the morphism of the descent problem —
@@ -38,33 +42,23 @@ enters.
   arbitrary pseudofunctor**, rather than only at the pullback pseudofunctor of a fibred category;
 * `AlgebraicGeometry.Space.IsSurjectiveIntegralProperOrFlatLfp.of_isPullback`: that alternative
   is stable under base change;
-* `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_representable_comp`:
-  **Stacks 0GFV** for the pseudofunctor of spaces-étale inverse images, granted the conclusion of
-  Stacks 0GFU.
+* `AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_representable_comp`: the
+  refinement step of Stacks 0GFV for the pseudofunctor of spaces-étale inverse images: descent
+  along `f` follows from descent along every representable morphism with one of the three
+  properties.
 
 ## Implementation notes
 
-**What is granted.** Stacks 0GFU is not available in this library: no declaration carries the
-attribute `@[stacks 0GFU]`. Its conclusion is therefore taken as the single explicitly named
-hypothesis `h0GFU` of
-`AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_representable_comp`, in its
-universally quantified form — for *every* morphism of algebraic spaces over `S` which is
-representable by schemes and satisfies
-`AlgebraicGeometry.Space.IsSurjectiveIntegralProperOrFlatLfp`, spaces-étale sheaves on its target
-are equivalent to descent data for the singleton family it generates. The grant is instantiated
+**The input.** The statement of Stacks 0GFU, for *every* morphism of algebraic spaces over `S`
+which is representable by schemes and satisfies
+`AlgebraicGeometry.Space.IsSurjectiveIntegralProperOrFlatLfp`, is the argument `hdescent` of
+`AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_representable_comp`. It is
+proved in `StacksFrontier.AlgebraicGeometry.Spaces.Topologies.SpacesEtaleDescentSchemeTarget`, which
+imports this file and supplies it, giving Stacks 0GFV with no extra hypothesis. The input is used
 three times: at `π ≫ f` itself, and at the base changes of `π ≫ f` along `f` and along
 `X ×_Y X ⟶ Y`, which are the two local hypotheses of Stacks 0GEA.
 
-The grant is *not* this statement's own conclusion in disguise. Universally quantified, this
-statement says: for all `f` and all `π`, if `π ≫ f` is representable and satisfies the
-alternative, then descent holds along `f`. The grant is its special case `π = 𝟙 X`, in which the
-morphism carrying the hypotheses coincides with the morphism of the descent problem. The
-implication runs only that way: the grant follows from the conclusion by taking `π = 𝟙 X`, while
-recovering the conclusion from the grant requires the refinement principle, because `f` itself
-need be neither representable nor surjective — it is `π ≫ f` that is, and no instance of the
-grant has `f` in the hypothesis position.
-
-**What is proved rather than granted.** The Stacks 0GEA step is proved. The library's form
+**The refinement step.** The Stacks 0GEA step is proved here. The library's form
 `CategoryTheory.Functor.isEquivalence_toFamilyDescentDatum_of_homOver` of
 `StacksFrontier.CategoryTheory.Sites.Descent.OfRefinement` is stated for the pullback pseudofunctor
 of a fibred category, and the pseudofunctor of spaces-étale inverse images is not presented that
@@ -81,7 +75,7 @@ three argument. Nothing in that step is assumed.
 **The hypotheses the refinement step asks for are discharged, not carried.** Stacks 0GEA needs
 the fibre products `X ×_Y X`, `X ×_Y X'` and `X ×_Y X ×_Y X'`; all three exist, by the global
 instance `AlgebraicGeometry.AlgebraicSpaces.hasPullbacks` of Stacks 02X2. Its two local
-hypotheses are instances of the grant at base changes of `π ≫ f`, which needs representability
+hypotheses are instances of `hdescent` at base changes of `π ≫ f`, which needs representability
 and the three-way alternative to be stable under base change; both are available, the first as
 `CategoryTheory.Functor.relativelyRepresentable.isStableUnderBaseChange` and the second as
 `AlgebraicGeometry.Space.IsSurjectiveIntegralProperOrFlatLfp.of_isPullback`, proved here from
@@ -210,30 +204,17 @@ theorem IsSurjectiveIntegralProperOrFlatLfp.of_isPullback
       (isFlat_isStableUnderBaseChange B S hS).of_isPullback sq hfl,
       (isLocallyOfFinitePresentation_isStableUnderBaseChange B S hS).of_isPullback sq hlfp⟩)
 
-/-- **Stacks 0GFV for the pseudofunctor of spaces-étale inverse images.** Let `f : X ⟶ Y` be a
-morphism of algebraic spaces over `S` and let `π : X' ⟶ X` be a morphism of algebraic spaces.
-If the composite `π ≫ f` is representable by schemes and is surjective and integral, surjective
-and proper, or surjective and flat and locally of finite presentation, then spaces-étale sheaves
-on `Y` are equivalent, via the canonical descent datum, to descent data for the singleton family
-`{X ⟶ Y}`. No hypothesis is placed on `f` itself.
-
-The conclusion of Stacks 0GFU is granted as `h0GFU`; see the implementation notes of the file. -/
-@[stacks 0GFV "granted `h0GFU`, the conclusion of Stacks 0GFU: that for EVERY morphism of \
-algebraic spaces over `S` which is representable by schemes and is surjective and integral, \
-surjective and proper, or surjective and flat and locally of finite presentation, spaces-étale \
-sheaves on its target are equivalent to descent data for the singleton family it generates. \
-That is the special case `π = 𝟙 X` of this statement, in which the morphism carrying the \
-hypotheses is the morphism of the descent problem itself, so it is NOT the universally \
-quantified form of this conclusion: this conclusion asks for descent along `f` while the \
-hypotheses are carried by `π ≫ f`, and `f` itself is neither representable nor surjective in \
-any instance of the grant. The implication runs one way only — the grant is an instance of \
-this conclusion, and getting this conclusion back out of the grant is exactly the refinement \
-step. That step, Stacks 0GEA, is proved and not granted: \
-`CategoryTheory.Pseudofunctor.isEquivalence_toDescentData_of_homOver` of this file restates the \
-library's `CategoryTheory.Functor.isEquivalence_toFamilyDescentDatum_of_homOver` at an arbitrary \
-pseudofunctor, and its fibre-product and base-change obligations are discharged here"]
+/-- **The refinement step of Stacks 0GFV.** Let `f : X ⟶ Y` be a morphism of algebraic spaces
+over `S` and let `π : X' ⟶ X` be a morphism of algebraic spaces. Suppose that spaces-étale
+sheaves descend effectively along every morphism of algebraic spaces over `S` which is
+representable by schemes and is surjective and integral, surjective and proper, or surjective and
+flat and locally of finite presentation (the statement of Stacks 0GFU, proved as
+`AlgebraicGeometry.Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable`). If
+the composite `π ≫ f` is representable by schemes and has one of these properties, then
+spaces-étale sheaves on `Y` are equivalent, via the canonical descent datum, to descent data for
+the singleton family `{X ⟶ Y}`. No hypothesis is placed on `f` itself. -/
 theorem isEquivalence_toDescentData_singleton_of_representable_comp
-    (h0GFU : ∀ {X₀ Y₀ : AlgebraicSpaces B S hS} (f₀ : X₀ ⟶ Y₀),
+    (hdescent : ∀ {X₀ Y₀ : AlgebraicSpaces B S hS} (f₀ : X₀ ⟶ Y₀),
       yoneda.relativelyRepresentable f₀.hom →
       IsSurjectiveIntegralProperOrFlatLfp B S hS f₀ →
       ((spacesEtalePseudofunctor B S hS).toDescentData
@@ -248,14 +229,14 @@ theorem isEquivalence_toDescentData_singleton_of_representable_comp
         (fun _ : Unit => pullback.fst q (π ≫ f))).IsEquivalence := by
     intro Z q
     have sq := (IsPullback.of_hasPullback q (π ≫ f)).flip
-    exact h0GFU _ ((Functor.relativelyRepresentable.isStableUnderBaseChange yoneda).of_isPullback
+    exact hdescent _ ((Functor.relativelyRepresentable.isStableUnderBaseChange yoneda).of_isPullback
       (AlgebraicSpaces.isPullback_hom _ _ _ sq) hrep)
       (IsSurjectiveIntegralProperOrFlatLfp.of_isPullback B S hS sq hcov)
   refine Pseudofunctor.isEquivalence_toDescentData_of_homOver
     (spacesEtalePseudofunctor B S hS)
     (𝒰 := ⟨Unit, fun _ => X, fun _ => f⟩) (𝒱 := ⟨Unit, fun _ => X', fun _ => π ≫ f⟩)
     { s₀ := fun _ => (), h₀ := fun _ => π, w₀ := fun _ => by simp } ?_ ?_ ?_
-  · exact h0GFU (π ≫ f) hrep hcov
+  · exact hdescent (π ≫ f) hrep hcov
   · intro i
     have := key f
     change Nonempty ((spacesEtalePseudofunctor B S hS).toDescentData

@@ -154,6 +154,42 @@ def Pair.isoOfHorizontalEquiv {P Q : Pair.{u, u, u, u} p D Omega dx d}
 
 end PairIso
 
+/-! ### A divided power derivation from its defining properties -/
+
+section DifferentialDerivation
+
+variable {D : DividedPowerRing.{u}} {Ω : Type u} [AddCommGroup Ω] [Module (D : Type u) Ω]
+  (diff : D.carrier → Ω) (diff_add : ∀ x y : (D : Type u), diff (x + y) = diff x + diff y)
+  (diff_mul : ∀ x y : (D : Type u), diff (x * y) = x • diff y + y • diff x)
+  (diff_dpow : ∀ (n : ℕ), 0 < n → ∀ x ∈ D.ideal,
+    diff (D.dividedPowers.dpow n x) = D.dividedPowers.dpow (n - 1) x • diff x)
+
+/-- **A divided power derivation over `ℤ` from an additive map with the Leibniz rule and the
+divided power chain rule.** -/
+def dividedPowerDerivationOfDifferential :
+    DividedPowerDerivation ℤ D (Int.castRingHom D) Ω where
+  toDerivation := Derivation.mk' (AddMonoidHom.mk' diff diff_add).toIntLinearMap diff_mul
+  map_ringHom' a := by
+    change diff ((a : ℤ) : (D : Type u)) = 0
+    have h1 : diff 1 = 0 := by simpa using diff_mul 1 1
+    have h := (AddMonoidHom.mk' diff diff_add).map_zsmul a (1 : (D : Type u))
+    simp only [AddMonoidHom.mk'_apply, zsmul_eq_mul, mul_one] at h
+    rw [h, h1, smul_zero]
+  map_dpow' n hn x hx := diff_dpow n hn x hx
+
+include diff_add diff_mul diff_dpow in
+/-- **The divided power derivative of a divided power monomial**,
+`d(ξ^{[K]}) = ∑_i ξ^{[K - e_i]} d ξ_i`, for a differential with the properties of
+`Crystalline.dividedPowerDerivationOfDifferential`. -/
+theorem differential_taylorMonomial {ι : Type u} {xi : ι → (D : Type u)}
+    (hxi : ∀ i, xi i ∈ D.ideal) (K : ι →₀ ℕ) :
+    diff (taylorMonomial D xi K) =
+      ∑ i ∈ K.support, taylorMonomial D xi (K - Finsupp.single i 1) • diff (xi i) :=
+  dividedPowerDerivation_taylorMonomial
+    (dividedPowerDerivationOfDifferential diff diff_add diff_mul diff_dpow) hxi K
+
+end DifferentialDerivation
+
 /-! ### The data -/
 
 /-- **Coordinates on a `p`-adically complete divided power ring**: a module `Ω` of differentials
@@ -229,15 +265,8 @@ abbrev dx : C.ι → C.forms := fun i ↦ C.diff (C.coord i)
 theorem dx_eq (i : C.ι) : C.dx i = C.basis i := (C.basis_eq i).symm
 
 /-- `d` as a divided power derivation over `ℤ`. -/
-def toDividedPowerDerivation : DividedPowerDerivation ℤ D (Int.castRingHom D) C.forms where
-  toDerivation := Derivation.mk' (AddMonoidHom.mk' C.diff C.diff_add).toIntLinearMap C.diff_mul
-  map_ringHom' a := by
-    change C.diff ((a : ℤ) : (D : Type u)) = 0
-    have h1 : C.diff 1 = 0 := by simpa using C.diff_mul 1 1
-    have h := (AddMonoidHom.mk' C.diff C.diff_add).map_zsmul a (1 : (D : Type u))
-    simp only [AddMonoidHom.mk'_apply, zsmul_eq_mul, mul_one] at h
-    rw [h, h1, smul_zero]
-  map_dpow' n hn x hx := C.diff_dpow n hn x hx
+def toDividedPowerDerivation : DividedPowerDerivation ℤ D (Int.castRingHom D) C.forms :=
+  dividedPowerDerivationOfDifferential C.diff C.diff_add C.diff_mul C.diff_dpow
 
 /-- **The divided power derivative of a divided power monomial**,
 `d(ξ^{[K]}) = ∑_i ξ^{[K - e_i]} d ξ_i`. -/
@@ -245,7 +274,7 @@ theorem diff_taylorMonomial {xi : C.ι → (D : Type u)} (hxi : ∀ i, xi i ∈ 
     (K : C.ι →₀ ℕ) :
     C.diff (taylorMonomial D xi K) =
       ∑ i ∈ K.support, taylorMonomial D xi (K - Finsupp.single i 1) • C.diff (xi i) :=
-  dividedPowerDerivation_taylorMonomial C.toDividedPowerDerivation hxi K
+  differential_taylorMonomial C.diff C.diff_add C.diff_mul C.diff_dpow hxi K
 
 end CompletedCoordinateData
 
@@ -469,7 +498,7 @@ end Back
 
 /-- Two linear maps out of a twice completed base change agree when they agree on
 `m ↦ 1 ⊗ (1 ⊗ m)`. -/
-private theorem baseChangeCarrier_baseChangeCarrier_ext (p : ℕ) (D₀ D₁ D₂ : Type u) [CommRing D₀]
+theorem baseChangeCarrier_baseChangeCarrier_ext (p : ℕ) (D₀ D₁ D₂ : Type u) [CommRing D₀]
     [CommRing D₁] [CommRing D₂] [Algebra D₀ D₁] [Algebra D₁ D₂] (M : Type u) [AddCommGroup M]
     [Module D₀ M] {N : Type u} [AddCommGroup N] [Module D₂ N]
     (hN : IsHausdorff (pAdicIdeal (A := D₂) p) N)
@@ -496,6 +525,81 @@ private theorem baseChangeCarrier_baseChangeCarrier_ext (p : ℕ) (D₀ D₁ D�
     (CompletedConnection.baseChangeCarrier p D₀ D₁ M) (RingHom.id _) hN
     (ψ := f.toAddMonoidHom) (ψ' := g.toAddMonoidHom) (fun c x ↦ by simp) (fun c x ↦ by simp) h₁) z
 
+/-! ### The round trip along a retract, for any ring `D'` -/
+
+section RoundTripRing
+
+variable (p : ℕ) (D : DividedPowerRing.{u}) (D' : Type u) [CommRing D'] [Algebra (D : Type u) D']
+  [Algebra D' (D : Type u)]
+
+/-- The round trip `ρ = b ∘ a : D → D` of ring maps `a : D → D'`, `b : D' → D`. -/
+abbrev retractRho : (D : Type u) →+* (D : Type u) :=
+  (algebraMap D' (D : Type u)).comp (algebraMap (D : Type u) D')
+
+/-- The twice base-changed module `G(F(M)) = (M ⊗̂_D D') ⊗̂_{D'} D`. -/
+abbrev retractRoundTripCarrier (M : Type u) [AddCommGroup M] [Module (D : Type u) M] : Type u :=
+  CompletedConnection.baseChangeCarrier p D' D
+    (CompletedConnection.baseChangeCarrier p D D' M)
+
+/-- The `ρ`-semilinear inclusion `m ↦ 1 ⊗ (1 ⊗ m)` of `M` into `G(F(M))`. -/
+def retractRoundTripIncl (M : Type u) [AddCommGroup M] [Module (D : Type u) M] :
+    M →ₛₗ[retractRho D D'] retractRoundTripCarrier p D D' M where
+  toFun m := CompletedConnection.baseChangeInclusion p D' D _
+    (CompletedConnection.baseChangeInclusion p D D' M m)
+  map_add' m m' := by rw [map_add, map_add]
+  map_smul' c m := by rw [LinearMap.map_smulₛₗ, LinearMap.map_smulₛₗ]; rfl
+
+/-- The inclusion `m ↦ 1 ⊗ (1 ⊗ m)` as a formula. -/
+theorem retractRoundTripIncl_apply (M : Type u) [AddCommGroup M] [Module (D : Type u) M]
+    (m : M) :
+    retractRoundTripIncl p D D' M m = CompletedConnection.baseChangeInclusion p D' D _
+      (CompletedConnection.baseChangeInclusion p D D' M m) := rfl
+
+/-- **Existence half of the universal property of `G(F(M))`** for a `ρ`-semilinear map into a
+`p`-adically complete module. -/
+theorem retractRoundTrip_exists_lift (M : Type u) [AddCommGroup M] [Module (D : Type u) M]
+    {N : Type u} [AddCommGroup N] [Module (D : Type u) N] (hN : IsPAdicallyComplete p D N)
+    (φ : M →+ N) (hφ : ∀ (c : (D : Type u)) (m : M), φ (c • m) = retractRho D D' c • φ m) :
+    ∃ ψ : retractRoundTripCarrier p D D' M →ₗ[(D : Type u)] N,
+      ∀ m, ψ (retractRoundTripIncl p D D' M m) = φ m := by
+  obtain ⟨ψ₁, hψ₁, hψ₁i⟩ := CompletedConnection.exists_baseChange_lift p D D' M
+    (algebraMap D' (D : Type u)) hN φ hφ
+  obtain ⟨ψ₂, hψ₂, hψ₂i⟩ := CompletedConnection.exists_baseChange_lift p D' D
+    (CompletedConnection.baseChangeCarrier p D D' M) (RingHom.id _) hN ψ₁ hψ₁
+  refine ⟨{ toFun := ψ₂, map_add' := map_add ψ₂, map_smul' := hψ₂ }, fun m ↦ ?_⟩
+  change ψ₂ (CompletedConnection.baseChangeInclusion p D' D _
+    (CompletedConnection.baseChangeInclusion p D D' M m)) = φ m
+  rw [hψ₂i, hψ₁i]
+
+/-- **Uniqueness half of the universal property of `G(F(M))`**. -/
+theorem retractRoundTrip_ext (M : Type u) [AddCommGroup M] [Module (D : Type u) M]
+    {N : Type u} [AddCommGroup N] [Module (D : Type u) N] (hN : IsPAdicallyComplete p D N)
+    (f g : retractRoundTripCarrier p D D' M →ₗ[(D : Type u)] N)
+    (h : ∀ m, f (retractRoundTripIncl p D D' M m) = g (retractRoundTripIncl p D D' M m)) :
+    f = g :=
+  baseChangeCarrier_baseChangeCarrier_ext p D D' D M hN.toIsHausdorff f g h
+
+variable {Ω : Type u} [AddCommGroup Ω] [Module (D : Type u) Ω] {Ω' : Type u} [AddCommGroup Ω']
+  [Module D' Ω'] {d : D.carrier → Ω} {d' : D' → Ω'}
+  (psiA : Ω →ₛₗ[algebraMap (D : Type u) D'] Ω') (psiB : Ω' →ₛₗ[algebraMap D' (D : Type u)] Ω)
+  (hdadd : ∀ x y : (D : Type u), d (x + y) = d x + d y)
+  (hdmul : ∀ x y : (D : Type u), d (x * y) = x • d y + y • d x)
+  (hd'add : ∀ x y : D', d' (x + y) = d' x + d' y)
+  (hd'mul : ∀ x y : D', d' (x * y) = x • d' y + y • d' x)
+  (hpsiA : ∀ x : (D : Type u), psiA (d x) = d' (algebraMap (D : Type u) D' x))
+  (hpsiB : ∀ x : D', psiB (d' x) = d (algebraMap D' (D : Type u) x))
+
+/-- The twice base-changed connection of `G(F(M, ∇))`, along the comparisons `ψ_a` and `ψ_b` of
+the one-forms. -/
+abbrev retractRoundTripNabla {M : Type u} [AddCommGroup M] [Module (D : Type u) M]
+    (nabla : CompletedConnection p D Ω d M) :
+    CompletedConnection p D Ω d (retractRoundTripCarrier p D D' M) :=
+  CompletedConnection.baseChange p D' D _ Ω' Ω d psiB
+    (CompletedConnection.baseChange p D D' M Ω Ω' d' psiA nabla hd'add hd'mul hpsiA)
+    hdadd hdmul hpsiB
+
+end RoundTripRing
+
 /-! ### The round trip -/
 
 section RoundTrip
@@ -505,7 +609,7 @@ variable {p : ℕ} {D : DividedPowerRing.{u}} (C : CompletedCoordinateData p D)
 
 /-- The round trip `ρ = b ∘ a : D → D`. -/
 abbrev RetractData.rho : (D : Type u) →+* (D : Type u) :=
-  (algebraMap R.ring (D : Type u)).comp (algebraMap (D : Type u) R.ring)
+  retractRho D R.ring
 
 /-- The coordinate differences `ξ_i = x_i - ρ(x_i)`. -/
 abbrev RetractData.xi (i : C.ι) : (D : Type u) := C.coord i - R.rho C (C.coord i)
@@ -516,51 +620,40 @@ theorem RetractData.xi_mem (i : C.ι) : R.xi C i ∈ D.ideal := by
 
 /-- The twice base-changed module `G(F(M))`. -/
 abbrev roundTripCarrier (M : Type u) [AddCommGroup M] [Module (D : Type u) M] : Type u :=
-  CompletedConnection.baseChangeCarrier p R.ring D
-    (CompletedConnection.baseChangeCarrier p D R.ring M)
+  retractRoundTripCarrier p D R.ring M
 
 /-- The twice base-changed connection of `G(F(M, ∇))`. -/
 abbrev roundTripNabla {M : Type u} [AddCommGroup M] [Module (D : Type u) M]
     (nabla : CompletedConnection p D C.forms C.diff M) :
     CompletedConnection p D C.forms C.diff (roundTripCarrier C R M) :=
-  CompletedConnection.baseChange p R.ring D _ R.forms C.forms C.diff (R.psiB 1)
-    (CompletedConnection.baseChange p D R.ring M C.forms R.forms R.diff (R.psiA 1) nabla R.diff_add
-      R.diff_mul R.psiA_diff) C.diff_add C.diff_mul R.psiB_diff
+  retractRoundTripNabla p D R.ring (R.psiA 1) (R.psiB 1) C.diff_add C.diff_mul
+    R.diff_add R.diff_mul R.psiA_diff R.psiB_diff nabla
 
 /-- The `ρ`-semilinear inclusion `m ↦ 1 ⊗ (1 ⊗ m)` of `M` into `G(F(M))`. -/
 def roundTripIncl (M : Type u) [AddCommGroup M] [Module (D : Type u) M] :
-    M →ₛₗ[R.rho C] roundTripCarrier C R M where
-  toFun m := CompletedConnection.baseChangeInclusion p R.ring D _
-    (CompletedConnection.baseChangeInclusion p D R.ring M m)
-  map_add' m m' := by rw [map_add, map_add]
-  map_smul' c m := by rw [LinearMap.map_smulₛₗ, LinearMap.map_smulₛₗ]; rfl
+    M →ₛₗ[R.rho C] roundTripCarrier C R M :=
+  retractRoundTripIncl p D R.ring M
 
 /-- The inclusion `m ↦ 1 ⊗ (1 ⊗ m)` as a formula. -/
 theorem roundTripIncl_apply (M : Type u) [AddCommGroup M] [Module (D : Type u) M] (m : M) :
     roundTripIncl C R M m = CompletedConnection.baseChangeInclusion p R.ring D _
-      (CompletedConnection.baseChangeInclusion p D R.ring M m) := rfl
+      (CompletedConnection.baseChangeInclusion p D R.ring M m) :=
+  retractRoundTripIncl_apply p D R.ring M m
 
 /-- **Existence half of the universal property of `G(F(M))`** for a `ρ`-semilinear map into a
 `p`-adically complete module. -/
 theorem roundTrip_exists_lift (M : Type u) [AddCommGroup M] [Module (D : Type u) M]
     {N : Type u} [AddCommGroup N] [Module (D : Type u) N] (hN : IsPAdicallyComplete p D N)
     (φ : M →+ N) (hφ : ∀ (c : (D : Type u)) (m : M), φ (c • m) = R.rho C c • φ m) :
-    ∃ ψ : roundTripCarrier C R M →ₗ[(D : Type u)] N, ∀ m, ψ (roundTripIncl C R M m) = φ m := by
-  obtain ⟨ψ₁, hψ₁, hψ₁i⟩ := CompletedConnection.exists_baseChange_lift p D R.ring M
-    (algebraMap R.ring (D : Type u)) hN φ hφ
-  obtain ⟨ψ₂, hψ₂, hψ₂i⟩ := CompletedConnection.exists_baseChange_lift p R.ring D
-    (CompletedConnection.baseChangeCarrier p D R.ring M) (RingHom.id _) hN ψ₁ hψ₁
-  refine ⟨{ toFun := ψ₂, map_add' := map_add ψ₂, map_smul' := hψ₂ }, fun m ↦ ?_⟩
-  change ψ₂ (CompletedConnection.baseChangeInclusion p R.ring D _
-    (CompletedConnection.baseChangeInclusion p D R.ring M m)) = φ m
-  rw [hψ₂i, hψ₁i]
+    ∃ ψ : roundTripCarrier C R M →ₗ[(D : Type u)] N, ∀ m, ψ (roundTripIncl C R M m) = φ m :=
+  retractRoundTrip_exists_lift p D R.ring M hN φ hφ
 
 /-- **Uniqueness half of the universal property of `G(F(M))`**. -/
 theorem roundTrip_ext (M : Type u) [AddCommGroup M] [Module (D : Type u) M]
     {N : Type u} [AddCommGroup N] [Module (D : Type u) N] (hN : IsPAdicallyComplete p D N)
     (f g : roundTripCarrier C R M →ₗ[(D : Type u)] N)
-    (h : ∀ m, f (roundTripIncl C R M m) = g (roundTripIncl C R M m)) : f = g := by
-  exact baseChangeCarrier_baseChangeCarrier_ext p D R.ring D M hN.toIsHausdorff f g h
+    (h : ∀ m, f (roundTripIncl C R M m) = g (roundTripIncl C R M m)) : f = g :=
+  retractRoundTrip_ext p D R.ring M hN f g h
 
 /-- **The connection of `G(F(M, ∇))` on `1 ⊗ (1 ⊗ m)`** is `∑_i ι(θ_i m) ⊗ d ρ(x_i)`. -/
 theorem roundTripNabla_incl {M : Type u} [AddCommGroup M] [Module (D : Type u) M]

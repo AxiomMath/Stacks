@@ -23,9 +23,12 @@ refutation is what this file proves.
 ## Main results
 
 * `Stacks.Examples.NonAlgebraicHomStack.not_forall_isAlgebraicStack_of_isAbsolutelySeparated_target`
-  is **Stacks 0AFD**: for no assignment `Mor` of a Hom-stack to a pair of algebraic stacks over
-  `S = Spec k⟦t⟧` is it the case that `Mor 𝒴 𝒵` is an algebraic stack for every `𝒴` and every
-  separated `𝒵`.
+  is the assertion of Stacks 0AFD with Stacks 07X8 and the separatedness of the base as inputs:
+  for no assignment `Mor` of a Hom-stack to a pair of algebraic stacks over `S = Spec k⟦t⟧` is it
+  the case that `Mor 𝒴 𝒵` is an algebraic stack for every `𝒴` and every separated `𝒵`. The tag
+  itself is registered in
+  `StacksFrontier.Examples.Stacks.HomStackSeparatedTargetCriterionUnconditional`, where both inputs
+  are derived.
 
 ## What is proved and what is assumed
 
@@ -49,14 +52,16 @@ Neither hypothesis is the conclusion in disguise: `h0AFB` asserts non-effectivit
 object, which becomes non-algebraicity only through `h07X8`, and nothing among the hypotheses
 asserts that the criterion fails, that `𝒵` is separated, or that any Hom-stack is non-algebraic.
 
-The subject of the criterion cannot be named, exactly as for Stacks 0AFC: this library defines
-no Hom-stack `Mor_S(𝒴, 𝒵)` of two algebraic stacks. The criterion is therefore stated for an
+This library defines the Hom-stack `Mor_S(X, 𝒵)` from an object `X` of the site
+(`AlgebraicGeometry.Stack.homStack`, whose instance `Mor_S(X, [S/A])` is the subject of
+Stacks 0AFB and Stacks 0AFC in `StacksFrontier.Examples.Stacks.NonAlgebraicHomStack.Main`), but no
+Hom-stack `Mor_S(𝒴, 𝒵)` of two algebraic stacks. The criterion is therefore stated for an
 arbitrary assignment `Mor` of a based category over the site to a pair of algebraic stacks, and
-the hypothesis `h0AFB` is what pins that assignment to the source's example — it is the source's
-unformalized identification of the Hom-stack's fibre categories with groupoids of fppf
-`A₀`-torsors, by which the failure of surjectivity of `H¹(X, A) ⟶ lim H¹(Xₙ, A)` proved in the
-neighbouring module becomes a non-effective formal object. See the module documentation of
-`StacksFrontier.Examples.Stacks.NonAlgebraicHomStack`.
+the hypothesis `h0AFB` is what pins that assignment to the source's example; for
+`Mor_S(X, [S/A])` such a non-effective formal object is produced by the proof of Stacks 0AFB,
+`Stacks.Examples.NonAlgebraicHomStack.Situation.exists_not_restriction_homStackClassifyingStack`,
+from the identification of the fibre categories of the Hom-stack with groupoids of fppf
+`A₀`-torsors. See the module documentation of `StacksFrontier.Examples.Stacks.NonAlgebraicHomStack`.
 
 The bibliographic content of the remark — that Stacks 0AFC contradicts [Theorem 1.1,
 AokiHomStacks], that the same problem is mentioned in the Erratum, and that it is the Erratum
@@ -105,22 +110,12 @@ it is *not* the case that `Mor 𝒴' 𝒵'` is an algebraic stack for every `�
 
 The two legs are derived: `[S/A]` is separated by Stacks 0DTY part (6) at the trivial-action
 groupoid, and `Mor 𝒴 𝒵` is not algebraic by Stacks 0AFC of the neighbouring module.
-See the module documentation. -/
-@[stacks 0AFD "the mathematical assertion of the remark and not its bibliography: the criterion \
-the Erratum asserts -- that a Hom-stack is algebraic as soon as its target is separated -- is \
-false, because the target [S/A] of the non-algebraic Hom-stack of Stacks 0AFC is separated. \
-Both legs are derived, not hypothesised: separatedness of [S/A] from Stacks 0DTY part (6) read \
-at the groupoid of the trivial action, and non-algebraicity from Stacks 0AFC of \
-StacksFrontier.Examples.Stacks.NonAlgebraicHomStack. NOT carried: the bibliographic claims (that \
-Stacks 0AFC contradicts Theorem 1.1 of AokiHomStacks, and that the criterion is the Erratum's), \
-which are cited in the docstring only. The tag's subject, the Hom-stack Mor_S(Y, Z), cannot be \
-named -- this library defines no Hom-stack of two algebraic stacks -- so the criterion is \
-stated for an arbitrary assignment Mor of a based category to a pair of algebraic stacks, and \
-the source's unformalized identification of the Hom-stack's fibre categories with groupoids of \
-torsors is the hypothesis h0AFB, a non-effective formal object of Mor Y Z. Stacks 07X8 is the \
-hypothesis h07X8 and is not a result of this library; separatedness inherits from Stacks 0DTY, \
-for the source's unqualified (absolute) separatedness, the hypothesis hBase on the algebraic \
-stack of the base scheme"]
+See the module documentation.
+
+Stacks 0AFD is registered on
+`not_forall_isAlgebraicStack_of_isAbsolutelySeparated_of_not_isEffective` in
+`StacksFrontier.Examples.Stacks.HomStackSeparatedTargetCriterionUnconditional`, which takes neither
+Stacks 07X8 nor the separatedness of the base as inputs. -/
 public theorem not_forall_isAlgebraicStack_of_isAbsolutelySeparated_target
     {k : Type u} [Field k] (B : BigFppfSite.{u}) (hS : B.Contains (base k))
     (hZ : B.Contains (⊤_ Scheme.{u}))

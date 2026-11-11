@@ -28,11 +28,12 @@ degrees `-1, 0`, both complexes are `B`-perfect with vanishing negative self-Ext
 section, so `Isom(E, E') ⟶ A²` affine would make `U` affine.
 
 The **corrected statement**
-(`ComplexesSituation.complexesIsom_finitePresentation_and_affine_overNegativeExtLocus`): the
-diagonal of `Complexes_{X/B}` over `B` is representable by algebraic spaces and of finite
+(`ComplexesSituation.complexesIsom_finitePresentation_and_affine_overQuasiCompactNegativeExtLocus`):
+the diagonal of `Complexes_{X/B}` over `B` is representable by algebraic spaces and of finite
 presentation, and for objects `(T, E)`, `(T, E')` over the same `T`, `Isom(E, E')` factors
-through the open `W(E, E') ∩ W(E', E)` of `T` of Stacks 0DLC and is affine and of finite
-presentation over it.
+through the open `W(E, E') ∩ W(E', E)` of `T` of Stacks 0DLC, whose inclusion into `T` is
+quasi-compact, and is affine and of finite presentation over it: the diagonal is quasi-affine
+and of finite presentation.
 
 ## Main results
 
@@ -52,6 +53,8 @@ presentation over it.
   diagonal of `Complexes_{X/B}` over `B` is representable by algebraic spaces and of finite
   presentation, and `Isom(E, E')` is affine and of finite presentation over
   `W(E, E') ∩ W(E', E)`.
+* `ComplexesSituation.complexesIsom_finitePresentation_and_affine_overQuasiCompactNegativeExtLocus`:
+  the same, with the quasi-compactness of `W(E, E') ∩ W(E', E) ⟶ T`; the corrected Stacks 0DPW.
 
 ## References
 
@@ -311,18 +314,9 @@ is `Isom(x, y)`.  Then:
    `i < 0`, and symmetrically), `Isom(x, y)` factors through `W(E, E') ∩ W(E', E)` and is affine
    and of finite presentation over it.
 
-**This is the corrected form of Stacks 0DPW**, not the statement as written.  The source asserts
-that the diagonal is affine and of finite presentation; the "affine" part is false (its proof
-applies Stacks 0DLC, part (3), as if `W(E, E')` were all of `T`): for `X = P¹` over `A²_k` there
-are complexes `E`, `E' = E ⊗ O(2)` for which `Isom(E, E')` is empty over the origin and not affine
-over `A²`. -/
-@[stacks 0DPW "Corrected statement (Stacks erratum): the source \
-asserts that the diagonal of Complexes_{X/B} over B is affine and of finite presentation; the \
-'affine' part is false (counterexample: X = P^1 over A^2_k with complexes E and E' = E ⊗ O(2), \
-for which Isom(E, E') is empty over the origin and not affine over A^2). Formalized: the \
-diagonal over B is representable by algebraic spaces and of finite presentation, and for \
-(T, E), (T, E') the functor Isom(E, E') factors through the open W(E, E') ∩ W(E', E) of 0DLC \
-and is affine and of finite presentation over it."]
+The registered corrected form of Stacks 0DPW, which adds that the inclusion of
+`W(E, E') ∩ W(E', E)` into `T` is quasi-compact, is
+`complexesIsom_finitePresentation_and_affine_overQuasiCompactNegativeExtLocus`. -/
 theorem complexesIsom_finitePresentation_and_affine_overNegativeExtLocus :
     Nonempty ((complexesFunctor D).isomPresheaf ⟨A, rfl⟩ ⟨sameTest A E' h₁ h₂, rfl⟩ ≅
       (overSchemeTest A.T.left).op ⋙ relativeDerivedIsomFunctor (D.projection A.T) A.E E') ∧
@@ -371,6 +365,74 @@ theorem complexesIsom_finitePresentation_and_affine_overNegativeExtLocus :
   exact IsFinitePresentationAlgebraicSpaceOver.of_restrict
     (mono_of_isOpenImmersion B S hS _ hopen) (isFinitePresentation_of_isOpenImmersion hopen hqc)
     hfactor hIsom
+
+/-- **Stacks 0DPW, corrected: the diagonal of `Complexes_{X/B}` over `B` is quasi-affine and of
+finite presentation.**  Let `f : X ⟶ B` be proper, flat and of finite presentation
+(Situation 0DLE), and let `x = (T, E)`, `y = (T, E')` be objects of `Complexes_{X/B}` over the
+same scheme `T` and the same morphism `T ⟶ B`, so that `E`, `E'` are `B`-perfect objects of
+`D(𝒪_{X_T})` with vanishing negative self-Exts on the fibres; the base change of the diagonal of
+`Complexes_{X/B}` over `B` along the `T`-point `(x, y)` of `Complexes_{X/B} ×_B Complexes_{X/B}`
+is `Isom(x, y)`.  Then:
+
+1. the presheaf `Isom(x, y)` on `(Sch/T)` is the relative derived Isom functor
+   `T' ↦ Isom(E_{T'}, E'_{T'})` of `X_T ⟶ T`;
+2. it is an algebraic space of finite presentation over `T`: the diagonal of `Complexes_{X/B}`
+   over `B` is representable by algebraic spaces and of finite presentation;
+3. the opens `W(E, E')` and `W(E', E)` of `T` of Stacks 0DLC, part (1), exist;
+4. for these opens (`W(E, E')`: the field points `y` of `T` with `Ext^i(E_y, E'_y) = 0` for
+   `i < 0`, and symmetrically), the inclusion of `W(E, E') ∩ W(E', E)` into `T` is
+   quasi-compact, and `Isom(x, y)` factors through this open and is affine and of finite
+   presentation over it.
+
+**This is the corrected form of Stacks 0DPW**, not the statement as written.  The source asserts
+that the diagonal is affine and of finite presentation; the "affine" part is false (its proof
+applies Stacks 0DLC, part (3), as if `W(E, E')` were all of `T`): for `X = P¹` over `A²_k`,
+`E = [O(-2) --s--> O]` with `s = a(x² - y²) + bxy` and `E' = E ⊗ O(2)`, `Isom(E, E')` is empty
+over the origin and has a section over `A² ∖ 0`, so it is not affine over `A²`. -/
+@[stacks 0DPW "Corrected statement (Stacks erratum): the source \
+asserts that the diagonal of Complexes_{X/B} over B is affine and of finite presentation; the \
+'affine' part is false (counterexample: X = P^1 over A^2_k with complexes E = [O(-2) -s-> O], \
+s = a(x^2 - y^2) + bxy, and E' = E ⊗ O(2), for which Isom(E, E') is empty over the origin and \
+has a section over A^2 minus the origin, so is not affine over A^2). Formalized: the diagonal \
+over B is representable by algebraic spaces and of finite presentation, and for (T, E), \
+(T, E') the functor Isom(E, E') factors through the open W(E, E') ∩ W(E', E) of 0DLC, whose \
+inclusion into T is quasi-compact, and is affine and of finite presentation over it; so the \
+diagonal is quasi-affine and of finite presentation."]
+theorem complexesIsom_finitePresentation_and_affine_overQuasiCompactNegativeExtLocus :
+    Nonempty ((complexesFunctor D).isomPresheaf ⟨A, rfl⟩ ⟨sameTest A E' h₁ h₂, rfl⟩ ≅
+      (overSchemeTest A.T.left).op ⋙ relativeDerivedIsomFunctor (D.projection A.T) A.E E') ∧
+    IsFinitePresentationAlgebraicSpaceOver ((schemeSpaceFunctor B S hS).obj A.T.left)
+      (relativeDerivedIsomFunctor (D.projection A.T) A.E E') ∧
+    (∃ W₁ : OpenSubspaces B S hS ((schemeSpaceFunctor B S hS).obj A.T.left).1,
+      IsNegativeExtLocus (D.projection A.T) A.E E' W₁) ∧
+    (∃ W₂ : OpenSubspaces B S hS ((schemeSpaceFunctor B S hS).obj A.T.left).1,
+      IsNegativeExtLocus (D.projection A.T) E' A.E W₂) ∧
+    ∀ (W₁ W₂ : OpenSubspaces B S hS ((schemeSpaceFunctor B S hS).obj A.T.left).1),
+      IsNegativeExtLocus (D.projection A.T) A.E E' W₁ →
+      IsNegativeExtLocus (D.projection A.T) E' A.E W₂ →
+      IsQuasiCompact B S hS (openSubspaceImmersion B S hS ⟨W₁.1 ⊓ W₂.1,
+          isOpenSubspace_inf B S hS ((schemeSpaceFunctor B S hS).obj A.T.left).2 W₁.1 W₂.1
+            W₁.2 W₂.2⟩).hom ∧
+      (∀ T' : SchemesOver ((schemeSpaceFunctor B S hS).obj A.T.left),
+        Nonempty ((relativeDerivedIsomFunctor (D.projection A.T) A.E E').obj (op T')) →
+          ∃ t : (schemeSpaceFunctor B S hS).obj T'.left ⟶ openSubspaceAsSpace B S hS ⟨W₁.1 ⊓ W₂.1,
+          isOpenSubspace_inf B S hS ((schemeSpaceFunctor B S hS).obj A.T.left).2 W₁.1 W₂.1
+            W₁.2 W₂.2⟩,
+            t ≫ openSubspaceImmersion B S hS ⟨W₁.1 ⊓ W₂.1,
+          isOpenSubspace_inf B S hS ((schemeSpaceFunctor B S hS).obj A.T.left).2 W₁.1 W₂.1
+            W₁.2 W₂.2⟩ = T'.hom) ∧
+      IsAffineFinitePresentationAlgebraicSpaceOver (openSubspaceAsSpace B S hS ⟨W₁.1 ⊓ W₂.1,
+          isOpenSubspace_inf B S hS ((schemeSpaceFunctor B S hS).obj A.T.left).2 W₁.1 W₂.1
+            W₁.2 W₂.2⟩)
+        ((CostructuredArrow.map (S := schemeSpaceFunctor B S hS)
+          (openSubspaceImmersion B S hS ⟨W₁.1 ⊓ W₂.1,
+          isOpenSubspace_inf B S hS ((schemeSpaceFunctor B S hS).obj A.T.left).2 W₁.1 W₂.1
+            W₁.2 W₂.2⟩)).op ⋙
+          relativeDerivedIsomFunctor (D.projection A.T) A.E E') := by
+  obtain ⟨hiso, hfp, hW₁, hW₂, -⟩ :=
+    complexesIsom_finitePresentation_and_affine_overNegativeExtLocus A E' h₁ h₂
+  exact ⟨hiso, hfp, hW₁, hW₂, fun W₁ W₂ hW₁ hW₂ =>
+    complexesIsom_factors_isAffineFinitePresentation_inf A E' h₁ h₂ W₁ W₂ hW₁ hW₂⟩
 
 end ComplexesSituation
 

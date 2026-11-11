@@ -75,6 +75,9 @@ So nothing is carried, and `X` is not assumed decent anywhere in this file.
   the footnote of Stacks 0CWM — for `f` of finite type and decent, purity of `ℱ` above the
   closed point of a local base supplies hypothesis (1), so hypothesis (2) alone gives flatness
   of `ℱ` over `S`.
+* The second example of the footnote, for `f` proper, is in
+  `StacksFrontier.AlgebraicGeometry.Spaces.Flat.FlatnessOverLocalBaseProper`:
+  `AlgebraicGeometry.Space.exists_specializes_closedFibre_of_isProper`.
 
 ## Implementation notes
 
@@ -88,7 +91,7 @@ target is `AlgebraicGeometry.Space.IsFlatOver`, Stacks 05VV.
 The locality of the base enters the tagged statement
 `AlgebraicGeometry.Space.isFlatOver_of_forall_specializes_closedFibre` in one place: the target
 is represented by a scheme of the site, so it is a decent space. Beyond that, once hypothesis
-(1) is granted, the fibre over `s` plays no special role. This is why the argument is isolated
+(1) holds, the fibre over `s` plays no special role. This is why the argument is isolated
 over an arbitrary decent target and base point as
 `AlgebraicGeometry.Space.isFlatOver_of_forall_specializes_fibre`, and why the closedness of `s`
 is not consumed. The full locality is used in the footnote: it is a hypothesis of
@@ -338,14 +341,15 @@ The conclusion is the tag's, with no clause dropped and nothing carried. The rep
 of the target in `hlocal` is consumed: a representable algebraic space is decent, which is what
 `AlgebraicGeometry.Space.isFlatOver_of_forall_specializes_fibre` asks of the target. The
 closedness of `s` is a hypothesis of the tag that the implication does not use. -/
-@[stacks 0CWM "the lemma's implication: from its hypotheses (1) and (2) to flatness of ℱ over \
-the local base. UNCONDITIONAL -- nothing is carried and no decency of X is assumed: the step \
-the source's proof invokes, the implication (2) => (1) of Stacks 0CWL, is proved here for \
-arbitrary X and Y as isFlatOverAtPoint_of_forall_isRelativeWeaklyAssociatedPoint, and the \
-passage of flatness from a point of the closed fibre to a point of Ass_{X/S}(F) specializing \
-to it is proved here as isFlatOverAtPoint_of_specializes_of_isRelativeWeaklyAssociatedPoint, \
-using only that the local base is a decent space. The closedness of s is a hypothesis of the \
-statement that the implication does not use"]
+@[stacks 0CWM "the statement of the lemma: over a local scheme S with closed point s, for f \
+locally of finite type and F a finite type quasi-coherent module, hypotheses (1) every point of \
+Ass_{X/S}(F) specializes to a point of X_s and (2) F is flat over S at every point of X_s give \
+flatness of F over S. Proved with no decency of X: the step of the source's proof, Stacks 0CWL \
+(2) => (1), is isFlatOverAtPoint_of_forall_isRelativeWeaklyAssociatedPoint, and the passage of \
+flatness from a point of X_s to a point of Ass_{X/S}(F) specializing to it is \
+isFlatOverAtPoint_of_specializes_of_isRelativeWeaklyAssociatedPoint, which uses that the local \
+base is a decent space. The two examples of the footnote are \
+isFlatOver_of_isPureAbove_of_isAffineLocalAt and exists_specializes_closedFibre_of_isProper"]
 theorem isFlatOver_of_forall_specializes_closedFibre {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
     (F : Modules.{u, u} B S hS X.1 X.2) (s : points B S hS Y.1)
     (hlocal : ∃ (T : BigFppfOver B S hS) (A : CommRingCat.{u}), IsLocalRing A ∧
@@ -374,6 +378,9 @@ Hypothesis (1) comes from `AlgebraicGeometry.Space.purityFibreSpecialization`, t
 specialization step of Stacks 0CW3 clause (2), which is proved; the rest is
 `AlgebraicGeometry.Space.isFlatOver_of_forall_specializes_fibre`, whose decency hypothesis on
 the target holds because the affine local base is represented by a scheme of the site. -/
+@[stacks 0CWM "first example of the footnote: for f of finite type (and decent, as in the \
+situation 0CV6 where purity is defined) and F pure along X_s over the local base, hypothesis (1) \
+holds, so hypothesis (2) gives flatness of F over S"]
 theorem isFlatOver_of_isPureAbove_of_isAffineLocalAt (P : PrePureSituation.{u, u} B S hS)
     (hlocal : P.IsAffineLocalAt) (hpure : IsPureAbove P)
     (hflat : ∀ θ : points B S hS P.X, pointsMap B S hS P.X P.f θ = P.y →

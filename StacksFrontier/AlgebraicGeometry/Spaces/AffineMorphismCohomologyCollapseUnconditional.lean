@@ -15,14 +15,14 @@ import StacksCore.Tactic.StacksAttribute
 `AlgebraicGeometry.Space.cohomologyIsoOfIsAffineHom` is Stacks 0D2U: for an affine morphism
 `f : X ⟶ Y` of algebraic spaces and a quasi-coherent `𝒪_X`-module `𝓕`,
 `H^i(X, 𝓕) ≅ H^i(Y, f_*𝓕)` for every `i`, built from the Leray collapse
-`AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom` with its two hypotheses discharged
-by Stacks 073H and Stacks 072Z.  This file proves that both isomorphisms are natural in `𝓕`, and
+`AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom`, whose two inputs are Stacks 073H
+and Stacks 072Z.  This file proves that both isomorphisms are natural in `𝓕`, and
 registers the isomorphism for Stacks 0D2U.
 
 ## Main results
 
 * `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom_hom_naturality`: the Leray collapse
-  along an affine morphism, with its hypotheses discharged, is natural in the module.
+  along an affine morphism is natural in the module.
 * `AlgebraicGeometry.Space.cohomologyIsoOfIsAffineHom_hom_naturality`: Stacks 0D2U is natural in
   the module.
 
@@ -58,12 +58,8 @@ theorem cohomologyCollapseIsoOfIsAffineHom_hom_naturality (f : X ⟶ Y)
     ((modulePushforward B S hS f ⋙ globalSectionsFunctor.{u + 1, u, u, u}
           ((Stacks.SheafOfModules.Tensor.ringSheaf
             (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).map e ≫
-        (cohomologyCollapseIsoOfIsAffineHom B S hS f hf F'
-          (fun n hn => chartwiseIsZeroHigherDirectImage_of_isAffineHom B S hS f hf _ F' hF' n hn)
-          (acyclicPushforwardOfInjective B S hS f) i).hom =
-      (cohomologyCollapseIsoOfIsAffineHom B S hS f hf F
-          (fun n hn => chartwiseIsZeroHigherDirectImage_of_isAffineHom B S hS f hf _ F hF n hn)
-          (acyclicPushforwardOfInjective B S hS f) i).hom ≫
+        (cohomologyCollapseIsoOfIsAffineHom B S hS f hf F' hF' i).hom =
+      (cohomologyCollapseIsoOfIsAffineHom B S hS f hf F hF i).hom ≫
         ((globalSectionsFunctor.{u + 1, u, u, u}
           ((Stacks.SheafOfModules.Tensor.ringSheaf
             (smallEtaleRingedSite B S hS Y.1 Y.2).O))).rightDerived i).map

@@ -27,7 +27,7 @@ outright by `Stacks.Algebraization.fullyFaithful_completionFunctor_of_isProper` 
 inclusion is itself zero, `τ` is a monomorphism, and `i.ker = ⊥`.
 
 Only faithfulness is used, never essential surjectivity; in particular nothing here rests on
-[Stacks, Tag 088C], whose `hDev` hypothesis the library still carries.
+[Stacks, Tag 088C].
 
 ## Main results
 

@@ -7,50 +7,43 @@ public import StacksFrontier.CategoryTheory.Monoidal.InvertibleObject
 public import Mathlib.CategoryTheory.Linear.LinearFunctor
 
 /-!
-# The universal property of the category of Chow motives
+# Extending a functor on correspondences to the Karoubi envelope
 
-A `ℚ`-linear functor of symmetric monoidal categories from the category of correspondences of
-degree zero to a `ℚ`-linear Karoubian symmetric monoidal category factors through the category
-`M_k` of Chow motives, and the factorisation is unique up to a unique isomorphism.
+For a correspondence structure `S`, a symmetric monoidal functor `F : S.Obj ⥤ 𝒞` into a Karoubian
+symmetric monoidal category extends to a symmetric monoidal functor on the Karoubi envelope
+`S.Motive = Karoubi S.Obj`, and the extension is unique up to a unique isomorphism. This is the
+universal property of the Karoubi envelope, the first step of the proof of Stacks 0FGH.
 
-The extension is the Karoubi envelope's universal property: `M_k` is the Karoubi envelope of the
-category of correspondences, the target is Karoubian, and a functor into a Karoubian category
-extends to the Karoubi envelope.
+These results are auxiliary and are not the statement of Stacks 0FGH: the domain `S.Obj` is the
+ambient category of `S` (which, to produce `M_k`, already contains the Tate twists), not the
+category of correspondences of degree zero, and the step of the source that extends `F` across the
+twists by inverting the image of `F(c₂)` is not carried out here. The statement of Stacks 0FGH is
+`Stacks.WeilCohomology.ChowMotiveCat.universalProperty` in
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.MotivesUniversalProperty`.
 
 ## Main definitions
 
 * `Stacks.WeilCohomology.CorrespondenceStructure.motiveExtension`: the extension of a functor on
-  correspondences to a functor on Chow motives.
+  `S.Obj` to a functor on its Karoubi envelope `S.Motive`.
 
 ## Main results
 
 * `Stacks.WeilCohomology.CorrespondenceStructure.motiveExtensionCompToKaroubi`: the extension
   restricts to the original functor along `h`.
 * `Stacks.WeilCohomology.CorrespondenceStructure.existsUnique_natTrans_of_restriction`: a map
-  between two functors on `M_k` is determined by its restriction along `h`, so the
-  factorisation is unique up to a unique isomorphism.
-* `Stacks.WeilCohomology.CorrespondenceStructure.exists_symmetricMonoidal_factorisation`: the
-  statement of Stacks 0FGH.
+  between two functors on `S.Motive` is determined by its restriction along `h`, so the
+  extension is unique up to a unique isomorphism.
+* `Stacks.WeilCohomology.CorrespondenceStructure.exists_symmetricMonoidal_factorisation`: a
+  symmetric monoidal functor on `S.Obj` factors through `S.Motive` by a symmetric monoidal
+  functor.
 
 ## Implementation notes
 
-Two points where the formalisation departs from the letter of the source.
-
-The source says the functor factors *uniquely*. Taken literally that is false for the
-construction the source gives, which depends on choices: the image of a projector in a Karoubian
-category is a kernel and so is determined only up to unique isomorphism, an inverse of the
-invertible object is a further choice, and the identifications used on morphisms of unequal twist
-depend on a choice of rational point of `P¹`. What is true, and what is proved here, is that the
-factorisation is unique up to a unique isomorphism; this is also the form in which the result is
-used.
-
-The Tate twist `m` of a motive `(X, p, m)` is carried by the ambient symmetric monoidal category,
-the convention of `StacksFrontier.AlgebraicGeometry.WeilCohomology.Motives.Category`. The source's
-construction tensors by the `-m`-th power of the invertible object to account for the twist; here
-the twists are already objects of the ambient category, so that bookkeeping is absorbed into the
-ambient category and the hypothesis that the image of `F(c₂)` is invertible is not needed for the
-construction. It is carried in `exists_symmetricMonoidal_factorisation` all the same, that being
-the statement of the source.
+The hypotheses on an idempotent `c` of an object `X` with invertible image `F(c)` in
+`exists_symmetricMonoidal_factorisation` are not used by its proof: the Karoubi envelope's
+universal property needs no invertible object. Inverting the image of `F(c₂)` is the second step of
+the proof of Stacks 0FGH, carried out for `M_k` in
+`Stacks.WeilCohomology.ChowMotiveCat.universalProperty`.
 
 ## References
 
@@ -93,9 +86,9 @@ noncomputable instance motiveExtensionBraided : (motiveExtension S F).Braided :=
   letI : (toKaroubiEquivalence 𝒞).inverse.Braided := (toKaroubiEquivalence 𝒞).inverseBraided
   inferInstanceAs (Karoubi.mapFunctor F ⋙ (toKaroubiEquivalence 𝒞).inverse).Braided
 
-/-- **Stacks Project, Tag 0FGH.** The extension restricts along the functor `h` of Stacks 0FGA to
-the functor one started with: `F` factors through the category of Chow motives. -/
-@[stacks 0FGH "the extension of F to M_k restricts to F along h"]
+/-- The extension restricts along `toKaroubi S.Obj` to the functor one started with: `F` factors
+through the Karoubi envelope `S.Motive`. An auxiliary step towards Stacks 0FGH, whose statement is
+`Stacks.WeilCohomology.ChowMotiveCat.universalProperty`. -/
 noncomputable def motiveExtensionCompToKaroubi :
     toKaroubi S.Obj ⋙ motiveExtension S F ≅ F :=
   (Functor.associator _ _ _).symm ≪≫
@@ -106,12 +99,11 @@ noncomputable def motiveExtensionCompToKaroubi :
 end Extension
 
 omit [MonoidalCategory 𝒞] [SymmetricCategory 𝒞] [IsIdempotentComplete 𝒞] in
-/-- **Stacks Project, Tag 0FGH.** A natural transformation between two functors on the category of
-Chow motives is determined by its restriction along the functor `h` of Stacks 0FGA, and every
-natural transformation of the restrictions arises this way. Hence a factorisation of a functor on
-correspondences through `M_k` is unique up to a unique isomorphism. -/
-@[stacks 0FGH "a factorisation through M_k is unique up to a unique isomorphism; the source's \
-`uniquely` is corrected, the construction it gives depending on choices"]
+/-- A natural transformation between two functors on the Karoubi envelope `S.Motive` is
+determined by its restriction along `toKaroubi S.Obj`, and every natural transformation of the
+restrictions arises this way. Hence a factorisation of a functor on `S.Obj` through `S.Motive` is
+unique up to a unique isomorphism. An auxiliary step towards Stacks 0FGH, whose statement is
+`Stacks.WeilCohomology.ChowMotiveCat.universalProperty`. -/
 theorem existsUnique_natTrans_of_restriction {G₁ G₂ : S.Motive ⥤ 𝒞}
     (τ : toKaroubi S.Obj ⋙ G₁ ⟶ toKaroubi S.Obj ⋙ G₂) :
     ∃! α : G₁ ⟶ G₂, whiskerLeft (toKaroubi S.Obj) α = τ := by
@@ -119,14 +111,13 @@ theorem existsUnique_natTrans_of_restriction {G₁ G₂ : S.Motive ⥤ 𝒞}
   exact ⟨hff.preimage τ, hff.map_preimage τ,
     fun β hβ => hff.map_injective (hβ.trans (hff.map_preimage τ).symm)⟩
 
-/-- **Stacks Project, Tag 0FGH.** Let `X`, `c₂` be as in Stacks 0FG6. Let `𝒞` be a `ℚ`-linear
-Karoubian symmetric monoidal category. A `ℚ`-linear functor of symmetric monoidal categories from
-the category of correspondences of degree zero to `𝒞`, such that the image of `F(c₂)` on `F(X)`
-is an invertible object, factors through a functor `M_k ⟶ 𝒞` of symmetric monoidal categories;
-the factorisation is unique up to a unique isomorphism by
+/-- A `ℚ`-linear symmetric monoidal functor `F` on `S.Obj` into a `ℚ`-linear Karoubian symmetric
+monoidal category factors through the Karoubi envelope `S.Motive` by a symmetric monoidal functor.
+The hypotheses on the idempotent `c` of `X` with invertible image are not used: this is the
+Karoubi envelope's universal property, an auxiliary step towards Stacks 0FGH, whose statement is
+`Stacks.WeilCohomology.ChowMotiveCat.universalProperty`. Uniqueness of the factorisation up to a
+unique isomorphism is
 `Stacks.WeilCohomology.CorrespondenceStructure.existsUnique_natTrans_of_restriction`. -/
-@[stacks 0FGH "a Q-linear symmetric monoidal functor on degree-zero correspondences whose image \
-of F(c2) is invertible factors through M_k"]
 theorem exists_symmetricMonoidal_factorisation [Preadditive S.Obj] [Linear ℚ S.Obj]
     [Preadditive 𝒞] [Linear ℚ 𝒞] (F : S.Obj ⥤ 𝒞) [F.Braided] [F.Additive]
     [Functor.Linear ℚ F]

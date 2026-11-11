@@ -20,8 +20,14 @@ alternating sum of the traces of `φ` on it is the ℓ-adic trace of the tower.
 None of these is registered under Tag 03V2: their hypotheses — the perfect tower and its
 identification with the cohomology of the levels — are what Tag 03V3 (perfectness of
 `RΓ_c(X_k̄, Fₙ)`), the compatibility of `RΓ_c` with reduction of coefficients, and the
-comparison of `RΓ_c` with `ℤ_[ℓ]`- and `ℤ/ℓⁿ⁺¹ℤ`-coefficients provide, and none of those is
-available yet.
+comparison of `RΓ_c` with `ℤ_[ℓ]`- and `ℤ/ℓⁿ⁺¹ℤ`-coefficients provide, so these statements are
+conditional. Those inputs are now available: Tag 03V3 at the levels is
+`Stacks.EtaleCohomology.LAdicSheaf.isPerfect_compactSupportFrobeniusCohomology_levelComplex`
+(its input `ProperDirectImageCtfInput` is `Stacks.EtaleCohomology.properDirectImageCtfInput`), and
+Tag 03V2 itself is proved, with no hypothesis beyond `ℓ ≠ p`, as
+`Stacks.EtaleCohomology.LAdicSheaf.traceFormula` (in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.LAdicTraceFormulaFinal`), where it is
+registered.
 
 ## Main results
 

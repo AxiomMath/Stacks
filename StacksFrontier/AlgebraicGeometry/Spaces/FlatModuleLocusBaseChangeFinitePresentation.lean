@@ -9,11 +9,18 @@ public import StacksFrontier.AlgebraicGeometry.Topologies.FinitePresentationOnSi
 /-!
 # The flat locus under flat base change, for a module of finite presentation on the site
 
-`StacksFrontier.AlgebraicGeometry.Spaces.FlatModuleLocusBaseChange` proves Stacks 05WW for a module
-which is quasi-coherent on the charts, carrying Stacks 05VW at a point as the hypothesis
-`h05VW`.  This file proves the same two statements for a module of finite presentation on the
-small étale site, where Stacks 05VW is a theorem of this development, so that nothing is
-carried.
+This file proves Stacks 05WW for a module of finite presentation on the small étale site, under
+exactly the hypotheses of the source: Stacks 05VW at a geometric point is a theorem of this
+development (`StacksFrontier.AlgebraicGeometry.Spaces.FlatModuleBaseChange`), and it gives both
+inclusions of the set equality.  `StacksFrontier.AlgebraicGeometry.Spaces.FlatModuleLocusBaseChange`
+states the same equality for a module which is quasi-coherent only on the étale scheme charts,
+where that comparison with geometric points is not available.
+
+The source's module is a quasi-coherent `𝒪_X`-module of finite presentation, that is a module on
+the small étale site of `X`; here it is `SheafOfModules.IsFinitePresentationOnSite` on that site
+(Stacks 03DL), which implies quasi-coherence on the site
+(`SheafOfModules.isQuasicoherentOnSite_of_isFinitePresentationOnSite`), so no separate
+quasi-coherence hypothesis is taken.
 
 ## Main results
 
@@ -56,17 +63,14 @@ Both inclusions are the two implications of Stacks 05VW, read at a geometric rep
 the point: the inclusion `⊆` is
 `AlgebraicGeometry.Space.isFlatOverAtGeometricPoint_of_modulePullback`, flatness of `g` being
 read pointwise by Stacks 03MM (`AlgebraicGeometry.Space.isFlat_iff_forall_isFlatAt`), and the
-inclusion `⊇` is `AlgebraicGeometry.Space.isFlatOverAtGeometricPoint_modulePullback`.  So
-nothing is carried here: `AlgebraicGeometry.Space.flatLocus_modulePullback_eq_preimage` states
-the same equality for a module which is quasi-coherent only on the charts, and has to carry
-Stacks 05VW as a hypothesis because the comparison with geometric points is unavailable at that
-reading.
+inclusion `⊇` is `AlgebraicGeometry.Space.isFlatOverAtGeometricPoint_modulePullback`, both
+proved in this development.
 
 Finite presentation of `f` is not needed for the equality, and finite presentation of `F`
 enters only as the quasi-coherence of `F` and of its inverse image under which flatness at a
 point of `|X|` agrees with flatness at a geometric point above it; the finite-presentation
 hypotheses of Stacks 05WW are what makes the right-hand side open, by Stacks 05WV, and are
-carried by `flatLocus_modulePullback_eq_preimage_and_isOpen_of_isFinitePresentationOnSite`. -/
+used in `flatLocus_modulePullback_eq_preimage_and_isOpen_of_isFinitePresentationOnSite`. -/
 @[stacks 05WW "the set equality; the finite-presentation hypotheses of the source enter \
 through Stacks 05WV in \
 flatLocus_modulePullback_eq_preimage_and_isOpen_of_isFinitePresentationOnSite"]

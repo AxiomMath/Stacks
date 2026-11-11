@@ -24,8 +24,11 @@ through `X`.
 
 * `AlgebraicGeometry.VanishingSituation.isIso_morphismRestrict_puncturedSpectrumOpen`: the
   modification is an isomorphism over the punctured spectrum.
-* `AlgebraicGeometry.VanishingSituation.exists_isAdmissibleBlowup_dominating` is
-  [Stacks, Tag 0B4M].
+* `AlgebraicGeometry.VanishingSituation.exists_isAdmissibleBlowup_dominating`: a `U`-admissible
+  blowup dominating `X`, from the two inputs of the general domination lemma. With those inputs
+  supplied, [Stacks, Tag 0B4M] is
+  `AlgebraicGeometry.VanishingSituation.exists_isAdmissibleBlowup_dominating_of_noetherian`
+  (`StacksFrontier/AlgebraicGeometry/Flatness/Flattening/StrictTransformOpenImmersion.lean`).
 
 ## The isomorphism over the punctured spectrum
 
@@ -44,15 +47,15 @@ isomorphism ([Stacks, Tag 0AB1]).
 
 ## Implementation notes
 
-The two hypotheses of `exists_isAdmissibleBlowup_dominating` are exactly the two cited results
-carried as hypotheses by [Stacks, Tag 081T] of
+The two hypotheses of `exists_isAdmissibleBlowup_dominating` are the two inputs of
+`AlgebraicGeometry.exists_isAdmissibleBlowup_dominating` in
 `StacksFrontier/AlgebraicGeometry/Blowup/DominatedByBlowup.lean`, namely
-`AlgebraicGeometry.CartierBoundaryReduction` for [Stacks, Tag 080Y] and
-`AlgebraicGeometry.StrictTransformOpenImmersion` for [Stacks, Tag 081S], neither of which is
-proved in this library. They are passed through unchanged, so discharging them here is the same
-substitution as discharging them in 081T. Nothing of 0B4M's own assertion is assumed: the whole
-content 0B4M adds over 081T is that Situation 0AX8's modification is an isomorphism over `U`,
-and that is proved.
+`AlgebraicGeometry.CartierBoundaryReduction` ([Stacks, Tag 080Y]) and
+`AlgebraicGeometry.StrictTransformOpenImmersion` ([Stacks, Tag 081S]). Both are proved in this
+library for Situation 0AX8, by `AlgebraicGeometry.cartierBoundaryReduction` and
+`AlgebraicGeometry.VanishingSituation.strictTransformOpenImmersion`; the unconditional
+statement is
+`AlgebraicGeometry.VanishingSituation.exists_isAdmissibleBlowup_dominating_of_noetherian`.
 
 The facts about the generic point of a birational morphism used below are
 `StacksFrontier.AlgebraicGeometry.Morphisms.Birational.GenericPoint`.
@@ -299,16 +302,17 @@ public theorem isIso_morphismRestrict_puncturedSpectrumOpen (V : VanishingSituat
 
 /-! ### Tag 0B4M -/
 
-/-- **Stacks Project, Tag 0B4M.** In Situation [Stacks, Tag 0AX8] there is a `U`-admissible
-blowup `b : S' ⟶ S` of the punctured spectrum `U = S ∖ {s}` which dominates `X`: it factors as
+/-- In Situation [Stacks, Tag 0AX8], given the inputs `h080Y` and `h081S` of
+`AlgebraicGeometry.exists_isAdmissibleBlowup_dominating`, there is a `U`-admissible blowup
+`b : S' ⟶ S` of the punctured spectrum `U = S ∖ {s}` which dominates `X`: it factors as
 `S' ⟶ X ⟶ S`.
 
-This is the case of [Stacks, Tag 081T] at the modification `f`, which is an isomorphism over `U`
-by `isIso_morphismRestrict_puncturedSpectrumOpen`. The two hypotheses are the cited results
-[Stacks, Tag 080Y] and [Stacks, Tag 081S] that 081T carries, passed through
-unchanged. -/
-@[stacks 0B4M "the case of the cited 081T at Situation 0AX8's modification; 081T's own carried \
-inputs 080Y and 081S are passed through as hypotheses"]
+This applies that lemma at the modification `f`, which is an isomorphism over `U` by
+`isIso_morphismRestrict_puncturedSpectrumOpen`. Both inputs are proved in this library
+(`AlgebraicGeometry.cartierBoundaryReduction` and
+`AlgebraicGeometry.VanishingSituation.strictTransformOpenImmersion`), and
+`AlgebraicGeometry.VanishingSituation.exists_isAdmissibleBlowup_dominating_of_noetherian`
+supplies them, giving [Stacks, Tag 0B4M] with no hypothesis. -/
 public theorem exists_isAdmissibleBlowup_dominating (V : VanishingSituation.{u})
     (h080Y : CartierBoundaryReduction V.base V.puncturedSpectrumOpen)
     (h081S : StrictTransformOpenImmersion V.f V.puncturedSpectrumOpen) :

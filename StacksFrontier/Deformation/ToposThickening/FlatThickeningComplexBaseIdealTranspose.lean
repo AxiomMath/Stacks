@@ -43,7 +43,6 @@ variable {X : RingedTopos.{v, u, w}} {X' : RingedTopos.{v', u', w}}
   [HasWeakSheafify X'.J AddCommGrpCat.{w}] [X'.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
   [HasWeakSheafify S.J AddCommGrpCat.{wS}] [S.J.WEqualsLocallyBijective AddCommGrpCat.{wS}]
-  [HasSheafify X'.J AddCommGrpCat.{w}]
   (i : RingedToposHom X X') (t : RingedToposHom S S')
   (f : RingedToposHom X S) (f' : RingedToposHom X' S')
   (hi : FirstOrderThickening i) (ht : FirstOrderThickening t)
@@ -208,7 +207,6 @@ theorem eqToHom_comp_basePullbackIdealIsoPullback_inv_eq_squarePullbackCompariso
         ((squarePullbackComparison i t f f' hi ht comm).app ht.idealOfThickening.I).symm).inv :=
   eqToHom_comp_basePullbackIdealIsoPullback_inv i t f f' hi ht comm
 
-omit [HasSheafify X'.J AddCommGrpCat.{w}] in
 include comm in
 /-- The conjugate of the comparison of the two composite left adjoints is the comparison
 `t_*f_* = (t ∘ f)_* = (f' ∘ i)_* = f'_*i_*` of direct images. -/
@@ -223,7 +221,6 @@ theorem conjugateEquiv_squarePullbackComparison_hom :
   conjugateEquiv_pullbackComparison_hom
     (MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm)
 
-omit [HasSheafify X'.J AddCommGrpCat.{w}] in
 include comm in
 /-- The unit property of the comparison of direct images. -/
 theorem unit_comp_pushforwardComparison_app :
@@ -248,7 +245,6 @@ theorem unit_comp_pushforwardComparison_app :
       (RingedToposHom.pullbackAdjPushforwardModules i))
     (squarePullbackComparison i t f f' hi ht comm).hom ht.idealOfThickening.I
 
-omit [HasSheafify X'.J AddCommGrpCat.{w}] in
 include comm in
 /-- **The transpose of the reduction `(f')^*𝒥 ⟶ i_*f^*𝒥` along `f'`** is the unit of
 `t^*f^* ⊣ f_*t_*` at `𝒥`, read through `t_*f_* = (t ∘ f)_* = (f' ∘ i)_* = f'_*i_*`. -/
@@ -280,8 +276,7 @@ theorem unit_comp_map_basePullbackIdealReduction :
     (unit_comp_pushforwardComparison_app i t f f' hi ht comm)
 
 omit [HasWeakSheafify X.J AddCommGrpCat.{w}] [X.J.WEqualsLocallyBijective AddCommGrpCat.{w}]
-  [HasWeakSheafify S.J AddCommGrpCat.{wS}] [S.J.WEqualsLocallyBijective AddCommGrpCat.{wS}]
-  [HasSheafify X'.J AddCommGrpCat.{w}] in
+  [HasWeakSheafify S.J AddCommGrpCat.{wS}] [S.J.WEqualsLocallyBijective AddCommGrpCat.{wS}] in
 include comm in
 /-- The induced map of defining ideals `(f')^*𝒥 ⟶ I` of Stacks 08M7, transposed along `f'`. -/
 theorem homEquiv_ofFirstOrderThickenings_idealMap_comp_incl :
@@ -291,6 +286,12 @@ theorem homEquiv_ofFirstOrderThickenings_idealMap_comp_incl :
           hi.idealOfThickening.incl) =
       ht.idealOfThickening.incl ≫ RingedToposHom.unitStructureMap f' :=
   (MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).homEquiv_idealMap_comp_incl
+
+/-! The identification `f^*𝒥 = I` of Situation 08VV assumes `HasSheafify` on `Sh(D)`. -/
+
+section IdealIdentification
+
+variable [HasSheafify X'.J AddCommGrpCat.{w}]
 
 include comm in
 /-- The reduction followed by the identification `f^*𝒥 = I` and the inclusion `I ⊂ O'`. -/
@@ -334,5 +335,7 @@ theorem unit_comp_map_comp_basePullbackIdealIsoIdeal_comp_incl (hf' : f'.IsFlat)
       hstrict]
   exact (Adjunction.homEquiv_unit _ _ _ _).symm.trans
     (homEquiv_ofFirstOrderThickenings_idealMap_comp_incl i t f f' hi ht comm)
+
+end IdealIdentification
 
 end Deformation.ToposThickening

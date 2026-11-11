@@ -12,6 +12,14 @@ A continuous homomorphism of linearly topologized rings is taut exactly when the
 quotients of the target, taken along the extensions of a fundamental sequence of open ideals
 of the source, reconstruct the target as their inverse limit.
 
+## Main results
+
+* `RingHom.QuotientDiagram.isTaut_iff_exists_isQuotientDiagram`: Stacks 0ANJ (a) ⇔ (b), with
+  (b) the existence of some diagram of discrete rings `Aₙ` over `B ⧸ J n` with
+  `Aₙ₊₁ ⧸ J n Aₙ₊₁ = Aₙ` and `A = lim Aₙ` topologically.
+* `RingHom.QuotientDiagram.isTaut_iff_hasQuotientDiagram`: the same with the canonical
+  quotients `A ⧸ closure (J n A)` in place of an arbitrary diagram.
+
 ## References
 
 * [Stacks Project, Tag 0ANJ](https://stacks.math.columbia.edu/tag/0ANJ)
@@ -298,8 +306,11 @@ public theorem quotientLimit_equiv {A B : Type*}
 
 /-- A continuous arrow of weakly admissible linearly topologized rings is taut if and only if
 its canonical quotients along any chosen decreasing fundamental sequence form the quotient
-diagram whose topological inverse limit is the target. -/
-@[stacks 0ANJ "taut_iff_quotient_diagram"]
+diagram whose topological inverse limit is the target.
+
+This is the specialised form of Stacks 0ANJ (b) for the canonical quotients
+`A ⧸ closure (J n A)`; the existential form of (b), over arbitrary diagrams, is
+`isTaut_iff_exists_isQuotientDiagram`. -/
 public theorem isTaut_iff_hasQuotientDiagram {A B : Type*}
     [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
@@ -311,6 +322,202 @@ public theorem isTaut_iff_hasQuotientDiagram {A B : Type*}
   have hbasis := targetIdeal_hasBasis_of_isTaut f J hJ ht
   exact ⟨hopen, hbasis, transition_ker_of_open f J hJ.2.1 hopen,
     quotientLimit_equiv f J hJ.2.1 hopen hbasis hA.2.1 hA.2.2⟩
+
+/-- The inverse limit of an inverse system of rings indexed by `ℕ`, as the subring of
+compatible sequences in the product. -/
+public def diagramLimit {Aₙ : ℕ → Type*} [∀ n, CommRing (Aₙ n)]
+    (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) : Subring (∀ n, Aₙ n) where
+  carrier := {x | ∀ n, t n (x (n + 1)) = x n}
+  zero_mem' := by simp
+  one_mem' := by simp
+  add_mem' {x y} hx hy n := by
+    change t n (x (n + 1) + y (n + 1)) = x n + y n
+    rw [map_add, hx n, hy n]
+  mul_mem' {x y} hx hy n := by
+    change t n (x (n + 1) * y (n + 1)) = x n * y n
+    rw [map_mul, hx n, hy n]
+  neg_mem' {x} hx n := by
+    change t n (-x (n + 1)) = -x n
+    rw [map_neg, hx n]
+
+/-- The diagram of Stacks 0ANJ (b): discrete rings `Aₙ` with maps `π n : A → Aₙ`, transitions
+`t n : Aₙ₊₁ → Aₙ` and maps `σ n : B ⧸ J n → Aₙ` making the ladder from `B → A` commute,
+such that `t n` identifies `Aₙ₊₁ ⧸ J n Aₙ₊₁` with `Aₙ`, and such that `A = lim Aₙ` as topological
+rings, through the maps `π n`. -/
+public def IsQuotientDiagram {A B : Type*} [CommRing A] [TopologicalSpace A] [CommRing B]
+    (f : B →+* A) (J : ℕ → Ideal B) (hJ : Antitone J)
+    {Aₙ : ℕ → Type*} [∀ n, CommRing (Aₙ n)] [∀ n, TopologicalSpace (Aₙ n)]
+    (π : ∀ n, A →+* Aₙ n) (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (σ : ∀ n, B ⧸ J n →+* Aₙ n) :
+    Prop :=
+  (∀ n, DiscreteTopology (Aₙ n)) ∧
+    (∀ n, (σ n).comp (Ideal.Quotient.mk (J n)) = (π n).comp f) ∧
+    (∀ n, (t n).comp (π (n + 1)) = π n) ∧
+    (∀ n, (t n).comp (σ (n + 1)) = (σ n).comp (Ideal.Quotient.factor (hJ (Nat.le_succ n)))) ∧
+    (∀ n, Function.Surjective (t n) ∧
+      RingHom.ker (t n) = (J n).map ((σ (n + 1)).comp (Ideal.Quotient.mk (J (n + 1))))) ∧
+    ∃ e : A ≃+* diagramLimit t,
+      Continuous e ∧ Continuous e.symm ∧ ∀ (a : A) (n : ℕ), (e a : ∀ n, Aₙ n) n = π n a
+
+/-- An upward chain through surjective transitions starting at `y` in stage `n`. -/
+private noncomputable def upSeq {Aₙ : ℕ → Type*} [∀ n, CommRing (Aₙ n)]
+    (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (ht : ∀ n, Function.Surjective (t n)) (n : ℕ) (y : Aₙ n) :
+    ∀ m, Aₙ m
+  | 0 => if h : n = 0 then h ▸ y else 0
+  | m + 1 => if h : n = m + 1 then h ▸ y else Function.surjInv (ht m) (upSeq t ht n y m)
+
+private theorem upSeq_self {Aₙ : ℕ → Type*} [∀ n, CommRing (Aₙ n)]
+    (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (ht : ∀ n, Function.Surjective (t n)) (n : ℕ) (y : Aₙ n) :
+    upSeq t ht n y n = y := by
+  cases n <;> simp [upSeq]
+
+private theorem upSeq_succ {Aₙ : ℕ → Type*} [∀ n, CommRing (Aₙ n)]
+    (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (ht : ∀ n, Function.Surjective (t n)) (n : ℕ) (y : Aₙ n)
+    {m : ℕ} (hm : n ≤ m) :
+    t m (upSeq t ht n y (m + 1)) = upSeq t ht n y m := by
+  simp only [upSeq, show ¬n = m + 1 by omega, ↓reduceDIte, Function.surjInv_eq]
+
+/-- A compatible sequence through surjective transitions with value `y` in stage `n`. -/
+private noncomputable def liftSeq {Aₙ : ℕ → Type*} [∀ n, CommRing (Aₙ n)]
+    (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (ht : ∀ n, Function.Surjective (t n)) (n : ℕ) (y : Aₙ n)
+    (m : ℕ) : Aₙ m :=
+  if n ≤ m then upSeq t ht n y m else t m (liftSeq t ht n y (m + 1))
+termination_by n - m
+
+private theorem liftSeq_mem {Aₙ : ℕ → Type*} [∀ n, CommRing (Aₙ n)]
+    (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (ht : ∀ n, Function.Surjective (t n)) (n : ℕ) (y : Aₙ n) :
+    liftSeq t ht n y ∈ diagramLimit t := by
+  intro m
+  by_cases hm : n ≤ m
+  · rw [liftSeq.eq_1 t ht n y (m + 1), liftSeq.eq_1 t ht n y m]
+    simp only [show n ≤ m + 1 by omega, hm, ↓reduceIte]
+    exact upSeq_succ t ht n y hm
+  · conv_rhs => rw [liftSeq]
+    simp only [hm, ↓reduceIte]
+
+private theorem liftSeq_self {Aₙ : ℕ → Type*} [∀ n, CommRing (Aₙ n)]
+    (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (ht : ∀ n, Function.Surjective (t n)) (n : ℕ) (y : Aₙ n) :
+    liftSeq t ht n y n = y := by
+  rw [liftSeq]
+  simp only [le_rfl, ↓reduceIte, upSeq_self]
+
+/-- The converse half of Stacks 0ANJ: a diagram as in (b) makes `f` taut. The kernels of the
+projections are the closed extensions of the `J n`, because each transition kills exactly the
+extension of `J n`. -/
+private theorem isTaut_of_isQuotientDiagram {A B : Type*}
+    [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
+    [CommRing B] [TopologicalSpace B] [IsTopologicalRing B]
+    (f : B →+* A) (J : ℕ → Ideal B) (hJ : IsFundamentalSequence J)
+    {Aₙ : ℕ → Type*} [∀ n, CommRing (Aₙ n)] [∀ n, TopologicalSpace (Aₙ n)]
+    (π : ∀ n, A →+* Aₙ n) (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (σ : ∀ n, B ⧸ J n →+* Aₙ n)
+    (hd : IsQuotientDiagram f J hJ.2.1 π t σ) : RingHom.IsTaut f := by
+  obtain ⟨hdisc, hσ, htπ, -, hker, e, he, hes, heπ⟩ := hd
+  have : ∀ n, DiscreteTopology (Aₙ n) := hdisc
+  let I : ℕ → Ideal A := fun n ↦ RingHom.ker (π n)
+  have hπc (n : ℕ) : Continuous (π n) := by
+    have : (π n : A → Aₙ n) = (fun x : diagramLimit t ↦ (x : ∀ n, Aₙ n) n) ∘ e :=
+      funext fun a ↦ (heπ a n).symm
+    rw [this]
+    exact ((continuous_apply n).comp continuous_subtype_val).comp he
+  have hIopen (n : ℕ) : IsOpen (I n : Set A) :=
+    (isOpen_discrete ({0} : Set (Aₙ n))).preimage (hπc n)
+  have hIclosed (n : ℕ) : IsClosed (I n : Set A) :=
+    (isClosed_discrete ({0} : Set (Aₙ n))).preimage (hπc n)
+  have hIanti : Antitone I := antitone_nat_of_succ_le fun n a ha ↦ by
+    change π n a = 0
+    rw [← htπ n, RingHom.comp_apply]
+    change π (n + 1) a = 0 at ha
+    rw [ha, map_zero]
+  -- the topology of `A` is the inverse limit topology
+  have hnhds : nhds (0 : A) = ⨅ n, Filter.principal (I n : Set A) := by
+    let h : A ≃ₜ diagramLimit t :=
+      { toEquiv := e.toEquiv, continuous_toFun := he, continuous_invFun := hes }
+    rw [h.nhds_eq_comap, nhds_subtype, Filter.comap_comap, nhds_pi, Filter.pi,
+      Filter.comap_iInf]
+    congr 1
+    funext n
+    rw [Filter.comap_comap, nhds_discrete, Filter.comap_pure]
+    congr 1
+    ext a
+    change (e a : ∀ n, Aₙ n) n = (e 0 : ∀ n, Aₙ n) n ↔ π n a = 0
+    rw [heπ, heπ, map_zero]
+  have hbasis : (nhds (0 : A)).HasBasis (fun _ : ℕ ↦ True) (fun n ↦ (I n : Set A)) := by
+    rw [hnhds]
+    exact Filter.hasBasis_iInf_principal
+      (directed_of_isDirected_le fun _ _ hij ↦ hIanti hij)
+  -- the projections are surjective
+  have hπs (n : ℕ) : Function.Surjective (π n) := by
+    intro y
+    refine ⟨e.symm ⟨liftSeq t (fun m ↦ (hker m).1) n y,
+      liftSeq_mem t (fun m ↦ (hker m).1) n y⟩, ?_⟩
+    rw [← heπ, RingEquiv.apply_symm_apply]
+    exact liftSeq_self t _ n y
+  -- each kernel is the extension of `J n` plus the next kernel
+  have hstep (n : ℕ) : I n ≤ (J n).map f ⊔ I (n + 1) := by
+    intro a ha
+    have hmem : π (n + 1) a ∈ ((J n).map f).map (π (n + 1)) := by
+      rw [Ideal.map_map, ← hσ (n + 1), ← (hker n).2, RingHom.mem_ker, ← RingHom.comp_apply,
+        htπ n]
+      exact ha
+    rw [← Ideal.mem_comap, Ideal.comap_map_of_surjective _ (hπs (n + 1))] at hmem
+    exact hmem
+  have hsup (n m : ℕ) (hnm : n ≤ m) : I n ≤ (J n).map f ⊔ I m := by
+    induction m, hnm using Nat.le_induction with
+    | base => exact le_sup_right
+    | succ m hnm ih =>
+      refine ih.trans (sup_le le_sup_left ((hstep m).trans (sup_le ?_ le_sup_right)))
+      exact (Ideal.map_mono (hJ.2.1 hnm)).trans le_sup_left
+  have hJI (n : ℕ) : (J n).map f ≤ I n := by
+    refine Ideal.map_le_iff_le_comap.mpr fun b hb ↦ ?_
+    change π n (f b) = 0
+    rw [← RingHom.comp_apply, ← hσ n, RingHom.comp_apply,
+      Ideal.Quotient.eq_zero_iff_mem.mpr hb, map_zero]
+  have hclosure (n : ℕ) : (targetIdeal f J n : Set A) = I n := by
+    refine Set.Subset.antisymm (closure_minimal (hJI n) (hIclosed n)) fun a ha ↦ ?_
+    change a ∈ closure ((J n).map f : Set A)
+    rw [mem_closure_iff_nhds]
+    intro U hU
+    have hU' : (fun u : A ↦ a - u) ⁻¹' U ∈ nhds (0 : A) :=
+      (continuous_const.sub continuous_id).continuousAt.preimage_mem_nhds (by simpa using hU)
+    obtain ⟨m, -, hm⟩ := hbasis.mem_iff.mp hU'
+    obtain ⟨s, hs, u, hu, hsu⟩ :=
+      Submodule.mem_sup.mp (hsup n (max n m) (le_max_left n m) ha)
+    refine ⟨s, ?_, hs⟩
+    have : a - u = s := by rw [← hsu]; ring
+    rw [← this]
+    exact hm (hIanti (le_max_right n m) hu)
+  refine isTaut_of_targetIdeal_hasBasis f J hJ (fun n ↦ by rw [hclosure]; exact hIopen n) ?_
+  simpa only [hclosure] using hbasis
+
+/-- A continuous arrow `B → A` of weakly admissible linearly topologized rings is taut if and only
+if, for the given decreasing fundamental sequence `J n` of weak ideals of definition of `B`, there
+exist discrete rings `Aₙ` forming a commutative diagram over `B → B ⧸ J n` with
+`Aₙ₊₁ ⧸ J n Aₙ₊₁ = Aₙ` and `A = lim Aₙ` as topological rings. -/
+@[stacks 0ANJ "(a) ⇔ (b), for a given fundamental sequence"]
+public theorem isTaut_iff_exists_isQuotientDiagram.{u} {A B : Type u}
+    [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
+    [CommRing B] [TopologicalSpace B] [IsTopologicalRing B] [IsLinearTopology B B]
+    (f : B →+* A) (_hf : Continuous f)
+    (hA : TopologicalRing.IsWeaklyAdmissible A) (_hB : TopologicalRing.IsWeaklyAdmissible B)
+    (J : ℕ → Ideal B) (hJ : IsFundamentalSequence J) :
+    RingHom.IsTaut f ↔
+      ∃ (Aₙ : ℕ → Type u) (_ : ∀ n, CommRing (Aₙ n)) (_ : ∀ n, TopologicalSpace (Aₙ n))
+        (π : ∀ n, A →+* Aₙ n) (t : ∀ n, Aₙ (n + 1) →+* Aₙ n) (σ : ∀ n, B ⧸ J n →+* Aₙ n),
+        IsQuotientDiagram f J hJ.2.1 π t σ := by
+  refine ⟨fun ht ↦ ?_, fun ⟨_, _, _, π, t, σ, hd⟩ ↦ isTaut_of_isQuotientDiagram f J hJ π t σ hd⟩
+  obtain ⟨hopen, -, hker, e, he, hes, heπ⟩ :=
+    (isTaut_iff_hasQuotientDiagram f hA J hJ).mp ht
+  refine ⟨fun n ↦ A ⧸ targetIdeal f J n, inferInstance, inferInstance,
+    fun n ↦ Ideal.Quotient.mk _, quotientTransition f J hJ.2.1,
+    sourceQuotientToTargetQuotient f J, targetQuotient_discrete f J hopen, fun n ↦ ?_,
+    fun n ↦ ?_, fun n ↦ ?_, fun n ↦ ⟨?_, ?_⟩, e, he, hes, heπ⟩
+  · exact RingHom.ext fun _ ↦ rfl
+  · exact RingHom.ext fun _ ↦ rfl
+  · exact Ideal.Quotient.ringHom_ext (RingHom.ext fun _ ↦ rfl)
+  · intro y
+    obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective y
+    exact ⟨Ideal.Quotient.mk _ a, rfl⟩
+  · rw [hker n]
+    rfl
 
 end
 

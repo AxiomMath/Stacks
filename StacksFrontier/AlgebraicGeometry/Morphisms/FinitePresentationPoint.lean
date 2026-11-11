@@ -28,12 +28,13 @@ available to clients.
 
 ## Main results
 
-There are no results beyond the definitions and the projections of
-`AlgebraicGeometry.FinitePresentation`.
+* `AlgebraicGeometry.finitePresentation_isStableUnderBaseChange`: finite presentation is stable
+  under base change.
 
 ## References
 
 * [Stacks Project, Tag 01TP](https://stacks.math.columbia.edu/tag/01TP)
+* [Stacks Project, Tag 01TS](https://stacks.math.columbia.edu/tag/01TS)
 -/
 
 @[expose] public section
@@ -79,5 +80,17 @@ public lemma FinitePresentation.quasiCompact {X S : Scheme.{u}} {f : X ⟶ S}
 /-- A morphism of finite presentation is quasi-separated. -/
 public lemma FinitePresentation.quasiSeparated {X S : Scheme.{u}} {f : X ⟶ S}
     (hf : FinitePresentation f) : QuasiSeparated f := hf.2.2
+
+/-- **Finite presentation is stable under base change.** Each of the three constituents of
+`AlgebraicGeometry.FinitePresentation` is: local finite presentation by Mathlib's
+`AlgebraicGeometry.locallyOfFinitePresentation_isStableUnderBaseChange`, and quasi-compactness
+and quasi-separatedness by Mathlib's `MorphismProperty.IsStableUnderBaseChange` instances. -/
+@[stacks 01TS "finite presentation"]
+public theorem finitePresentation_isStableUnderBaseChange :
+    MorphismProperty.IsStableUnderBaseChange
+      (fun _ _ f => FinitePresentation f : MorphismProperty Scheme.{u}) where
+  of_isPullback sq hg :=
+    ⟨MorphismProperty.of_isPullback sq hg.1, MorphismProperty.of_isPullback sq hg.2.1,
+      MorphismProperty.of_isPullback sq hg.2.2⟩
 
 end AlgebraicGeometry

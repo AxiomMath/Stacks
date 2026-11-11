@@ -64,6 +64,10 @@ projections `g₁, g₂ : C × C ⥤ C`.
   derived mate comparisons along `Δ`, `g₁` and `g₂`, and invertibility of the external mate
   comparison on `C × C`.
 
+The unconditional [Stacks, Tag 08QC], for coefficients `ModuleCat.{u} R`, is
+`Stacks.ChaoticSite.totalDerivedColimitTensorIso` in
+`StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.DerivedLowerShriekTensor`.
+
 ## References
 
 * [Stacks Project, Tag 08QC](https://stacks.math.columbia.edu/tag/08QC)
@@ -416,9 +420,12 @@ following hypotheses:
   and `α₂` is invertible.
 
 The hypotheses `hresE`, `hresCE`, `hresCCE` provide the K-flat resolutions defining the three
-derived tensor products. -/
-@[stacks 08QC "RESTRICTED: assumes Tags 07A4, 08PH, 08QA (diagonal and both projections) and \
-    08QB at the derived level"]
+derived tensor products.
+
+This is a conditional form and carries no `@[stacks 08QC]` attribute: [Stacks, Tag 08QC] itself,
+with Tags 07A4, 08QA and 08QB proved rather than assumed, is
+`Stacks.ChaoticSite.totalDerivedColimitTensorIso` (coefficients `ModuleCat.{u} R`, which this
+statement's universe constraint `E : Type v`, `Category.{v} E` excludes). -/
 theorem isIso_totalDerivedColimitTensorComparison
     (U : CosimplicialObject C) (hU : IsPointResolution U)
     (K₁ K₂ : DerivedCategory (Cᵒᵖ ⥤ E)) :

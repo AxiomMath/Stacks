@@ -34,18 +34,19 @@ public import Mathlib.Tactic.NormNum.Prime
 public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
 
-/-! # Representability of the diagonal
+/-! # Representability of the diagonal: the 1-categorical analogue
 
-Stacks 02YA (Lemma 4.42.6): for a category `𝒮` fibred in groupoids over a category `𝒞` having
-products of pairs and fibre products, the diagonal `𝒮 ⟶ 𝒮 ×_𝒞 𝒮` is representable if and only
-if for every object `U` every 1-morphism `𝒞/U ⟶ 𝒮` is representable.
+This file records the 1-categorical analogue of Stacks 02YA, Mathlib's
+`Functor.relativelyRepresentable.diag_iff`: for a full functor `F : C ⥤ D` preserving binary
+products and pullbacks and an object `X` of `D`, the diagonal `X ⟶ X ⨯ X` is relatively
+representable with respect to `F` if and only if every morphism `F.obj a ⟶ X` is.
 
-Under the fibred-category ↔ functor dictionary, representability of 1-morphisms is Mathlib's
-`Functor.relativelyRepresentable`: the diagonal condition becomes
-`F.relativelyRepresentable (Limits.diag X)` for the classifying functor `F`, and the second
-condition becomes `F.relativelyRepresentable g` for every `g : F.obj a ⟶ X`, the morphisms out
-of a representable being the images of the slice functors `𝒞/U ⟶ 𝒮`.  The equivalence of the
-two is `Functor.relativelyRepresentable.diag_iff`.
+For `F = yoneda` this is the statement for presheaves, that is, for categories fibred in setoids.
+It is not Stacks 02YA itself, which is about a category fibred in groupoids, its diagonal into the
+2-fibre product `𝒮 ×_𝒞 𝒮`, and representability up to equivalence over the base: strict
+pullbacks in a 1-category do not compute 2-fibre products. Stacks 02YA is
+`Stacks.RepresentableMorphism.isRepresentableMorphism_diagonal_iff` in
+`StacksFrontier.CategoryTheory.FiberedInGroupoids.Representability.DiagonalRepresentable`.
 -/
 
 @[expose] public section
@@ -54,11 +55,12 @@ open CategoryTheory CategoryTheory.Limits
 
 namespace CategoryTheory.Functor.relativelyRepresentable
 
-/-- **Stacks 02YA.** The diagonal is representable iff every morphism out of a representable
-object is representable. Here `F : C ⥤ D` is full and preserves binary products and
-pullbacks (the classifying functor of a category fibred in groupoids), `𝒞` has products of
-pairs and fibre products, and `X : D`. -/
-@[stacks 02YA]
+/-- The 1-categorical analogue of Stacks 02YA: the diagonal `X ⟶ X ⨯ X` is relatively
+representable with respect to `F` iff every morphism `F.obj a ⟶ X` out of an object in the image
+of `F` is. Here `F : C ⥤ D` is full and preserves binary products and pullbacks, and `C` has
+products of pairs and fibre products. For `F = yoneda` this is the case of presheaves, i.e. of
+categories fibred in setoids; Stacks 02YA for categories fibred in groupoids is
+`Stacks.RepresentableMorphism.isRepresentableMorphism_diagonal_iff`. -/
 theorem diagonal_representable_iff
     {C : Type*} [Category C] {D : Type*} [Category D] (F : C ⥤ D) (X : D)
     [HasPullbacks C] [HasBinaryProducts C]

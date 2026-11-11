@@ -39,12 +39,14 @@ the residual action of `Γ / G = Q` is carried along, so the result is a complex
 `Λ[[Q]]`-modules. Its cohomology is `H^{-i}(LH₀(G, M)) = (Hⁱ(G, M^∨))^∨ = H_i(G, M)`
 (`Stacks.ContinuousCohomology.kernelDerivedHomologyHomologyIso`).
 
-The abstract `Tor` over the ring `Λ[[G]]` (`Stacks.GroupHomology.derivedCoinvariants`) agrees with
-this when `G` is topologically finitely generated, which is the generality of the source's
-identification `H_i(G, M) = Tor_i^{Λ[[G]]}(M, Λ)` read literally; it is not used here, because
+The abstract `Tor` over the ring `Λ[[G]]` (`Stacks.GroupHomology.derivedCoinvariants`), the
+source's identification `H_i(G, M) = Tor_i^{Λ[[G]]}(M, Λ)` read literally, is not used here.
 `π₁(X_k̄, η̄)` of an affine curve in characteristic `p > 0` is not topologically finitely
-generated, and then the square of the augmentation ideal of `Λ[[G]]` need not be closed and the
-abstract `Tor₁ = I/I²` is larger than `H₁(G, Λ) = lim_U I_U / I_U²`.
+generated, and then the square of the augmentation ideal `I` of `Λ[[G]]` need not be closed, so
+the abstract `Tor₁ = I/I²` is larger than `H₁(G, Λ) = lim_U I_U / I_U²`: this happens for
+`G = (ℤ/p)^ℕ` (`Stacks.GroupHomology.exists_forall_eval_mem_and_not_mem_augmentationIdealSq`).
+For `G` topologically finitely generated the two agree in degree one with `M = Λ`
+(`Stacks.GroupHomology.augmentationIdeal_comparison`).
 
 ## Main definitions
 

@@ -250,7 +250,6 @@ theorem satisfiesSetTheoreticCondition_pullback
 
 /-- The fibre product of two affine formal algebraic spaces over a separated fppf sheaf with
 representable relative products is an affine formal algebraic space. -/
-@[stacks 0AN3 "the fibre product of affine formal algebraic spaces over a separated base"]
 theorem isAffineFormalAlgebraicSpace_pullback
     {X Y Z : FppfSheaf B S hS} (p : X ⟶ Z) (q : Y ⟶ Z)
     (hZrep : HasRepresentableRelativeProducts B S hS Z)

@@ -40,6 +40,12 @@ Both come from reading each side as the `A`-balanced graded bilinear maps `M × 
 * `SheafOfModules.toBalanced_restrict` and `SheafOfModules.ofBalanced_restrict`: the local
   identification is compatible with restriction along a morphism of the site.
 
+The source states both identities functorially in `M`, `N` and `L`. That functoriality is in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedTensorHomNaturality.lean`, which constructs
+the morphisms induced between tensor products and internal homs and proves both identities
+natural in each of the three variables; its six theorems carry the remaining
+`@[stacks 0FR6 ...]` clauses.
+
 ## Implementation notes
 
 Neither the tensor product nor the internal hom can be written down by a formula over a general
@@ -356,8 +362,8 @@ theorem toBalanced_ofBalanced (hH : IsGradedInternalHom N L H) {U : C}
 
 /-- The degree-`n` local homomorphisms `M|_U → SheafHom^gr_B(N, L)|_U` of right graded
 `A`-modules are the `A`-balanced bilinear families of degree `n` over `U`. This is the local
-form of the tensor-hom adjunction. -/
-@[stacks 0FR4 "local homomorphisms into the internal hom are balanced bilinear families"]
+form of the tensor-hom adjunction, and the hint of the proof of Stacks 0FR6. -/
+@[stacks 0FR6 "proof: local homomorphisms into the internal hom are balanced bilinear families"]
 noncomputable def balancedEquiv (hH : IsGradedInternalHom N L H)
     (M : GradedModule.{t, a, w} A) (n : ℤ) (U : C) :
     GradedLocalHom M H n U ≃ GradedLocalBalanced M N L n U where

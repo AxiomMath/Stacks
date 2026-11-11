@@ -198,7 +198,6 @@ which is what the implication (1) ⟹ (3) above needs — because the smallness 
 set-theoretic condition of Stacks 0AIS. That substitution is what removes the finite type
 condition which bounds the size of the coproduct in
 `AlgebraicGeometry.FormalSpace.CompactPullbackRepresentable`. -/
-@[stacks 0AN5 "(3) implies (2)"]
 theorem relative_isAffineHom_formalSpectrumMap_of_isTaut
     {A C : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A] [IsLinearTopology A A]
     [CommRing C] [TopologicalSpace C] [IsTopologicalRing C] [IsLinearTopology C C]

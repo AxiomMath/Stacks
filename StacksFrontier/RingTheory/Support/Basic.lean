@@ -221,13 +221,11 @@ with quasi-compact complement.
 
 The argument factors as: for a finite module `M`, `Supp M = V(Ann M)`; and
 closed-with-quasi-compact-complement is a topological consequence of being `V(I)` for `I`
-finitely generated. Finite generation of `Ann(R, M)` for `M` finitely presented rests on the
-ideal of `n × n` minors of a presentation matrix being finitely generated, and is taken here
-as the hypothesis `(Module.annihilator R M).FG`.
+finitely generated. The statement for every finitely presented module, with no hypothesis on
+the annihilator, is `isClosed_support_and_isCompact_compl_support`, which uses the zeroth
+Fitting ideal in place of the annihilator.
 -/
-@[stacks 051B "Assumes (Module.annihilator R M).FG as a hypothesis. Stacks 051B derives that \
-finite generation from a presentation matrix, so that step is not formalized.",
-  ega "0 16.1.7" "special case",
+@[ega "0 16.1.7" "special case",
   ega "0 5.2.2" "special case"]
 theorem support_isClosed_and_compl_isCompact_of_finitePresentation
     [Module.FinitePresentation R M]

@@ -3,11 +3,14 @@ module
 public import Mathlib.Algebra.Homology.ShortComplex.Exact
 public import Mathlib.AlgebraicTopology.SimplicialObject.Basic
 public import Mathlib.CategoryTheory.Abelian.Basic
+public import Mathlib.CategoryTheory.Abelian.FunctorCategory
 public import Mathlib.CategoryTheory.Functor.KanExtension.Adjunction
 public import Mathlib.CategoryTheory.Functor.OfSequence
 public import Mathlib.CategoryTheory.Functor.ReflectsIso.Exact
 public import Mathlib.CategoryTheory.Limits.Constructions.EventuallyConstant
+public import Mathlib.CategoryTheory.Limits.FunctorCategory.EpiMono
 public import StacksFrontier.AlgebraicTopology.SimplicialObject.Skeleton
+import StacksCore.Tactic.StacksAttribute
 import StacksFrontier.CategoryTheory.Limits.FunctorCategory.ShortExactColimit
 
 /-!
@@ -49,6 +52,15 @@ canonical morphisms, is its colimit: `V = colim_n i_{n!} sk_n V`.
 
 ## Main results
 
+* `CategoryTheory.Abelian.functorCategoryAbelian` (Mathlib): the functor category `J ⥤ A`, `A`
+  abelian, is abelian; this is the abelian structure on `SimplicialObject A` and
+  `CosimplicialObject A`.
+* `CategoryTheory.SimplicialObject.mono_iff_mono_app`,
+  `CategoryTheory.CosimplicialObject.mono_iff_mono_app`: a morphism of (co)simplicial objects of
+  an abelian category is a monomorphism if and only if it is one in each degree.
+* `CategoryTheory.SimplicialObject.epi_iff_epi_app`,
+  `CategoryTheory.CosimplicialObject.epi_iff_epi_app`: a morphism of (co)simplicial objects of
+  an abelian category is an epimorphism if and only if it is one in each degree.
 * `CategoryTheory.ShortComplex.exact_iff_exact_map_evaluation`: a short complex of functors
   `J ⥤ A`, `A` abelian, is exact if and only if it is exact after evaluation at every object of
   `J`; equivalently, exactness of a sequence of (co)simplicial objects of `A` is exactness in
@@ -74,17 +86,69 @@ namespace ShortComplex
 
 variable {J : Type u} [Category.{v} J] {A : Type u'} [Category.{v'} A] [Abelian A]
 
-/-- **Stacks 018Z**.
+/-- **Stacks 018Z (4)**.
 A short complex `S` of functors `J ⥤ A`, with `A` an abelian category, is exact if and only if
 evaluating it at each object `j` of `J` gives an exact short complex of `A`. For
 `J = SimplexCategoryᵒᵖ` (resp. `J = SimplexCategory`) this says that a sequence of (co)simplicial
 objects of `A` is exact if and only if it is exact in each degree. -/
-@[stacks 018Z]
+@[stacks 018Z "(4): a sequence of (co)simplicial objects of an abelian category is exact if and
+  only if it is exact in each degree, stated for functors `J ⥤ A` from any category `J`"]
 public theorem exact_iff_exact_map_evaluation (S : ShortComplex (J ⥤ A)) :
     S.Exact ↔ ∀ j : J, (S.map ((evaluation J A).obj j)).Exact :=
   jointlyReflectIsomorphisms_evaluation.exact_iff S
 
 end ShortComplex
+
+variable {A : Type u'} [Category.{v'} A] [Abelian A]
+
+add_to_stacks 018Z "(1): the categories `SimplicialObject A` and `CosimplicialObject A` of
+  simplicial and cosimplicial objects of an abelian category `A` are abelian; they are the functor
+  categories `SimplexCategoryᵒᵖ ⥤ A` and `SimplexCategory ⥤ A`, which this instance makes
+  abelian." CategoryTheory.Abelian.functorCategoryAbelian
+
+namespace SimplicialObject
+
+/-- **Stacks 018Z (2)**, simplicial objects.
+A morphism `f : X ⟶ Y` of simplicial objects of an abelian category is a monomorphism if and only
+if each component `f_n : X_n ⟶ Y_n` is a monomorphism. -/
+@[stacks 018Z "(2) for simplicial objects: a morphism is a monomorphism if and only if it is a
+  monomorphism in each degree"]
+public theorem mono_iff_mono_app {X Y : SimplicialObject A} (f : X ⟶ Y) :
+    Mono f ↔ ∀ n : ℕ, Mono (f.app (Opposite.op (SimplexCategory.mk n))) :=
+  (NatTrans.mono_iff_mono_app f).trans ⟨fun h _ => h _, fun h k => h k.unop.len⟩
+
+/-- **Stacks 018Z (3)**, simplicial objects.
+A morphism `f : X ⟶ Y` of simplicial objects of an abelian category is an epimorphism if and only
+if each component `f_n : X_n ⟶ Y_n` is an epimorphism. -/
+@[stacks 018Z "(3) for simplicial objects: a morphism is an epimorphism if and only if it is an
+  epimorphism in each degree"]
+public theorem epi_iff_epi_app {X Y : SimplicialObject A} (f : X ⟶ Y) :
+    Epi f ↔ ∀ n : ℕ, Epi (f.app (Opposite.op (SimplexCategory.mk n))) :=
+  (NatTrans.epi_iff_epi_app f).trans ⟨fun h _ => h _, fun h k => h k.unop.len⟩
+
+end SimplicialObject
+
+namespace CosimplicialObject
+
+/-- **Stacks 018Z (2)**, cosimplicial objects.
+A morphism `f : X ⟶ Y` of cosimplicial objects of an abelian category is a monomorphism if and
+only if each component `f_n : X_n ⟶ Y_n` is a monomorphism. -/
+@[stacks 018Z "(2) for cosimplicial objects: a morphism is a monomorphism if and only if it is a
+  monomorphism in each degree"]
+public theorem mono_iff_mono_app {X Y : CosimplicialObject A} (f : X ⟶ Y) :
+    Mono f ↔ ∀ n : ℕ, Mono (f.app (SimplexCategory.mk n)) :=
+  (NatTrans.mono_iff_mono_app f).trans ⟨fun h _ => h _, fun h k => h k.len⟩
+
+/-- **Stacks 018Z (3)**, cosimplicial objects.
+A morphism `f : X ⟶ Y` of cosimplicial objects of an abelian category is an epimorphism if and
+only if each component `f_n : X_n ⟶ Y_n` is an epimorphism. -/
+@[stacks 018Z "(3) for cosimplicial objects: a morphism is an epimorphism if and only if it is an
+  epimorphism in each degree"]
+public theorem epi_iff_epi_app {X Y : CosimplicialObject A} (f : X ⟶ Y) :
+    Epi f ↔ ∀ n : ℕ, Epi (f.app (SimplexCategory.mk n)) :=
+  (NatTrans.epi_iff_epi_app f).trans ⟨fun h _ => h _, fun h k => h k.len⟩
+
+end CosimplicialObject
 
 end CategoryTheory
 
@@ -254,7 +318,9 @@ section HomSets
 
 variable {C : Type u} [Category.{v} C] [HasZeroMorphisms C]
 
-/-- **Stacks 0190** (part 1).
+/-- Statement (1) of [Stacks, Tag 0190], with the vanishing conditions stated over all
+non-surjective (resp. non-injective) operators; the whole lemma is
+`CategoryTheory.SimplicialObject.Truncated.exists_iso_sk_surjSum_cosk_injSum`.
 Let `U` be a `k`-truncated simplicial object of `C` with `U_i = 0` for `i < k`, and write
 `A = U_k`. Then for every `k`-truncated simplicial object `V`:
 
@@ -264,8 +330,6 @@ Let `U` be a `k`-truncated simplicial object of `C` with `U_i = 0` for `i < k`, 
 * a morphism `V ⟶ U` is determined by its top component `V_k ⟶ A`, and a morphism `f : V_k ⟶ A`
   is the top component of one if and only if `V(ψ) ≫ f = 0` for every non-injective
   `ψ : ⦋k⦌ ⟶ ⦋m⦌`, i.e. if and only if `f ∘ s^{k-1}_i = 0` for `i = 0, …, k - 1`. -/
-@[stacks 0190 "part (1): both hom-sets, with the vanishing conditions stated over all \
-  non-surjective (resp. non-injective) operators instead of the faces (resp. degeneracies)"]
 public theorem app_top_injective_and_exists_iff {k : ℕ} {U : SimplicialObject.Truncated C k}
     (hU : ∀ (m : ℕ) (hm : m < k), IsZero (U _⦋m,hm.le⦌ₖ)) (V : SimplicialObject.Truncated C k) :
     (Function.Injective (fun g : U ⟶ V => g.app (op ⦋k⦌ₖ)) ∧

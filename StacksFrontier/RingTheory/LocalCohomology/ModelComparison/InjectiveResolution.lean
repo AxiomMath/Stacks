@@ -7,13 +7,13 @@ public import StacksFrontier.RingTheory.Dualizing.LocalCohomologyNoetherian.Chan
 /-!
 # Derived torsion is the torsion subcomplex of an injective resolution
 
-Let `A` be a commutative ring and `I ⊆ A` a finitely generated ideal. Section 47.9 of
-[Stacks, Tag 0952] constructs derived torsion along `I`, and the computation the source uses when
-it cites that section is the following one: if `M → J^0 → J^1 → ⋯` is a resolution of `M` by
-injective `A`-modules, then the termwise `I`-power-torsion subcomplex `⋃_n J^•[I^n]` represents
-`RΓ_I(M)` in `D(A)`.
+Let `A` be a commutative ring and `I ⊆ A` a finitely generated ideal. Section 47.8 of the
+Stacks project, [Stacks, Tag 0BJA], introduces derived `I`-power torsion `RΓ_I`, the right derived
+functor of `M ↦ M[I^∞] = ⋃_n M[I^n]`. This file computes it on an injective resolution: if
+`M → J^0 → J^1 → ⋯` is a resolution of `M` by injective `A`-modules, then the termwise
+`I`-power-torsion subcomplex `⋃_n J^•[I^n]` represents `RΓ_I(M)` in `D(A)`.
 
-That is what this file proves, for an arbitrary injective resolution of the single complex on `M`
+This file proves it for an arbitrary injective resolution of the single complex on `M`
 and with no Noetherian hypothesis: a bounded-below complex of injectives is K-injective, and the
 unit of the total right derived functor `RΓ_I` is invertible at a K-injective complex
 (`Dualizing.TorsionCounit.isIso_derivedPowerTorsionUnit_app_of_isKInjective`), so the derived
@@ -21,6 +21,12 @@ functor is computed by the termwise torsion submodules. The isomorphism is pinne
 compatibility with the two maps onto `M⟦0⟧`: the inclusion of the torsion subcomplex followed by
 the inverse of the resolution map on one side, and the structure map
 `Stacks.LocalCohomology.derivedPowerTorsionObjCounit` on the other.
+
+The declarations below carry no `stacks` attribute: Section 47.8 introduces `RΓ_I` as a
+derived functor and does not state this computation as a separate result. The computation is not
+about the functor `RΓ_Z` of Section 47.9, [Stacks, Tag 0952]: that functor is the right adjoint of
+the inclusion `D_{I^∞-torsion}(A) → D(A)` (`Dualizing.localCohomologyRightAdjoint`), and by
+[Stacks, Tag 0A6P] it differs from `RΓ_I` over a general ring.
 
 ## Main definitions
 
@@ -62,7 +68,9 @@ Noetherianity is not used for the main statement. It enters only in
 
 ## References
 
+* [Stacks Project, Tag 0BJA](https://stacks.math.columbia.edu/tag/0BJA)
 * [Stacks Project, Tag 0952](https://stacks.math.columbia.edu/tag/0952)
+* [Stacks Project, Tag 0A6P](https://stacks.math.columbia.edu/tag/0A6P)
 * [Stacks Project, Tag 0A6L](https://stacks.math.columbia.edu/tag/0A6L)
 * [Stacks Project, Tag 0955](https://stacks.math.columbia.edu/tag/0955)
 -/
@@ -185,9 +193,11 @@ be a commutative ring, `I ⊆ A` a finitely generated ideal and `M` an `A`-modul
 `M → J^•` be a resolution of `M` by injective `A`-modules. Then the termwise `I`-power-torsion
 subcomplex `⋃_n J^•[I^n]` represents derived `I`-power torsion `RΓ_I(M)` in `D(A)`.
 
-This is the computation that [Stacks, Tag 0952] is cited for. No Noetherian hypothesis is
-needed: a bounded-below complex of injectives is K-injective, and a right derived functor is
-computed by a K-injective resolution.
+Here `RΓ_I` is derived `I`-power torsion of [Stacks, Tag 0BJA], not the functor `RΓ_Z` of
+[Stacks, Tag 0952]; the two agree over a Noetherian ring, see
+`Stacks.LocalCohomology.powerTorsionComplexInjectiveResolutionIsoLocalCohomologyObj`. No
+Noetherian hypothesis is needed: a bounded-below complex of injectives is K-injective, and a right
+derived functor is computed by a K-injective resolution.
 
 The isomorphism is the composite of: the identification of the two spellings of the termwise
 torsion subcomplex; the passage from the derived category to the homotopy category; the
@@ -196,7 +206,6 @@ total right derived functor `RΓ_I` at the K-injective complex `J^•`; the iden
 `Q(J^•)` with `M⟦0⟧`; and the comparison functor of [Stacks, Tag 0A6N]. Every factor is
 invertible for formal reasons except the unit, which is invertible because `J^•` is
 K-injective. -/
-@[stacks 0952 "RΓ_I(M) is the I-power-torsion subcomplex of an injective resolution"]
 def powerTorsionComplexInjectiveResolutionIso :
     DerivedCategory.Q.obj (Dualizing.powerTorsionComplex A I R.cocomplex) ≅
       derivedPowerTorsionObj.{u, u} A I hI M :=
@@ -244,7 +253,6 @@ inclusion `Γ_I(J^•) ⟶ J^•` of the termwise torsion subcomplex followed by
 
 This is the normalization of the counit of [Stacks, Tag 0A6L] read on the K-injective complex
 `J^•`. -/
-@[stacks 0952 "the representation is compatible with the structure maps onto M"]
 lemma powerTorsionComplexComparison_comp_counit :
     powerTorsionComplexComparison A I hI M R ≫ derivedPowerTorsionObjCounit.{u, u} A I hI M =
       DerivedCategory.Q.map (powerTorsionComplexι A I R.cocomplex) ≫
@@ -327,16 +335,5 @@ def powerTorsionComplexInjectiveResolutionIsoLocalCohomologyObj [IsNoetherianRin
 end Resolution
 
 end Stacks.LocalCohomology
-
-/-! ### The section's displayed construction
-
-The headline of [Stacks, Tag 0952] is the functor (47.9.0.1) itself: for a finitely generated
-ideal `I` of an arbitrary ring `A`, the inclusion of the objects with `I`-power-torsion
-cohomology into `D(A)` has a right adjoint, written `RΓ_Z` for `Z = V(I)`. That is proved in
-`StacksFrontier.RingTheory.Dualizing.LocalCohomology.RightAdjoint` under the tag of the lemma which
-supplies it, [Stacks, Tag 0A6R]; the clause below records that it is also the construction the
-section announces. -/
-add_to_stacks 0952 "the functor (47.9.0.1), right adjoint to the inclusion"
-  Dualizing.localCohomologyRightAdjoint
 
 end

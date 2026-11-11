@@ -62,11 +62,15 @@ statement about `A`-modules, and the dualization of the triangle is not performe
 
 **No `@[stacks 0B4S]` attribute is placed here.** The last statement still carries `hduality`,
 which is a result the source cites, so it is not an unconditional statement of the tag; the
-registration stays on
+tag is registered on
+`Stacks.ResolutionOfSurfaces`
+`.isReductionToRationalSingularitiesPossible_of_smul_baseTraceCokernel_eq_zero`
+of `TraceCokernelImageLift.lean`, where the duality step is proved. What the statements here
+remove from
 `Stacks.ResolutionOfSurfaces`
 `.isReductionToRationalSingularitiesPossible_of_smul_traceCokernel_eq_zero`
-of `TraceCokernelReduction.lean`, where it has stood all along. What the statements here remove
-from that one is `hbound` and the injective hull, neither of which is a hypothesis of the tag.
+of `TraceCokernelReduction.lean` is `hbound` and the injective hull, neither of which is a
+hypothesis of the tag.
 
 ## Implementation notes
 
@@ -167,8 +171,11 @@ with its hypothesis `hbound` supplied from `ringKrullDim A = 2` by [Stacks, Tag 
 the injective hull `E` of the residue field produced by [Stacks, Tag 08Y3] rather than assumed.
 Neither is a hypothesis of the tag. What remains, `hduality`, is the short exact sequence
 `0 ⟶ f_*ω_X ⟶ ω_A ⟶ Ext²_A(R¹f_*𝒪_X, ω_A) ⟶ 0` of [Stacks, Tag 0AUE] composed with the local
-duality of [Stacks, Tag 0AAK]; it is a result the source cites, it is proved nowhere here, and it
-is why no `@[stacks 0B4S]` attribute is placed on this statement. -/
+duality of [Stacks, Tag 0AAK]; it is a result the source cites, it is not proved in this file,
+and it is why no `@[stacks 0B4S]` attribute is placed on this statement. The tag is
+`Stacks.ResolutionOfSurfaces`
+`.isReductionToRationalSingularitiesPossible_of_smul_baseTraceCokernel_eq_zero`
+of `TraceCokernelImageLift.lean`. -/
 public theorem isReductionToRationalSingularitiesPossible_of_traceCokernel_matlisDual
     (A : Type u) [CommRing A] [IsLocalRing A] [IsNormalDomain A] [IsNagataRing A]
     (hdim : ringKrullDim A = 2) (ωA : ModuleCat.{u} A)

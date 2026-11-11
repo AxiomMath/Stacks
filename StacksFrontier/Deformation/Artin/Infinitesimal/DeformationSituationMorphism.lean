@@ -38,6 +38,13 @@ along a morphism of deformation situations (`Deformation.Artin.IsGeometricInfDif
 `StacksFrontier.Deformation.Artin.Infinitesimal.ActionOnLifts`, beside the private constructions
 they use.
 
+The pullback functors on categories of lifts that the remark invokes, along
+`Spec C[N] ⟶ Spec A[M]` and along `Spec C' ⟶ Spec A'`, are instances of the functor of
+Stacks 07Y7 (`Deformation.Artin.liftFunctorOfPullback`,
+`Deformation.Artin.liftOutFunctorOfPullback`), registered under that tag. What Remark 07YA
+asserts beyond them, the two `A`-linear maps and the two commutative squares, is registered
+here and in `StacksFrontier.Deformation.Artin.Infinitesimal.BaseChangeLinear`.
+
 ## Main definitions
 
 * `Deformation.Artin.infBaseChangeMap` — the map `Inf_x(M) ⟶ Inf_y(N)` of Remark 07YA.

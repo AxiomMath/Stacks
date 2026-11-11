@@ -45,8 +45,8 @@ one by `topologicalKrullDim_supp_inter_pullback_le`.
 
 ## References
 
-* [Stacks Project, Lemma 43.20.1 (Tag 0B0Y)](https://stacks.math.columbia.edu/tag/0B0Y)
-* [Stacks Project, Lemma 43.20.2 (Tag 0B0Z)](https://stacks.math.columbia.edu/tag/0B0Z)
+* [Stacks Project, Lemma 43.21.1 (Tag 0B0Y)](https://stacks.math.columbia.edu/tag/0B0Y)
+* [Stacks Project, Lemma 43.21.2 (Tag 0B0Z)](https://stacks.math.columbia.edu/tag/0B0Z)
 * [Stacks Project, Lemma 43.19.4 (Tag 0B0W)](https://stacks.math.columbia.edu/tag/0B0W)
 -/
 
@@ -232,7 +232,11 @@ the source's own three dimension bounds on `Supp ℱ`, `Supp 𝒢` and their int
 `dim(Supp ℱ ∩ Supp 𝒢) + dim Y ≤ r + s`, as proper intersection is in Tag 0AZQ, and the \
 products are taken in the integer dimensions `(r : ℤ) + s - dim Y` and `(r : ℤ) + s - dim Y + e`. \
 Both products are the Section 43.17 product of cycles \
-`AlgebraicGeometry.TorFormula.torFormulaCycleIntersectionProduct` (Tag 0B08)."]
+`AlgebraicGeometry.TorFormula.torFormulaCycleIntersectionProduct` (Tag 0B08). The proof is the \
+source's: Tag 0B0W downstairs and upstairs, Tag 0AZF on each Tor summand, and the comparison \
+`f^*Torᵢ(ℱ, 𝒢) ≅ Torᵢ(f^*ℱ, f^*𝒢)` from Tag 079U and the exactness of `f^*`, which is \
+`AlgebraicGeometry.TorFormula.pullbackTorSheafIso`, proved in this library, so the statement carries no \
+hypothesis beyond the source's."]
 theorem flatPullback_coherentSheafCycleProduct_integerDimension (K : Type u) [Field K]
     [IsAlgClosed K] {X Y : Scheme.{u}} (sX : X ⟶ Spec (.of K)) (sY : Y ⟶ Spec (.of K))
     [IsVariety K sX] [IsVariety K sY] (hX : AlgebraicGeometry.IsRegular X)

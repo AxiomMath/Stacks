@@ -21,9 +21,13 @@ the functor `FÉt_Y ⟶ FÉt_V` is an equivalence. In particular purity holds fo
 * `Stacks.FundamentalGroup.essSurj_finiteEtaleBaseChange_of_formallySmoothNAdic` — essential
   surjectivity, the source's argument after its first paragraph.
 * `Stacks.FundamentalGroup.isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic_of_depth` —
-  **[Stacks, Tag 0EYC]**, the equivalence.
+  **[Stacks, Tag 0EYC]**, the equivalence `FÉt_Y ⟶ FÉt_V`.
 * `Stacks.FundamentalGroup.hasPurity_of_formallySmoothNAdic` — **[Stacks, Tag 0EYC]**, purity
   for `B`.
+
+These two theorems are the registrations of [Stacks, Tag 0EYC]; together they are its complete
+statement. `isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic` in
+`FormallySmoothEquivalence` is the step assembling the equivalence from its two halves.
 
 ## References
 
@@ -185,7 +189,10 @@ Full faithfulness is the source's first paragraph,
 `essSurj_finiteEtaleBaseChange_of_formallySmoothNAdic`. The hypothesis `dim(B) > dim(A)` is the
 source's own; it is what makes the punctured spectrum an open as in the tag (see
 `hasPurity_of_formallySmoothNAdic`) and is not needed for the equivalence itself. -/
-@[stacks 0EYC "the equivalence FÉt_Y → FÉt_V, under the tag's hypotheses; nothing is assumed",
+@[stacks 0EYC "the equivalence FÉt_Y → FÉt_V for a local homomorphism A → B of Noetherian \
+local rings with depth(A) ≥ 2, formally smooth for the 𝔪_B-adic topology, with dim(B) > dim(A), \
+and any open V of Spec B containing every prime 𝔮 with 𝔮 ∩ A ≠ 𝔪_A and the prime 𝔪_A B; \
+flatness of A → B and essential surjectivity are proved here",
   sga "1 XIII 4.7" "special case"]
 public theorem isEquivalence_finiteEtaleBaseChange_of_formallySmoothNAdic_of_depth
     (A B : Type u) [CommRing A] [CommRing B] [IsLocalRing A] [IsLocalRing B] [IsNoetherianRing A]
@@ -210,7 +217,9 @@ extends to a finite étale cover of `Spec B`.
 The punctured spectrum is an open as in the tag: condition (1) because the closed point contracts
 to `𝔪_A`, condition (2) because `𝔪_A B ≠ 𝔪_B`, which is where `dim(A) < dim(B)` enters
 (`mem_puncturedSpectrum_of_eq_map_maximalIdeal_of_ringKrullDim_lt`). -/
-@[stacks 0EYC "purity holds for B, under the tag's hypotheses; nothing is assumed"]
+@[stacks 0EYC "the clause 'in particular purity holds for B': every finite étale cover of the \
+punctured spectrum of B extends to Spec B, for A → B as in the tag (Noetherian local, local \
+homomorphism, depth(A) ≥ 2, formally smooth for the 𝔪_B-adic topology, dim(B) > dim(A))"]
 public theorem hasPurity_of_formallySmoothNAdic (A B : Type u) [CommRing A] [CommRing B]
     [IsLocalRing A] [IsLocalRing B] [IsNoetherianRing A] [IsNoetherianRing B] [Algebra A B]
     [IsLocalHom (algebraMap A B)]

@@ -435,8 +435,12 @@ spaces makes a directed colimit a formal algebraic space.**
 This is `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_openChartSystem` with its
 hypothesis `haff` — that each chart colimit be an affine formal algebraic space — *proved*
 rather than assumed: the stages of each chart diagram are affine formal algebraic spaces and its
-transition morphisms are representable thickenings, so **Stacks 0GVM**
-(`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`) applies to it once its
+transition morphisms are representable thickenings, so
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`, the version of
+**Stacks 0GVM** assuming the set-theoretic condition (Stacks 0GVM itself is
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_iff` and
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_cofinal`), applies to it
+once its
 set-theoretic condition of **Stacks 0AIS** is known, and that is
 `AlgebraicGeometry.FormalSpace.satisfiesSetTheoreticCondition_colimit_of_openChartSystem`. -/
 theorem isFormalAlgebraicSpace_of_openChartSystem_of_affineStages

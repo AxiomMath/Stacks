@@ -22,8 +22,9 @@ Let `a : X₁ ⟶ X₂` and `b : X₂ ⟶ Y` be morphisms of algebraic spaces an
   algebraic spaces**, a module with totally acyclic underlying abelian sheaf is acyclic for
   `b_*`.
 * `AlgebraicGeometry.Space.modulePushforwardRightDerivedCompIso`: the identification above.
-* `AlgebraicGeometry.Space.higherDirectImageCompOfAcyclic`: the hypothesis `h0734` of
-  `AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_hasProperSupport`.
+* `AlgebraicGeometry.Space.higherDirectImageCompOfAcyclic`: every morphism has the property
+  `AlgebraicGeometry.Space.HigherDirectImageCompOfAcyclic` (the step of Stacks 0734 used by
+  Stacks 08GC).
 
 ## Implementation notes
 

@@ -15,7 +15,12 @@ category of Section 0372 built from the pseudofunctoriality of the direct images
 
 ## Main results
 
-* `AlgebraicGeometry.Space.picardBasedCategory_isStackInGroupoids`: **Stacks 04WN.**
+* `AlgebraicGeometry.Space.picardBasedCategory_isStackInGroupoids`: **Stacks 04WN.**  This is
+  the sole declaration registered under 04WN.  Its condition (1),
+  `AlgebraicGeometry.Space.picardProjection_isFiberedInGroupoids` of
+  `StacksFrontier/AlgebraicGeometry/Quot/PicardStackFibered.lean`, stated for every value of the
+  specification `AlgebraicGeometry.Space.PicardCategoryData`, formerly carried a conditional 04WN
+  registration; it is now an unregistered step.
 
 ## Implementation notes
 
@@ -65,9 +70,15 @@ it is fibred in groupoids, its `Isom` presheaves are sheaves, and every descent 
 an fppf covering is effective.
 
 The statement is made for `p` itself rather than for the cutdown of Stacks 03ZZ, the objects of
-`Picardstack_{X/B}` forming a type. -/
-@[stacks 04WN "the functor Picardstack_{X/B} ⟶ (Sch/S)_fppf is a stack in groupoids: all three \
-conditions of Stacks 02ZI"]
+`Picardstack_{X/B}` forming a type.
+
+This is the sole 04WN registration.  The former conditional sibling
+`AlgebraicGeometry.Space.picardProjection_isFiberedInGroupoids`, condition (1) only, is an
+unregistered step of this proof, entering through
+`AlgebraicGeometry.Space.picardBasedCategory_isFiberedInGroupoids`. -/
+@[stacks 04WN "the functor Picardstack_{X/B} ⟶ (Sch/S)_fppf of Section 0372, for the category \
+built from the coherence data of 03LU, is a stack in groupoids: all three conditions of Stacks \
+02ZI, for p itself (stronger than the cutdown of 03ZZ, which follows)"]
 theorem picardBasedCategory_isStackInGroupoids (s : PicardSituation B S hS) :
     Functor.IsStackInGroupoids.{w} (picardBasedCategory (modulePushforwardCoherence B S hS) s).p
       (BigFppfOver.topology B S hS) :=

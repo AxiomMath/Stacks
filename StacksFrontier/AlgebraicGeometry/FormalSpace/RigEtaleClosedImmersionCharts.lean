@@ -18,7 +18,7 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.SpectrumFullyFaithful
 public import StacksFrontier.RingTheory.Rig.RigSmoothStableUnderComposition
 
 /-!
-# Rig-smooth closed immersions are rig-étale, with nothing carried
+# Rig-smooth closed immersions are rig-étale
 
 Let `S` be a scheme contained in a big fppf site `B` and let `f : X ⟶ Y` be a closed immersion
 of locally Noetherian formal algebraic spaces over `S`.  **Stacks 0GD4** says that the
@@ -31,8 +31,8 @@ following three conditions are equivalent:
    morphism `B → A` of `WAdm^{Noeth}` whose kernel `J` satisfies `I · (J / J²) = 0` for some
    ideal of definition `I` of `B`.
 
-`StacksFrontier.AlgebraicGeometry.FormalSpace.RigEtaleClosedImmersion` states this with two inputs
-carried as hypotheses.  This file proves the equivalence carrying neither.
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RigEtaleClosedImmersion` derives the equivalence from
+two chart inputs; this file proves both for every closed immersion and states Stacks 0GD4 itself.
 
 ## Main results
 
@@ -40,7 +40,7 @@ carried as hypotheses.  This file proves the equivalence carrying neither.
   `AlgebraicGeometry.FormalSpace.surjective_of_isClosedImmersion_chart` and
   `AlgebraicGeometry.FormalSpace.finiteTypeAdicAlgebra_of_isClosedImmersion_chart`: the chart
   homomorphism of a fibre product chart of a closed immersion is taut, surjective, and adic of
-  topologically finite type — the chart condition of Stacks 0AQI, carrying nothing.
+  topologically finite type — the chart condition of Stacks 0AQI.
 * `AlgebraicGeometry.FormalSpace.exists_adic_presentation_of_isPullback`: the fibre product
   chart has a presentation by an adic Noetherian ring.
 * `AlgebraicGeometry.FormalSpace.isRigEtale_of_hasAnnihilatedConormalOnPullbackCharts`: the
@@ -50,12 +50,12 @@ carried as hypotheses.  This file proves the equivalence carrying neither.
 ## Implementation notes
 
 The implications (2) ⟹ (1) (Stacks 0GD0) and (1) ⟹ (3) are as in
-`AlgebraicGeometry.FormalSpace.isRigSmooth_tfae_of_isClosedImmersion`; the chart condition of
-Stacks 0AQI which that statement carries is proved here.  The chart map `t` of a fibre product
-chart is a closed immersion by Stacks 0GHX, conjugating it by the presenting isomorphisms of the
-two charts leaves a closed immersion, its representability makes the chart homomorphism taut
-(Stacks 0AN5, (1) ⟹ (3)), the quotient part of Stacks 0AQI then gives surjectivity, and Stacks
-0GBW turns tautness and surjectivity into the adic-finite-type clause.
+`AlgebraicGeometry.FormalSpace.isRigSmooth_tfae_of_isClosedImmersion`; the chart condition of Stacks
+0AQI which that statement takes as an input is proved here. The chart map `t` of a fibre product
+chart is a closed immersion by Stacks 0GHX, conjugating it by the presenting isomorphisms of the two
+charts leaves a closed immersion, its representability makes the chart homomorphism taut (Stacks
+0AN5, (1) ⟹ (3)), the quotient part of Stacks 0AQI then gives surjectivity, and Stacks 0GBW turns
+tautness and surjectivity into the adic-finite-type clause.
 
 The implication (3) ⟹ (2) is where the source invokes Stacks 0GCZ, to reduce rig-étaleness of
 `f`, a condition on *every* affine representable étale square `U ⟶ V` over `f`, to the fibre
@@ -397,7 +397,9 @@ The implication (2) ⟹ (1) is Stacks 0GD0. The implication (1) ⟹ (3) uses the
 the fibre product chart homomorphism, `surjective_of_isClosedImmersion_chart`, and the
 computation of the completed naive cotangent complex of a surjection. The implication
 (3) ⟹ (2) is `isRigEtale_of_hasAnnihilatedConormalOnPullbackCharts`. -/
-@[stacks 0GD4]
+@[stacks 0GD4 "the equivalence of rig-smoothness, rig-étaleness and the annihilated \
+conormal condition on fibre product charts, for a closed immersion of locally Noetherian formal \
+algebraic spaces"]
 theorem isRigSmooth_tfae_of_isClosedImmersion' {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (_hX : IsLocallyNoetherian B S hS X) (_hY : IsLocallyNoetherian B S hS Y)
     (hf : IsClosedImmersion B S hS f) :

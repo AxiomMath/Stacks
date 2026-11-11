@@ -10,9 +10,9 @@ public import StacksFrontier.CategoryTheory.Sites.FullSubcategoryCoveringPullbac
 
 Stacks 0GR0 compares the cohomology of an abelian sheaf on the étale (respectively fppf) site of
 an algebraic stack with the cohomology of its inverse image on the lisse-étale (respectively
-flat-fppf) site, over an object of the subsite. The four declarations of
-`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteObjectwiseCohomology.lean` that carry that tag do so
-conditionally on one hypothesis, `hacyclic`, which is **Stacks 0D6X** for the inclusion of the
+flat-fppf) site, over an object of the subsite. The four comparisons of
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteObjectwiseCohomology.lean` take one hypothesis,
+`hacyclic`, which is **Stacks 0D6X** for the inclusion of the
 subsite localized at the object: an injective abelian sheaf on the slice of the ambient site
 restricts to a sheaf with no higher cohomology on the slice of the subsite. This file proves it.
 

@@ -21,7 +21,10 @@ regular two-dimensional scheme.
 
 Of that argument this file proves the two ends — the vanishing at the base of the sequence, and
 the propagation of the vanishing along the whole sequence from its propagation across one
-blowup — and carries the three cited inputs as hypotheses.
+blowup — over the three cited inputs. The library proves the complete statement, with nothing
+assumed, as `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing`
+(`StacksFrontier.AlgebraicGeometry.ResolutionOfSurfaces.Boundedness.RegularLocalRingRational`),
+[Stacks, Tag 0B4Q].
 
 ## Main definitions
 
@@ -37,8 +40,8 @@ blowup — and carries the three cited inputs as hypotheses.
 * `AlgebraicGeometry.firstStructureSheafCohomologyVanishes_of_pointBlowupChain`: the vanishing
   holds along a whole sequence of blowups at closed points once it propagates across a single
   one.
-* `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing`: the statement of the
-  source, with its three cited inputs carried.
+* `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing`: the source's argument
+  over its three cited inputs.
 
 ## Implementation notes
 
@@ -61,8 +64,15 @@ Sequences of blowups at closed points are `Stacks.ResolutionOfSurfaces.PointBlow
 inductive family over the composite morphism to the base, so the propagation of the vanishing
 along a sequence is an induction over that family whose base case is the affine vanishing.
 
-Three hypotheses of the source's proof are carried rather than discharged, and the
-`@[stacks 0B4Q]` attribute names them.
+Three hypotheses of the source's proof are carried by
+`definesRationalSingularity_of_isRegularLocalRing` rather than discharged; the notes below
+describe them as this module stands. All three are discharged downstream, and the complete
+statement of [Stacks, Tag 0B4Q] is
+`AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing`: there
+`dominate` is replaced by the domination of [Stacks, Tag 0BBT] through normalized blowups,
+`transfer` is `AlgebraicGeometry.firstStructureSheafCohomologyVanishes_of_dominates`, and
+`blowUpStep` is
+`AlgebraicGeometry.isZeroFirstStructureSheafCohomology_blowUp_of_isRegularLocalRing`.
 
 * `dominate` is [Stacks, Tag 0AHI], that a modification of a Noetherian scheme which is an
   isomorphism away from finitely many closed points with regular two-dimensional local rings is
@@ -172,9 +182,10 @@ theorem firstStructureSheafCohomologyVanishes_of_pointBlowupChain (A : Type u) [
   | refl => exact firstStructureSheafCohomologyVanishes_of_isAffine _
   | step hh w hw _ ih => exact blowUpStep _ _ hh w hw ih
 
-/-- **Stacks Project, Tag 0B4Q.** A Nagata regular local ring `A` of dimension two defines a
-rational singularity: the first cohomology of the structure sheaf vanishes on every modification
-of `Spec(A)` with normal source.
+/-- **The argument of [Stacks, Tag 0B4Q] over three of its inputs.** A Nagata regular local
+ring `A` of dimension two defines a rational singularity once the three inputs below are given.
+The complete statement of Tag 0B4Q, with none of them assumed, is
+`AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing`.
 
 Three inputs of the source's proof are carried as hypotheses. `dominate` is [Stacks, Tag 0AHI],
 that every such modification is dominated by a sequence of blowups at closed points over the
@@ -188,9 +199,6 @@ sequence of Tag 0AXF.
 What is proved is the rest: the vanishing at the start of the sequence, its propagation along
 the whole sequence, and the descent of the vanishing from the dominating sequence to the given
 modification. -/
-@[stacks 0B4Q "granted Tag 0AHI with the regularity of Tag 0AGR and the normality of Tag 0567, \
-carried as `dominate`; the exact sequence of Tag 0AXF, carried as `transfer`; and Tag 0AGS with \
-that exact sequence, carried as `blowUpStep`"]
 theorem definesRationalSingularity_of_isRegularLocalRing (A : Type u) [CommRing A] [IsDomain A]
     [IsRegularLocalRing A] [IsNagataRing A] (_hdim : ringKrullDim A = 2)
     (dominate : ∀ (X : Scheme.{u}), IsNormal X → ∀ f : X ⟶ Spec (.of A), IsModification f →

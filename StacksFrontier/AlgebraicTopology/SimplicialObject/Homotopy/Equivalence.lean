@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.AlgebraicTopology.CechNerve
+public import Mathlib.AlgebraicTopology.ExtraDegeneracy
 public import Mathlib.AlgebraicTopology.SimplicialSet.Homotopy
 public import StacksFrontier.AlgebraicTopology.CechNerve
 public import StacksFrontier.AlgebraicTopology.SimplicialObject.Homotopy.Basic
@@ -19,7 +20,10 @@ relevant coproducts a homotopy is the same thing as a morphism `U × Δ[1] ⟶ V
 The cylinder `U × Δ[1]` on a simplicial object is homotopy equivalent to `U`: the projection
 `π : U × Δ[1] ⟶ U` has either vertex inclusion `e₀, e₁ : U ⟶ U × Δ[1]` as a homotopy inverse.
 
-A self map of a Čech nerve which is the identity on the base is homotopic to the identity.
+A self map of a Čech nerve which is the identity on the base is homotopic to the identity. In
+particular, for an arrow `f : Y ⟶ X` with a section `s`, the self map given by `s ∘ f` on each
+factor is homotopic to the identity, and the Čech nerve of `f` is homotopy equivalent to the
+constant simplicial object `X` through its augmentation ([Stacks, Tag 019P]).
 
 The standard simplex `Δ[m]` is homotopy equivalent to `Δ[0]`, by the contraction onto its
 last vertex: the morphism `Δ[m] ⊗ Δ[1] ⟶ Δ[m]` sending a pair `(φ, α)` to
@@ -45,6 +49,10 @@ a homotopy equivalence.
   arrow `f` which is the identity on the base, in the sense that `f ≫ F.right = f`, there is a
   simplicial homotopy from the induced self map `Arrow.mapCechNerve F` of the Čech nerve of `f`
   to the identity.
+* `CategoryTheory.Arrow.nonempty_homotopy_mapCechNerve_id_and_homotopyEquivalences`: the whole
+  of [Stacks, Tag 019P]. For an arrow `f : Y ⟶ X` with a section `s`, the self map of the Čech
+  nerve given by `s ∘ f` on each factor is homotopic to the identity, and the augmentation of the
+  Čech nerve to the constant simplicial object `X` is a homotopy equivalence.
 * `SSet.stdSimplex.homotopyEquivalences_hom_obj₀`: every morphism `Δ[m] ⟶ Δ[0]` — there is
   exactly one — is a homotopy equivalence of simplicial objects ([Stacks, Tag 019N]), and
   moreover `𝟙 Δ[m]` is homotopic, in the strong directed sense and in that direction, to the
@@ -708,18 +716,54 @@ endomorphism of the arrow `f` with `f ≫ F.right = f`, so that the induced self
 `Arrow.mapCechNerve F` of `U`, given by `F.left` on each factor `Y`, is the identity on the base
 `X`. Then there is a simplicial homotopy from that self map to `𝟙 U` in the sense of
 [Stacks, Tag 019M]; in particular the two are homotopic. -/
-@[stacks 019P "the first sentence, stated for an arbitrary endomorphism `F` of the arrow `f` \
-  with `f.hom ≫ F.right = f.hom`, of which the source's self map is the case \
-  `F = (f.hom ≫ s, 𝟙 X)` for a section `s` of `f`; the self map is pinned as \
+@[stacks 019P "the homotopy of the first sentence, in the generality of an arbitrary \
+  endomorphism `F` of the arrow `f` with `f.hom ≫ F.right = f.hom`, of which the source's self \
+  map is the case `F = (f.hom ≫ s, 𝟙 X)` for a section `s` of `f`; the self map is pinned as \
   `Arrow.mapCechNerve F`, and the conclusion is the existence of a homotopy, which is \
-  stronger than the source's `homotopic` of 019M. The second sentence, that `U` is homotopy \
-  equivalent to the constant simplicial object `X`, uses the section and is a formal \
-  consequence, to be tagged jointly on a second declaration; see the module docstring"]
+  stronger than the source's `homotopic` of 019M. The whole lemma, with the section `s` and \
+  both sentences, is `Arrow.nonempty_homotopy_mapCechNerve_id_and_homotopyEquivalences`"]
 public theorem nonempty_homotopy_mapCechNerve_id {f : Arrow C}
     [∀ n : ℕ, HasWidePullback f.right (fun _ : Fin (n + 1) => f.left) fun _ => f.hom]
     (F : f ⟶ f) (hF : f.hom ≫ F.right = f.hom) :
     Nonempty (SimplicialObject.Homotopy (mapCechNerve F) (𝟙 f.cechNerve)) :=
   ⟨cechHomotopy F hF⟩
+
+/-- **Stacks 019P.** Let `f : Y ⟶ X` be an arrow of a category `C` whose iterated fibre products
+`Y ×_X ⋯ ×_X Y` exist, with a section `s : X ⟶ Y`, so `s ≫ f = 𝟙 X`, and let `U = f.cechNerve` be
+the simplicial object of [Stacks, Tag 016E] built from `f`. The self map `Arrow.mapCechNerve` of
+the arrow endomorphism `(f ≫ s, 𝟙 X)` is in degree `n` the map `(s ∘ f)^{n + 1}` of
+`Y ×_X ⋯ ×_X Y`, given by `s ∘ f` on each factor (first conjunct); there is a simplicial homotopy
+from it to `𝟙 U`, so the two are homotopic (second conjunct); and the augmentation
+`U ⟶ X`, to the constant simplicial object at `X`, is a homotopy equivalence ([Stacks, Tag 019N]),
+so `U` is homotopy equivalent to the constant simplicial object `X` (third conjunct). The homotopy
+inverse is the section of the augmentation induced by `s`, and the homotopy is Mathlib's
+`SimplicialObject.Augmented.ExtraDegeneracy.homotopy` for the extra degeneracy
+`Arrow.AugmentedCechNerve.extraDegeneracy` of the split epimorphism `f`. -/
+@[stacks 019P "both sentences, for the section `s` of `f`: the self map `(s ∘ f)^{n + 1}` is \
+  `Arrow.mapCechNerve` of the arrow endomorphism `(f.hom ≫ s, 𝟙 X)`, its components being \
+  recorded in the first conjunct; the second conjunct is the homotopy to the identity, an \
+  existence of a homotopy, stronger than `homotopic` of 019M; the third says that the \
+  augmentation `f.augmentedCechNerve.hom : U ⟶ const X` is a homotopy equivalence in the sense \
+  of 019N, which is the source's `U` homotopy equivalent to the constant simplicial object `X` \
+  with the equivalence named. The fibre products of the source are those of Example 016E, the \
+  wide pullbacks `Y ×_X ⋯ ×_X Y` of `Arrow.cechNerve`. The third conjunct uses Mathlib's \
+  `Arrow.AugmentedCechNerve.extraDegeneracy` and `ExtraDegeneracy.homotopy`"]
+public theorem nonempty_homotopy_mapCechNerve_id_and_homotopyEquivalences {f : Arrow C}
+    [∀ n : ℕ, HasWidePullback f.right (fun _ : Fin (n + 1) => f.left) fun _ => f.hom]
+    (s : f.right ⟶ f.left) (hs : s ≫ f.hom = 𝟙 f.right) :
+    (∀ (n : ℕ) (i : Fin (n + 1)),
+      (mapCechNerve (homMk (f.hom ≫ s) (𝟙 f.right) (by simp [hs]))).app (op ⦋n⦌) ≫
+          WidePullback.π (fun _ : Fin (n + 1) => f.hom) i =
+        WidePullback.π (fun _ : Fin (n + 1) => f.hom) i ≫ f.hom ≫ s) ∧
+      Nonempty (SimplicialObject.Homotopy
+        (mapCechNerve (homMk (f.hom ≫ s) (𝟙 f.right) (by simp [hs]))) (𝟙 f.cechNerve)) ∧
+      SimplicialObject.homotopyEquivalences C f.augmentedCechNerve.hom := by
+  refine ⟨fun n i => ?_,
+    nonempty_homotopy_mapCechNerve_id (homMk (f.hom ≫ s) (𝟙 f.right) (by simp [hs])) (by simp), ?_⟩
+  · rw [mapCechNerve_app, WidePullback.lift_π]
+    rfl
+  · let ed := AugmentedCechNerve.extraDegeneracy f ⟨s, hs⟩
+    exact ⟨ed.section_, Relation.EqvGen.rel _ _ ⟨ed.homotopy⟩, ed.section_comp_hom ▸ .refl _⟩
 
 end CategoryTheory.Arrow
 

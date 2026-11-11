@@ -27,12 +27,15 @@ as a hypothesis. It is recorded here as a predicate on the situation of Stacks 0
   situation satisfying the hypothesis has Noetherian local rings, which is the first clause of
   being a G-ring.
 
-## What is and is not proved
+The use the remark announces for the hypothesis, that under it Stacks 0GIB gives the desired
+result, is `AlgebraicGeometry.Artin.ContractionSituation.exists_solution_of_localRingsAreGRings`
+in `StacksFrontier.AlgebraicGeometry.Artin.ContractionGRingHypothesisSolution`.
 
-What is recorded is a definition, not a theorem: the remark asserts nothing. Its two further
-sentences — that the general case is not proved in the source, and the invitation to readers —
-are editorial, so the attribute on the definition is keyed to say that only the announced
-hypothesis is delivered.
+## Content of the remark
+
+The remark's mathematical content is the hypothesis it announces, recorded as a definition. Its
+other two sentences, that the source does not prove the result for every Situation 0GH8 and the
+invitation to readers, describe the source and contain no mathematical statement.
 
 Nothing is assumed.
 
@@ -70,11 +73,10 @@ variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
 
 /-- **Stacks 0GH9.** The hypothesis the remark announces for the situation of Stacks 0GH8:
 every local ring of the base scheme `S` is a G-ring in the sense of Stacks 07GH. -/
-@[stacks 0GH9 "the standing hypothesis the remark announces, that the local rings of S are \
-G-rings, as a predicate on Situation 0GH8. The remark's two other sentences — that the source \
-therefore does not prove its theorem for every Situation 0GH8, and the invitation to a reader \
-who can prove the general case or supply a counterexample — assert no mathematics and are not \
-formalized"]
+@[stacks 0GH9 "the hypothesis the remark announces, that the local rings of S are G-rings, \
+as a predicate on Situation 0GH8; under it Stacks 0GIB gives the desired result \
+(exists_solution_of_localRingsAreGRings). The remark's other sentences describe the source and \
+contain no mathematical statement"]
 def LocalRingsAreGRings (_c : ContractionSituation B S hS) : Prop :=
   ∀ s : S, IsGRing (S.presheaf.stalk s)
 

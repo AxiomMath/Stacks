@@ -10,13 +10,17 @@ public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.Glob
 constructs the global
 cup product `μ : RΓ(S, K) ⊗^𝐋_A RΓ(S, M) ⟶ RΓ(S, K ⊗^𝐋_{𝒪_S} M)` from a one-point comparison and
 the pairings it induces on cohomology. This file conjoins the two displays of Section 20.31 with
-the source's definitions of them, as one statement.
+the source's definitions of them, as one statement, for an arbitrary one-point comparison. The
+statement at the canonical one-point comparison, which is the one the source uses, is in
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.GlobalCupProductSectionCanonical`.
 
 ## Main results
 
-* `Stacks.Cohomology.DerivedGlobalCupProduct.section_cupProduct` — **Section 0FKU in full**: both
-  displays of the section conjoined, for the global cup product built from a one-point
-  comparison, namely `μ` together with the source's definition of it as the relative cup product
+* `Stacks.Cohomology.DerivedGlobalCupProduct.section_cupProduct` — the same three conjuncts of
+  the recipe, for the global cup product built from an *arbitrary* one-point comparison. Its
+  tensor comparison is an arbitrary morphism of bifunctors (it may be zero, and then so is `μ`),
+  so this statement does not single out the cup product of the source; it carries no tag. Its
+  conjuncts are `μ` together with the source's definition of it as the relative cup product
   of Tag 0B68, its joint naturality, and the induced pairings with the two-step recipe
   `ξ ∪ η = μ(ξ ⊗ η)`. The numbered items of Section 20.31 are excluded, each carrying its own
   tag: Lemma 20.31.1 is Tag 0FP2, Remark 20.31.2 is Tag 0G6W, Lemma 20.31.3 is Tag 0FP3, Lemma
@@ -46,8 +50,9 @@ attribute [local instance] HasDerivedCategory.standard
 
 variable {S : RingedSpace.{u, u}}
 
-/-- **Cohomology, Section 0FKU in full: both displays of the section, for the global cup product
-built from a one-point comparison.**
+/-- **The recipe of Cohomology, Section 0FKU, for the global cup product built from an arbitrary
+one-point comparison.** Section 0FKU itself is `section_cupProduct_canonical`, the instance at
+the canonical one-point comparison.
 
 The conjuncts are, in the order the source states them:
 
@@ -66,24 +71,19 @@ The conjuncts are, in the order the source states them:
   and is the source's "we can first tensor them, see More on Algebra, Section 15.64"; the second
   step is `Hⁱ⁺ʲ(μ)`.
 
-The one-point comparison `c` is the parameter discussed in the module docstring: it stands for the
-identification `D(pt, A) = D(A)`, which the source has and this repository does not. It is a
-hypothesis of the two definitions this theorem is about, so this statement is exactly as
-conditional as they are and no more.
+The one-point comparison `c` is an arbitrary parameter: a left adjoint of `RΓ(S, -)` together
+with an *unconstrained* morphism of bifunctors `L(x ⊗^𝐋_A y) ⟶ L x ⊗^𝐋_{𝒪_S} L y`, which need not
+be the comparison of Tag 079U, need not be invertible and may be zero, in which case `μ` is zero.
+So this theorem is the recipe of the section for an arbitrary such datum, and does not by itself
+single out the cup product of the source. The source's `μ` is the instance at
+`canonicalOnePointComparison S`, and Section 0FKU is stated for it, with no parameter, in
+`section_cupProduct_canonical`, which carries the tag.
 
 The remaining numbered items of Section 20.31 are not conjoined here because each carries its own
 tag: Lemma 20.31.1 is Tag 0FP2, Remark 20.31.2 is Tag 0G6W, Lemma 20.31.3 is Tag 0FP3, Lemma
 20.31.4 is Tag 0FKV, and Lemmas 20.31.5 to 20.31.8 are Tags 0FP4, 0FP5, 0FP6 and 0H99. What is
-left to Tag 0FKU itself is the construction of the two displays, which is what this states. -/
-@[stacks 0FKU "Section 20.31 IN FULL, both displays: the global cup product
-  μ : RΓ(X, K) ⊗^L_A RΓ(X, M) ⟶ RΓ(X, K ⊗^L M) in D(A), CONSTRUCTED as the relative cup product
-  of Tag 0B68 for the morphism to the one-point space with ring A (first conjunct), natural in
-  both complexes jointly (second conjunct), and the pairings it induces,
-  ∪ : H^i(X, K) × H^j(X, M) ⟶ H^{i+j}(X, K ⊗^L M), given by the source's two-step recipe
-  ξ ∪ η = μ(ξ ⊗ η) with the tensoring step the pairing of classes of More on Algebra, Section
-  15.64 (third conjunct). The numbered items of the section are excluded, each having its own tag:
-  0FP2, 0G6W, 0FP3, 0FKV, 0FP4, 0FP5, 0FP6, 0H99. The one parameter is `OnePointComparison`, the
-  identification D(pt, A) = D(A) that the source has and this repository does not"]
+left to Tag 0FKU itself is the construction of the two displays, which this states for an
+arbitrary `c` and `section_cupProduct_canonical` states for the canonical one. -/
 theorem section_cupProduct (c : OnePointComparison S) :
     (∀ K M : DerivedCategory (SheafOfModules.{u} (structureSheafRing S)),
       (globalCupProduct c).app (K, M) =

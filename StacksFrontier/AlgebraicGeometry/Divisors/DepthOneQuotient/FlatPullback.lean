@@ -28,6 +28,8 @@ quotient, along the inverse image of that set.
 * `AlgebraicGeometry.isDepthOneQuotient_pullback`: the pullback of the canonical depth-one
   quotient map along a flat morphism of Noetherian schemes satisfies the defining properties
   of the depth-one quotient along the preimage of the set.
+* `AlgebraicGeometry.depthOneQuotient_pullback_unique`: hence the depth-one quotient of the
+  pullback is the pullback of the depth-one quotient, by a unique isomorphism over the source.
 
 ## Implementation notes
 
@@ -250,6 +252,27 @@ public theorem isDepthOneQuotient_pullback
       exact le_trans hdepth (le_add_of_nonneg_right (by positivity))
     change 1 ≤ Module.depth S (IsLocalRing.maximalIdeal S) N
     rwa [hdepthEq]
+
+/-- **Stacks Project, Tag 0DX3**, flat pullback. For a flat morphism `f : Y ⟶ X` of Noetherian
+schemes, `f^*F ⟶ f^*F'` is the depth-one quotient of `f^*F` along `f ⁻¹' T`: the canonical
+depth-one quotient of the coherent module `f^*F` along `f ⁻¹' T` is identified with the pullback
+of the canonical depth-one quotient of `F` along `T` by a unique isomorphism over `f^*F`. -/
+@[stacks 0DX3 "flat_pullback"]
+public theorem depthOneQuotient_pullback_unique
+    {X Y : Scheme.{u}} [IsNoetherian X] [IsNoetherian Y]
+    (f : Y ⟶ X) [Flat f]
+    (T : Set X) (hT : StableUnderSpecialization T)
+    (F : X.Modules) [F.IsCoherent] :
+    letI : ((Scheme.Modules.pullback f).obj F).IsCoherent := isCoherent_pullback f F
+    ∃! e : depthOneQuotient Y (f.base ⁻¹' T) (hT.preimage f.base.hom.continuous)
+        ((Scheme.Modules.pullback f).obj F) ≅
+        (Scheme.Modules.pullback f).obj (depthOneQuotient X T hT F),
+      toDepthOneQuotient Y (f.base ⁻¹' T) (hT.preimage f.base.hom.continuous)
+          ((Scheme.Modules.pullback f).obj F) ≫ e.hom =
+        (Scheme.Modules.pullback f).map (toDepthOneQuotient X T hT F) := by
+  let : ((Scheme.Modules.pullback f).obj F).IsCoherent := isCoherent_pullback f F
+  exact depthOneQuotient_unique Y (f.base ⁻¹' T) (hT.preimage f.base.hom.continuous)
+    ((Scheme.Modules.pullback f).obj F) _ _ (isDepthOneQuotient_pullback f T hT F)
 
 end AlgebraicGeometry
 

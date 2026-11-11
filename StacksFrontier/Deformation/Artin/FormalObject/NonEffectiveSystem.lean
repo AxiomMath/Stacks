@@ -65,11 +65,20 @@ groups, so there is none, and the system does not descend.
 * `Deformation.Artin.not_isEffectiveSystem_of_not_isOfFinAddOrder` — the engine: a system of
   objects whose class at one level is not torsion, over a base whose objects all have torsion
   class, is not effective.
-* `Deformation.Artin.exists_nonEffectiveSystem_quotientStack_trivialAction` — **Tag 0CXX**:
-  the inverse system, the system of objects of `[Spec(k)/A]` over it, and its non-effectivity.
+* `Deformation.Artin.not_isEffectiveSystem_of_not_isOfFinAddOrder_of_addMonoidHom` — the same,
+  for a class compatible with morphisms through a homomorphism given for each morphism, which is
+  the shape of first cohomology classes.
+* `Deformation.Artin.exists_nonEffectiveSystem_quotientStack_trivialAction` — the reduction of
+  the conclusion of Tag 0CXX to its mathematical inputs, for any group algebraic space over `k`:
+  the inverse system, the system of objects of `[Spec(k)/A]` over it, and its non-effectivity,
+  from a lifting property, a class map, a non-torsion object and torsion over the limit.
 * `Deformation.Artin.not_isStronglyFormallyEffective_quotientStack_trivialAction` — the same
   conclusion packaged as the failure of `Deformation.Artin.IsStronglyFormallyEffective` for
   `[Spec(k)/A]`, which is the assertion the section of the source is named for.
+
+Tag 0CXX itself, for an abelian variety `A` with `1 ≤ dim A` and with every input proved, is
+`Deformation.Artin.exists_nonEffectiveSystem_quotientStack_abelianVariety` in
+`StacksFrontier/Deformation/Artin/FormalObject/NonEffectiveSystemAbelian.lean`.
 
 ## Implementation notes
 
@@ -99,37 +108,28 @@ comparison morphisms, `CategoryTheory.Functor.ofSequence` turns these into a fun
 natural transformation along which the base cocone is pulled back. Non-effectivity is then
 derived, and is nowhere assumed.
 
-What is *not* proved here, and is carried instead as a named hypothesis of the two main
-theorems, is each mathematical input that the library does not have:
+The two main theorems of this file take each mathematical input of the source's argument as a
+named hypothesis, for an arbitrary group algebraic space `A` over `k`:
 
-* `h0AFB`, the lifting of an object of `𝒳` along a nilpotent thickening of the triangle. This
-  is the method of Tag 0AFB, whose obstruction lies in the second cohomology group of a vector
-  bundle on a curve and therefore vanishes; neither that tag nor the deformation theory behind
-  it is in the library.
-* `h0AF9`, the finiteness of the order of the class of every object of `𝒳` over the limit. This
-  is Tag 0AF9, the injectivity of the first fppf cohomology of an abelian scheme over a
-  two-dimensional regular integral Noetherian base into that of its function field, combined
-  with Tag 0AFA, which *is* in the library as
-  `AlgebraicGeometry.Space.fppfH1_isAddTorsion`; 0AF9 is not.
+* `h0AFB`, the lifting of an object of `𝒳` along a nilpotent thickening of the triangle (the
+  method of Tag 0AFB);
+* `h0AF9`, the finiteness of the order of the class of every object of `𝒳` over the limit
+  (Tags 0AF9 and 0AFA);
 * `ξ₀` and `hnontorsion`, an object of `𝒳` over the reduced triangle whose class is not
-  torsion. The source builds it by glueing trivial torsors along translation by a non-torsion
-  rational point of `A`, using Tag 0AEN — in the library as
-  `AlgebraicGeometry.Space.morphism_projectiveLine_eq_constant` — to see that the glued torsor
-  has infinite order. The non-torsion rational point itself exists because `k` is algebraically
-  closed and not the algebraic closure of a finite field, which the source flags as "actually
-  not trivial to prove"; that is the one input with no tag at all.
-* `H`, `cls` and `hcls`, the first cohomology class of an object of `𝒳` and its compatibility
-  with restriction. This is the description of the fibre categories of a classifying stack as
-  groupoids of torsors, together with the classification of torsors by first cohomology.
+  torsion (the source glues it along a non-torsion rational point of `A`, using Tag 0AEN);
+* `H`, `cls` and `hcls`, a class of the objects of `𝒳` compatible with restriction;
 * `U`, `cU`, `e`, `eL`, `he`, `heL` and `hchart`, the spectra of the levels of the inverse
-  system and of its limit as objects of the chosen big fppf site. This is a condition on the
-  site rather than a missing theorem, and it is the same package of identifications that
-  `Deformation.Artin.IsStronglyFormallyEffective` demands.
+  system and of its limit as objects of the chosen big fppf site.
+
+For an abelian variety all of these are proved in
+`StacksFrontier/Deformation/Artin/FormalObject/NonEffectiveSystemAbelian.lean`, which carries Tag
+0CXX: the system is built over the function field of `A` and glued along its generic point
+(`Deformation.Artin.triangleSystem`), the class is the first fppf cohomology class of the torsor
+of an object (`AlgebraicGeometry.Space.quotientStackTrivialActionClass`), the class of `ξ_0` has
+infinite order through Tag 0AEN, and the classes over the limit are torsion by Tags 0AF9 and 0AFA.
 
 The hypothesis that `k` is not the algebraic closure of a finite field is spelled as: `k` is
-not algebraic over any finite subfield of itself. It is not used, since the non-torsion point
-it is there to produce is itself a hypothesis; it is kept so that the statement carries the
-hypotheses the source states.
+not algebraic over any finite subfield of itself. It is not used here.
 
 ## References
 
@@ -286,6 +286,26 @@ public theorem not_isEffectiveSystem_of_not_isOfFinAddOrder
   simp only [Functor.const_obj_obj]
   rw [hnx, map_zero]
 
+/-- The torsion comparison of `Deformation.Artin.not_isEffectiveSystem_of_not_isOfFinAddOrder`
+for a class with values in an abelian group `M x` attached to each object `x`, compatible with
+morphisms through homomorphisms `r φ : M y →+ M x`: the class of `x` is `r φ` of the class of
+`y` for every `φ : x ⟶ y`. This is the shape of first cohomology classes, whose restriction
+maps are given for each morphism rather than by a functor on the base. -/
+public theorem not_isEffectiveSystem_of_not_isOfFinAddOrder_of_addMonoidHom
+    {J : Type u₁} [Category.{v₁} J] {X : Type u₂} [Category.{v₂} X]
+    {D : Type u₃} [Category.{v₃} D]
+    (p : X ⥤ D) (M : X → Type w) [∀ x, AddCommGroup (M x)] (cls : (x : X) → M x)
+    (r : ∀ {x y : X}, (x ⟶ y) → M y →+ M x)
+    (hcls : ∀ {x y : X} (φ : x ⟶ y), cls x = r φ (cls y))
+    (ξ : J ⥤ X) (c : Cocone (ξ ⋙ p)) (j : J)
+    (htors : ∀ x : X, p.obj x = c.pt → IsOfFinAddOrder (cls x))
+    (hfree : ¬ IsOfFinAddOrder (cls (ξ.obj j))) :
+    ¬ IsEffectiveSystem p ξ c := by
+  rintro ⟨d, hd⟩
+  refine hfree ?_
+  rw [hcls (d.ι.app j)]
+  exact (r (d.ι.app j)).isOfFinAddOrder (htors d.pt (congrArg Cocone.pt hd))
+
 /-! ### The classifying stack of a group algebraic space over a field -/
 
 variable (k : Type u) [Field k] (C : BigFppfSite.{u})
@@ -311,27 +331,22 @@ variable (A : Over (fieldAsAlgebraicSpace k C hk).obj) [GrpObj A]
 
 /-! ### A system of objects of `[Spec(k)/A]` which is not effective -/
 
-/-- **Stacks Project, Tag 0CXX.** Let `k` be an algebraically closed field which is not the
-algebraic closure of a finite field, let `A` be an abelian variety over `k` and let
-`𝒳 = [Spec(k)/A]`. There is an inverse system of `k`-algebras whose transition maps are
-surjective with locally nilpotent kernels — the thickenings of the triangle of three affine
-lines — and a system of objects of `𝒳` over the spectra of its levels, which is not effective
-in the sense of Tag 0CXT.
+/-- **The reduction of Tag 0CXX to its inputs.** Let `k` be an algebraically closed field which
+is not the algebraic closure of a finite field, let `A` be a group algebraic space over `k` and let
+`𝒳 = [Spec(k)/A]`. Given the inputs of the argument of the source as hypotheses, there are an
+inverse system of `k`-algebras whose transition maps are surjective with locally nilpotent
+kernels — the thickenings of the triangle of three affine lines — and a system of objects of `𝒳`
+over the spectra of its levels, which is not effective in the sense of Tag 0CXT.
 
-The mathematical inputs the library does not have are hypotheses: `h0AFB` is the lifting of an
-object along a nilpotent thickening of the triangle, the method of Tag 0AFB; `h0AF9` is the
-finiteness of the order of the class of every object over the limit, Tag 0AF9 together with
-Tag 0AFA; `ξ₀` together with `hnontorsion` is the object over the reduced triangle whose class
-has infinite order, which the source builds from a non-torsion rational point of `A` and
-Tag 0AEN; `H`, `cls` and `hcls` are the first cohomology class of an object of `𝒳`, that is,
-the description of the fibre categories of a classifying stack as groupoids of torsors; and
-`U`, `cU`, `e`, `eL`, `he`, `heL`, `hchart` realize the spectra of the levels of the inverse
-system and of its limit as objects of the chosen big fppf site. Non-effectivity is nowhere
-assumed, and the system of objects is constructed rather than supposed. -/
-@[stacks 0CXX "RESTRICTED: Tag 0AFB (lifting an object along a thickening) is the hypothesis \
-h0AFB, Tags 0AF9 and 0AFA (finite order of the class over the limit) are h0AF9, the non-torsion \
-rational point of the abelian variety with Tag 0AEN is ξ₀ with hnontorsion, and the class of a \
-torsor is the data H, cls, hcls; the site realization is U, cU, e, eL, he, heL, hchart"]
+The hypotheses: `h0AFB` is the lifting of an object along a nilpotent thickening of the triangle,
+the method of Tag 0AFB; `h0AF9` is the finiteness of the order of the class of every object over
+the limit, Tag 0AF9 together with Tag 0AFA; `ξ₀` together with `hnontorsion` is an object over the
+reduced triangle whose class has infinite order; `H`, `cls` and `hcls` are a class of the objects
+of `𝒳` compatible with restriction; and `U`, `cU`, `e`, `eL`, `he`, `heL`, `hchart` realize the
+spectra of the levels of the inverse system and of its limit as objects of the chosen big fppf
+site. Non-effectivity is derived, and the system of objects is constructed. Tag 0CXX itself, for
+an abelian variety with `1 ≤ dim A` and with these inputs proved, is
+`Deformation.Artin.exists_nonEffectiveSystem_quotientStack_abelianVariety`. -/
 public theorem exists_nonEffectiveSystem_quotientStack_trivialAction
     [IsAlgClosed k]
     (_hkinf : ∀ F : Subfield k, Finite F → ¬ Algebra.IsAlgebraic F k)

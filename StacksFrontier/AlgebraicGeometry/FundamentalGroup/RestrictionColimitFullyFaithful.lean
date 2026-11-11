@@ -75,8 +75,10 @@ form `FiniteEtaleColimitFullyFaithful`, which describes the hom sets of the dire
 The proof follows the source. By [Stacks, Tag 0EK2], condition (1) gives (2), (2) gives (3), and
 (3) gives full faithfulness of completion on the finite locally free objects. [Stacks, Tag 0ELA]
 then gives full faithfulness of restriction. -/
-@[stacks 0EK0 "all three cases, under the tag's own hypotheses; full faithfulness spelled \
-through the directed-colimit description of the hom sets of colim_V FEt_V"]
+@[stacks 0EK0 "the full tag, unconditionally: X Noetherian, Y a closed subscheme, and any one \
+of conditions (1), (2), (3) imply that colim_V FEt_V -> FEt_Y is fully faithful; full \
+faithfulness spelled through the directed-colimit description of the hom sets of colim_V FEt_V \
+(as in Stacks 04AX)"]
 public theorem finiteEtaleColimitFullyFaithful_of_neighbourhoodSectionsComplete
     {X : Scheme.{u}} [IsNoetherian X] (Y : X.IdealSheafData)
     (h : NeighbourhoodSectionsCompleteQuasiAffine Y ∨

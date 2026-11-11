@@ -35,10 +35,13 @@ Two of the three results below hold for every full subsite, with no further hypo
 Both come from `g^*g_! = id` (**Stacks 0789**), which makes `g_!` fully faithful and identifies
 the canonical map, up to an isomorphism, with the counit of `g_! ⊣ g^*` at `O_𝒳`.
 
-The assertion of Stacks 078A itself is proved from the hypothesis that **restriction along `g`
-is bijective on morphisms out of `O_𝒳`**, i.e. that the structure sheaf of modules of `𝒳` is the
-left Kan extension along the inclusion of its own restriction. That hypothesis is the geometric
-content of the source and is carried as a named hypothesis; see the implementation notes.
+The third reduces the assertion of Stacks 078A to the statement that **restriction along `g` is
+bijective on morphisms out of `O_𝒳`**, i.e. that the structure sheaf of modules of `𝒳` is the
+left Kan extension along the inclusion of its own restriction. That statement is established for
+every algebraic stack in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubcategoryUnitLowerShriekAtlas.lean`, which proves
+Stacks 078A as `AlgebraicGeometry.Stack.LisseEtale.isIso_unitLowerShriekMap_algebraicStack` and
+`AlgebraicGeometry.Stack.FlatFppf.isIso_unitLowerShriekMap_algebraicStack`.
 
 ## Main definitions
 
@@ -54,8 +57,8 @@ content of the source and is carried as a named hypothesis; see the implementati
 * `AlgebraicGeometry.Stack.isIso_subsiteUnitLowerShriekMap`: it is an isomorphism when restriction
   along `g` is bijective on morphisms out of `O_𝒳`.
 * `AlgebraicGeometry.Stack.LisseEtale.isIso_unitLowerShriekMap` and
-  `AlgebraicGeometry.Stack.FlatFppf.isIso_unitLowerShriekMap`: the two clauses of
-  **Stacks 078A**, under that hypothesis.
+  `AlgebraicGeometry.Stack.FlatFppf.isIso_unitLowerShriekMap`: the specialisation of the
+  previous result to the lisse-étale and the flat-fppf site.
 
 ## Implementation notes
 
@@ -70,9 +73,10 @@ that argument is unavailable in this global form, because `𝒳 × 𝐀¹` is no
 objects of `𝒳` are schemes. The source accordingly proves Stacks 078A by a local argument with
 the colimit presentation of `g_{p!}O_{𝒳'}`: a function on `V` is classified by a morphism
 `V ⟶ U × 𝐀¹` after an étale covering of `V` refining through a smooth (resp. flat) `U`, and a
-function vanishing on `V` is pushed into the vanishing locus of a coordinate. Carrying out that
-localisation is what remains; the hypothesis isolates it, and everything downstream of it is
-proved here.
+function vanishing on `V` is pushed into the vanishing locus of a coordinate.
+`StacksFrontier/AlgebraicGeometry/Stacks/SubcategoryUnitLowerShriekAtlas.lean` discharges the
+hypothesis instead by the comparison of global sections of sheaves of sets along the inclusion,
+the degree-zero case of **Stacks 07AK**.
 
 The transposition is the one of `Stacks.Sheaves.RingedToposModules.pullbackModulesObjUnitIso`,
 which identifies `g^*O_𝒳` with `O_{𝒳'}` by corepresentability rather than by computing the tensor
@@ -210,8 +214,8 @@ theorem isIso_subsiteUnitLowerShriekMap_iff_mem_essImage :
 restriction is bijective on morphisms out of `O_𝒳`, that is, for which the structure sheaf of
 modules of `𝒳` is the left Kan extension along the inclusion of its own restriction.
 
-This is the assertion of **Stacks 078A**, stated once for an arbitrary continuous and
-cocontinuous full subsite. Postcomposition with the canonical map is, by the adjunction
+This reduces the assertion of **Stacks 078A** to that bijectivity, once for an arbitrary
+continuous and cocontinuous full subsite. Postcomposition with the canonical map is, by the adjunction
 `g_! ⊣ g^*` and the identification `O_{𝒳'} = g^{-1}O_𝒳`, exactly that restriction. -/
 theorem isIso_subsiteUnitLowerShriekMap
     (hres : ∀ T : SheafOfModules.{u}
@@ -259,12 +263,11 @@ noncomputable abbrev unitLowerShriekMap :=
   subsiteUnitLowerShriekMap B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
     (etaleTopology B) (etaleTopology_le_topology B) (smoothObject.{u, t} B S hS 𝒳)
 
-/-- **Stacks 078A (1)**: `g_!O_{𝒳_{lisse,étale}} = O_𝒳`, the canonical map from the lower shriek
-of the structure sheaf of the lisse-étale site to the structure sheaf of `𝒳` being an
-isomorphism. -/
-@[stacks 078A "part (1); conditional on essential smallness of the category underlying the \
-algebraic stack and on restriction along the lisse-étale inclusion being bijective on morphisms \
-out of the structure sheaf of modules of the stack"]
+/-- The canonical map `g_!O_{𝒳_{lisse,étale}} ⟶ O_𝒳` is an isomorphism as soon as restriction
+along the lisse-étale inclusion is bijective on morphisms out of the structure sheaf of modules of
+`𝒳`: the specialisation of `AlgebraicGeometry.Stack.isIso_subsiteUnitLowerShriekMap`. Stacks
+078A (1) itself, with no hypothesis, is
+`AlgebraicGeometry.Stack.LisseEtale.isIso_unitLowerShriekMap_algebraicStack`. -/
 theorem isIso_unitLowerShriekMap
     (hres : ∀ T : SheafOfModules.{u}
         (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS 𝒳.val.val.p
@@ -295,12 +298,11 @@ noncomputable abbrev unitLowerShriekMap :=
   subsiteUnitLowerShriekMap B S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids B.topology le_rfl
     (objectProperty B S hS 𝒳)
 
-/-- **Stacks 078A (2)**: `g_!O_{𝒳_{flat,fppf}} = O_𝒳`, the canonical map from the lower shriek of
-the structure sheaf of the flat-fppf site to the structure sheaf of `𝒳` being an
-isomorphism. -/
-@[stacks 078A "part (2); conditional on essential smallness of the category underlying the \
-algebraic stack and on restriction along the flat-fppf inclusion being bijective on morphisms \
-out of the structure sheaf of modules of the stack"]
+/-- The canonical map `g_!O_{𝒳_{flat,fppf}} ⟶ O_𝒳` is an isomorphism as soon as restriction
+along the flat-fppf inclusion is bijective on morphisms out of the structure sheaf of modules of
+`𝒳`: the specialisation of `AlgebraicGeometry.Stack.isIso_subsiteUnitLowerShriekMap`. Stacks
+078A (2) itself, with no hypothesis, is
+`AlgebraicGeometry.Stack.FlatFppf.isIso_unitLowerShriekMap_algebraicStack`. -/
 theorem isIso_unitLowerShriekMap
     (hres : ∀ T : SheafOfModules.{u}
         (Stacks.SheafOfModules.Tensor.ringSheaf (associatedRingedTopos B S hS 𝒳.val.val.p

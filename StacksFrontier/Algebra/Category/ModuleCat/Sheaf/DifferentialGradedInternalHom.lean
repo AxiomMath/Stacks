@@ -20,7 +20,9 @@ multiplication.
 This file provides the vocabulary of those local sections: the degree-`n` local graded
 homomorphisms, their `A`-linear ones, their composition, the value of the differential on them,
 and the predicate saying that a given complex of sheaves of `R`-modules *is* the internal hom.
-The existence of such a complex is not asserted here.
+The complex itself is constructed in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedInternalHomSheaf.lean`
+(`SheafOfModules.sheafHomComplex`).
 
 ## Main definitions
 
@@ -78,7 +80,11 @@ then be chosen so that both sides are sections of one and the same sheaf: no sta
 needs a heterogeneous equality or a transport along an equality of degrees.
 
 The compatibility of the composition map with the differentials, proved by the same computation
-as for the hom-complex of the differential graded category of modules, is not stated here.
+as for the hom-complex of the differential graded category of modules, is
+`SheafOfModules.sheafHomComp_leibniz` in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedInternalHomComposition.lean`,
+together with the identification of the global sections of the internal hom with the
+hom-complex of `Mod^dg(A, d)`.
 
 The universes of the site, of the sheaf of rings, of the algebra and of each of the three
 modules `M`, `L` and `H` are independent. The bifunctor has to take the module universes of
@@ -157,7 +163,8 @@ end LocalGradedHom
 
 /-- A local section of `SheafHom^n_A(M, L)` over `U`: a map `M|_U → L|_U` of right differential
 graded `A|_U`-modules homogeneous of degree `n`. -/
-@[stacks 0FRN "local sections of the graded internal hom"]
+@[stacks 0FRN "a local section of SheafHom^n_A(M, L) over U: an A|_U-linear map M|_U → L|_U
+homogeneous of degree n"]
 structure LocalHom (M : DifferentialGradedModule.{t, a, w} A)
     (L : DifferentialGradedModule.{t, a, z} A) (n : ℤ) (U : C)
     extends LocalGradedHom M L n U where
@@ -222,7 +229,8 @@ def id (M : DifferentialGradedModule.{t, a, w} A) (U : C) : LocalGradedHom M M 0
 end LocalGradedHom
 
 /-- The composition of local homomorphisms of right differential graded `A|_U`-modules. -/
-@[stacks 0FRN "the composition map of the internal hom"]
+@[stacks 0FRN "the composition map of the internal hom on local sections: composition of
+homogeneous A|_U-linear maps, of degree n + m"]
 def LocalHom.comp {K : DifferentialGradedModule.{t, a, s} A}
     {M : DifferentialGradedModule.{t, a, w} A} {L : DifferentialGradedModule.{t, a, z} A}
     {n m nm : ℤ} {U : C} (g : LocalHom K M n U) (f : LocalHom M L m U) (h : n + m = nm) :

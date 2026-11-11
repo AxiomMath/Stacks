@@ -10,8 +10,11 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.Torsors.LocalTrivia
 
 Let `W` be a regular integral Noetherian scheme with function field `K` and let `G → W` be an
 abelian scheme. For every fppf `G`-torsor `P` the restriction map `P(W) → P(K)` on sections is
-bijective, and consequently `H¹_fppf(W, G) → H¹_fppf(Spec K, G)` is injective. No bound on the
-dimension of `W` is needed for either assertion.
+bijective, and consequently `H¹_fppf(W, G) → H¹_fppf(Spec K, G)` is injective (Stacks 0H8E). No
+bound on the dimension of `W` is needed for either assertion. This file defines the restriction
+map, proves its injectivity and reduces the two assertions to the surjectivity half of the first;
+`StacksFrontier.AlgebraicGeometry.GroupScheme.AbelianSchemeTorsorSectionsRegular` proves that half
+and states Stacks 0H8E.
 
 ## Main definitions
 
@@ -25,15 +28,22 @@ dimension of `W` is needed for either assertion.
   restriction map on sections is surjective and which has a section over `Spec K` is trivial.
 * `AlgebraicGeometry.injective_torsorSectionsRestrictGenericPoint_trivialTorsor`: the
   restriction map `G(W) → G(K)` on the points of `G` is injective.
-* `AlgebraicGeometry.injective_torsorSectionsRestrictGenericPoint`: **Stacks 0H8E**, the
-  injectivity half of part (1), for every fppf `G`-torsor and with no hypothesis on the
-  dimension of `W`.
-* `AlgebraicGeometry.bijective_torsorSectionsRestrictGenericPoint_of_surjective`: part (1)
-  itself, with its surjectivity half assumed.
-* `AlgebraicGeometry.fppfH1_restriction_genericPoint_injective_of_isTrivial`: **Stacks 0H8E**,
-  part (2), again with no hypothesis on the dimension of `W`.
-* `AlgebraicGeometry.fppfH1_restriction_genericPoint_injective_of_surjective_sections`: part (2)
-  along the route the source takes through part (1).
+* `AlgebraicGeometry.injective_torsorSectionsRestrictGenericPoint`: the injectivity half of part
+  (1) of Stacks 0H8E, for every fppf `G`-torsor and with no bound on the dimension of `W`.
+* `AlgebraicGeometry.bijective_torsorSectionsRestrictGenericPoint_of_surjective`: bijectivity on
+  sections from surjectivity on sections.
+* `AlgebraicGeometry.fppfH1_restriction_genericPoint_injective_of_isTrivial`: injectivity on first
+  cohomology from the triviality of torsors with a section over `Spec K`.
+* `AlgebraicGeometry.fppfH1_restriction_genericPoint_injective_of_surjective_sections`:
+  injectivity on first cohomology from surjectivity on sections, the route the source takes
+  through part (1).
+
+Stacks 0H8E itself, parts (1) and (2), is
+`AlgebraicGeometry.bijective_torsorSectionsRestrictGenericPoint` and
+`AlgebraicGeometry.fppfH1_restriction_genericPoint_injective_of_isRegular` in
+`StacksFrontier.AlgebraicGeometry.GroupScheme.AbelianSchemeTorsorSectionsRegular`, which proves the
+surjectivity half from the extension of rational sections of proper group schemes over regular
+bases.
 
 ## Implementation notes
 
@@ -56,11 +66,10 @@ dominant: its image is the set of points specialising to the generic point, and 
 the generic point is all of `W`.
 
 **Surjectivity**, which is the statement that the schematic closure of a rational section of
-`P → W` is a section, is not proved here and is a hypothesis. The source obtains it from the
-regularity of `W` by identifying `G` with the identity component of the Picard scheme of the
-dual abelian scheme and extending a generically defined invertible sheaf over a regular base;
-neither the dual abelian scheme nor that identity component is available here. For regularity of
-`W` it is enough that smooth `W`-schemes be locally factorial.
+`P → W` is a section, is proved in
+`StacksFrontier.AlgebraicGeometry.GroupScheme.AbelianSchemeTorsorSectionsRegular`, from
+`AlgebraicGeometry.GroupScheme.exists_section_extending_of_regular`; the lemmas of this file
+take it, or the triviality of torsors with a generic section, as an input.
 
 **Part (2)** is proved from the triviality of the torsors with a section over `Spec K`, as in
 Tag 0AF9 and with no hypothesis on the dimension of `W`: a class in the kernel of the
@@ -68,8 +77,8 @@ restriction map on first cohomology is the class of a torsor with a section over
 (Tag 03AJ), hence of a trivial torsor, hence zero. Surjectivity on sections for every torsor
 supplies that triviality, which is the route the source takes.
 
-As in Tag 0AF9, regularity and Noetherianness of `W` are the hypotheses of the source statement
-and are not used below; integrality of `W` is used, since the generic point and the function
+As in Tag 0AF9, regularity and Noetherianness of `W` are not used below; integrality of `W` is
+used, since the generic point and the function
 field are taken from it, as is properness of `G → W`, which makes `G → W` separated.
 
 ## References
@@ -150,7 +159,7 @@ public theorem injective_torsorSectionsRestrictGenericPoint_trivialTorsor
   exact Over.OverMorphism.ext (AlgebraicGeometry.ext_of_isDominant_of_isSeparated G.hom
     ((Over.w a').trans (Over.w b').symm) _ hleft)
 
-/-- **Stacks 0H8E, the injectivity half of part (1).** Let `W` be a regular integral Noetherian
+/-- **The injectivity half of part (1) of Stacks 0H8E.** Let `W` be a regular integral Noetherian
 scheme with function field `K` and let `G → W` be an abelian scheme. For every fppf `G`-torsor
 `P` the restriction map `P(W) → P(K)` on sections is injective. No hypothesis on the dimension of
 `W` enters.
@@ -158,15 +167,6 @@ scheme with function field `K` and let `G → W` be an abelian scheme. For every
 A torsor with no section over `W` has nothing to separate. A torsor with one is trivial, and by
 naturality of the trivialising isomorphism its restriction map is then conjugate to the
 restriction map `G(W) → G(K)` on the points of `G`, which is injective. -/
-@[stacks 0H8E "part (1), the injectivity half, for every G-torsor and with the \
-two-dimensionality hypothesis of Stacks 0AF9 absent: the hypotheses on W are exactly \
-noetherian, regular and integral. The surjectivity half of part (1) is the statement that the \
-schematic closure of a rational section of P → W is a section; it is not proved, and is the \
-hypothesis hsurj of bijective_torsorSectionsRestrictGenericPoint_of_surjective, which states \
-part (1) in full. The tag obtains surjectivity by identifying G with the identity component of \
-the Picard scheme of the dual abelian scheme and extending a generically defined invertible \
-sheaf over the regular base, and neither the dual abelian scheme nor that identity component \
-is available in this library"]
 public theorem injective_torsorSectionsRestrictGenericPoint
     [IsIntegral W] [AlgebraicGeometry.IsNoetherian W] (_hreg : IsRegular W)
     (hK : B.Contains (Spec W.functionField))
@@ -193,12 +193,12 @@ public theorem injective_torsorSectionsRestrictGenericPoint
       B W hW hK G hG ((hbij _).injective hab))
   · exact fun a _ _ => absurd ⟨a⟩ hne
 
-/-- **Stacks 0H8E, part (1).** Let `W` be a regular integral Noetherian scheme with function
-field `K` and let `G → W` be an abelian scheme. If the restriction map `P(W) → P(K)` on sections
-is surjective for every fppf `G`-torsor `P`, then it is bijective for every such `P`.
-
-Only surjectivity is assumed; injectivity is
-`AlgebraicGeometry.injective_torsorSectionsRestrictGenericPoint`. -/
+/-- **Bijectivity on sections from surjectivity.** Let `W` be a regular integral Noetherian
+scheme with function field `K` and let `G → W` be an abelian scheme. If the restriction map
+`P(W) → P(K)` on sections is surjective for every fppf `G`-torsor `P`, then it is bijective for
+every such `P`: injectivity is `AlgebraicGeometry.injective_torsorSectionsRestrictGenericPoint`.
+Part (1) of Stacks 0H8E, with surjectivity proved, is
+`AlgebraicGeometry.bijective_torsorSectionsRestrictGenericPoint`. -/
 public theorem bijective_torsorSectionsRestrictGenericPoint_of_surjective
     [IsIntegral W] [AlgebraicGeometry.IsNoetherian W] (hreg : IsRegular W)
     (hK : B.Contains (Spec W.functionField))
@@ -209,26 +209,13 @@ public theorem bijective_torsorSectionsRestrictGenericPoint_of_surjective
     Function.Bijective (torsorSectionsRestrictGenericPoint B W hW hK G hG F) :=
   ⟨injective_torsorSectionsRestrictGenericPoint B W hW hreg hK G hG F, hsurj F⟩
 
-/-- **Stacks 0H8E, part (2).** Let `W` be a regular integral Noetherian scheme with function
-field `K` and let `G → W` be an abelian scheme. Then the restriction map
-`H¹_fppf(W, G) → H¹_fppf(Spec K, G)` on first cohomology is injective. No hypothesis on the
-dimension of `W` enters.
-
-A class in the kernel of the restriction map is the class of a torsor having a section over
-`Spec K`, and such a torsor is trivial by the hypothesis `htrivial`, so the class is zero. -/
-@[stacks 0H8E "part (2): the conclusion of Stacks 0AF9 with its two-dimensionality hypothesis \
-dropped, which is what the tag asserts; the hypotheses on W are exactly noetherian, regular \
-and integral. As in Stacks 0AF9 the geometric content is the hypothesis htrivial, that a \
-G-torsor with a section over Spec K is trivial. The tag derives part (2) from its part (1), \
-the bijectivity of P(W) → P(K): the injectivity half of part (1) is proved here, in \
-injective_torsorSectionsRestrictGenericPoint, and its surjectivity half -- the statement that \
-the schematic closure of a rational section of P → W is a section, which supplies htrivial by \
-fppfH1_restriction_genericPoint_injective_of_surjective_sections -- is not, the tag obtaining \
-it by identifying G with the identity component of the Picard scheme of the dual abelian \
-scheme and extending a generically defined invertible sheaf over the regular base, and \
-neither the dual abelian scheme nor that identity component is available in this library. \
-The tag's further remarks, that regularity may be weakened to local factoriality of smooth \
-W-schemes and the attribution of the argument, carry no assertion"]
+/-- **Injectivity on first cohomology from triviality of generically trivial torsors.** Let `W`
+be a regular integral Noetherian scheme with function field `K` and let `G → W` be an abelian
+scheme. If every fppf `G`-torsor with a section over `Spec K` is trivial (`htrivial`), then the
+restriction map `H¹_fppf(W, G) → H¹_fppf(Spec K, G)` on first cohomology is injective: a class
+in the kernel is the class of a torsor having a section over `Spec K`, which is trivial, so the
+class is zero. Part (2) of Stacks 0H8E, with `htrivial` proved, is
+`AlgebraicGeometry.fppfH1_restriction_genericPoint_injective_of_isRegular`. -/
 public theorem fppfH1_restriction_genericPoint_injective_of_isTrivial
     [IsIntegral W] [AlgebraicGeometry.IsNoetherian W] (_hreg : IsRegular W)
     (hK : B.Contains (Spec W.functionField))
@@ -242,7 +229,8 @@ public theorem fppfH1_restriction_genericPoint_injective_of_isTrivial
   Stacks.Cohomology.Torsors.injective_cohomologyPresheaf_map_of_isTrivial
     (pointsSheaf B W hW G hG) Over.mkIdTerminal (genericPointToBase B W hW hK) htrivial
 
-/-- **Part (2) of Stacks 0H8E along the route the tag takes through its part (1).** If the
+/-- **Injectivity on first cohomology from surjectivity on sections**, the route Stacks 0H8E
+takes from its part (1) to its part (2). If the
 restriction map `P(W) → P(K)` on sections is surjective for every fppf `G`-torsor `P`, then
 the restriction map `H¹_fppf(W, G) → H¹_fppf(Spec K, G)` on first cohomology is injective.
 

@@ -31,8 +31,9 @@ and no lemma in this library connects them. Since the hypothesis is inert in thi
 finite type of `F` enters the source's argument only in producing `F'` and its coherence, which
 are binders here — both forms are stated, and neither weakens the other.
 
-No `@[stacks]` attribute is attached here: Tag 0897 part (1) has its site on
-`moduleFinite_gradedCohomologySum`, and these register the same clause of the same tag.
+No `@[stacks]` attribute is attached here: Tag 0897 has its site on
+`moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology`, and these are forms of
+its part (1).
 -/
 
 @[expose] public noncomputable section

@@ -817,14 +817,15 @@ noncomputable def homEquiv_presentingDescentDatum
 
 private lemma pull_hom_eq
     {𝒮 : Type u₁} [Category.{v₁} 𝒮] {𝒳 : Type u₂} [Category.{v₂} 𝒳]
-    (p : 𝒳 ⥤ 𝒮) [p.IsFibered] {T : 𝒮}
-    {𝒰 𝒱 : PreZeroHypercover.{w} T} (Φ : 𝒱.HomOver 𝒰 (𝟙 T))
-    (D : Functor.FamilyDescentDatum p 𝒰) {W : 𝒮} (b : W ⟶ T)
+    (p : 𝒳 ⥤ 𝒮) [p.IsFibered] {T T' : 𝒮}
+    {𝒰 : PreZeroHypercover.{w} T} {𝒱 : PreZeroHypercover.{w} T'} {g : T' ⟶ T}
+    (Φ : 𝒱.HomOver 𝒰 g)
+    (D : Functor.FamilyDescentDatum p 𝒰) {W : 𝒮} (b : W ⟶ T')
     {i j : 𝒱.I₀} (a : W ⟶ 𝒱.X i) (c : W ⟶ 𝒱.X j)
     (ha : a ≫ 𝒱.f i = b) (hc : c ≫ 𝒱.f j = b) :
     (Functor.FamilyDescentDatum.pull p Φ D).hom b a c ha hc =
       (Functor.pullbackFiberCompIso (D.obj (Φ.s₀ i)) (Φ.h₀ i) a).hom ≫
-        D.hom (b ≫ 𝟙 T) (a ≫ Φ.h₀ i) (c ≫ Φ.h₀ j)
+        D.hom (b ≫ g) (a ≫ Φ.h₀ i) (c ≫ Φ.h₀ j)
           (by rw [Category.assoc, Φ.w₀, reassoc_of% ha])
           (by rw [Category.assoc, Φ.w₀, reassoc_of% hc]) ≫
         (Functor.pullbackFiberCompIso (D.obj (Φ.s₀ j)) (Φ.h₀ j) c).inv := by
@@ -837,16 +838,16 @@ private lemma pull_hom_eq
   rw [h₁, h₂, Functor.pullbackFiberCompIso'_rfl, Functor.pullbackFiberCompIso'_rfl]
   rfl
 
-/-- **Stacks 044X**, part (6). The correspondence of parts (1)–(5) is compatible with refinement
-of the fppf covering: projecting a descent datum for the presentation and then pulling it back
-along a refinement is naturally isomorphic to pulling it back first and then projecting, and the
-isomorphism is natural in the descent datum, hence compatible with the bijection of part (5). -/
-@[stacks 044X "part (6): refinement compatibility"]
-noncomputable def presentingDescentFunctor_refinementIso
+/-- The compatibility of Stacks 044X, part (6), for a morphism of coverings lying over any
+morphism `g : T' ⟶ T` of test objects: projecting a descent datum for the presentation and then
+pulling it back along `Φ` is naturally isomorphic to pulling it back first and then projecting.
+A refinement in the sense of the source is the case `g = 𝟙 T`,
+`AlgebraicGeometry.Stack.presentingDescentFunctor_refinementIso`. -/
+noncomputable def presentingDescentFunctor_refinementIsoOver
     (G : GroupoidInAlgebraicSpaces C S hS B)
-    {T : BigFppfOver C S hS}
-    {𝒰 : PreZeroHypercover.{w} T} {𝒱 : PreZeroHypercover.{w} T}
-    (Φ : 𝒱.HomOver 𝒰 (𝟙 T)) :
+    {T T' : BigFppfOver C S hS}
+    {𝒰 : PreZeroHypercover.{w} T} {𝒱 : PreZeroHypercover.{w} T'} {g : T' ⟶ T}
+    (Φ : 𝒱.HomOver 𝒰 g) :
     presentingDescentFunctor G 𝒰 ⋙
         Functor.FamilyDescentDatum.pullFunctor (quotientStack G).p Φ ≅
       Functor.FamilyDescentDatum.pullFunctor (quotientPrestack G).p Φ ⋙
@@ -875,7 +876,7 @@ noncomputable def presentingDescentFunctor_refinementIso
           (D.obj (Φ.s₀ i))) (Φ.h₀ i) a).hom ≫
         ((hF.mapPullbackFiberIso (D.obj (Φ.s₀ i)) (a ≫ Φ.h₀ i)).hom ≫
           (Functor.fiberFunctorOfCompEq hF.comp_eq W).map
-            (D.hom (b ≫ 𝟙 T) (a ≫ Φ.h₀ i) (c ≫ Φ.h₀ j) _ _) ≫
+            (D.hom (b ≫ g) (a ≫ Φ.h₀ i) (c ≫ Φ.h₀ j) _ _) ≫
           (hF.mapPullbackFiberIso (D.obj (Φ.s₀ j)) (c ≫ Φ.h₀ j)).inv) ≫
         (Functor.pullbackFiberCompIso
           ((Functor.fiberFunctorOfCompEq hF.comp_eq (𝒰.X (Φ.s₀ j))).obj
@@ -894,6 +895,22 @@ noncomputable def presentingDescentFunctor_refinementIso
           (Functor.pullbackFiberHom (φ.hom (Φ.s₀ i)) (Φ.h₀ i))
     rw [pullbackFiberHom_fiberFunctor_map hF]
     simp)
+
+/-- **Stacks 044X**, part (6). The correspondence of parts (1)–(5) is compatible with refinement
+of the fppf covering: projecting a descent datum for the presentation and then pulling it back
+along a refinement is naturally isomorphic to pulling it back first and then projecting, and the
+isomorphism is natural in the descent datum, hence compatible with the bijection of part (5). -/
+@[stacks 044X "part (6): refinement compatibility"]
+noncomputable def presentingDescentFunctor_refinementIso
+    (G : GroupoidInAlgebraicSpaces C S hS B)
+    {T : BigFppfOver C S hS}
+    {𝒰 : PreZeroHypercover.{w} T} {𝒱 : PreZeroHypercover.{w} T}
+    (Φ : 𝒱.HomOver 𝒰 (𝟙 T)) :
+    presentingDescentFunctor G 𝒰 ⋙
+        Functor.FamilyDescentDatum.pullFunctor (quotientStack G).p Φ ≅
+      Functor.FamilyDescentDatum.pullFunctor (quotientPrestack G).p Φ ⋙
+        presentingDescentFunctor G 𝒱 :=
+  presentingDescentFunctor_refinementIsoOver G Φ
 
 end AlgebraicGeometry.Stack
 

@@ -96,7 +96,8 @@ def coheratorMapHomologicalComplexIso :
 `A = Γ(X, 𝒪_X)`.  The derived coherator `RQ_X : D(𝒪_X) ⥤ D(QCoh(𝒪_X))` sends an object `E` of
 `D(𝒪_X)` to the complex of quasi-coherent `𝒪_X`-modules associated to the object `RΓ(X, E)` of
 `D(A)`. -/
-@[stacks 08H0 "part (2)"]
+@[stacks 08H0 "part (2): for affine X, RQ_X is naturally isomorphic to E ↦ RΓ(X, E)^~ on the \
+unbounded derived category"]
 def derivedCoheratorIsoDerivedGlobalSectionsAssociated_of_isAffineSpace :
     derivedCoherator B S hS F hF ≅
       affineSpaceDerivedGlobalSections B S hS F hF hAffine ⋙

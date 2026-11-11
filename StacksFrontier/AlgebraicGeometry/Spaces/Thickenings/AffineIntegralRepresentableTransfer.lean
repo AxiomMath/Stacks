@@ -46,12 +46,14 @@ is a base change of `i`, hence a surjective closed immersion. So the left-hand o
 is controlled by `a`, is a thickening of the right-hand object, whose shape is what affineness
 respectively representability of `b` asks about — and transferring either shape *up* a thickening
 of algebraic spaces is Stacks 07VT, that an algebraic space receiving a surjective universally
-closed morphism from an affine scheme is affine. The library form of Stacks 07VT,
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`, carries three
+closed morphism from an affine scheme is affine. Stacks 07VT is proved outright as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`,
+but the statements here go through its conditional form
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`, which carries three
 hypotheses, and so does Stacks 05ZR through
 `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom_of_bijective`; they are passed through
 here unchanged and used for nothing else, so the three implications from the thin side are exactly
-as conditional as Stacks 07VT and no more. The three implications *to* the thin side — from `b` to
+as conditional as that form and no more. The three implications *to* the thin side — from `b` to
 `a` — are unconditional, and are a cancellation along the square: `a ≫ j = i ≫ b` has the property
 because `i` and `j` do, and then `j` separated (parts (1) and (5)) respectively `j` a monomorphism
 (part (9)) cancels it off the back.
@@ -64,8 +66,8 @@ conjunction of part (1) with part (4), and part (4) is already proved, unconditi
 ## Main results
 
 **None of the three thickening statements below is registered.** Each carries the three
-hypotheses of the library's Stacks 07VT, and one of them, `h07SQ`, is Stacks 07SQ with no bound
-on the index set, which is false in this development (an index as large as the site's size
+hypotheses of the conditional form of Stacks 07VT, and one of them, `h07SQ`, is Stacks 07SQ with no
+bound on the index set, which is false in this development (an index as large as the site's size
 cutoff can have the empty space as limit with no affine stage). They are therefore
 stated as conditional lemmas without a `@[stacks 09ZY …]` attribute.
 

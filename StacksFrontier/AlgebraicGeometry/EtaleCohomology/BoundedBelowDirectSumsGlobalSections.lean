@@ -27,9 +27,9 @@ with the direct sum, and conclude by Leray's acyclicity lemma, [Stacks, Tag 015E
 
 ## Implementation notes
 
-*Nothing is assumed.* Unlike the morphism version [Stacks, Tag 0GIW], whose input that each
-`R^q f_*` commutes with direct sums ([Stacks, Tag 09Z1]) is carried as a hypothesis, the input
-needed here is on the base of this repository: that each `H^q_étale(X, -)` commutes with
+*Nothing is assumed.* As for the morphism version [Stacks, Tag 0GIW], whose input that each
+`R^q f_*` commutes with direct sums is [Stacks, Tag 09Z1], the input needed here is proved in
+this repository: that each `H^q_étale(X, -)` commutes with
 arbitrary direct sums of abelian sheaves on a quasi-compact quasi-separated scheme is
 `Stacks.EtaleCohomology.preservesColimitsOfShape_discrete_rightDerived_Γ_smallEtale`. It is the
 one place the quasi-compactness and quasi-separatedness of `X` are consumed, exactly as in the

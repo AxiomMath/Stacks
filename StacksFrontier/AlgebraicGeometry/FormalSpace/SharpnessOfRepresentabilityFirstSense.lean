@@ -29,9 +29,11 @@ trivially, the `t`-adic one by the powers of `(t)` — and that condition follow
 
 * `TopologicalRing.isCountablyGenerated_nhds_zero_tAdicPowerSeries`: the powers of `(t)` are a
   countable fundamental system of neighbourhoods of `0` in `k⟦t⟧`.
-* `FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'`: **Stacks 0AN7**,
-  first sense: the formal spectrum of the homomorphism of the example is not representable by
-  algebraic spaces.
+* `FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'`: the formal
+  spectrum of the homomorphism of the example is not representable by algebraic spaces. It is
+  the non-representability by algebraic spaces in
+  `AlgebraicGeometry.FormalSpace.exists_formalSpectrumMap_constants_not_representable`,
+  **Stacks 0AN7 (1)**.
 
 ## References
 
@@ -61,7 +63,7 @@ universe u
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **Stacks 0AN7**, its first sense. Let `k` be a field with the discrete topology, let `k⟦t⟧`
+/-- The non-representability of the first sense of **Stacks 0AN7**. Let `k` be a field with the discrete topology, let `k⟦t⟧`
 carry the `t`-adic topology, and let `Spf (φ) : Spf k⟦t⟧ ⟶ Spf k` be the formal spectrum of the
 inclusion of constants, taken over any base and any quotient systems presenting the two formal
 spectra. Then `Spf (φ)` is not representable by algebraic spaces: by the implication (1) ⟹ (3)
@@ -73,12 +75,6 @@ system of neighbourhoods of `0` — the discrete one trivially, the `t`-adic one
 implication (1) ⟹ (3) asks for. This is
 `AlgebraicGeometry.FormalSpace.not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants`
 with its hypothesis `h0AN5` discharged at the two quotient systems of the example. -/
-@[stacks 0AN7 "first sense, the non-representability itself. The example is the one of the
-  source: `k` a field with the discrete topology, `k⟦t⟧` with the `t`-adic topology, and the
-  inclusion of constants, whose non-tautness is
-  `TopologicalRing.not_isTaut_constantsToTAdicPowerSeries`. The second sense of the remark, that
-  the source of a representable morphism onto a McQuillan formal spectrum need not be
-  McQuillan, is not proved here"]
 theorem not_isRepresentableByAlgebraicSpaces_formalSpectrumMap_constants'
     (k : Type u) [Field k] [TopologicalSpace k] [DiscreteTopology k]
     (D : QuotientSystem B S hS k)

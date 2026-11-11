@@ -46,6 +46,8 @@ ordered type `I`, the unions `Z i = ⋃_{j ≤ i} X j` are closed and satisfy
 ## Main definitions
 
 * `IsPartition`: a family of pairwise disjoint locally closed subsets covering the space.
+* `IsGoodPartition`: a good stratification, a partition in which a part meeting the closure of
+  another part is contained in that closure.
 * `IsStratification`: a partition satisfying `closure (X j) ⊆ ⋃_{i ≤ j} X i`.
 * `IsLocallyFiniteStratification`: a stratification whose strata form a locally finite family.
 
@@ -72,9 +74,32 @@ structure IsPartition (X : I → Set α) : Prop where
   /-- The parts cover `α`. -/
   cover : ⋃ i, X i = Set.univ
 
-/-- A family `X : I → Set α`, with `I` a partially ordered set, is a
+/-- **Stacks 09Y0**.
+A *good stratification* of the topological space `α` is a partition `X : I → Set α` of `α`
+(into pairwise disjoint locally closed parts covering `α`) such that for all `i, j` with
+`X i ∩ closure (X j) ≠ ∅` we have `X i ⊆ closure (X j)`. -/
+@[stacks 09Y0]
+structure IsGoodPartition (X : I → Set α) : Prop where
+  /-- The family is a partition. -/
+  isPartition : IsPartition X
+  /-- A part meeting the closure of a part is contained in that closure. -/
+  subset_closure_of_inter_closure_nonempty :
+    ∀ i j, (X i ∩ closure (X j)).Nonempty → X i ⊆ closure (X j)
+
+/-- In a good stratification, the closure of a part `X j` is the union of the parts `X i`
+with `X i ⊆ closure (X j)`. -/
+theorem IsGoodPartition.closure_eq_iUnion {X : I → Set α} (h : IsGoodPartition X) (j : I) :
+    closure (X j) = ⋃ i ∈ {i | X i ⊆ closure (X j)}, X i := by
+  refine Set.Subset.antisymm (fun x hx => ?_) (Set.iUnion₂_subset fun i hi => hi)
+  obtain ⟨i, hxi⟩ := Set.mem_iUnion.mp (h.isPartition.cover ▸ Set.mem_univ x)
+  exact Set.mem_biUnion
+    (h.subset_closure_of_inter_closure_nonempty i j ⟨x, hxi, hx⟩) hxi
+
+/-- **Stacks 09Y1**.
+A family `X : I → Set α`, with `I` a partially ordered set, is a
 *stratification* if it is a partition and for every `j` the closure of `X j` is
 contained in `⋃ (i ≤ j) X i`. The parts `X i` are the *strata*. -/
+@[stacks 09Y1]
 structure IsStratification [PartialOrder I] (X : I → Set α) : Prop where
   /-- The family is a partition. -/
   isPartition : IsPartition X

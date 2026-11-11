@@ -31,6 +31,8 @@ morphisms are exactly the morphisms `CategoryTheory.IsModHom` of module objects.
 
 ## Main results
 
+* `AlgebraicGeometry.GroupSchemeOverPoints.Action.exists_act_eq_iff` characterizes the action
+  morphisms of actions by the commutativity of the associativity and unit diagrams.
 * `AlgebraicGeometry.GroupSchemeOverPoints.Action.isEquivariant_iff_comp` characterizes
   equivariance by the single identity `a ≫ ψ = (G ◁ ψ) ≫ b` of morphisms over `S`.
 * `AlgebraicGeometry.GroupSchemeOverPoints.Action.equivModObj` identifies actions of `G` on `X`
@@ -50,6 +52,7 @@ that `(g h) x = g (h x)`; these two conditions, for every `T`, are the fields of
 ## References
 
 * [Stacks Project, Tag 022Z](https://stacks.math.columbia.edu/tag/022Z)
+* [Stacks Project, Tag 03LD](https://stacks.math.columbia.edu/tag/03LD)
 -/
 
 @[expose] public section
@@ -265,6 +268,41 @@ theorem isEquivariant_iff_isModHom (A : G.Action X) (B : G.Action Y) (ψ : X ⟶
   let := B.modObj
   rw [isEquivariant_iff_comp]
   exact ⟨fun h => ⟨h⟩, fun h => h.smul_hom⟩
+
+/-- The associativity diagram of an action: `a ∘ (m × 1_X) = a ∘ (1_G × a)` as morphisms
+`G ×_S G ×_S X ⟶ X`, the two triple fibre products being identified by the associator. -/
+theorem act_assoc (A : G.Action X) :
+    (G.mul ▷ X) ≫ A.act = (α_ G.obj G.obj X).hom ≫ (G.obj ◁ A.act) ≫ A.act := by
+  let := G.grpObj
+  let := A.modObj
+  rw [← G.grpObj_mul]
+  exact ModObj.mul_smul (M := G.obj) X
+
+/-- The unit diagram of an action: `a ∘ (e × 1_X) = 1_X` as morphisms `X ⟶ X`, where
+`e × 1_X : X ⟶ G ×_S X` is the morphism `x ↦ (e, x)`. -/
+theorem act_unit (A : G.Action X) :
+    lift (toUnit X ≫ (1 : 𝟙_ (Over S) ⟶ G.obj)) (𝟙 X) ≫ A.act = 𝟙 X := by
+  rw [G.comp_one, A.one_smul]
+
+/-- **Stacks Project, Tag 03LD**. A morphism `a : G ×_S X ⟶ X` of schemes over `S` is an action
+of `G` on `X/S` in the sense of Tag 022Z (it makes every `X(T)` a `G(T)`-set) exactly when the
+associativity diagram `a ∘ (m × 1_X) = a ∘ (1_G × a)` and the unit diagram
+`a ∘ (e × 1_X) = 1_X` commute. -/
+@[stacks 03LD "actions in the sense of 022Z are the morphisms making both diagrams commute"]
+theorem exists_act_eq_iff (a : G.obj ⊗ X ⟶ X) :
+    (∃ A : G.Action X, A.act = a) ↔
+      (G.mul ▷ X) ≫ a = (α_ G.obj G.obj X).hom ≫ (G.obj ◁ a) ≫ a ∧
+        lift (toUnit X ≫ (1 : 𝟙_ (Over S) ⟶ G.obj)) (𝟙 X) ≫ a = 𝟙 X := by
+  refine ⟨?_, fun ⟨hm, hu⟩ => ⟨{ act := a, one_smul := ?_, mul_smul := ?_ }, rfl⟩⟩
+  · rintro ⟨A, rfl⟩
+    exact ⟨A.act_assoc, A.act_unit⟩
+  · intro T x
+    calc lift 1 x ≫ a = x ≫ lift (toUnit X ≫ (1 : 𝟙_ (Over S) ⟶ G.obj)) (𝟙 X) ≫ a := by
+          rw [← Category.assoc, comp_lift, ← Category.assoc, G.comp_one, Category.comp_id]
+      _ = x := by rw [hu, Category.comp_id]
+  · intro T g h x
+    rw [G.mul_eq, ← lift_whiskerRight_assoc, hm, lift_lift_associator_hom_assoc,
+      lift_whiskerLeft_assoc]
 
 end Action
 

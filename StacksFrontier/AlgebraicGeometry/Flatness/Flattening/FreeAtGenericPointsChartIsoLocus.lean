@@ -162,7 +162,7 @@ theorem isEmpty_of_condition {q : ℕ} (hq : c.n < q)
   obtain ⟨y, -, hy⟩ := h t
   exact absurd (le_of_freeAtPointOfRank_of_epi (c.baseChangeHom a) hy) (not_le.mpr hq)
 
-/-- **Theorem 05PF on the chart.** Over the chart's base, the generic-rank functor of the
+/-- **Theorem 05PF applied on the chart.** Over the chart's base, the generic-rank functor of the
 chart's rank is represented by a closed immersion. -/
 theorem exists_closedImmersion :
     ∃ (Z : Scheme.{u}) (i : Z ⟶ c.V.toScheme), IsClosedImmersion i ∧

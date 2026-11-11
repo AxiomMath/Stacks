@@ -44,7 +44,6 @@ is a depth-two extension along the inverse image of the subset.
 The hypothesis `hfib`, that the fibres of `f` are locally Noetherian, is the one under which
 `AlgebraicGeometry.Scheme.Hom.IsCohenMacaulay` is stated; it follows from `[IsNoetherian Y]` by
 `AlgebraicGeometry.isLocallyNoetherian_fiber`. -/
-@[stacks 0EI3 "the Cohen-Macaulay pullback clause, unconditionally"]
 public theorem depthTwoExtension_pullback
     {X Y : Scheme.{u}} [IsNoetherian X] [IsNoetherian Y]
     (T : Set X) (F G : X.Modules) (φ : F ⟶ G)

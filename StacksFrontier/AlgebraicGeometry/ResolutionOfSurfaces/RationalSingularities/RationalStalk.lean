@@ -23,19 +23,18 @@ defines a rational singularity. This is [Stacks, Tag 0BG0] in its local-ring for
 
 ## Implementation notes
 
-The proof follows `AlgebraicGeometry.definesRationalSingularity_stalk`. A normal modification of
-`Spec 𝒪_{X, x}` is spread out to a proper `g : X' ⟶ X` which is an isomorphism over `X ∖ {x}`
-([Stacks, Tags 0B3X and 0BFN]). Then `X'` is a normal modification of `Spec(A)` by Step 4 of the
-source's proof, `AlgebraicGeometry.isNormal_and_isModification_of_isPullback_fromSpecStalk`. So
+The proof follows the source. A normal modification of `Spec 𝒪_{X, x}` is spread out to a
+proper `g : X' ⟶ X` which is an isomorphism over `X ∖ {x}` ([Stacks, Tags 0B3X and 0BFN]). Then
+`X'` is a normal modification of `Spec(A)` by Step 4 of the source's proof,
+`AlgebraicGeometry.isNormal_and_isModification_of_isPullback_fromSpecStalk`. So
 `H¹(X', 𝒪_{X'}) = 0`, and the vanishing descends to the given modification of `Spec 𝒪_{X, x}`.
 
-`AlgebraicGeometry.definesRationalSingularity_stalk` carries three hypotheses; all three are
-proved here. The isomorphism over the punctured spectrum is
+The isomorphism over the punctured spectrum is
 `AlgebraicGeometry.modificationIsFinitePresentationAway_of_isLocallyNoetherian` (Tags 0AB7 and
-0AB1). Step 4 is the theorem just named; its carried form
-`AlgebraicGeometry.SpreadOutIsNormalModification` is false as stated. The descent of the
-vanishing, which the source obtains from the first conclusion of [Stacks, Tag 0AXF] and flat base
-change ([Stacks, Tag 02KH]), is
+0AB1). Step 4 is the theorem just named; the variant
+`AlgebraicGeometry.SpreadOutIsNormalModification`, asking only that `Y` be normal, is false. The
+descent of the vanishing, which the source obtains from the first conclusion of
+[Stacks, Tag 0AXF] and flat base change ([Stacks, Tag 02KH]), is
 `AlgebraicGeometry.isZeroFirstStructureSheafCohomology_of_isPullback_fromSpecStalk`: it uses that
 the spread-out morphism is an isomorphism away from `x`, and argues by Mayer–Vietoris.
 

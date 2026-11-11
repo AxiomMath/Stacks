@@ -20,6 +20,18 @@ converging to `R^{p+q}f_*Ω^•_{X/S}`.
   sequence with first page `H^q(Ω^p_{Y/S} ⊗^𝐋_{𝒪_Y} Rf_*Ω^•_{X/Y})` converging to
   `R^{p+q}f_*Ω^•_{X/S}`.
 
+## Implementation notes
+
+The proof follows Stacks: the spectral sequence is that of the filtered complex `Ω^•_{X/S}` with
+the filtration of Section 0FMK (`Stacks.DeRhamSmooth.deRhamSmoothFiltration`), via
+`Stacks.DeRhamSmooth.exists_boundedDeRhamSpectralSequence`. The vanishing of the higher direct
+images of its far steps is
+`Stacks.DeRhamSmooth.exists_higherDirectImage_deRhamSmoothFiltration_isZero`, and the
+identification of the higher direct images of its graded pieces with the first page (the graded
+pieces of Section 0FMK and the projection formula of [Stacks, Tag 0FML]) is
+`Stacks.DeRhamSmooth.higherDirectImageGradedPieceIsoFirstPage` at
+`Stacks.DeRhamSmooth.stepSquares`. Nothing is assumed beyond the hypotheses of the statement.
+
 ## References
 
 * [Stacks Project, Tag 0FMM](https://stacks.math.columbia.edu/tag/0FMM)

@@ -75,11 +75,10 @@ is quasi-DM; every base change of `f` along an algebraic space over `𝒴` has a
 locally finitely presented, locally quasi-finite cover by an algebraic space; and some algebraic
 space surjective, flat and locally of finite presentation over `𝒴` carries a base change of `f`
 with such a cover. -/
-@[stacks 06UE "unconditional. The implication (1) implies (2) uses the substantial direction of
-  Tag 06MF, the quasi-DM presentation theorem
-  hasQuasiDMPresentation_of_isAbsolutelyQuasiDM, which is proved; the containment
-  of the terminal scheme in the site that the absolute quasi-DM condition of Tag 050D part (6)
-  needs is discharged by AlgebraicGeometry.BigFppfSite.contains_terminal"]
+@[stacks 06UE "All three conditions, with no hypothesis beyond the source's. The implication
+  (1) implies (2) uses Tag 06MF through hasQuasiDMPresentation_of_isAbsolutelyQuasiDM, and the
+  terminal scheme that Tag 050D part (6) needs lies in the site by
+  AlgebraicGeometry.BigFppfSite.contains_terminal"]
 theorem isQuasiDM_tfae_hasQuasiFiniteFlatSpaceCover_unconditional (f : 𝒳 ⟶ 𝒴) :
     [IsQuasiDM B S hS f,
       HasQuasiFiniteFlatSpaceCoverOnEveryBaseChange B S hS f,

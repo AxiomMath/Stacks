@@ -37,6 +37,13 @@ the corresponding laws of the multiplication inducing the product: the de Rham s
 obtained from it by feeding in the wedge product together with the proofs that the wedge product is
 associative and graded commutative, and are not assumed.
 
+The declarations of this file carry no `stacks` attribute: they are about the cup product induced
+by the parameter, not about the cup product of Section 0FKU. Tag 0FM3 is registered on
+`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup_assoc` and
+`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup_comm` in
+`StacksFrontier.AlgebraicGeometry.DeRham.CupProduct.DeRhamCupProductLaws`, for the constructed cup
+product `AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup`, with no parameter.
+
 ## Main definitions
 
 * `AlgebraicGeometry.SheafOfModules.IsAssociativeOnSummands` and
@@ -204,13 +211,18 @@ structure HypercohomologyCupProduct where
 
 variable (c : HypercohomologyCupProduct B D)
 
-/-- **Stacks Project, Tag 0FM3.** The cup product
+/-- The cup product
 
 `∪ : H^i_{dR}(X/S) × H^j_{dR}(X/S) ⟶ H^{i + j}_{dR}(X/S)`
 
-on relative de Rham cohomology: the cup product of Cohomology, Section 0FKU paired with the wedge
-product of Tag 0FM2. It is bilinear over the ring of global sections of the base ring sheaf. -/
-@[stacks 0FM3 "the cup product on de Rham cohomology, from the wedge product of 0FM2"]
+on relative de Rham cohomology induced by the parameter `c`: the pairing `c` applied to the wedge
+product of Tag 0FM2. It is bilinear over the ring of global sections of the base ring sheaf.
+
+This is not the registration of Tag 0FM3: the pairing here is the parameter `c`, not the
+constructed cup product of Cohomology, Section 0FKU. Tag 0FM3 is registered on
+`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup_assoc` and
+`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup_comm`, about the constructed cup product
+`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup`. -/
 noncomputable def deRhamCupProduct (i j : ℤ) :
     deRhamCohomology B D i → deRhamCohomology B D j → deRhamCohomology B D (i + j) :=
   c.cup (wedgeProduct B D) i j
@@ -243,9 +255,10 @@ theorem deRhamCupProduct_smul_right (i j : ℤ) (a : (underlyingRingSheaf A).obj
     deRhamCupProduct B D c i j ξ (a • η) = a • deRhamCupProduct B D c i j ξ η :=
   c.cup_smul_right (wedgeProduct B D) i j a ξ η
 
-/-- **Stacks Project, Tag 0FM3.** The cup product on `H^*_{dR}(X/S)` is **associative**. This is
-Cohomology, Lemma 0FP4 together with the associativity of the wedge product. -/
-@[stacks 0FM3 "the cup product on de Rham cohomology is associative"]
+/-- The cup product induced by the parameter `c` is **associative**: the associativity law of `c`,
+the parameter's form of Cohomology, Lemma 0FP4, together with the associativity of the wedge
+product. Tag 0FM3 itself, for the constructed cup product, is
+`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup_assoc`. -/
 theorem deRhamCupProduct_assoc (i j k : ℤ) (ξ : deRhamCohomology B D i)
     (η : deRhamCohomology B D j) (ζ : deRhamCohomology B D k) :
     reindexDeRhamCohomology B D (add_assoc i j k)
@@ -253,10 +266,11 @@ theorem deRhamCupProduct_assoc (i j k : ℤ) (ξ : deRhamCohomology B D i)
       deRhamCupProduct B D c i (j + k) ξ (deRhamCupProduct B D c j k η ζ) :=
   c.cup_assoc (wedgeProduct B D) (isAssociativeOnSummands_wedgeProduct B D) i j k ξ η ζ
 
-/-- **Stacks Project, Tag 0FM3.** The cup product on `H^*_{dR}(X/S)` is **graded commutative**:
-`ξ ∪ η = (-1)^{ij} η ∪ ξ` for `ξ` of degree `i` and `η` of degree `j`. This is Cohomology, Lemma
-0FP5 together with the graded commutativity of the wedge product. -/
-@[stacks 0FM3 "the cup product on de Rham cohomology is graded commutative, sign (-1)^(ij)"]
+/-- The cup product induced by the parameter `c` is **graded commutative**:
+`ξ ∪ η = (-1)^{ij} η ∪ ξ` for `ξ` of degree `i` and `η` of degree `j`. This is the commutativity
+law of `c`, the parameter's form of Cohomology, Lemma 0FP5, together with the graded commutativity
+of the wedge product. Tag 0FM3 itself, for the constructed cup product, is
+`AlgebraicGeometry.SheafOfModules.deRhamCohomologyCup_comm`. -/
 theorem deRhamCupProduct_comm (i j : ℤ) (ξ : deRhamCohomology B D i)
     (η : deRhamCohomology B D j) :
     deRhamCupProduct B D c i j ξ η =

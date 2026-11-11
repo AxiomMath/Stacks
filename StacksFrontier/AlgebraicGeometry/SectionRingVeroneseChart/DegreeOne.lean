@@ -85,10 +85,11 @@ explicitly rather than leaving it to unification underneath a module pullback.
 
 ## What is not done here
 
-**No stacks attribute is attached.** Tag 01QH's map and the second claim of Tag 01QI are the
-integer-degree family assembled in the sibling
-`StacksFrontier/AlgebraicGeometry/SectionRingVeroneseChart/IntegerDegree.lean`; this file is the
-degree-one input to it.
+**No stacks attribute is attached.** This file is the degree-one input to the integer-degree
+family `twistComparison` assembled in the sibling
+`StacksFrontier/AlgebraicGeometry/SectionRingVeroneseChart/IntegerDegree.lean`, for which the second
+claim of Tag 01QI is proved there. Tag 01QH's map itself is Tag 01NK's `θ`,
+`Stacks.SectionRingProjMorphism.Theta.projThetaUnital`.
 
 **`pbTwistIsoTensorPow` in degree `d` is not identified with Tag 01N8's comparison.** The two are
 isomorphisms with the same source and target. The multiplicativity of

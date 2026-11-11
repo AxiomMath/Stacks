@@ -51,6 +51,7 @@ variable {X : AlgebraicGeometry.RingedSite.{u, u, u}}
 /-- **Restriction of scalars, extended to homogeneous maps**: a cochain between right
 differential graded `B`-modules which commutes with the action of `B` is the same cochain between
 their restrictions, and commutes with the action of `A` through `φ`. -/
+@[stacks 0FRP "res_φ as a functor of differential graded categories Mod^dg(B, d) ⥤ Mod^dg(A, d)"]
 def restrictionConcreteDGFunctor : ConcreteDGFunctor.{u, v, v, w, w} B A where
   functor := restriction.{u, v, w} φ hφ
   mapCochain c _ := c

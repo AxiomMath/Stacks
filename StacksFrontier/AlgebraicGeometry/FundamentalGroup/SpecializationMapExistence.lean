@@ -36,27 +36,27 @@ respect to a separable closure of `κ(s)`, and let `g : Spec A ⟶ S` be the res
 
 The specialization map is then the composite `π₁(X_{s̄'}) → π₁(X_A) = π₁(X_{s̄})`, the equality
 being base change along `X_{s̄} ⟶ X_A` (Stacks 0BQA). That this base change is an equivalence on
-finite étale covers is the one input taken as a hypothesis; see the implementation notes.
+finite étale covers is
+`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_fiberOverGeometricPointMap`, which combines Stacks 0A48, 0BTW and
+0A49 exactly as the source does.
 
 ## Main results
 
-* `AlgebraicGeometry.exists_isSpecializationMap` — a specialization map exists.
+* `AlgebraicGeometry.exists_isSpecializationMap` — the construction, with the closed-fibre
+  equivalence taken as the argument `hclosedFibre`.
+  `AlgebraicGeometry.exists_continuousMonoidHom_isSpecializationMap`
+  (`StacksFrontier.AlgebraicGeometry.FundamentalGroup.SpecializationMapConstruction`, Stacks 0BUP)
+  supplies that argument.
 
 ## Implementation notes
 
 Base change along the inclusion `X_{s̄} ⟶ X_A` of the closed geometric fibre being an equivalence
-on finite étale covers is Stacks 0A48 together with Stacks 0A49 and 0BTW, none of which this
-library proves; `StacksFrontier.AlgebraicGeometry.FundamentalGroup.ClosedGeometricFibre` reduces it
-to the essential-surjectivity half of Stacks 0GS2, which
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence` leaves open. It is
-carried here as the hypothesis `hclosedFibre`, in the same form as in
-`AlgebraicGeometry.exists_isSpecializationMap_of_square`, and it is the only thing carried.
-
-`AlgebraicGeometry.ProperHenselianFiniteEtaleEquivalence`, the library's name for Stacks 0A48
-alone, does not suffice: the residue field of `A` is the *separably* closed field `κ(s)^{sep}`,
-whereas the geometric point `s̄` has an algebraically closed residue field, and the passage
-between the two closed fibres is Stacks 0BTW, whose fundamental-group half is not available here
-(see `AlgebraicGeometry.connectedSpace_pullback_specMap_algebraMap_perfectClosure`).
+on finite étale covers is Stacks 0A48 for the proper `X_A` over the henselian local ring `A`,
+followed by the passage from the closed fibre over the separably closed `κ(s)^{sep}` to the fibre
+over the algebraically closed `κ(s̄)`: with `L` the algebraic closure of `κ(s)^{sep}` in `κ(s̄)`,
+this is Stacks 0BTW for the purely inseparable `L / κ(s)^{sep}` and Stacks 0A49 for `L ⊆ κ(s̄)`.
+All three are proved in this library and combined in
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.StrictlyHenselianClosedGeometricFibre`.
 
 The specialization map produced depends on the factorization of `s̄'` through `Spec A`, as the
 source points out; the statement is therefore an existence statement and not the definition of a
@@ -231,32 +231,13 @@ private theorem exists_factorization_of_specializes (s' : GeometricPoint S) (z :
 
 /-! ### Specialization maps exist -/
 
-/-- **Stacks Project, Tag 0BUP.** Let `f : X ⟶ S` be a proper morphism with geometrically
-connected fibres, let `s' ⇝ s` be a specialization of points of `S`, let `s̄'` and `s̄` be
-geometric points over `s'` and `s`, and choose geometric base points of the two geometric fibres
-`X_{s̄'}` and `X_{s̄}`. Then there is a specialization map `π₁(X_{s̄'}) ⟶ π₁(X_{s̄})`, that is, a
-continuous homomorphism satisfying `AlgebraicGeometry.IsSpecializationMap`. -/
-@[stacks 0BUP "the construction of the specialization map, i.e. the existence of a continuous \
-homomorphism satisfying `AlgebraicGeometry.IsSpecializationMap`, granted the one input this \
-library cannot prove, carried as the hypothesis `hclosedFibre`: that base change along the \
-inclusion of the closed geometric fibre `X_s ⟶ X ×_S Spec C` is an equivalence on finite étale \
-covers, for a henselian local ring `C` with separably closed residue field over `S` through \
-whose closed point `s` factors. That is the first of the two equalities in the source's \
-composite `π₁(X_{s̄'}) → π₁(X_A) = π₁(X_{κ(s)^{sep}}) = π₁(X_{s̄})`, namely Stacks 0A48, \
-together with the second, Stacks 0BTW and 0A49; \
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.ClosedGeometricFibre` reduces it to the \
-essential-surjectivity half of Stacks 0GS2, left open by \
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence`. It is the same \
-datum that `AlgebraicGeometry.IsSpecializationMap` records and that \
-`AlgebraicGeometry.exists_isSpecializationMap_of_square` (Stacks 0C0K) carries, and it \
-restricts nothing about `f`, the specialization or the geometric points. \
-`AlgebraicGeometry.ProperHenselianFiniteEtaleEquivalence`, Stacks 0A48 alone, would not \
-suffice: the residue field of `A` is only separably closed, so passing to the algebraically \
-closed `κ(s̄)` needs Stacks 0BTW, whose fundamental-group half is absent here. Everything else \
-is proved: the strict henselization `A` of `𝒪_{S,s}`, the factorization of `s̄` through the \
-closed point of `Spec A`, the factorization of `s̄'` through `Spec A` obtained from the \
-specialization by dominating `𝒪_{S,s} → κ(s̄')` by a strictly henselian valuation ring, \
-connectedness of `X_A`, the fibre-functor isomorphism, and the defining equation."]
+/-- The construction of a specialization map `π₁(X_{s̄'}) ⟶ π₁(X_{s̄})` for a proper `f : X ⟶ S`
+with geometrically connected fibres and a specialization `s' ⇝ s`, taking as the argument
+`hclosedFibre` that base change along the closed geometric fibre `X_{s̄} ⟶ X ×_S Spec C` is an
+equivalence on finite étale covers for every henselian local ring `C` with separably closed
+residue field through whose closed point `s̄` factors. That argument always holds
+(`isEquivalence_finiteEtaleBaseChange_fiberOverGeometricPointMap`), and
+`exists_continuousMonoidHom_isSpecializationMap` is this theorem with it supplied. -/
 theorem exists_isSpecializationMap (f : X ⟶ S) [IsProper f] [GeometricallyConnected f]
     (s' s : GeometricPoint S)
     (hspec : s'.hom (closedPoint s'.residueField) ⤳ s.hom (closedPoint s.residueField))

@@ -54,7 +54,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 `V ⟶ 𝒴 ×_𝒵 W` and a surjective étale `U ⟶ 𝒳 ×_𝒴 V`, the last two by Stacks 0CIA (the second
 because `g` is Deligne–Mumford, the third because `f` is); then `U ⟶ W` is unramified, and
 `U ⟶ V` is unramified by Stacks 06G6. -/
-@[stacks 0CIZ]
+@[stacks 0CIZ "The whole statement, under exactly the source's hypotheses."]
 theorem isUnramified_of_comp_of_isDM {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S hS}
     (f : 𝒳 ⟶ 𝒴) (g : 𝒴 ⟶ 𝒵) (hfg : IsUnramified B S hS (f ≫ g)) (hg : IsDM B S hS g) :
     IsUnramified B S hS f :=

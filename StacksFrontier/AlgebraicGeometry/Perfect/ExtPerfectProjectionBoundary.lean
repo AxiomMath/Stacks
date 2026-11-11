@@ -200,7 +200,7 @@ connecting morphism of the distinguished triangle of the short exact sequence of
 `𝒢^p ⊗ f^*ℱ`. -/
 @[stacks 08ID "the functorial isomorphisms for every i, Ext^i read as Hom_{D(O_X)}(E, -[i]), and \
 their compatibility with the boundary maps of every short exact sequence of quasi-coherent \
-modules (ℱ₂ need not be assumed quasi-coherent): the class of a boundary is the Yoneda composite \
+modules (with ℱ₂ an arbitrary O_S-module): the class of a boundary is the Yoneda composite \
 with the connecting morphism of the triangle of 0 → G ⊗ f^*F₁ → G ⊗ f^*F₂ → G ⊗ f^*F₃ → 0; \
 H^i(S, -) is H^i of unbounded RΓ(S, -) with its Γ(S, O_S)-module structure forgotten"]
 theorem extIso_qcoh_boundary [IsNoetherian S] [LocallyOfFiniteType f]

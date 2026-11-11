@@ -30,11 +30,15 @@ and `IrreducibleSpace.connectedSpace`, so it is not a hypothesis. The dimension 
 `TopologicalSpace.topologicalKrullDim`, which bounds the Krull dimension of every local ring; it
 is an inequality, which covers the dimension-two case of the source.
 
-The remark's two remaining assertions are not here. That a normal modification of `Spec(A)`
-inherits a dualizing module needs [Stacks, Tag 0AWI], that `f^!ω_Y^•` is a dualizing complex for
-a finite-type separated `f`, which this development does not have; the normalization of `ω_X`
-relative to `ω_A` is
-`AlgebraicGeometry.RationalSingularitySituation.DualizingNormalization`.
+The rest of the remark is in
+`StacksFrontier/AlgebraicGeometry/Duality/DualizingModuleNormalModification.lean`: that the degree
+`n` in (2) is arbitrary (`Stacks.Duality.isDualizingModule_iff_forall_isDualizingComplex`), the
+same equivalence for a Noetherian normal local domain of dimension two
+(`Stacks.Duality.exists_isDualizingComplex_iff_exists_isDualizingRingModule`), that a normal
+modification of `Spec(A)` inherits a dualizing module through [Stacks, Tag 0AWI]
+(`Stacks.Duality.exists_isDualizingModule_of_isModification`), and the dualizing module `ω_X`
+normalized relative to `ω_A`
+(`Stacks.Duality.exists_normalized_isDualizingModule_of_isModification`).
 
 ## References
 

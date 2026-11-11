@@ -44,36 +44,25 @@ factor to be dualized second, and the twist is written `K ⊗^L_{𝒪_X} E` to m
 which the perfect-generator criterion states it. The derived tensor product is symmetric, so
 this is the hypothesis of the source.
 
-Nothing below is pinned to a universe: `A : Type u` and `X : Scheme.{u}`. The one input that is
-unavailable at a general `u` is Stacks 08DQ, that the dual of a perfect object is perfect, so
-perfectness of `G^∨` is carried as the hypothesis `hGdual` instead of being deduced from `hG`.
-The library's 08DQ, `Stacks.SheafOfModules.isPerfect_derivedDual`, discharges that hypothesis
-at `u = 0`, so the statement is a generalisation of what was available before and not a
-weakening of it. Its pin to `0` is not local to it: the local criterion for perfectness, Stacks
-08G6 and Stacks 08FR below it, is stated with the sections of the structure sheaf and of the
-modules in `Type`, while the derived internal Hom out of which the dual is built ties all three
-universes of the ringed site together, so the two meet only at `0`; the implementation notes of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.Duals` record this. The perfect-generator
-criterion itself is universe polymorphic.
-
-Existence of a perfect generator `G` of `D_QCoh(𝒪_X)` is Stacks 09IS, which the library does not
-have, so `G` and its generation property are hypotheses; so is invertibility of the Stacks 08I1
-map, exactly as the perfect-generator criterion
+Nothing below is pinned to a universe: `A : Type u` and `X : Scheme.{u}`. Perfectness of the
+dual `G^∨` and invertibility of the Stacks 08I1 map are explicit arguments, exactly as the
+perfect-generator criterion
 `Stacks.SheafOfModules.eventually_subsingleton_ext_iff_isZero_homology_derivedTensorDual`
-takes it. Quasi-compactness and quasi-separatedness of `X` are hypotheses as well: they follow
-from the hypotheses on the morphism to `Spec(A)`, which is carried but otherwise unused, and
-that derivation is not made here.
+takes the latter. Both are assertions of Stacks 08DQ which the library proves at every universe
+(`Stacks.SheafOfModules.isPerfect_derivedDual` and
+`Stacks.SheafOfModules.isIso_derivedTensorDualToSheafHom_of_isPerfect`); they are discharged in
+`AlgebraicGeometry.eventually_subsingleton_ext_of_derivedGlobalSections_isPerfect'`. The perfect
+generator `G` (Stacks 09IS, `Stacks.SheafOfModules.exists_isPerfect_generator`) and
+quasi-compactness and quasi-separatedness of `X` are arguments as well, so that this lemma
+applies to any chosen generator.
 
-**What is not proved.** The conclusion of Stacks 0GET is that `K` is `Spec(A)`-perfect,
-`AlgebraicGeometry.Scheme.Hom.IsPerfectRelativeTo`. Three inputs of its proof are missing.
-Pseudo-coherence of `K`, the first clause of that predicate, comes from Stacks 0GES, which the
-library does not have. The reduction to the fibres is the implication (2) ⇒ (1) of Stacks 0GEH,
-whereas the formalized part of 0GEH,
-`AlgebraicGeometry.isLocallyBoundedBelow_of_isPerfectRelativeTo`,
-is the opposite implication (1) ⇒ (2). And the passage from the vanishing proved here to
-boundedness below is the implication to condition (1) of Stacks 0GEQ, whereas the formalized part of
-0GEQ is the block of equivalences between its conditions (2), (3), (5) and (6), which does not
-contain condition (1).
+**Where the conclusion of Stacks 0GET is proved.** That `K` is `Spec(A)`-perfect,
+`AlgebraicGeometry.Scheme.Hom.IsRelativelyPerfect`, is
+`AlgebraicGeometry.Scheme.Hom.isRelativelyPerfect_of_isPerfect_derivedGlobalSectionsOver_tensor`
+of `StacksFrontier/AlgebraicGeometry/Perfect/RelativelyPerfectFromGlobalSections.lean`, which
+carries the tag. It uses the flat variant of the vanishing proved here, together with Stacks 0GES,
+the implication (2) ⇒ (1) of Stacks 0GEH and condition (1) of Stacks 0GEQ, all of which the
+library proves.
 
 ## References
 
@@ -143,7 +132,7 @@ private theorem isZero_homology_mapDerivedCategory_of_isPerfect
   exact hiso.isZero_iff.2
     (Functor.map_isZero (forget₂ (ModuleCat.{u} A) AddCommGrpCat.{u}) (ha i hi))
 
-/-- **Stacks 0GET, the vanishing that the hypothesis produces.** Let `A` be a ring, let `X` be a
+/-- **The vanishing that the hypothesis of Stacks 0GET produces.** Let `A` be a ring, let `X` be a
 scheme separated, of finite presentation and flat over `A`, let `G` be a perfect generator of
 `D_QCoh(𝒪_X)` whose dual `G^∨` is perfect, and let `K` be an object of `D_QCoh(𝒪_X)`. If
 `RΓ(X, K ⊗^L_{𝒪_X} E)` is a perfect object of `D(A)` for every perfect object `E` of `D(𝒪_X)`,
@@ -157,11 +146,8 @@ negative degrees and the forgetful functor to abelian groups is exact, so
 `H^i(X, G^∨ ⊗^L_{𝒪_X} K)` vanishes for `i ≪ 0`; that is condition (5) of Stacks 0GEQ, whose
 equivalence with conditions (3) and (2) gives the two assertions.
 
-`Spec(A)`-perfectness of `K` is not proved; see the implementation notes. -/
-@[stacks 0GET "ONLY the vanishing the tag's hypothesis produces: `Ext^i_X(G, K)` and \
-`Hom(G⟦-i⟧, K)` vanish for `i ≪ 0`. That `K` is `Spec(A)`-perfect is NOT proved here; it needs \
-Stacks 0GES, the implication (2) ⇒ (1) of Stacks 0GEH, and condition (1) of Stacks 0GEQ, none \
-of which the library carries. See the implementation notes for what is carried."]
+`Spec(A)`-perfectness of `K`, the conclusion of Stacks 0GET, is
+`AlgebraicGeometry.Scheme.Hom.isRelativelyPerfect_of_isPerfect_derivedGlobalSectionsOver_tensor`. -/
 public theorem eventually_subsingleton_ext_of_derivedGlobalSections_isPerfect
     (f : X ⟶ Spec (CommRingCat.of A)) [IsSeparated f] [QuasiCompact f] [Flat f]
     [LocallyOfFinitePresentation f]

@@ -5,11 +5,12 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.FinitePresentation
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.GroupoidRestriction
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.RestrictionCoverings
 public import StacksFrontier.AlgebraicGeometry.Stacks.AlgebraicStackEquivalence
+public import StacksFrontier.AlgebraicGeometry.Stacks.FlatQuotientStackAlgebraic
 public import StacksFrontier.CategoryTheory.FiberedInGroupoids.Representability.EquivalenceOverBased
 public import StacksFrontier.CategoryTheory.FiberedInGroupoids.Representability.EquivalenceOverCompare
 
 /-!
-# When a quotient stack is algebraic (Stacks 06PJ)
+# Algebraicity of a quotient stack from a flat restriction
 
 Let `(U, R, s, t, c)` be a groupoid in algebraic spaces over an algebraic space `B` over a scheme
 `S` of a big fppf site. If the groupoid admits a restriction `(U', R', s', t', c')` along a
@@ -19,11 +20,15 @@ quotient stack `[U/R]` is an algebraic stack.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_restriction`: **Stacks 06PJ** for a
-  groupoid exhibited as the restriction by a morphism to the original groupoid.
-* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_restrictionAlong`: **Stacks 06PJ**
-  for the canonical restriction of **Stacks 044B** along `g`, which is the form the source
-  states.
+* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_restriction`: the implication of
+  Stacks 06PJ towards algebraicity, for a groupoid exhibited as the restriction by a morphism to
+  the original groupoid.
+* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_restrictionAlong`: the same for the
+  canonical restriction of **Stacks 044B** along `g`.
+
+Stacks 06PJ itself, both implications, is
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_iff_restrictionAlong` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.QuotientStackAlgebraicIffRestriction`.
 
 ## Implementation notes
 
@@ -60,16 +65,14 @@ moved onto the restricted groupoid's own source and target by
 precomposed with such a transport, so the saturation map is the one of `g` precomposed with the
 induced isomorphism of fibre products; local surjectivity is insensitive to both.
 
-**Stacks 06FI** — the quotient stack of a groupoid in algebraic spaces whose source and target
-are flat and locally of finite presentation is an algebraic stack — is not in the library, so it
-is carried as the explicit hypothesis `h06FI`, as in
-`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction` for **Stacks 06PL**.
+The algebraicity of `[U'/R']` is **Stacks 06FI** — the quotient stack of a groupoid in algebraic
+spaces whose source and target are flat and locally of finite presentation is an algebraic
+stack — which is `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_flat`.
 
-Only the implication of Stacks 06PJ from the existence of the restriction to algebraicity is
-proved. The converse produces the restriction from a smooth presentation of `[U/R]` and needs
-**Stacks 044X**, **Stacks 044V**, **Stacks 04T4**, **Stacks 046N**, **Stacks 045B** and **Stacks
-04WY** assembled over a surjective flat finitely presented refinement of a scheme atlas, which is
-not in the library.
+The converse implication of Stacks 06PJ, producing the restriction from algebraicity of `[U/R]`,
+is `AlgebraicGeometry.Stack.exists_restrictionAlong_of_isAlgebraicStack` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.QuotientStackAlgebraicIffRestriction`,
+and **Stacks 06PL** is `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction_iff`.
 
 ## References
 
@@ -254,25 +257,14 @@ private theorem prop_restrict_target
   exact MorphismProperty.RespectsIso.precomp Q _ _
     (MorphismProperty.RespectsIso.postcomp Q _ _ h)
 
-/-- **Stacks 06PJ**, the implication from the existence of a suitable restriction to
-algebraicity. Let `(U, R, s, t, c)` be a groupoid in algebraic spaces over `B` and let
-`f : (U', R', s', t', c') ⟶ (U, R, s, t, c)` exhibit its source as the restriction of its target
-along `g = f_U : U' ⟶ U`. If the saturation map `U' ×_{g, U, t} R ⟶ R ⟶ U` is a surjection of
-fppf sheaves and `s', t'` are flat and locally of finite presentation, then the quotient stack
-`[U/R]` is an algebraic stack.
-
-Stacks 06FI, which is not in the library, is carried as the hypothesis `h06FI`. -/
-@[stacks 06PJ "the implication from the existence of the restriction to algebraicity, for a \
-groupoid exhibited by `hrestriction` as the restriction along `g`, with Stacks 06FI carried as a \
-hypothesis; the converse, which needs Stacks 044X, 044V, 04T4, 046N and 04WY, is not proved"]
+/-- **Algebraicity from a flat restriction.** Let `(U, R, s, t, c)` be a groupoid in algebraic
+spaces over `B` and let `f : (U', R', s', t', c') ⟶ (U, R, s, t, c)` exhibit its source as the
+restriction of its target along `g = f_U : U' ⟶ U`. If the saturation map `U' ×_{g, U, t} R ⟶ R ⟶ U`
+is a surjection of fppf sheaves and `s', t'` are flat and locally of finite presentation, then the
+quotient stack `[U/R]` is an algebraic stack. -/
 theorem isAlgebraicStack_quotientStack_of_restriction
     (G G' : GroupoidInAlgebraicSpaces C S hS B)
     (f : GroupoidInAlgebraicSpaces.Hom G' G)
-    (h06FI : ∀ H : GroupoidInAlgebraicSpaces C S hS B,
-      Space.IsFlat C S hS H.source.hom → Space.IsFlat C S hS H.target.hom →
-        Space.IsLocallyOfFinitePresentation C S hS H.source.hom →
-          Space.IsLocallyOfFinitePresentation C S hS H.target.hom →
-            IsAlgebraicStack.{u, w} C S hS (quotientStack H))
     (hrestriction : IsPullback f.toGroupoidHom.mapArrows
       (prod.lift G'.toGroupoidInFunctors.source G'.toGroupoidInFunctors.target)
       (prod.lift G.toGroupoidInFunctors.source G.toGroupoidInFunctors.target)
@@ -291,27 +283,16 @@ theorem isAlgebraicStack_quotientStack_of_restriction
     (StacksRepresentableCFG.EquivalenceOver.ofFunctorIsEquivalenceOver
       (quotientStackMap f).w E).toBasedEquivalence
   exact (isAlgebraicStack_iff_of_equivalence C S hS e).mp
-    (h06FI G' hsource htarget hsourceFP htargetFP)
+    (isAlgebraicStack_quotientStack_of_flat G' hsource htarget hsourceFP htargetFP)
 
-/-- **Stacks 06PJ**, the implication from the existence of the restriction to algebraicity, in
-the form the source states it. Let `(U, R, s, t, c)` be a groupoid in algebraic spaces over `B`
-and let `g : U' ⟶ U` be a morphism of algebraic spaces such that the saturation map
-`U' ×_{g, U, t} R ⟶ R ⟶ U` is a surjection of fppf sheaves and the source and target of the
-restriction `(U', R', s', t', c')` of `(U, R, s, t, c)` along `g` are flat and locally of finite
-presentation. Then the quotient stack `[U/R]` is an algebraic stack.
-
-Stacks 06FI, which is not in the library, is carried as the hypothesis `h06FI`. -/
-@[stacks 06PJ "the implication from the existence of the restriction to algebraicity, for the \
-canonical restriction of Stacks 044B along `g`, with Stacks 06FI carried as a hypothesis; the \
-converse, which needs Stacks 044X, 044V, 04T4, 046N and 04WY, is not proved"]
+/-- **Algebraicity from the flat restriction along `g`.** Let `(U, R, s, t, c)` be a groupoid in
+algebraic spaces over `B` and let `g : U' ⟶ U` be a morphism of algebraic spaces such that the
+saturation map `U' ×_{g, U, t} R ⟶ R ⟶ U` is a surjection of fppf sheaves and the source and target
+of the restriction `(U', R', s', t', c')` of `(U, R, s, t, c)` along `g` are flat and locally of
+finite presentation. Then the quotient stack `[U/R]` is an algebraic stack. -/
 theorem isAlgebraicStack_quotientStack_of_restrictionAlong
     (G : GroupoidInAlgebraicSpaces C S hS B)
     {U' : AlgebraicSpaces C S hS} (g : U' ⟶ G.objects)
-    (h06FI : ∀ H : GroupoidInAlgebraicSpaces C S hS B,
-      Space.IsFlat C S hS H.source.hom → Space.IsFlat C S hS H.target.hom →
-        Space.IsLocallyOfFinitePresentation C S hS H.source.hom →
-          Space.IsLocallyOfFinitePresentation C S hS H.target.hom →
-            IsAlgebraicStack.{u, w} C S hS (quotientStack H))
     (hsaturation : Presheaf.IsLocallySurjective (BigFppfOver.topology C S hS)
       ((GroupoidInAlgebraicSpaces.fiberProductSnd g G.target ≫ G.source).hom))
     (hsource : Space.IsFlat C S hS
@@ -332,7 +313,7 @@ theorem isAlgebraicStack_quotientStack_of_restrictionAlong
     ObjectProperty.hom_ext _ (GroupoidInAlgebraicSpaces.restrict G g).mapObjects_eq
   refine isAlgebraicStack_quotientStack_of_restriction G
     (GroupoidInAlgebraicSpaces.restrict G g).groupoid
-    (GroupoidInAlgebraicSpaces.restrict G g).hom h06FI
+    (GroupoidInAlgebraicSpaces.restrict G g).hom
     (isPullback_of_evaluation_fullyFaithful _ (fun T =>
       ((GroupoidInAlgebraicSpaces.restrict G g).evaluation_fullyFaithful T).some)) ?_
     (prop_restrict_source g

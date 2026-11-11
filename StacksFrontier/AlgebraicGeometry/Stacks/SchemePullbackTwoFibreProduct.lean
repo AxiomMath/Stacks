@@ -45,6 +45,10 @@ input the stack case of Stacks 0H29 needs in order to consume the scheme case.
   2-fibre product.
 * `AlgebraicGeometry.Stack.isTwoFibreProduct_schemeStackSquare`: the same, in the 2-category of
   algebraic stacks.
+* `AlgebraicGeometry.Stack.isFinalTwoCommSq_schemeFibredCategorySquare` and
+  `AlgebraicGeometry.Stack.isFinalTwoCommSq_schemeStackSquare`: the two squares are 2-fibre
+  products in the full sense of Stacks 003Q, with the uniqueness of the 2-isomorphism of
+  Stacks 003P (2); the two results above are their 1-truncated forms.
 
 ## Implementation notes
 
@@ -144,6 +148,21 @@ noncomputable def isTwoFibreProduct_schemeStackSquare (h : IsPullback p q a b) :
     Bicategory.IsTwoFibreProduct (schemeStackSquare.{u, w} B S hS h.w) :=
   Bicategory.isTwoFibreProduct_of_underlying
     (isTwoFibreProduct_schemeFibredCategorySquare B S hS h)
+
+/-- **A fibre product square of the site gives a 2-fibre product square of the represented
+categories fibred in groupoids, in the sense of Stacks 003Q**: a final object of the 2-category of
+2-commutative diagrams, with the uniqueness of the 2-isomorphism of Stacks 003P (2). -/
+noncomputable def isFinalTwoCommSq_schemeFibredCategorySquare (h : IsPullback p q a b) :
+    Bicategory.IsFinalTwoCommSq (schemeFibredCategorySquare B S hS h.w) :=
+  CatFiberedInGroupoids.isFinalTwoCommSq_of_isTwoFibreProduct.{u, u, u + 1, u + 1}
+    (isTwoFibreProduct_schemeFibredCategorySquare B S hS h)
+
+/-- **A fibre product square of the site gives a 2-fibre product square of the represented
+algebraic stacks, in the sense of Stacks 003Q.** -/
+noncomputable def isFinalTwoCommSq_schemeStackSquare (h : IsPullback p q a b) :
+    Bicategory.IsFinalTwoCommSq (schemeStackSquare.{u, w} B S hS h.w) :=
+  Bicategory.isFinalTwoCommSq_of_underlying
+    (isFinalTwoCommSq_schemeFibredCategorySquare B S hS h)
 
 end AlgebraicGeometry.Stack
 

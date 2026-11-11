@@ -76,6 +76,26 @@ add_to_stacks 05QL "pieces on the right: rotation Y → Z → X[1] → Y[1], las
   CategoryTheory.Pretriangulated.rot_of_distTriang
 add_to_stacks 05QL "pieces on the left: inverse rotation Z[-1] → X → Y → Z, first map -h[-1]"
   CategoryTheory.Pretriangulated.inv_rot_of_distTriang
+add_to_stacks 05RF "(1) the kernel Ker(F) of an exact functor F : D ⥤ D': the objects X with
+  F(X) = 0, as an `ObjectProperty`; it is strictly full and, by 05RC
+  (`CategoryTheory.Functor.isTriangulated_and_isSaturated_kernel`), a saturated
+  (pre-)triangulated subcategory"
+  CategoryTheory.Functor.kernel
+add_to_stacks 05RF "(2) the kernel Ker(H) of a homological functor H : D ⥤ A to an abelian
+  category: the objects X with H(X[n]) = 0 for all n : ℤ, as an `ObjectProperty`; it is strictly
+  full and, by 05RD (`CategoryTheory.Functor.isTriangulated_and_isSaturated_homologicalKernel`),
+  a saturated (pre-)triangulated subcategory"
+  CategoryTheory.Functor.homologicalKernel
 add_to_stacks 05ST CategoryTheory.Functor.homologySequenceComposableArrows₅_exact
-add_to_stacks 05SW "RF : S⁻¹D ⥤ D'" CategoryTheory.Functor.totalRightDerived
-add_to_stacks 05SW "LF : S⁻¹D ⥤ D'" CategoryTheory.Functor.totalLeftDerived
+add_to_stacks 05SW "the functor RF : S⁻¹D ⥤ D' itself: Mathlib's total right derived functor, a
+  left Kan extension along the localization, defined under `HasRightDerivedFunctor` rather than
+  under 05SV derivability; for a right derivable F it exists and is the source's RF
+  (`CategoryTheory.Functor.hasRightDerivedFunctor_of_isRightDerivable` and
+  `CategoryTheory.Functor.totalRightDerived_isTriangulated_and_isRightDerivedValueAt`)"
+  CategoryTheory.Functor.totalRightDerived
+add_to_stacks 05SW "the functor LF : S⁻¹D ⥤ D' itself: Mathlib's total left derived functor, a
+  right Kan extension along the localization, defined under `HasLeftDerivedFunctor` rather than
+  under 05SV derivability; for a left derivable F it exists and is the source's LF
+  (`CategoryTheory.Functor.hasLeftDerivedFunctor_of_isLeftDerivable` and
+  `CategoryTheory.Functor.totalLeftDerived_isTriangulated_and_isLeftDerivedValueAt`)"
+  CategoryTheory.Functor.totalLeftDerived

@@ -53,7 +53,7 @@ cardinal, the category of such submodules of a module `F` and its canonical coco
 
 * [Stacks Project, Tag 077N](https://stacks.math.columbia.edu/tag/077N)
 * [Stacks Project, Tag 077L](https://stacks.math.columbia.edu/tag/077L)
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 -/
 
 @[expose] public noncomputable section

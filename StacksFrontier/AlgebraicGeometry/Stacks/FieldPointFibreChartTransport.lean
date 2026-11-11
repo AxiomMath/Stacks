@@ -71,9 +71,8 @@ Neither result produces the Stacks 06MD slice, its flatness, or the identificati
 of the slice; the second takes the isomorphism and the chart as hypotheses precisely so that it
 is independent of which route produces them. No `@[stacks]` attribute is registered: the chart
 construction of **Stacks 06N3** is no tag of its own, its registration sitting on
-`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack`, which still carries the
-hypothesis `hForward`; **Stacks 06PU** is the definition of the site object and is not proved
-here.
+`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional`;
+**Stacks 06PU** is the definition of the site object and is not proved here.
 
 ## References
 

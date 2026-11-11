@@ -37,28 +37,22 @@ generated. Relative ampleness is exactly ampleness on each `b⁻¹(V)`, so nothi
 * `AlgebraicGeometry.isInvertibleModule_twist_reesSituation`: **`𝒪_{X'}(n)` is invertible**, for
   every `n` and with no finiteness hypothesis on `ℐ`.
 * `AlgebraicGeometry.isRelativelyAmple_twist_reesSituation`: **`𝒪_{X'}(1)` is a `b`-relatively
-  ample invertible sheaf** when `ℐ` is of finite type. This is part (2) of Stacks tag 02NS.
+  ample invertible sheaf** when `ℐ` is of finite type, for the twist glued along any transition
+  datum.
 
-## The carried hypothesis
+## The transition datum
 
 The twisting sheaves of a relative `Proj` are glued from the chart twists along the comparison
-isomorphisms of Stacks tag 01NO, clauses (3) and (4). Those comparisons are not constructed in
-this repository; `Stacks.RelativeProj.Situation.TwistTransition`, the structure carrying exactly
-them, is what `Stacks.RelativeProj.Situation.twist` is already stated over, and the two results
-about `𝒪_{X'}(n)` below carry a term `t` of it as a hypothesis. Supplying it once tag 01NO is
-available is a substitution: no statement below says anything about `t` beyond its existence, and
-the twist is pinned by `Stacks.RelativeProj.Situation.twistChartIso`, which says it restricts to
-the absolute `𝒪(n)` on every chart.
+isomorphisms of Stacks tag 01NO, clauses (3) and (4), packaged as
+`Stacks.RelativeProj.Situation.TwistTransition`; `Stacks.RelativeProj.Situation.twist` is stated
+over such a datum, and the two results about `𝒪_{X'}(n)` below are stated for an arbitrary one.
+The canonical datum is `Stacks.RelativeProj.Situation.twistTransition`, and its instances are
+`AlgebraicGeometry.isInvertibleModule_blowUpTwist` and
+`AlgebraicGeometry.isRelativelyAmple_blowUpTwist` for `AlgebraicGeometry.blowUpTwist`.
 
-Nothing of tag 02NS's own content is assumed: neither projectivity, nor ampleness, nor
-invertibility of the twist is a hypothesis anywhere below.
-
-## Not done here
-
-Part (1) of tag 02NS — that `b` is a projective morphism — is not here. It asks for a closed
-immersion of `X'` into the projective bundle `𝐏(ℐ)` over `X`, which needs the surjection
-`Sym_{𝒪_X}(ℐ) ↠ ⨁_n ℐⁿ` of graded `𝒪_X`-algebras. Properness of `b`, which is weaker, is
-`AlgebraicGeometry.isProper_blowUpToBase_of_fg`.
+Part (1) of tag 02NS, that `b` is a projective morphism, is
+`AlgebraicGeometry.isProjective_blowUpToBase`, and the two parts together are
+`AlgebraicGeometry.isProjective_blowUpToBase_and_isRelativelyAmple_blowUpTwist`.
 
 ## References
 
@@ -142,13 +136,10 @@ public instance isInvertibleModule_twist_reesSituation {n : ℤ}
       (Situation.relativeProjChart (reesSituation I) W)).app (Situation.twist t) ≪≫
     (Scheme.Modules.restrictFunctor U.ι).mapIso (Situation.twistChartIso t W) ≪≫ eU
 
-/-- **Stacks Project, Tag 02NS, part (2).** The twisting sheaf `𝒪_{X'}(1)` of the blowup of a
-scheme in a quasi-coherent sheaf of ideals of finite type is a relatively ample invertible sheaf
-for the blowup morphism: over an affine open `V` of the base the blowup is the `Proj` of the Rees
+/-- The twisting sheaf `𝒪_{X'}(1)` of the blowup of a scheme in a quasi-coherent sheaf of ideals
+of finite type, glued along a transition datum `t`, is a relatively ample invertible sheaf for the
+blowup morphism: over an affine open `V` of the base the blowup is the `Proj` of the Rees
 algebra of `ℐ(V)`, the twist restricts there to the absolute `𝒪(1)`, and that is ample. -/
-@[stacks 02NS "part (2): `𝒪_{X'}(1)` is a `b`-relatively ample invertible sheaf, for the twist \
-glued from the chart twists along a transition datum for Tag 01NO (3) and (4), which is carried \
-as the hypothesis `Stacks.RelativeProj.Situation.TwistTransition`"]
 public theorem isRelativelyAmple_twist_reesSituation (hI : I.IsFiniteType)
     (t : (reesSituation I).TwistTransition 1) :
     Stacks.RelativeAmple.IsRelativelyAmple (blowUpToBase I) (Situation.twist t) := by

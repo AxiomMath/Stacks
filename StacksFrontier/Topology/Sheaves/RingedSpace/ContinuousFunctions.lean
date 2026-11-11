@@ -39,7 +39,7 @@ associated to a continuous map $f : X \to Y$ between topological spaces, given o
 sections over an open $V \subseteq Y$ by precomposition with $f$:
 $h \mapsto h \circ f|_{f^{-1}(V)}$. This is the morphism asserted to exist in the
 Stacks example. -/
-@[stacks 0092]
+@[stacks 0092 "continuous functions"]
 noncomputable def fSharp {X Y : TopCat.{0}} (f : X ⟶ Y) :
     presheafC0 Y ⟶
       (TopCat.Presheaf.pushforward (CommAlgCat ℝ) f).obj

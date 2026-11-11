@@ -57,7 +57,8 @@ presentation.
 
 ## Main results
 
-* `Stacks.Smooth.BinaryProduct.solution`: the proof of `Algebra.Smooth.prod_iff`, 0GIF.
+* `Stacks.Smooth.BinaryProduct.solution`: the proof of `Algebra.Smooth.prod_iff`, from which
+  0GIF (`Algebra.Smooth.iff_of_algEquiv_prod`) follows.
 
 ## Implementation notes
 
@@ -191,17 +192,17 @@ containing `e` the localization `S_e ≅ S'` is smooth over `R` by hypothesis, a
 
 ## Main results
 
-* `Algebra.Smooth.prod_iff`: a product of two `R`-algebras is smooth over `R` if and only if each
-  factor is, 0GIF.
+* `Algebra.Smooth.iff_of_algEquiv_prod`: an `R`-algebra `S` with `S ≃ₐ[R] S' × S''` is smooth over
+  `R` if and only if each of `S'` and `S''` is, 0GIF.
+* `Algebra.Smooth.prod_iff`: the case `S = S' × S''` itself, from which the former follows.
 
 ## Implementation notes
 
-*The product is the literal `S' × S''`, not an abstract `S` with an `R`-algebra isomorphism
-`S ≃ₐ[R] S' × S''`.* The source's `S = S' × S''` is a presentation of `S`, and the two readings
-are interchangeable: `Algebra.Smooth` transfers along an `AlgEquiv` in either direction, by
-`Algebra.FormallySmooth.of_equiv` on the one field and `Algebra.FinitePresentation.equiv` on the
-other. The literal product is the spelling of the Mathlib sibling `Algebra.FormallySmooth.pi_iff`,
-and it is what a consumer holding a decomposition into idempotents produces.
+*The source's `S = S' × S''` is an arbitrary `R`-algebra `S` with an `R`-algebra isomorphism
+`S ≃ₐ[R] S' × S''`.* That is the form `Algebra.Smooth.iff_of_algEquiv_prod` states. It is proved
+from the literal product `Algebra.Smooth.prod_iff`, the spelling of the Mathlib sibling
+`Algebra.FormallySmooth.pi_iff`, by `Algebra.Smooth.of_equiv` along the isomorphism in either
+direction.
 
 *The two factors lie in independent universes.* Nothing in the mathematics ties them together, so
 neither does the statement; the common-universe case is the instance `S'' : Type u` of it, and
@@ -217,14 +218,14 @@ therefore that each factor of a finitely presented product algebra is itself fin
 true because that factor is the principal localization `S_e`, and a principal localization of a
 finitely presented algebra is finitely presented.
 
-Faithfulness. (1) No hypothesis is dead: beyond the ring and `R`-algebra structures on `R`, `S'`
-and `S''` there is none — no finiteness, no Noetherian, no nontriviality of either factor, and
-the conclusion uses all three algebra structures. (2) The scalars and the base are the source's:
+Faithfulness. (1) No hypothesis is dead: beyond the ring and `R`-algebra structures on `R`, `S`,
+`S'` and `S''` and the isomorphism `e` there is none —
+no finiteness, no Noetherian, no nontriviality of either factor, and the conclusion uses
+all of them. (2) The scalars and the base are the source's:
 smoothness is over `R` itself in all three assertions, and the `R`-algebra structure on `S' × S''`
-is the componentwise one, `Prod.algebra`, which is the product in `R`-algebras. (3) There is no
-canonical map to pin: the source's `S = S' × S''` is an equality of `R`-algebras, realized here by
-taking `S` to be the product itself, so the projections `S → S'` and `S → S''` are `Prod.fst` and
-`Prod.snd` and the statement is about that `S` and no other. (4) The instantiation is not
+is the componentwise one, `Prod.algebra`, which is the product in `R`-algebras. (3) The source's
+`S = S' × S''` is realized by the isomorphism `e : S ≃ₐ[R] S' × S''`, so the projections
+`S → S'` and `S → S''` are `Prod.fst ∘ e` and `Prod.snd ∘ e`. (4) The instantiation is not
 degenerate: both sides hold for `S' = S'' = R` (so `S = R × R`, smooth over `R` as
 `R[x]/(x² - x)`), and both fail for `S' = k`, `S'' = k[x]/(x²)` over `R = k` a field, so neither
 direction is vacuous. The degenerate case `S'' = 0` is included and is consistent: the zero ring
@@ -246,16 +247,26 @@ let `S = S' × S''` be a product of `R`-algebras. Then `S` is smooth over `R` if
 
 Each factor is the principal localization of `S` at one of the complementary idempotents
 `(1, 0)` and `(0, 1)`, which is why the equivalence holds; see the module docstring. -/
-@[stacks 0GIF "The product is the literal `S' × S''`, with the componentwise `Prod.algebra`
-structure; the abstract form (an `S` with `S ≃ₐ[R] S' × S''`) follows by transport, via
-`Algebra.FormallySmooth.of_equiv` and `Algebra.FinitePresentation.equiv`. The two factors are
-allowed to lie in different universes, so this is not an instance of Mathlib's
-`Algebra.FormallySmooth.pi_iff`; that lemma also settles only the formal smoothness half, the
-finite presentation of each factor of a finitely presented product being the content added here.
-See the module docstring."]
 public theorem Algebra.Smooth.prod_iff (R : Type*) [CommRing R] (S' : Type*) [CommRing S']
     [Algebra R S'] (S'' : Type*) [CommRing S''] [Algebra R S''] :
     Algebra.Smooth R (S' × S'') ↔ Algebra.Smooth R S' ∧ Algebra.Smooth R S'' :=
     by apply Stacks.Smooth.BinaryProduct.solution
+
+/-- **An algebra that is a product of two algebras is smooth if and only if both factors are.**
+Let `R` be a ring and let `S` be an `R`-algebra with an `R`-algebra isomorphism
+`S ≃ₐ[R] S' × S''`. Then `S` is smooth over `R` if and only if both `S'` and `S''` are smooth
+over `R`.
+
+This is `Algebra.Smooth.prod_iff` transported along the isomorphism, smoothness being invariant
+under `R`-algebra isomorphism (`Algebra.Smooth.of_equiv`). -/
+@[stacks 0GIF "The source's `S = S' × S''` is an arbitrary `R`-algebra `S` together with an
+`R`-algebra isomorphism `S ≃ₐ[R] S' × S''`, the product carrying the componentwise `Prod.algebra`
+structure; both directions are proved, and the three algebras may lie in different universes."]
+public theorem Algebra.Smooth.iff_of_algEquiv_prod (R : Type*) [CommRing R] (S : Type*)
+    [CommRing S] [Algebra R S] (S' : Type*) [CommRing S'] [Algebra R S'] (S'' : Type*)
+    [CommRing S''] [Algebra R S''] (e : S ≃ₐ[R] S' × S'') :
+    Algebra.Smooth R S ↔ Algebra.Smooth R S' ∧ Algebra.Smooth R S'' := by
+  rw [← Algebra.Smooth.prod_iff]
+  exact ⟨fun _ ↦ .of_equiv e, fun _ ↦ .of_equiv e.symm⟩
 
 end

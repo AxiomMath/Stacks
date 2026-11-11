@@ -831,8 +831,11 @@ as a local `R`-algebra with `R → Rh` local which is ind-étale with surjective
 which is what Lemma 04GN produces and what Lemma 04GS shows characterizes the henselization; the
 conclusion then supplies the algebra structure `Rh → Rsh` over `R` (the middle square of the
 diagram) with item (1). This is stronger than the existential form of 04GP and, by the uniqueness
-of 08HT, equivalent to it. `HenselianLocalRing Rh` is *not* assumed: the map `Rh → Rsh` does not
-need it, so the statement also covers the degenerate `Rh = R`.
+of 08HT, equivalent to it; the existential form itself, with `R → R^h` produced by
+`IsLocalRing.exists_henselization`, is
+`Stacks.StrictHenselization.exists_henselization_isStrictHenselization`. `HenselianLocalRing Rh`
+is *not* assumed: the map `Rh → Rsh` does not need it, so the statement also covers the degenerate
+`Rh = R`.
 
 *A filtered colimit of étale `R`-algebras is an ind-étale `R`-algebra.* Item (3) is
 `(CommAlgCat.etale R).ind (CommAlgCat.of R Rsh)`: `CategoryTheory.ObjectProperty.ind P X` says
@@ -888,13 +891,7 @@ henselization of `R`). Then there is a commutative diagram `R → Rh → Rsh` ov
 such that (1) `Rh → Rsh` is a local ring map, (2) `Rsh` is strictly henselian, (3) `Rsh` is a
 filtered colimit of étale `R`-algebras, (4) `𝔪 Rsh` is the maximal ideal of `Rsh`, and (5) the
 residue field of `Rsh` is `κ^sep`. -/
-@[stacks 04GP "The diagram's middle column is a hypothesis: `Rh` is any local ind-étale
-`R`-algebra with residue field `κ`, which by Lemmas 04GN and 04GS is the henselization; the
-conclusion produces `Rsh` with the algebra structure over `Rh` and item (1). Strictly henselian is
-`HenselianLocalRing` plus `IsSepClosed` on the residue field, `Rsh` a filtered colimit of étale
-`R`-algebras is `(CommAlgCat.etale R).ind`, `𝔪 Rsh` is `Ideal.map`, and `κ^sep = Rsh/𝔪 Rsh` is an
-isomorphism `κ^sep ≃+* ResidueField Rsh` compatible with the maps out of `R`. See the module
-docstring.", ega "IV 18.8.8" "(i), part of (iii)"]
+@[ega "IV 18.8.8" "(i), part of (iii)"]
 public theorem IsLocalRing.exists_strictHenselization (R : Type u) [CommRing R] [IsLocalRing R]
     (Rh : Type u) [CommRing Rh] [IsLocalRing Rh] [Algebra R Rh] [IsLocalHom (algebraMap R Rh)]
     (hRh : (CommAlgCat.etale.{u} R).ind.{u} (CommAlgCat.of R Rh))

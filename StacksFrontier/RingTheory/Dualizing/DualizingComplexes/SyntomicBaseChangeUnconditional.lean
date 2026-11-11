@@ -296,13 +296,12 @@ theorem nonempty_upperShriekFunctor_obj_iso_derivedExtensionScalars_tensor_of_lc
       ((derivedExtensionScalarsGeneral.{u, u, u} f).functor.obj K) ⊗
         relativeDualizingUnit p) := by
   refine nonempty_upperShriekFunctor_obj_iso_derivedExtensionScalars_tensor_of_isPerfect f p ?_ K
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring A
-  let : Algebra A B := f.toAlgebra
-  exact RingHom.isPerfectModule_of_isPerfectRingMap D.tensor D.comparison D.isLeftDerived
-    (RingHom.IsLocalCompleteIntersection.isPerfectRingMap f hlci
-      D.tensor D.comparison D.isLeftDerived)
-    p.variableCount (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes)
-    p.surjective
+  have := hlci.perfect
+  algebraize [f]
+  let : Module p.Poly B := Module.compHom B p.toRingHom
+  exact (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution B).mpr
+    (Algebra.Perfect.exists_finite_projective_resolution
+      (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective)
 
 /-! ### The three cases -/
 

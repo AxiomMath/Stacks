@@ -112,6 +112,96 @@ theorem isIso_cechToSheafCohomology_app (hK : IsHypercovering J K) (i : ℕ)
   dsimp only [cechToSheafCohomology, NatTrans.comp_app]
   infer_instance
 
+/-! ### The statement of [Stacks, Tag 01GY]
+
+The declarations below state every clause of [Stacks, Tag 01GY] for a site with fibre products
+and nothing more: sheafification, its inverting the locally bijective morphisms and enough
+injectives hold on every such site and are the local instances above. -/
+
+/-- **Stacks Project, Tag 01GY: the comparison map `s(F(K)) ⟶ RΓ(X, F)` in `D⁺(Ab)`,
+functorial in `F`**, for a hypercovering `K` of an object `X` of a site with fibre products.
+
+It is `hypercoverComparisonMap`: `s(F(K)) ≅ Θ(F[0]) ⟶ RΘ(F[0]) ≅ RΓ(X, F)`, where `Θ` is the
+total complex of the double complex `I^q(K_p)`, the middle map is the unit of the right derived
+functor of `Θ`, and the last isomorphism is the inverse of the comparison `RΓ(X, -) ⟶ RΘ` induced
+by the augmentation `Γ(X, -) ⟶ Θ`, invertible because at a complex of injectives the augmentation
+is a quasi-isomorphism ([Stacks, Tag 01GW] and [Stacks, Tag 01GV]). This is the map of the Stacks
+proof. It is normalised by the augmentation
+(`hypercoverAugDerivedSections_comp_hypercoverToDerivedSections`) and is an isomorphism at every
+sheaf with vanishing higher cohomology on the members of `K`
+(`isIso_hypercoverToDerivedSections_app`). -/
+@[stacks 01GY "the comparison map s(F(K)) ⟶ RΓ(X, F) in D⁺(Ab), functorial in F"]
+def hypercoverToDerivedSections (hK : IsHypercovering J K) :
+    hypercoverDerivedFunctor.{w} J U K ⟶ derivedSectionsFunctor.{w} J U :=
+  hypercoverComparisonMap J U K hK
+
+/-- The comparison map `hypercoverToDerivedSections` of [Stacks, Tag 01GY] is normalised by the
+augmentation: the augmentation `Γ(X, F) ⟶ s(F(K))` followed by the comparison is the unit
+`Γ(X, F) ⟶ RΓ(X, F)` of the derived functor of sections. -/
+theorem hypercoverAugDerivedSections_comp_hypercoverToDerivedSections
+    (hK : IsHypercovering J K) :
+    hypercoverAugDerivedSections J U K hK ≫ hypercoverToDerivedSections J U K hK =
+      Functor.whiskerLeft _ (sheafSectionsFunctor J U).rightDerivedFunctorPlusUnith ≫
+        Functor.whiskerRight (Functor.singleFunctorPlusIsoCompQh
+          (A := Sheaf J.toGrothendieck AddCommGrpCat.{max u v w}) 0).inv
+          (sheafSectionsFunctor J U).rightDerivedFunctorPlus :=
+  hypercoverAugDerivedSections_comp_hypercoverComparisonMap J U K hK
+
+/-- The comparison map `hypercoverToDerivedSections` of [Stacks, Tag 01GY] is an isomorphism at
+a sheaf whose higher cohomology vanishes on every member of the hypercovering. -/
+theorem isIso_hypercoverToDerivedSections_app (hK : IsHypercovering J K)
+    (F : Sheaf J.toGrothendieck AddCommGrpCat.{max u v w})
+    (hac : ∀ (n : ℕ) (j : (K.obj (op ⦋n⦌)).I) (q : ℕ), 0 < q →
+      IsZero ((((sheafSectionsFunctor.{w} J ((K.obj (op ⦋n⦌)).obj j).left)).rightDerived q).obj
+        F)) :
+    IsIso ((hypercoverToDerivedSections J U K hK).app F) :=
+  isIso_hypercoverComparisonMap_app J U K hK F hac
+
+/-- **Stacks Project, Tag 01GY: the natural transformations `Ȟ ⁱ(K, -) ⟶ H ⁱ(X, -)` of functors
+`Ab(C) ⥤ Ab` induced by the comparison map**: the degree-`i` cohomology of
+`hypercoverToDerivedSections`, from the `i`-th cohomology of the complex of sections `s(-(K))`
+to the `i`-th right derived functor of sections on `X`. -/
+@[stacks 01GY "the induced natural transformations Ȟ^i(K, -) ⟶ H^i(X, -)"]
+def cechCohomologyToSheafCohomology (hK : IsHypercovering J K) (i : ℕ) :
+    SectionsOver.sectionsComplexFunctor.{w} J.toGrothendieck K ⋙
+        HomologicalComplex.homologyFunctor AddCommGrpCat.{max u v w} (up ℕ) i ⟶
+      (sheafSectionsFunctor.{w} J U).rightDerived i :=
+  (sectionsComplexHomologyIsoCochainIntHomology J U K i).hom ≫
+    (hypercoverDerivedHomologyIso.{w} J U K (i : ℤ)).inv ≫
+    Functor.whiskerRight (hypercoverToDerivedSections J U K hK)
+      (DerivedCategory.Plus.homologyFunctor AddCommGrpCat.{max u v w} (i : ℤ)) ≫
+    (derivedSectionsHomologyIsoRightDerived J U i).hom
+
+/-- **Stacks Project, Tag 01GY: the spectral sequence**
+`E₂^{p,q} = Ȟ^p(K, H̲^q(F)) ⇒ H^{p+q}(X, F)`, functorial in the abelian sheaf `F`: a
+first-quadrant `E₂` cohomological spectral sequence (`sequence`), with an isomorphism of its second
+page at `(p, q)` with the `p`-th cohomology of `s(H̲^q(F)(K))` natural in `F` (`pageTwoIso`), and a
+functorial finite filtered abutment to `H^n(X, -)` (`abutment`). It is the first spectral sequence
+of the double complex `I^q(K_p)` of an injective resolution `F ⟶ I^•`, as in the Stacks proof. -/
+@[stacks 01GY "the spectral sequence E₂^{p,q} = Ȟ^p(K, H^q(F)) ⇒ H^{p+q}(X, F), functorial in F"]
+def hypercoverCechSpectralSequence (hK : IsHypercovering J K) :
+    HypercoveringSpectralSequenceData.{w} J U K hK :=
+  hypercoveringSpectralSequence.{w} J U K hK
+
+/-- **Stacks Project, Tag 01GY: the spectral sequence is functorial in the hypercovering.** The
+assignment `K ↦` the spectral sequence of `hypercoverCechSpectralSequence`, as a functor of the
+coefficient sheaf, is a contravariant functor on simplicial semi-representable objects over `X`;
+its value at a hypercovering is the `sequence` of `hypercoverCechSpectralSequence`
+(`hypercoverCechSpectralSequenceHypercoveringFunctor_obj`). -/
+@[stacks 01GY "the spectral sequence is functorial in the hypercovering K"]
+def hypercoverCechSpectralSequenceHypercoveringFunctor :
+    (SimplicialObject (FormalCoproduct.{w} (Over U)))ᵒᵖ ⥤
+      (Sheaf J.toGrothendieck AddCommGrpCat.{max u v w} ⥤
+        E₂CohomologicalSpectralSequenceNat AddCommGrpCat.{max u v w}) :=
+  hypercoverSpectralSequenceHypercoveringFunctor.{w} J U
+
+/-- The functor of `hypercoverCechSpectralSequenceHypercoveringFunctor` takes a hypercovering to
+the spectral sequence of `hypercoverCechSpectralSequence`. -/
+theorem hypercoverCechSpectralSequenceHypercoveringFunctor_obj (hK : IsHypercovering J K) :
+    (hypercoverCechSpectralSequenceHypercoveringFunctor.{w} J U).obj (op K) =
+      (hypercoverCechSpectralSequence.{w} J U K hK).sequence :=
+  rfl
+
 end Pretopology
 
 section OfEq

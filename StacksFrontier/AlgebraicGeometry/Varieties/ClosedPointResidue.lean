@@ -13,7 +13,7 @@ public import StacksFrontier.RingTheory.Jacobson.Nullstellensatz
 
 Let `X` be a scheme over a field `k`.  After base change to an extension field `K` of
 sufficiently large cardinality, the residue field of every closed point of `X_K` is algebraic
-over `K`.  The cardinal threshold is the size of `X` in the sense of Stacks Tag 000I.
+over `K`.  The cardinal threshold is the size of `X` in the sense of Stacks Section 000H.
 
 ## Main definitions
 

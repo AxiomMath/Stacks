@@ -33,7 +33,13 @@ direct images satisfy `R^p f_* ∘ g⁻¹ ≅ g'⁻¹ ∘ R^p f'_*` for every `p
 
 `g⁻¹ ∘ Rf_* = Rf'_* ∘ (g')⁻¹` and `L(g')_! ∘ (f')⁻¹ = f⁻¹ ∘ Lg_!`.
 
-Its abelian-sheaf case is proved here too. The first identity is the general base change theorem
+It is proved with no hypothesis, for abelian sheaves in
+`StacksFrontier/AlgebraicGeometry/Stacks/LisseEtaleDerivedBaseChange.lean` and
+`StacksFrontier/AlgebraicGeometry/Stacks/FlatFppfDerivedBaseChange.lean`, and for sheaves of modules
+in `StacksFrontier/AlgebraicGeometry/Stacks/LisseEtaleModuleDerivedBaseChange.lean` and
+`StacksFrontier/AlgebraicGeometry/Stacks/FlatFppfModuleDerivedBaseChange.lean`. This file keeps an
+earlier form of the abelian-sheaf case, conditional on the inputs below. The first identity is
+the general base change theorem
 `Stacks.Cohomology.UnboundedComplexes.derivedBaseChangeIso` at this square of sites, which needs
 the abelian sheaves on the two sites of `𝒳` to be Grothendieck abelian — they are, both sites being
 essentially small — together with the degree-zero identification and the preservation of
@@ -55,12 +61,13 @@ under `CategoryTheory.conjugateIsoEquiv`.
   `AlgebraicGeometry.Stack.FlatFppf.rightDerivedPushforwardRestrictionIso`: **Stacks 0GR3** for
   the lisse-étale and the flat-fppf site, in every degree, from its degree-zero case.
 * `AlgebraicGeometry.Stack.LisseEtale.derivedPushforwardRestrictionIso` and
-  `AlgebraicGeometry.Stack.FlatFppf.derivedPushforwardRestrictionIso`: **Stacks 07AV**, first
-  identity, for abelian sheaves — `Rf'_* ∘ (g')⁻¹ ≅ g⁻¹ ∘ Rf_*` on the unbounded derived
-  categories.
+  `AlgebraicGeometry.Stack.FlatFppf.derivedPushforwardRestrictionIso`: a conditional form of the
+  first identity of **Stacks 07AV**, for abelian sheaves — `Rf'_* ∘ (g')⁻¹ ≅ g⁻¹ ∘ Rf_*` on the
+  unbounded derived categories.
 * `AlgebraicGeometry.Stack.LisseEtale.derivedShriekInverseImageIso` and
-  `AlgebraicGeometry.Stack.FlatFppf.derivedShriekInverseImageIso`: **Stacks 07AV**, second
-  identity, for abelian sheaves — `f⁻¹ ∘ Lg_! ≅ L(g')_! ∘ (f')⁻¹`, the conjugate of the first.
+  `AlgebraicGeometry.Stack.FlatFppf.derivedShriekInverseImageIso`: the formal step of the
+  second identity of **Stacks 07AV**, for abelian sheaves — `f⁻¹ ∘ Lg_! ≅ L(g')_! ∘ (f')⁻¹`, the
+  conjugate of the first.
 * `AlgebraicGeometry.Stack.LisseEtale.isContinuous_subsiteFunctor`,
   `AlgebraicGeometry.Stack.LisseEtale.isCocontinuous_subsiteFunctor` and their flat-fppf
   counterparts: **Stacks 07AT**, the two continuity properties of the site functor, for the
@@ -85,9 +92,12 @@ which is not an object of the subsite and so is not covered by the unconditional
 comparison `AlgebraicGeometry.Stack.LisseEtale.cohomologyOverObjectIso'` either.
 
 The other hypothesis, `hinj`, is that restriction to the subsite carries injective abelian
-sheaves to injective ones. It is what exactness of `g_!` gives, i.e. **Stacks 07AS** (3), which
-is available in this development only conditionally
-(`AlgebraicGeometry.Stack.FlatFppf.lowerShriekAdjunction`).
+sheaves to injective ones. It would follow from exactness of `g_!`, but **Stacks 07AS** does not
+assert that: it gives only the existence of `Lg_!`, the adjunction `Lg_! ⊣ g⁻¹` and
+`g⁻¹ Lg_! = id`. And `g_!` is not exact in general: for `𝒳 = 𝔸¹` the image under `g'_!` of the
+injective map `t : 𝒪 ⟶ 𝒪` of the lisse-étale structure sheaf is multiplication by `t` on
+`𝒪_{𝒳_{étale}}`, which is zero on the closed point (see
+`StacksFrontier/AlgebraicGeometry/Stacks/LisseEtaleDerivedBaseChange.lean`).
 
 Exactness of the two restrictions — **Stacks 07AS** (1) and (2) — is *not* a hypothesis. The
 inclusion of each subsite is continuous and cocontinuous with no hypothesis at all, so
@@ -109,15 +119,23 @@ Exactness of `g⁻¹` makes right derivation commute with postcomposition by it,
 `g'⁻¹` together with `hinj` makes the right derived functor of `f'_* ∘ (g')⁻¹` collapse onto
 `R^p f'_* ∘ (g')⁻¹`, so the degree-zero identification propagates.
 
-The unbounded statements of **Stacks 07AV** carry the same `hzero`, and in place of `hinj` the
-hypothesis `hKinj`: that `(g')⁻¹` carries K-injective cochain complexes to K-injective ones. That
-is **Stacks 08BJ** for the adjunction `g'_! ⊣ (g')⁻¹`, hence again exactness of `g'_!`, i.e.
-**Stacks 07AS** (3). They also carry the derived functors as data — a right derived functor is
+The conditional unbounded statements here carry the same `hzero`, and in place of `hinj` the
+hypothesis `hKinj`: that `(g')⁻¹` carries K-injective cochain complexes to K-injective ones.
+This hypothesis is false in general, and nothing in the source supplies it. **Stacks 08BJ** for
+the adjunction `g'_! ⊣ (g')⁻¹` would give it from exactness of `g'_!`, but **Stacks 07AS** does
+not assert that exactness, and the `𝔸¹` example above shows `g'_!` is not exact.
+`StacksFrontier/AlgebraicGeometry/Stacks/LisseEtaleDerivedBaseChange.lean` calls the assertion that
+`(g')⁻¹` preserves K-injectivity false, and replaces it with the true statement that restricted
+K-injective complexes compute `Rf'_*`. That is why the unconditional statements of 07AV live
+there and not here, and why the conditional statements below are not registered under 07AV. They
+also carry the derived functors as data — a right derived functor is
 determined only up to a canonical isomorphism, so `Rf_*` and `Rf'_*` come with their comparisons
 from the degreewise direct images and with the `IsRightDerivedFunctor` property, as in
 **Stacks 0FN6** and **Stacks 0FN7**. The second identity carries in addition the four derived
-adjunctions `Lg_! ⊣ g⁻¹`, `L(g')_! ⊣ (g')⁻¹` — these are **Stacks 07AS** (3), available in this
-development only conditionally — and `f⁻¹ ⊣ Rf_*`, `(f')⁻¹ ⊣ Rf'_*`; nothing more is used about
+adjunctions `Lg_! ⊣ g⁻¹`, `L(g')_! ⊣ (g')⁻¹` — these are **Stacks 07AS** (1), respectively
+(3), proved with no hypothesis in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteAbelianDerivedLowerShriek.lean`, but taken here as
+arbitrary inputs — and `f⁻¹ ⊣ Rf_*`, `(f')⁻¹ ⊣ Rf'_*`; nothing more is used about
 them than adjointness, which is all the source's formal argument needs.
 
 Grothendieck abelianness of the abelian sheaves on the four sites is *not* a hypothesis: each
@@ -128,8 +146,7 @@ flat-fppf sites this is already
 `AlgebraicGeometry.Stack.FlatFppf.isGrothendieckAbelian_sheaf_inclusionTopology`; for the étale
 and lisse-étale sites it is seated here, as the local instances
 `AlgebraicGeometry.Stack.LisseEtale.isGrothendieckAbelian_sheaf_associatedTopology` and
-`AlgebraicGeometry.Stack.LisseEtale.isGrothendieckAbelian_sheaf_inclusionTopology`. The module
-case of 07AV is not proved in this file.
+`AlgebraicGeometry.Stack.LisseEtale.isGrothendieckAbelian_sheaf_inclusionTopology`.
 
 ## References
 
@@ -299,12 +316,6 @@ abelian sheaves to injective ones, and that the degree-zero identification
 `R^p f_* ∘ g⁻¹ ≅ (g')⁻¹ ∘ R^p f'_*`
 
 in every degree `p`, which is the conclusion of **Stacks 0GR3**. -/
-@[stacks 0GR3 "the lisse-étale case, as an isomorphism of functors R^p f_* ∘ g⁻¹ ≅ (g')⁻¹ ∘ \
-R^p f'_* in every degree rather than as invertibility of the canonical base-change map, and \
-conditional on two things: its degree-zero case — the identification f'_*(g')⁻¹ = g⁻¹f_* of \
-Stacks 07AT (1), which rests on the instance of Stacks 07AK whose hypotheses the source declines \
-to verify — and restriction to the subsite preserving injective abelian sheaves, which is \
-Stacks 07AS (3)"]
 theorem rightDerivedPushforwardRestrictionIso (p : ℕ) :
     letI : (SubsitePushforward.subsiteFunctor f.hom.hom.toFunctor
         (smoothObject.{u, w} B S hS 𝒳)
@@ -410,7 +421,8 @@ local instance isGrothendieckAbelian_sheaf_inclusionTopology
       (inclusionTopology.{u, w} B S hS 𝒵)) AddCommGrpCat.{u + 1} := inferInstance
   exact Sheaf.isGrothendieckAbelian_of_essentiallySmall.{u + 1} _ _
 
-/-- **Stacks 07AV, the lisse-étale case for abelian sheaves: `g⁻¹ ∘ Rf_* = Rf'_* ∘ (g')⁻¹`.** Let
+/-- **A conditional form of Stacks 07AV, the lisse-étale case for abelian sheaves:
+`g⁻¹ ∘ Rf_* = Rf'_* ∘ (g')⁻¹`.** Let
 `f : 𝒳 ⟶ 𝒴` be a smooth 1-morphism of algebraic stacks, let `g⁻¹` and `(g')⁻¹` be restriction of
 abelian sheaves to the lisse-étale sites of `𝒴` and of `𝒳`, and let `f_*` and `f'_*` be the direct
 images along `f` and along its restriction `f'` to the lisse-étale sites. Suppose `(g')⁻¹` carries
@@ -424,15 +436,11 @@ Both restrictions are exact, so they act degreewise on derived categories, and t
 on the two sites of `𝒳` are Grothendieck abelian, so both sides are right derived functors of one
 and the same functor out of the homotopy category; the isomorphism is the comparison that the
 universal property produces. This is
-`Stacks.Cohomology.UnboundedComplexes.derivedBaseChangeIso` at this square of sites. -/
-@[stacks 07AV "the lisse-étale case for abelian sheaves, first identity: \
-Rf'_* ∘ (g')⁻¹ ≅ g⁻¹ ∘ Rf_* on the *unbounded* derived categories. An isomorphism rather than an \
-equality, a right derived functor being determined only up to a canonical isomorphism; the two \
-total right derived direct images, their comparisons from the degreewise direct images and the two \
-IsRightDerivedFunctor properties are carried as data, as in Stacks 0FN6 and 0FN7. Granted: that \
-restriction to the lisse-étale site carries K-injective cochain complexes to K-injective ones, \
-which is Stacks 08BJ from exactness of g_! = Stacks 07AS (3); and the degree-zero identification \
-f_* ∘ g⁻¹ ≅ (g')⁻¹ ∘ f'_* of Stacks 07AT (1). The module case is not proved here."]
+`Stacks.Cohomology.UnboundedComplexes.derivedBaseChangeIso` at this square of sites.
+This is not the statement of Stacks 07AV, and it is not registered under that tag: the hypothesis
+`hKinj` is false in general (see the module docstring), and `hzero` is assumed rather than proved.
+The unconditional statement is
+`AlgebraicGeometry.Stack.LisseEtale.derivedRestrictionBaseChangeIso`. -/
 theorem derivedPushforwardRestrictionIso :
     letI : (SubsitePushforward.subsiteFunctor f.hom.hom.toFunctor
         (smoothObject.{u, w} B S hS 𝒳)
@@ -525,10 +533,11 @@ theorem derivedPushforwardRestrictionIso :
       (subsiteRestriction B S hS 𝒴.val.val.p (etaleTopology B)
         (smoothObject.{u, w} B S hS 𝒴)) _ _ Rf Rf' αf αf' hzero.symm hKinj⟩
 
-/-- **Stacks 07AV, the lisse-étale case for abelian sheaves: `L(g')_! ∘ (f')⁻¹ = f⁻¹ ∘ Lg_!`.**
+/-- **The formal step of Stacks 07AV, the lisse-étale case for abelian sheaves:
+`L(g')_! ∘ (f')⁻¹ = f⁻¹ ∘ Lg_!`.**
 Let `Rf_*` and `Rf'_*` be the total right derived direct images along a smooth 1-morphism
 `f : 𝒳 ⟶ 𝒴` and along its restriction `f'` to the lisse-étale sites, let `Lg_!` and `L(g')_!` be
-the derived lower shrieks of **Stacks 07AS** (3) over `𝒴` and over `𝒳`, left adjoint to the derived
+the derived lower shrieks of **Stacks 07AS** (1) over `𝒴` and over `𝒳`, left adjoint to the derived
 restrictions `g⁻¹` and `(g')⁻¹`, and let `f⁻¹` and `(f')⁻¹` be the derived inverse images, left
 adjoint to `Rf_*` and `Rf'_*`. Then the base change isomorphism
 `σ : Rf'_* ∘ (g')⁻¹ ≅ g⁻¹ ∘ Rf_*` of
@@ -538,14 +547,12 @@ adjoint to `Rf_*` and `Rf'_*`. Then the base change isomorphism
 
 This is the source's "the rest of the proof is formal": the two sides are left adjoint to the two
 sides of `σ`, by composing the adjunctions, and `σ` is the conjugate of the asserted isomorphism
-under `CategoryTheory.conjugateIsoEquiv`. -/
-@[stacks 07AV "the lisse-étale case for abelian sheaves, second identity: \
-f⁻¹ ∘ Lg_! ≅ L(g')_! ∘ (f')⁻¹ on the unbounded derived categories, obtained formally from the \
-first identity as its conjugate under the composed adjunctions. An isomorphism rather than an \
-equality, the derived functors being determined only up to canonical isomorphism and carried as \
-data. Granted: the first identity itself, and the four derived adjunctions Lg_! ⊣ g⁻¹ and \
-L(g')_! ⊣ (g')⁻¹ — which are Stacks 07AS (3) — together with f⁻¹ ⊣ Rf_* and (f')⁻¹ ⊣ Rf'_*, which \
-are standard. The module case is not proved here."]
+under `CategoryTheory.conjugateIsoEquiv`.
+
+This is only the formal conjugation step, not the statement of Stacks 07AV, and it is not
+registered under that tag: the first identity `σ`, the derived functors and all four adjunctions
+are arbitrary inputs. The unconditional statement is
+`AlgebraicGeometry.Stack.LisseEtale.derivedLowerShriekBaseChangeIso`. -/
 def derivedShriekInverseImageIso
     (Rf : DerivedCategory (Sheaf (associatedTopology B S hS 𝒳.val.val.p (etaleTopology B))
         AddCommGrpCat.{u + 1}) ⥤
@@ -669,12 +676,6 @@ abelian sheaves to injective ones, and that the degree-zero identification
 `R^p f_* ∘ g⁻¹ ≅ (g')⁻¹ ∘ R^p f'_*`
 
 in every degree `p`, which is the conclusion of **Stacks 0GR3**. -/
-@[stacks 0GR3 "the flat-fppf case, as an isomorphism of functors R^p f_* ∘ g⁻¹ ≅ (g')⁻¹ ∘ \
-R^p f'_* in every degree rather than as invertibility of the canonical base-change map, and \
-conditional on two things: its degree-zero case — the identification f'_*(g')⁻¹ = g⁻¹f_* of \
-Stacks 07AT (2), which rests on the instance of Stacks 07AK whose hypotheses the source declines \
-to verify — and restriction to the subsite preserving injective abelian sheaves, which is \
-Stacks 07AS (3)"]
 theorem rightDerivedPushforwardRestrictionIso (p : ℕ) :
     letI : (SubsitePushforward.subsiteFunctor f.hom.hom.toFunctor
         (flatObject B S hS 𝒳.val)
@@ -741,7 +742,8 @@ section Unbounded
 
 attribute [local instance] HasDerivedCategory.standard
 
-/-- **Stacks 07AV, the flat-fppf case for abelian sheaves: `g⁻¹ ∘ Rf_* = Rf'_* ∘ (g')⁻¹`.** Let
+/-- **A conditional form of Stacks 07AV, the flat-fppf case for abelian sheaves:
+`g⁻¹ ∘ Rf_* = Rf'_* ∘ (g')⁻¹`.** Let
 `f : 𝒳 ⟶ 𝒴` be a flat 1-morphism of algebraic stacks, let `g⁻¹` and `(g')⁻¹` be restriction of
 abelian sheaves to the flat-fppf sites of `𝒴` and of `𝒳`, and let `f_*` and `f'_*` be the direct
 images along `f` and along its restriction `f'` to the flat-fppf sites. Suppose `(g')⁻¹` carries
@@ -755,15 +757,11 @@ Both restrictions are exact, so they act degreewise on derived categories, and t
 on the two sites of `𝒳` are Grothendieck abelian, so both sides are right derived functors of one
 and the same functor out of the homotopy category; the isomorphism is the comparison that the
 universal property produces. This is
-`Stacks.Cohomology.UnboundedComplexes.derivedBaseChangeIso` at this square of sites. -/
-@[stacks 07AV "the flat-fppf case for abelian sheaves, first identity: \
-Rf'_* ∘ (g')⁻¹ ≅ g⁻¹ ∘ Rf_* on the *unbounded* derived categories. An isomorphism rather than an \
-equality, a right derived functor being determined only up to a canonical isomorphism; the two \
-total right derived direct images, their comparisons from the degreewise direct images and the two \
-IsRightDerivedFunctor properties are carried as data, as in Stacks 0FN6 and 0FN7. Granted: that \
-restriction to the flat-fppf site carries K-injective cochain complexes to K-injective ones, \
-which is Stacks 08BJ from exactness of g_! = Stacks 07AS (3); and the degree-zero identification \
-f_* ∘ g⁻¹ ≅ (g')⁻¹ ∘ f'_* of Stacks 07AT (2). The module case is not proved here."]
+`Stacks.Cohomology.UnboundedComplexes.derivedBaseChangeIso` at this square of sites.
+This is not the statement of Stacks 07AV, and it is not registered under that tag: the hypothesis
+`hKinj` is false in general (see the module docstring), and `hzero` is assumed rather than proved.
+The unconditional statement is
+`AlgebraicGeometry.Stack.FlatFppf.derivedRestrictionBaseChangeIso`. -/
 theorem derivedPushforwardRestrictionIso :
     letI : (SubsitePushforward.subsiteFunctor f.hom.hom.toFunctor
         (flatObject B S hS 𝒳.val)
@@ -853,7 +851,8 @@ theorem derivedPushforwardRestrictionIso :
       (subsiteRestriction B S hS 𝒴.val.val.p B.topology
         (flatObject B S hS 𝒴.val)) _ _ Rf Rf' αf αf' hzero.symm hKinj⟩
 
-/-- **Stacks 07AV, the flat-fppf case for abelian sheaves: `L(g')_! ∘ (f')⁻¹ = f⁻¹ ∘ Lg_!`.**
+/-- **The formal step of Stacks 07AV, the flat-fppf case for abelian sheaves:
+`L(g')_! ∘ (f')⁻¹ = f⁻¹ ∘ Lg_!`.**
 Let `Rf_*` and `Rf'_*` be the total right derived direct images along a flat 1-morphism
 `f : 𝒳 ⟶ 𝒴` and along its restriction `f'` to the flat-fppf sites, let `Lg_!` and `L(g')_!` be the
 derived lower shrieks of **Stacks 07AS** (3) over `𝒴` and over `𝒳`, left adjoint to the derived
@@ -866,14 +865,12 @@ adjoint to `Rf_*` and `Rf'_*`. Then the base change isomorphism
 
 This is the source's "the rest of the proof is formal": the two sides are left adjoint to the two
 sides of `σ`, by composing the adjunctions, and `σ` is the conjugate of the asserted isomorphism
-under `CategoryTheory.conjugateIsoEquiv`. -/
-@[stacks 07AV "the flat-fppf case for abelian sheaves, second identity: \
-f⁻¹ ∘ Lg_! ≅ L(g')_! ∘ (f')⁻¹ on the unbounded derived categories, obtained formally from the \
-first identity as its conjugate under the composed adjunctions. An isomorphism rather than an \
-equality, the derived functors being determined only up to canonical isomorphism and carried as \
-data. Granted: the first identity itself, and the four derived adjunctions Lg_! ⊣ g⁻¹ and \
-L(g')_! ⊣ (g')⁻¹ — which are Stacks 07AS (3) — together with f⁻¹ ⊣ Rf_* and (f')⁻¹ ⊣ Rf'_*, which \
-are standard. The module case is not proved here."]
+under `CategoryTheory.conjugateIsoEquiv`.
+
+This is only the formal conjugation step, not the statement of Stacks 07AV, and it is not
+registered under that tag: the first identity `σ`, the derived functors and all four adjunctions
+are arbitrary inputs. The unconditional statement is
+`AlgebraicGeometry.Stack.FlatFppf.derivedLowerShriekBaseChangeIso`. -/
 def derivedShriekInverseImageIso
     (Rf : DerivedCategory (Sheaf (associatedTopology B S hS 𝒳.val.val.p B.topology)
         AddCommGrpCat.{u + 1}) ⥤

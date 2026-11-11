@@ -19,7 +19,11 @@ H₂(C_{B/A}, 𝒥/𝒥²) ⟶ H₀(C_{B/A}, Tor₁^𝒪(𝒥, B̲))
 of the spectral sequence of Remark 08R7 is an isomorphism, and, combining with the isomorphism
 `H₂(C_{B/A}, 𝒥/𝒥²) ≅ H₂(L_{B/A})` (registered in
 `StacksFrontier/Cotangent/SurjectivePresentationHigherHomology.lean`), that
-`H₂(L_{B/A}) = H₀(C_{B/A}, Tor₁^𝒪(𝒥, B̲))`. This file proves both.
+`H₂(L_{B/A}) = H₀(C_{B/A}, Tor₁^𝒪(𝒥, B̲))`. The spectral sequence of Remark 08R7 is not
+constructed here: its differential `d₂` is modelled as the composite of two connecting maps
+(see the implementation notes for why this composite is `d₂` up to the sign convention; that
+identification is argued in prose, not proved in Lean). This file proves that the composite is an
+isomorphism, and the resulting formula for `H₂(L_{B/A})`.
 
 As in the other registrations of Tag 09D5, homology on `C_{B/A}` is read on the standard
 resolution `P_• → B` (Tag 08PS): the homology `H_n(C_{B/A}, ℱ)` of a sheaf of `𝒪`-modules `ℱ`
@@ -54,7 +58,9 @@ the sheaves of the source.
 
 ## Implementation notes
 
-**The differential, and why it is the one of the spectral sequence.** The spectral sequence of
+**The differential, and why it models the one of the spectral sequence.** The following is
+an informal argument; the spectral sequence is not built in Lean, so the identification below is
+not a formal theorem. The spectral sequence of
 Remark 08R7 is the hyperhomology spectral sequence of `Lπ_!` for `K = 𝒥 ⊗^L_𝒪 B̲` and the
 filtration of `K` by its canonical truncations, `E²_{p,q} = H_p(C_{B/A}, H_q(K))` with
 `H_q(K) = Tor_q^𝒪(𝒥, B̲)`. For such a spectral sequence the differential
@@ -717,8 +723,9 @@ def conormalHomologyRestrictIso (n : ℕ) :
 
 /-- **The differential `H₂(C_{B/A}, 𝒥/𝒥²) → H₀(C_{B/A}, Tor₁^𝒪(𝒥, B̲))` of Stacks 09D5**: the
 composite of the connecting maps of `0 → 𝒥² → 𝒥 → 𝒥/𝒥² → 0` and
-`0 → Tor₁^𝒪(𝒥, B̲) → 𝒥 ⊗_𝒪 𝒥 → 𝒥² → 0`, which is the differential `d₂` of the spectral sequence
-of Remark 08R7 (module docstring). -/
+`0 → Tor₁^𝒪(𝒥, B̲) → 𝒥 ⊗_𝒪 𝒥 → 𝒥² → 0`. This composite models the differential `d₂` of the
+spectral sequence of Remark 08R7, up to the sign convention; the spectral sequence is not built in
+Lean and that identification is the informal argument of the module docstring, not a theorem. -/
 def conormalTorOneDifferential :
     (ModuleCat.restrictScalars (algebraMap A B)).obj
         ((conormalMooreComplex.{u, v} A B).homology 2) ⟶
@@ -727,11 +734,15 @@ def conormalTorOneDifferential :
     sqToTorOneδ.{u, v} A B
 
 /-- **Stacks 09D5: the differential `H₂(C_{B/A}, 𝒥/𝒥²) → H₀(C_{B/A}, Tor₁^𝒪(𝒥, B̲))` of the
-spectral sequence of Remark 08R7 is an isomorphism.** The differential is the composite of the two
-connecting maps, which is `d₂` of that spectral sequence (see the module docstring); each is an
-isomorphism because `H₁` and `H₂` of `𝒥`, and `H₀` and `H₁` of `𝒥 ⊗_𝒪 𝒥`, vanish. -/
-@[stacks 09D5 "the differential H₂(C_{B/A}, 𝒥/𝒥²) → H₀(C_{B/A}, Tor₁^𝒪(𝒥, B̲)) of the spectral \
-  sequence of Remark 08R7 is an isomorphism, read on the standard resolution"]
+spectral sequence of Remark 08R7 is an isomorphism.** The differential is modelled as the
+composite of the two connecting maps, which is `d₂` of that spectral sequence up to sign by the
+informal argument of the module docstring (the spectral sequence is not built in Lean, so this
+identification is not proved); each connecting map is an isomorphism because `H₁` and `H₂` of
+`𝒥`, and `H₀` and `H₁` of `𝒥 ⊗_𝒪 𝒥`, vanish. -/
+@[stacks 09D5 "the differential H₂(C_{B/A}, 𝒥/𝒥²) → H₀(C_{B/A}, Tor₁^𝒪(𝒥, B̲)) is an \
+  isomorphism, read on the standard resolution; the differential is modelled as the composite of \
+  the two connecting maps, which is d₂ of the spectral sequence of Remark 08R7 up to sign (not \
+  proved, the spectral sequence is not built)"]
 theorem isIso_conormalTorOneDifferential : IsIso (conormalTorOneDifferential.{u, v} A B) := by
   unfold conormalTorOneDifferential
   infer_instance

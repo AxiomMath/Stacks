@@ -252,8 +252,10 @@ ordinary extension of scalars of the model is the model of the inverse-image cov
 appeal to `AlgebraicGeometry.ProperCoherentImage.HigherDirectImageIsCoherentOverAffineBase`,
 which clause (1) threads and clause (2) does not need. The hypotheses are weaker than the
 source's: for `A` Noetherian, `f` proper and `F` coherent and flat they hold, a suitable cover
-being supplied by `exists_finiteAffineCover_of_isProper`. -/
-@[stacks 07VK "(2), for the Čech base-change comparison of a finite affine cover"]
+being supplied by `exists_finiteAffineCover_of_isProper`. Both clauses of the tag, under the
+source's hypotheses, are stated together in
+`Stacks.AlgebraicGeometry.ProperFlatGlobalSections.isPerfect_and_isIso_baseChange`, which carries
+the tag. -/
 theorem isIso_derivedGlobalSectionsBaseChangeMap
     (hflat : IsFlatOver f.toLRSHom.toShHom F) :
     IsIso (derivedGlobalSectionsBaseChangeMap φ hsq F U hU hUaff haff) := by

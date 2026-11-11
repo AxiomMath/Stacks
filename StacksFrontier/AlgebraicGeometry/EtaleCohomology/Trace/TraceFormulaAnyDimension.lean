@@ -38,17 +38,20 @@ fields spelled out one at a time, so that the identity is deduced from the trace
 
 This is not the source's dévissage.  The source reduces the general case to the
 dimension-one case using proper base change, so that in any dimension the two inputs are
-produced rather than assumed; that reduction is not formalized, and neither is the
-filtration of `RΓ_c(X_k̄, K)` it rests on.  What is formalized is that the inputs suffice
-whatever the dimension of `X` is.  A reduction along a *finite stratification* of `X` by
-subschemes of dimension at most one, which `Stacks.EtaleCohomology.StratifiedDevissage` would
-support, is not available either, and not for want of machinery: a scheme of dimension two is
+produced rather than assumed.  That reduction, and with it Remark 03UI (1) in full, is
+`Stacks.EtaleCohomology.canonicalTraceFormula_of_isCtf` in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Trace.TraceFormulaAnyDimensionCtf`.  What this
+file records is that the inputs suffice whatever the dimension of `X` is.  A reduction along a
+*finite stratification* of `X` by subschemes of dimension at most one, which
+`Stacks.EtaleCohomology.StratifiedDevissage` would support, is not available, and not for want
+of machinery: a scheme of dimension two is
 not a finite union of locally closed subschemes of dimension at most one, so such a statement
 would be empty above dimension one.
 
 ## References
 
-* [Stacks Project, Tag 03UI](https://stacks.math.columbia.edu/tag/03UI), item (1)
+* [Stacks Project, Tag 03UI](https://stacks.math.columbia.edu/tag/03UI), item (1); the full
+  statement is `Stacks.EtaleCohomology.canonicalTraceFormula_of_isCtf`
 * [Stacks Project, Tag 03UG](https://stacks.math.columbia.edu/tag/03UG)
 * [Stacks Project, Tag 03TZ](https://stacks.math.columbia.edu/tag/03TZ)
 -/
@@ -65,7 +68,7 @@ namespace Stacks.EtaleCohomology
 
 attribute [local instance] HasDerivedCategory.standard
 
-/-- **The trace formula in any dimension (Stacks 03UI, item (1)).**  Let `k` be a finite field
+/-- **The trace formula in any dimension, from its inputs.**  Let `k` be a finite field
 with `p ^ q` elements, let `k̄` be an algebraically closed extension of `k`, let `X` be a
 separated scheme of finite type over `k` — of arbitrary dimension — let `Λ` be a finite ring
 whose cardinality is prime to that of `k`, and let `K` be a bounded below complex of sheaves of
@@ -77,10 +80,8 @@ in `Λ^natural`, given the dévissage of `RΓ_c(X_k̄, K)` along the rational po
 identification of its graded pieces and the Galois descent of Steps 7 to 9 of the source.  The
 bound `topologicalKrullDim X ≤ 1` of
 `Stacks.EtaleCohomology.compactSupportLefschetzNumber_eq_localLefschetzNumber` plays no part in
-the deduction and is absent here. -/
-@[stacks 03UI "item (1) RESTRICTED: the 03UG identity with no bound on the dimension of X, from \
-the Step 1 devissage with its identifications (devissage, hglobal, hstalk) and the Steps 7 to 9 \
-Galois descent of 03TZ; the source's reduction of the general case to dimension one is not here"]
+the deduction and is absent here.  Remark 03UI (1), with these inputs produced from
+`K ∈ D_ctf(X, Λ)`, is `Stacks.EtaleCohomology.canonicalTraceFormula_of_isCtf`. -/
 public theorem compactSupportLefschetzNumber_eq_localLefschetzNumber_of_galoisDescent
     {k : Type u} [Field k] [Fintype k] {p q : ℕ} [Fact p.Prime] [CharP k p]
     (hcard : Fintype.card k = p ^ q) (Y : Over (Spec (.of k)))

@@ -117,8 +117,9 @@ end
 /-- Let `R` be a ring and let `φ : M →ₗ[R] N` be a map of `R`-modules whose cokernel `N ⧸ φ.range`
 is a finite `R`-module. Then the set of primes `p` of `R` such that the localized map
 `φ_p : M_p → N_p` is surjective is the set of primes `p` such that the fibre map
-`φ ⊗ κ(p) : M ⊗_R κ(p) → N ⊗_R κ(p)` is surjective. -/
-@[stacks 05GE "the equality of the two loci in the displayed formula"]
+`φ ⊗ κ(p) : M ⊗_R κ(p) → N ⊗_R κ(p)` is surjective. This is the displayed equality of
+Stacks 05GE; the full lemma is
+`LinearMap.surjectivityLocus_eq_and_isOpen_and_surjective_away`. -/
 public theorem LinearMap.setOf_localizedMap_atPrime_surjective_eq_setOf_baseChange_surjective
     {R M N : Type*} [CommRing R] [AddCommGroup M] [Module R M] [AddCommGroup N] [Module R N]
     (φ : M →ₗ[R] N) [Module.Finite R (N ⧸ φ.range)] :

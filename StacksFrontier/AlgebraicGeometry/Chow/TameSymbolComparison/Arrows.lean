@@ -313,7 +313,7 @@ arrows Stacks.Chow.milnorChainBoundary is zero, and it follows from Lemma 0EAX. 
 locally of finite type over the base of chapter 42 with the induced dimension function, and for X \
 whose local rings of dimension one at the closures of points have finite normalization -- the \
 case of a Nagata, in particular an excellent, X, which is the setting in which the remark \
-constructs ∂_A by normalization and norm maps. There ∂_A is the tame symbol d_A of Section 42.5 in \
+constructs ∂_A by normalization and norm maps. There ∂_A is the symbol d_A of Stacks 02Q1 in \
 degree two and ord_A in degree one, so the arrows are the differentials of Stacks 0GU9, whose \
 composite vanishes by Lemma 0EAX"]
 theorem milnorChainBoundary_comp_milnorChainBoundary_eq_zero

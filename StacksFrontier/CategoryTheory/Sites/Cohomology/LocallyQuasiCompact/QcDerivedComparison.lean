@@ -69,8 +69,8 @@ theorem isZero_rightDerived_qcAbelianDirectImage_obj_qcTopologicalInverseImage
 /-- **Stacks 0DCY (1).** For `X` in `LC_qc` and an abelian sheaf `F` on `X`, the change-of-topology
 unit `π_X^{-1}F ⟶ ε_{X,*}ε_X^{-1}π_X^{-1}F = ε_{X,*}a_X^{-1}F` is an isomorphism, that is
 `ε_{X,*}a_X^{-1}F = π_X^{-1}F`, and `R^i ε_{X,*}(a_X^{-1}F) = 0` for `i > 0`. -/
-@[stacks 0DCY "clause (1): `ε_{X,*}a_X^{-1}F = π_X^{-1}F` (the unit is an isomorphism) and
-`R^i ε_{X,*}(a_X^{-1}F) = 0` for `i > 0`"]
+@[stacks 0DCY "clause (1): for `X` in `LC_qc` and an abelian sheaf `F` on `X`, the unit
+`π_X^{-1}F ⟶ ε_{X,*}a_X^{-1}F` is an isomorphism and `R^i ε_{X,*}(a_X^{-1}F) = 0` for `i > 0`"]
 theorem isIso_qcAbelianComparisonAdjunction_unit_app_and_isZero_rightDerived
     (S : LocallyQuasiCompactZariskiSituation.{u, w} S₀ Bound) (X : S.category)
     (F : Sheaf (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v}) :
@@ -85,8 +85,8 @@ theorem isIso_qcAbelianComparisonAdjunction_unit_app_and_isZero_rightDerived
 
 /-- **Stacks 0DCY (2).** For a proper morphism `f : X ⟶ Y` of `LC_qc` and an abelian sheaf `F` on
 `X`, `a_Y^{-1}(R^i f_*F) = R^i f_{qc,*}(a_X^{-1}F)` for every `i`. -/
-@[stacks 0DCY "clause (2): `a_Y^{-1}(R^i f_* F) = R^i f_{qc,*}(a_X^{-1}F)` for proper `f` and
-every `i`"]
+@[stacks 0DCY "clause (2): an isomorphism `a_Y^{-1}(R^i f_* F) ≅ R^i f_{qc,*}(a_X^{-1}F)` for
+a proper morphism `f : X ⟶ Y` of `LC_qc`, an abelian sheaf `F` on `X` and every `i`"]
 def qcTopologicalHigherDirectImageIsoOfProper
     (S : LocallyQuasiCompactZariskiSituation.{u, w} S₀ Bound) {X Y : S.category} (f : X ⟶ Y)
     (hf : S.properMorphisms f) (i : ℕ)
@@ -160,8 +160,8 @@ theorem isIso_mapHomotopyCategoryPlusNatTrans_app {A B : Type*} [Category* A] [C
 
 /-- **Stacks 0DCY (3).** For `X` in `LC_qc` and `K` in `D⁺(X)`, the canonical map
 `π_X^{-1}K ⟶ Rε_{X,*}(a_X^{-1}K)` is an isomorphism. -/
-@[stacks 0DCY "clause (3): `π_X^{-1}K ⟶ Rε_{X,*}(a_X^{-1}K)` is an isomorphism for `K` in
-`D⁺(X)`"]
+@[stacks 0DCY "clause (3): for `X` in `LC_qc` and `K` in `D⁺(X)`, the canonical map
+`π_X^{-1}K ⟶ Rε_{X,*}(a_X^{-1}K)` is an isomorphism"]
 theorem isIso_qcDerivedComparisonUnit_app_abelianComparisonInverseImage
     (S : LocallyQuasiCompactZariskiSituation.{u, w} S₀ Bound) (X : S.category)
     (K : DerivedCategory.Plus
@@ -337,8 +337,8 @@ theorem isIso_qcDerivedComparisonBaseChangeMap_app_Qh_obj
 
 /-- **Stacks 0DCY (4).** For a proper morphism `f : X ⟶ Y` of `LC_qc` and `K` in `D⁺(X)`, the
 canonical map `a_Y^{-1}(Rf_*K) ⟶ Rf_{qc,*}(a_X^{-1}K)` is an isomorphism. -/
-@[stacks 0DCY "clause (4): `a_Y^{-1}(Rf_*K) = Rf_{qc,*}(a_X^{-1}K)` for proper `f` and `K` in
-`D⁺(X)`"]
+@[stacks 0DCY "clause (4): for a proper morphism `f : X ⟶ Y` of `LC_qc` and `K` in `D⁺(X)`,
+the base change map `a_Y^{-1}(Rf_*K) ⟶ Rf_{qc,*}(a_X^{-1}K)` is an isomorphism"]
 theorem isIso_qcTopologicalDerivedBaseChangeMap_app_of_proper
     (S : LocallyQuasiCompactZariskiSituation.{u, w} S₀ Bound) {X Y : S.category} (f : X ⟶ Y)
     (hf : S.properMorphisms f)

@@ -49,7 +49,7 @@ The dominating valuation subring is Mathlib's `LocalSubring.exists_le_valuationS
 (Stacks 00IA), and normality of a valuation ring is Mathlib's `IsIntegrallyClosed` instance on
 `ValuationSubring` (Stacks 00IC, recorded as `valuationRing_isIntegrallyClosed` in
 `StacksFrontier.RingTheory.Valuation.Criteria`). Strict henselianity comes from
-`normal_local_domain_sepClosed_fractionField_isStrictlyHenselian` (Stacks 04GF, 0BSQ).
+`normal_local_domain_sepClosed_fractionField_isStrictlyHenselian` (Stacks 0BSQ).
 
 ## References
 
@@ -90,7 +90,7 @@ theorem IsLocalRing.isAlgClosed_residueField_of_isIntegrallyClosed
   rw [← hg_map, Polynomial.eval_map, Polynomial.eval₂_at_apply, hgc, map_zero]
 
 /-- A normal local domain whose fraction field is separably closed is strictly henselian.
-This is `normal_local_domain_sepClosed_fractionField_isStrictlyHenselian` (Stacks 04GF, 0BSQ)
+This is `normal_local_domain_sepClosed_fractionField_isStrictlyHenselian` (Stacks 0BSQ)
 packaged as the class `StrictlyHenselianLocalRing` (Stacks 03QK). -/
 theorem strictlyHenselianLocalRing_of_isIntegrallyClosed
     (R : Type*) [CommRing R] [IsLocalRing R] [IsDomain R] [IsIntegrallyClosed R]

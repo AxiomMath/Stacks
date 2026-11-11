@@ -24,7 +24,8 @@ an isomorphism, and therefore `E` is the pullback of a finite locally free modul
 * `AlgebraicGeometry.IsDescentLocus.exists_finiteLocallyFree_iso_of_fiberwiseFree`: the
   conclusion of Tag 0EX7 for a given descent locus.
 * `AlgebraicGeometry.exists_finiteLocallyFree_iso_of_fiberwiseFree`: the same conclusion from
-  representability of the descent condition.
+  representability of the descent condition; Tag 0EX7 under its own hypotheses is
+  `AlgebraicGeometry.exists_finiteLocallyFree_iso_of_fiberwiseFree_of_isReduced`.
 
 ## Implementation notes
 
@@ -36,14 +37,13 @@ there is the free module of the same rank, by
 `RingedSpaceModuleAdjunction.modulePullbackObjFreeIso`.
 
 Representability of the descent condition — the existence statement of Tag 0BDP, which is
-`AlgebraicGeometry.HasDescentLocus` — is not available in this library, so it appears as an
-explicit hypothesis rather than being discharged. It is a *necessary* hypothesis: as
+`AlgebraicGeometry.HasDescentLocus` — appears here as an explicit hypothesis, so that this file
+depends on no hypothesis on `f`. It is a *necessary* hypothesis: as
 `AlgebraicGeometry.hasDescentLocus_of_exists_finiteLocallyFree_iso` shows, the conclusion of
-Tag 0EX7 implies it. The `@[stacks 0EX7]` attribute on
-`AlgebraicGeometry.exists_finiteLocallyFree_iso_of_fiberwiseFree` therefore carries the scope
-label `"assuming the representability of the descent locus of Tag 0BDP"`: the tag asserts its
-conclusion outright, whereas what is proved here is its reduction to representability, and the
-label records that gap wherever the attribute is read.
+Tag 0EX7 implies it. Under the hypotheses of Tag 0BDP it is proved as
+`AlgebraicGeometry.hasDescentLocus_of_flat_of_isProper`, and Tag 0EX7 itself, under exactly the
+source's hypotheses, is
+`AlgebraicGeometry.exists_finiteLocallyFree_iso_of_fiberwiseFree_of_isReduced`.
 
 ## References
 
@@ -206,18 +206,18 @@ theorem hasDescentLocus_of_exists_finiteLocallyFree_iso {X S : Scheme.{u}} (f : 
       modulePullbackIsoOfComp (pullback.fst f g) f _ rfl N ≪≫
       (modulePullback (pullback.fst f g).toLRSHom.toShHom).mapIso e⟩
 
-/-- **Stacks Tag 0EX7, reduced to representability of the descent condition.** A finite locally
-free module on `X` whose restriction to every fibre of `f` is free of finite rank is the pullback
-of a finite locally free module on the reduced base `S`, provided the descent condition for it is
-represented — that is, provided the conclusion of Stacks Tag 0BDP holds for `f` and `E`.
+/-- **A fibrewise free module over a reduced base descends, given a descent locus.** A finite
+locally free module on `X` whose restriction to every fibre of `f` is free of finite rank is the
+pullback of a finite locally free module on the reduced base `S`, provided the descent condition
+for it is represented, as in Stacks Tag 0BDP.
 
-Tag 0BDP's hypotheses on `f` — flatness, properness, finite presentation, and invariance of the
-structure sheaf under pushforward along every base change — enter only through that
-representability, and so do not appear. -/
-@[stacks 0EX7 "assuming the representability of the descent locus of Tag 0BDP"]
+No hypothesis on `f` is needed beyond that representability. For `f` flat, proper, of finite
+presentation and with `f_*𝒪_X = 𝒪_S` after every base change, representability is
+`AlgebraicGeometry.hasDescentLocus_of_flat_of_isProper`, and the resulting statement, Stacks
+Tag 0EX7, is `AlgebraicGeometry.exists_finiteLocallyFree_iso_of_fiberwiseFree_of_isReduced`. -/
 theorem exists_finiteLocallyFree_iso_of_fiberwiseFree {X S : Scheme.{u}} (f : X ⟶ S)
     (E : _root_.SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
-    (h0BDP : HasDescentLocus f E) [IsReduced S]
+    (hD : HasDescentLocus f E) [IsReduced S]
     (hfiber : ∀ s : S, ∃ r : ℕ,
       Nonempty ((modulePullback
           (pullback.fst f (S.fromSpecResidueField s)).toLRSHom.toShHom).obj E ≅
@@ -225,31 +225,7 @@ theorem exists_finiteLocallyFree_iso_of_fiberwiseFree {X S : Scheme.{u}} (f : X 
     ∃ N : _root_.SheafOfModules.{u} (structureSheafRing S.toRingedSpace),
       SheafOfModules.IsFiniteLocallyFree.{u, u, u} N ∧
         Nonempty ((modulePullback f.toLRSHom.toShHom).obj N ≅ E) :=
-  (isDescentLocus_descentLocus f E h0BDP).exists_finiteLocallyFree_iso_of_fiberwiseFree hfiber
-
--- **Stacks Tag 0EX7**, stated with its hypotheses copied from the source and with
--- representability of the descent condition -- the conclusion of Stacks Tag 0BDP, which is not
--- proved in this library -- added as the one extra hypothesis `h0BDP`.
---
--- The flatness, properness and finite presentation of `f`, the invariance of its direct image of
--- the structure sheaf under arbitrary base change, and the finite local freeness of `E` are
--- carried unchanged from the tag. They are exactly the hypotheses of Tag 0BDP, and once `h0BDP`
--- is assumed none of them is used again, which is why this is an `example`: a named declaration
--- would be reported by the `unusedArguments` linter.
-example {X S : Scheme.{u}} (f : X ⟶ S) [Flat f] [IsProper f] (_hfp : FinitePresentation f)
-    (_hO : ∀ {T : Scheme.{u}} (g : T ⟶ S),
-      IsIso (structureSheafHom (pullback.snd f g).toLRSHom.toShHom))
-    (E : _root_.SheafOfModules.{u} (structureSheafRing X.toRingedSpace))
-    (_hE : SheafOfModules.IsFiniteLocallyFree.{u, u, u} E)
-    (hfiber : ∀ s : S, ∃ r : ℕ,
-      Nonempty ((modulePullback
-          (pullback.fst f (S.fromSpecResidueField s)).toLRSHom.toShHom).obj E ≅
-        _root_.SheafOfModules.free (ULift.{u} (Fin r))))
-    [IsReduced S] (h0BDP : HasDescentLocus f E) :
-    ∃ N : _root_.SheafOfModules.{u} (structureSheafRing S.toRingedSpace),
-      SheafOfModules.IsFiniteLocallyFree.{u, u, u} N ∧
-        Nonempty ((modulePullback f.toLRSHom.toShHom).obj N ≅ E) :=
-  exists_finiteLocallyFree_iso_of_fiberwiseFree f E h0BDP hfiber
+  (isDescentLocus_descentLocus f E hD).exists_finiteLocallyFree_iso_of_fiberwiseFree hfiber
 
 end AlgebraicGeometry
 

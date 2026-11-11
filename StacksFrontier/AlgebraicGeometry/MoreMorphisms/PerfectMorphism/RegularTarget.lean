@@ -16,11 +16,14 @@ A morphism of schemes locally of finite type over a regular scheme is perfect.
 ## Implementation notes
 
 Regularity of the target is `AlgebraicGeometry.IsRegular`, which is Stacks 02IS: every point has
-an affine open neighbourhood whose ring of sections is regular. Those neighbourhoods are an affine
-open cover of the target, and the affine opens of the source inside the preimage of each of them
-are an affine open cover of that preimage, so Stacks 0686 reduces the statement to its
-ring-theoretic form: a finite-type ring map out of a regular ring is perfect, which is Stacks
-067K as `RingHom.isPerfectRingMap_of_finiteType_of_isRegularRing`.
+an affine open neighbourhood whose ring of sections is regular. Those neighbourhoods cover the
+target, and perfectness is the affine-local property attached to `RingHom.Perfect`
+(`AlgebraicGeometry.hasRingHomProperty_perfect`), so it is local on the target, and over an affine
+open of the target it may be checked on the affine opens of the preimage (Mathlib's
+`AlgebraicGeometry.IsZariskiLocalAtTarget.of_iSup_eq_top` and
+`AlgebraicGeometry.HasRingHomProperty.of_iSup_eq_top`; this is Stacks 0686). That reduces the
+statement to its ring-theoretic form: a finite-type algebra over a regular ring is perfect, which
+is Stacks 067K as `Algebra.Perfect.of_finiteType_of_isRegularRing`.
 
 The ring of sections of a member of the cover need not have finite Krull dimension — a regular
 Noetherian ring of infinite Krull dimension has infinite global dimension — so the source's extra
@@ -39,10 +42,8 @@ dimension bound.
 
 public section
 
-open CategoryTheory StacksDraft.TorAmplitude
+open CategoryTheory
 open scoped AlgebraicGeometry
-
-attribute [local instance] HasDerivedCategory.standard
 
 universe u
 
@@ -53,19 +54,21 @@ perfect. -/
 @[stacks 068B]
 public theorem perfect_of_isRegular {X S : Scheme.{u}} (f : X ⟶ S) (hS : IsRegular S)
     [LocallyOfFiniteType f] : Perfect f := by
-  rw [perfect_iff_exists_affine_openCover]
   choose U hxU hU using hS
-  refine ⟨S, fun s => (U s).1, ?_, fun s => (U s).2, fun s => ?_⟩
-  · exact eq_top_iff.mpr fun s _ => TopologicalSpace.Opens.mem_iSup.mpr ⟨s, hxU s⟩
-  · refine ⟨{V : X.affineOpens // V.1 ≤ f ⁻¹ᵁ (U s).1}, fun i => i.1.1,
-      iSup_affineOpens_subtype_eq _, fun i => i.1.2, fun i => ?_⟩
-    intro _ D
-    let : Algebra Γ(S, (U s).1) Γ(X, i.1.1) :=
-      (f.appLE _ _ ((le_iSup _ i).trans (iSup_affineOpens_subtype_eq _).le)).hom.toAlgebra
-    let : IsRegularRing Γ(S, (U s).1) := hU s
-    let : Algebra.FiniteType Γ(S, (U s).1) Γ(X, i.1.1) := f.finiteType_appLE (U s).2 i.1.2 _
-    exact RingHom.isPerfectRingMap_of_finiteType_of_isRegularRing _ _
-      D.tensor D.comparison D.isLeftDerived
+  refine IsZariskiLocalAtTarget.of_iSup_eq_top (P := @Perfect) (fun s => (U s).1)
+    (eq_top_iff.mpr fun s _ => TopologicalSpace.Opens.mem_iSup.mpr ⟨s, hxU s⟩) fun s => ?_
+  have (W : X.Opens) (hW : IsAffineOpen W) (e : W ≤ f ⁻¹ᵁ (U s).1) :
+      (f.appLE _ W e).hom.Perfect := by
+    have := hU s
+    have := f.finiteType_appLE (U s).2 hW e
+    algebraize [(f.appLE _ W e).hom]
+    exact RingHom.perfect_algebraMap.mpr (Algebra.Perfect.of_finiteType_of_isRegularRing _ _)
+  refine HasRingHomProperty.of_iSup_eq_top (P := @Perfect) (fun V => V)
+    (iSup_affineOpens_eq_top _) fun V => ?_
+  refine (congrArg (fun φ => φ.hom.Perfect)
+    (morphismRestrict_appLE f (U s).1 ⊤ V.1 le_top)).mpr ?_
+  refine (f.appLE_congr _ (U s).1.ι_image_top rfl fun φ => φ.hom.Perfect).mpr ?_
+  exact this _ (V.2.image_of_isOpenImmersion _) _
 
 end AlgebraicGeometry
 

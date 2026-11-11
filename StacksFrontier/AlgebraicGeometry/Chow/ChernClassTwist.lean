@@ -21,61 +21,25 @@ twist:
 
   `c_i(ℰ ⊗ ℒ) = ∑_{j=0}^{i} binom(r - i + j, j) c_{i-j}(ℰ) c₁(ℒ)^j`.
 
-This file proves that identity **componentwise, as an identity between cap products on Chow
-groups**: the right-hand side is the binomial transform of
-`StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.BinomialInversion` along `c₁(ℒ) ∩ -`, so for an
-`n`-cycle `α` on `X` the statement reads
+The identity itself, in the Chow cohomology of `X` and for the genuine Chern classes, is
+`Stacks.Chow.TotalChowClass.totalChern_sheafTensor` (and, degree by degree,
+`Stacks.Chow.TotalChowClass.totalChern_sheafTensor_degree`), in
+`StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.TwistFormula`; that is where Stacks 02UD
+is registered.
 
-  `c_m(ℰ ⊗ ℒ) ∩ α = binomialTransform (c₁(ℒ) ∩ -) r (j ↦ c_j(ℰ) ∩ α) m`,  `m ≤ r`,
-
-in `A_{n-m}(X)`. That is the shape in which Stacks 02UH consumes the formula; see
-`Stacks.Chow.chernClassCapExt_succ_eq_add_firstChernCap`.
-
-## Why componentwise, and not in `A^*(X)`
-
-The source states the identity in the bivariant ring `A^*(X)`. There is no such ring here:
-`Stacks.Chow.chowCohomology` carries no multiplication, the product being composition of
-bivariant classes, which is unproved in this repository — see the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.ChowCohomology`. The source's own proof
-reduces the identity in `A^*(X)` to the cap products on cycles, by Stacks 02UC, and it is at
-that level that everything below is stated; the same reduction is what
-`StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.CapProductRelation` performs for Stacks 02UH.
-
-## The argument, and what is carried
-
-Write `(π : P ⟶ X, 𝒪_P(1))` for the projective bundle of `ℰ`. By Stacks 02NC the projective
-bundle of `ℰ ⊗ ℒ` is `P` again, by an isomorphism over `X` carrying `𝒪_{𝐏(ℰ ⊗ ℒ)}(1)` to
-`𝒪_P(1) ⊗ π^*ℒ`; so the relation of Stacks 02U6 for `ℰ ⊗ ℒ`, transported to `P`, is the relation
-for `ℰ` with `c₁(𝒪_P(1)) ∩ -` replaced by `c₁(𝒪_P(1)) ∩ - + c₁(π^*ℒ) ∩ -`. The right-hand side
-of the displayed formula solves that transported relation — the content is the single binomial
-identity `∑_{j=0}^{k} (-1)^j binom(k, j) (ξ + x)^j x^{k-j} = ξ^k`, the binomial theorem applied
-to `((ξ + x) + (-x))^k` — and the transported relation has at most one solution by the
-injectivity half of Stacks 02TX. That is the whole proof, and
-`Stacks.Chow.eq_binomialTransform_of_towerRelations` is it.
-
-Five inputs are hypotheses, each a tag this repository does not prove, and each already carried
-the same way by the declarations composed here:
-
-* the two relations of Stacks 02U6, `hrelE` and `hrelEL`. That a family of cap products satisfies
-  the relation is Stacks 02U5 together with the surjectivity half of Stacks 02TX, recorded as
-  absent in `StacksFrontier.AlgebraicGeometry.Chow.ChernClassHigher.ProjectiveBundleRelation`;
-  `hrelEL` is moreover the relation **already transported** along the comparison of Stacks 02NC,
-  which is the one place the geometry of the twist enters.
-* `huniq`, uniqueness of the solution of the transported relation. This is Stacks 02U6
-  uniqueness — `Stacks.Chow.eq_of_isChernCapFamily` — read at the transported bundle, and rests
-  on the injectivity half of Stacks 02TX.
-* `hcomm`, that the two first Chern class cap operators on `P` commute: Stacks 02UA.
-* `hpull`, that flat pullback along `π` carries `c₁(ℒ) ∩ -` to `c₁(π^*ℒ) ∩ -`: Stacks 02SS and
-  Stacks 02RD.
-* `h0`, that the two zeroth cap products agree, both being the class of `α`. This is clause (1)
-  of Stacks 02U5 at `j = 0`; `Stacks.Chow.ChernClassCycleRule`, the datum of Stacks 02U0 the cap
-  products are read off, carries no normalization in degree zero.
-
-The first Chern classes on `P` enter as `Stacks.Chow.ChernCapOperator`s rather than as invertible
-modules, exactly as in
-`StacksFrontier.AlgebraicGeometry.Chow.ChernClassHigher.ProjectiveBundleRelation`: `𝒪_P(1)` has no
-name in this repository, and an operator is what an invertible module provides once Stacks 02SO
-and Stacks 02TI are available.
+This file is the **algebraic reduction** behind the source's proof, stated for arbitrary graded
+data. Write `(π : P ⟶ X, 𝒪_P(1))` for the projective bundle of `ℰ`. By Stacks 02NC the
+relation of Stacks 02U6 for `ℰ ⊗ ℒ`, transported to `P`, is the relation for `ℰ` with
+`c₁(𝒪_P(1)) ∩ -` replaced by `c₁(𝒪_P(1)) ∩ - + c₁(π^*ℒ) ∩ -`. The binomial transform of the
+cap products of `ℰ` along `c₁(ℒ) ∩ -` solves that transported relation — the content is the
+binomial identity `∑_{j=0}^{k} (-1)^j binom(k, j) (ξ + x)^j x^{k-j} = ξ^k` — so, if that
+relation has at most one solution, the cap products of `ℰ ⊗ ℒ` are that transform.
+`Stacks.Chow.eq_binomialTransform_of_towerRelations` is this argument for abstract graded towers,
+and `Stacks.Chow.chernCapFamily_tensorObj_eq_binomialTransform` specialises it to cap-product
+families on a scheme. In the latter the bundle `P`, the operators standing for
+`c₁(𝒪_P(1)) ∩ -` and `c₁(π^*ℒ) ∩ -`, the Chern class data, both relations of Stacks 02U6, the
+uniqueness of their solution, the commutation of the two operators, the compatibility with
+pullback and the agreement in degree zero are all hypotheses; it is not itself Stacks 02UD.
 
 ## Main definitions
 
@@ -95,8 +59,9 @@ and Stacks 02TI are available.
 
 * `Stacks.Chow.eq_binomialTransform_of_towerRelations` — the algebraic heart: a graded sequence
   solving the shifted relation is the binomial transform of one solving the unshifted relation.
-* `Stacks.Chow.chernCapFamily_tensorObj_eq_binomialTransform` — **Stacks 02UD**, the binomial
-  formula for the Chern class cap products of `ℰ ⊗ ℒ`.
+* `Stacks.Chow.chernCapFamily_tensorObj_eq_binomialTransform` — the reduction specialised to
+  cap-product families: the binomial formula for the cap products of `ℰ ⊗ ℒ`, granted the two
+  relations of Stacks 02U6 on the bundle and the uniqueness of their solution.
 
 ## References
 
@@ -463,27 +428,20 @@ def projectiveBundleTowerPullback (n : ℤ) (i : ℕ) :
       from by simp only [bundleRelationDegree]; ring)).toAddMonoidHom.comp
     (projectiveBundlePullback C sX sP π hsP r hπ hfacπ (n - (i : ℤ)))
 
-/-- **Stacks 02UD.** Let `ℰ` be a finite locally free `𝒪_X`-module of rank `r`, let `ℒ` be
-invertible and let `α` be an `n`-cycle on `X`. Then for every `m ≤ r`
+/-- **The binomial formula for the cap products of a twist, from the bundle relations.** Let `ℰ`
+be a finite locally free `𝒪_X`-module of rank `r`, let `ℒ` be invertible and let `α` be an
+`n`-cycle on `X`. If the cap-product families of `ℰ` and of `ℰ ⊗ ℒ` (read off arbitrary Chern
+class data `chernE`, `chernEL`) satisfy, on a flat `P ⟶ X` of relative dimension `r - 1`, the
+relation of Stacks 02U6 for `twist` and for `twist + twistL` respectively, the latter relation
+has at most one solution, and the remaining compatibilities hold, then for every `m ≤ r`
 
   `c_m(ℰ ⊗ ℒ) ∩ α = ∑_{j=0}^{m} binom(r - m + j, j) c₁(ℒ)^j ∩ (c_{m-j}(ℰ) ∩ α)`
 
-in `A_{n-m}(X)`, the right-hand side being the binomial transform of the Chern class cap products
-of `ℰ` along `c₁(ℒ) ∩ -`.
+in `A_{n-m}(X)`.
 
-The relation of Stacks 02U6 on the projective bundle of `ℰ` is carried for `ℰ` and, transported
-along the comparison `𝐏(ℰ) ≅ 𝐏(ℰ ⊗ ℒ)` of Stacks 02NC, for `ℰ ⊗ ℒ`; so is its uniqueness, which
-is the injectivity half of Stacks 02TX. See the module documentation. -/
-@[stacks 02UD "the two relations of Stacks 02U6 are hypotheses, hrelEL being the one already \
-  transported along the comparison of projective bundles of Stacks 02NC, and so is their \
-  uniqueness (the injectivity half of Stacks 02TX); the conclusion is the identity capped with \
-  an arbitrary cycle, the source's identity in the ring A^*(X) being unstateable here (there is \
-  no multiplication on bivariant classes) and the source itself reducing it to this form by \
-  Stacks 02UC. Carried besides: hcomm (commutativity of the two first Chern class cap operators \
-  on the bundle, Stacks 02UA), hpull (flat pullback carries c_1(L) to c_1(pi^*L), Stacks 02SS \
-  and 02RD), h0 (the zeroth cap products of E and of E tensor L both being the class of alpha, \
-  Stacks 02U5 (1) at j = 0), the Stacks 02U0 data chernE and chernEL, the rank of E tensor L, \
-  and Stacks 02TI for c_1(L) as hfac"]
+This is the algebraic step of the source's proof of Stacks 02UD, with the geometric inputs
+(Stacks 02NC, 02U6, 02TX, 02UA) as hypotheses; it is not Stacks 02UD itself, which is
+`Stacks.Chow.TotalChowClass.totalChern_sheafTensor`. See the module documentation. -/
 theorem chernCapFamily_tensorObj_eq_binomialTransform (twist twistL : ChernCapOperator C sP)
     (n : ℤ) (E L : X.Modules)
     [AlgebraicGeometry.SheafOfModules.IsInvertible X.sheaf.obj X.ringCatSheaf.property L]

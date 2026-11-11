@@ -247,6 +247,22 @@ theorem overProdFst_smul_left_comp_snd {Z : Over B}
     ← overProdFst_lift_comp_μ_left_comp_snd B g x]
   simp
 
+/-- The action of `CategoryTheory.overProdFstModObj` is simply transitive, in the sense that its
+shear map `(g, x) ↦ (g • x, x)` is an isomorphism, as soon as the action of `P` on `Y` is: the
+shear map is the image of that of `P` on `Y` under `CategoryTheory.overProdFstFunctor`, read
+through the product comparison isomorphisms. -/
+theorem isIso_leftSMul_overProdFst (h : IsIso (ModObj.leftSMul P Y)) :
+    IsIso (ModObj.leftSMul (Over.mk (prod.fst : B ⨯ P ⟶ B)) (Over.mk (prod.fst : B ⨯ Y ⟶ B))) := by
+  have e : ModObj.leftSMul (Over.mk (prod.fst : B ⨯ P ⟶ B)) (Over.mk (prod.fst : B ⨯ Y ⟶ B)) =
+      (prodComparisonIso (overProdFstFunctor B) P Y).inv ≫
+        (overProdFstFunctor B).map (ModObj.leftSMul P Y) ≫
+          (prodComparisonIso (overProdFstFunctor B) Y Y).hom :=
+    Functor.LaxMonoidal.mapModObj_leftSMul (overProdFstFunctor B) (M := P) (X := Y) _
+      (overProdFst_ε_comp_map_one B P) (overProdFst_μ_comp_map_mul B P)
+  have h' : IsIso ((overProdFstFunctor B).map (ModObj.leftSMul P Y)) := Functor.map_isIso _ _
+  rw [e]
+  exact IsIso.comp_isIso' (Iso.isIso_inv _) (IsIso.comp_isIso' h' (Iso.isIso_hom _))
+
 end Monoidal
 
 /-! ### The functor of points on a subcategory, as a presheaf module object -/
@@ -339,6 +355,22 @@ theorem opCompYoneda_smul_app (X : Dᵒᵖ) (m : J.obj X.unop ⟶ M) (x : J.obj 
     γ[(J.op ⋙ yonedaGrpObj M) ⋙ forget GrpCat, J.op ⋙ yoneda.obj Q].app X (m, x) = m • x := by
   rw [Hom.smul_def, ← opCompYoneda_μ_app J M Q X m x]
   rfl
+
+/-- The action of `CategoryTheory.opCompYonedaModObj` has invertible shear map
+`(m, x) ↦ (m • x, x)` as soon as the action of `M` on `Q` has: the shear map is the image of that
+of `M` on `Q` under `CategoryTheory.opCompYoneda`, read through the product comparison
+isomorphisms. -/
+theorem isIso_leftSMul_opCompYoneda (h : IsIso (ModObj.leftSMul M Q)) :
+    IsIso (ModObj.leftSMul ((J.op ⋙ yonedaGrpObj M) ⋙ forget GrpCat) (J.op ⋙ yoneda.obj Q)) := by
+  have e : ModObj.leftSMul ((J.op ⋙ yonedaGrpObj M) ⋙ forget GrpCat) (J.op ⋙ yoneda.obj Q) =
+      (prodComparisonIso (opCompYoneda J) M Q).inv ≫
+        (opCompYoneda J).map (ModObj.leftSMul M Q) ≫
+          (prodComparisonIso (opCompYoneda J) Q Q).hom :=
+    Functor.LaxMonoidal.mapModObj_leftSMul (opCompYoneda J) (M := M) (X := Q) _
+      (opCompYoneda_ε_comp_map_one J M) (opCompYoneda_μ_comp_map_mul J M)
+  have h' : IsIso ((opCompYoneda J).map (ModObj.leftSMul M Q)) := Functor.map_isIso _ _
+  rw [e]
+  exact IsIso.comp_isIso' (Iso.isIso_inv _) (IsIso.comp_isIso' h' (Iso.isIso_hom _))
 
 end Module
 

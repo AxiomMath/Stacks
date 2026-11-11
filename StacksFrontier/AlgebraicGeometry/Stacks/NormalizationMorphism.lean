@@ -8,7 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.Normalization
 public import StacksFrontier.AlgebraicGeometry.Stacks.QuotientStackRestrictionImmersion
 
 /-!
-# The normalization of an algebraic stack (Stacks 0GMJ)
+# The normalization of a presenting groupoid and the integrality of `[U^ν/R^ν] ⟶ [U/R]`
 
 Let `𝒳` be an algebraic stack presented by a smooth groupoid `(U, R, s, t, c)` in algebraic
 spaces, so that `𝒳 = [U/R]`. Stacks 0GMJ asserts that there is an integral 1-morphism
@@ -16,6 +16,14 @@ spaces, so that `𝒳 = [U/R]`. Stacks 0GMJ asserts that there is an integral 1-
 normalization of `U`. The source builds `𝒳^ν` as the quotient stack `[U^ν/R^ν]` of the
 normalized groupoid and `ν` as the 1-morphism induced by the morphism of groupoids
 `(U^ν, R^ν) ⟶ (U, R)`.
+
+Stacks 0GMJ itself is registered on
+`AlgebraicStacks.isIntegralHom_normalization_and_isTwoFibreProduct_normSpace`
+and `AlgebraicStacks.exists_isIntegralHom_and_isTwoFibreProduct_normSpace`
+(`StacksFrontier.AlgebraicGeometry.Stacks.NormalizationBaseChange`), which construct the normalized
+groupoid from the hypothesis of Stacks 0GMI and prove all three assertions. The declarations of
+this file are the integrality step of the source's proof at a presentation whose normalized
+groupoid is given; they carry no tag.
 
 The normalized groupoid is the input this library does not have. The existence half of Stacks
 07U4 that it rests on is itself proved — for an algebraic space satisfying condition (2) of
@@ -48,7 +56,9 @@ an existence statement.
 
 Of the three assertions of Stacks 0GMJ — existence of `𝒳^ν ⟶ 𝒳`, its integrality, and the
 identification of `𝒳^ν ×_𝒳 U` with the normalization of `U` for every smooth morphism from a
-scheme — the first two are proved here. The third is proved at the presenting chart, in
+scheme — the first two are proved here, for a presentation whose normalized groupoid is given
+(the complete statement is in `StacksFrontier.AlgebraicGeometry.Stacks.NormalizationBaseChange`).
+The third is proved at the presenting chart, in
 `StacksFrontier.AlgebraicGeometry.Stacks.NormalizationChartFibreProduct`, out of the cartesian
 source square of the normalized groupoid and Stacks 04ZN; it is in the 2-category of stacks in
 groupoids, which is not the one the descent step below runs in. Every hypothesis carried is
@@ -60,8 +70,8 @@ named below, with the result it stands for.
   structure descends to `(U^ν, R^ν)`. Of this, the existence of the normalization of the object
   space alone is provable rather than forced: it is
   `AlgebraicGeometry.Space.nonempty_normalizationData`
-  (`StacksFrontier.AlgebraicGeometry.Spaces.NormalizationSpaceConstruction`), which this file does
-  not import, for an algebraic space satisfying condition (2) of Stacks 0BB1. What has to stay a
+  (`StacksFrontier.AlgebraicGeometry.Spaces.NormalizationSpaceConstruction`), which this file does not
+  import, for an algebraic space satisfying condition (2) of Stacks 0BB1. What has to stay a
   hypothesis is the rest: the library has no construction of the normalized *groupoid* — the
   groupoid object `(U^ν, R^ν)` with its lifted structure morphisms, the morphism of groupoids to
   `(U, R)` and its smoothness — so this is data, and `𝒳^ν` and `ν` are constructed from it
@@ -79,8 +89,8 @@ named below, with the result it stands for.
   normalized groupoid — but in the 2-category of stacks in groupoids of Stacks 02ZK, and a square
   proved 2-cartesian in one of those two sub-2-categories of the categories over the site cannot
   be moved to the other, for the reason recorded in the implementation notes of
-  `StacksFrontier.AlgebraicGeometry.Stacks.InertiaPresentationSquare`. The second obstruction is
-  that the 1-morphism of Stacks 046Q appears twice in the library, as
+  `StacksFrontier.AlgebraicGeometry.Stacks.InertiaPresentationSquare`. The second obstruction is that
+  the 1-morphism of Stacks 046Q appears twice in the library, as
   `AlgebraicGeometry.Stack.quotientStackMap` in the groupoid development and as
   `AlgebraicGeometry.Stack.quotientStackMapHom` here, and the proof of Stacks 04ZN is stated for
   the former. So these hypotheses stay. Integrality is genuinely derived from them: the descent
@@ -217,7 +227,7 @@ structure NormalizationGroupoid (C : BigFppfSite.{u}) (S : Scheme.{u}) (hS : C.C
 
 variable (C S hS)
 
-/-- **Stacks 0GMJ, the 1-morphism `𝒳^ν ⟶ 𝒳` and its integrality.** Let `(U, R, s, t, c)` be a
+/-- **The integrality step of the proof of Stacks 0GMJ.** Let `(U, R, s, t, c)` be a
 groupoid in algebraic spaces whose quotient stack is `𝒳 = [U/R]`, and let `N` be a normalized
 groupoid for it. Then the 1-morphism `ν : [U^ν/R^ν] ⟶ [U/R]` of Stacks 046Q induced by the
 morphism of groupoids `(U^ν, R^ν) ⟶ (U, R)` is integral in the sense of Stacks 04XB.
@@ -226,9 +236,12 @@ The source's argument is exactly this one: `U^ν ⟶ U` is integral, it is the b
 along the presenting chart, and integrality descends. The base-change identification is
 Stacks 04ZN and is carried; integrality of `U^ν ⟶ U` is Stacks 0BB4, part (2), and is proved in
 this library. See the partial-coverage section of the module documentation for every hypothesis
-and the result it stands for. -/
-@[stacks 0GMJ "integrality of ν; the normalized groupoid, Stacks 04ZP and the 04ZN form of \
-  the base change are hypotheses"]
+and the result it stands for.
+
+This is not Stacks 0GMJ: the normalized groupoid, the representability of `ν` and the
+identification of the base change along the presenting chart are hypotheses, and the
+fibre-product assertion is not concluded. Stacks 0GMJ is
+`AlgebraicStacks.isIntegralHom_normalization_and_isTwoFibreProduct_normSpace`. -/
 theorem isIntegralHom_quotientStackMapHom_normalization
     {G : GroupoidInAlgebraicSpaces C S hS B} (N : NormalizationGroupoid C S hS G)
     (hf : IsRepresentableByAlgebraicSpaces C S hS (quotientStackMapHom N.hom).hom)
@@ -254,13 +267,18 @@ theorem isIntegralHom_quotientStackMapHom_normalization
     N.data.space G.objects.obj N.data.isAlgebraicSpace G.objects.property eF eG₀
     (by simp only [hrep]; exact N.data.isIntegralHom_hom G.objects.property)
 
-/-- **Stacks 0GMJ in the existential form the source states it.** For a groupoid in algebraic
-spaces with a normalized groupoid, there is a category fibred in groupoids `𝒳^ν` over the big
-fppf site together with an integral 1-morphism `𝒳^ν ⟶ [U/R]`.
+/-- **The integrality step of the proof of Stacks 0GMJ, in existential form.** For a groupoid in
+algebraic spaces with a normalized groupoid, there is a category fibred in groupoids `𝒳^ν` over
+the big fppf site together with an integral 1-morphism `𝒳^ν ⟶ [U/R]`.
 
 The witnesses are the quotient stack `[U^ν/R^ν]` of Stacks 044Q and the 1-morphism of
-Stacks 046Q, so the existential is inhabited by the source's own construction. -/
-@[stacks 0GMJ "the existence assertion, witnessed by [U^ν/R^ν] and the 1-morphism of Stacks 046Q"]
+Stacks 046Q, so the existential is inhabited by the source's own construction.
+
+This is not Stacks 0GMJ: the conclusion omits the fibre-product property that characterizes
+`𝒳^ν` (an identity 1-morphism also witnesses it), and the hypotheses are those of
+`AlgebraicGeometry.Stack.isIntegralHom_quotientStackMapHom_normalization`. The existential form
+of Stacks 0GMJ is
+`AlgebraicStacks.exists_isIntegralHom_and_isTwoFibreProduct_normSpace`. -/
 theorem exists_isIntegralHom_quotientStackMapHom_normalization
     {G : GroupoidInAlgebraicSpaces C S hS B} (N : NormalizationGroupoid C S hS G)
     (hf : IsRepresentableByAlgebraicSpaces C S hS (quotientStackMapHom N.hom).hom)
@@ -322,8 +340,7 @@ chart through
 equivalences of Stacks 0GMI are stated for `AlgebraicGeometry.Stack.AlgebraicStacks`, and
 exhibiting a quotient stack there is Stacks 04TK, which this library does not have, so no 0GMI
 condition can be stated at this presentation. -/
-@[stacks 0GMK "the normalization ν : 𝒳^ν ⟶ 𝒳 at a presenting smooth groupoid, with the \
-  normalized groupoid as data"]
+@[stacks 0GMK "the normalization ν : 𝒳^ν ⟶ 𝒳 at a presenting smooth groupoid, with the normalized groupoid as data"]
 noncomputable abbrev normalization {G : GroupoidInAlgebraicSpaces C S hS B}
     (N : NormalizationGroupoid C S hS G) :
     normalizationStack C S hS N ⟶ quotientStackCFG C S hS G :=

@@ -62,8 +62,8 @@ for such a complex derived global sections are the derived stalk
   `AlgebraicGeometry.isMatlisDualPair_stalk_residueFieldSkyscraperSheaf`. It turns
   `Ext^i(𝒪_x, K)` into `H^0(X, K[i] ⊗^𝐋 𝒪_x[-d_x])`, and the shifts are moved out of the
   tensor product by `AlgebraicGeometry.derivedTensorShiftShiftIso`.
-* Part (2) is part (1) in every degree; only the finitely many degrees inside the cohomological
-  bounds of `K` need a neighbourhood.
+* Part (2) is part (1) in every degree; outside the cohomological bounds of `K` every cohomology
+  sheaf vanishes, so the neighbourhoods of the finitely many degrees inside them are intersected.
 * Part (3) is `Ext^i(K, 𝒪_x) = H^0(X, 𝒪_x[i] ⊗^𝐋 K^∨)` ([Stacks, Tags 08DQ and 08JJ], in the form
   `AlgebraicGeometry.RingedSite.homAddEquivHomologyDerivedTensorOfDual`) followed by part (5)
   for the perfect complex `K^∨` (`Stacks.SheafOfModules.isPerfect_derivedDual_of_isPerfectSpace`).
@@ -338,8 +338,9 @@ theorem exists_mem_isZero_stalkHomology_of_subsingleton_hom_from_residueFieldSky
 
 /-- **Degreewise local vanishing of a perfect complex is local vanishing.** If every
 cohomology sheaf of a perfect `K` on a Noetherian scheme vanishes near `x`, then all of them
-vanish on one common neighbourhood of `x`: only the finitely many degrees inside the
-cohomological bounds of `K` need a neighbourhood, and their intersection is open. -/
+vanish on one common neighbourhood of `x`: outside the cohomological bounds of `K` every
+cohomology sheaf vanishes, and the neighbourhoods of the finitely many degrees inside them have
+open intersection. -/
 theorem exists_mem_forall_isZero_stalkHomology_of_forall_exists (X : Scheme.{u}) [IsNoetherian X]
     (x : X) (K : DerivedCategory X.Modules) (hK : RingedSpace.IsPerfect (X := X.toRingedSpace) K)
     (h : ∀ i : ℤ, ∃ U : Opens X.carrier, x ∈ U ∧ ∀ y : X, y ∈ U →

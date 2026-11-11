@@ -36,8 +36,10 @@ constructibility of an étale sheaf on `Y` is detected by its inverse image alon
 morphism: a presentation of the sheaf as a filtered colimit of constructible ones becomes, after
 inverse image, essentially constant, so one of the coprojections is an epimorphism after inverse
 image, and the statement below carries that epimorphism back to `Y`. The remaining inputs of that
-proof — Stacks 03SA and Stacks 095P — are in the library only with Stacks 093C and Stacks 03S8
-carried as hypotheses, so Stacks 095Q itself is not stated here.
+proof are Stacks 03SA and Stacks 095P; Stacks 095Q itself is stated and proved elsewhere, in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.SurjectiveDescent`,
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ModuleSurjectiveDescent` and
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.AbelianSurjectiveDescent`.
 
 ## Main results
 

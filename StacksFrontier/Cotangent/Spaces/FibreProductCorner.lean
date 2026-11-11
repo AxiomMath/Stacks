@@ -51,6 +51,14 @@ The object `E` is a cone, and in a triangulated category a cone is available onl
 statement, so `E` is chosen; what is canonical, and recorded, is that it is a cone of the map out
 of the direct sum and that it carries the diagram.
 
+The triangulated-category part of the argument, the upper right corner built from the cone of the
+map out of the direct sum by two applications of the octahedron axiom, is
+`CategoryTheory.Triangulated.UpperRightCorner.ofBiprodCone` of
+`StacksFrontier.CategoryTheory.Triangulated.UpperRightCorner`, stated for any two distinguished
+triangles sharing their middle vertex. It carries no tag; Tag 09DK is registered here, on the
+diagram built on the transitivity triangles of Stacks 08V1 for the cotangent complexes of
+Stacks 08VD.
+
 ## References
 
 * [Stacks Project, Tag 09DK](https://stacks.math.columbia.edu/tag/09DK)
@@ -177,8 +185,10 @@ variable {X Y Z : AlgebraicSpaces B S hS} (f : X ⟶ Z) (g : Y ⟶ Z)
 /-- **Stacks 09DK**, for the fibre product `X ×_Z Y` of algebraic spaces (Stacks 02X2) with its
 projections `p` and `q`: the diagram of
 `AlgebraicGeometry.Space.fibreProductCotangentCorner` in `D(𝒪_{X ×_Z Y})`, built on the
-transitivity triangles of `X ×_Z Y ⟶ X ⟶ Z` and `X ×_Z Y ⟶ Y ⟶ Z`. -/
-@[stacks 09DK "the diagram for the fibre product `X ×_Z Y` and its two projections"]
+transitivity triangles of `X ×_Z Y ⟶ X ⟶ Z` and `X ×_Z Y ⟶ Y ⟶ Z`, with `E` a cone of the map
+`Lp^*L_{X/Z} ⊕ Lq^*L_{Y/Z} ⟶ L_{X ×_Z Y/Z}`. -/
+@[stacks 09DK "the diagram for the fibre product `X ×_Z Y` and its two projections; `E` is \
+  the cone of the map out of the direct sum"]
 noncomputable def fiberProductCotangentCorner :=
   fibreProductCotangentCorner (B := B) (S := S) (hS := hS)
     (AlgebraicSpaces.isPullback_fiberProduct B S hS f g).w

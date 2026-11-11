@@ -37,25 +37,25 @@ namespace Stacks.GaloisCohomology
 /-- If the Brauer group of every finite subextension of a separably closed Galois extension
 `Ω/K` vanishes, then `H^q(Gal(Ω/K), M) = 0` for every torsion discrete `Gal(Ω/K)`-module `M` and
 every `q ≥ 2`, the groups being the continuous group cohomology. -/
-@[stacks 03R8 "part (2) in full, for the DERIVED-FUNCTOR groups continuousGroupCohomology of
-Stacks 04JR: H^q(Gal(Ω/K), M) = 0 for EVERY torsion discrete Galois module M and EVERY q ≥ 2,
+@[stacks 03R8 "part (2) in full, for the derived-functor groups continuousGroupCohomology of
+Stacks 04JR: H^q(Gal(Ω/K), M) = 0 for every torsion discrete Galois module M and every q ≥ 2,
 where Ω is any separably closed field Galois over K, so at Ω = K^sep this is exactly the tag's
-part (2). The Brauer hypothesis is the one the source states, and in fact less: only the finite
-SEPARABLE extensions of K inside Ω are used, whereas the tag asks for every finite extension, so
-this statement implies the tag's rather than specialising it. The proof is the source's dévissage
-carried out on locally constant cochains. A locally constant 2-cocycle on a profinite group takes
-finitely many values, so it is a cocycle with values in a finite submodule; a finite module is
-reduced to a module killed by a prime p along its p-torsion subgroup; a finite module killed by p
-is handled over an open subgroup of index prime to p -- the preimage of a p-Sylow subgroup of a
-finite quotient -- where the action factors through a p-group and the module is filtered by
-copies of Z/p with trivial action, and the restriction-corestriction identity cor o res = n,
-written out on cochains, carries the trivialization back to the whole group; and Z/p with trivial
-action is the Kummer sequence of Stacks 03PL away from the characteristic and the Artin-Schreier
-sequence of Stacks 0A3J in the characteristic, each fed by the two degrees of part (1) proved in
-MultiplicativeGroupVanishingCriterion. Degrees above two come from dimension shifting along the
-module of locally constant functions into a torsion divisible hull, which is an injective object
-of the category of Stacks 04JP whose cokernel is again torsion. This registration is part (2);
-part (1) has its own three registrations in MultiplicativeGroupVanishingCriterion",
+part (2). The Brauer hypothesis asks for Br(L) = 0 at the intermediate fields L of Ω/K finite
+over K, each of which is a finite extension of K, so the source's hypothesis implies it and this
+statement implies the tag's part (2). The proof is the source's dévissage done on locally
+constant cochains. A locally constant 2-cocycle on a profinite group takes finitely many values,
+so it is a cocycle with values in a finite submodule; a finite module is reduced to a module
+killed by a prime p along its p-torsion subgroup; a finite module killed by p is handled over an
+open subgroup of index prime to p -- the preimage of a p-Sylow subgroup of a finite quotient --
+where the action factors through a p-group and the module is filtered by copies of Z/p with
+trivial action, and the restriction-corestriction identity cor o res = n, written out on
+cochains, takes the trivialization back to the whole group; and Z/p with trivial action is the
+Kummer sequence of Stacks 03PL away from the characteristic and the Artin-Schreier sequence of
+Stacks 0A3J in the characteristic, each fed by degrees one and two of part (1). Degrees above two
+come from dimension shifting along the module of locally constant functions into a torsion
+divisible hull, which is an injective object of the category of Stacks 04JP whose cokernel is
+again torsion. Both parts together, at Ω = K^sep, are
+isZero_continuousGroupCohomology_units_and_torsion_of_forall_brauer",
   sga "4½ Arcata 3.1.6" "more general"]
 theorem isZero_continuousGroupCohomology_of_isAddTorsion (K Ω : Type u) [Field K] [Field Ω]
     [Algebra K Ω] [IsGalois K Ω] [IsSepClosed Ω]

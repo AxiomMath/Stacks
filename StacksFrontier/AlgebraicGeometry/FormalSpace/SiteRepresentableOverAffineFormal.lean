@@ -12,13 +12,16 @@ public import StacksFrontier.AlgebraicGeometry.FormalSpace.RepresentableOverAffi
 Let `S` be a scheme contained in a big fppf site `B`, let `Y` be an affine formal algebraic
 space over `S` and let `f : X ⟶ Y` be a morphism of fppf sheaves on the big fppf site of `S`.
 `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_representable_over_affineFormal` —
-**Stacks 0AJH** — concludes that `X` is a formal algebraic space from `f` being representable by
-*algebraic spaces*, and pays for that generality with the hypothesis `h0AIU`: the stages of the
+the source's reduction of **Stacks 0AJH** — concludes that `X` is a formal algebraic space from
+`f` being representable by *algebraic spaces*, given the argument `h0AIU`: the stages of the
 colimit presenting `X` are then algebraic spaces, and that a directed colimit of algebraic
-spaces along thickenings is a formal algebraic space is **Stacks 0AIU**, which this library does
-not carry.
+spaces along thickenings is a formal algebraic space is **Stacks 0AIU**, proved in its corrected
+form by
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_isRepresentableThickeningULift`
+(not imported here). The registered unconditional Stacks 0AJH is
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_representable_over_isAffineFormal`.
 
-This file removes that hypothesis under the stronger assumption that `f` is representable **by
+This file does without that argument under the stronger assumption that `f` is representable **by
 objects of the site**. The stages are then schemes, and
 `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_siteThickenings` — the
 scheme-stage case of Stacks 0AIU, with its chart system constructed rather than assumed —
@@ -196,9 +199,9 @@ the fully faithful sheafified Yoneda embedding to a diagram in the site; each of
 is a base change of a transition of the presentation of `Y`, hence a thickening of schemes
 (**Stacks 09ZU**). So
 `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_siteThickenings` applies, in
-place of the hypothesis `h0AIU` that
-`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_representable_over_affineFormal` must
-carry for stages which are only algebraic spaces.
+place of the argument `h0AIU` that
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_representable_over_affineFormal` takes
+for stages which are only algebraic spaces.
 
 The set-theoretic condition of **Stacks 0AIS** is proved rather than assumed: it passes from `Y`
 to `X` along `f` by

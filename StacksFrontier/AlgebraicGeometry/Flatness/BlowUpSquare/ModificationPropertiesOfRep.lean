@@ -45,11 +45,8 @@ variable {X' : Scheme.{u}} {b : X' ⟶ S.X}
 Then `b` is an isomorphism over `X ∖ D`, and if `M` is represented by a locally bounded complex
 of finite locally free `𝒪_X`-modules, then `Q = Lη_{ℐ'}Lb^*M` is a perfect object of
 `D(𝒪_{X'})` and is itself represented by a locally bounded complex of finite locally free
-`𝒪_{X'}`-modules. -/
-@[stacks 0F9Y "parts (1), (5) and (9) for any `b` with properties (1) and (2) of tag 0GTY: \
-part (1) outright, and parts (5) and (9) in the shape of the source's own closing sentence --- \
-if `M` is represented by a locally bounded complex of finite locally free modules, then so is \
-`Q`, and `Q` is then perfect"]
+`𝒪_{X'}`-modules.  The complete statement of tag 0F9Y is
+`AlgebraicGeometry.ComplexAndDivisorSituation.goodBlowupToBase_modification`. -/
 theorem isIso_and_imp_isPerfect_and_exists_rep (hb : S.IsGoodBlowup b) :
     IsIso (b.resLE S.divisorComplement (b ⁻¹ᵁ S.divisorComplement) le_rfl) ∧
       ((∃ ℳ : CochainComplex (OXMod.{u, u} S.X.toRingedSpace) ℤ,

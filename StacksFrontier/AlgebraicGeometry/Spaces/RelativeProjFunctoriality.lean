@@ -27,8 +27,10 @@ over `X` the pair `(U(ψ) ×_X W, r_ψ|)` is the pair the case of schemes attach
 
 `U(ψ ∘ φ) = r_ψ^{-1}(U(φ))` and `r_{ψ ∘ φ} = r_φ ∘ r_ψ|_{U(ψ ∘ φ)}`.
 
-These are Stacks 085F and 085G, the étale-local analogues of the scheme-level Stacks 07ZG and
-07ZH.
+These are Stacks 085F and the first two assertions of Stacks 085G, the étale-local analogues of
+the scheme-level Stacks 07ZG and 07ZH.  The third assertion of Stacks 085G,
+`θ_ψ ∘ r_ψ^*θ_φ = θ_{ψ ∘ φ}`, is in
+`StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjFunctorialityComp`.
 
 ## Main definitions
 
@@ -198,10 +200,14 @@ Second, descent of a morphism of quasi-coherent modules along the étale cover o
 fibres — the module-coefficient half of Stacks 03M3, which is available here only for a scheme
 target.
 
-**The third assertion of Stacks 085G**, the compatibility `θ_ψ ∘ r_ψ^*θ_φ = θ_{ψ ∘ φ}`, is not
-stated.  Its scheme-level input is
-`Stacks.AlgebraicGeometry.Tag07ZGTwist.relativeTwistMap_comp`, the third assertion of
-Stacks 07ZH.
+**The third assertion of Stacks 085G**, the compatibility `θ_ψ ∘ r_ψ^*θ_φ = θ_{ψ ∘ φ}`, is
+stated and proved in `StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjFunctorialityComp`, as
+`AlgebraicGeometry.Space.RelativeProjHomPoints.relativeTwistSpaceMap_comp`, for the `θ` of this
+file: over every scheme point `(T, f)` of the base and in every degree, the inverse image of `θ_φ`
+along the restriction of `r_ψ` to `U(ψ ∘ φ)`, followed by `θ_ψ` restricted to `U(ψ ∘ φ)`, is
+`θ_{ψ ∘ φ}`.  It lives in that module because its scheme-level input,
+`Stacks.AlgebraicGeometry.Tag07ZGTwist.relativeTwistMap_comp` (the third assertion of
+Stacks 07ZH), needs an import this file does not have.
 
 ## References
 

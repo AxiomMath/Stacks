@@ -11,8 +11,10 @@ import Mathlib.CategoryTheory.ObjectProperty.CompleteLattice
 
 **Stacks 0DSM.** Every algebraic stack `𝒳` carries open substacks `𝒳'' ⊆ 𝒳' ⊆ 𝒳` with `𝒳''`
 Deligne–Mumford, `𝒳'` quasi-Deligne–Mumford, and each the largest open substack with its
-property. This file constructs the two loci and proves everything about them that does not
-depend on the structure theorems for DM and quasi-DM stacks.
+property. This file constructs the two loci, proves their maximality and nesting, and reduces the
+existence statement to four inputs; those inputs are proved, and the lemma is stated with no
+hypothesis, in `StacksFrontier/AlgebraicGeometry/Stacks/DeligneMumfordLocusExistence.lean` as
+`AlgebraicGeometry.Stack.exists_nested_largest_isAbsolutelyDM_openSubstacks`.
 
 The two loci are built the way **Stacks 0DSJ** builds the unramified and locally quasi-finite
 base loci of a group algebraic space one level down
@@ -26,13 +28,16 @@ definitions with genuine bodies, and their maximality — which is the force of 
 What the supremum does not give for free is that it is again an *open substack* and that the
 open substack it cuts out again has the property. In the source both come from the structure
 theorems **Stacks 06N3** (a DM algebraic stack admits a surjective étale morphism from a
-scheme) and **Stacks 06MF** (its quasi-DM analogue), neither of which the library carries, via
-the local-global step the source's proof isolates: a union of DM open substacks is DM, because
-the disjoint union of étale charts for the pieces is an étale chart for the union. That step is
-carried here as the explicit named hypothesis
-`AlgebraicGeometry.Stack.IsAbsolutelyDMLocalOnOpenSubstacks` (and its quasi-DM twin), and the
-realizability of the locus by an open substack as a second explicit hypothesis. The existence
-statements of **Stacks 0DSM** are then theorems under exactly those hypotheses.
+scheme) and **Stacks 06MF** (its quasi-DM analogue), via the local-global step the source's
+proof isolates: a union of DM open substacks is DM, because the disjoint union of étale charts
+for the pieces is an étale chart for the union. This file names that step as the proposition
+`AlgebraicGeometry.Stack.IsAbsolutelyDMLocalOnOpenSubstacks` (and its quasi-DM twin), and
+derives the existence statements from it and from the realizability of the locus by an open
+substack. Both are theorems of the library:
+`AlgebraicGeometry.Stack.isAbsolutelyDMLocalOnOpenSubstacks` and
+`AlgebraicGeometry.Stack.exists_property_eq_dmLocus` (and their quasi-DM twins), proved in
+`StacksFrontier/AlgebraicGeometry/Stacks/DeligneMumfordLocusExistence.lean` by testing DM-ness on
+the relative diagonal one object at a time.
 
 ## Main definitions
 
@@ -43,7 +48,7 @@ statements of **Stacks 0DSM** are then theorems under exactly those hypotheses.
   `𝒳'`.
 * `AlgebraicGeometry.Stack.IsAbsolutelyDMLocalOnOpenSubstacks` and
   `AlgebraicGeometry.Stack.IsAbsolutelyQuasiDMLocalOnOpenSubstacks`: the local-global step of
-  the source's proof, as a hypothesis.
+  the source's proof, as a proposition.
 
 ## Main results
 
@@ -54,7 +59,8 @@ statements of **Stacks 0DSM** are then theorems under exactly those hypotheses.
 * `AlgebraicGeometry.Stack.exists_largest_isAbsolutelyDM_openSubstack`,
   `AlgebraicGeometry.Stack.exists_largest_isAbsolutelyQuasiDM_openSubstack` and
   `AlgebraicGeometry.Stack.exists_nested_largest_isAbsolutelyDM_isAbsolutelyQuasiDM_openSubstack`:
-  the existence statements of **Stacks 0DSM**, under the carried hypotheses.
+  the existence statements of **Stacks 0DSM**, derived from the local-global step and the
+  openness of the loci.
 
 ## Implementation notes
 
@@ -208,8 +214,8 @@ Deligne–Mumford open substacks is itself Deligne–Mumford.
 This is the one place the source's proof of **Stacks 0DSM** needs input beyond formal
 manipulation of open substacks: the source obtains, from **Stacks 06N3**, a scheme with a
 surjective étale morphism onto each member of the family, and notes that the disjoint union of
-those schemes is then surjective and étale onto the union. **Stacks 06N3** is not in the
-library, so this step is a hypothesis rather than a theorem. -/
+those schemes is then surjective and étale onto the union. The proposition holds:
+`AlgebraicGeometry.Stack.isAbsolutelyDMLocalOnOpenSubstacks`. -/
 abbrev IsAbsolutelyDMLocalOnOpenSubstacks : Prop :=
   ∀ (𝒴 : AlgebraicStacks.{u, w} B S hS) (s : Set (OpenSubstack 𝒴)) (W : OpenSubstack 𝒴),
     W.property = ⨆ U : s, (U : OpenSubstack 𝒴).property →
@@ -220,7 +226,8 @@ abbrev IsAbsolutelyDMLocalOnOpenSubstacks : Prop :=
 /-- **The local-global step of the proof of Stacks 0DSM, for the absolute quasi-DM property.**
 The quasi-Deligne–Mumford twin of
 `AlgebraicGeometry.Stack.IsAbsolutelyDMLocalOnOpenSubstacks`; the source deduces it the same
-way from **Stacks 06MF** in place of **Stacks 06N3**. -/
+way from **Stacks 06MF** in place of **Stacks 06N3**. The proposition holds:
+`AlgebraicGeometry.Stack.isAbsolutelyQuasiDMLocalOnOpenSubstacks`. -/
 abbrev IsAbsolutelyQuasiDMLocalOnOpenSubstacks : Prop :=
   ∀ (𝒴 : AlgebraicStacks.{u, w} B S hS) (s : Set (OpenSubstack 𝒴)) (W : OpenSubstack 𝒴),
     W.property = ⨆ U : s, (U : OpenSubstack 𝒴).property →
@@ -257,16 +264,12 @@ private theorem exists_largest_of_locus (P : OpenSubstack 𝒳 → Prop)
   obtain ⟨W, hW⟩ := hOpen
   exact ⟨W, hW, hP W hW, fun V hV => hW ▸ hmax V hV⟩
 
-/-- **Stacks 0DSM for the DM property.** An algebraic stack has a largest Deligne–Mumford open
-substack, and it cuts out the Deligne–Mumford locus.
-
-Two inputs are carried, both standing for **Stacks 06N3**, which the library does not have:
-`hOpen`, that the Deligne–Mumford locus is cut out by an open substack at all, and `hLocal`,
-the local-global step. Maximality is not among them — it is
-`AlgebraicGeometry.Stack.le_dmLocus`, which holds unconditionally. -/
-@[stacks 0DSM "existence of the largest DM open substack; the structure theorem Stacks 06N3 is
-  not in the library, so its two uses are carried as the hypotheses `hLocal` (a union of DM open
-  substacks is DM) and `hOpen` (the DM locus is cut out by an open substack)"]
+/-- **The reduction of Stacks 0DSM for the DM property.** Given the local-global step `hLocal`
+and an open substack cutting out the Deligne–Mumford locus `hOpen`, that open substack is the
+largest Deligne–Mumford open substack. Both inputs are theorems,
+`AlgebraicGeometry.Stack.isAbsolutelyDMLocalOnOpenSubstacks` and
+`AlgebraicGeometry.Stack.exists_property_eq_dmLocus`; the lemma with no hypothesis is
+`AlgebraicGeometry.Stack.exists_nested_largest_isAbsolutelyDM_openSubstacks`. -/
 theorem exists_largest_isAbsolutelyDM_openSubstack
     (hLocal : IsAbsolutelyDMLocalOnOpenSubstacks.{u, w} B S hS hZ)
     (hOpen : ∃ W : OpenSubstack 𝒳, W.property = dmLocus B S hS hZ 𝒳) :
@@ -278,14 +281,10 @@ theorem exists_largest_isAbsolutelyDM_openSubstack
   exact exists_largest_of_locus B S hS 𝒳 _ _ (le_dmLocus B S hS hZ 𝒳)
     (isAbsolutelyDM_of_property_eq_dmLocus B S hS hZ 𝒳 hLocal) hOpen
 
-/-- **Stacks 0DSM for the quasi-DM property.** An algebraic stack has a largest
-quasi-Deligne–Mumford open substack, and it cuts out the quasi-Deligne–Mumford locus. The two
-carried inputs stand for **Stacks 06MF**, as in
-`AlgebraicGeometry.Stack.exists_largest_isAbsolutelyDM_openSubstack`. -/
-@[stacks 0DSM "existence of the largest quasi-DM open substack; the structure theorem Stacks
-  06MF is not in the library, so its two uses are carried as the hypotheses `hLocal` (a union of
-  quasi-DM open substacks is quasi-DM) and `hOpen` (the quasi-DM locus is cut out by an open
-  substack)"]
+/-- **The reduction of Stacks 0DSM for the quasi-DM property.** The quasi-Deligne–Mumford twin
+of `AlgebraicGeometry.Stack.exists_largest_isAbsolutelyDM_openSubstack`; its inputs are the
+theorems `AlgebraicGeometry.Stack.isAbsolutelyQuasiDMLocalOnOpenSubstacks` and
+`AlgebraicGeometry.Stack.exists_property_eq_quasiDMLocus`. -/
 theorem exists_largest_isAbsolutelyQuasiDM_openSubstack
     (hLocal : IsAbsolutelyQuasiDMLocalOnOpenSubstacks.{u, w} B S hS hZ)
     (hOpen : ∃ W : OpenSubstack 𝒳, W.property = quasiDMLocus B S hS hZ 𝒳) :
@@ -297,20 +296,15 @@ theorem exists_largest_isAbsolutelyQuasiDM_openSubstack
   exact exists_largest_of_locus B S hS 𝒳 _ _ (le_quasiDMLocus B S hS hZ 𝒳)
     (isAbsolutelyQuasiDM_of_property_eq_quasiDMLocus B S hS hZ 𝒳 hLocal) hOpen
 
-/-- **Stacks 0DSM.** For an algebraic stack `𝒳` there are open substacks `𝒳'' ⊆ 𝒳' ⊆ 𝒳` with
-`𝒳''` Deligne–Mumford, `𝒳'` quasi-Deligne–Mumford, and each the largest open substack of `𝒳`
-with its property. This is the statement of the source lemma.
-
-The four carried hypotheses are the two uses apiece of **Stacks 06N3** and **Stacks 06MF**
-described on
-`AlgebraicGeometry.Stack.exists_largest_isAbsolutelyDM_openSubstack` and
-`AlgebraicGeometry.Stack.exists_largest_isAbsolutelyQuasiDM_openSubstack`. The nesting
-`𝒳'' ⊆ 𝒳'` is not among them: it is `AlgebraicGeometry.Stack.dmLocus_le_quasiDMLocus`, which
-holds unconditionally. -/
-@[stacks 0DSM "the lemma: nested largest DM and quasi-DM open substacks. The structure theorems
-  Stacks 06N3 and 06MF are not in the library, so their uses are carried as the hypotheses
-  `hLocalDM`, `hLocalQuasiDM` (a union of DM, resp. quasi-DM, open substacks has that property)
-  and `hOpenDM`, `hOpenQuasiDM` (each locus is cut out by an open substack)"]
+/-- **The reduction of Stacks 0DSM.** From the local-global steps and the openness of the two
+loci, there are open substacks `𝒳'' ⊆ 𝒳' ⊆ 𝒳` with `𝒳''` Deligne–Mumford, `𝒳'`
+quasi-Deligne–Mumford, and each the largest open substack of `𝒳` with its property. The nesting
+comes from `AlgebraicGeometry.Stack.dmLocus_le_quasiDMLocus`. All four inputs are theorems
+(`AlgebraicGeometry.Stack.isAbsolutelyDMLocalOnOpenSubstacks`,
+`AlgebraicGeometry.Stack.isAbsolutelyQuasiDMLocalOnOpenSubstacks`,
+`AlgebraicGeometry.Stack.exists_property_eq_dmLocus`,
+`AlgebraicGeometry.Stack.exists_property_eq_quasiDMLocus`); the lemma with no hypothesis is
+`AlgebraicGeometry.Stack.exists_nested_largest_isAbsolutelyDM_openSubstacks`. -/
 theorem exists_nested_largest_isAbsolutelyDM_isAbsolutelyQuasiDM_openSubstack
     (hLocalDM : IsAbsolutelyDMLocalOnOpenSubstacks.{u, w} B S hS hZ)
     (hLocalQuasiDM : IsAbsolutelyQuasiDMLocalOnOpenSubstacks.{u, w} B S hS hZ)

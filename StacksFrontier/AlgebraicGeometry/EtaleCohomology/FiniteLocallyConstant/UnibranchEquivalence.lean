@@ -68,8 +68,12 @@ namespace AlgebraicGeometry
 `π₁(X, x)`-action.
 
 The functor sends a sheaf `F` to its monodromy module `colim_{(A, a)} F(A)` over the pointed
-Galois covers of `X`. -/
-@[stacks 0GIY]
+Galois covers of `X`. The sheaves are on Mathlib's small étale site `X.smallEtaleTopology`, with
+values in `ModuleCat.{max (u + 1) r} Λ`, and the continuous modules are modules in the same
+universe. -/
+@[stacks 0GIY "the equivalence for an irreducible geometrically unibranch scheme, an arbitrary \
+geometric point and an arbitrary ring Λ, on Mathlib's small étale site with module sheaves valued \
+in the universe max (u + 1) r"]
 public def finiteTypeLocallyConstantEquivContinuousModuleUniv (X : Scheme.{u}) [IrreducibleSpace X]
     (hX : IsGeometricallyUnibranch X) (x : GeometricPoint X) (Λ : Type r) [Ring Λ] :
     Stacks.ConstantSheaf.FiniteTypeLocallyConstantModuleCategory.{max (u + 1) r, u + 1, u, r} Λ

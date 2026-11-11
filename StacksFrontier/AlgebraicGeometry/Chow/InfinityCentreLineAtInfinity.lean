@@ -229,6 +229,8 @@ inclusion `𝐏¹_Z ⟶ 𝐏¹_X`, and its base change by `∞` (along `W_∞ �
 the composite `Z ⟶ C_ZX ⟶ E ⟶ W_∞` of the vertex of the normal cone, the open immersion
 `C_ZX ⟶ E` and the inclusion `E ⊆ W_∞`. -/
 @[stacks 0FE9 "a closed immersion P¹_Z → W over P¹_X whose base change by ∞ is \
+Z → C_ZX → E → W_∞, the first arrow the vertex of the cone",
+  stacks 0FBG "(8): a closed immersion P¹_Z → W over P¹_X whose base change by ∞ is \
 Z → C_ZX → E → W_∞, the first arrow the vertex of the cone"]
 theorem lineToBlowupAtInfinity_spec :
     IsClosedImmersion (lineToBlowupAtInfinity i.ker) ∧

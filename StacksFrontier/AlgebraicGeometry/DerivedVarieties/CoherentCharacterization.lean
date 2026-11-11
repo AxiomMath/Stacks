@@ -13,12 +13,14 @@ Let `X` be a scheme proper over a field `k` and let `K` be an object of `D_QCoh(
 1. `K` is in `D^b_Coh(𝒪_X)`, and
 2. `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K)` is finite for every perfect object `E` of `D(𝒪_X)`.
 
-**What this file delivers is ONE DIRECTION of that equivalence, (1) ⇒ (2), and it is therefore
-WEAKER THAN THE TAG.** The converse (2) ⇒ (1) is *not* proved here, and it is not proved anywhere
-in this library; see "Why (2) ⇒ (1) is unreachable" below for exactly which four results are
-missing. A reader must not mistake what is proved here for the equivalence: nothing below lets
-one conclude that an object with finite total `Ext` from every perfect object is bounded with
-coherent cohomology.
+This file proves the implication (1) ⇒ (2) along the source's route, through
+[Stacks, Tag 0FYC], with that tag's two inputs as arguments. The tag itself — both implications,
+with no hypothesis beyond `X` proper over `k` and `K` in `D_QCoh(𝒪_X)` — is
+`CoherentCharacterizationConverse.derivedCategoryBBounded_iff_cardinalSum_rank_ext_lt_aleph0`
+of `StacksFrontier/AlgebraicGeometry/DerivedVarieties/CoherentCharacterizationConverse.lean`; the
+implication (1) ⇒ (2) with both inputs proved is
+`cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded'` of
+`StacksFrontier/AlgebraicGeometry/DerivedVarieties/CoherentCharacterizationFiniteExt.lean`.
 
 The sum in (2) is the cardinal sum `Cardinal.sum` of the `k`-ranks of the `Ext` modules over the
 whole of `ℤ`, and "finite" is `< ℵ₀`; so (2) is the finiteness of the *total* dimension, not the
@@ -34,8 +36,8 @@ All four live in the namespace
 * `cardinalSum_rank_ext_lt_aleph0_iff_hasFiniteTotalExt`: finiteness of
   `∑_{i ∈ ℤ} dim_k Ext^i_X(E, K)` is the library's `HasFiniteTotalExt`, that is, condition (3) of
   [Stacks, Tag 0FYB] read at a single `E`.
-* `cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded`: **[Stacks, Tag 0FYD], (1) ⇒ (2)**
-  — one direction only, for `X` proper over `k`.
+* `cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded`: the implication (1) ⇒ (2) of
+  [Stacks, Tag 0FYD] from the two inputs of [Stacks, Tag 0FYC], for `X` proper over `k`.
 * `hasFiniteTotalExt_of_derivedCategoryBBounded`: the same implication in the
   `HasFiniteTotalExt` spelling.
 
@@ -43,8 +45,8 @@ All four live in the namespace
 
 **The two hypotheses that (1) ⇒ (2) carries are inherited, not introduced here.** They come from
 the attribute of this library's [Stacks, Tag 0FYC], namely
-`Stacks.AlgebraicGeometry.ProperSupportCoherent.cardinalSum_rank_ext_lt_aleph0`, which is tagged
-`granted hExtFinite (substantive degrees of 0D0D) and the cited dual complex 08DQ`:
+`Stacks.AlgebraicGeometry.ProperSupportCoherent.cardinalSum_rank_ext_lt_aleph0`, which takes them
+as arguments:
 
 * `hExtFinite`: each `Ext^i_X(E, K)` is a finite `k`-module. This is [Stacks, Tag 0D0D], which
   the library now carries in full, as
@@ -61,34 +63,10 @@ about one. Neither hypothesis asserts (2): `hExtFinite` is finiteness of the ind
 which leaves the number of nonzero degrees unbounded, and `D` is a complex together with three of
 its properties.
 
-**Why (2) ⇒ (1) is unreachable.** The source gives two routes and this library carries, for each
-of them, only the half that 0FYD does not use.
-
-* The proper-case route is through More on Morphisms [Stacks, Tag 0GET], whose conclusion is that
-  `K` is `Spec k`-perfect; Derived Categories of Schemes [Stacks, Tag 0DI1] would then identify
-  that with `D^b_Coh(𝒪_X)`, and the library does carry both of 0DI1's equivalences,
-  `AlgebraicGeometry.isPerfectRelativeTo_iff_isBounded_and_isPseudoCoherent` and
-  `AlgebraicGeometry.isBounded_and_isPseudoCoherent_iff_boundedCoherent`. But the library's 0GET,
-  `AlgebraicGeometry.eventually_subsingleton_ext_of_derivedGlobalSections_isPerfect`, proves only
-  the *vanishing* that the tag's hypothesis produces — that `Ext^i_X(G, K)` and
-  `Hom(G⟦-i⟧, K)` vanish for `i ≪ 0` — and explicitly not relative perfectness, which needs
-  three results that are absent: [Stacks, Tag 0GES], the implication (2) ⇒ (1) of
-  [Stacks, Tag 0GEH] (the library carries only (1) ⇒ (2)), and condition (1) of
-  [Stacks, Tag 0GEQ] (the library carries only the block of equivalences between conditions
-  (2), (3), (5) and (6)).
-* The projective-case route assumes `X` projective over `k`, pushes forward along a closed
-  immersion `i : X → ℙⁿ_k` and concludes by [Stacks, Tag 0FYB]. The step it concludes by is
-  0FYB's (4) ⇒ (1), and the library's 0FYB —
-  `hasFiniteTotalTwistCohomology_of_hasFiniteTotalTensorCohomology` of
-  `StacksFrontier/AlgebraicGeometry/Perfect/BeilinsonCoherentCharacterization.lean` —
-  carries only (2) ⇒ (4). Its (4) ⇒ (1) is blocked on the library's Beilinson equivalence being
-  stated over the endomorphism differential graded algebra rather than over the upper triangular
-  algebra of [Stacks, Tag 0CS9], which puts [Stacks, Tag 0FYA] out of reach of `K`, and on
-  `AlgebraicGeometry.IsRegular (ℙⁿ_k)`, which nothing in this library proves.
-
-So assuming `X` projective buys nothing: both routes are blocked, and the implication is stated
-here in the proper generality rather than hedged with a projectivity hypothesis that would not
-help.
+**The converse (2) ⇒ (1)** is proved in
+`StacksFrontier/AlgebraicGeometry/DerivedVarieties/CoherentCharacterizationConverse.lean`, through
+[Stacks, Tags 0CSJ, 09IQ and 0CSK] and the exceptional sequence on `ℙᵐ_k`; that file also states
+the equivalence.
 
 **Spellings.** All of them are the library's and none is introduced here. `D^b_Coh(𝒪_X)` is
 `DerivedCategoryB.derivedCategoryBBounded` at the coherence predicate; `Ext^i_X(E, K)` is
@@ -203,23 +181,19 @@ for every perfect object `E` of `D(𝒪_X)`, the dimensions being taken for the 
 `k`-structure induced by the structure morphism `X ⟶ Spec k`, the sum being the cardinal sum over
 all of `ℤ` and `< ∞` being `< ℵ₀`.
 
-**This is ONE DIRECTION of the equivalence of [Stacks, Tag 0FYD] and is therefore WEAKER THAN THE
-TAG.** The converse, (2) ⇒ (1), is not proved here and is not available in this library; the
-module docstring says which four results are missing, and no statement in this file permits the
-inference from finite total `Ext` to bounded coherent cohomology.
+The equivalence, with no further hypothesis, is
+`CoherentCharacterizationConverse.derivedCategoryBBounded_iff_cardinalSum_rank_ext_lt_aleph0`.
 
 The source proves this direction by [Stacks, Tag 0FYC], which is exactly what is applied, once
 for each perfect `E`. Its two hypotheses are inherited from it and are quantified over `E` here,
 0FYD's condition (2) being a statement about every perfect object:
 
-* `hExtFinite`, finite-dimensionality over `k` of each `Ext^i_X(E, K)`, is [Stacks, Tag 0D0D], of
-  which this library carries only the degrees in which the `Ext` modules vanish; the substantive
-  degrees need the clause of [Stacks, Tag 0D0C] that is absent. It does not assert the
-  conclusion: finiteness of each summand leaves the number of nonzero degrees unbounded.
+* `hExtFinite`, finite-dimensionality over `k` of each `Ext^i_X(E, K)`, is
+  [Stacks, Tag 0D0D], which the library proves as
+  `Stacks.AlgebraicGeometry.ProperSupportCoherent.moduleFinite_ext_of_proper`. It does not assert
+  the conclusion: finiteness of each summand leaves the number of nonzero degrees unbounded.
 * `D`, the dual perfect complex of [Stacks, Tag 08DQ], travels as data because there is no
   absolute derived internal hom on `D(𝒪_X)` here. -/
-@[stacks 0FYD "(1) ⇒ (2) ONLY, for X proper over a field; the converse (2) ⇒ (1) is NOT proved. \
-Granted 0FYC's own hExtFinite (0D0D) and DualPerfectComplexData (08DQ), quantified over E."]
 theorem cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded
     (hK : DerivedCategoryB.derivedCategoryBBounded
       (fun M : X.left.Modules => M.IsCoherent) K)
@@ -244,11 +218,8 @@ spelling.** Let `X` be a scheme proper over a field `k` and let `K` be an object
 [Stacks, Tag 0FYB] — which `cardinalSum_rank_ext_lt_aleph0_iff_hasFiniteTotalExt` shows is the
 same condition as the finiteness of the cardinal sum.
 
-**Like `cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded`, this is ONE DIRECTION of the
-equivalence of [Stacks, Tag 0FYD] and is therefore WEAKER THAN THE TAG**; the hypotheses
-`hExtFinite` and `D` are inherited from [Stacks, Tag 0FYC], as described there. -/
-@[stacks 0FYD "(1) ⇒ (2) ONLY, as HasFiniteTotalExt; the converse (2) ⇒ (1) is NOT proved. \
-Granted 0FYC's own hExtFinite (0D0D) and DualPerfectComplexData (08DQ), quantified over E."]
+The arguments `hExtFinite` and `D` are inherited from [Stacks, Tag 0FYC], as described at
+`cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded`. -/
 theorem hasFiniteTotalExt_of_derivedCategoryBBounded
     (hK : DerivedCategoryB.derivedCategoryBBounded
       (fun M : X.left.Modules => M.IsCoherent) K)

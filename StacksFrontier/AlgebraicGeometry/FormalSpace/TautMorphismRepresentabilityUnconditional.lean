@@ -88,7 +88,12 @@ algebraic spaces over `S`. The following are equivalent:
    `Uᵢ ⟶ Vᵢ ⟶ Y` through an affine formal algebraic space representable étale over `Y` with
    `Uᵢ ⟶ Vᵢ` given by such a taut map;
 4. `f` is representable by algebraic spaces. -/
-@[stacks 0ANK]
+@[stacks 0ANK "the equivalence of the four conditions for X and Y locally countably indexed; \
+Stacks 0AJ3 enters through isFormalAlgebraicSpace_pullback_chart_of_etale, Stacks 0AKX through \
+hasAffineEtaleChartProperty_iff_hasAffineEtaleAtlasWithProperty_of_mem, Stacks 0AN5 through \
+isRepresentableByAlgebraicSpacesULift_iff_hasTautOnAffineChartMap, Stacks 0AQ0 through \
+isTautOnEveryAffineEtaleDiagram_of_isRepresentableByAlgebraicSpaces and Stacks 0AN4 through \
+isRepresentableByAlgebraicSpacesULift_of_etaleCover_comp"]
 theorem tfae_isTautOnEveryAffineEtaleDiagram_isRepresentableByAlgebraicSpaces
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsLocallyCountablyIndexed B S hS X) (hY : IsLocallyCountablyIndexed B S hS Y) :

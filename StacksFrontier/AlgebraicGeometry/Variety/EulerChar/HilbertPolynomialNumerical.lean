@@ -52,9 +52,9 @@ hypothesis handles because `H ≅ ℙⁿ⁻¹_k`; [Stacks, Tag 00JZ] then return
 * `AlgebraicGeometry.hilbertPolynomial_sub_eq_eulerCharacteristic_of_shortExact'`: the same
   with the finite-dimensionality input discharged by [Stacks, Tag 02O6] over a field base, and
   so with no finiteness hypothesis at all.
-* `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial`: **[Stacks, Tag 08AC]** granted the
-  hyperplane difference formula of its inductive step, the induction on `n` and its base case
-  being carried out in full.
+* `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial`: the induction on `n` of the proof of
+  [Stacks, Tag 08AC] and its base case, taking the hyperplane difference formula of the inductive
+  step as an argument `hstep` so that the induction stays separate from the geometry.
 
 ## The twists on `ℙ⁰` are trivial
 
@@ -99,24 +99,23 @@ infinite base field, used only to produce the hyperplane — is not needed here:
 for the given field directly. It *is* needed to discharge `hstep`, since the hyperplane exists
 only over an infinite field; that is done downstream.
 
-**`hstep` is discharged**, and [Stacks, Tag 08AC] therefore proved outright, in
+**`hstep` is a theorem**, in
 `StacksFrontier/AlgebraicGeometry/Variety/EulerChar/HilbertPolynomialPolynomial.lean`:
 `AlgebraicGeometry.exists_coherent_hilbertPolynomial_sub_eq` is `hstep` over an infinite field,
 from the twisted hyperplane restriction sequences of
-`AlgebraicGeometry.exists_restrictionSequences`, and
-`AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial'` is the tag with no hypothesis at
-all, over an arbitrary field. So nothing below is open; what `hstep` does is keep the induction
-separate from the geometry that feeds it.
+`AlgebraicGeometry.exists_restrictionSequences`. So nothing below is open; what `hstep` does is
+keep the induction separate from the geometry that feeds it.
 
 ## Implementation notes
 
-**[Stacks, Tag 08AC] is attached, clause-qualified**, to
-`AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial`, whose only hypothesis beyond the
-source's own is `hstep`. The qualifier records it. What the theorem itself supplies is the whole
-of the source's argument that is not that one input: the passage from the Hilbert polynomial to
-the Euler characteristic, the base case in full, the induction on `n`, and the application of
-[Stacks, Tag 00JZ] through `main_00JZ`. The tag is attached a second time, with no qualifier, to
-`AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial'`, which has no hypothesis.
+**[Stacks, Tag 08AC] is registered on**
+`AlgebraicGeometry.exists_polynomial_eval_eq_hilbertPolynomial`, in
+`StacksFrontier/AlgebraicGeometry/Variety/EulerChar/HilbertPolynomialFiniteDetermination.lean`: a
+`P ∈ ℚ[X]` with `χ(ℙⁿ_k, ℱ(d)) = P(d)` for every `d ∈ ℤ`, over an arbitrary field and with no
+hypothesis. `AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial` carries no tag: it is the
+source's induction with `hstep` as an argument, and supplies the passage from the Hilbert
+polynomial to the Euler characteristic, the base case in full, the induction on `n`, and the
+application of [Stacks, Tag 00JZ] through `main_00JZ`.
 
 **Coherence of the twists** is `AlgebraicGeometry.isCoherent_projectiveTwist`, made available to
 instance search locally rather than globally so that no instance is added to the library.
@@ -347,7 +346,7 @@ public theorem hilbertPolynomial_sub_eq_eulerCharacteristic_of_shortExact'
   hilbertPolynomial_sub_eq_of_euler_add k n F d e₁ e₂
     (eulerCharacteristic_add_of_shortExact k (projectiveSpaceOverRing n (.of k) ↘ Spec (.of k)) hS)
 
-/-- **[Stacks, Tag 08AC], granted the hyperplane difference formula.** For a field `k`, an
+/-- **The induction of the proof of [Stacks, Tag 08AC].** For a field `k`, an
 integer `n ≥ 0` and a coherent sheaf `ℱ` on `ℙⁿ_k`, the function `d ↦ χ(ℙⁿ_k, ℱ(d))` is a
 numerical polynomial.
 
@@ -359,13 +358,9 @@ the base case is constant because the twists on `ℙ⁰_k` are trivial
 (`AlgebraicGeometry.projectiveTwistZeroIso`), the induction on `n` is carried out, and
 [Stacks, Tag 00JZ] in the form `main_00JZ` turns each difference back into the function.
 
-`hstep` is itself a theorem, `AlgebraicGeometry.exists_coherent_hilbertPolynomial_sub_eq`; the
-hypothesis-free form of the tag is
-`AlgebraicGeometry.isNumericalPolynomial_hilbertPolynomial'`. -/
-@[stacks 08AC "the induction on n of the source's proof together with its base case, the \
-triviality of the twists on P^0; its one geometric input is the hypothesis hstep, the hyperplane \
-difference formula of Stacks 0EGK, 08A0, 089Z and 08AA, which is discharged by \
-AlgebraicGeometry.exists_coherent_hilbertPolynomial_sub_eq"]
+`hstep` is itself a theorem over an infinite field,
+`AlgebraicGeometry.exists_coherent_hilbertPolynomial_sub_eq`. The tag, with no hypothesis and at
+every integer, is `AlgebraicGeometry.exists_polynomial_eval_eq_hilbertPolynomial`. -/
 public theorem isNumericalPolynomial_hilbertPolynomial
     (hstep : ∀ (m : ℕ) (G : (projectiveSpaceOverRing (m + 1) (.of k)).Modules)
       (_ : G.IsCoherent), ∃ (H : (projectiveSpaceOverRing m (.of k)).Modules)

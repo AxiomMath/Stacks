@@ -33,10 +33,11 @@ asks for. Substituting it is all this file does.
 **No `@[stacks]` attribute is attached here**, following
 `StacksFrontier/AlgebraicGeometry/AmpleTwistAcyclicity/GradedConsequence.lean`, which discharges the
 `VanishingOverAffineBase` hypothesis of part (2) of [Stacks, Tag 0897] in exactly this way. Both
-tags already have sites, on the statements in `FormalFunctionsFrom02O8.lean`, and those sites
-belong to the development that proved them; moving or duplicating the attribute is not this
-file's business. What this file does mean is that the `granted Tag 02O8, carried as the
-hypothesis h02O8` clause of those two sites no longer describes the state of the library.
+tags have their sites elsewhere: [Stacks, Tag 02OB] and [Stacks, Tag 02OC] are registered on
+`exists_uniform_bound_cohomology_idealPowerQuotient_of_isProper` and
+`exists_formalFunctionsEquiv_of_isProper` in
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ArtinReesChain.lean`, which state
+them under the source's own hypotheses.
 
 Three further docstrings in the neighbourhood say that Tag 02O8 is *absent* from this branch —
 `CohomologyIdealPowerSystem.lean` at the definition of `IsCohomologyReesFinite` and at
@@ -44,12 +45,14 @@ Three further docstrings in the neighbourhood say that Tag 02O8 is *absent* from
 documentation. They predate `ReesCohomologyFiniteReduction.lean` and are stale; the theorem
 named above is the counterexample to all three.
 
-**What is still not [Stacks, Tag 02OC] in full.** The source also asserts that the comparison is
-a homeomorphism for the limit topologies, and that assertion is not proved here or anywhere in
-the repository — see the docstring of
-`Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8`, whose conclusion is
-reproduced below, behind an extra, vacuous `∃ _c : ℕ`. Clauses (2), (4) and (5) of
-[Stacks, Tag 02OA], and clause (2) of [Stacks, Tag 02OB] for `n > 0`, are likewise untouched.
+**What is not [Stacks, Tag 02OC] in full here.** The source also asserts that the comparison is
+a homeomorphism for the limit topologies, which the statement below, a verbatim copy of the
+conclusion of `Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8`, does not
+claim. The complete statement, homeomorphism included, is
+`Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_isProper`
+(`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ArtinReesChain.lean`), which
+is where the tag is registered. Clauses (2), (4) and (5) of [Stacks, Tag 02OA], and
+clause (2) of [Stacks, Tag 02OB] for `n > 0`, are likewise untouched.
 
 ## References
 
@@ -116,7 +119,8 @@ coherent, the `I`-adic completion of `H^p(X, ℱ)` is the limit of the tower
 This is `Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8` with its
 hypothesis `h02O8` supplied by
 `Stacks.FormalFunctions.isReesFinite_cohomologyIdealPowerSystem`. The homeomorphism for the limit
-topologies that the source also asserts is not part of the conclusion, there or here. -/
+topologies that the source also asserts is not part of the conclusion, there or here; it is
+part of `Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_isProper`. -/
 public theorem exists_formalFunctionsEquiv_unconditional
     (A : Type u) [CommRing A] [IsNoetherianRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
     (hX : AlgebraicGeometry.IsProper f) (I : Ideal A) (F : X.Modules)
@@ -126,8 +130,8 @@ public theorem exists_formalFunctionsEquiv_unconditional
       ∀ (n : ℕ) (x : cohomologyOverBase A f p F),
         towerLimit.proj n (e (AdicCompletion.of I (cohomologyOverBase A f p F) x)) =
           adicCohomologyProj A f I F p n x :=
-  ⟨0, exists_formalFunctionsEquiv_of_02O8 A f hX I F hF p
-    Stacks.FormalFunctions.isReesFinite_cohomologyIdealPowerSystem⟩
+  exists_formalFunctionsEquiv_of_02O8 A f hX I F hF p
+    Stacks.FormalFunctions.isReesFinite_cohomologyIdealPowerSystem
 
 end Stacks.Cohomology.FormalFunctions
 

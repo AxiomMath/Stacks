@@ -21,16 +21,12 @@ sheaves on `C/X` the canonical map
 `E ⟶ Ra_* a^{-1} E`
 
 is an isomorphism; the source deduces it as a special case of Stacks 0D8L, the same assertion
-for an arbitrary hypercovering of `X` by semi-representable objects. That deduction is what is
-carried out here, the canonical map being the one of Stacks 0D8L at the associated simplicial
-semi-representable object, so no second map is built.
-
-Stacks 0D8L is available in this library only granted two inputs. The specialization discharges
-the first of them from the hypercovering conditions on `a` together with local fullness of the
-localization functor `j_total`, and weakens the second to a statement about K-injective
-complexes only. What remains carried is that local fullness — the clause of Stacks 0D8E which
-the library does not prove — and the `Ra_*`-acyclicity of `a^{-1}` of a K-injective complex.
-Accordingly nothing unconditional is claimed; see the implementation notes.
+for an arbitrary hypercovering of `X` by semi-representable objects. This file builds that
+canonical map as the one of Stacks 0D8L at the associated simplicial semi-representable object,
+so no second map is built, together with the reduction of Stacks 0D8L to the underived
+augmentation unit and to the K-injective complexes. Stacks 0D8N itself, with no hypothesis
+beyond the hypercovering conditions, is `isIso_derivedAugmentationUnitAugmented_app_unconditional`
+in `HypercoveringObjectDerivedPushforwardUnconditional.lean`.
 
 ## Main definitions
 
@@ -50,9 +46,6 @@ Accordingly nothing unconditional is claimed; see the implementation notes.
 * `CategoryTheory.SimplicialSemiRepresentable.isIso_derivedAugmentationUnitOver_of_isIso_unit`:
   Stacks 0D8L with its first input replaced by invertibility of the underived augmentation unit
   and its second asked only at the K-injective complexes.
-* `CategoryTheory.SimplicialSemiRepresentable.isIso_derivedAugmentationUnitAugmented_app`:
-  **Stacks 0D8N**, granted local fullness of `j_total` and the `Ra_*`-acyclicity of `a^{-1}` of
-  a K-injective complex.
 
 ## Implementation notes
 
@@ -62,55 +55,14 @@ pullbacks of coverings, which the simplicial family of sites of Stacks 0D8B requ
 makes the coskeleta appearing in the hypercovering conditions exist, so that
 `IsHypercoveringAugmentation` is well formed at all.
 
-The hypercovering hypothesis `h` is load-bearing and is used exactly once: through
-`CategoryTheory.SimplicialSemiRepresentable.isCoverDense_totalForget_augmented`, its
-degree-zero clause makes `{U₀ ⟶ X}` a covering family of `X` and hence makes `j_total` cover
-dense. Cover density is what, together with local fullness, makes `a^{-1}` fully faithful on
-abelian sheaves and so makes the underived unit `F ⟶ a_* a^{-1} F` invertible, which is
-Stacks 0DA8 (2) as carried by
-`CategoryTheory.SimplicialSemiRepresentable.isIso_abelianUnit_augmented`. Without the
-degree-zero clause that unit is not available and the first input of Stacks 0D8L could not be
-discharged.
-
-Passing from the underived unit to the hypothesis `hunit` of Stacks 0D8L is the content of
-`isIso_homotopyAugmentationUnitOver`: the unit of Stacks 0D8L on unbounded homotopy categories
-is the degreewise unit conjugated by two canonical isomorphisms, and an invertible natural
-transformation of additive functors stays invertible after `NatTrans.mapHomotopyCategory`,
-because its components there are the images under the quotient of morphisms of complexes which
-are invertible in every degree.
-
-Two things remain carried, and neither is discharged anywhere here.
-
-* `hlf`, local fullness of `j_total` for the topology of `C/X`. This is the clause of
-  Stacks 0D8E which the library does not prove; the implementation notes of
-  `StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringObjectDescent.lean` identify it as
-  the local existence of a `p`-simplex of the hypercovering carrying two prescribed charts on
-  complementary faces, of which the library has only the coskeleton form. It is the same
-  hypothesis that every conditional clause of Stacks 0DA8 in
-  `StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringBySimplicialObject.lean` carries.
-* `hacyclic`, that the direct image of `a^{-1}` of a K-injective complex needs no derivation.
-  This is the vanishing of `R^p a_* a^{-1}` in positive degrees, which the source reads off the
-  spectral sequence of Stacks 0D7A. That spectral sequence *is* built in this library, as
-  `CategoryTheory.SimplicialSiteSituation.Augmentation.spectralSequence` of
-  `StacksFrontier/CategoryTheory/Sites/Simplicial/AugmentationSpectralSequence.lean`, but it is
-  built as a bare first-quadrant spectral sequence of abelian sheaves — pages and differentials
-  and nothing else. Its convergence to `R^{p+q} a_* F` is not asserted there and is blocked: the
-  total complex of the underlying double complex computes `R a_* F` only once the rows of the
-  complex of Stacks 0D79 are exact in positive degrees, and
-  `StacksFrontier/CategoryTheory/Sites/Simplicial/AugmentationCechComplex.lean` has that exactness
-  only in the two lowest degrees, positive-degree exactness needing the resolution of
-  Stacks 0D78 together with the injective-resolution argument that applies it; the resolution
-  itself is `CategoryTheory.SimplicialSiteSituation.Augmentation.resolution`. Neither is the first
-  page of that sequence identified with `R^q a_{p,*} K_p`; the two other Stacks 0D7A clauses in
-  `AugmentationFirstPage.lean` and `AugmentationComponentPushforwardAb.lean` supply that term and
-  its attachment to the double complex, not the identification. Without convergence the sequence
-  says nothing about `R^p a_*`, so `hacyclic` cannot be read off it.
-
-  `hacyclic` is in any case not automatic: `a^{-1}` is a left adjoint, and the comparison
-  `a_* ⟶ Ra_*` is invertible at K-injective complexes of the total site, not at the inverse
-  images of K-injective complexes of `C/X`. It is asked only at the K-injective complexes, which
-  is where the source's argument supplies it; the reduction of the unbounded statement to those
-  complexes is `Stacks.Cohomology.Localization.natTrans_isIso_of_kInjectives`.
+Passing from the underived unit `F ⟶ a_* a^{-1} F` to the hypothesis `hunit` of Stacks 0D8L is
+the content of `isIso_homotopyAugmentationUnitOver`: the unit of Stacks 0D8L on unbounded
+homotopy categories is the degreewise unit conjugated by two canonical isomorphisms, and an
+invertible natural transformation of additive functors stays invertible after
+`NatTrans.mapHomotopyCategory`, because its components there are the images under the quotient
+of morphisms of complexes which are invertible in every degree. The reduction of the unbounded
+statement to the K-injective complexes is
+`Stacks.Cohomology.Localization.natTrans_isIso_of_kInjectives`.
 
 The derived categories are the standard ones, `CategoryTheory.HasDerivedCategory.standard`,
 installed as a local instance as in the neighbouring files, and the additivity, exactness and
@@ -242,7 +194,7 @@ theorem isIso_derivedAugmentationUnitOver_of_isIso_unit
 
 end Over
 
-/-! ### Stacks 0D8N -/
+/-! ### The canonical map of Stacks 0D8N -/
 
 section Augmented
 
@@ -265,28 +217,16 @@ abbrev derivedAugmentationUnitAugmented :
           (associatedSimplicialObject.{u} U a) :=
   derivedAugmentationUnitOver P.toGrothendieck X (associatedSimplicialObject.{u} U a)
 
-/-- **Stacks Project, Tag 0D8N**, granted the two inputs this library does not have. For a site
-`C` with fibre products, an object `X` of `C` and a hypercovering `a : U ⟶ X` of `X` in `C` by a
-simplicial object `U` of `C`, the canonical map `E ⟶ Ra_* a^{-1} E` is an isomorphism for every
-object `E` of the unbounded derived category of abelian sheaves on `C/X`.
+/-- For a site `C` with fibre products, an object `X` of `C` and a hypercovering `a : U ⟶ X` of
+`X` in `C` by a simplicial object `U` of `C`, the canonical map `E ⟶ Ra_* a^{-1} E` is an
+isomorphism for every object `E` of the unbounded derived category of abelian sheaves on `C/X`,
+given local fullness `hlf` of `j_total` and the `Ra_*`-acyclicity `hacyclic` of `a^{-1}` of a
+K-injective complex.
 
-`E` is arbitrary: no boundedness is assumed and the coefficients are all abelian sheaves. The
-source deduces this from Stacks 0D8L for the associated simplicial semi-representable object
-over `X`, and that is the deduction performed, the hypercovering conditions on `a` entering
-through cover density of `j_total`.
-
-The two carried hypotheses are the ones discussed in the module docstring. `hlf`, local fullness
-of `j_total`, is the clause of Stacks 0D8E which the library does not prove; together with the
-degree-zero clause of `h` it supplies the underived unit `F ⟶ a_* a^{-1} F` of Stacks 0DA8 (2),
-which is the first input of Stacks 0D8L. `hacyclic` says that the direct image of `a^{-1}` of a
-K-injective complex needs no derivation, that is, that `R^p a_* a^{-1}` vanishes in positive
-degrees; the source reads that off the spectral sequence of Stacks 0D7A, which this library
-builds but without the convergence to `R^{p+q} a_*` that the reading needs. No unconditional
-invertibility is claimed. -/
-@[stacks 0D8N "granted two inputs this library does not have: local fullness of j_total,
-which is the unproved clause of Tag 0D8E, and the Ra_*-acyclicity of a⁻¹ of a K-injective
-complex, which is the content of the spectral sequence of Tag 0D7A;
-the isomorphism is not proved unconditionally"]
+Both hypotheses hold for every hypercovering augmentation: `hlf` is
+`isLocallyFull_totalForget_augmented` and `hacyclic` follows from
+`inverseImageComputesDerivedPushforward_over_of_isHypercovering`. The statement without them,
+Stacks 0D8N, is `isIso_derivedAugmentationUnitAugmented_app_unconditional`. -/
 theorem isIso_derivedAugmentationUnitAugmented_app
     (h : IsHypercoveringAugmentation P U a)
     (hlf : (totalForget (associatedSimplicialObject.{u} U a)).IsLocallyFull

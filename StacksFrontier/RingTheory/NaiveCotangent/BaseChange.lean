@@ -1514,8 +1514,10 @@ The display records the commutative square of commutative unital rings
     │        │
     R ─────▶ R'
 
-used to compare the naive cotangent complexes of `S/R` and `S'/R'`. It introduces no
-object beyond the square itself, so it carries no separate Lean statement.
+used to compare the naive cotangent complexes of `S/R` and `S'/R'`. The square is
+`Stacks.NaiveCotangent.RingSquare`, and the functoriality of the naive cotangent complex in it is
+`Algebra.Generators.naiveCotangentComplex_functorial`, both in
+`StacksFrontier.RingTheory.NaiveCotangent.Functoriality`.
 -/
 
 @[expose] public section

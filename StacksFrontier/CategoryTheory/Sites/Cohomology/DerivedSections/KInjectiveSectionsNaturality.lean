@@ -7,10 +7,11 @@ import StacksCore.Tactic.StacksAttribute
 
 Let `(C, O)` be a ringed site. On a K-injective complex `I` of `O`-modules the complex of global
 sections already computes `RΓ(C, I)`; that comparison is
-`Stacks.Cohomology.ModuleSections.globalSectionsKInjectiveIso`, which is Stacks 07A5 for the
-global sections functor. This file records that the comparison is **natural**: a morphism of
-K-injective complexes induces a square with the map on global sections on one side and the map
-on derived global sections on the other.
+`Stacks.Cohomology.ModuleSections.globalSectionsKInjectiveIso`, an instance of Stacks 07A5 for the
+global sections functor; the complete statement of Stacks 07A5 is
+`Stacks.Cohomology.UnboundedComplexes.ringedSite_unboundedComplexes`. This file records that the
+comparison is **natural**: a morphism of K-injective complexes induces a square with the map on
+global sections on one side and the map on derived global sections on the other.
 
 The comparison is a composite of four natural pieces — the identification of the localisation
 of the homotopy category with the derived category, twice, the factorisation of
@@ -56,7 +57,6 @@ variable (X : RingedSite.{u, u, u})
 is natural.** For a morphism `t : I ⟶ J` of K-injective complexes of `O`-modules, the class of
 the induced morphism of global section complexes corresponds to the morphism
 `RΓ(C, I) ⟶ RΓ(C, J)` induced by the class of `t`. -/
-@[stacks 07A5 "global sections of modules on a ringed site, naturality of the comparison"]
 theorem globalSectionsKInjectiveIso_naturality
     {I J : CochainComplex (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)) ℤ}
     [I.IsKInjective] [J.IsKInjective]

@@ -85,10 +85,6 @@ The dualizing hypothesis is `AlgebraicGeometry.HasDualizingComplexOnAffineCover`
 every point has an affine open neighbourhood whose ring of sections admits a dualizing complex.
 That is the source's phrase "locally has a dualizing complex", and it is **weaker** than
 `AlgebraicGeometry.LocallyHasDualizingComplex`, which asks this of *every* affine open. -/
-@[stacks 0EI4 "existence, at the hypotheses of the source and no others: Noetherian, locally a \
-dualizing complex in the source's sense that every point has an affine neighbourhood carrying \
-one, T' subset T both stable under specialization, immediate specializations into T' starting \
-in T. Tag 0EI3 existence is composed with Tag 0DX3 here"]
 public theorem exists_isNestedImprovement_of_hasDualizingComplex
     (X : Scheme.{u}) [IsNoetherian X] (hdual : HasDualizingComplexOnAffineCover X)
     (T T' : Set X) (hTT' : T' ⊆ T)
@@ -114,8 +110,6 @@ This is the source's sentence "there exists a unique map" in one statement.  Exi
 `AlgebraicGeometry.exists_isNestedImprovement_of_hasDualizingComplex` and uniqueness is
 `AlgebraicGeometry.nestedImprovement_unique`, which needs neither the dualizing complex, nor the
 condition on immediate specializations, nor `T' ⊆ T`. -/
-@[stacks 0EI4 "the source's unique map, as existence together with uniqueness up to a unique \
-isomorphism under F, at the hypotheses of the source and no others"]
 public theorem existsUnique_isNestedImprovement_of_hasDualizingComplex
     (X : Scheme.{u}) [IsNoetherian X] (hdual : HasDualizingComplexOnAffineCover X)
     (T T' : Set X) (hTT' : T' ⊆ T)

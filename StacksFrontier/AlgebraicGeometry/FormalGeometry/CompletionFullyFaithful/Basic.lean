@@ -173,7 +173,6 @@ public theorem pullbackSectionsMap_natural {S : Scheme.{u}} {M N : S.Modules} (�
     {A B : Over S} (g : A ⟶ B) (s : Γ((Scheme.Modules.pullback B.hom).obj M, ⊤)) :
     pullbackSectionsMap N g (((Scheme.Modules.pullback B.hom).map φ).app ⊤ s) =
       ((Scheme.Modules.pullback A.hom).map φ).app ⊤ (pullbackSectionsMap M g s) := by
-  rw [pullbackSectionsMap_eq, pullbackSectionsMap_eq]
   have key := congrArg (fun χ => Scheme.Modules.Hom.app χ ⊤ s) (sectionMorphism_natural φ g)
   simp only [Scheme.Modules.Hom.comp_app, ConcreteCategory.comp_apply,
     Scheme.Modules.pushforward_map_app] at key

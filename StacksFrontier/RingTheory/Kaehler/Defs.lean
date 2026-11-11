@@ -20,10 +20,10 @@ isomorphism `Hom_S(Ω_{S/R}, M) ≃ Der_R(S, M)` — Mathlib's
 `KaehlerDifferential.linearMapEquivDerivation`, whose formula is
 `KaehlerDifferential.linearMapEquivDerivation_apply_apply`.
 
-Stacks 00RW is the canonical isomorphism `Ω_{S/R} ≃ J/J²` for `J` the kernel of
-`S ⊗[R] S → S`, sending `a d b` to `a ⊗ b - ab ⊗ 1`. Mathlib *defines*
-`KaehlerDifferential R S` to be `(KaehlerDifferential.ideal R S).Cotangent`, so the
-isomorphism is the identity, and `KaehlerDifferential.D_apply` is the displayed formula.
+Mathlib *defines* `KaehlerDifferential R S` to be `(KaehlerDifferential.ideal R S).Cotangent`,
+`J/J²` for `J` the kernel of `S ⊗[R] S → S`, with `KaehlerDifferential.D_apply` the formula
+`d b = 1 ⊗ b - b ⊗ 1`. Stacks 00RW, the isomorphism between `Ω_{S/R}` defined by generators and
+relations and `J/J²`, is in `StacksFrontier.RingTheory.Kaehler.QuotKerTotalCotangent`.
 -/
 
 @[expose] public section
@@ -76,12 +76,9 @@ add_to_stacks 00RO "the map is `α ↦ α ∘ d`"
 add_to_ega "0 20.4.8" "(ii), discrete case"
   KaehlerDifferential.linearMapEquivDerivation
 
--- The former @[stacks 00RW] declarations are Mathlib's definition of `Ω[S⁄R]` as `J / J ^ 2`.
-add_to_stacks 00RW "`Ω[S⁄R]` is `J / J ^ 2`" KaehlerDifferential
-add_to_stacks 00RW "the ideal `J`" KaehlerDifferential.ideal
+-- Mathlib's definition of `Ω[S⁄R]` as `J / J ^ 2`: the ideal `J` and the formula for `d`.
 add_to_sga "3 VIIA 1.4.1" "special case" KaehlerDifferential.ideal
 add_to_ega "0 20.4.1" KaehlerDifferential.ideal
-add_to_stacks 00RW "`d b = 1 ⊗ b - b ⊗ 1`" KaehlerDifferential.D_apply
 add_to_ega "IV 16.3.6" "special case" KaehlerDifferential.D_apply
 
 end

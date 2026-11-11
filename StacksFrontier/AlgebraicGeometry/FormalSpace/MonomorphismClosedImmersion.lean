@@ -106,12 +106,13 @@ in `StacksFrontier.AlgebraicGeometry.Spaces.FiniteTypeFromThickening`.
 
 Stacks 0GHZ itself grants nothing. The source proof of the Noetherian case runs the other way:
 it makes `V` an affine scheme by Stacks 07VT and then reads the surjectivity of its ring map off
-Stacks 07RD and Stacks 00DV (11). That route is unavailable here, because the library's 07VT,
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`, is itself stated
-with three granted hypotheses and proving it outright calls for Stacks 09YA, 07SQ, 07VS, 05ZH
-and 05W5, none of which this library carries; Stacks 09YA has no carrier at all. It is recorded
-below all the same: `AlgebraicGeometry.FormalSpace.Is07VT`, together with the two declarations
-that take it as a hypothesis —
+Stacks 07RD and Stacks 00DV (11). That route is not taken here, since this module does not import
+Stacks 07VT, which is proved outright as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`
+(as is Stacks 07VS, as
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`).
+It is recorded below as a hypothesis: `AlgebraicGeometry.FormalSpace.Is07VT`, together with the two
+declarations that take it as a hypothesis —
 `…Space.isClosedImmersion_of_mono_of_thickening_factors_of_isNoetherianRing` and
 `…isClosedImmersion_pullback_snd_of_isReduction` — spells out the source's argument, and the
 second of those is deduced from its primed form, which does without the hypothesis. So is the
@@ -386,9 +387,11 @@ theorem isClosedImmersion_of_isPullback_of_isThickening {X Z W : Scheme.{u}} [Is
 
 /-! ### The Noetherian case at the level of algebraic spaces -/
 
-/-- **Stacks 07VT**, in the form in which it is used below and which this library does not
-prove: an algebraic space over `S` receiving a surjective universally closed morphism from an
-affine scheme of the site is an affine scheme. -/
+/-- **Stacks 07VT**, in the form in which it is used below (proved outright, for an arbitrary
+affine source, as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`): an
+algebraic space over `S` receiving a surjective universally closed morphism from an affine scheme of
+the site is an affine scheme. -/
 abbrev Is07VT : Prop :=
   ∀ {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {T : BigFppfOver B S hS} (c : yoneda.obj T ⟶ F),
     IsAlgebraicSpace B S hS F → IsAffine ((BigFppfOver.toScheme B S hS).obj T) →

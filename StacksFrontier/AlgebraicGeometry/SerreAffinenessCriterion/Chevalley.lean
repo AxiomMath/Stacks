@@ -102,8 +102,8 @@ inputs:
   `StacksFrontier/AlgebraicGeometry/AffineHigherDirectImage/Natural.lean`, as a natural
   isomorphism of functors on quasi-coherent modules.
 * [Stacks, Tag 01YP] is **formalized** —
-  `AffineIdealPushforward.ideal_smul_pushforward_sections_eq`, in
-  `StacksFrontier/AlgebraicGeometry/Cohomology/IdealPushforwardAffine.lean`.
+  `PushforwardIdealSubsheaf.idealPowSmul_pushforward_eq`, in
+  `StacksFrontier/AlgebraicGeometry/SheafPushforward/Basic.lean`, as an equality of subsheaves.
 * [Stacks, Tag 01YM] (dévissage) and [Stacks, Tag 01YO] carry no attribute anywhere in the
   repository, and neither do [Stacks, Tag 01XF] and [Stacks, Tag 01XG], the two forms of Serre's
   criterion. Those two are the blocker. [Stacks, Tag 0B6V], sometimes listed as a

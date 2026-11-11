@@ -164,10 +164,7 @@ theorem coconeOfRepresentable_pt : (coconeOfRepresentable J F).pt = F := rfl
 
 /-- A sheaf `F` of sets on a site `C` is the colimit of the sheafified representables
 `h_{U_i}^#` along the diagram `indexingDiagram J F`. -/
-@[stacks 0GLW "(main statement) Every sheaf of sets on a site is the colimit of the sheafified
-  representables over its category of elements. The final clause, that the diagram may be
-  taken to land in a given family of objects covering every object, is not covered.",
-  sga "4 IV 6.3" "for each sheaf F"]
+@[sga "4 IV 6.3" "for each sheaf F"]
 noncomputable def colimitOfRepresentable : IsColimit (coconeOfRepresentable J F) :=
   IsColimit.ofIsoColimit
     (isColimitOfPreserves (presheafToSheaf J (Type max u v))

@@ -51,14 +51,11 @@ complexes of sheaves of modules needs are found at the light import surface of
 `StacksFrontier.AlgebraicGeometry.DeRham.CupProduct.WedgeProduct` and not under the heavier surface
 this file imports.
 
-The graded pieces `gr^kΩ^•_{X/S} = f^{-1}Ω^k_{Y/S}[-k] ⊗_{f^{-1}𝒪_Y} Ω^•_{X/Y}`, which Section
-50.12 deduces from the local splitting of the differentials sequence of a smooth morphism, are
-not part of the statement below. The local half of that deduction is
-`AlgebraicGeometry.Scheme.Hom.exists_isIso_exteriorPowerProdHom_relativeDifferentials`: over an
-open neighbourhood of any point the differentials sequence splits and the Künneth decomposition
-of exterior powers along a splitting applies. What is missing is that the resulting comparison,
-which depends on the chosen section of `Ω_{X/Y}`, becomes independent of it in `gr^k`, together
-with the tensor product over `f^{-1}𝒪_Y` and the shift `[-k]` out of which the target is built.
+The graded pieces `gr^kΩ^•_{X/S} ≅ f^{-1}Ω^k_{Y/S}[-k] ⊗_{f^{-1}𝒪_Y} Ω^•_{X/Y}` for `f` smooth,
+and the computation of the filtration in each degree, are the other clauses of Section 0FMK; they
+are stated in `StacksFrontier.AlgebraicGeometry.DeRham.SmoothFiltrationGradedPieces`
+(`Stacks.DeRhamSmooth.gradedPieceIsoGradedTargetComplexOfSmooth` and
+`Stacks.DeRhamSmooth.relativeDifferentialsExteriorFiltration_smooth_spec`).
 
 ## References
 
@@ -108,11 +105,9 @@ abbrev deRhamSmoothFiltration :
   `Tot(f^{-1}σ^{≥(k+1)}Ω^•_{Y/S} ⊗_{(f∘g)^{-1}𝒪_S} Ω^•_{X/S})`, so each step is a subcomplex;
 * the steps decrease;
 * and the filtration is exhaustive, its steps in degrees `≤ 0` being all of `Ω^•_{X/S}`. -/
-@[stacks 0FMK "the filtration of Ω^•_{X/S} by the forms pulled back from Y, constructed from \
-the pullback map of Tag 0FKP, with its subcomplex, decreasing and exhaustion clauses; NOT the \
-identification of the graded pieces: the local Künneth decomposition of the forms along a local \
-splitting of the smooth differentials sequence is available, but its independence of the chosen \
-splitting, which is what glues the local comparisons onto gr^k, is not"]
+@[stacks 0FMK "the filtered complex: F^kΩ^•_{X/S} is the image of the wedge map out of \
+Tot(f^{-1}σ_{≥k}Ω^•_{Y/S} ⊗_{p^{-1}O_S} Ω^•_{X/S}), a decreasing filtration of Ω^•_{X/S} by \
+subcomplexes with F^0Ω^•_{X/S} = Ω^•_{X/S}; it holds for every f, smooth or not"]
 theorem deRhamSmoothFiltration_spec :
     (deRhamSmoothFiltration f g).X = deRhamCochainComplex (f ≫ g) ∧
       (∀ k : ℤ, (deRhamSmoothFiltration f g).filtration.subobject (op k) =

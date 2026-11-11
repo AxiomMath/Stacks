@@ -334,11 +334,7 @@ public def eulerSystem [Finite k] [LocallyOfFiniteType f] [QuasiCompact f] :
 
 /-- The L-function `∏_{x ∈ |X|} det(1 - π_x^* T ^ (deg x)) ⁻¹` of a family of Frobenius
 matrices on a scheme `X` over `k`, as an element of `Λ⟦T⟧`. -/
-@[stacks 03UV "the Euler product over the closed points of a scheme of finite type over a \
-finite field, for a given family of Frobenius matrices rather than one derived from a \
-constructible flat sheaf; the positivity of the residue degrees and the finiteness of the \
-closed points of bounded degree are proved, not assumed",
-  sga "4½ Rapport 1.6" "Euler product"]
+@[sga "4½ Rapport 1.6" "Euler product"]
 public def lFunction [Finite k] [LocallyOfFiniteType f] [QuasiCompact f] : PowerSeries Λ :=
   D.eulerSystem.eulerProduct
 

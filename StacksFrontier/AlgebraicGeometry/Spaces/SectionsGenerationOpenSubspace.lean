@@ -15,8 +15,13 @@ Let `X` be an algebraic space over a scheme `S` of a big fppf site, `M` a quasi-
 `𝒪_X`-module and `s₀, …, sᵣ` global sections of `M`.  At a scheme point `t : h_T ⟶ X` the module
 and its sections are read on `T` (`AlgebraicGeometry.Space.pointModule`,
 `AlgebraicGeometry.Space.pointGlobalSection`).  This file shows that the scheme points at which the
-read sections do not vanish simultaneously form an open subspace of `X`: the locus `X_s ⊆ X` of
-the source (Stacks 0D2Y, read at the scheme points of `X`).
+read sections do not vanish simultaneously form an open subspace of `X`, the union of the
+nonvanishing loci of Stacks 01CY read at the scheme points of `X`.  This is not the open `U(ψ)`
+of Stacks 0D2Y, which is attached to a homomorphism of graded algebras into the powers of an
+invertible module
+(`AlgebraicGeometry.Space.RelativeProjSituation.InvertibleTwistingRestriction.locus`); for
+`M` invertible it is the special case of that open in which the graded algebra is a polynomial
+algebra and `ψ` sends the variables to `s₀, …, sᵣ`.
 
 ## Main definitions
 

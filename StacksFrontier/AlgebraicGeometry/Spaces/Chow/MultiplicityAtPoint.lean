@@ -355,7 +355,7 @@ theorem tfae_isGenericPoint_supp_restrictToChart_geometricLength
   tfae_finish
 
 /-- The support of the chart restriction of a coherent module is the inverse image of the
-support of the module under the map from the chart to `|X|`: this is Stacks 07TZ on the chart,
+support of the module under the map from the chart to `|X|`: this is Stacks 07TY on the chart,
 `AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf`, whose comparison
 hypothesis is Stacks 05VP, `AlgebraicGeometry.Space.isIso_chartStalkTensorComparison`. -/
 theorem supp_restrictToChart_eq_preimage_chartSchemeToPoints (F : Modules.{u, u} B S hS X.1 X.2)

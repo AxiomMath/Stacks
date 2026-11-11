@@ -18,9 +18,11 @@ doubled, whose coordinate morphism is not separated
 (`AlgebraicGeometry.not_isSeparated_coordinateMorphism`), so no affine open contains both chart
 origins even though they lie in one fibre. The tag's hypothesis for `d ≤ 1` therefore does not
 imply the two-point case, and the `@[stacks 0B9A]` attribute accordingly sits on the theorem
-`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`, which
-states the tag under the source's own `d`-tuple hypothesis for every `d ≠ 1`, its proof for
-`2 ≤ d` running through
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`, which
+states the tag under the source's own `d`-tuple hypothesis and assumes separatedness of `X ⟶ S` at
+`d = 1`, as recorded in `errata.md`; for every `d ≠ 1` it is
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`, its proof
+for `2 ≤ d` running through
 `nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_two_le`, where
 that hypothesis does contain the two-point case (both in the namespace `Stacks.Hilbert`); the
 generalisation to every `d`,

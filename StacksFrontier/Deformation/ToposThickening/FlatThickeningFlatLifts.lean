@@ -65,16 +65,22 @@ from 08MR", and that is how the proofs go.
   coefficient module `f^*J ⊗_O ℱ` and the action `I ⊗_O ℱ ⟶ f^*J ⊗_O ℱ` that is the identity
   under `I = f^*J`, i.e. the inverse of `basePullbackIdealTensorIso`. The class is natural in the
   coefficient module (`Deformation.ToposThickening.existenceObstructionClass_comp`), so it is the
-  image of the class `o(ℱ, I ⊗_O ℱ, 1)` of Stacks 08MV, which is
-  `Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero'`.
+  image of the class `o(ℱ, I ⊗_O ℱ, 1)` of Stacks 08MV, whose vanishing is the existence of a
+  flat lift once `I = f^*J`: that is
+  `Deformation.ToposThickening.hasFlatLift_iff_obstruction_eq_zero'`, Stacks 08MV
+  (`Deformation.ToposThickening.hasFlatLift_iff_isIso_and_obstruction_eq_zero'`) with its
+  condition (1) supplied by `Deformation.ToposThickening.isIdealComparisonIsoOfFlat`.
 * In part (2) the torsor of Stacks 08MU
   (`Deformation.ToposThickening.exists_addTorsor_flatLiftClass`) is transported along the
   isomorphism of `Ext¹` groups induced by `f^*J ⊗_O ℱ ≅ I ⊗_O ℱ`.
 * In part (3) the identification is Stacks 08MP at the identity, `α ↦ 1 + α`
   (`Deformation.ToposThickening.autOverIdentityEquiv`), composed with the canonical
   identification `f^*J ⊗_O ℱ ≅ I·ℱ'` of Stacks 08MQ
-  (`Deformation.ToposThickening.idealProductTensorIso`), which is the content of Stacks 08MR. The
-  module `ℱ` of the source is written `i^*ℱ'`, which the lift identifies with `ℱ`.
+  (`Deformation.ToposThickening.idealProductTensorIso`); this is Stacks 08MR
+  (`Deformation.ToposThickening.exists_addTorsor_moduleMapLift`) at `φ = id_ℱ`, with every lift
+  of the identity an automorphism by the square-zero argument
+  (`Deformation.ToposThickening.isIso_of_pullbackModules_map_eq_id`). The module `ℱ` of the
+  source is written `i^*ℱ'`, which the lift identifies with `ℱ`.
 
 ## References
 
@@ -232,7 +238,7 @@ thickenings of ringed topoi with `f'` flat, and `ℱ` an `O`-module flat over `O
 Here `1` is the action `I ⊗_O ℱ ⟶ f^*J ⊗_O ℱ` which is the identity under the identification
 `I = f^*J` of Situation 08VV, i.e. the inverse of
 `Deformation.ToposThickening.basePullbackIdealTensorIso`. -/
-@[stacks 08VW]
+@[stacks 08VW "part (1): a flat lift exists iff o(ℱ, f^*J ⊗_O ℱ, 1) vanishes"]
 theorem hasFlatLift_iff_basePullbackIdeal_obstruction_eq_zero
     (F : SheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))
@@ -264,7 +270,7 @@ The action is the one of Stacks 08MU, read through the identification `f^*J ⊗_
 (`Deformation.ToposThickening.FlatLift.fixedActionExtension`), and `a` sends the class of `ℱ'` to
 the class of `𝒢'` exactly when the `Ext¹_{O'}` class of the extension of `𝒢'` is that of `ℱ'` plus
 the image of `a` in `Ext¹_{O'}(ℱ, I ⊗_O ℱ)`. -/
-@[stacks 08VW]
+@[stacks 08VW "part (2): the lift classes are a torsor under Ext¹_O(ℱ, f^*J ⊗_O ℱ)"]
 theorem exists_addTorsor_flatLiftClass_basePullbackIdeal
     (F : SheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))
@@ -341,7 +347,7 @@ over `O_{ℬ'}`, the set of automorphisms of `ℱ'` which pull back to the ident
 canonically isomorphic to `Ext⁰_O(ℱ, f^*J ⊗_O ℱ)` (with `ℱ` written as `i^*ℱ'`): the bijection
 `Deformation.ToposThickening.autOverIdentityExtZeroEquiv` sends `α` to `1 + α`, and it carries
 addition to composition, so it is an isomorphism of groups. -/
-@[stacks 08VW]
+@[stacks 08VW "part (3): automorphisms of a lift over id_ℱ are Ext⁰_O(ℱ, f^*J ⊗_O ℱ)"]
 theorem autOverIdentityExtZeroEquiv_spec
     (F : SheafOfModules.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf ((pushforwardCommRingFunctor i.toToposHom).obj X.O)))

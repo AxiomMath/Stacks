@@ -102,7 +102,7 @@ The inputs it needs are available.
   morphism of `D(O)`.
 * No hypothesis on the target `C` is needed: the module
   `StrictlyPerfectHomComparisonEvaluation` (in the folder
-  `StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom`) writes both sides of the
+  `StacksDraft.CategoryTheory.Sites.Cohomology.InternalHom`) writes both sides of the
   square above as the corresponding side of a more general square at a
   morphism of complexes `f : A ⟶ SheafHom(B, C)`, pushed along `f ⊗ 1` — the cochain side by
   `AlgebraicGeometry.RingedSite.comparisonRight_comp_curryHomEquiv`, the derived side by Stacks

@@ -55,6 +55,12 @@ comparison of (3) with (4), and the comparison of (1) with (2).
 
 ## What is carried as a hypothesis
 
+The unconditional form of the comparison of (1) and (2), and the whole of Stacks 0H06, is in
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineEtaleQuasicoherentDerivedChain.lean`
+(`AlgebraicGeometry.Space.quasicoherentDerivedAffineEtaleChain`) and
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineEtaleQuasicoherentDerivedChainTriangulated.lean`,
+where the tag is registered; the declarations of this file are not registered under it.
+
 The comparison of (1) and (2) carries a single hypothesis, `hrefl`: that a sheaf of
 `𝒪_F`-modules on the small étale site whose restriction to the affine charts is quasi-coherent
 is itself quasi-coherent.  That is the converse of
@@ -174,8 +180,6 @@ This is Stacks 0GZR,
 `Stacks.ModulesOnACategory.QuasiCoherentCohomology.isQC_iff_hasQuasicoherentCohomology`, whose
 two hypotheses are supplied by `AlgebraicGeometry.Space.affineEtaleChaoticRingedSite_J` and
 `AlgebraicGeometry.Space.flat_affineEtaleChaoticRingedSite_O_map`. -/
-@[stacks 0H06 "the equivalence of (3) D_QCoh(X_affine, O_X) and (4) QC(X_affine, O_X), \
-as an equality of the two conditions on an object of D(O_X) of the chaotic affine etale site"]
 theorem isQC_iff_hasQuasicoherentCohomology_affineEtaleChaotic
     (bc : BaseChangeData.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (affineEtaleChaoticRingedSite B S hS F hF).O).obj)
@@ -191,8 +195,6 @@ theorem isQC_iff_hasQuasicoherentCohomology_affineEtaleChaotic
 property.**  This is the previous result as an equality of object properties, which is the form
 that exhibits the two full subcategories as the same subcategory of `D(𝒪_F)` rather than merely
 as equivalent ones. -/
-@[stacks 0H06 "the equivalence of (3) D_QCoh(X_affine, O_X) and (4) QC(X_affine, O_X), \
-as an equality of object properties on D(O_X) of the chaotic affine etale site"]
 theorem isQC_eq_hasQuasicoherentCohomology_affineEtaleChaotic
     (bc : BaseChangeData.{w}
       (Stacks.SheafOfModules.Tensor.ringSheaf (affineEtaleChaoticRingedSite B S hS F hF).O).obj) :
@@ -392,10 +394,6 @@ other is the hypothesis `hrefl`, a statement about single modules and therefore 
 part of the conclusion rather than the conclusion itself.  The passage from modules to complexes
 is `CategoryTheory.Functor.mapDerivedCategoryHomologyIso`, which identifies the cohomology
 sheaves of the restricted complex with the restrictions of the cohomology sheaves. -/
-@[stacks 0H06 "the equivalence of (1) D_QCoh(O_X) and (2) D_QCoh(X_affine_etale, O_X), at the \
-level of the object properties cutting them out, carrying as the hypothesis hrefl the converse \
-of isQuasicoherentOnSite_affineEtaleModuleRestriction: a module on the small etale site whose \
-restriction to the affine charts is quasi-coherent is quasi-coherent"]
 theorem derivedCategoryB_isQuasicoherentOnSite_affineEtaleRestriction_iff
     (hrefl : ∀ M : SheafOfModules.{u}
         ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)),
@@ -451,10 +449,6 @@ down to the two full subcategories by
 `AlgebraicGeometry.Space.derivedCategoryB_isQuasicoherentOnSite_affineEtaleRestriction_iff`; so
 the comparison is the canonical one, being the restriction of the derived restriction functor,
 and not merely some equivalence.  See the module docstring for the status of `hrefl`. -/
-@[stacks 0H06 "the equivalence of (1) D_QCoh(O_X) and (2) D_QCoh(X_affine_etale, O_X), as an \
-equivalence of categories induced by derived restriction, carrying as the hypothesis hrefl the \
-converse of isQuasicoherentOnSite_affineEtaleModuleRestriction: a module on the small etale \
-site whose restriction to the affine charts is quasi-coherent is quasi-coherent"]
 noncomputable def quasicoherentDerivedAffineEtaleEquivalence
     (hrefl : ∀ M : SheafOfModules.{u}
         ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O)),

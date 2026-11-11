@@ -23,7 +23,9 @@ trace formula
 
 for every `n ≥ 1`.  That is exactly the displayed identity in the Stacks proof of Theorem
 64.20.2, equivalent by Möbius inversion to Theorem 64.20.5 applied to every finite extension
-of `k`.  It is carried here as an explicit hypothesis, `TraceFormula`.
+of `k`.  This file proves the reduction from that identity, stated as `TraceFormula`; the
+identity itself is proved for `ℚ_ℓ`-sheaves from the trace formula of Tag 03V2, and Tag 03V0 is
+`LAdicSheaf.nonempty_compactificationOf_and_rationalLFunction_eq_gradedCharSeries`.
 
 ## Main definitions
 
@@ -37,7 +39,7 @@ of `k`.  It is carried here as an explicit hypothesis, `TraceFormula`.
   L-function, coefficient by coefficient, as a sum of traces of powers of the local Frobenius
   matrices.
 * `Stacks.EtaleCohomology.FrobeniusMatrices.lFunction_eq_alternatingCharSeries`: the
-  cohomological interpretation, given the trace formula.
+  determinant identity, from the trace identity.
 
 ## Implementation notes
 
@@ -51,7 +53,7 @@ be split across several indices without changing either side.
 
 * [Stacks Project, Tag 03V0](https://stacks.math.columbia.edu/tag/03V0), Theorem 64.20.2.
 * [Stacks Project, Tag 03V2](https://stacks.math.columbia.edu/tag/03V2), Theorem 64.20.5, the
-  trace formula carried here as a hypothesis.
+  trace formula from which the trace identity is deduced.
 * [Stacks Project, Tag 03UV](https://stacks.math.columbia.edu/tag/03UV), the L-function.
 * [Stacks Project, Tag 03UZ](https://stacks.math.columbia.edu/tag/03UZ), the finite
   coefficient statement, which the source does not prove.
@@ -176,15 +178,15 @@ public def TraceFormula {ι : Type w} [Fintype ι] (deg : ι → ℤ) (rk : ι �
         (residueDegree f x.1 : Λ) * ((D.matrix x) ^ (m / residueDegree f x.1)).trace
       = ∑ a : ι, (if Even (deg a) then (1 : Λ) else -1) * ((B a) ^ m).trace
 
-/-- **Stacks Project, Tag 03V0**, Theorem 64.20.2 (Adic sheaves).  The L-function is the
-alternating product of the characteristic series of geometric Frobenius on compactly supported
-cohomology,
+/-- **The reduction to the trace identity**, the first step of the proof of Theorem 64.20.2
+(Stacks, Tag 03V0): for matrices satisfying the trace identity `TraceFormula`, the L-function is
+the alternating product of their characteristic series,
 `L(X, ℱ) = ∏_i det(1 - π_X^* T |_{H_c^i(X_k̄, ℱ)}) ^ ((-1) ^ (i + 1))`.
 The coefficient ring is only required to have torsion-free additive group, which holds for
 `ℚ_ℓ`; this is the hypothesis behind the source's "since `ℚ_ℓ` has characteristic `0`, it
-suffices to prove the equality after taking logarithmic derivatives". -/
-@[stacks 03V0 "the determinant identity, with the trace formula of Tag 03V2 over the finite \
-extensions of k carried as the explicit hypothesis `TraceFormula`"]
+suffices to prove the equality after taking logarithmic derivatives". Tag 03V0 itself, for a
+`ℚ_ℓ`-sheaf with the trace identity proved from Tag 03V2, is
+`LAdicSheaf.nonempty_compactificationOf_and_rationalLFunction_eq_gradedCharSeries`. -/
 public theorem lFunction_eq_alternatingCharSeries [IsAddTorsionFree Λ] {ι : Type w} [Fintype ι]
     (deg : ι → ℤ) (rk : ι → ℕ) (B : ∀ a : ι, Matrix (Fin (rk a)) (Fin (rk a)) Λ)
     (htrace : D.TraceFormula deg rk B) :

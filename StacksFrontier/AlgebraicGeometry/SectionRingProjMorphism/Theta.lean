@@ -28,6 +28,10 @@ Both are stated for the triple `(U(ψ), r_{L, ψ}, θ)` of [Stacks, Tag 01NK] at
 * `Stacks.SectionRingProjMorphism.Theta.projTheta`: **clause (2)** — the maps `f^*𝒪_Y(n) ⟶ L^{⊗ n}`
   for all `n ∈ ℤ` at once, as a homomorphism of sheaves of `ℤ`-graded algebras, whose `map_mul` is
   the compatibility with the multiplication maps.
+* `Stacks.SectionRingProjMorphism.Theta.projThetaUnital` and
+  `Stacks.SectionRingProjMorphism.Theta.coveringOpen_eq_top_and_ι_comp_projHomOfIsAmple`:
+  **Situation [Stacks, Tag 01QH]** — for `L` ample, `θ` is a unital map of `ℤ`-graded algebras
+  `⨁ f^*𝒪_Y(n) ⟶ ⨁ L^{⊗ n}` along the canonical morphism, defined on all of `X`.
 * `Stacks.SectionRingProjMorphism.Theta.projTheta_app_top_degreeSection`: **clause (3)** — for a
   homogeneous `z` of degree `d`, the degree-`d` component of `θ` carries the pullback of the global
   section of `𝒪_Y(d)` attached to `z` to `z` itself.
@@ -37,6 +41,7 @@ Both are stated for the triple `(U(ψ), r_{L, ψ}, θ)` of [Stacks, Tag 01NK] at
 * [Stacks Project, Tag 01PZ](https://stacks.math.columbia.edu/tag/01PZ)
 * [Stacks Project, Tag 01NK](https://stacks.math.columbia.edu/tag/01NK)
 * [Stacks Project, Tag 01MO](https://stacks.math.columbia.edu/tag/01MO)
+* [Stacks Project, Tag 01QH](https://stacks.math.columbia.edu/tag/01QH)
 -/
 
 @[expose] public noncomputable section
@@ -146,6 +151,48 @@ def projTheta : SheafOfModules.GradedAlgebra.Hom
 /-- The degree-`n` component of `projTheta` is the degree-`n` component of `θ`. -/
 theorem projTheta_app (n : ℤ) :
     (projTheta L).app n = ((theta (grading L) (canonicalSections L)).app n) := rfl
+
+/-! ### Situation 01QH: the canonical morphism and its graded algebra map -/
+
+/-- **The `ℤ`-graded `𝒪_X`-algebra map `⨁ f^*𝒪_Y(n) ⟶ ⨁ L^{⊗ n}` of Situation
+[Stacks, Tag 01QH]**: `projTheta`, i.e. `θ` of [Stacks, Tag 01NK] at `ψ` the identity map of
+`Γ_*(X, L)`, taken along `f = r_{L, ψ}`, together with its preservation of the unit
+(`Stacks.AlgebraicGeometry.ProjChartGradedTriple.theta_map_one`). Its degreewise components are
+the maps of clause (2) of [Stacks, Tag 01PZ] and its `map_mul` is their compatibility with the
+multiplication maps.
+
+It is stated on the source `U(ψ) = ⋃_a X_a` of `r_{L, ψ}`, with no hypothesis on `L`. In the
+Situation, where `L` is ample, `U(ψ)` is all of `X` and `r_{L, ψ}` is the canonical morphism
+`f : X ⟶ Proj S` of [Stacks, Tag 01PZ] restricted to it:
+`Stacks.SectionRingProjMorphism.Theta.coveringOpen_eq_top_and_ι_comp_projHomOfIsAmple`. -/
+@[stacks 01QH "the Z-graded O_X-algebra map sum_n f^*O_Y(n) -> sum_n L^{tensor n} the Situation \
+equips the canonical morphism with: theta of Tag 01NK at psi the identity of Gamma_*(X, L), along \
+f = r_{L,psi}, multiplicative and unital, on the source U(psi) of r_{L,psi}; in the Situation \
+U(psi) = X and r_{L,psi} is the canonical morphism of Tag 01PZ, which is \
+coveringOpen_eq_top_and_ι_comp_projHomOfIsAmple"]
+def projThetaUnital : SheafOfModules.GradedAlgebra.UnitalHom
+    (Stacks.Conormal.gradedPullback (canonicalSections L).glued
+      (Stacks.AlgebraicGeometry.ProjConeTwist.integerTwistAlgebra (grading L)))
+    (laurentRestrict (grading L) (canonicalSections L)) :=
+  Stacks.AlgebraicGeometry.ProjChartGradedTriple.thetaUnital (canonicalSections L)
+
+/-- Forgetting the unit law, `projThetaUnital` is `projTheta`. -/
+@[simp] theorem projThetaUnital_toHom : (projThetaUnital L).toHom = projTheta L := rfl
+
+/-- **In Situation [Stacks, Tag 01QH] the map `θ` lives on all of `X` and along the canonical
+morphism**: for `L` ample, the source `U(ψ) = ⋃_a X_a` of `r_{L, ψ}` (at `ψ` the identity of
+`Γ_*(X, L)`) is all of `X`, and `r_{L, ψ}` is the inclusion `U(ψ) ⟶ X` followed by the canonical
+morphism `f : X ⟶ Proj S` of [Stacks, Tag 01PZ]. So `projThetaUnital` is the Situation's map
+`⨁ f^*𝒪_Y(n) ⟶ ⨁ L^{⊗ n}`. -/
+@[stacks 01QH "the canonical morphism of the Situation: for L ample, U(psi) = X and \
+r_{L,psi} = (U(psi) -> X) followed by the canonical morphism f : X -> Proj S of Tag 01PZ, so \
+projThetaUnital is the graded algebra map along f"]
+theorem coveringOpen_eq_top_and_ι_comp_projHomOfIsAmple (hL : Stacks.Ample.IsAmple X L) :
+    (canonicalSections L).coveringOpen = ⊤ ∧
+      (canonicalSections L).coveringOpen.ι ≫ Stacks.SectionRingProjMorphism.projHomOfIsAmple L hL
+        = (canonicalSections L).glued :=
+  ⟨Stacks.SectionRingGluedComparison.coveringOpen_canonicalSections_eq_top L hL,
+    Stacks.SectionRingGluedComparison.ι_comp_projHomOfIsAmple_eq_glued L hL⟩
 
 /-! ### Clause (3): the composite `S_n ⟶ Γ(Y, 𝒪_Y(n)) ⟶ Γ(X, L^{⊗ n})` is the identity -/
 

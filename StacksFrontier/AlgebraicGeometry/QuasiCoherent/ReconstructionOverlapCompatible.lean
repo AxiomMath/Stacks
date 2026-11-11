@@ -69,14 +69,16 @@ supplied by
 `StacksFrontier/AlgebraicGeometry/QuasiCoherent/AffineInvertiblePresentation.lean`.  So `hVcompat`
 is discharged.
 
-The third obstruction remains untouched: `hUcompat`, the mirror compatibility of the `(f i).inv`
-over `U i ⊓ U j`, is **not** proved here, and the one-sided version of the gluing is false — see
-the two-point counterexample in the module documentation of
-`StacksFrontier/AlgebraicGeometry/QuasiCoherent/ReconstructionGluedIso.lean`.  Obtaining it needs
-the inverse of a reconstruction pair, i.e. that the inverse of `pullbackTensorFunctor f.hom L`
-for an isomorphism `f` is `pullbackTensorFunctor f.inv` of an invertible sheaf.  Gluing the
-invertible modules `L i` into a single invertible `𝒪_Y`-module is a further, separate descent
-problem.
+The third obstruction, `hUcompat`, the mirror compatibility of the `(f i).inv` over
+`U i ⊓ U j`, is not proved in this file (the one-sided version of the gluing is false — see the
+two-point counterexample in the module documentation of
+`StacksFrontier/AlgebraicGeometry/QuasiCoherent/ReconstructionGluedIso.lean`).  It is proved
+downstream, from the inverse of a reconstruction pair, by
+`AlgebraicGeometry.exists_isOpenCover_schemeIso_mirrorOverlapCompatible_of_isAffineOpenCover`
+(`QuasiCoherent/ReconstructionGlobalSchemeIso.lean`); the gluing of the invertible modules is
+`QuasiCoherent/ReconstructionGlobalModule.lean`, and the whole of [Stacks, Tag 0GPJ] is
+`AlgebraicGeometry.exists_natIso_pullbackTensorFunctor_of_quasicoherentEquivalence`
+(`QuasiCoherent/ReconstructionGlobalComparison.lean`).
 
 ## Implementation notes
 
@@ -235,8 +237,8 @@ there are opens `V i` covering `Y` and isomorphisms `f i : V i ≅ U i` such tha
 
 The conclusion is verbatim the hypothesis `hVcompat` of
 `AlgebraicGeometry.exists_schemeIso_of_isOpenCover_of_overlapCompatible`, which glues the charts
-into a single isomorphism `Y ≅ X`.  Its mirror hypothesis `hUcompat` is a separate matter and is
-not proved; see the module documentation.
+into a single isomorphism `Y ≅ X`.  Its mirror hypothesis `hUcompat` is a separate matter, proved
+by `AlgebraicGeometry.exists_isOpenCover_schemeIso_mirrorOverlapCompatible_of_isAffineOpenCover`.
 
 This is `AlgebraicGeometry.exists_isOpenCover_schemeIso_invertibleSheaf_of_isAffineOpenCover`
 with the functors `F i`, the invertible sheaves `L i` and the two per-chart isomorphisms all

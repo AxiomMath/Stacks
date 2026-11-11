@@ -60,15 +60,21 @@ scalars restricted along `σ`, which is `SheafOfModules.sitePushforward`, so the
 `B`-module is then inherited from the corresponding law of `M` at `u V` together with the laws
 of `φ`, and every statement below is proved on sections.
 
-The pullback and the adjunction `f^* ⊣ f_*` are not here but in
+The pullback is not here. The source's construction of it, the composite
+`f^*N = f^{-1}N ⊗_{f^{-1}B, φ} A` of the inverse image
+`f⁻¹ : Mod(B) ⥤ Mod(f⁻¹B)` (`Stacks.Sheaves.GradedModuleInverseImage.inverseImageGradedModule`,
+in `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModuleInverseImage.lean`) and the graded
+tensor product `- ⊗_{f⁻¹B} A : Mod(f⁻¹B) ⥤ Mod(A)` with `A` read as a graded
+`(f⁻¹B, A)`-bimodule through `φ : f⁻¹B ⟶ A`, is
+`Stacks.Sheaves.GradedModuleToposPullback.pullbackFunctor`, for a morphism of ringed topoi, in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModuleToposPullback.lean`, together with its
+action `pullbackHomOfDegree` on homomorphisms homogeneous of degree `n`. The adjunction
+`f^* ⊣ f_*` with the direct image constructed here is in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModulePullback.lean` and
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModulePullbackConstruction.lean`, the latter
-obtaining the pullback as the left adjoint of the direct image. Its identification with the
-composite `f^*N = f^{-1}N ⊗_{f^{-1}B, φ} A` of the source is out of reach of this development,
-which has no inverse image of a sheaf of graded modules, and whose relative tensor product
-`SheafOfModules.RelativeTensor.gradedTensor` of a right graded `A`-module with a left graded
-`A`-module is a graded sheaf of `O`-modules carrying no residual module structure, so neither
-factor of that composite is available.
+obtaining a pullback for this direct image as its left adjoint, and, for the explicit composite
+`f⁻¹N ⊗_{f⁻¹B, φ} A` at a continuous, representably flat and final functor of small sites, in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GradedModulePullbackTensor.lean`.
 
 The homomorphisms homogeneous of degree `n` are `SheafOfModules.GradedHomOfDegree`, the
 degreewise action-linear families of

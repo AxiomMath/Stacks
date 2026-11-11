@@ -278,11 +278,8 @@ theorem PolynomialPresentation.nonempty_upperShriekFunctor_comp_iso_of_flat
   let : Module.Flat R A := RingHom.flat_algebraMap_iff.mp hflat
   have : Algebra.FiniteType R A := RingHom.finiteType_algebraMap.mp p.finiteType
   have : Algebra.FinitePresentation R A := Algebra.FinitePresentation.of_finiteType.mp this
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring R
-  exact p.nonempty_upperShriekFunctor_comp_iso_of_torIndependent.{u, v} p' D.tensor D.comparison
-    D.isLeftDerived
-    ((RingHom.isPerfectRingMap_of_flat_of_finitePresentation R A).2 D.tensor D.comparison
-      D.isLeftDerived)
+  have := Algebra.Perfect.of_flat_of_finitePresentation R A
+  exact p.nonempty_upperShriekFunctor_comp_iso_of_torIndependent.{u, v} p'
     RingTheory.TorIndependence.torIndependent_of_flat_left bcR cmpR ldR bcT cmpT ldT
 
 end BaseChange

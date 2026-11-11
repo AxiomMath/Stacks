@@ -26,9 +26,12 @@ degree-`i` cohomology of `K` vanishes on an open neighbourhood of `x`; if it has
 ## Main results
 
 * `AlgebraicGeometry.exists_mem_isZero_stalkHomology_of_derivedTensor_residueField`:
-  part (5), one degree at a time.
+  the derived-stalk form of [Stacks, Tag 0G03] part (5), one degree at a time.
 * `AlgebraicGeometry.exists_mem_forall_isZero_stalkHomology_of_derivedTensor_residueField`:
-  part (6), all degrees at once.
+  the derived-stalk form of part (6), all degrees at once.
+
+The forms with `H^i(X, K ⊗^𝐋_{𝒪_X} 𝒪_x)` in place of the derived stalk are in
+`StacksFrontier.AlgebraicGeometry.DerivedVarieties.DeducingFullyFaithfulness.LocalVanishingCriteria`.
 
 ## Implementation notes
 
@@ -42,7 +45,7 @@ is perfect, hence bounded with coherent cohomology by [Stacks, Tag 0FXU], and ov
 ring that is pseudo-coherence by [Stacks, Tag 066E]. So [Stacks, Tag 068U] applies at the maximal
 ideal of `𝒪_{X,x}`: the element it produces outside the maximal ideal is a unit, and `H^i(K_x)`
 vanishes. Finally the degree-`i` cohomology sheaf of `K` is coherent, so a vanishing stalk at `x`
-forces vanishing stalks on a neighbourhood of `x`, by [Stacks, Tag 01Y3]; for part (6) only the
+forces vanishing stalks on a neighbourhood of `x`, by [Stacks, Tag 01Y3]; for part (6) just the
 finitely many degrees inside the cohomological bounds of `K` need a neighbourhood, and their
 intersection is still open.
 
@@ -157,14 +160,14 @@ private theorem exists_mem_forall_isZero_stalkObj
   exact ⟨U, hxU, fun y hy =>
     (SheafOfModules.isZero_stalkFunctor_obj_iff X.ringCatSheaf y _).2 (hU y hy)⟩
 
-/-- **[Stacks, Tag 0G03] part (5).** Let `X` be a Noetherian scheme, `x` a point of `X`, `𝒪_x` the
-skyscraper at `x` with value the residue field `κ(x)`, and `K` a perfect object of `D(𝒪_X)`. If the
-degree-`i` cohomology of `K ⊗^𝐋_{𝒪_X} 𝒪_x` at `x` vanishes, then the degree-`i` cohomology sheaf
-of `K` has vanishing stalk at every point of an open neighbourhood of `x`. -/
-@[stacks 0G03 "part (5), the derived-tensor form, for `X` a Noetherian scheme and `K` perfect: \
-the source's `H^i(X, K ⊗^𝐋_{𝒪_X} 𝒪_x)` is read as the degree-`i` cohomology of the derived stalk \
-at `x` of `K ⊗^𝐋_{𝒪_X} 𝒪_x`, and `H^i(K)|_U = 0` as the vanishing of the degree-`i` cohomology \
-stalk at every point of `U`"]
+/-- **The derived-stalk form of [Stacks, Tag 0G03] part (5).** Let `X` be a Noetherian scheme,
+`x` a point of `X`, `𝒪_x` the skyscraper at `x` with value the residue field `κ(x)`, and `K` a
+perfect object of `D(𝒪_X)`. If the degree-`i` cohomology of the derived stalk at `x` of
+`K ⊗^𝐋_{𝒪_X} 𝒪_x` vanishes, then the degree-`i` cohomology sheaf of `K` has vanishing stalk at
+every point of an open neighbourhood of `x`. The form with `H^i(X, K ⊗^𝐋_{𝒪_X} 𝒪_x)`, for `x`
+closed, is
+`exists_mem_isZero_stalkHomology_of_isZero_homology_globalSections_derivedTensor`,
+which reduces to this one. -/
 public theorem exists_mem_isZero_stalkHomology_of_derivedTensor_residueField
     (X : Scheme.{u}) [IsNoetherian X] (x : X)
     (K : DerivedCategory (SheafOfModules.{u} X.ringCatSheaf))
@@ -192,13 +195,13 @@ public theorem exists_mem_isZero_stalkHomology_of_derivedTensor_residueField
   exact (((SheafOfModules.stalkFunctor X.ringCatSheaf x).mapDerivedCategoryHomologyIso i).app
     K).symm
 
-/-- **[Stacks, Tag 0G03] part (6).** In the situation of part (5), if `K ⊗^𝐋_{𝒪_X} 𝒪_x` has no
-cohomology at `x` in any degree, then `K` is zero on an open neighbourhood of `x`: every
-cohomology sheaf of `K` has vanishing stalk at every point of that neighbourhood. -/
-@[stacks 0G03 "part (6), the derived-tensor form, for `X` a Noetherian scheme and `K` perfect: \
-the source's `H^i(X, K ⊗^𝐋_{𝒪_X} 𝒪_x)` is read as the degree-`i` cohomology of the derived stalk \
-at `x` of `K ⊗^𝐋_{𝒪_X} 𝒪_x`, and `K` being zero near `x` as the vanishing of every cohomology \
-stalk at every point of the neighbourhood"]
+/-- **The derived-stalk form of [Stacks, Tag 0G03] part (6).** In the situation of
+`exists_mem_isZero_stalkHomology_of_derivedTensor_residueField`, if the derived stalk at `x` of
+`K ⊗^𝐋_{𝒪_X} 𝒪_x` has no cohomology in any degree, then `K` is zero on an open neighbourhood of
+`x`: every cohomology sheaf of `K` has vanishing stalk at every point of that neighbourhood. The
+form with `H^i(X, K ⊗^𝐋_{𝒪_X} 𝒪_x)`, for `x` closed, is
+`exists_mem_forall_isZero_stalkHomology_of_isZero_homology_globalSections_derivedTensor`.
+-/
 public theorem exists_mem_forall_isZero_stalkHomology_of_derivedTensor_residueField
     (X : Scheme.{u}) [IsNoetherian X] (x : X)
     (K : DerivedCategory (SheafOfModules.{u} X.ringCatSheaf))

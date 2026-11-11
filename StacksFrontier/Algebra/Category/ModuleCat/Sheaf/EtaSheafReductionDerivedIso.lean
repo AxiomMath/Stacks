@@ -70,11 +70,13 @@ local notation "𝒪" => SheafOfModules.unit Oₓ
 
 /-! ### The arrow of the tag, in the derived category -/
 
-/-- The canonical arrow `η_I F ⊗ O_X/I ⟶ H^•(F/I)` in `D(O_X)`, for a termwise `I`-torsion-free
-complex `F`: the image under `DerivedCategory.Q` of the canonical morphism of complexes
-`Reduction.reductionComparisonChainMap` from the reduction of the décalage to the chain-level
-Bockstein complex. -/
-@[stacks 0GT9 "the canonical arrow in D(O_X)"]
+/-- The class in `D(O_X)` of the morphism of complexes `η_I F ⊗ O_X/I ⟶ H^•(F/I)` of the proof
+of Tag 0GT9, for a termwise `I`-torsion-free complex `F`: the image under `DerivedCategory.Q` of
+`Reduction.reductionComparisonChainMap`, from the reduction `etaModIdealComplex` of the décalage
+to the chain-level Bockstein complex `bocksteinChainComplex`.  Both ends are chain-level
+complexes built from `F`, not the objects `Lη_I M ⊗^L O_X/I` and `H^•(M/I)` of the tag; the
+identification with those, and the tag's isomorphism for every `M` in `D(O_X)`, is
+`ReductionDerived.reductionDerivedTensorIso`. -/
 public noncomputable def reductionComparisonQ
     (I : SheafOfModules.{u} Oₓ) (ι : I ⟶ 𝒪) [Mono ι]
     [Stacks.SheafOfModules.IsInvertible X.sheaf.obj (Oₓ).property I]

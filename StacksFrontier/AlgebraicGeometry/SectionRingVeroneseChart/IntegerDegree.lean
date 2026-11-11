@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.SectionRingVeroneseChart.DegreeOne
 
 /-!
-# Stacks Situation 01QH's map, and the second claim of Stacks Tag 01QI
+# A comparison `f^*𝒪_Y(n) ≅ 𝓛^{⊗ n}` in Stacks Situation 01QH, and Tag 01QI's second claim for it
 
 Stacks Situation 28.29.1, Tag 01QH, is: *"Let `X` be a scheme. Let `𝓛` be an ample invertible
 sheaf on `X`. Set `S = Γ_*(X, 𝓛)` as a graded ring. Set `Y = Proj(S)`. Let `f : X → Y` be the
@@ -15,10 +15,18 @@ Stacks Tag 28.29.2, Tag 01QI, has two claims. The first — that `f` maps `X` in
 `Stacks.SectionRingProjGoodOpen.projHomOfIsAmple_preimage_whereInvertible`. The second is:
 *"Moreover, the maps `f^*𝒪_Y(n) → 𝓛^{⊗ n}` are all isomorphisms."*
 
-**This file supplies the map of the Situation, degreewise in every integer degree, and proves the
-second claim.** Its multiplicativity in an arbitrary integer bidegree — the other half of the
-Situation's claim that the family is a map of graded algebras — is
-`Stacks.SectionRingVeroneseChart.twistComparison_mul`, in
+**The Situation's map is not the one built here.** In Stacks it is `θ` of Tag 01NK at `ψ` the
+identity of `S`, the maps of clause (2) of Tag 01PZ; in this repository that is
+`Stacks.SectionRingProjMorphism.Theta.projThetaUnital` (a unital map of sheaves of `ℤ`-graded
+algebras, the Tag 01QH registration, with
+`Stacks.SectionRingProjMorphism.Theta.coveringOpen_eq_top_and_ι_comp_projHomOfIsAmple` saying it
+lives on all of `X` along the canonical morphism), and the second claim of Tag 01QI for it is
+`Stacks.SectionRingProjTwistIso.isIso_projTheta_app`.
+
+**This file supplies a second comparison `f^*𝒪_Y(n) ≅ 𝓛^{⊗ n}`, degreewise in every integer
+degree, built from the degree-one comparison, and proves the second claim of Tag 01QI for it.** It
+is not proved here, or anywhere in the repository, to agree with `projTheta`. Its multiplicativity
+in an arbitrary integer bidegree is `Stacks.SectionRingVeroneseChart.twistComparison_mul`, in
 `StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebra.lean`. The map is
 
 `Stacks.SectionRingVeroneseChart.twistComparison`,
@@ -57,8 +65,9 @@ have been true by construction and about nothing. It is not so defined.
 
 * `Stacks.SectionRingVeroneseChart.twistComparisonIso` — the comparison
   `f^*𝒪_Y(n) ≅ 𝓛^{⊗ n}`, in every integer degree.
-* `Stacks.SectionRingVeroneseChart.twistComparison` — **Situation 01QH's map**, degreewise: the
-  forward map of `twistComparisonIso`.
+* `Stacks.SectionRingVeroneseChart.twistComparison` — the forward map of `twistComparisonIso`. It
+  is not the registration of Situation 01QH, whose map is Tag 01NK's `θ`
+  (`Stacks.SectionRingProjMorphism.Theta.projThetaUnital`).
 
 ## Main results
 
@@ -87,16 +96,17 @@ sheaves pulled back along the canonical morphism and conjugated by Tag 01CD. On 
 Tag 01CU's addition law `Stacks.Ample.tensorPowModuleAddIso`. A homomorphism of sheaves of
 `ℤ`-graded algebras in this repository — `Stacks.SheafOfModules.GradedAlgebra.Hom`, registered for
 Stacks Tag 0FQW — is exactly a degreewise family together with multiplicativity in every bidegree,
-so `twistComparison` and `twistComparison_mul` make the family such a homomorphism, and both carry
-the `@[stacks 01QH]` registration.
+so `twistComparison` and `twistComparison_mul` make the family such a homomorphism. Neither carries
+the Tag 01QH registration, which is on Tag 01NK's `θ`
+(`Stacks.SectionRingProjMorphism.Theta.projThetaUnital`): this family is not identified with it.
 
 **Unit preservation, the third datum, is in a third file.** It is the extra datum of
 `Stacks.SheafOfModules.GradedAlgebra.UnitalHom` over `GradedAlgebra.Hom`, and it is
 `Stacks.SectionRingVeroneseChart.pbTwistUnit_twistComparison`
-(`StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebraUnit.lean`), which also
-carries the `@[stacks 01QH]` registration. The three together are the Situation's `ℤ`-graded
-`𝒪_X`-algebra map. It is not independent of the above and is proved from it: the degree-zero pieces
-of both algebras are `𝒪_X`, both units are forced, and the bidegree `(0, m)` case of
+(`StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebraUnit.lean`). The three
+together are a unital `ℤ`-graded `𝒪_X`-algebra map `⨁ f^*𝒪_Y(n) ⟶ ⨁ 𝓛^{⊗ n}`, not identified with
+the Situation's `θ`. It is not independent of the above and is proved from it: the degree-zero
+pieces of both algebras are `𝒪_X`, both units are forced, and the bidegree `(0, m)` case of
 `twistComparison_mul` makes the two candidates agree after tensoring on the right by the invertible
 module `f^*𝒪_Y(m)`, by which tensoring is faithful (Stacks Tag 0FFM). The global-sections argument
 — that the degree-zero component is multiplication by a global unit which the bidegree `(0, 0)`
@@ -127,14 +137,13 @@ the four of `Stacks.SectionRingVeroneseChart.pbTwistIsoTensorPow` and one more
 
 Two mechanical obstacles arise, and they are recorded with their resolutions in the
 implementation notes of
-`StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebra.lean`: the multiplication
-of the twisting
-sheaves has to be ascribed at the `Stacks.RelativeVeryAmple.tensorModules` spelling (at `⊗` the
-`MonoidalCategoryStruct` instance for the `projStructureRing 𝒮` spelling is not found at all), and
-every defeq step has to be isolated into its own `rfl` lemma, the two free-shape movers
-`Stacks.Monoidal.square_of_eq_free` and `square_transfer_free` taking those unfoldings as inputs —
-pasting at the concrete objects in one `exact` exceeds the heartbeat allowance in `isDefEq` and in
-`whnf`.
+`StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebra.lean`: the multiplication of
+the twisting sheaves has to be ascribed at the `Stacks.RelativeVeryAmple.tensorModules` spelling
+(at `⊗` the `MonoidalCategoryStruct` instance for the `projStructureRing 𝒮` spelling is not
+found at all), and every defeq step has to be isolated into its own `rfl` lemma, the two
+free-shape movers `Stacks.Monoidal.square_of_eq_free` and `square_transfer_free` taking those
+unfoldings as inputs — pasting at the concrete objects in one `exact` exceeds the heartbeat
+allowance in `isDefEq` and in `whnf`.
 
 **The characterising identity of the tensor-inverse uniqueness isomorphism is in the library,
 and must not be re-derived.** Both negative halves — `pullbackTensorPowModuleNegSuccIso` and
@@ -165,8 +174,8 @@ The two statements at that spelling
 (`Stacks.AlgebraicGeometry.PullbackTwistPower.tensorPowerModuleCongr_coherentMulIso`,
 `StacksFrontier/AlgebraicGeometry/TwistTensor/PullbackTwistPowerFactors.lean`:204, and
 `Stacks.TensorPowerPullback.pullbackIntPowIso_coherentMulIso`,
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorPowerPullbackMultiplication.lean`:138, read
-at a morphism of schemes by `Stacks.Algebraization.pullbackTensorPowSchemeIso_eq_pullbackIntPowIso`)
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/TensorPowerPullbackMultiplication.lean`:138, read at
+a morphism of schemes by `Stacks.Algebraization.pullbackTensorPowSchemeIso_eq_pullbackIntPowIso`)
 are real, but transporting them to the `Stacks.Ample.tensorPowModule` spelling the legs are written
 in needs the multiplicativity of the bridge between the two spellings of the powers, and **no
 statement in the repository relates `coherentMulIso` to `tensorPowModuleAddIso`** — searched by
@@ -181,12 +190,13 @@ shorter route, and it is the one taken.
   `r_{L, ψ}^*(⨁_{d ∈ ℤ} 𝒪_X(d)) ⟶ ⨁_{d ∈ ℤ} L^{⊗ d}|_{U(ψ)}`, for an arbitrary graded ring and
   an arbitrary graded map `ψ` of Tag 01NK. Situation 01QH is its instance at `𝒜 = Γ_*(X, 𝓛)`'s
   grading and `ψ` the identity of the section ring, and there the algebra structure comes for
-  free: what has to be supplied is the datum
-  `…ProjChartFullGraded.GradedSections` at the section ring, the identity `U(ψ) = X` from
-  ampleness, and the identification of `r_{L, ψ}` with the canonical morphism of Stacks Tag 01PZ.
+  free. That instance is `Stacks.SectionRingProjMorphism.Theta.projThetaUnital`, which carries the
+  Tag 01QH registration, with `U(ψ) = X` and `r_{L, ψ}` the canonical morphism of Stacks
+  Tag 01PZ given by
+  `Stacks.SectionRingProjMorphism.Theta.coveringOpen_eq_top_and_ι_comp_projHomOfIsAmple`.
   The declarations here are not a replacement for that and do not subsume it: `theta` is a map
   stated with no ampleness hypothesis, while `twistComparisonIso` is an isomorphism in the ample
-  section-ring situation only.
+  section-ring situation only, and the two are not proved equal.
 
 **The diagram half of Stacks Tag 0EKI is still not proved and nothing here is registered for
 it.** Both left-hand entries of Tag 0EKG's diagram are relative spectra of the twist *algebras*
@@ -202,9 +212,8 @@ diagram clause, not the clause.
 **`twistComparisonIso` in degree `d` is not identified with `twistIso`.** See the same note in
 `StacksFrontier/AlgebraicGeometry/SectionRingVeroneseChart/DegreeOne.lean`. With
 `twistComparison_mul` in hand the obstruction there is no longer the bidegree square; what is
-missing is
-the uniqueness argument that two multiplicative families agreeing in degree one agree in every
-degree, which the repository does not carry.
+missing is the uniqueness argument that two multiplicative families agreeing in degree one agree
+in every degree, which the repository does not carry.
 -/
 
 @[expose] public noncomputable section
@@ -243,19 +252,12 @@ def twistComparisonIso (hL : Stacks.Ample.IsAmple X L) (n : ℤ) :
   pbTwistIsoTensorPow L hL n ≪≫
     tensorPowModuleIsoOfIsoInt X (pbTwist L hL 1) L (degreeOneIso L hL) n
 
-/-- **Stacks Situation 01QH's map, in degree `n`**: the component
-`f^*𝒪_Y(n) ⟶ 𝓛^{⊗ n}` of the `ℤ`-graded `𝒪_X`-algebra map the Situation equips the canonical
-morphism with. It is the forward map of `twistComparisonIso`, whose degree-one value is the
-comparison that Stacks Tag 01N8's uniqueness pins. -/
-@[stacks 01QH "the Z-graded O_X-algebra map of the Situation, degreewise in every integer degree.
-The rest of the Situation's claim is what makes the family a map of graded algebras rather than a
-family of maps, and is in two further files: multiplicativity in an arbitrary integer bidegree
-(n, m) is Stacks.SectionRingVeroneseChart.twistComparison_mul in
-StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebra.lean, where the graded
-O_X-algebra structure on the source is pbTwistMul, and unit preservation -- the extra datum of
-GradedAlgebra.UnitalHom -- is Stacks.SectionRingVeroneseChart.pbTwistUnit_twistComparison in
-StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebraUnit.lean. The three together
-are the Situation's map. See the 'What is not done here' section above"]
+/-- **A comparison `f^*𝒪_Y(n) ⟶ 𝓛^{⊗ n}` in degree `n`**, for `f` the canonical morphism of an
+ample `𝓛`: the forward map of `twistComparisonIso`, whose degree-one value is the comparison that
+Stacks Tag 01N8's uniqueness pins. With `twistComparison_mul` and `pbTwistUnit_twistComparison` it
+is a unital map of `ℤ`-graded `𝒪_X`-algebras. It is **not** the map of Situation 01QH, which is
+Tag 01NK's `θ` (`Stacks.SectionRingProjMorphism.Theta.projThetaUnital`), and the two are not
+proved equal. -/
 def twistComparison (hL : Stacks.Ample.IsAmple X L) (n : ℤ) :
     pbTwist L hL n ⟶ tensorPowModule X L n :=
   (twistComparisonIso L hL n).hom

@@ -22,9 +22,10 @@ with the pointwise product. The hypothesis is the amalgamation condition
 `IsFilteredOrEmpty.cocone_objs`, and strictly weaker than `IsFiltered I`, which is
 why Mathlib's `isIso_colimitPointwiseProductToProductColimit` does not apply.
 
-Part (2) of the tag is the observation that injectivity genuinely fails; it is a
-counterexample remark and is not formalized here, so the attribute is scoped to
-`"(1)"`.
+Part (2) of the tag, that injectivity genuinely fails, is
+`exists_not_injective_prodComparison_colim` in
+`StacksFrontier.CategoryTheory.Filtered.FiniteProductsNotInjective`, where both parts are
+combined as `colim_prod_surjective_and_not_injective`.
 
 The instance hypothesis `HasColimitsOfShape I (Type v)` is what makes `colim` a
 functor and hence `prodComparison` expressible; it is automatic for a small index

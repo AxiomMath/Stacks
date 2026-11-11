@@ -103,8 +103,9 @@ theorem schemeWeaklyAssociatedPoints_subset_genericPoints (X : Scheme.{u})
 
 /-- **Stacks Project, Tag 0EMH.** On a locally Noetherian scheme without embedded points, the
 `𝒪_X`-module of meromorphic functions is the product, over the generic points of the irreducible
-components, of the structure sheaves of the local schemes there, pushed forward to `X`. -/
-@[stacks 0EMH "meromorphic functions as a product"]
+components, of the structure sheaves of the local schemes there, pushed forward to `X`.
+One clause of [Stacks, Tag 0EMH]; the complete statement is
+`AlgebraicGeometry.genericPointDecomposition_of_hasNoEmbeddedPoints`. -/
 theorem meromorphicFunctions_iso_product_of_noEmbeddedPoints (X : Scheme.{u})
     [IsLocallyNoetherian X] (hX : AlgebraicGeometry.HasNoEmbeddedPoints X) :
     Nonempty (meromorphicFunctions X ≅

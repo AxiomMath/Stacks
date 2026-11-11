@@ -25,7 +25,7 @@ corepresents the sections of `(pushforward φ).obj M`, which are the value of `M
 
 open CategoryTheory CategoryTheory.Limits Opposite
 
-universe u
+universe u v
 
 namespace PresheafOfModules
 
@@ -35,15 +35,15 @@ variable {C : Type*} [Category* C] {D : Type*} [Category* D] {F : C ⥤ D}
 /-- The restriction of sections along `F`, from the sections of `M` to the sections of its
 pushforward along `φ`, is a bijection when `F` sends a terminal object to a terminal object. -/
 theorem bijective_sectionsRestriction {t : C} (ht : IsTerminal t) (hFt : IsTerminal (F.obj t))
-    (M : PresheafOfModules.{u} R) :
+    (M : PresheafOfModules.{v} R) :
     Function.Bijective (fun s : M.sections =>
-      (((pushforward.{u} φ).obj M).sectionsMk (fun X => s.1 (op (F.obj X.unop)))
+      (((pushforward.{v} φ).obj M).sectionsMk (fun X => s.1 (op (F.obj X.unop)))
         (fun X Y f => by
           change M.map (F.map f.unop).op (s.1 _) = s.1 _
-          exact sections_property s _) : ((pushforward.{u} φ).obj M).sections)) := by
+          exact sections_property s _) : ((pushforward.{v} φ).obj M).sections)) := by
   refine ⟨fun s s' hss' => ?_, fun σ => ?_⟩
   · have h0 : s.1 (op (F.obj t)) = s'.1 (op (F.obj t)) :=
-      congrArg (fun σ : ((pushforward.{u} φ).obj M).sections => σ.1 (op t)) hss'
+      congrArg (fun σ : ((pushforward.{v} φ).obj M).sections => σ.1 (op t)) hss'
     refine sections_ext _ _ fun Y => ?_
     rw [← sections_property s (hFt.from Y.unop).op, ← sections_property s' (hFt.from Y.unop).op,
       h0]

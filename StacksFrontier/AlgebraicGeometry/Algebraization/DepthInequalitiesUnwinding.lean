@@ -185,7 +185,6 @@ private theorem height_le_height_Yι (S : AlgebraizationSituation.{u}) (z : S.Y)
 if `(ℱ_n)` satisfies the `(2, 3)`-inequalities then `depth((ℱ_y^∧)_𝔭) + dim(𝒪_{X,y}^∧/𝔭) > 2`
 for every `y ∈ U ∩ Y` with `dim({y}‾) = 1` and every prime `𝔭 ⊆ 𝒪_{X,y}^∧` not containing
 `I𝒪_{X,y}^∧`. -/
-@[stacks 0EJA "necessity of the depth inequality at the points of U ∩ Y of dimension one"]
 public theorem two_lt_depth_add_dim_of_satisfiesDepthInequalities
     (S : AlgebraizationSituation.{u}) [IsLocalRing S.A]
     (ha : S.a = maximalIdeal S.A)

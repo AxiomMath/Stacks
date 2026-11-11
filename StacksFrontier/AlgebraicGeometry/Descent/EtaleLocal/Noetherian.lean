@@ -20,8 +20,10 @@ public import StacksFrontier.AlgebraicGeometry.Descent.EtaleLocal.ManyVariableAl
 Two Noetherian conditions on a morphism of schemes are considered: that its target is locally
 Noetherian, and that the local ring at every specialization of a point of its image is
 Noetherian. The second is local on the source and local on the target for étale coverings. The
-first is local on the target but is *not* preserved by postcomposition with an étale morphism,
-as a non-Noetherian affine scheme with a locally Noetherian principal open shows.
+first is local on the target for étale coverings, local on the source over a nonempty source
+(the empty covering of the empty scheme defeats locality on the source as Stacks states it), and
+is *not* preserved by postcomposition with an étale morphism, as a non-Noetherian affine scheme
+with a locally Noetherian principal open shows.
 
 ## Main definitions
 
@@ -36,6 +38,13 @@ as a non-Noetherian affine scheme with a locally Noetherian principal open shows
   the source of the specialization condition.
 * `AlgebraicGeometry.isNoetherianOnSpecializations_isLocalAtTarget` states étale locality on
   the target of the specialization condition.
+* `AlgebraicGeometry.targetIsLocallyNoetherian_isLocalAtTarget` states étale locality on the
+  target of the target condition, through
+  `AlgebraicGeometry.isLocallyNoetherian_of_etale_jointlySurjective`.
+* `AlgebraicGeometry.targetIsLocallyNoetherian_iff_forall_comp` states étale locality on the
+  source of the target condition over a nonempty source, and
+  `AlgebraicGeometry.targetIsLocallyNoetherian_not_isLocalAtSource_etale` shows that the
+  nonemptiness cannot be dropped.
 * `AlgebraicGeometry.targetIsLocallyNoetherian_not_respectsRight_etale` gives the failure of
   stability under étale postcomposition.
 * `AlgebraicGeometry.ManyVariableExample.exists_commSq_isNoetherianOnSpecializations_not`
@@ -228,6 +237,143 @@ theorem targetIsLocallyNoetherian_not_respectsRight_etale :
   exact hres.postcomp g inferInstance (𝟙 Y)
     ((isLocallyNoetherian_Spec (R := .of (Localization.Away (ManyMonomial.x k)))).mpr
       (manyMonomial_localization_isNoetherian k))
+
+/-! ### Étale locality of the target condition
+
+Stacks Tag 04QX asserts, and omits the proof, that "the target is locally Noetherian" is étale
+local on the source and étale local on the target, citing Tag 034C. Locality on the target is
+`targetIsLocallyNoetherian_isLocalAtTarget`. Locality on the source fails for the empty scheme:
+the empty family is an étale covering of `∅`, so the condition on the members of the covering is
+vacuous while `∅ ⟶ Y` need not have a locally Noetherian target
+(`targetIsLocallyNoetherian_not_isLocalAtSource_etale`). Over a nonempty source the equivalence
+holds (`targetIsLocallyNoetherian_iff_forall_comp`).
+-/
+
+/-- The target condition is stable under composition with isomorphisms on either side. -/
+instance targetIsLocallyNoetherian_respectsIso :
+    MorphismProperty.RespectsIso (targetIsLocallyNoetherian : MorphismProperty Scheme.{u}) := by
+  apply MorphismProperty.RespectsIso.mk
+  · intro X Y Z e f hf
+    exact hf
+  · intro X Y Z e f (hf : IsLocallyNoetherian Y)
+    exact isLocallyNoetherian_of_isOpenImmersion e.inv
+
+open Limits in
+/-- An affine scheme receiving a jointly surjective family of étale morphisms from locally
+Noetherian schemes is locally Noetherian. Finitely many affine opens of the sources have images
+covering `Z`; their disjoint union is affine and faithfully flat over `Z`, and Noetherianness
+descends, Stacks Tag 033E. -/
+private theorem isLocallyNoetherian_of_etale_of_isAffine {Z : Scheme.{u}} [IsAffine Z]
+    {ι : Type*} (P : ι → Scheme.{u}) (h : ∀ i, P i ⟶ Z) [∀ i, Etale (h i)]
+    [∀ i, IsLocallyNoetherian (P i)] (hsurj : ∀ z, ∃ i, z ∈ Set.range (h i)) :
+    IsLocallyNoetherian Z := by
+  choose i hi using hsurj
+  choose p hp using hi
+  let W (z : Z) : Scheme.{u} := (P (i z)).affineCover.X ((P (i z)).affineCover.idx (p z))
+  let φ (z : Z) : W z ⟶ Z :=
+    (P (i z)).affineCover.f ((P (i z)).affineCover.idx (p z)) ≫ h (i z)
+  have hmem (z : Z) : z ∈ Set.range (φ z) := by
+    obtain ⟨w, hw⟩ := (P (i z)).affineCover.covers (p z)
+    exact ⟨w, by simp only [φ, Scheme.Hom.comp_apply, hw, hp]⟩
+  obtain ⟨t, ht⟩ := isCompact_univ.elim_finite_subcover (fun z ↦ Set.range (φ z))
+    (fun z ↦ (φ z).isOpenMap.isOpen_range) (fun z _ ↦ Set.mem_iUnion.mpr ⟨z, hmem z⟩)
+  let Φ : ∐ (fun z : t ↦ W z.1) ⟶ Z := Sigma.desc fun z ↦ φ z.1
+  have : IsZariskiLocalAtSource (@Etale : MorphismProperty Scheme.{u}) :=
+    HasRingHomProperty.instIsZariskiLocalAtSource (Q := RingHom.Etale)
+  have : Etale Φ := IsZariskiLocalAtSource.sigmaDesc fun _ ↦ inferInstance
+  have : Surjective Φ := by
+    refine ⟨fun z ↦ ?_⟩
+    obtain ⟨z', hz', w, hw⟩ := Set.mem_iUnion₂.mp (ht (Set.mem_univ z))
+    exact ⟨(Sigma.ι (fun z : t ↦ W z.1) ⟨z', hz'⟩) w, by
+      rw [← Scheme.Hom.comp_apply, Sigma.ι_desc, hw]⟩
+  have : IsLocallyNoetherian (∐ fun z : t ↦ W z.1) :=
+    (isLocallyNoetherian_iff_openCover (sigmaOpenCover fun z : t ↦ W z.1)).mpr
+      fun z ↦ by
+        change IsLocallyNoetherian (W z.1)
+        exact isLocallyNoetherian_of_isOpenImmersion
+          ((P (i z.1)).affineCover.f ((P (i z.1)).affineCover.idx (p z.1)))
+  have hff := (Flat.flat_and_surjective_iff_faithfullyFlat_of_isAffine Φ).mp ⟨inferInstance,
+    inferInstance⟩
+  have : IsNoetherianRing Γ(∐ fun z : t ↦ W z.1, ⊤) :=
+    IsLocallyNoetherian.component_noetherian ⟨⊤, isAffineOpen_top _⟩
+  algebraize [Φ.appTop.hom]
+  have : IsNoetherianRing Γ(Z, ⊤) := isNoetherianRing_of_faithfullyFlat Γ(∐ fun z : t ↦ W z.1, ⊤)
+  exact isLocallyNoetherian_of_isOpenImmersion Z.isoSpec.hom
+
+/-- A scheme receiving a jointly surjective family of étale morphisms from locally Noetherian
+schemes is locally Noetherian: the affine case on each member of an affine open cover of `Y`,
+applied to the pulled back family. -/
+theorem isLocallyNoetherian_of_etale_jointlySurjective {Y : Scheme.{u}} {ι : Type*}
+    {U : ι → Scheme.{u}} (g : ∀ i, U i ⟶ Y) [∀ i, Etale (g i)] [∀ i, IsLocallyNoetherian (U i)]
+    (hsurj : ∀ y, ∃ i, y ∈ Set.range (g i)) : IsLocallyNoetherian Y := by
+  rw [isLocallyNoetherian_iff_openCover Y.affineCover]
+  intro j
+  have (i : ι) : IsLocallyNoetherian (Limits.pullback (g i) (Y.affineCover.f j)) :=
+    isLocallyNoetherian_of_isOpenImmersion (Limits.pullback.fst (g i) (Y.affineCover.f j))
+  refine isLocallyNoetherian_of_etale_of_isAffine _
+    (fun i ↦ Limits.pullback.snd (g i) (Y.affineCover.f j)) fun x ↦ ?_
+  obtain ⟨i, u, hu⟩ := hsurj (Y.affineCover.f j x)
+  obtain ⟨q, -, hq⟩ := Scheme.Pullback.exists_preimage_pullback (f := g i)
+    (g := Y.affineCover.f j) u x hu
+  exact ⟨i, q, hq⟩
+
+/-- **Stacks Project, Tag 04QX.** The property that the target is locally Noetherian is étale
+local on the target. Stability under étale base change is "locally of finite type over a
+locally Noetherian scheme"; descent is `isLocallyNoetherian_of_etale_jointlySurjective`, through
+Stacks Tag 033E. -/
+@[stacks 04QX "etale_local_target"]
+instance targetIsLocallyNoetherian_isLocalAtTarget :
+    MorphismProperty.IsLocalAtTarget
+      (targetIsLocallyNoetherian : MorphismProperty Scheme.{u}) Scheme.etalePrecoverage := by
+  apply MorphismProperty.IsLocalAtTarget.mk_of_iff
+  intro X Y f R hR
+  obtain ⟨ι, U, g, rfl⟩ := R.exists_eq_ofArrows
+  change Presieve.ofArrows U g ∈ Scheme.precoverage
+    (@Etale : MorphismProperty Scheme.{u}) Y at hR
+  rw [Scheme.ofArrows_mem_precoverage_iff
+    (P := (@Etale : MorphismProperty Scheme.{u}))] at hR
+  have := hR.2
+  constructor
+  · rintro (hY : IsLocallyNoetherian Y) V a _ ⟨i⟩
+    exact LocallyOfFiniteType.isLocallyNoetherian (g i)
+  · intro h
+    have (i : ι) : IsLocallyNoetherian (U i) := h (g i) (Presieve.ofArrows.mk i)
+    exact isLocallyNoetherian_of_etale_jointlySurjective g hR.1
+
+/-- **Stacks Project, Tag 04QX**, locality on the source, over a nonempty source: for an étale
+covering of a nonempty scheme `X` and `f : X ⟶ Y`, the target of `f` is locally Noetherian if and
+only if the target of every composite with a member of the covering is. -/
+@[stacks 04QX "etale_local_source_of_nonempty"]
+theorem targetIsLocallyNoetherian_iff_forall_comp {X Y : Scheme.{u}} (f : X ⟶ Y) [Nonempty X]
+    {R : Presieve X} (hR : R ∈ Scheme.etalePrecoverage X) :
+    targetIsLocallyNoetherian f ↔
+      ∀ ⦃U : Scheme.{u}⦄ ⦃g : U ⟶ X⦄, R g → targetIsLocallyNoetherian (g ≫ f) := by
+  obtain ⟨ι, U, g, rfl⟩ := R.exists_eq_ofArrows
+  change Presieve.ofArrows U g ∈ Scheme.precoverage
+    (@Etale : MorphismProperty Scheme.{u}) X at hR
+  rw [Scheme.ofArrows_mem_precoverage_iff
+    (P := (@Etale : MorphismProperty Scheme.{u}))] at hR
+  refine ⟨fun hf _ _ _ ↦ hf, fun h ↦ ?_⟩
+  obtain ⟨i, -⟩ := hR.1 (Classical.arbitrary X)
+  exact h (Presieve.ofArrows.mk i)
+
+/-- **Stacks Project, Tag 04QX**, locality on the source as stated, is false: the empty family is
+an étale covering of the empty scheme, and the morphism from the empty scheme to the spectrum of
+a non-Noetherian ring does not have a locally Noetherian target. -/
+@[stacks 04QX "not_etale_local_source_empty"]
+theorem targetIsLocallyNoetherian_not_isLocalAtSource_etale :
+    ¬ (targetIsLocallyNoetherian : MorphismProperty Scheme.{u}).IsLocalAtSource
+        Scheme.etalePrecoverage := by
+  intro hloc
+  let k := ULift.{u} ℚ
+  have hR : Presieve.ofArrows (fun i : PEmpty.{u + 1} ↦ i.elim) (fun i ↦ i.elim) ∈
+      Scheme.etalePrecoverage (∅ : Scheme.{u}) := by
+    change _ ∈ Scheme.precoverage (@Etale : MorphismProperty Scheme.{u}) _
+    rw [Scheme.ofArrows_mem_precoverage_iff (P := (@Etale : MorphismProperty Scheme.{u}))]
+    exact ⟨fun x ↦ isEmptyElim x, fun i ↦ i.elim⟩
+  apply ManyMonomial.not_isNoetherianRing k
+  apply (isLocallyNoetherian_Spec (R := .of (ManyMonomial.subalgebra k))).mp
+  exact hloc.of_forall_comp (f := Scheme.emptyTo _) hR (by rintro _ _ ⟨i⟩; exact i.elim)
 
 /-! ### The counterexample of Stacks Tag 04QY
 

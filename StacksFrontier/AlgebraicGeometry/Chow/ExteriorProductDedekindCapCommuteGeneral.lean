@@ -343,11 +343,9 @@ locus (`Stacks.Chow.exists_bivariantCapBaseFundamentalClass_add_mk_eq`). The ext
 `[a₀]` vanishes, `c` acts by exterior product with `c ∩ [S]₁`, and `c` commutes with `c'` by
 Stacks 0FC6 (`Stacks.Chow.bivariantCommuteOverBase_of_isDedekindChowBase_general`), so
 `Stacks.Chow.exteriorProductDedekindChow_cap_comm` applies. -/
-@[stacks 0FC7 "the whole statement α × (c' ∩ β) = c' ∩ (α × β), at every test scheme T → Z, for \
-every base as in section 42.63, including bases with zero-dimensional components (spectra of \
-fields), for the bivariant classes of the Gysin system of invertible modules \
-`Stacks.Chow.gysinSystemOfInvertible`; the exterior product is that of Stacks 0FC4, its descent \
-discharged by `Stacks.Chow.IsDedekindChowBase.exteriorProductFactorsThroughRationalEquivalence`"]
+@[stacks 0FC7 "α × (c' ∩ β) = c' ∩ (α × β) for every bivariant class c' ∈ A^q(Y → Z) and \
+every test scheme T → Z (the remark is the case T = Z), over every base as in Section 42.63, \
+including bases with zero-dimensional components; the exterior product is that of Stacks 0FC4"]
 theorem exteriorProductDedekindChow_cap_comm_of_isDedekindChowBase (hS : IsDedekindChowBase C)
     {X Y Z : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sZ : Z ⟶ C.S)
     [LocallyOfFiniteType sZ] (w : Y ⟶ Z) [LocallyOfFiniteType w] (n q : ℤ) (α : chowGroup C sX n)

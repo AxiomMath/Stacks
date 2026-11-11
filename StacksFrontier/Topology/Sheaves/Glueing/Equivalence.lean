@@ -29,9 +29,10 @@ Following the proof in Stacks 00AN, the functor is fully faithful by Stacks 04TN
 
 ## Implementation notes
 
-Only the statement for sheaves of *sets* is formalised here. Stacks 00AN also asserts the analogous
-equivalences for abelian sheaves, for sheaves of algebraic structures and for sheaves of
-`O`-modules; those are not covered by this file.
+This file treats sheaves of *sets*. The other cases of Stacks 00AN are proved in
+`StacksFrontier/Topology/Sheaves/Glueing/ValuedEquivalence.lean` (abelian sheaves and sheaves of
+algebraic structures) and `StacksFrontier/Topology/Sheaves/Glueing/OModuleEquivalence.lean` (sheaves
+of `O`-modules).
 
 The comparison isomorphisms of the glueing datum attached to a sheaf `F` are literally the
 identity: in the encoding of `TopCat.Sheaf.LocalPresheaf`, the sections of `F|_{U i}` over an open
@@ -181,10 +182,10 @@ the sheaf glued from it (Stacks 00AL). -/
 theorem glueDataFunctor_essSurj : (glueDataFunctor U).EssSurj where
   mem_essImage D := ⟨D.glued, ⟨D.gluedIso⟩⟩
 
-/-- **Stacks 00AN.** For an open covering `X = ⋃ i, U i`, restriction to the members of the
-covering is an equivalence between the category of sheaves of sets on `X` and the category of
-glueing data with respect to the covering. -/
-@[stacks 00AN, ega "0 3.3.1" "special case"]
+/-- **Stacks 00AN, sheaves of sets.** For an open covering `X = ⋃ i, U i`, restriction to the
+members of the covering is an equivalence between the category of sheaves of sets on `X` and the
+category of glueing data with respect to the covering. -/
+@[stacks 00AN "sheaves of sets", ega "0 3.3.1" "special case"]
 noncomputable def sheafEquivGlueData (hU : ⨆ i, U i = ⊤) : X.Sheaf (Type u) ≌ GlueData X U :=
   haveI := glueDataFunctor_faithful hU
   haveI := glueDataFunctor_full hU

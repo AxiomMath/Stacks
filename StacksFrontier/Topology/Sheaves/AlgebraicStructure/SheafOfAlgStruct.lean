@@ -50,8 +50,13 @@ Let `X` be a topological space, `j : U → X` the inclusion of an open subset, a
 `F : C ⥤ Type` such that `C` has limits and filtered colimits, both preserved by `F`. Assuming
 that `C` has an initial object `e`, extension by `e` along `j` is left adjoint to restriction,
 both on presheaves and on sheaves, and the stalks of an extended sheaf are the stalks of the
-original sheaf at points of `U` and `e` at points outside `U`. This is
+original sheaf at points of `U` and `e` at points outside `U`, as in
 [Stacks, Tag 00A6](https://stacks.math.columbia.edu/tag/00A6).
+
+The sheaf-level results here assume `[HasColimits S.C]`, which Stacks 00A6 does not. The
+statement of 00A6 under exactly its hypotheses (a type of algebraic structure with an initial
+object) is in `StacksFrontier/Topology/Sheaves/AlgebraicStructure/ExtensionByInitial.lean`,
+which carries the 00A6 registrations.
 
 ## Main definitions
 
@@ -435,8 +440,7 @@ variable [HasColimits S.C]
 omit [HasColimits S.C] in
 /-- Adjointness on presheaves: the extension `j_{p!} : PShCategory(U, C) ⥤ PShCategory(X, C)` is
 left adjoint to the restriction `j_p : PShCategory(X, C) ⥤ PShCategory(U, C)`. -/
-@[stacks_fixed 00A6 "(1)",
-  sga "4 I 5.1" "special case",
+@[sga "4 I 5.1" "special case",
   sga "4 I 5.8.3" "partial",
   sga "4 IV 9.2.4" "special case"]
 theorem statement_1_jp_adjoint :
@@ -445,7 +449,7 @@ theorem statement_1_jp_adjoint :
 
 /-- Adjointness on sheaves: for a sheaf `𝓕` on `U` and a sheaf `𝓖` on `X` there is a bijection
 `Hom(j_!𝓕, 𝓖) ≃ Hom(𝓕, j^{-1}𝓖)`. -/
-@[stacks_fixed 00A6 "(2)", sga "4 XVII 5.1.1" "top. spaces, alg. struct"]
+@[sga "4 XVII 5.1.1" "top. spaces, alg. struct"]
 theorem statement_2_jShriek_adjoint :
     ∀ (𝓕 : ShOfAlgStruct S (openTopCat X U)) (𝓖 : ShOfAlgStruct S X),
       Nonempty ((((jShriek00A6 S X U) 𝓕).1 ⟶ 𝓖.1) ≃ (𝓕.1 ⟶ ((jInverseSheaf S X U) 𝓖).1)) := by
@@ -487,7 +491,7 @@ noncomputable def stalk_restrict_iso (P : PShCategory S X) (x : X) (hx : x ∈ U
   exact Functor.Final.colimitIso (nhdsLift' X U x hx).op ((OpenNhds.inclusion x).op ⋙ P)
 
 /-- For `x ∈ U`, the stalk `(j_!𝓕)_x` is isomorphic to the stalk `𝓕_x`. -/
-@[stacks_fixed 00A6 "(3)", sga "4 III 1.9.2" "stalk at y∈Y ≅ H_y"]
+@[sga "4 III 1.9.2" "stalk at y∈Y ≅ H_y"]
 theorem statement_3_stalk_in_U
     (𝓕 : ShOfAlgStruct S (openTopCat X U))
     (x : X) (hx : x ∈ U) :
@@ -509,7 +513,7 @@ theorem statement_3_stalk_in_U
   exact ⟨iso1.symm ≪≫ iso2.symm ≪≫ iso3⟩
 
 /-- For `x ∉ U`, the stalk `(j_!𝓕)_x` is isomorphic to the initial object of `S.C`. -/
-@[stacks_fixed 00A6 "(3)", sga "4 III 1.9.2" "special case"]
+@[sga "4 III 1.9.2" "special case"]
 theorem statement_3_stalk_off_U
     (𝓕 : ShOfAlgStruct S (openTopCat X U))
     (x : X) (hx : x ∉ U) :
@@ -531,7 +535,6 @@ theorem statement_3_stalk_off_U
 omit [HasColimits S.C] in
 /-- The composite `j_p ∘ j_{p!}` is naturally isomorphic to the identity functor on
 `PShCategory(U, C)`. -/
-@[stacks_fixed 00A6 "(4)"]
 theorem statement_4_counit_presheaf :
     Nonempty ((jpShriek00A6 S X U ⋙ jpRestrict S X U) ≅
               (Functor.id (PShCategory S (openTopCat X U)))) :=
@@ -539,7 +542,6 @@ theorem statement_4_counit_presheaf :
 
 /-- For every sheaf `𝓕` on `U`, the underlying presheaves of `j^{-1}(j_!𝓕)` and of `𝓕` are
 isomorphic. -/
-@[stacks_fixed 00A6 "(5)"]
 theorem statement_5_counit_sheaf :
     ∀ (𝓕 : ShOfAlgStruct S (openTopCat X U)),
       Nonempty ((jInverseSheaf S X U (jShriek00A6 S X U 𝓕)).1 ≅ 𝓕.1) := by

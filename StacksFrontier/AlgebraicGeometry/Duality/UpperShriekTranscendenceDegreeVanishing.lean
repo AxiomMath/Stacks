@@ -11,7 +11,16 @@ public import StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingC
 
 For a morphism `f : X ⟶ Y` of `FTS S`, a point `x ∈ X` with `𝒪_{Y, f x}` Cohen–Macaulay and
 residue transcendence degree at most `r` at the generic points of the components of `X` through
-`x`, the stalk `H^i(f^!𝒪_Y)_x` vanishes for `i < -r`.
+`x`, the stalk `H^i(f^!𝒪_Y)_x` vanishes for `i < -r`.  Together with the `(S₂)` clause this is
+[Stacks, Tag 0E9V], stated in
+`StacksFrontier.AlgebraicGeometry.Duality.UpperShriekTranscendenceDegreeSerre`.
+
+## Main results
+
+* `Stacks.Duality.relativeDualizingVanishesBelow`: clause (1) of [Stacks, Tag 0E9R] at the
+  sharp bound.
+* `Stacks.Duality.neg_le_of_nontrivial_stalk_homology_upperShriek_of_residueTrdeg_le_unconditional`:
+  the vanishing.
 -/
 
 -- This file uses the locally small derived-category models below, which are not
@@ -46,10 +55,9 @@ open DerivedPushforward
 variable {S : Scheme.{u}} [IsNoetherian S] {X Y : AlgebraicGeometry.FTS S} (f : X ⟶ Y)
   (j : AlgebraicGeometry.CompactificationOf (Over.mk f.left))
 
-/-- **Stacks Project, Tag 0E9V (Lemma 48.21.4), the vanishing.** If `𝒪_{Y, f x}` is
+/-- **The vanishing of [Stacks, Tag 0E9V].** If `𝒪_{Y, f x}` is
 Cohen–Macaulay and the residue transcendence degree of `f` is at most `r` at every generic point
 of a component of `X` through `x`, then `H^i(f^!𝒪_Y)_x ≠ 0` implies `-r ≤ i`, for every `j`. -/
-@[stacks 0E9V "the vanishing: H^i(f^! O_Y)_x nonzero implies -r <= i"]
 theorem neg_le_of_nontrivial_stalk_homology_upperShriek_of_residueTrdeg_le_unconditional
     (x : X.left) (r : ℕ)
     (hCM : IsCohenMacaulayLocalRing (Y.left.presheaf.stalk (f.left.base x)))

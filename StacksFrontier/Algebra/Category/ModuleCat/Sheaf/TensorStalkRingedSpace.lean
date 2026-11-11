@@ -920,6 +920,7 @@ noncomputable def tensorStalkIso (x : X.carrier)
 
 /-- **Characterisation of the canonical isomorphism.**  On the germ of a pure tensor of
 sections it acts by `germ (m ⊗ n) ↦ (germ m) ⊗ (germ n)`. -/
+@[stacks 01CB "canonical: the isomorphism sends the germ of m ⊗ n to germ m ⊗ germ n"]
 theorem tensorStalkIso_germ (x : X.carrier)
     (F G : SheafOfModules.{u} (structureSheafRing X))
     (U : TopologicalSpace.Opens X.carrier) (hxU : x ∈ U)
@@ -983,6 +984,8 @@ commutes, as a square of `O_{X,x}`-linear maps.  All four maps are the canonical
   *canonical* induced morphism `tensorSheafMap φ ψ = φ ⊗ ψ`;
 * the right vertical map is `TensorProduct.map φ_x ψ_x`, where `φ_x = stalkMapL φ`,
   `ψ_x = stalkMapL ψ` are the canonical `O_{X,x}`-linear stalk maps of `φ`, `ψ`. -/
+@[stacks 01CB "functorial in F and G: (φ ⊗ ψ)_x corresponds to φ_x ⊗ ψ_x \
+  for all φ : F ⟶ F', ψ : G ⟶ G'"]
 theorem tensorStalkIso_natural (x : X.carrier)
     (F G F' G' : SheafOfModules.{u} (structureSheafRing X))
     (φ : F ⟶ F') (ψ : G ⟶ G') :

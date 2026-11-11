@@ -471,7 +471,7 @@ variable {C : Type u} [Category.{v} C]
     (𝓕 : BasedCategory.{v₁, u₁} C) (h𝓕 : IsCofiberedInGroupoids 𝓕.p)
 
 /-- The associated covariant functor of fibrewise isomorphism classes. -/
-@[stacks 07W5]
+@[stacks 07W5, stacks 06GK "(10) the functor of isomorphism classes of the fibre categories"]
 noncomputable abbrev isomorphismClasses : C ⥤ Type u₁ :=
   (isomorphismClassesData 𝓕 h𝓕).classes
 
@@ -566,6 +566,8 @@ theorem mapIsomorphismClasses_naturality {A B : C} (f : A ⟶ B)
     (BasedFunctor.preserves_isHomLift φ f a.unop)).symm
 
 /-- The associated natural transformation, with universe lifts for independent total categories. -/
+@[stacks 06GK "(10) the morphism of functors of isomorphism classes induced by a morphism of \
+cofibered categories"]
 noncomputable def isomorphismClassesMap :
     (isomorphismClasses 𝓕 h𝓕 ⋙ uliftFunctor.{u₂}) ⟶
       (isomorphismClasses 𝓖 h𝓖 ⋙ uliftFunctor.{u₁}) where

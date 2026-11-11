@@ -333,15 +333,16 @@ as soon as `{H^{i+1}_T(IⁿM)}` is pro-zero; in Situation [Stacks, Tag 0EFU] the
 `H^i_T(M/IᵏM) → H^i_T(M/IⁿM)` equals the image of `H^i_T(M) → H^i_T(M/IⁿM)` for every `k ≥ c`,
 and in particular is independent of `k`.
 
-*What this assumes, and why it carries no `@[stacks 0EFY]`.* The hypothesis `hpro` is the pro-zero
+*What this assumes.* The hypothesis `hpro` is the pro-zero
 conclusion of Lemma [Stacks, Tag 0EFX] in degree `i + 1`, which in Situation [Stacks, Tag 0EFU] is
-a theorem and not a restriction on the data; so part (2) is not covered *here*, this module making
-no use of that situation. This theorem is the engine that delivers it, and it is run on the
-discharged hypothesis in
-`Stacks.Algebraization.isMittagLefflerCategorical_localCohomologyAdicTower`, which carries the tag
-for part (2) at a general specialization-stable `T`. Part (2) is registered separately at
-`T = {𝔪}` over a Noetherian local ring, by
-`Stacks.LocalCohomology.isMittagLefflerCategorical_homologyAdicQuotientLocalCohomology`. -/
+a theorem and not a restriction on the data; this module makes no use of that situation. This
+theorem is the engine that delivers part (2), and it is run on the discharged hypothesis in
+`Stacks.Algebraization.isMittagLefflerCategorical_localCohomologyAdicTower`, part (2) at a general
+specialization-stable `T`; at `T = {𝔪}` over a Noetherian local ring the condition holds in every
+degree, by
+`Stacks.LocalCohomology.isMittagLefflerCategorical_homologyAdicQuotientLocalCohomology`.
+The complete Tag 0EFY, all seven parts at one `m₀`, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. -/
 theorem isMittagLefflerCategorical_localCohomologyAdicTower_of_proZero
     (T : Set (PrimeSpectrum A)) (I : Ideal A) (M : ModuleCat.{max u v} A) (i : ℤ)
     (hpro : IsProZeroIdealPowerCohomology.{u, v} T I M (i + 1)) :
@@ -369,13 +370,14 @@ element of `H^i_T(M/IⁿM)` which is a transition image from a high enough level
 of `H^i_T(M)`; a compatible family is such at every level, so each of its members lifts, and the
 lifts agree because the projections are injective from `m₀` on.
 
-*What this assumes, and why it carries no `@[stacks 0EFY]`.* The hypotheses `hpro` and `hpro'` are
+*What this assumes.* The hypotheses `hpro` and `hpro'` are
 the pro-zero conclusion of Lemma [Stacks, Tag 0EFX] in degrees `i` and `i + 1`, which in
-Situation [Stacks, Tag 0EFU] is a theorem and not a restriction on the data; so part (4) is not
-covered *here*, this module making no use of that situation. This theorem is the engine that
-delivers it, and it is run on the discharged hypotheses in
-`Stacks.Algebraization.isIso_limitLift_localCohomologyAdicCone`, which carries the tag for
-part (4) at a general specialization-stable `T`. -/
+Situation [Stacks, Tag 0EFU] is a theorem and not a restriction on the data; this module makes no
+use of that situation. This theorem is the engine that delivers part (4), and it is run on the
+discharged hypotheses in `Stacks.Algebraization.isIso_limitLift_localCohomologyAdicCone`, part (4)
+at a general specialization-stable `T`.
+The complete Tag 0EFY, all seven parts at one `m₀`, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. -/
 theorem isIso_limitLift_localCohomologyAdicCone_of_proZero (T : Set (PrimeSpectrum A))
     (I : Ideal A) (M : ModuleCat.{max u v} A) (i : ℤ)
     (hpro : IsProZeroIdealPowerCohomology.{u, v} T I M i)
@@ -518,13 +520,15 @@ Under that shift the source's base index `m₀` becomes the base index `0` of th
 the range `i < s` of part (3) is covered by
 `isMittagLefflerCategorical_localCohomologyAdicTower_of_proZero`.
 
-*What this assumes, and why it carries no `@[stacks 0EFY]`.* The hypothesis `hstab` is the
+*What this assumes.* The hypothesis `hstab` is the
 stable-image conclusion of Lemma [Stacks, Tag 0EFX], which in Situation [Stacks, Tag 0EFU] is a
 theorem and not a restriction on the data. This theorem is the engine; run on that conclusion it
 delivers part (3) at a general specialization-stable `T`, in
-`Stacks.Algebraization.isMittagLefflerCategorical_localCohomologyAdicTower_idealPowerSubmodule`.
-Part (3) is also registered at `T = {𝔪}` over a Noetherian local ring, by
-`Stacks.LocalCohomology.isMittagLefflerCategorical_homologyAdicQuotientLocalCohomology_smul`. -/
+`Stacks.Algebraization.isMittagLefflerCategorical_localCohomologyAdicTower_idealPowerSubmodule`;
+at `T = {𝔪}` over a Noetherian local ring it is also
+`Stacks.LocalCohomology.isMittagLefflerCategorical_homologyAdicQuotientLocalCohomology_smul`.
+The complete Tag 0EFY, all seven parts at one `m₀`, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. -/
 theorem isMittagLefflerCategorical_localCohomologyAdicTower_of_stableImage
     (T : Set (PrimeSpectrum A)) (I : Ideal A) (M : ModuleCat.{max u v} A) (s : ℤ)
     (hstab : HasStableImageIdealPowerCohomology.{u, v} T I M (s + 1) 0) :
@@ -555,11 +559,13 @@ injective. Surjectivity onto the limit is
 `range_localCohomologyAdicTower_map_eq_of_stableImage`: every member of a compatible family is a
 transition image from an arbitrarily high level, hence lies in the image of `H^s_T(M)`.
 
-*What this assumes, and why it carries no `@[stacks 0EFY]`.* The hypotheses `hpro` and `hstab` are
+*What this assumes.* The hypotheses `hpro` and `hstab` are
 the two conclusions of Lemma [Stacks, Tag 0EFX], which in Situation [Stacks, Tag 0EFU] are
 theorems and not restrictions on the data. This theorem is the engine; run on them it delivers
 part (5) at a general specialization-stable `T`, in
-`Stacks.Algebraization.isIso_limitLift_localCohomologyAdicCone_idealPowerSubmodule`. -/
+`Stacks.Algebraization.isIso_limitLift_localCohomologyAdicCone_idealPowerSubmodule`.
+The complete Tag 0EFY, all seven parts at one `m₀`, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. -/
 theorem isIso_limitLift_localCohomologyAdicCone_of_stableImage (T : Set (PrimeSpectrum A))
     (I : Ideal A) (M : ModuleCat.{max u v} A) (s : ℤ)
     (hpro : IsProZeroIdealPowerCohomology.{u, v} T I M s)
@@ -665,11 +671,13 @@ For the cokernel, `smul_mem_range_proj_of_stableImage` puts `a · zₙ` in the i
 at every level `n ≥ m₀`, hence — by factoring a projection through level `max n m₀` — at every
 level, and the resulting lifts glue by the injectivity of the projections.
 
-*What this assumes, and why it carries no `@[stacks 0EFY]`.* The hypotheses `hpro` and `hstab` are
+*What this assumes.* The hypotheses `hpro` and `hstab` are
 the two conclusions of Lemma [Stacks, Tag 0EFX], which in Situation [Stacks, Tag 0EFU] are
 theorems and not restrictions on the data. This theorem is the engine; run on them it delivers
 part (6) at a general specialization-stable `T`, in
-`Stacks.Algebraization.exists_injective_limitLift_and_smul_mem_range`. -/
+`Stacks.Algebraization.exists_injective_limitLift_and_smul_mem_range`.
+The complete Tag 0EFY, all seven parts at one `m₀`, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. -/
 theorem exists_injective_limitLift_and_smul_mem_range (T : Set (PrimeSpectrum A)) (I : Ideal A)
     (M : ModuleCat.{max u v} A) (s : ℤ)
     (hpro : IsProZeroIdealPowerCohomology.{u, v} T I M s)

@@ -78,7 +78,7 @@ limits over the level filtration of a Čech system; **those two complexes are id
 constructing the Čech system of the cover and `...SmallSite.restrictOrdCechComplexIso`.  And of
 the remark's other inputs, [Stacks, Tag 07JH] and [Stacks, Tag 07LG] are proved elsewhere, as
 `...SmallSite.crystalPairFunctor_isEquivalence` and
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology`.
+`...SmallSite.crystalPairDeRhamDerivedPlusIso`.
 A note here used to count [Stacks, Tag 07LM] with them; that is no longer the state of the
 library — its vanishing clause is `...SmallSite.vanishing07LM` of
 `StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Vanishing07LMProof.lean`, proved for every

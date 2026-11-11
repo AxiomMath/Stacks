@@ -33,19 +33,25 @@ arrows are the structure morphisms of [Stacks, Tag 07IM].  (The displayed diagra
 writes the *big* Zariski topoi `Sh((Sch/S)_Zar)` for the two targets, inherited verbatim from the
 big crystalline remark [Stacks, Tag 07MG]; the structure morphism of the small crystalline site is
 `τ_{X/S} : (X/S)_cris ⟶ Sh(S_Zar)`, so the small Zariski topoi are what the vertical arrows of
-this section's diagram can land in, and that is the reading taken here.)
+this section's diagram can land in, and that is the reading taken here; the printed big corners
+are a typo, recorded in `errata.md`.)
 
-Two halves of it are proved here, both unconditionally.  The first is the *Zariski half*: the
-square of small Zariski topoi obtained from `X ⟶ Y`, `X ⟶ S`, `Y ⟶ S'` and `S ⟶ S'` commutes,
-because the two composites `X ⟶ S ⟶ S'` and `X ⟶ Y ⟶ S'` are the same morphism of schemes
+The remark's square itself, with `f_cris = π_Y ∘ f_CRIS ∘ i_X` on top, is proved downstream, as a
+square of ringed topoi, by
+`Crystalline.GlobalCrystallineSituation.SmallSite.structureSquareTwoIso` of
+`SmallSite/BaseChangeSquareRinged07MS.lean`, on top of the comparison square of
+[Stacks, Tag 07IK] (`SmallSite/CrisZariskiSquareIso.lean`).  This file has three ingredients and
+variants of it.  The first is the *Zariski half*: the square of small Zariski topoi obtained from
+`X ⟶ Y`, `X ⟶ S`, `Y ⟶ S'` and `S ⟶ S'` commutes, because the two composites `X ⟶ S ⟶ S'` and
+`X ⟶ Y ⟶ S'` are the same morphism of schemes
 (`Crystalline.GlobalCrystallineSituation.comp_sourceToBase`); whiskering that with `u_{X/S}`
-identifies the lower route of the remark's square.  The second is the square in the *displayed*
-corners, `Sh((Sch/S)_Zar)` and `Sh((Sch/S')_Zar)`, where the vertical arrows are the structure
-morphism of the big crystalline site read on the small crystalline topos along the inclusion `i_X`
-of [Stacks, Tag 07IJ], and the horizontal arrow at the top is the part
-`f_CRIS ∘ i_X : (X/S)_cris ⟶ (Y/S')_CRIS` of `f_cris` that does not pass through the retraction
-`π_Y`; that square is `changeBaseSmallStructureSquareOfComparison`, and it holds for every
-`g : X ⟶ Y`, being the square of [Stacks, Tag 07MG] whiskered with `i_X`.
+identifies the lower route of the remark's square.  The second is a different square, with the
+big Zariski topoi `Sh((Sch/S)_Zar)` and `Sh((Sch/S')_Zar)` at the bottom, the structure morphism of
+the big crystalline site read on the small crystalline topos along the inclusion `i_X` of
+[Stacks, Tag 07IJ] on the left, the *big* crystalline topos `(Y/S')_CRIS` at the top right and
+`f_CRIS ∘ i_X : (X/S)_cris ⟶ (Y/S')_CRIS` at the top; that square is
+`changeBaseSmallStructureSquareOfComparison`, and it holds for every `g : X ⟶ Y`, being the
+square of [Stacks, Tag 07MG] whiskered with `i_X`.
 
 ## The upper square of [Stacks, Tag 07IM], and the obstruction (★)
 
@@ -94,11 +100,10 @@ object as `CategoryTheory.Presheaf.IsSheaf.hom_ext` and
 `CategoryTheory.Presheaf.IsSheaf.amalgamate` — turns those two facts into the inverse of the
 canonical `2`-cell.  No Beck–Chevalley transfer is involved.
 
-The square of [Stacks, Tag 07MH] in its *displayed* corners is a different square: its targets are
-the big Zariski topoi `Sh((Sch/S)_Zar)` and `Sh((Sch/S')_Zar)`, and what is proved below about it
-is its Zariski half (`smallZariskiChangeBaseSquare`), its lower route
-(`changeBaseSmallStructureLowerRoute`) and the square with the top arrow stopped before the
-retraction `π_Y` (`changeBaseSmallStructureSquareOfComparison`), all unconditionally.
+The square of [Stacks, Tag 07MH] meets the same comparison, for an arbitrary `g : X ⟶ Y` over
+`S ⟶ S'`, and is proved through `SmallSite.crisZariskiSquareCoeff` in
+`SmallSite/BaseChangeSquare07MS.lean` (as topoi) and `SmallSite/BaseChangeSquareRinged07MS.lean`
+(as ringed topoi).
 
 ## The closed fibre as a terminal object, and what it is still for
 
@@ -161,14 +166,16 @@ The big crystalline analogues of both squares do not meet the obstruction and ar
   `X ⟶ S`.
 * `Crystalline.GlobalCrystallineSituation.structureToposMorphism_isoLowerRoute` — the structure
   morphism `τ_{X/S}` is the lower route of the diagram.
-* `Crystalline.GlobalCrystallineSituation.smallZariskiChangeBaseSquare` — the Zariski square of
-  [Stacks, Tag 07MH] commutes, unconditionally.
+* `Crystalline.GlobalCrystallineSituation.smallZariskiChangeBaseSquare` — the Zariski half of the
+  square of [Stacks, Tag 07MH]: the small Zariski square along `X ⟶ S ⟶ S'` and `X ⟶ Y ⟶ S'`.
 * `Crystalline.GlobalCrystallineSituation.changeBaseSmallStructureLowerRoute` — the lower route of
   the square of [Stacks, Tag 07MH] is `u_{X/S}` followed by the small Zariski route
-  `X ⟶ Y ⟶ S'`, unconditionally.
+  `X ⟶ Y ⟶ S'`.
 * `Crystalline.GlobalCrystallineSituation.changeBaseSmallStructureSquareOfComparison` — the square
-  of [Stacks, Tag 07MH] in the corners the remark displays, with the small crystalline topos of
-  `X/S` on the left and the big crystalline topos of `Y/S'` on the right, unconditionally.
+  of [Stacks, Tag 07MG] restricted along `i_X`: big Zariski corners at the bottom, the small
+  crystalline topos of `X/S` on the left and the *big* crystalline topos of `Y/S'` on the right,
+  with `f_CRIS ∘ i_X` on top.  It is not the square of [Stacks, Tag 07MH], which is
+  `Crystalline.GlobalCrystallineSituation.SmallSite.structureSquareTwoIso`.
 * `Crystalline.DividedPowerScheme.isThickening_closedFiberι` and
   `Crystalline.DividedPowerScheme.isThickening_closedFiberι_of_isNilpotent_natCast` — local
   nilpotence of the divided power ideal, and in particular nilpotence of `p` on sections by
@@ -408,8 +415,7 @@ morphism along `S₀ ⟶ S`.  This is the route the remark takes as the definiti
 it does not assume `p` locally nilpotent on `S₀`. -/
 @[stacks 07IM "the structure morphism τ_{X/S} is the lower route of the diagram, u_{X/S} followed
   by f_small and then by the trailing arrow, as an invertible 2-morphism of topoi,
-  with no hypothesis on p.  The diagram's upper square u_{S₀/S} ∘ f_cris ≅ f_small ∘ u_{X/S} is a \
-  separate
+  with no hypothesis on p.  The diagram's upper square u_{S₀/S} ∘ f_cris ≅ f_small ∘ u_{X/S} is a separate
   clause of the remark and is registered separately, on
   Crystalline.GlobalCrystallineSituation.closedFiberCrisUpperSquare of SmallSite/UpperSquare.lean"]
 def structureToposMorphism_isoLowerRoute :
@@ -428,13 +434,11 @@ theorem comp_sourceToBase_base (S S' : GlobalCrystallineSituation.{u}) (f : S.S 
     g.base ≫ (sourceToBase S').base = (sourceToBase S).base ≫ f.hom.base := by
   rw [← Scheme.Hom.comp_base, comp_sourceToBase (h := h), Scheme.Hom.comp_base]
 
-/-- **Stacks Project, Tag 07MH.**  The Zariski square of the remark commutes: the small Zariski
-morphism along `X ⟶ S` followed by the one along `S ⟶ S'` agrees with the one along `X ⟶ Y`
-followed by the one along `Y ⟶ S'`, both being the small Zariski morphism along the single
-morphism of schemes `X ⟶ S'`.  This is unconditional. -/
-@[stacks 07MH "the Zariski square of the remark: the small Zariski morphisms along X ⟶ S ⟶ S' and
-  along X ⟶ Y ⟶ S' agree, as an invertible 2-morphism of topoi, both being the morphism along the
-  single morphism of schemes X ⟶ S', with no further hypothesis"]
+/-- **The Zariski half of the square of [Stacks, Tag 07MH].**  The small Zariski morphism along
+`X ⟶ S` followed by the one along `S ⟶ S'` agrees with the one along `X ⟶ Y` followed by the one
+along `Y ⟶ S'`, both being the small Zariski morphism along the single morphism of schemes
+`X ⟶ S'`.  No crystalline topos appears; the square of the remark itself is
+`Crystalline.GlobalCrystallineSituation.SmallSite.structureSquareTwoIso`. -/
 def smallZariskiChangeBaseSquare (S S' : GlobalCrystallineSituation.{u}) (f : S.S ⟶ S'.S)
     (g : S.X ⟶ S'.X)
     (h : S.toClosedFiber ≫ DividedPowerScheme.closedFiberMap f = g ≫ S'.toClosedFiber) :
@@ -446,17 +450,13 @@ def smallZariskiChangeBaseSquare (S S' : GlobalCrystallineSituation.{u}) (f : S.
     opensMapMorphismOfTopoiCongr (comp_sourceToBase_base S S' f g h).symm ≪≫
     (opensMapMorphismOfTopoiComp g.base (sourceToBase S').base).symm
 
-/-- **Stacks Project, Tag 07MH.**  The lower route of the remark's square: the structure morphism
-`τ_{X/S}` followed by the small Zariski morphism along `S ⟶ S'` is the comparison `u_{X/S}` of
-[Stacks, Tag 07IL] followed by the small Zariski morphisms along `X ⟶ Y` and `Y ⟶ S'`.  This is
-unconditional, and is to the square of [Stacks, Tag 07MH] what
+/-- **The lower route of the square of [Stacks, Tag 07MH].**  The structure morphism `τ_{X/S}`
+followed by the small Zariski morphism along `S ⟶ S'` is the comparison `u_{X/S}` of
+[Stacks, Tag 07IL] followed by the small Zariski morphisms along `X ⟶ Y` and `Y ⟶ S'`.  It is to
+the square of [Stacks, Tag 07MH] what
 `Crystalline.GlobalCrystallineSituation.structureToposMorphism_isoLowerRoute` is to the diagram of
-[Stacks, Tag 07IM]: it is the part of the square that does not meet the obstruction (★). -/
-@[stacks 07MH "the lower route of the remark's square: the structure morphism τ_{X/S} followed by
-  the Zariski morphism along S ⟶ S' is u_{X/S} followed by the small Zariski route X ⟶ Y ⟶ S', as
-  an invertible 2-morphism of topoi, with no further hypothesis.  NOT the remark's square itself, \
-  which is
-  nowhere covered"]
+[Stacks, Tag 07IM]: the part of the square that does not meet the obstruction (★).  The square of
+the remark itself is `Crystalline.GlobalCrystallineSituation.SmallSite.structureSquareTwoIso`. -/
 def changeBaseSmallStructureLowerRoute (S S' : GlobalCrystallineSituation.{u}) (f : S.S ⟶ S'.S)
     (g : S.X ⟶ S'.X)
     (h : S.toClosedFiber ≫ DividedPowerScheme.closedFiberMap f = g ≫ S'.toClosedFiber) :
@@ -466,38 +466,20 @@ def changeBaseSmallStructureLowerRoute (S S' : GlobalCrystallineSituation.{u}) (
   Functor.isoWhiskerLeft (zariskiToposMorphism S).pushforward
     (smallZariskiChangeBaseSquare S S' f g h)
 
-/-- **Stacks Project, Tag 07MH.**  The square of the remark in the corners the remark displays:
-the two targets are the *big* Zariski topoi `Sh((Sch/S)_Zar)` and `Sh((Sch/S')_Zar)`, the vertical
-arrows are the structure morphism of the big crystalline site of [Stacks, Tag 07IE] read on the
-small crystalline topos along the inclusion `i_X` of [Stacks, Tag 07IJ], the bottom arrow is the
-big Zariski morphism along `(S, I, γ) ⟶ (S', I', γ')` and the top arrow is the composite
-`f_CRIS ∘ i_X : (X/S)_cris ⟶ (Y/S')_CRIS` of the inclusion with change of divided power base.  It
-holds for every `f` and `g`, with no hypothesis beyond the data of the change of base: it is the
-square of [Stacks, Tag 07MG] whiskered with the direct image of `i_X`.
+/-- **The square of [Stacks, Tag 07MG] restricted to the small crystalline topos of `X/S`.**  The
+two targets are the *big* Zariski topoi `Sh((Sch/S)_Zar)` and `Sh((Sch/S')_Zar)`, the vertical
+arrows are the structure morphisms of the big crystalline sites of [Stacks, Tag 07IE], the left one
+read on the small crystalline topos along the inclusion `i_X` of [Stacks, Tag 07IJ], the bottom
+arrow is the big Zariski morphism along `(S, I, γ) ⟶ (S', I', γ')` and the top arrow is the
+composite `f_CRIS ∘ i_X : (X/S)_cris ⟶ (Y/S')_CRIS` of the inclusion with change of divided power
+base.  It holds for every `f` and `g`: it is the square of [Stacks, Tag 07MG] whiskered with the
+direct image of `i_X`.
 
-The top arrow is the part of `f_cris = π_Y ∘ f_CRIS ∘ i_X` that does not pass through the
-retraction `π_Y`.  Composing with `π_Y` to land in `(Y/S')_cris` is what the square cannot absorb:
-the top-and-right route then carries the factor `i_Y^{-1}` followed by `i_{Y, *}`, and only the
-other composite `π_Y ∘ i_Y` is the identity, [Stacks, Tag 07IJ].  See the obstruction (★) in the
-module docstring.  The small-Zariski reading of the remark's square has its lower route in
-`changeBaseSmallStructureLowerRoute` and its Zariski half in `smallZariskiChangeBaseSquare`, both
-unconditional. -/
-@[stacks 07MH "the remark's square in its displayed corners: the structure morphism of the big
-  crystalline site read on (X/S)_cris along i_X, the big Zariski morphism along S ⟶ S', and
-  f_CRIS ∘ i_X on top, for every f and g with no further hypothesis.  Composing the top arrow \
-  with the
-  retraction π_Y, so that it becomes f_cris of Stacks 07IK and lands in (Y/S')_cris, is NOT
-  covered: that reduces to (★), that i_{Y,!}(u⁻¹ h_V) ⟶ U⁻¹ h_{V/Y} is an isomorphism, and the
-  cofinality route to (★) is FALSE — over S = Spec ℤ_(p) with divided power ideal (p),
-  X = ⨆_{n ≥ 1} Spec 𝔽_p and T = ⨆_{n ≥ 1} Spec ℤ/pⁿ the comma category StructuredArrow (κ A) ι is
-  empty, so Functor.Final, Initial for the opposite functor and RepresentablyFlat fail at once,
-  the obstruction being non-quasi-compactness.  What is true is the covering-local form of (★),
-  the open-local family of i_! * = *, which Stacks 07HP supplies only affine-locally and 07IJ
-  omits in general.  The source is itself in doubt here: tag 07IM carries a May 2025 comment
-  citing Berthelot, Cohomologie cristalline III, Remarque 3.2.5, that a map appearing in Situation
-  07MF may not be a morphism of ringed topoi at all; the project replied on 4 August 2025 that
-  this is a mistake and linked a fixing commit, though the served page still displays the
-  statement"]
+It is not the square of [Stacks, Tag 07MH]: its top right corner is the big crystalline topos
+`(Y/S')_CRIS`, not `(Y/S')_cris`, and its top arrow is `f_CRIS ∘ i_X`, not
+`f_cris = π_Y ∘ f_CRIS ∘ i_X` of [Stacks, Tag 07IK].  The square of the remark, with the small
+Zariski topoi at the bottom in which the structure morphisms `τ` of [Stacks, Tag 07IM] land, is
+`Crystalline.GlobalCrystallineSituation.SmallSite.structureSquareTwoIso`. -/
 def changeBaseSmallStructureSquareOfComparison (S S' : GlobalCrystallineSituation.{u})
     (f : S.S ⟶ S'.S) (g : S.X ⟶ S'.X)
     (h : S.toClosedFiber ≫ DividedPowerScheme.closedFiberMap f = g ≫ S'.toClosedFiber) :

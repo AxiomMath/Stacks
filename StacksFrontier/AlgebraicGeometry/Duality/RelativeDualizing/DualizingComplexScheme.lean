@@ -40,10 +40,11 @@ a functor of unbounded derived categories, which is what lets the condition be p
 
 The definition is the all-affine-open condition, not the existence of one affine open cover on
 which the condition holds. The two are equivalent — that equivalence is the content of
-[Stacks, Tag 0A86] — but the equivalence is not proved here, and the all-affine-open form is the
-one a consumer can use at a given affine open with no further argument. Consequently no
-`@[stacks 0A86]` attribute appears below: the tag's content is the equivalence, which is open,
-and the audit scanner keys on the bare four-character tag.
+[Stacks, Tag 0A86] — and the all-affine-open form is the one a consumer can use at a given
+affine open with no further argument. The equivalence is proved later, as
+`Stacks.Duality.isDualizingComplex_iff_exists_affineOpenCover` in
+`StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/DualizingComplexCoverCriterion.lean`,
+which carries the `@[stacks 0A86]` attribute.
 
 `IsLocallyNoetherian.component_noetherian` supplies `IsNoetherianRing Γ(X, U)` from an affine
 open of a locally Noetherian scheme, which is what makes `Dualizing.IsDualizingComplex`

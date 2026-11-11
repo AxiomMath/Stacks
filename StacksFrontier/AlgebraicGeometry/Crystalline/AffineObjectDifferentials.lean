@@ -54,20 +54,22 @@ of [Stacks, Tag 07IY] over `W` as `Ω¹_{Γ(W,𝒪_T)/Γ(V,𝒪_Y),δ}`.  That f
 * `Crystalline.d_appLE_eq_zero` — on an affine open `W` mapping into an affine open `V` of the
   base, a derivation of the sections over `W` killing everything pulled back from `V` kills every
   section pulled back from an arbitrary open of the base.
-* `Crystalline.affineDpIso` — **the identification of [Stacks, Tag 07J0] at an affine open**: for
-  an affine open `W` of a divided power scheme `T` lying over an affine open `V` of a scheme `Y`,
-  the sections of the presheaf of divided power differentials of `T` over `Y` on `W` are
-  `Ω¹_{Γ(W,𝒪_T)/Γ(V,𝒪_Y),δ}`, compatibly with the universal differentials
+* `Crystalline.affineDpIso` — **the presheaf-level identification of [Stacks, Tag 07J0] at an
+  affine open**: for an affine open `W` of a divided power scheme `T` lying over an affine open
+  `V` of a scheme `Y`, the sections of the presheaf of divided power differentials of `T` over
+  `Y` on `W` are `Ω¹_{Γ(W,𝒪_T)/Γ(V,𝒪_Y),δ}`, compatibly with the universal differentials
   (`Crystalline.affineDpIso_hom_d`, `Crystalline.affineDpIso_inv_dpd`).
-* `Crystalline.GlobalCrystallineSituation.affineCrysDifferentialsIso` — **Stacks, Tag 07J0**: for
-  an affine object `(U, T, δ)` of `CRIS(X/S)` mapping into an affine open `V ⊆ S` the sections of
-  `Ω_{X/S}` over `(U, T, δ)` are `Ω¹_{Γ(T, 𝒪_T)/Γ(V, 𝒪_S), δ}`.
+* `Crystalline.GlobalCrystallineSituation.affineCrysDifferentialsIso` — the presheaf-level form of
+  [Stacks, Tag 07J0]: for an affine object `(U, T, δ)` of `CRIS(X/S)` mapping into an affine open
+  `V ⊆ S` the sections of the presheaf `Ω_{X/S}` over `(U, T, δ)` are
+  `Ω¹_{Γ(T, 𝒪_T)/Γ(V, 𝒪_S), δ}`.  The tag, about the sheaf `Ω_{X/S}`, is registered at
+  `...SmallSite.affineCrysFormsSheafOneEquiv` (`SmallSite/AffineDifferentialsSheafSections.lean`).
 * `Crystalline.GlobalCrystallineSituation.affineCrysDifferentialsIso_hom_d` and
   `affineCrysDifferentialsIso_inv_dpd` — the identification carries `d_{X/S}` to
   `d_{Γ(T, 𝒪_T)/Γ(V, 𝒪_S), δ}` and back, which is what makes it canonical.
-* `Crystalline.GlobalCrystallineSituation.existsUnique_affineCrysDifferentialsIso` — **the
-  equality sign of [Stacks, Tag 07J0]**: that identification is the *only* isomorphism of the two
-  modules carrying `d_{X/S}` to `d_{Γ(T, 𝒪_T)/Γ(V, 𝒪_S), δ}`.
+* `Crystalline.GlobalCrystallineSituation.existsUnique_affineCrysDifferentialsIso` — that
+  identification is the *only* isomorphism of the two modules carrying `d_{X/S}` to
+  `d_{Γ(T, 𝒪_T)/Γ(V, 𝒪_S), δ}`.
 
 ## Implementation notes
 
@@ -322,8 +324,8 @@ theorem affineDpHom_d (b : Γ(T.scheme, W)) :
 
 /-- **The sections of the presheaf of divided power differentials over an affine open `W` lying
 over an affine open `V` of the base are `Ω¹_{Γ(W, 𝒪_T)/Γ(V, 𝒪_Y), δ}`.**  This is the
-[Stacks, Tag 07J0] identification, read on a divided power scheme over a scheme and over an
-arbitrary affine open rather than on an affine object of `CRIS(X/S)`;
+presheaf-level [Stacks, Tag 07J0] identification, read on a divided power scheme over a scheme and
+over an arbitrary affine open rather than on an affine object of `CRIS(X/S)`;
 `Crystalline.GlobalCrystallineSituation.affineCrysDifferentialsIso` is its case `W = ⊤`.
 
 Both sides receive a universal divided power differential, and each descends along the other's
@@ -450,11 +452,13 @@ theorem affineCrysDifferentialsInv_dpd (b : Γ(A.thickening.target.scheme, ⊤))
       (crysDifferentialsD S A).d b :=
   affineDpInv_dpd A.thickening.target S.S.scheme A.toBase.hom hVA b
 
-/-- For an affine object `(U, T, δ)` of `CRIS(X/S)` whose structure morphism factors through an
-affine open `V ⊆ S`, the sections of `Ω_{X/S}` over `(U, T, δ)` are the divided power
-differentials `Ω¹_{Γ(T, 𝒪_T)/Γ(V, 𝒪_S), δ}`. -/
-@[stacks 07J0 "Γ((U, T, δ), Ω_{X/S}) = Ω¹_{Γ(T, 𝒪_T)/Γ(V, 𝒪_V), δ} for an affine object of the \
-crystalline category mapping into an affine open V ⊆ S"]
+/-- **The presheaf-level form of [Stacks, Tag 07J0].**  For an affine object `(U, T, δ)` of
+`CRIS(X/S)` whose structure morphism factors through an affine open `V ⊆ S`, the sections of the
+*presheaf* of crystalline differentials `Ω_{X/S}` over `(U, T, δ)` are the divided power
+differentials `Ω¹_{Γ(T, 𝒪_T)/Γ(V, 𝒪_S), δ}`.  The tag itself is about the sheaf `Ω_{X/S}`; it is
+registered at `Crystalline.GlobalCrystallineSituation.SmallSite.affineCrysFormsSheafOneEquiv`,
+which composes this identification with the bijectivity of the sheafification map on affine
+objects. -/
 def affineCrysDifferentialsIso [IsAffine A.thickening.target.scheme] (hV : IsAffineOpen V) :
     crysDifferentialsObj S A ≅ affineCrysDifferentialsObj S A hVA where
   hom := affineCrysDifferentialsHom S A hVA hV
@@ -485,15 +489,12 @@ theorem affineCrysDifferentialsIso_inv_dpd [IsAffine A.thickening.target.scheme]
       (crysSDerivation S).app A b :=
   affineCrysDifferentialsInv_dpd S A hVA b
 
-/-- **The identification of [Stacks, Tag 07J0] is the only one compatible with the universal
-derivations.**  This is what the equality sign of the source asserts: not that the two modules
-happen to be isomorphic, but that there is exactly one isomorphism carrying `d_{X/S}` to
+/-- **The presheaf-level identification of [Stacks, Tag 07J0] is the only one compatible with
+the universal derivations**: there is exactly one isomorphism from the sections of the presheaf
+`Ω_{X/S}` to `Ω¹_{Γ(T, 𝒪_T)/Γ(V, 𝒪_S), δ}` carrying `d_{X/S}` to
 `d_{Γ(T, 𝒪_T)/Γ(V, 𝒪_S), δ}`, namely `affineCrysDifferentialsIso`.  Uniqueness holds because
-the universal differentials generate the sections of `Ω_{X/S}` over the object, which is
+the universal differentials generate the sections of the presheaf over the object, which is
 `Crystalline.dpConstDifferentials_ext`. -/
-@[stacks 07J0 "the equality sign of the tag: exactly one isomorphism \
-Γ((U, T, δ), Ω_{X/S}) ≅ Ω¹_{Γ(T, 𝒪_T)/Γ(V, 𝒪_V), δ} carries d_{X/S} to the universal divided \
-power differential"]
 theorem existsUnique_affineCrysDifferentialsIso [IsAffine A.thickening.target.scheme]
     (hV : IsAffineOpen V) :
     ∃! e : crysDifferentialsObj S A ≅ affineCrysDifferentialsObj S A hVA,

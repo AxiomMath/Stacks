@@ -36,9 +36,11 @@ public import StacksCore.Tactic.StacksAttribute
 /-!
 # Representable categories fibred in groupoids
 
-Stacks 0046: a category fibred in groupoids `p : 𝒮 ⥤ 𝒞` is *representable* if there are an
-object `X` of `𝒞` and an equivalence `j : 𝒮 ≌ 𝒞/X` in the 2-category of groupoids over `𝒞`,
-that is, one whose forward functor composed with `Over.forget X` is isomorphic to `p`.
+A variant of Stacks 0046 for a fibred category `p : 𝒮 ⥤ 𝒞`: an object `X` of `𝒞` and an
+equivalence of categories `j : 𝒮 ≌ 𝒞/X` whose forward functor composed with `Over.forget X` is
+isomorphic to `p`. The source's notion, an equivalence in the 2-category of groupoids over `𝒞`
+(strict 1-morphisms over `𝒞`, 2-isomorphisms over identities), is
+`StacksRepresentableCFG.IsRepresentable`, which carries the Stacks 0046 registration.
 -/
 
 @[expose] public section
@@ -46,8 +48,8 @@ that is, one whose forward functor composed with `Over.forget X` is isomorphic t
 open CategoryTheory Functor
 
 /-- A category fibred in groupoids `p : 𝒮 ⥤ 𝒞` is *representable* if there exists
-an object `X` of `𝒞` and an equivalence `j : 𝒮 ≌ Over X` over `𝒞`. -/
-@[stacks_fixed 0046]
+an object `X` of `𝒞` and an equivalence `j : 𝒮 ≌ Over X` whose forward functor lies over `𝒞` up
+to isomorphism. See `StacksRepresentableCFG.IsRepresentable` for the strict form of Stacks 0046. -/
 structure IsRepresentable {𝒞 : Type*} [Category 𝒞] {𝒮 : Type*} [Category 𝒮]
     (p : 𝒮 ⥤ 𝒞) [IsFibered p] : Prop where
   exists_equiv : ∃ (X : 𝒞) (j : 𝒮 ≌ Over X),

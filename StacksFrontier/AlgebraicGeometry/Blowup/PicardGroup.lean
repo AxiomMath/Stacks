@@ -17,8 +17,9 @@ import StacksFrontier.AlgebraicGeometry.PicardUFD.ProjectiveSpace
 
 Let `(A, 𝔪, κ)` be a regular local ring of dimension two, let `X ⟶ Spec A` be the blowup of
 `Spec A` in `𝔪` and let `E` be the exceptional divisor. Then `Pic(X)` is infinite cyclic on the
-class of `𝒪_X(E)`. This file proves the two steps of the source's argument that the library
-supports and assembles the conclusion from them.
+class of `𝒪_X(E)`. This file proves two steps of the source's argument, in the generality they
+hold in, and assembles the conclusion from them for any exceptional curve of the first kind whose
+class generates the Picard group.
 
 The *infinite order* of `[𝒪_X(E)]` is proved here in general: if `D` is an exceptional curve of
 the first kind on a scheme `X` over a field `k` — an effective Cartier divisor together with an
@@ -41,32 +42,18 @@ and the Picard group of the punctured spectrum of a regular local ring vanishes
   complement of the exceptional divisor is trivial.**
 * `AlgebraicGeometry.Scheme.IdealSheafData.IsExceptionalCurveOfFirstKind.picardGroupEquivInt` and
   `AlgebraicGeometry.picardGroupEquivInt_blowUp_maximalIdeal`: the identification
-  `ℤ ≃+ Pic(X)` carrying `1` to `[𝒪_X(E)]`, granted generation.
+  `ℤ ≃+ Pic(X)` carrying `1` to `[𝒪_X(E)]` for an exceptional curve of the first kind whose
+  class generates the Picard group.
 
-## No unrestricted `@[stacks 0C5G]`
+## The statement for the blowup
 
-The identification `Pic(X) = ℤ · [𝒪_X(E)]` is **not** proved outright, and every declaration
-carrying the tag names its hypothesis in the attribute. Two inputs of the source's proof are
-absent from the library.
-
-* **That `E` is an exceptional curve of the first kind over `κ`.** This is the half of
-  [Stacks, Tag 0AGQ](https://stacks.math.columbia.edu/tag/0AGQ) that identifies `E` with `𝐏¹_κ`
-  and `𝒪_X(E)|_E` with `𝒪(-1)`; of that tag the library has only the closed immersion
-  `X ⟶ 𝐏¹_{Spec A}` (`Stacks.Blowup.exists_isClosedImmersion_blowUpSpec_maximalIdeal`), and
-  `AlgebraicGeometry.Scheme.IdealSheafData.IsExceptionalCurveOfFirstKind` is a definition with no
-  consumer establishing it for a blowup. It is therefore carried as a hypothesis, from which the
-  infinite order of `[𝒪_X(E)]` *is* derived here.
-* **Generation.** The source produces, for an invertible `ℒ`, a trivialization over `X ∖ E`, reads
-  it as a regular meromorphic section with `div_ℒ(s) = nE`, and concludes `ℒ ≅ 𝒪_X(nE)` from
-  [Stacks, Tag 0BE8](https://stacks.math.columbia.edu/tag/0BE8). The first and last steps are
-  available (`Stacks.PicardUFD.subsingleton_picardGroup_puncturedSpectrum` and
-  `AlgebraicGeometry.picardToWeilDivisorClassGroup_injective`); the middle one is not. The
-  identification of the Weil divisor class of `𝒪_X(D)` with the class of `D` is available —
-  `AlgebraicGeometry.weilDivisorClassOfInvertibleSheaf_eq_of_forall_ord` of
-  `StacksFrontier/AlgebraicGeometry/Divisors/WeilDivisorClass/CanonicalSectionOrder.lean` — but
-  reading a trivialization of `ℒ` over `X ∖ E` as a regular meromorphic section of `ℒ` on `X` is
-  not, and there is no restriction homomorphism `Cl(X) ⟶ Cl(X ∖ E)` in the library either, so the
-  divisor-class route is equally blocked. Generation is therefore carried as a hypothesis.
+The identification `Pic(X) = ℤ · [𝒪_X(E)]` with nothing assumed is
+`AlgebraicGeometry.picardGroupEquivInt_blowUpSpec_maximalIdeal` of
+`StacksFrontier.AlgebraicGeometry.Blowup.PicardGroupGeneration`, which supplies both inputs the
+general statements here take as hypotheses: that `E` is an exceptional curve of the first kind
+over `κ` (`Stacks.Blowup.exists_isExceptionalCurveOfFirstKind_exceptionalIdealData`, parts (1)
+and (3) of [Stacks, Tag 0AGQ](https://stacks.math.columbia.edu/tag/0AGQ)) and generation
+(`AlgebraicGeometry.surjective_zsmul_picardClass_exceptionalIdealData`).
 
 ## Implementation notes
 
@@ -123,15 +110,13 @@ private theorem schemePullbackClass_picardClass (hE : D.IsExceptionalCurveOfFirs
       ((Stacks.SheafOfModules.picardClass_eq_iff _ _ _ _ _ _).2
         ⟨AlgebraicGeometry.Scheme.IdealSheafData.pullbackInvertibleSheafIsoTwist D k e hE⟩))
 
-/-- **Stacks Project, Tag 0C5G, the infinite-order half.** Let `D` be an exceptional curve of
-the first kind on a scheme `X` over a field `k`. Then the class of `𝒪_X(D)` has infinite order
+/-- **The class of an exceptional curve of the first kind has infinite order.** Let `D` be an
+exceptional curve of the first kind on a scheme `X` over a field `k`. Then the class of `𝒪_X(D)` has infinite order
 in `Pic(X)`: no nonzero multiple of it vanishes.
 
 Pulling the class back along the closed immersion `D ⟶ X` gives the class of the normal sheaf of
 `D`, and pulling that back along `e` gives the class of `𝒪(-1)` on `𝐏¹_k`, which has infinite
 order because `m ↦ [𝒪(m)]` is injective there (Tag 0BXJ). -/
-@[stacks 0C5G "the infinite-order half, for an exceptional curve of the first kind: that the \
-exceptional divisor of the blowup is one is the unproved half of Tag 0AGQ"]
 theorem IsExceptionalCurveOfFirstKind.eq_zero_of_zsmul_picardClass_eq_zero
     (hE : D.IsExceptionalCurveOfFirstKind k e) (n : ℤ)
     (hn : n • Stacks.Divisors.picardClass D = 0) : n = 0 := by
@@ -146,15 +131,12 @@ theorem IsExceptionalCurveOfFirstKind.eq_zero_of_zsmul_picardClass_eq_zero
     (Stacks.PicardUFD.twistPicardHom_injective k 1 Nat.one_pos) (n • -1)
     (by rw [map_zsmul]; exact h3)
 
-/-- **Stacks Project, Tag 0C5G, granted generation.** Let `D` be an exceptional curve of the
-first kind on a scheme `X` over a field `k`, and suppose every Picard class of `X` is an
+/-- **`Pic(X) = ℤ` for an exceptional curve of the first kind generating it.** Let `D` be an
+exceptional curve of the first kind on a scheme `X` over a field `k`, and suppose every Picard
+class of `X` is an
 integral multiple of the class of `𝒪_X(D)`. Then `n ↦ n • [𝒪_X(D)]` is an isomorphism
 `ℤ ≃+ Pic(X)`: it is surjective by hypothesis and injective because `[𝒪_X(D)]` has infinite
 order. -/
-@[stacks 0C5G "granted generation, which is hypothesized: the source's generation step needs \
-the Weil divisor of the canonical section of O_X(D) to be identified with D, which the library \
-lacks; and that the exceptional divisor of the blowup is an exceptional curve of the first kind \
-is the unproved half of Tag 0AGQ"]
 def IsExceptionalCurveOfFirstKind.picardGroupEquivInt
     {e : projectiveLineProj k ≅ D.subscheme} (hE : D.IsExceptionalCurveOfFirstKind k e)
     (hgen : Function.Surjective fun n : ℤ => n • Stacks.Divisors.picardClass D) :
@@ -165,7 +147,6 @@ def IsExceptionalCurveOfFirstKind.picardGroupEquivInt
 
 /-- The isomorphism `ℤ ≃+ Pic(X)` carries `1` to the class of `𝒪_X(D)`, so `Pic(X)` is
 infinite cyclic *on that class*. -/
-@[stacks 0C5G "granted generation, which is hypothesized: the generator clause"]
 theorem IsExceptionalCurveOfFirstKind.picardGroupEquivInt_one
     {e : projectiveLineProj k ≅ D.subscheme} (hE : D.IsExceptionalCurveOfFirstKind k e)
     (hgen : Function.Surjective fun n : ℤ => n • Stacks.Divisors.picardClass D) :
@@ -249,14 +230,12 @@ theorem subsingleton_picardGroup_compl_exceptionalIdeal (A : Type u) [CommRing A
   rw [support_compl_ofIdealTop_map_maximalIdeal]
   exact Stacks.PicardUFD.subsingleton_picardGroup_puncturedSpectrum A
 
-/-- **Stacks Project, Tag 0C5G, granted the two missing inputs.** Let `(A, 𝔪, κ)` be a regular
-local ring of dimension two and let `X ⟶ Spec A` be the blowup of `Spec A` in `𝔪`, with
-exceptional divisor `E`. Granted that `E` is an exceptional curve of the first kind over `κ` and
-that every Picard class of `X` is an integral multiple of `[𝒪_X(E)]`, the map `n ↦ n • [𝒪_X(E)]`
-is an isomorphism `ℤ ≃+ Pic(X)`; so `Pic(X) = ℤ`, generated by `𝒪_X(E)`. -/
-@[stacks 0C5G "granted the two inputs the library lacks, both hypothesized: that the \
-exceptional divisor is an exceptional curve of the first kind over the residue field (the \
-unproved half of Tag 0AGQ), and generation of the Picard group by its class"]
+/-- Let `(A, 𝔪, κ)` be a regular local ring of dimension two and let `X ⟶ Spec A` be the blowup
+of the ideal sheaf of the closed point, with exceptional divisor `E`. If `E` is an exceptional
+curve of the first kind over `κ` through a given `e : 𝐏¹_κ ≅ E` and every Picard class of `X` is
+an integral multiple of `[𝒪_X(E)]`, the map `n ↦ n • [𝒪_X(E)]` is an isomorphism
+`ℤ ≃+ Pic(X)`. The statement with nothing assumed, for the affine presentation of this blowup,
+is `AlgebraicGeometry.picardGroupEquivInt_blowUpSpec_maximalIdeal`. -/
 def picardGroupEquivInt_blowUp_maximalIdeal (A : Type u) [CommRing A] [IsRegularLocalRing A]
     (_hdim : ringKrullDim A = 2)
     {e : projectiveLineProj (IsLocalRing.ResidueField A) ≅

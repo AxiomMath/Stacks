@@ -31,6 +31,13 @@ and [Stacks, Tag 0ELA] turns that into the conclusion.
 
 ## Implementation notes
 
+The imported module
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.RestrictionFromPuncturedSpectrumNeighborhoods` keeps
+the untagged sibling
+`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_puncturedSpectrum_principal`, which
+derives the same conclusion from `Stacks.FundamentalGroup.SectionsExtendNearSubscheme` instead of
+from the tag's hypotheses; the registration of [Stacks, Tag 0BLP] is the declaration here.
+
 The statement is spelled as in
 `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_puncturedSpectrum_principal`: `U` is
 `complementZeroLocus A 𝔪`, which is the punctured spectrum by

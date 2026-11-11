@@ -20,21 +20,27 @@ simplicial extension.
 
 ## Main results
 
-* `split_iff_components_of_epi` is Tag 0DAU (1) iff (2): being split is equivalent to every
-  surjection of simplices acting by componentwise isomorphisms.
-* `components_of_epi_iff_components_of_degeneracy` is Tag 0DAU (2) iff (3): it suffices to test
-  the elementary degeneracies.
+* `split_iff_components_of_epi` and `components_of_epi_iff_components_of_degeneracy`: a
+  simplicial semi-representable object has a splitting iff every surjection of simplices acts by
+  componentwise isomorphisms, iff every elementary degeneracy does.
 * `truncated_split_iff_components_of_epi` and
-  `truncated_components_of_epi_iff_components_of_degeneracy` are the same two equivalences in
-  truncated degrees.
+  `truncated_components_of_epi_iff_components_of_degeneracy`: the same in truncated degrees, with
+  `IsTruncatedSplit`.
+* `components_of_epi_iff_exists_splitting_mono` and
+  `truncated_components_of_epi_iff_exists_isColimit`: condition (2) of Tag 0DAU is equivalent to
+  the existence of nondegenerate *subobjects* giving the coproduct decomposition, as Tag 017P asks.
+
+Tag 0DAU itself, with the splittings by subobjects of Tag 017P, is assembled from these in
+`StacksFrontier.CategoryTheory.Sites.Hypercovering.SplitSubobject`.
 
 ## Implementation notes
 
-The site structure plays no role here; the statements are about an arbitrary category `C`. A
-split truncated object is represented by a split simplicial extension rather than by a choice of
-nondegenerate summands, which packages the usual truncated coproduct decomposition without
-choosing it. The four results express (1) iff (2) and (2) iff (3) of the source, in all degrees
-and in truncated degrees respectively.
+The site structure plays no role here; the statements are about an arbitrary category `C`.
+`IsTruncatedSplit` represents a split truncated object by a split simplicial extension; the
+source's notion is a choice of nondegenerate subobjects whose images give the coproduct
+decomposition in every degree `≤ r`, and the two are equivalent. In `SR(C)` the summand
+inclusions of the nondegenerate parts are injective on indices with identity components, hence
+monomorphisms, which is what makes them subobjects.
 
 For the forward directions the decomposition of a splitting is transported into the canonical
 cofan of a formal coproduct (`splittingDecompositionIso`), whose naturality along a surjection
@@ -245,7 +251,7 @@ private lemma truncated_epi_hom_surjective {r : ℕ}
       ext x : 3
       simp only [SimplexCategory.comp_toOrderHom, OrderHom.comp_coe, Function.comp_apply]
       have hne := hj x
-      change (if f.hom.toOrderHom x < j then (0 : Fin 2) else 1) =
+      show (if f.hom.toOrderHom x < j then (0 : Fin 2) else 1) =
         (if f.hom.toOrderHom x ≤ j then (0 : Fin 2) else 1)
       by_cases hlt : f.hom.toOrderHom x < j
       · simp [hlt, le_of_lt hlt]
@@ -382,8 +388,8 @@ private lemma truncatedComponentDecompositionEquiv_apply {r : ℕ}
   unfold truncatedComponentDecompositionEquiv
   dsimp only [Equiv.ofBijective]
   let J := truncatedComponentIndexExtension K
-  change (J.splitting.cofan (op (SimplexCategory.mk n))).inj A x = _
-  change (J.map A.e.op) x.1 = (J.map A.e.op) x.1
+  show (J.splitting.cofan (op (SimplexCategory.mk n))).inj A x = _
+  show (J.map A.e.op) x.1 = (J.map A.e.op) x.1
   rfl
 
 private noncomputable def truncatedDecompositionIndexEquiv {r : ℕ}
@@ -441,7 +447,7 @@ private lemma extensionInclusion_desc {r : ℕ}
     (A : ExtensionIndex r n) : extensionInclusion N A ≫ extensionDesc N f = f A := by
   refine FormalCoproduct.hom_ext rfl ?_
   intro x
-  change (𝟙 _ ≫ (f A).φ x) ≫ eqToHom _ = (f A).φ x
+  show (𝟙 _ ≫ (f A).φ x) ≫ eqToHom _ = (f A).φ x
   simp
 
 private lemma extension_hom_ext {r : ℕ}
@@ -471,7 +477,7 @@ private lemma extensionInclusion_raise {r : ℕ}
       extensionInclusion N ⟨A.vertex, e ≫ A.arrow, inferInstance⟩ := by
   refine FormalCoproduct.hom_ext rfl ?_
   intro x
-  change (𝟙 _ ≫ 𝟙 _) ≫ eqToHom _ = 𝟙 _
+  show (𝟙 _ ≫ 𝟙 _) ≫ eqToHom _ = 𝟙 _
   simp
 
 private lemma extensionInclusion_congr {r : ℕ}
@@ -585,7 +591,7 @@ private lemma extensionTransition_low {r : ℕ}
     rw [← cancel_mono (d.iso a).hom]
     simp only [Category.assoc, Iso.inv_hom_id, Category.comp_id]
     rw [← he, Iso.inv_hom_id_assoc]
-  change truncatedMap K (a := c) (b := b) (image.ι f) ≫
+  show truncatedMap K (a := c) (b := b) (image.ι f) ≫
     (d.iso c).inv ≫ extensionRaise d.N (factorThruImage f) = _
   rw [he', ← Category.assoc, ← truncatedMap_comp, image.fac]
 
@@ -644,7 +650,7 @@ private lemma extensionTransition_map {r : ℕ}
       extensionTransition d (a := a) (f ≫ g) := by
   let b : SimplexCategory.Truncated r :=
     ⟨image g, (SimplexCategory.len_le_of_mono (image.ι g)).trans a.property⟩
-  change (truncatedMap K (a := b) (b := a) (image.ι g) ≫
+  show (truncatedMap K (a := b) (b := a) (image.ι g) ≫
     (d.iso b).inv ≫ extensionRaise d.N (factorThruImage g)) ≫ _ = _
   rw [Category.assoc, Category.assoc, extensionRaise_map, extensionMap_low d (a := b),
     Iso.inv_hom_id_assoc, ← extensionTransition_comp_low, Category.assoc, image.fac]
@@ -668,7 +674,7 @@ private lemma extensionMap_epi {r : ℕ}
   rw [extensionInclusion_map, extensionInclusion_raise,
     extensionTransition_factor d (b := A.vertex) (e ≫ A.arrow)
       (e ≫ A.arrow) (𝟙 _) (Category.comp_id _)]
-  change d.ι A.vertex ≫ K.map (𝟙 (op A.vertex)) ≫ (d.iso A.vertex).inv ≫ _ = _
+  show d.ι A.vertex ≫ K.map (𝟙 (op A.vertex)) ≫ (d.iso A.vertex).inv ≫ _ = _
   rw [K.map_id, Category.id_comp]
   have h := d.fac A.vertex (⟨A.vertex, 𝟙 _, inferInstance⟩)
   change extensionInclusion d.N (⟨A.vertex, 𝟙 _, inferInstance⟩) ≫ (d.iso A.vertex).hom =
@@ -702,7 +708,7 @@ private lemma isIso_of_bijective_components {X Y : FormalCoproduct.{w} C}
   have hβ : β.hom = f := by
     refine FormalCoproduct.hom_ext rfl ?_
     intro i
-    change (asIso (f.φ i)).hom ≫ eqToHom _ = f.φ i
+    show (asIso (f.φ i)).hom ≫ eqToHom _ = f.φ i
     simp
   rw [← hβ]
   infer_instance
@@ -743,7 +749,7 @@ private lemma extensionLowIndexEquiv_apply {r : ℕ}
     (x : (extensionObject (truncatedSummands K) a.obj).I) :
     extensionLowIndexEquiv K a x = (extensionLowHom K a).f x := by
   rcases x with ⟨⟨A⟩, x⟩
-  change truncatedDecompositionIndexEquiv K a.obj.len a.property
+  show truncatedDecompositionIndexEquiv K a.obj.len a.property
     ⟨SimplicialObject.Splitting.IndexSet.mk A.arrow, x⟩ = _
   rw [truncatedDecompositionIndexEquiv_apply K a.obj.len a.property
     (SimplicialObject.Splitting.IndexSet.mk A.arrow) x]
@@ -835,6 +841,73 @@ private noncomputable def splittingOfIsIsoComponents
     ι A.1.unop.len ≫ K.map A.e.op)
   simpa [d', d] using hc'
 
+/-- A morphism of formal coproducts that is injective on indices and a monomorphism on every
+component is a monomorphism. -/
+private lemma mono_of_injective_of_mono_φ {X Y : FormalCoproduct.{w} C} (f : X ⟶ Y)
+    (hf : Function.Injective f.f) (hφ : ∀ i, Mono (f.φ i)) : Mono f := by
+  refine ⟨fun {Z} g h hgh => ?_⟩
+  rw [FormalCoproduct.hom_ext_iff'] at hgh ⊢
+  intro i
+  obtain ⟨h₁, h₂⟩ := hgh i
+  have key : ∀ (a b : X.I) (e : a = b) (u : Z.obj i ⟶ X.obj a) (v : Z.obj i ⟶ X.obj b),
+      u ≫ f.φ a ≫ eqToHom (congrArg (fun x => Y.obj (f.f x)) e) = v ≫ f.φ b →
+        u ≫ eqToHom (congrArg X.obj e) = v := by
+    rintro a b rfl u v huv
+    simp only [eqToHom_refl, Category.comp_id] at huv ⊢
+    exact (cancel_mono _).1 huv
+  exact ⟨hf h₁, key _ _ (hf h₁) _ _ (by rw [← Category.assoc]; exact h₂)⟩
+
+private lemma mono_nondegInclusion (K : SimplicialObject (FormalCoproduct.{w} C)) (n : ℕ) :
+    Mono (nondegInclusion K n) :=
+  mono_of_injective_of_mono_φ _ Subtype.val_injective fun _ => inferInstanceAs (Mono (𝟙 _))
+
+private lemma mono_truncatedNondegInclusion {r : ℕ}
+    (K : SimplicialObject.Truncated (FormalCoproduct.{w} C) r) (n : ℕ) (hn : n ≤ r) :
+    Mono (truncatedNondegInclusion K n hn) :=
+  mono_of_injective_of_mono_φ _
+    ((truncatedComponentIndexEquiv K n hn).symm.injective.comp Subtype.val_injective)
+    fun _ => inferInstanceAs (Mono (𝟙 _))
+
+/-- The indices of `extensionObject` in a truncated degree are the surjections out of it. -/
+private def extensionIndexEquiv {r : ℕ} (a : SimplexCategory.Truncated r) :
+    ULift.{w} (ExtensionIndex r a.obj) ≃ SimplicialObject.Splitting.IndexSet (op a.obj) where
+  toFun A := SimplicialObject.Splitting.IndexSet.mk A.down.arrow
+  invFun A :=
+    ⟨⟨⟨A.1.unop, (SimplexCategory.len_le_of_epi A.e).trans a.property⟩, A.e, inferInstance⟩⟩
+  left_inv := by rintro ⟨⟨⟨b, hb⟩, e, he⟩⟩; rfl
+  right_inv := by rintro ⟨b, e, he⟩; rfl
+
+/-- The coproduct decomposition recorded by `ExtensionData`, as a colimiting cofan. -/
+private noncomputable def extensionDataIsColimit {r : ℕ}
+    {K : SimplicialObject.Truncated (FormalCoproduct.{w} C) r} (d : ExtensionData K)
+    (a : SimplexCategory.Truncated r) :
+    IsColimit (Cofan.mk (K.obj (op a)) fun A : ULift.{w} (ExtensionIndex r a.obj) =>
+      d.ι A.down.vertex ≫ truncatedMap K (a := a) A.down.arrow) :=
+  IsColimit.ofIsoColimit
+    (FormalCoproduct.isColimitCofan _ fun A : ULift.{w} (ExtensionIndex r a.obj) =>
+      d.N A.down.vertex)
+    (Cofan.ext (d.iso a) fun A => d.fac a A.down)
+
+/-- Extension data from subobjects in each truncated degree whose images under the surjections
+form a coproduct decomposition. -/
+private noncomputable def extensionDataOfIsColimit {r : ℕ}
+    {K : SimplicialObject.Truncated (FormalCoproduct.{w} C) r}
+    (N : SimplexCategory.Truncated r → FormalCoproduct.{w} C) (ι : ∀ a, N a ⟶ K.obj (op a))
+    (hc : ∀ a : SimplexCategory.Truncated r, IsColimit (Cofan.mk (K.obj (op a))
+      fun A : SimplicialObject.Splitting.IndexSet (op a.obj) =>
+        ι ⟨A.1.unop, (SimplexCategory.len_le_of_epi A.e).trans a.property⟩ ≫
+          K.map (ObjectProperty.homMk A.e :
+            a ⟶ ⟨A.1.unop, (SimplexCategory.len_le_of_epi A.e).trans a.property⟩).op)) :
+    ExtensionData K where
+  N := N
+  ι := ι
+  iso a := IsColimit.coconePointUniqueUpToIso
+    (FormalCoproduct.isColimitCofan _ fun A : ULift.{w} (ExtensionIndex r a.obj) =>
+      N A.down.vertex) ((Cofan.isColimitEquivOfEquiv (extensionIndexEquiv a) _) (hc a))
+  fac a A := IsColimit.comp_coconePointUniqueUpToIso_hom
+    (FormalCoproduct.isColimitCofan _ fun A : ULift.{w} (ExtensionIndex r a.obj) =>
+      N A.down.vertex) ((Cofan.isColimitEquivOfEquiv (extensionIndexEquiv a) _) (hc a)) ⟨⟨A⟩⟩
+
 /-- A truncated simplicial object is split when it extends to a split simplicial
 object. -/
 def IsTruncatedSplit (r : ℕ)
@@ -843,10 +916,9 @@ def IsTruncatedSplit (r : ℕ)
     Nonempty L.Splitting ∧
       Nonempty (((SimplicialObject.truncation r).obj L) ≅ K)
 
-/-- **Stacks Project, Tag 0DAU, parts (1) and (2).** A simplicial formal
-coproduct is split iff each component map over a surjective simplicial
-operator is an isomorphism. -/
-@[stacks 0DAU "simplicial: (1) iff (2)"]
+/-- Tag 0DAU, simplicial (1) iff (2), for Mathlib's `SimplicialObject.Splitting`: a simplicial
+formal coproduct has a splitting iff each component map over a surjective simplicial operator is an
+isomorphism. Tag 0DAU itself is `tfae_nonempty_subobjectSplitting`. -/
 theorem split_iff_components_of_epi
     (K : SimplicialObject (FormalCoproduct.{w} C)) :
     Nonempty K.Splitting ↔
@@ -858,9 +930,8 @@ theorem split_iff_components_of_epi
       (fun _ => inferInstanceAs (IsIso (𝟙 _))) i,
     fun h => ⟨splittingOfIsIsoComponents K h⟩⟩
 
-/-- **Stacks Project, Tag 0DAU, parts (2) and (3).** It suffices to test the
-elementary degeneracies of a simplicial formal coproduct. -/
-@[stacks 0DAU "simplicial: (2) iff (3)"]
+/-- Tag 0DAU, simplicial (2) iff (3): it suffices to test the elementary degeneracies of a
+simplicial formal coproduct. -/
 theorem components_of_epi_iff_components_of_degeneracy
     (K : SimplicialObject (FormalCoproduct.{w} C)) :
     (∀ {m n : SimplexCategory} (φ : m ⟶ n) [Epi φ]
@@ -890,8 +961,22 @@ theorem components_of_epi_iff_components_of_degeneracy
           rw [hφ]
           exact isIso_φ_map_comp K _ ψ i (ih i ψ) (h d j _)
 
-/-- **Stacks Project, Tag 0DAU, truncated parts (1) and (2).** -/
-@[stacks 0DAU "truncated: (1) iff (2)"]
+/-- Extension data exhibit a truncated simplicial formal coproduct as the truncation of a split
+simplicial object. -/
+private lemma isTruncatedSplit_of_extensionData {r : ℕ}
+    {K : SimplicialObject.Truncated (FormalCoproduct.{w} C) r} (d : ExtensionData K) :
+    IsTruncatedSplit r K := by
+  refine ⟨extensionFunctor d, ?_, ⟨extensionTruncationIso d⟩⟩
+  apply (split_iff_components_of_epi _).mpr
+  intro m n e he i
+  change IsIso ((extensionMap d e).φ i)
+  rw [extensionMap_epi]
+  change IsIso (𝟙 _)
+  infer_instance
+
+/-- Tag 0DAU, truncated (1) iff (2), with (1) phrased as admitting a split simplicial extension;
+`isTruncatedSplit_iff_nonempty_subobjectSplitting` identifies this with the truncated splitting of
+Tag 017P, and Tag 0DAU itself is `tfae_nonempty_truncated_subobjectSplitting`. -/
 theorem truncated_split_iff_components_of_epi (r : ℕ)
     (K : SimplicialObject.Truncated (FormalCoproduct.{w} C) r) :
     IsTruncatedSplit r K ↔
@@ -903,18 +988,10 @@ theorem truncated_split_iff_components_of_epi (r : ℕ)
     have : Epi φ.hom := SimplexCategory.epi_iff_surjective.2 (truncated_epi_hom_surjective φ)
     exact isIso_φ_of_comm (e.hom.app (op n)) (e.hom.app (op m)) (f := L.map φ.hom.op)
       (e.hom.naturality φ.op).symm ((split_iff_components_of_epi L).mp ⟨s⟩ φ.hom) i
-  · intro h
-    let d := truncatedExtensionData K h
-    refine ⟨extensionFunctor d, ?_, ⟨extensionTruncationIso d⟩⟩
-    apply (split_iff_components_of_epi _).mpr
-    intro m n e he i
-    change IsIso ((extensionMap d e).φ i)
-    rw [extensionMap_epi]
-    change IsIso (𝟙 _)
-    infer_instance
+  · exact fun h => isTruncatedSplit_of_extensionData (truncatedExtensionData K h)
 
-/-- **Stacks Project, Tag 0DAU, truncated parts (2) and (3).** -/
-@[stacks 0DAU "truncated: (2) iff (3)"]
+/-- Tag 0DAU, truncated (2) iff (3): it suffices to test the elementary degeneracies of a
+truncated simplicial formal coproduct. -/
 theorem truncated_components_of_epi_iff_components_of_degeneracy (r : ℕ)
     (K : SimplicialObject.Truncated (FormalCoproduct.{w} C) r) :
     (∀ {m n : SimplexCategory.Truncated r} (φ : m ⟶ n) [Epi φ]
@@ -938,6 +1015,41 @@ theorem truncated_components_of_epi_iff_components_of_degeneracy (r : ℕ)
     cases mobj using SimplexCategory.rec with
     | mk d =>
       exact truncated_epi_components_of_degeneracies K h d hm n φ hφ i
+
+/-- Tag 0DAU, simplicial (2) iff (1) in the form of Tag 017P: the surjections of simplices act by
+componentwise isomorphisms exactly when there is a splitting whose summand inclusions are
+monomorphisms. -/
+theorem components_of_epi_iff_exists_splitting_mono
+    (K : SimplicialObject (FormalCoproduct.{w} C)) :
+    (∀ {m n : SimplexCategory} (φ : m ⟶ n) [Epi φ] (i : (K.obj (op n)).I),
+      IsIso ((K.map φ.op).φ i)) ↔ ∃ s : K.Splitting, ∀ n, Mono (s.ι n) :=
+  ⟨fun h => ⟨splittingOfIsIsoComponents K h, fun n => by
+      change Mono (nondegInclusion K n)
+      exact mono_nondegInclusion K n⟩,
+    fun ⟨s, _⟩ => (split_iff_components_of_epi K).1 ⟨s⟩⟩
+
+/-- Tag 0DAU, truncated (2) iff (1) in the form of Tag 017P: the surjections of truncated simplices
+act by componentwise isomorphisms exactly when there are subobjects `N a ⟶ K_a` in every degree
+`a ≤ r` whose images under the surjections out of `a` form a coproduct decomposition of `K_a`. -/
+theorem truncated_components_of_epi_iff_exists_isColimit (r : ℕ)
+    (K : SimplicialObject.Truncated (FormalCoproduct.{w} C) r) :
+    (∀ {m n : SimplexCategory.Truncated r} (φ : m ⟶ n) [Epi φ] (i : (K.obj (op n)).I),
+      IsIso ((K.map φ.op).φ i)) ↔
+    ∃ (N : SimplexCategory.Truncated r → FormalCoproduct.{w} C) (ι : ∀ a, N a ⟶ K.obj (op a)),
+      (∀ a, Mono (ι a)) ∧ ∀ a : SimplexCategory.Truncated r, Nonempty (IsColimit
+        (Cofan.mk (K.obj (op a)) fun A : SimplicialObject.Splitting.IndexSet (op a.obj) =>
+          ι ⟨A.1.unop, (SimplexCategory.len_le_of_epi A.e).trans a.property⟩ ≫
+            K.map (ObjectProperty.homMk A.e :
+              a ⟶ ⟨A.1.unop, (SimplexCategory.len_le_of_epi A.e).trans a.property⟩).op)) := by
+  constructor
+  · intro h
+    exact ⟨truncatedSummands K, truncatedSummandInclusion K,
+      fun a => mono_truncatedNondegInclusion K a.obj.len a.property,
+      fun a => ⟨(Cofan.isColimitEquivOfEquiv (extensionIndexEquiv a).symm _)
+        (extensionDataIsColimit (truncatedExtensionData K h) a)⟩⟩
+  · rintro ⟨N, ι, -, hc⟩
+    exact (truncated_split_iff_components_of_epi r K).1
+      (isTruncatedSplit_of_extensionData (extensionDataOfIsColimit N ι fun a => (hc a).some))
 
 end Stacks.CategoryTheory.Hypercovering
 

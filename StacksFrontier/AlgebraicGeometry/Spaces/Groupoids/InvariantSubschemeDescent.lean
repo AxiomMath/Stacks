@@ -68,9 +68,12 @@ the source and target comparisons carry `eqToHom` casts, isolated in the four
 `relationGroupoid_*_eq` lemmas.
 
 The two conclusions of Stacks 07TW that this file does not reach — the bijection itself and its
-preservation of closedness — need effectivity of fppf descent for immersions, which is not
-available: the only route in the sources runs through Stacks 02W8 and hence Stacks 0APK, and
-`AlgebraicGeometry.DescentData.IsEffectiveForFamily` has no producer in this library.
+preservation of closedness — need effective descent of immersions along surjective étale
+morphisms, which is
+`AlgebraicGeometry.Space.isEffectiveDescentAlongSurjectiveEtale_isImmersion`; they are proved,
+with that input, in `StacksFrontier/AlgebraicGeometry/Descent/ImmersionEtaleDescent.lean` and, with
+invariance under the canonical groupoid, in
+`StacksFrontier/AlgebraicGeometry/Descent/DischargedEtaleDescent.lean`.
 
 ## References
 

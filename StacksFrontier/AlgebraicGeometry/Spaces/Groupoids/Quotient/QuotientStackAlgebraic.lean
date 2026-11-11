@@ -42,8 +42,9 @@ finite presentation by **Stacks 06FH**.
 * `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_hasSmoothPresentation`: a quotient
   stack satisfies every clause of algebraicity except the presentation, with no hypothesis on the
   groupoid beyond Stacks 04TB.
-* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack`: **Stacks 06FI**, with Stacks 06DC,
-  Stacks 06FH and Stacks 04TB carried as hypotheses.
+* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack`: Stacks 06FI from Stacks 06DC,
+  Stacks 06FH and Stacks 04TB taken as hypotheses; the unconditional statement is
+  `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_flat`.
 * `AlgebraicGeometry.Stack.forall_isAlgebraicStack_quotientStack`: the same quantified over the
   groupoids on a fixed base, which is the shape a consumer takes Stacks 06FI in.
 
@@ -65,10 +66,15 @@ the nose. The two stack clauses of the target are
 `AlgebraicGeometry.Stack.representable_quotientStackProjectionHom_of_isomPresheafAlgebraic`,
 whose input is the Stacks 04TB hypothesis `h04TB`.
 
-What is **not** discharged is the mathematics. Stacks 06DC is Artin's representability theorem and
-has no formalization in this library; it is carried as `AlgebraicGeometry.Stack.Theorem06DC`,
-stated for an arbitrary 1-morphism of stacks in groupoids and so not a restatement of the
-conclusion. It cannot be replaced by exhibiting the projection as the presentation clause of
+The three hypotheses are proved elsewhere in the library: Stacks 06DC as
+`AlgebraicGeometry.Stack.isAlgebraicStack_of_flatCover`, Stacks 04TB and Stacks 06FH for the
+projection through
+`AlgebraicGeometry.Stack.representable_quotientStackProjectionHom_unconditional` and
+`AlgebraicGeometry.Stack.QuotientAtlas.surjective_flat_lfp_quotientStackProjectionHom`; they are
+assembled, unconditionally, in `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_flat`.
+The form here keeps `AlgebraicGeometry.Stack.Theorem06DC`, stated for an arbitrary 1-morphism of
+stacks in groupoids at the morphism universe `u + 1` of `[U/R]`. That hypothesis cannot be
+replaced by exhibiting the projection as the presentation clause of
 `AlgebraicGeometry.Stack.IsAlgebraicStack`: that clause demands a *smooth* presentation, and a
 flat, locally finitely presented groupoid has no reason to give one —
 `AlgebraicGeometry.dualNumbers_projections_not_smooth` is a counterexample to the strengthening.
@@ -246,11 +252,10 @@ theorem isAlgebraicStack_quotientStack_of_hasSmoothPresentation {A : AlgebraicSp
 space `A` over a scheme `S` of a big fppf site. If the source and the target of `G` are flat and
 locally of finite presentation, then the quotient stack `[U/R]` is an algebraic stack over `S`.
 
-Artin's theorem **Stacks 06DC** is carried as `h06DC`, **Stacks 06FH** as `h06FH`, and
-**Stacks 04TB** as `h04TB`. -/
-@[stacks 06FI "Artin's theorem Stacks 06DC, Stacks 06FH and Stacks 04TB are carried as the \
-hypotheses h06DC, h06FH and h04TB; what is discharged is the representability of the source and \
-of the projection (Stacks 04SV and Stacks 04WZ) and the four stack clauses"]
+This form takes Artin's theorem **Stacks 06DC**, **Stacks 06FH** and **Stacks 04TB** as the
+hypotheses `h06DC`, `h06FH` and `h04TB`. All three are proved in the library (Stacks 06DC as
+`AlgebraicGeometry.Stack.isAlgebraicStack_of_flatCover`), and the unconditional statement is
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_flat`. -/
 theorem isAlgebraicStack_quotientStack {A : AlgebraicSpaces C S hS}
     (G : GroupoidInAlgebraicSpaces C S hS A)
     (h06DC : Theorem06DC.{u, w} C S hS) (h06FH : Lemma06FH C S hS)
@@ -276,9 +281,8 @@ algebraic quotient stack.
 
 This is `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack` with the three carried
 hypotheses pulled in front of the quantifier, which is the shape a consumer of Stacks 06FI — for
-instance Stacks 06PL for the trivial action — takes it in. -/
-@[stacks 06FI "quantified over the groupoids on a fixed base; Artin's theorem Stacks 06DC, \
-Stacks 06FH and Stacks 04TB are carried as the hypotheses h06DC, h06FH and h04TB"]
+instance Stacks 06PL for the trivial action — takes it in. The unconditional form is
+`AlgebraicGeometry.Stack.forall_isAlgebraicStack_quotientStack_of_flat`. -/
 theorem forall_isAlgebraicStack_quotientStack (A : AlgebraicSpaces C S hS)
     (h06DC : Theorem06DC.{u, w} C S hS) (h06FH : Lemma06FH C S hS)
     (h04TB : Lemma04TB C S hS) :

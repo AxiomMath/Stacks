@@ -38,17 +38,24 @@ public import Mathlib.Tactic.Polynomial.Basic
 public import Mathlib.Tactic.ReduceModChar
 
 /-!
-Stacks tag 00JI (algebra-lemma-K0prime-Artinian): for an Artinian local ring `R`,
-the homomorphism `length_R : K'_0(R) → ℤ` from Stacks 00JH is an isomorphism.
+# `K'_0` of an Artinian local ring
 
-`K'_0(R)`, the Grothendieck group of finitely generated `R`-modules modulo short exact
-sequences and isomorphisms, is not (yet) part of Mathlib. Rather than redevelop that
-construction here, this file lands the *surjectivity ingredient* of the iso, framed
-entirely in terms of `Module.length`: for every `n : ℕ` there is a finitely generated
-`R`-module of length exactly `n`. Concretely the witness is the free module
-`Fin n → ResidueField R` on the residue field, whose length is computed by the
-Mathlib lemma `Module.length_pi_of_fintype` together with the fact that the residue
-field of a local ring is a simple `R`-module.
+Stacks tag 00JI (algebra-lemma-K0prime-Artinian): for an Artinian local ring `R`,
+the homomorphism `length_R : K'_0(R) → ℤ` of Stacks 00JD is an isomorphism.
+
+Here `K'_0(R)` is `K0prime R`, the Grothendieck group of finite `R`-modules modulo
+isomorphisms and short exact sequences, and `length_R` is `lengthHom R`
+(both from `StacksFrontier.KTheory.Grothendieck.Defs`). Surjectivity comes from the modules
+`Fin n → ResidueField R` of length `n`; injectivity from the fact that the class of a
+finite module of length `n` is `n` times the class of the residue field, proved by
+splitting off a simple quotient `M ⧸ N ≅ ResidueField R` along a maximal submodule `N`.
+
+## Main results
+
+* `exists_finite_module_length_eq`: every `n : ℕ` is the length of a finite `R`-module.
+
+The isomorphism itself, `K0prime.lengthHom_isIso` (Stacks 00JI), and the diagram
+`K0.toK0prime_comm` (Stacks 00JK) are in `StacksFrontier.KTheory.Grothendieck.LengthIso`.
 -/
 
 @[expose] public section
@@ -75,20 +82,15 @@ lemma length_pi_residueField (n : ℕ) :
   rw [Module.length_pi_of_fintype]
   simp
 
-/-- **Stacks 00JI (length-surjectivity form).**
+/-- For an Artinian local ring `R`, the length map on finitely generated `R`-modules hits
+every natural number: for each `n : ℕ` there is a finitely generated `R`-module `M` with
+`Module.length R M = n`, namely `M = (ResidueField R)^n`.
 
-For an Artinian local ring `R`, the length map on finitely generated `R`-modules
-hits every natural number: for each `n : ℕ` there is a finitely generated
-`R`-module `M` with `Module.length R M = n`.
-
-This is the surjectivity ingredient of the Stacks statement that
-`length_R : K'_0(R) → ℤ` is an isomorphism. The full Stacks statement also needs
-the construction of `K'_0(R)` (Stacks 00JH) and the injectivity of `length_R`;
-those rely on the composition-series structure of Artinian local rings and are
-left to a follow-up file once Mathlib has `K'_0(R)`. The witness here is the
-standard one: `M = (ResidueField R)^n`. -/
-@[stacks 00JI "Surjectivity ingredient only: every n : ℕ is the length of a finite \
-module. K'_0(R) and the isomorphism length_R : K'_0(R) ≃ ℤ are not formalized."]
+The hypothesis `[IsArtinianRing R]` is not used by the proof, which only needs `R` to be
+local (through `length_pi_residueField`); it is kept so the lemma reads in the setting of
+Stacks 00JI. This is only the surjectivity ingredient of 00JI; the full statement, that
+`length_R : K'_0(R) → ℤ` is an isomorphism, is `K0prime.lengthHom_isIso` in
+`StacksFrontier.KTheory.Grothendieck.LengthIso`. -/
 theorem exists_finite_module_length_eq.{u} {R : Type u} [CommRing R] [IsLocalRing R]
     [IsArtinianRing R] (n : ℕ) :
     ∃ (M : Type u) (_ : AddCommGroup M) (_ : Module R M) (_ : Module.Finite R M),
@@ -119,7 +121,9 @@ rank `n`, the length is `n` times the length of the base ring
 (`Module.length_of_free_of_finite`). This is the commutativity statement
 of the diagram, since the upper-right composite sends the class of `P` to
 `length R P` while the lower-left composite sends it to
-`(finrank R P) • length R R`.
+`(finrank R P) • length R R`. The diagram itself, with the map
+`K0.toK0prime : K_0(R) → K'_0(R)`, is `K0.toK0prime_comm` (Stacks 00JK) in
+`StacksFrontier.KTheory.Grothendieck.LengthIso`.
 -/
 
 @[expose] public section
@@ -129,17 +133,12 @@ open Module
 
 /-- Over a local Artinian ring `R`, the length of any finite projective
 `R`-module `P` equals the rank of `P` times the length of `R`. This is the
-mathematical content of the commutative diagram relating `K₀(R)` and
-`K'₀(R)` for a local Artinian ring `R`: the rank-of-`R` length factor is
-exactly the bottom map of the diagram, and both vertical maps (rank and
-length) are isomorphisms with `ℤ`.
+value on the class of `P` of the commutative diagram `K0.toK0prime_comm`.
 
 Proof sketch. Since `R` is a local ring and `P` is finitely generated and
 projective (hence flat), `P` is free of finite rank by
 `Module.free_of_flat_of_isLocalRing`. Then
 `Module.length_of_free_of_finite` gives the desired identity. -/
-@[stacks 00JK "Numerical identity length P = rank P * length R only; the commutative \
-diagram K_0(R) → K'_0(R) → ℤ is not formalized."]
 theorem length_eq_finrank_mul_length_self
     (R : Type*) [CommRing R] [IsLocalRing R] [IsArtinianRing R]
     (P : Type*) [AddCommGroup P] [Module R P]
@@ -148,4 +147,3 @@ theorem length_eq_finrank_mul_length_self
   have : Module.Flat R P := Module.Flat.of_projective
   have : Module.Free R P := Module.free_of_flat_of_isLocalRing
   exact Module.length_of_free_of_finite R P
-

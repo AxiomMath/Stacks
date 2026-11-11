@@ -31,22 +31,27 @@ colimits (item (6) of the same lemma) give `L_{Rh/R} = 0`. At `L = κ` that is i
   only depends on the pair `A → B` up to isomorphism.
 * `CommAlgCat.isZero_cotangentComplexDerived_of_ind_etale`: the relative cotangent complex of an
   ind-étale algebra vanishes.
-* `IsLocalRing.IsHenselization.isZero_cotangentComplexDerived`: **items (7) and (8)** of
-  [Stacks, Tag 08R2], `L_{R^h/R} = 0` and `L_{R^{sh}/R} = 0`.
+* `IsLocalRing.IsHenselization.isZero_cotangentComplexDerived`: items (7) and (8) of
+  [Stacks, Tag 08R2], `L_{R^h/R} = 0` and `L_{R^{sh}/R} = 0`, for a given family of diagonal
+  triangles. The form with nothing carried is
+  `IsLocalRing.IsHenselization.isZero_cotangentComplexDerived_unconditional` in
+  `StacksFrontier.Cotangent.HenselizationUnconditional`.
 
 ## Implementation notes
 
 *Why Proposition 08QX appears as a family.* Item (5) of [Stacks, Tag 08R2],
-`CommAlgCat.isZero_cotangentComplexDerived_of_etale`, carries the distinguished triangle of
-Proposition 08QX for the diagonal tower `P → P ⊗_R P → P` as a hypothesis, because Proposition
-08QX is not formalized in this library. The route to items (7) and (8) applies item (5) at every
-étale stage of a presentation of `Rh` as a filtered colimit, and the index category of that
-presentation is produced by the existential statement `CategoryTheory.ObjectProperty.ind` inside
-the proof, so it cannot appear in the statement. The carried hypothesis is therefore quantified
+`CommAlgCat.isZero_cotangentComplexDerived_of_etale`, takes the distinguished triangle of
+Proposition 08QX for the diagonal tower `P → P ⊗_R P → P` as a parameter, because this file is
+upstream of Proposition 08QX (`CommAlgCat.productFundamentalTriangle_distinguished` of
+`StacksFrontier.Cotangent.Triangle.ProductDescent`). The route to items (7) and (8) applies item
+(5) at every étale stage of a presentation of `Rh` as a filtered colimit, and the index category
+of that presentation is produced by the existential statement `CategoryTheory.ObjectProperty.ind`
+inside the proof, so it cannot appear in the statement. The parameter is therefore quantified
 over the étale algebras rather than over the stages: `CommAlgCat.HasEtaleDiagonalTriangle R`.
 That is exactly the instance of Proposition 08QX item (5) needs, at every ring where the proof
-needs it, and nothing more. When Proposition 08QX is formalized the hypothesis is discharged
-outright.
+needs it, and nothing more. `CommAlgCat.hasEtaleDiagonalTriangle` of
+`StacksFrontier.Cotangent.HenselizationUnconditional` proves it for every ring from Proposition
+08QX.
 
 *The forgetful functor to rings.* `IsLocalRing.IsHenselization.ind_etale` presents a
 henselization as a filtered colimit in `CommAlgCat R`, whereas item (6)
@@ -75,7 +80,8 @@ every degree, and acyclicity transfers. The same lemma also reconciles the `Alge
 * [Stacks Project, Tag 04GQ](https://stacks.math.columbia.edu/tag/04GQ), the definition of the
   henselization and of a strict henselization.
 * [Stacks Project, Tag 08QX](https://stacks.math.columbia.edu/tag/08QX), the fundamental
-  triangle, which is not formalized in this library and is carried.
+  triangle, taken here as a parameter and supplied in
+  `StacksFrontier.Cotangent.HenselizationUnconditional`.
 -/
 
 @[expose] public noncomputable section
@@ -167,7 +173,8 @@ the diagonal tower `P → P ⊗_R P → P` form a distinguished triangle in `D(P
 
 This is the hypothesis `hT` of `CommAlgCat.isZero_cotangentComplexDerived_of_etale`, quantified
 over the étale algebras because the étale stages at which item (5) is applied below are produced
-inside the proof. See the module docstring. -/
+inside the proof. See the module docstring. It holds for every ring:
+`CommAlgCat.hasEtaleDiagonalTriangle`. -/
 def HasEtaleDiagonalTriangle (R : Type u) [CommRing R] : Prop :=
   ∀ (P : Type u) [CommRing P] [Algebra R P], Algebra.Etale R P →
     ∃ (α : fundamentalVertex₁.{u, u} P (P ⊗[R] P) P ⟶ fundamentalVertex₂.{u, u} P P)
@@ -179,7 +186,7 @@ def HasEtaleDiagonalTriangle (R : Type u) [CommRing R] : Prop :=
 variable {R : Type u} [CommRing R]
 
 /-- **[Stacks, Tag 08R2] item (5)** for an object of `CommAlgCat R`, with the triangle of
-Proposition 08QX taken from the carried family `CommAlgCat.HasEtaleDiagonalTriangle`. -/
+Proposition 08QX taken from the family `CommAlgCat.HasEtaleDiagonalTriangle`. -/
 theorem isZero_cotangentComplexDerived_of_etale_obj (hQX : HasEtaleDiagonalTriangle.{u} R)
     (P : CommAlgCat.{u} R) [Algebra.Etale R (P : Type u)] :
     IsZero (cotangentComplexDerived.{u, u} R P) := by
@@ -257,9 +264,11 @@ namespace IsLocalRing.IsHenselization
 
 open CommAlgCat
 
-/-- **[Stacks, Tag 08R2] items (7) and (8).** Let `(R, 𝔪, κ)` be a local ring and let `R → Rh` be
-a henselization of `R` with residue field a prescribed extension `κ ⊆ L` of its residue field.
-Then `L_{Rh/R} = 0` in `D(Rh)`.
+/-- **[Stacks, Tag 08R2] items (7) and (8), for a given family of triangles.** Let `(R, 𝔪, κ)` be
+a local ring and let `R → Rh` be a henselization of `R` with residue field a prescribed extension
+`κ ⊆ L` of its residue field, and let `hQX` supply the diagonal triangles of the étale
+`R`-algebras. Then `L_{Rh/R} = 0` in `D(Rh)`. The form with `hQX` discharged is
+`IsLocalRing.IsHenselization.isZero_cotangentComplexDerived_unconditional`.
 
 At `L = κ` this is item (7), the henselization `R → R^h`, and at `L = κ^sep` a separable
 algebraic closure it is item (8), a strict henselization `R → R^{sh}`; the two are the two
@@ -268,18 +277,6 @@ instances of `IsLocalRing.IsHenselization`, so one statement covers both.
 The henselization hypothesis enters through `IsLocalRing.IsHenselization.ind_etale`: a
 henselization is a filtered colimit of étale `R`-algebras, and
 `CommAlgCat.isZero_cotangentComplexDerived_of_ind_etale` concludes. -/
-@[stacks 08R2 "items (7) and (8) of the lemma, at once: `L_{R^h/R} = 0` and `L_{R^{sh}/R} = 0` \
-for `R → Rh` a henselization of the local ring `R` with residue field the prescribed extension \
-`κ ⊆ L` (`IsLocalRing.IsHenselization`, Stacks 04GQ), item (7) being the case `L = κ` and item \
-(8) the case `L = κ^sep`. ONE carried hypothesis, `hQX`: the distinguished triangle of \
-Proposition 08QX for the diagonal tower `P → P ⊗_R P → P` of EVERY étale `R`-algebra `P`, which \
-is the hypothesis `hT` of item (5) \
-(`CommAlgCat.isZero_cotangentComplexDerived_of_etale`) quantified over the étale stages, since \
-the index category of the colimit presentation is produced inside the proof. Proposition 08QX is \
-not formalized in this library. The source's own route is followed: items (5) and (6), the \
-latter being `CommAlgCat.cotangentComplex_isZero_of_filtered_colimit`. The henselization \
-hypothesis is load-bearing through `IsLocalRing.IsHenselization.ind_etale`, which supplies the \
-presentation of `Rh` as a filtered colimit of étale `R`-algebras"]
 theorem isZero_cotangentComplexDerived {R : Type u} [CommRing R] [IsLocalRing R] (L : Type v)
     [Field L] [Algebra (ResidueField R) L] {Rh : Type u} [CommRing Rh] [IsLocalRing Rh]
     [Algebra R Rh] [IsHenselization R L Rh] (hQX : HasEtaleDiagonalTriangle.{u} R) :

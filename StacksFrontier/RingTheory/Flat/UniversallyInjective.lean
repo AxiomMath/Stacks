@@ -67,7 +67,7 @@ a universally injective ring map reflects injections, surjections and isomorphis
 * `Module.Flat.rTensor_injective_iff_injective_mapQ_smul_top`: a map `f : M → M'` into a flat
   module is universally injective if and only if `M/IM → M'/IM'` is injective for every finitely
   generated ideal `I`.
-* `universallyInjective_rTensor`: `u ⊗ id_N` is universally injective if `u` is.
+* `UniversallyInjective.rTensor`: `u ⊗ id_N` is universally injective if `u` is.
 * `comp_universallyInjective`: a composition of universally injective maps is universally
   injective.
 * `faithfullyFlat_universallyInjective`, `faithfullyFlat_comap_map_eq`: a faithfully flat ring map
@@ -337,8 +337,10 @@ variable {R : Type u} [CommRing R]
 /-- **Universally injective module map.**
 A homomorphism of `R`-modules `f : M →ₗ[R] N` is *universally injective* if for every
 `R`-module `Q`, the induced map `f ⊗ id_Q : M ⊗_R Q → N ⊗_R Q` (i.e. `f.rTensor Q`) is
-injective. -/
-@[stacks 058I, ega "IV 11.9.14" "special case", ega "IV 11.9.18" "special case", sga "1 II 4.5"]
+injective. This is the first of the two notions of Stacks 058I; the second, universally exact
+short exact sequences, is `UniversallyExact`. -/
+@[stacks 058I "universally injective", ega "IV 11.9.14" "special case",
+  ega "IV 11.9.18" "special case", sga "1 II 4.5"]
 def UniversallyInjective {M N : Type v} [AddCommGroup M] [AddCommGroup N]
     [Module R M] [Module R N] (f : M →ₗ[R] N) : Prop :=
   ∀ (Q : Type v) [AddCommGroup Q] [Module R Q], Function.Injective (f.rTensor Q)
@@ -351,15 +353,17 @@ end
 
 open scoped TensorProduct
 
+universe u v
+
 /-- If `u : M →ₗ[R] M'` is universally injective, then for any `R`-module `N` the induced map
 `u ⊗ id_N : M ⊗_R N → M' ⊗_R N` (i.e. `LinearMap.rTensor N u`) is again universally
-injective. -/
+injective. The ring lives in any universe `u` and the modules in any universe `v`. -/
 @[stacks 05CH]
-theorem universallyInjective_rTensor {R : Type} [CommRing R]
-    {M : Type} [AddCommGroup M] [Module R M]
-    {M' : Type} [AddCommGroup M'] [Module R M']
-    (u : M →ₗ[R] M') (hu : UniversallyInjective u)
-    (N : Type) [AddCommGroup N] [Module R N] :
+theorem UniversallyInjective.rTensor {R : Type u} [CommRing R]
+    {M : Type v} [AddCommGroup M] [Module R M]
+    {M' : Type v} [AddCommGroup M'] [Module R M']
+    {u : M →ₗ[R] M'} (hu : UniversallyInjective u)
+    (N : Type v) [AddCommGroup N] [Module R N] :
     UniversallyInjective (LinearMap.rTensor N u) := by
   intro Q _ _
   have hnat : (TensorProduct.assoc R M' N Q).toLinearMap ∘ₗ (u.rTensor N).rTensor Q =
@@ -369,6 +373,16 @@ theorem universallyInjective_rTensor {R : Type} [CommRing R]
   refine Function.Injective.of_comp (f := TensorProduct.assoc R M' N Q) ?_
   rw [← LinearEquiv.coe_coe, ← LinearMap.coe_comp, hnat, LinearMap.coe_comp, LinearEquiv.coe_coe]
   exact (hu (N ⊗[R] Q)).comp (TensorProduct.assoc R M N Q).injective
+
+/-- The special case of `UniversallyInjective.rTensor` with the ring and all modules in
+`Type`. -/
+theorem universallyInjective_rTensor {R : Type} [CommRing R]
+    {M : Type} [AddCommGroup M] [Module R M]
+    {M' : Type} [AddCommGroup M'] [Module R M']
+    (u : M →ₗ[R] M') (hu : UniversallyInjective u)
+    (N : Type) [AddCommGroup N] [Module R N] :
+    UniversallyInjective (LinearMap.rTensor N u) :=
+  hu.rTensor N
 
 end
 

@@ -57,6 +57,14 @@ at the big site of a scheme with the essential-surjectivity half of Descent, Pro
 The other half is `Stacks.SheafOfModules.isQuasicoherentOnSite_of_le`, which goes the other
 way.
 
+The step is not only stated: it is proved with no hypothesis, downstream of this file, at the
+module universe `u` of the schemes as
+`AlgebraicGeometry.Stack.forallQuasicoherentIsLocallyQuasicoherent` and at the module universe
+`max (u + 1) v w m` as
+`AlgebraicGeometry.Stack.forallQuasicoherentIsLocallyQuasicoherent_freeModuleUniverse`. At the
+universe `u` it is also a consequence of the whole of Stacks 06WK,
+`Stack.isQuasicoherentFppf_iff_isLocallyQuasicoherent_and_isIso_sheafifiedRestrictComparison`.
+
 ## The module universe
 
 `AlgebraicGeometry.Space.moduleRestriction` and
@@ -135,7 +143,14 @@ for a coarser topology, which is one half of Stacks 0EM8.
 
 It is exactly the residue between Stacks 0GQC and the hypothesis
 `AlgebraicGeometry.Space.RestrictionPreservesQuasicoherent` of Stacks 0GQD; see
-`AlgebraicGeometry.Space.restrictionPreservesQuasicoherent_of_forallIsLocallyQuasicoherent`. -/
+`AlgebraicGeometry.Space.restrictionPreservesQuasicoherent_of_forallIsLocallyQuasicoherent`.
+
+It is proved, with no hypothesis, at the module universe `u` by
+`AlgebraicGeometry.Stack.forallQuasicoherentIsLocallyQuasicoherent` and at the module universe
+`max (u + 1) v w m` by
+`AlgebraicGeometry.Stack.forallQuasicoherentIsLocallyQuasicoherent_freeModuleUniverse`; at the
+universe `u` it is also part of the forward direction of Stacks 06WK,
+`Stack.isQuasicoherentFppf_iff_isLocallyQuasicoherent_and_isIso_sheafifiedRestrictComparison`. -/
 noncomputable abbrev ForallQuasicoherentIsLocallyQuasicoherent : Prop :=
   ∀ M : FibredSite.quasicoherentModules.{u, v, w, m} B S hS p hp,
     IsLocallyQuasicoherent B (associatedBigEtaleSite B) rfl S hS p hp

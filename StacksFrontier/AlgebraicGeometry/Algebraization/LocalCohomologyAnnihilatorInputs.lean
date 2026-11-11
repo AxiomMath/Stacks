@@ -36,7 +36,7 @@ Stacks 0955.
 * `Stacks.LocalCohomology.isGE_localCohomologyDerived_single` — `RΓ_{V(I)}(M[0])` lies in
   degrees `≥ 0`, in the coreflection model.
 * `Stacks.LocalCohomology.exists_notMem_mem_annihilator_localCohomologyWithSupportIn_of_dualizing`
-  — Stacks 0EFE with the hypothesis carrying Faltings' annihilator theorem discharged.
+  — Stacks 0EFE, deduced from Faltings' annihilator theorem, Stacks 0EFC.
 * `Stacks.LocalCohomology.exists_notMem_mem_annihilator_localCohomologyWithSupportIn_sup` and
   `Stacks.LocalCohomology.exists_notMem_mem_annihilator_localCohomologyModule_sup` — for a prime
   outside `V(I) ∩ V(J)`, one element outside it annihilating `H^j_{V(I+J)}(M)` in every degree
@@ -161,13 +161,11 @@ theorem isGE_localCohomologyDerived_single
     ((derivedSectionsWithSupportInIsoLocalCohomologyDerived A I hI).app
       ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj M)) 0
 
-/-- **Stacks 0EFE, unconditionally.** For `M` finite over a Noetherian ring `A` with a dualizing
+/-- **Stacks 0EFE.** For `M` finite over a Noetherian ring `A` with a dualizing
 complex and `p` a prime outside `V(I)`, if `depth_{A_{p'}}(M_{p'}) + dim((A/p')_q) > s` for all
 primes `p' ⊆ p` and all `q ∈ V(I)` with `p' ⊆ q`, then some `f ∈ A` outside `p` annihilates
 `H^i_{V(I)}(M)` for every `i ≤ s`. -/
-@[stacks 0EFE "the lemma unconditionally, the hypothesis `hFaltings` of
-`Stacks.LocalCohomology.exists_notMem_and_mem_annihilator_localCohomologyWithSupportIn`
-being discharged by Tag 0EFC"]
+@[stacks 0EFE]
 theorem exists_notMem_mem_annihilator_localCohomologyWithSupportIn_of_dualizing
     (A : Type u) [CommRing A] [IsNoetherianRing A]
     (M : Type u) [AddCommGroup M] [Module A M] [Module.Finite A M]

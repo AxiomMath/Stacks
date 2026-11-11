@@ -23,9 +23,10 @@ it changes neither of them.
 * `numberOfBranches_eq_completion_iff_radical_map_minimalPrime_isPrime`: the branch counts of `A`
   and `Â` agree if and only if the radical of the extension of every minimal prime of `Aʰ` is
   prime.
-* `numberOfBranches_le_and_numberOfGeometricBranches_le_completion`: contraction along
-  `Aʰ → Â` is surjective on minimal primes, `Â ⊗[Aʰ] Aˢʰ` is a strict henselization of `Â`, and
-  completion decreases neither the ordinary nor the geometric branch count.
+* `mapsTo_surjOn_minimalPrimes_and_numberOfBranches_le_completion`: contraction
+  along `Aʰ → Â` maps minimal primes onto minimal primes, `Â ⊗[Aʰ] Aˢʰ` is a strict
+  henselization of `Â`, and completion decreases neither the ordinary nor the geometric branch
+  count.
 * `numberOfBranches_and_numberOfGeometricBranches_eq_adicCompletion_of_dimension_one`: in
   dimension one, completion changes neither the ordinary nor the geometric branch count.
 
@@ -418,10 +419,11 @@ private theorem exists_algebra_residueField_adicCompletion
       Algebra.IsSeparable.trans (ResidueField B) (ResidueField A) κsep⟩
 
 /-- For a Noetherian local ring `A` with henselization `Aʰ` and strict henselization `Aˢʰ`, there
-is a map `Aʰ → Â` along which contraction is surjective on minimal primes, `Â ⊗[Aʰ] Aˢʰ` is a
-strict henselization of `Â`, and completion decreases neither the number of branches nor the
-number of geometric branches. -/
-@[stacks 0C28]
+is a map `Aʰ → Â` such that every minimal prime of `Aʰ` is the contraction of a minimal prime of
+`Â`, `Â ⊗[Aʰ] Aˢʰ` is a strict henselization of `Â`, and completion decreases neither the number
+of branches nor the number of geometric branches. This does not say that contraction carries
+minimal primes of `Â` to minimal primes of `Aʰ`; the full statement, with that half as well, is
+`mapsTo_surjOn_minimalPrimes_and_numberOfBranches_le_completion`. -/
 theorem numberOfBranches_le_and_numberOfGeometricBranches_le_completion
     (A Ah Ash : Type u)
     [CommRing A] [IsLocalRing A] [IsNoetherianRing A]
@@ -556,6 +558,59 @@ theorem numberOfBranches_le_and_numberOfGeometricBranches_le_completion
     FaithfulSMul.algebraMap_injective Ash _
   exact encard_le_of_surjOn _
     (surjOn_minimalPrimes_of_flat_injective _ hflatT hinjT)
+
+/-- For a Noetherian local ring `A` with henselization `Aʰ` and strict henselization `Aˢʰ`, there
+is a map `f : Aʰ → Â` over `A` such that:
+1. contraction along `f` carries minimal primes of `Â` to minimal primes of `Aʰ`, and every
+   minimal prime of `Aʰ` arises this way;
+2. the number of branches of `A` is at most that of `Â` (which is henselian, so is its own
+   henselization);
+3. `Â ⊗[Aʰ] Aˢʰ` is a strict henselization of `Â`, and the number of geometric branches of `A` is
+   at most that of `Â`. -/
+@[stacks 0C28 "parts (1)-(3): contraction along Aʰ → Â maps Min(Â) into and onto Min(Aʰ); \
+branch counts of Â use Â as its own henselization and Â ⊗[Aʰ] Aˢʰ as its strict henselization"]
+theorem mapsTo_surjOn_minimalPrimes_and_numberOfBranches_le_completion
+    (A Ah Ash : Type u)
+    [CommRing A] [IsLocalRing A] [IsNoetherianRing A]
+    [CommRing Ah] [IsLocalRing Ah] [Algebra A Ah]
+    [IsHenselization A (ResidueField A) Ah]
+    (κsep : Type v) [Field κsep] [Algebra (ResidueField A) κsep]
+    [IsSepClosure (ResidueField A) κsep]
+    [CommRing Ash] [IsLocalRing Ash] [Algebra A Ash] [Algebra Ah Ash]
+    [IsScalarTower A Ah Ash] [IsHenselization A κsep Ash]
+    [IsLocalHom (algebraMap Ah Ash)] :
+    let Ahat := AdicCompletion (maximalIdeal A) A
+    ∃ hAhatLocal : IsLocalRing Ahat,
+      letI : IsLocalRing Ahat := hAhatLocal
+      ∃ hAhatMapLocal : IsLocalHom (algebraMap A Ahat),
+        letI : IsLocalHom (algebraMap A Ahat) := hAhatMapLocal
+        ∃ f : Ah →+* Ahat,
+          (∀ x : A, f (algebraMap A Ah x) = algebraMap A Ahat x) ∧
+          Set.MapsTo (fun q => Ideal.comap f q) (minimalPrimes Ahat) (minimalPrimes Ah) ∧
+          Set.SurjOn (fun q => Ideal.comap f q) (minimalPrimes Ahat) (minimalPrimes Ah) ∧
+          letI : Algebra Ah Ahat := f.toAlgebra
+          ∃ hAhatHenselization : IsHenselization Ahat (ResidueField Ahat) Ahat,
+            letI : IsHenselization Ahat (ResidueField Ahat) Ahat := hAhatHenselization
+            numberOfBranches A Ah ≤ numberOfBranches Ahat Ahat ∧
+            ∃ algKhat : Algebra (ResidueField Ahat) κsep,
+              letI : Algebra (ResidueField Ahat) κsep := algKhat
+              (∀ x : ResidueField A,
+                algebraMap (ResidueField Ahat) κsep
+                    (ResidueField.map (algebraMap A Ahat) x) =
+                  algebraMap (ResidueField A) κsep x) ∧
+              ∃ hKsep : IsSepClosure (ResidueField Ahat) κsep,
+                letI : IsSepClosure (ResidueField Ahat) κsep := hKsep
+                ∃ hTensorLocal : IsLocalRing (Ahat ⊗[Ah] Ash),
+                  letI : IsLocalRing (Ahat ⊗[Ah] Ash) := hTensorLocal
+                  ∃ hTensorHenselization : IsHenselization Ahat κsep (Ahat ⊗[Ah] Ash),
+                    letI : IsHenselization Ahat κsep (Ahat ⊗[Ah] Ash) := hTensorHenselization
+                    numberOfGeometricBranches A κsep Ash ≤
+                      numberOfGeometricBranches Ahat κsep (Ahat ⊗[Ah] Ash) := by
+  obtain ⟨hL, hLH, f, hf, hsurj, hrest⟩ :=
+    numberOfBranches_le_and_numberOfGeometricBranches_le_completion A Ah Ash κsep
+  let fA : Ah →ₐ[A] AdicCompletion (maximalIdeal A) A := { f with commutes' := hf }
+  have hflat : f.Flat := flat_of_isHenselization_algHom fA
+  exact ⟨hL, hLH, f, hf, fun _ hq ↦ comap_mem_minimalPrimes_of_flat f hflat hq, hsurj, hrest⟩
 
 /-- A minimal prime of a one-dimensional Noetherian local ring cuts out a one-dimensional
 component. -/

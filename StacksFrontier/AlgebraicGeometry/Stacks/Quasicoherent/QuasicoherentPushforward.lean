@@ -20,6 +20,16 @@ obtained by putting the `i`-th higher direct image of modules in its middle slot
 source's three-step composite: include the quasi-coherent modules into all modules, take the
 direct image there, and come back with the coherator `Q` of **Stacks 0781** part (2).
 
+This file builds these functors at section universe `u + 1`, over the three inputs of the
+coherator listed under "What is carried" below.  **Stacks 077A** itself is registered at module
+universe `u`, where those inputs are proved: the adjunction is
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentPullbackDirectImageAdjunction`, the
+factorizations through `LQCoh^fbc` are
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentDirectImageIsoComposite` and
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImageIsoComposite`, and the
+cohomological δ-functor is
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImageDeltaFunctor`.
+
 ## Main definitions
 
 * `AlgebraicGeometry.FibredSite.quasicoherentInclusion`: the inclusion
@@ -31,10 +41,10 @@ direct image there, and come back with the coherator `Q` of **Stacks 0781** part
   `Q : Mod(𝒪_𝒳) ⥤ QCoh(𝒪_𝒳)` of **Stacks 0781** part (2) at that same section universe.
 * `AlgebraicGeometry.Stack.quasicoherentModulePullback`: the inverse image `f^*` of
   **Stacks 06WE** restricted to quasi-coherent modules, which is **Stacks 06WH**.
-* `AlgebraicGeometry.Stack.quasicoherentPushforward`: **Stacks 077A**, the quasi-coherent direct
-  image `f_{QCoh,*}`.
-* `AlgebraicGeometry.Stack.higherDirectImageQuasicoherent`: **Stacks 077A**, the higher direct
-  images `R^i f_{QCoh,*}`.
+* `AlgebraicGeometry.Stack.quasicoherentPushforward`: the quasi-coherent direct image
+  `f_{QCoh,*}` of **Stacks 077A**, at section universe `u + 1`.
+* `AlgebraicGeometry.Stack.higherDirectImageQuasicoherent`: the higher direct images
+  `R^i f_{QCoh,*}` of **Stacks 077A**, at section universe `u + 1`.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.fppfQuasicoherentModules`,
   `AlgebraicGeometry.Stack.AlgebraicStacks.fppfQuasicoherentPushforward` and
   `AlgebraicGeometry.Stack.AlgebraicStacks.fppfHigherDirectImageQuasicoherent`: the same three
@@ -45,8 +55,9 @@ direct image there, and come back with the coherator `Q` of **Stacks 0781** part
 * `AlgebraicGeometry.FibredSite.hasTerminal_costructuredArrow_quasicoherentInclusion`: every
   module has a terminal quasi-coherent module mapping to it, at the section universe of the
   direct images.  This is the one existence statement the coherator rests on.
-* `AlgebraicGeometry.Stack.quasicoherentPullbackPushforwardAdjunction`: **Stacks 077A**, the
-  assertion itself — `f^*` on quasi-coherent modules is left adjoint to `f_{QCoh,*}`.
+* `AlgebraicGeometry.Stack.quasicoherentPullbackPushforwardAdjunction`: the adjunction of
+  **Stacks 077A** at section universe `u + 1` — `f^*` on quasi-coherent modules is left adjoint
+  to `f_{QCoh,*}`.
 * `AlgebraicGeometry.Stack.higherDirectImageQuasicoherentZeroIso`:
   `R^0 f_{QCoh,*} = f_{QCoh,*}`.
 * `AlgebraicGeometry.Stack.AlgebraicStacks.fppfHigherDirectImageQuasicoherentZeroIso`: the
@@ -83,10 +94,13 @@ It is also what makes the result available at all at this seating.  `LQCoh^fbc(�
 to the section universe `u` of the schemes — the comparison map of **Stacks 06WC** pins it, see
 `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FlatBaseChangeSmoothLocal.lean` — whereas the
 direct image of **Stacks 06WE** along a 1-morphism of algebraic stacks is computed by limits
-indexed by the two sites and so lives at section universe `u + 1`.  There is therefore no
-`LQCoh^fbc(𝒪_𝒳)` in this library in the universe the direct image produces, and no composite to
-form there.  `QCoh(𝒪_𝒳)` has no such obstruction: it is a full subcategory of the modules, in
-whatever section universe they are taken.
+indexed by the two sites and so lives at section universe `u + 1` as
+`AlgebraicGeometry.Stack.moduleSheafPushforward` builds it.  There is no `LQCoh^fbc(𝒪_𝒳)` at
+section universe `u + 1`, and no composite through it to form there.  `QCoh(𝒪_𝒳)` has no such
+obstruction: it is a full subcategory of the modules, in whatever section universe they are
+taken.  At section universe `u` the direct image is
+`AlgebraicGeometry.Stack.fppfModulesPushforward`, and there the composite through `LQCoh^fbc`
+is formed, as `AlgebraicGeometry.Stack.AlgebraicStacks.lqcohSheafFbcDirectImage`.
 
 ### The coherator at section universe `u + 1`
 
@@ -117,8 +131,10 @@ statement about `QCoh(𝒪_𝒴)` alone, mentioning neither the 1-morphism nor a
 *Well-copoweredness* (`hwp`) and *a separator* (`hsep`) are the two remaining conditions of the
 special adjoint functor theorem, and the source draws both from **Stacks 0781** part (1).  The
 separator is the substantive one: the source produces it from a smooth groupoid presentation
-`𝒳 = [U/R]`, and neither that presentation argument nor the abelian structure on `QCoh(𝒪_𝒳)` is
-in this library, so part (1) itself is only available over them — compare
+`𝒳 = [U/R]`.  At module universe `u` the separator is proved, as
+`AlgebraicGeometry.Stack.hasSeparator_quasicoherentModules`, and so is the abelian structure,
+as `AlgebraicGeometry.Stack.AlgebraicStacks.instAbelianQuasicoherentModules`; at the section
+universe `u + 1` of this file they are inputs — compare
 `AlgebraicGeometry.FibredSite.isGrothendieckAbelian_quasicoherentModules`.
 
 No abelian structure on `QCoh(𝒪_𝒴)` is needed or assumed: the higher direct images are the right
@@ -126,16 +142,16 @@ derived functors of the direct image of *modules*, whose abelian structure and e
 `AlgebraicGeometry.Stack.moduleSheafHigherDirectImage` supplies, and the coherator is applied to
 them afterwards.
 
-### What is not here
+### The δ-functor
 
 The source closes 077A by asserting that `{R^i f_{QCoh,*}}_{i ≥ 0}` is a cohomological
-δ-functor.  That assertion is not made below.  Its connecting maps and long exact sequences come
-from the ones of `R^i f_*` on `Mod(𝒪_𝒳)` by applying `Q`, and for them to stay exact one needs
-`QCoh(𝒪_𝒴)` to be abelian and `Q` to be exact; the first is an instance-implicit hypothesis
-everywhere in this area and the second is **Stacks 0779**, which this library does not have — see
-the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/DerivedQuasicoherentCohomology.lean`, which
-carry exactly that kernel computation as a hypothesis `hQker`.
+δ-functor.  That assertion is not made at the section universe `u + 1` of this file: its
+connecting maps come from the ones of `R^i f_*` on `Mod(𝒪_𝒳)` by applying `Q`, and for them to
+stay exact one needs `QCoh(𝒪_𝒴)` to be abelian and **Stacks 0779** (3) for this coherator at
+section universe `u + 1`.  It is proved at module universe `u`, where `QCoh(𝒪_𝒴)` is abelian
+(**Stacks 0GQL**) and the library proves **Stacks 0779** for the canonical coherator, in
+`StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.CoheratorCanonical`, as
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImageDeltaFunctor`.
 
 ## References
 
@@ -334,18 +350,16 @@ variable (hclosed : FibredSite.QuasicoherentClosedUnderColimitsSucc B S hS q hq)
 
 include hclosed hwp hsep
 
-/-- **Stacks 077A: the quasi-coherent direct image `f_{QCoh,*}`.**  Include the quasi-coherent
+/-- **The quasi-coherent direct image `f_{QCoh,*}` of Stacks 077A, at section universe
+`u + 1`.**  Include the quasi-coherent
 modules of `𝒳` into all modules on its associated fppf site, take the direct image of
 **Stacks 06WE**, and come back with the coherator of **Stacks 0781** part (2).
 
 The source's middle slot is the direct image of **Stacks 0771** on `LQCoh^fbc(𝒪_𝒳)` and its
 coherator is the one of **Stacks 0778**; the two readings agree on the quasi-compact and
 quasi-separated 1-morphisms the source states 077A for, and this one needs neither hypothesis.
-See the implementation notes. -/
-@[stacks 077A "f_{QCoh,*} as the composite of the inclusion of Stacks 06WG, the direct image of \
-  Stacks 06WE on all modules, and the coherator of Stacks 0781 part (2); the coherator's three \
-  special-adjoint-functor-theorem inputs from Stacks 0781 part (1) are carried as the named \
-  hypotheses hclosed, hwp, hsep"]
+See the implementation notes.  At module universe `u` this is
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentDirectImage`. -/
 def quasicoherentPushforward :
     FibredSite.quasicoherentModules.{u, u + 1, u, u + 1} B S hS p hp ⥤
       FibredSite.quasicoherentModules.{u, u + 1, u, u + 1} B S hS q hq :=
@@ -353,11 +367,9 @@ def quasicoherentPushforward :
     fppfModuleSheafPushforward B S hS p q hp hq f hf ⋙
       FibredSite.moduleCoheratorSucc B S hS q hq hclosed hwp hsep
 
-/-- **Stacks 077A: the higher direct images `R^i f_{QCoh,*}`.**  The composite defining
-`f_{QCoh,*}` with the `i`-th higher direct image of modules in its middle slot. -/
-@[stacks 077A "R^i f_{QCoh,*} as the same composite with the i-th higher direct image of modules \
-  in the middle slot; the coherator's three inputs from Stacks 0781 part (1) are carried as the \
-  named hypotheses hclosed, hwp, hsep"]
+/-- **The higher direct images `R^i f_{QCoh,*}` of Stacks 077A, at section universe `u + 1`.**
+The composite defining `f_{QCoh,*}` with the `i`-th higher direct image of modules in its middle
+slot. -/
 def higherDirectImageQuasicoherent (i : ℕ) :
     FibredSite.quasicoherentModules.{u, u + 1, u, u + 1} B S hS p hp ⥤
       FibredSite.quasicoherentModules.{u, u + 1, u, u + 1} B S hS q hq :=
@@ -365,16 +377,14 @@ def higherDirectImageQuasicoherent (i : ℕ) :
     fppfModuleSheafHigherDirectImage B S hS p q hp hq f hf i ⋙
       FibredSite.moduleCoheratorSucc B S hS q hq hclosed hwp hsep
 
-/-- **Stacks 077A, the assertion itself: `f^*` on quasi-coherent modules has the right adjoint
-`f_{QCoh,*}`.**
+/-- **The adjunction of Stacks 077A at section universe `u + 1`: `f^*` on quasi-coherent modules
+has the right adjoint `f_{QCoh,*}`.**  At module universe `u` it is
+`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentPullbackDirectImageAdjunction`.
 
 The adjunction `f^* ⊣ f_*` of **Stacks 06WE** composed with the coherator adjunction of
 **Stacks 0781** part (2) is an adjunction between `QCoh(𝒪_𝒴)` and all of `Mod(𝒪_𝒳)`; restricting
 it along the fully faithful inclusion of `QCoh(𝒪_𝒳)`, which is possible because `f^*` preserves
 quasi-coherence by **Stacks 06WH**, is the asserted adjunction. -/
-@[stacks 077A "the assertion: the inverse image of quasi-coherent modules is left adjoint to \
-  f_{QCoh,*}; the coherator's three inputs from Stacks 0781 part (1) are carried as the named \
-  hypotheses hclosed, hwp, hsep"]
 def quasicoherentPullbackPushforwardAdjunction :
     quasicoherentModulePullback B S hS p q hp hq f hf ⊣
       quasicoherentPushforward B S hS p q hp hq f hf hclosed hwp hsep :=
@@ -433,22 +443,18 @@ abbrev fppfQuasicoherentModulePullback :
     𝒴.val.isFiberedInGroupoids (CatFiberedInGroupoids.homFunctor g.hom)
     (CatFiberedInGroupoids.homFunctor_comp_p g.hom)
 
-/-- **Stacks 077A for a 1-morphism of algebraic stacks: the quasi-coherent direct image
-`g_{QCoh,*} : QCoh(𝒪_𝒳) ⥤ QCoh(𝒪_𝒴)`.** -/
-@[stacks 077A "g_{QCoh,*} for a 1-morphism of algebraic stacks over S; the coherator's three \
-  inputs from Stacks 0781 part (1) are carried as the named hypotheses hclosed, hwp, hsep"]
+/-- **The quasi-coherent direct image `g_{QCoh,*} : QCoh(𝒪_𝒳) ⥤ QCoh(𝒪_𝒴)` of Stacks 077A for a
+1-morphism of algebraic stacks, at section universe `u + 1`.** -/
 abbrev fppfQuasicoherentPushforward :
     fppfQuasicoherentModules B S hS 𝒳 ⥤ fppfQuasicoherentModules B S hS 𝒴 :=
   quasicoherentPushforward B S hS 𝒳.val.val.p 𝒴.val.val.p 𝒳.val.isFiberedInGroupoids
     𝒴.val.isFiberedInGroupoids (CatFiberedInGroupoids.homFunctor g.hom)
     (CatFiberedInGroupoids.homFunctor_comp_p g.hom) hclosed hwp hsep
 
-/-- **Stacks 077A for a 1-morphism of algebraic stacks: the higher direct images
-`R^i g_{QCoh,*} : QCoh(𝒪_𝒳) ⥤ QCoh(𝒪_𝒴)`.**  This is the higher direct image of modules on the
-fppf sites, the `Rⁱf_*` of **Stacks 0770**, read in `QCoh(𝒪_𝒴)` rather than in all of
-`Mod(𝒪_𝒴)`. -/
-@[stacks 077A "R^i g_{QCoh,*} for a 1-morphism of algebraic stacks over S; the coherator's three \
-  inputs from Stacks 0781 part (1) are carried as the named hypotheses hclosed, hwp, hsep"]
+/-- **The higher direct images `R^i g_{QCoh,*} : QCoh(𝒪_𝒳) ⥤ QCoh(𝒪_𝒴)` of Stacks 077A for a
+1-morphism of algebraic stacks, at section universe `u + 1`.**  This is the higher direct image
+of modules on the fppf sites, the `Rⁱf_*` of **Stacks 0770**, read in `QCoh(𝒪_𝒴)` rather than in
+all of `Mod(𝒪_𝒴)`. -/
 abbrev fppfHigherDirectImageQuasicoherent (i : ℕ) :
     fppfQuasicoherentModules B S hS 𝒳 ⥤ fppfQuasicoherentModules B S hS 𝒴 :=
   higherDirectImageQuasicoherent B S hS 𝒳.val.val.p 𝒴.val.val.p 𝒳.val.isFiberedInGroupoids

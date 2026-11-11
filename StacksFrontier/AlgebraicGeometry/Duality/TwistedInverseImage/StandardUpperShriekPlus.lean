@@ -64,9 +64,9 @@ All in the namespace `Stacks.Duality`.
 construction at the right model, so the clause is no longer a statement about a functor nobody
 can produce. It does **not** discharge `hchart`, the affine-chart description of `f^!`: that is
 [Stacks, Tag 0AA1] together with the affine comparison of [Stacks, Tag 0BV2], and proving it
-*of* the constructed `f^×` is exactly the content of those two tags, which are absent from this
-repository. So clause (4)(a) still carries one hypothesis, and this file does not reduce the
-count.
+*of* the constructed `f^×` is exactly the content of those two tags. Clause (4)(a) with nothing
+assumed, for the upper shriek `Stacks.Duality.upperShriek f j` of a compactification, is
+`Stacks.Duality.isDualizingComplex_upperShriek_obj`; this file is not on that route.
 
 *Properness is not assumed.* For a general morphism of `FTS S` the section's `f^!` is built from
 a compactification and agrees with the right adjoint of `Rf_*` only when `f` is proper

@@ -101,8 +101,9 @@ directly, rather than from the sections computed on `V₊(I)` by
 The other route does use that comparison, which is now proved:
 `AlgebraicGeometry.ProjectiveSpectrum.Proj.idealOfClosedSubscheme_map_eq_of_ker_eq_of_saturated`
 of `StacksFrontier/AlgebraicGeometry/ProjSaturation/QuotientComparison.lean` is the converse for an
-arbitrary surjection out of a Noetherian grading generated in degree one, the comparison itself
-carrying `@[stacks 01N0 "part (3)"]` there. At the quotient by a homogeneous ideal it is
+arbitrary surjection out of a Noetherian grading generated in degree one, through the comparison
+`pullbackGlobalSections_degreeSection_eq_zero_iff_degreeSection_map_eq_zero` proved there.
+At the quotient by a homogeneous ideal it is
 `AlgebraicGeometry.ProjectiveSpectrum.Proj.idealOfClosedSubscheme_projMap_quotientMk_eq`.
 
 ## References

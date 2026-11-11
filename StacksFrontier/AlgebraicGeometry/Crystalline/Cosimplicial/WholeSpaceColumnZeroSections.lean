@@ -35,8 +35,8 @@ of the complex `M(0) → M(1) → M(2) → ⋯`, which is `sectionsComplex`.
 
 This module is the hypothesis `hcolumn0` of [Stacks, Tag 07LG] for a general crystal, and **no
 `@[stacks …]` attribute is placed.** [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`. What falls here is one of the hypotheses of the
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`. What falls here is one of the hypotheses of the
 reduction `...SmallSite.computes07LG_of_doubleComplexSmall_of_edges`, namely `hcolumn0`, for the
 cosimplicial module of a general crystal. The others (the double complex `K` itself, the
 acyclicity `hcolumns` of the columns, and the rowwise comparison `rowTarget`, `rowComparison`,

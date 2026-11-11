@@ -20,10 +20,12 @@ for each pair `i, j` an fpqc covering `{X ijk ⟶ X i ×_X X j}`, a bijection
 whose inverse is fpqc descent of quasi-coherent modules.
 
 This file supplies the restriction of a quotient along a morphism of algebraic spaces, which is
-the map the source writes down, and proves that it is **injective**: a quasi-coherent quotient
-of `F` is determined by its restrictions along the members of the covering.  The refining
-coverings `{X ijk ⟶ X i ×_X X j}` play no part in that half of the bijection — they cut down the
-target of the map, so injectivity on the source is independent of them.
+the map the source writes down, and proves that it is injective on quotients whose kernel and
+quotient module are quasi-coherent: such a quotient of `F` is determined by its restrictions
+along the members of the covering.  The full bijection, with exactly the source's hypotheses, is
+`AlgebraicGeometry.Space.bijOn_quotientRestrict_of_isFpqcCovering` of
+`StacksFrontier/AlgebraicGeometry/Quot/QuotientDescentClauses.lean`, which uses the injectivity
+proved here.
 
 ## Main definitions
 
@@ -48,8 +50,9 @@ target of the map, so injectivity on the source is independent of them.
   the restriction of one quotient is contained in the restriction of another, then the first
   quotient is contained in the second.
 * `AlgebraicGeometry.Space.eq_of_quotientRestrict_eq` and
-  `AlgebraicGeometry.Space.injOn_quotientRestrict`: **Stacks 08IU, injectivity of the displayed
-  bijection.**
+  `AlgebraicGeometry.Space.injOn_quotientRestrict`: a quotient with quasi-coherent kernel
+  and quasi-coherent quotient module is determined by its restrictions along an fpqc covering;
+  this is the injectivity step of Stacks 08IU.
 
 ## Implementation notes
 
@@ -66,52 +69,36 @@ inclusion.  This is the same choice, and for the same reason, as
 `StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorPullback.lean`; no base-change comparison
 occurs here, because the module being restricted is `F` itself and not a base change of it.
 
-**What is proved and what is not.**  The source's bijection is the fpqc descent of
-quasi-coherent modules, Stacks 04W8, of which this development carries the faithfulness half
-only, as `faithful_canonicalDescentFunctor_of_isFpqcCovering` in the namespace
-`AlgebraicGeometry.Space.QuasiCoherentDescent`
-(`StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/FpqcChartLocalization.lean`), whose
-own attribute describes it as the faithfulness half of the full-faithfulness clause.  The
-fullness and effectivity clauses are absent.  The three clauses enter the two halves of the
-bijection differently.
-
-* *Injectivity* needs only the faithfulness clause, and only for the covering `{X i ⟶ X}`.  That
-  clause is `AlgebraicGeometry.Space.ReflectsZeroAlongFpqcCovering`, the named predicate that
-  `AlgebraicGeometry.Space.modulePullback_reflectsZero_of_isFpqcCovering` proves below out of
-  `AlgebraicGeometry.Space.QuasiCoherentDescent.modulePullback_map_injective_of_isFpqcCovering`
-  and the represented case
-  `AlgebraicGeometry.Space.QuasiCoherentDescent.reprFpqcHomInjective`.  Injectivity is
-  therefore unconditional; the predicate is kept because
-  `AlgebraicGeometry.Space.ReflectsIsoAlongFpqcCovering` of
-  `StacksFrontier/AlgebraicGeometry/Quot/RelativeIsom.lean` and the statements of
-  `StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorSourceSheaf.lean` take it as an argument.
-* *Surjectivity* needs the fullness and the effectivity clauses — a compatible family has to be
-  assembled into a descent datum and that datum descended — and then the surjectivity of the
-  descended `F ⟶ Q`, which is the final paragraph of the source and rests on the faithful
-  flatness of the maps of local rings along a jointly surjective flat family.  None of those is
-  available here: the effectivity of a quasi-coherent descent datum is only *defined* in this
-  development, as `AlgebraicGeometry.Space.QuasiCoherentDescent.IsEffective` of
-  `StacksFrontier/AlgebraicGeometry/Spaces/Descent/QuasiCoherent/Canonical.lean`, and is proved for
-  no covering.  So surjectivity is not claimed, and the tag attributes say so.
+**Where the clauses of Stacks 04W8 enter.**  The source's bijection is the fpqc descent of
+quasi-coherent modules, Stacks 04W8.  Injectivity needs only the faithfulness clause, and only
+for the covering `{X i ⟶ X}`.  That clause is
+`AlgebraicGeometry.Space.ReflectsZeroAlongFpqcCovering`, the named predicate that
+`AlgebraicGeometry.Space.modulePullback_reflectsZero_of_isFpqcCovering` proves below out of
+`AlgebraicGeometry.Space.QuasiCoherentDescent.modulePullback_map_injective_of_isFpqcCovering`
+and the represented case `AlgebraicGeometry.Space.QuasiCoherentDescent.reprFpqcHomInjective`;
+the predicate is kept because `AlgebraicGeometry.Space.ReflectsIsoAlongFpqcCovering` of
+`StacksFrontier/AlgebraicGeometry/Quot/RelativeIsom.lean` and the statements of
+`StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorSourceSheaf.lean` take it as an argument.
+Surjectivity uses the fullness and effectivity clauses
+(`AlgebraicGeometry.Space.QuasiCoherentDescent.full_canonicalDescentFunctor_of_isFpqcCovering'`
+and `AlgebraicGeometry.Space.QuasiCoherentDescent.forall_isEffective_of_isFpqcCovering`) and is
+proved, together with the bijection, in
+`StacksFrontier/AlgebraicGeometry/Quot/QuotientDescentClauses.lean`.
 
 **Why injectivity needs no exactness.**  One expects to compare two submodules by comparing
-their inverse images, which would need the inverse image to preserve monomorphisms — true along
-a flat morphism by `AlgebraicGeometry.Space.exactFunctor_modulePullback_of_isFlat`, but only for
-*toposic* flatness of the induced morphism of small étale ringed topoi, which this development
-does not deduce from flatness of a morphism of algebraic spaces.  The proof below avoids the
-issue: containment `K ≤ K'` of subobjects of `F` is the vanishing of the composite
-`K ⟶ F ⟶ F/K'`, and that single homomorphism is killed by the inverse images of the covering
-precisely because the restriction of the quotient by `K` is contained in the restriction of the
-quotient by `K'`.  Only the faithfulness clause is then needed.
+their inverse images, which would need the inverse image to preserve monomorphisms.  The proof
+below avoids the issue: containment `K ≤ K'` of subobjects of `F` is the vanishing of the
+composite `K ⟶ F ⟶ F/K'`, and that single homomorphism is killed by the inverse images of the
+covering precisely because the restriction of the quotient by `K` is contained in the
+restriction of the quotient by `K'`.  Only the faithfulness clause is then needed.
 
-**The quasi-coherence of a kernel is carried.**  The faithfulness clause applies to a
-homomorphism of *quasi-coherent* modules, and its source here is the submodule `K`, whose
-quasi-coherence does not follow from that of `F` and of `F/K` in this development: the kernel
-clause of Stacks 03DO is not available for `SheafOfModules.IsQuasicoherentOnSite`, which is
-registered only as closed under isomorphisms, in
-`StacksFrontier/AlgebraicGeometry/Topologies/QuasicoherentCokernels.lean`.  It is therefore a
-hypothesis of the main results, and `AlgebraicGeometry.Space.injOn_quotientRestrict` reads
-injectivity on the set of quotients that satisfy it.
+**The quasi-coherence of the kernel.**  The faithfulness clause applies to a homomorphism of
+quasi-coherent modules, and its source here is the submodule `K`.  Its quasi-coherence is a
+hypothesis of the results below, which sit before the kernel clause of Stacks 03M1 in the import
+order; `AlgebraicGeometry.Space.kernelQuasicoherent` of
+`StacksFrontier/AlgebraicGeometry/Quot/QuotientDescentClauses.lean` proves it from that of `F` and
+`F/K`, and `AlgebraicGeometry.Space.bijOn_quotientRestrict_of_isFpqcCovering` discharges the
+hypothesis with it.
 
 ## References
 
@@ -160,7 +147,10 @@ def quotientRestrict {X W : AlgebraicSpaces B S hS} (g : W ⟶ X)
 
 /-- **The quotient by the restriction of a quotient is the inverse image of the quotient.**  The
 restriction of `F ⟶ F/K` along `g` is `g^*F ⟶ g^*(F/K)`, which is what makes
-`AlgebraicGeometry.Space.quotientRestrict` the restriction of the source. -/
+`AlgebraicGeometry.Space.quotientRestrict` the restriction of the source.
+
+A helper for Stacks 08IU: the displayed bijection of that Remark is read through this
+comparison of a restricted quotient with the inverse image of the quotient. -/
 def quotientRestrictCokernelIso {X W : AlgebraicSpaces B S hS} (g : W ⟶ X)
     {F : Modules.{u, u} B S hS X.1 X.2} (K : Subobject F) :
     cokernel (quotientRestrict g K).arrow ≅
@@ -287,22 +277,15 @@ theorem le_of_quotientRestrict_le
   have hle := le_kernelSubobject (cokernel.π K'.arrow) K hzero
   rwa [kernelSubobject_cokernel_π] at hle
 
-/-- **Stacks 08IU, injectivity of the displayed bijection.**  Let `X` be an algebraic space over
-a scheme `S` of a big fppf site, let `F` be an `𝒪_X`-module and let `{p i : Z i ⟶ X}` be an fpqc
-covering.  A quotient of `F` whose quotient module and whose kernel are quasi-coherent is
-determined by its restrictions along the members of the covering: two such quotients that
-restrict to the same quotient of `p i ^* F` for every `i` are the same quotient of `F`.
+/-- **A quotient is determined by its restrictions along an fpqc covering.**  Let `X` be an
+algebraic space over a scheme `S` of a big fppf site, let `F` be an `𝒪_X`-module and let
+`{p i : Z i ⟶ X}` be an fpqc covering.  A quotient of `F` whose quotient module and whose kernel
+are quasi-coherent is determined by its restrictions along the members of the covering: two such
+quotients that restrict to the same quotient of `p i ^* F` for every `i` are the same quotient
+of `F`.
 
-This is one half of the bijection the source displays, and it uses only the covering
-`{Z i ⟶ X}`: the refining coverings `{X ijk ⟶ X i ×_X X j}` of the source cut down the
-right-hand set, so they bear on surjectivity only.  Surjectivity is the fullness and the
-effectivity clauses of Stacks 04W8 together with the fpqc locality of surjectivity of a
-homomorphism, none of which this development carries; see the implementation notes. -/
-@[stacks 08IU "injectivity of the displayed bijection — a quasi-coherent quotient with \
-quasi-coherent kernel is determined by its restrictions along the fpqc covering.  Once \
-conditional on the faithfulness clause of Stacks 04W8, it is discharged by \
-AlgebraicGeometry.Space.modulePullback_reflectsZero_of_isFpqcCovering.  Surjectivity needs the \
-fullness and effectivity clauses of Stacks 04W8, which this development does not prove"]
+This is the injectivity step of the bijection of Stacks 08IU, which is
+`AlgebraicGeometry.Space.bijOn_quotientRestrict_of_isFpqcCovering`. -/
 theorem eq_of_quotientRestrict_eq
     {I : Type v} {X : AlgebraicSpaces B S hS} {Z : I → AlgebraicSpaces B S hS}
     (p : ∀ i, Z i ⟶ X) (hp : IsFpqcCovering B S hS fun i ↦ (p i).hom)
@@ -315,13 +298,14 @@ theorem eq_of_quotientRestrict_eq
   le_antisymm (le_of_quotientRestrict_le p hp hK hQ' fun i ↦ (h i).le)
     (le_of_quotientRestrict_le p hp hK' hQ fun i ↦ (h i).ge)
 
-/-- **Stacks 08IU, injectivity of the displayed bijection**, read as the injectivity of the map
-the source writes down: restriction along an fpqc covering `{p i : Z i ⟶ X}` is injective on the
-set of quotients of `F` whose quotient module and whose kernel are quasi-coherent. -/
-@[stacks 08IU "injectivity of the displayed bijection, read as the injectivity of the \
-restriction map on the set of quotients of the source whose quotient module and whose kernel \
-are quasi-coherent.  Once conditional on the faithfulness clause of Stacks 04W8, it is \
-discharged by AlgebraicGeometry.Space.modulePullback_reflectsZero_of_isFpqcCovering"]
+/-- **Restriction along an fpqc covering is injective on quasi-coherent quotients.**  For an
+fpqc covering `{p i : Z i ⟶ X}`, restriction along its members is injective on the set of
+quotients of `F` whose quotient module and whose kernel are quasi-coherent.
+
+This is a corollary of `AlgebraicGeometry.Space.eq_of_quotientRestrict_eq`.  The full bijection
+of Stacks 08IU is `AlgebraicGeometry.Space.bijOn_quotientRestrict_of_isFpqcCovering`; the
+quasi-coherence of the kernel, asked for here, follows from that of `F` and of the quotient
+module by `AlgebraicGeometry.Space.kernelQuasicoherent`. -/
 theorem injOn_quotientRestrict
     {I : Type v} {X : AlgebraicSpaces B S hS} {Z : I → AlgebraicSpaces B S hS}
     (p : ∀ i, Z i ⟶ X) (hp : IsFpqcCovering B S hS fun i ↦ (p i).hom)
@@ -335,15 +319,3 @@ theorem injOn_quotientRestrict
 end AlgebraicGeometry.Space
 
 end
-
-/-! ### The identifier `082O`
-
-The identifier `082O` is recorded for this section.  No such Stacks tag exists: the
-canonical index runs `082N,quot-equation-q` directly to `082P,quot-lemma-q-sheaf`, and the
-Remark whose statement the identifier reproduces is `08IU`, `quot-remark-q-sheaf`, carried in
-this module.  The identifier is recorded against the comparison of a restricted quotient with
-the inverse image of the quotient, which is the map the Remark's bijection is read through. -/
-add_to_stacks 082O "the identifier 082O reproduces the statement of Remark 08IU; 082O is absent \
-from the Stacks tags index, which runs 082N straight to 082P, so this identifier is recorded \
-against the comparison the Remark's bijection is read through"
-  AlgebraicGeometry.Space.quotientRestrictCokernelIso

@@ -280,7 +280,6 @@ hypercoverings acts on Čech cochains.
 Morphisms are taken to be *all* morphisms of simplicial semi-representable objects over `X`, which
 is more than the source asks for: a morphism of hypercoverings is in particular one of these, the
 hypercovering conditions being conditions on an object and not on a morphism. -/
-@[stacks 01GY "spectral sequence functorial in the hypercovering"]
 def hypercoverSpectralSequenceHypercoveringFunctor :
     (SimplicialObject (FormalCoproduct.{w} (Over X)))ᵒᵖ ⥤
       (Sheaf J.toGrothendieck AddCommGrpCat.{max u v w} ⥤
@@ -335,7 +334,6 @@ This is the third clause of [Stacks, Tag 01GY]: the four fields are
 the hypercovering, which is the last sentence of that clause, is
 `hypercoverSpectralSequenceHypercoveringFunctor`, whose value at `K` is the `sequence` field
 below. -/
-@[stacks 01GY "spectral sequence"]
 def hypercoveringSpectralSequence (hK : IsHypercovering J K) :
     HypercoveringSpectralSequenceData.{w} J X K hK :=
   letI := enoughInjectives_sheafAddCommGrpCat.{w} J

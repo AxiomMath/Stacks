@@ -37,11 +37,10 @@ conversion between `ι` and `AlgebraicGeometry.Space.subspaceInclusion` undernea
 
 Every statement about the arrows of Stacks 060F takes `he : IsIso
 (thickeningSheafOfDifferentialsMap B S hS hZ p)`, the isomorphism of Stacks 060E, because the
-first arrow is defined through its inverse.  This library proves Stacks 060E only under the
-étale localization `hetale` of
-`AlgebraicGeometry.Space.isIso_thickeningSheafOfDifferentialsMap`, so these statements are not
-the tag at the source's hypotheses and carry no `@[stacks]` attribute.  The registrations of
-Stacks 060F stay where they are, in `ConormalSequenceFormallyUnramified.lean`.
+first arrow is defined through its inverse.  That hypothesis is discharged with no carried
+input by `IsUniversalFirstOrderThickening.isIso_thickeningSheafOfDifferentialsMap`, in the
+namespace `AlgebraicGeometry.Space`, of `UniversalThickeningDifferentialsIso.lean`.  The
+registrations of Stacks 060F stay where they are, in `ConormalSequenceFormallyUnramified.lean`.
 -/
 
 @[expose] public section

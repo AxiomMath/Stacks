@@ -59,10 +59,11 @@ that what they assert is that **Stacks 04M9 together with the hypotheses of Stac
 sufficient**, every other input being discharged.
 
 **Representability of `π`** is likewise a field of `Presentation`. Stacks 06FH takes it from
-Algebraic Stacks, Lemma 94.17.1; the form in this library,
-`AlgebraicGeometry.Stack.representable_quotientStackProjection_of_hasRepresentableDiagonal`, is
-hypothesis-borne on `[U/R]` having representable diagonal, which is not a hypothesis of
-Stacks 06FH.
+Algebraic Stacks, Lemma 94.17.1; the library proves it with nothing carried as
+`AlgebraicGeometry.Stack.representable_quotientStackProjectionHom`. The statement of Stacks 06FH
+under exactly its hypotheses, with representability of `π` part of the conclusion, is
+`AlgebraicGeometry.Stack.exists_hasRelativeProperty_flat_lfp_surjective_quotientStackProjectionHom`
+in `StacksFrontier/AlgebraicGeometry/Stacks/QuotientStackDiagonalUnconditional.lean`.
 
 **Only the source map is constrained.** Groupoid inversion identifies `s` and `t`, so the
 hypotheses of Stacks 06FH on `t` are not used; and the surjectivity conclusion needs no hypothesis
@@ -259,8 +260,6 @@ theorem hasRelativeProperty {G : GroupoidInAlgebraicSpaces C S hS B} (A : Presen
 /-- **Stacks 06FH, flatness.** Let `G = (U, R, s, t, c)` be a groupoid in algebraic spaces over
 `S` presented as in Stacks 04M9. If the source map `s` is flat, then the canonical projection
 `π : S_U ⟶ [U/R]` of Stacks 044R is flat in the relative sense of Stacks 03YK. -/
-@[stacks 06FH "flatness; Stacks 04M9 and the representability of the projection carried as the \
-hypothesis `Presentation`, and only the source map constrained"]
 theorem isFlat {G : GroupoidInAlgebraicSpaces C S hS B} (A : Presentation G)
     (hs : Space.IsFlat C S hS G.source.hom) :
     HasRelativeProperty.{u, u + 1, u + 1, max u t} C S hS
@@ -272,8 +271,6 @@ theorem isFlat {G : GroupoidInAlgebraicSpaces C S hS B} (A : Presentation G)
 algebraic spaces over `S` presented as in Stacks 04M9. If the source map `s` is locally of finite
 presentation, then the canonical projection `π : S_U ⟶ [U/R]` of Stacks 044R is locally of finite
 presentation in the relative sense of Stacks 03YK. -/
-@[stacks 06FH "locally of finite presentation; Stacks 04M9 and the representability of the \
-projection carried as the hypothesis `Presentation`, and only the source map constrained"]
 theorem isLocallyOfFinitePresentation {G : GroupoidInAlgebraicSpaces C S hS B}
     (A : Presentation G) (hs : Space.IsLocallyOfFinitePresentation C S hS G.source.hom) :
     HasRelativeProperty.{u, u + 1, u + 1, max u t} C S hS
@@ -287,8 +284,6 @@ over `S` presented as in Stacks 04M9. The canonical projection `π : S_U ⟶ [U/
 is surjective in the relative sense of Stacks 03YK, with no hypothesis on the groupoid: the
 source map is surjective because the identity arrow at a point of the object space is a preimage
 of it. -/
-@[stacks 06FH "surjectivity; Stacks 04M9 and the representability of the projection carried as \
-the hypothesis `Presentation`, and no hypothesis on the groupoid"]
 theorem isSurjective {G : GroupoidInAlgebraicSpaces C S hS B} (A : Presentation G) :
     HasRelativeProperty.{u, u + 1, u + 1, max u t} C S hS
       (Space.surjectiveMorphismProperty C S hS)

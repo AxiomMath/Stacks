@@ -3,6 +3,8 @@ module
 public import StacksFrontier.AlgebraicGeometry.Perfect.Morphism
 public import StacksFrontier.Homology.TorAmplitude.CompositionCanonical
 import StacksCore.Tactic.StacksAttribute
+import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineLocal
+import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 
 /-!
 # Restriction of scalars along an affine chart of a perfect morphism
@@ -206,8 +208,11 @@ theorem hasFiniteTorDimensionCanonical_restrictScalars_appLE {X S : Scheme.{u}} 
   let : Algebra Γ(S, V) Γ(X, U) := (f.appLE V U hUV).hom.toAlgebra
   intro K hK
   refine hasFiniteTorDimensionCanonical_restrictScalars Γ(S, V) Γ(X, U) K ?_ hK
+  have : Algebra.Perfect Γ(S, V) Γ(X, U) :=
+    RingHom.perfect_algebraMap.mp (HasRingHomProperty.appLE @Perfect f ‹_› ⟨V, hV⟩ ⟨U, hU⟩ hUV)
+  let D := canonicalCertifiedDerivedTensoring Γ(S, V)
   obtain ⟨c, d, hcd⟩ :=
-    (Perfect.perfect_appLE f U hU V hV hUV (canonicalCertifiedDerivedTensoring Γ(S, V))).2
+    Algebra.Perfect.moduleHasFiniteTorDimension (B := Γ(X, U)) D.comparison D.isLeftDerived
   exact ⟨c, d, (hasTorAmplitudeIn_canonicalCertified_iff Γ(S, V) _ c d).mp hcd⟩
 
 end

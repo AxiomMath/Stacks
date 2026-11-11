@@ -50,8 +50,14 @@ from the hypotheses of Tag 05ID rather than assumed:
 What is left is the hypothesis `hdev` of the main theorem: Proposition 05HR composed with Remark
 05I0, in the form of the ring datum it delivers, together with one of the two hypotheses the
 proved halves of Tag 05I4 and Lemma 05IB carry — injectivity of the maps `α i`, which the source
-obtains from Lemma 05IA after inverting an element outside the prime. Neither `05HR`, `05I0` nor
-`05IA` is available.
+obtains from Lemma 05IA after inverting an element outside the prime.
+
+This file is a conditional reduction and carries no `@[stacks 05ID]` attribute. Tag 05ID itself,
+with exactly the source's hypotheses and no `hdev`, is
+`AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt`
+in `StacksFrontier.AlgebraicGeometry.Etale.ElementaryNeighborhood.ProjectiveSectionsFlatAtPoint`,
+which assembles Tag 0399, Proposition 05HR with Remark 05I0 and Lemma 05IB over a general base
+instead of assuming them.
 
 The *other* hypothesis of Lemma 05IB, projectivity of the lower algebras over the base, is **not**
 assumed here: `Module.CompleteDevissage.projective_lowerAlgebra` already reduces it to two named
@@ -85,9 +91,12 @@ to `R`. That makes `N` free; but a basis of `N` would contain a nowhere vanishin
 field on the sphere, which the hairy ball theorem forbids.
 
 At the scheme level, on the other hand, `hdev` **excludes nothing**: it is a theorem of the
-source, so the reduction restricts no case of Tag 05ID. It defers unformalized mathematics — the
-whole geometric content of Tag 05ID, which is Proposition 05HR and its six inputs 05H6, 05HF,
-05HA, 05HE, 05HK, 05HM — rather than trading the statement for an equivalent one.
+source, so the reduction restricts no case of Tag 05ID. It assumes the whole geometric content of
+Tag 05ID, which is Proposition 05HR and its six inputs 05H6, 05HF, 05HA, 05HE, 05HK, 05HM, rather
+than trading the statement for an equivalent one; that content is proved elsewhere in the library,
+and the unconditional theorem
+`AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt`
+uses it.
 
 Two deliberate weakenings of `hdev` relative to what Remark 05I0 actually delivers, both of which
 make the theorem stronger: the prime of `Γ(S', 𝒪_{S'})` is existentially quantified instead of
@@ -109,9 +118,10 @@ There are no new definitions.
 * `AlgebraicGeometry.EtaleNeighborhood.moduleFinite_pullback_globalSections`: the global sections
   of the pullback of a finitely presented quasi-coherent module to an affine étale neighbourhood
   form a finite module.
-* `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections`: the statement of
-  Tag 05ID, from the dévissage of global sections that Proposition 05HR and Remark 05I0 deliver,
-  its injectivity hypothesis from Lemma 05IA, and the remaining argument of Lemma 05FT.
+* `AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections`: the conclusion of
+  Tag 05ID, conditional on the dévissage of global sections that Proposition 05HR and Remark
+  05I0 deliver, its injectivity hypothesis from Lemma 05IA, and the remaining argument of
+  Lemma 05FT.
 
 ## Implementation notes
 
@@ -182,9 +192,12 @@ theorem moduleFinite_pullback_globalSections (F : X.Modules) [F.IsQuasicoherent]
 
 end EtaleNeighborhood
 
-/-- **Stacks Project, Tag 05ID.** A finitely presented quasi-coherent module which is flat over
-the base at a point has projective global sections after compatible affine elementary étale
-localization of the source and of the base.
+/-- The conclusion of Stacks Project, Tag 05ID, conditional on the hypothesis `hdev`: a finitely
+presented quasi-coherent module which is flat over the base at a point, and whose sections carry
+the dévissage of `hdev`, has projective global sections after compatible affine elementary étale
+localization of the source and of the base. This is a reduction, not Tag 05ID; Tag 05ID itself,
+with no `hdev`, is
+`AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt`.
 
 The hypothesis `hdev` is Proposition 05HR composed with Remark 05I0: the square of pointed
 schemes together with a complete dévissage of the global sections of the pulled-back module over

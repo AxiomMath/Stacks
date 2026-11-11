@@ -124,7 +124,8 @@ It is obtained from the splitting `h(P¹_k) = (P¹_k, c₀, 0) ⊕ (P¹_k, c₂,
 Example 0FG6 attached to the `k`-rational point `x`, followed by the two isomorphisms
 `(P¹_k, c₀, 0) ≅ 1` and `(P¹_k, c₂, 0) ≅ 1(-1)` of Lemma 0FGD. -/
 @[stacks 0FGG "h(P^1_k) is the direct sum of 1 and 1(-1) in M_k: a bilimit bicone over 1 and
-1(-1) with point h(P^1_k), for the actual P^1_k and the actual category of Chow motives"]
+1(-1) with point h(P^1_k), built from any k-rational point of the actual P^1_k, in the actual
+category of Chow motives, with Example 0FG6 and Lemma 0FGD proved for it"]
 def projectiveLineMotiveBiproductData : BinaryBiproductData (tate k 0) (tate k (-1)) :=
   (projectiveLineSummandsBiproductData x hx).ofIso (projectiveLinePointFibreMotiveIso x hx)
     (projectiveLineFibrePointMotiveIso x hx)
@@ -148,9 +149,13 @@ variable (k) in
 /-- **Stacks Project, Tag 0FGG.** In `M_k` we have `h(P¹_k) ≅ 1 ⊕ 1(-1)`.
 
 This is `Stacks.WeilCohomology.ChowMotiveCat.projectiveLineMotiveBiproductData`, at the rational
-point `∞` of `P¹_k`, compared with the chosen direct sum `1 ⊞ 1(-1)`. -/
+point `∞` of `P¹_k`, compared with the chosen direct sum `1 ⊞ 1(-1)`, whose existence is
+`Stacks.WeilCohomology.ChowMotiveCat.hasBinaryBiproduct_tate_zero_tate_neg_one`. Nothing beyond
+the field `k` is assumed: the relations of Example 0FG6 and the isomorphisms of Lemma 0FGD are
+proved for `P¹_k`. The abstract form of the deduction, for an arbitrary category of
+correspondences, is `Stacks.WeilCohomology.CorrespondenceStructure.projectiveLineMotiveIso`. -/
 @[stacks 0FGG "in M_k we have h(P^1_k) iso 1 + 1(-1), for the actual P^1_k and the actual category
-of Chow motives"]
+of Chow motives, with Example 0FG6 and Lemma 0FGD proved for P^1_k"]
 def projectiveLineMotiveIso :
     (h k).obj (Opposite.op (projectiveLineObj k)) ≅ tate k 0 ⊞ tate k (-1) :=
   biprod.uniqueUpToIso _ _ (projectiveLineMotiveBiproductData (lineInfinitySection _)

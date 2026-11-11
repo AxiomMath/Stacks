@@ -33,9 +33,14 @@ composite is again continuous and cocontinuous.
 * `AlgebraicGeometry.Space.isCocontinuous_etaleChartToFibred`: the functor `U_étale ⥤ 𝒳` is
   cocontinuous for the étale topologies.
 * `AlgebraicGeometry.Space.preservesFiniteLimits_etaleRestrictedModuleInverseImageFunctor`:
-  the left exact half of **Stacks 0GQS, part (1)**, with no smallness of `𝒳`.
-* `AlgebraicGeometry.Space.exactFunctor_etaleRestrictedModuleInverseImageFunctor`:
-  **Stacks 0GQS, part (1)**, exactness of `a`.
+  `a` preserves finite limits, with no smallness of `𝒳`.
+* `AlgebraicGeometry.Space.exactFunctor_etaleRestrictedModuleInverseImageFunctor`: `a` is
+  exact, item (1) of Stacks 0GQS.
+
+The whole of Stacks 0GQS, all of its items, is
+`AlgebraicGeometry.Stack.AlgebraicStacks.spaceRestriction_properties`, in
+`StacksFrontier/AlgebraicGeometry/Stacks/RestrictionToAlgebraicSpaceProperties.lean`, for `𝒰` the
+algebraic stack of `U`; it uses the exactness proved here.
 
 ## Implementation notes
 
@@ -75,17 +80,15 @@ the same binder that `AlgebraicGeometry.Stack.quasicoherentToFlatBaseChange` and
 binder is needed on the small étale side: `AlgebraicGeometry.Space.SmallEtale.instEssentiallySmall`
 is an instance.
 
-**Which parts of Stacks 0GQS are here.** Only part (1). Parts (2), (3) and (4) are about the
-restrictions of `a` to `LQCoh(𝒪_𝒳)`, to `LQCoh^fbc(𝒪_𝒳)` and to `QCoh(𝒪_𝒳)`, each landing in
-`QCoh(U_étale, 𝒪_U)` rather than in `Mod(U_étale, 𝒪_U)`. All four categories exist in this
-library — `AlgebraicGeometry.Stack.locallyQuasicoherentModules`,
-`AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeModules`,
-`AlgebraicGeometry.FibredSite.quasicoherentModules` and
-`AlgebraicGeometry.Space.QuasicoherentSheaves` — but the functors `b`, `c`, `d` do not: that the
-restriction of a locally quasi-coherent module is quasi-coherent is Stacks 0GQC, whose only form
-here, `AlgebraicGeometry.Space.isQuasicoherentOnSite_etaleRestriction`, is for
-the identity 1-morphism and over the chart-local identification of restrictions that Stacks 0GQA
-calls clear. Nothing weaker is stated here in place of those three parts.
+**The other items of Stacks 0GQS.** They are about the restrictions `b`, `c`, `d` of `a` to
+`LQCoh(𝒪_𝒳)`, `LQCoh^fbc(𝒪_𝒳)` and `QCoh(𝒪_𝒳)`, landing in `QCoh(U_étale, 𝒪_U)`. These
+functors are `AlgebraicGeometry.Stack.AlgebraicStacks.lqcohSpaceRestriction`,
+`AlgebraicGeometry.Stack.AlgebraicStacks.lqcohFbcSpaceRestriction` and
+`AlgebraicGeometry.Stack.AlgebraicStacks.qcohSpaceRestriction`, which exist because of the
+general form of Stacks 0GQC,
+`Space.isQuasicoherentOnSite_etaleRestrictedModuleInverseImage_of_isLocallyQuasicoherent`;
+all the items are proved in the files around them and collected in
+`AlgebraicGeometry.Stack.AlgebraicStacks.spaceRestriction_properties`.
 
 ## References
 
@@ -128,7 +131,7 @@ theorem isCocontinuous_etaleChartToFibred (hp : p.IsFiberedInGroupoids)
   isCocontinuous_comp (restrictionFunctor B S hS U.1 p eU) f
     (SmallEtale.topology B S hS U.1) (BigFppfOver.associatedTopology B S hS p .etale)
 
-/-- **Stacks 0GQS.** The functor `a : Mod(𝒳_étale, 𝒪_𝒳) ⥤ Mod(U_étale, 𝒪_U)` sending an
+/-- The functor `a : Mod(𝒳_étale, 𝒪_𝒳) ⥤ Mod(U_étale, 𝒪_U)` sending an
 `𝒪_𝒳`-module `ℱ` to the restriction `f^*ℱ|_{U_étale}` of its inverse image along a 1-morphism
 `f : 𝒰 ⥤ 𝒳` out of a category fibred in groupoids representable by the algebraic space `U`.
 
@@ -157,12 +160,13 @@ theorem etaleRestrictedModuleInverseImageFunctor_obj (hp : p.IsFiberedInGroupoid
       etaleRestrictedModuleInverseImage B S hS p r hp hr eU f hf ℱ :=
   rfl
 
-/-- **Stacks 0GQS, part (1), the left exact half.** The functor
-`a : ℱ ↦ f^*ℱ|_{U_étale}` preserves finite limits.
+/-- The functor `a : ℱ ↦ f^*ℱ|_{U_étale}` of Stacks 0GQS preserves finite limits.
+This is half of the exactness of `a`
+(`AlgebraicGeometry.Space.exactFunctor_etaleRestrictedModuleInverseImageFunctor`), and needs no
+smallness of `𝒳`.
 
 Limits of sheaves of modules are computed in presheaves, where restriction along a functor is
 pointwise, so this holds for the direct image along any continuous functor of ringed sites. -/
-@[stacks 0GQS "part (1), the left exact half: a preserves finite limits"]
 theorem preservesFiniteLimits_etaleRestrictedModuleInverseImageFunctor
     (hp : p.IsFiberedInGroupoids) (hr : r.IsFiberedInGroupoids)
     (eU : StacksRepresentableCFG.EquivalenceOver p
@@ -173,15 +177,14 @@ theorem preservesFiniteLimits_etaleRestrictedModuleInverseImageFunctor
   SheafOfModules.preservesFiniteLimits_pushforward
     (etaleChartStructureHom B S hS p r hp hr eU f hf)
 
-/-- **Stacks 0GQS, part (1).** The functor `a : Mod(𝒳_étale, 𝒪_𝒳) ⥤ Mod(U_étale, 𝒪_U)`,
-`ℱ ↦ f^*ℱ|_{U_étale}`, is exact.
+/-- **Item (1) of Stacks 0GQS.** The functor `a : Mod(𝒳_étale, 𝒪_𝒳) ⥤ Mod(U_étale, 𝒪_U)`,
+`ℱ ↦ f^*ℱ|_{U_étale}`, is exact. The whole of Stacks 0GQS is
+`AlgebraicGeometry.Stack.AlgebraicStacks.spaceRestriction_properties`.
 
 The source's two reasons are the continuity and the cocontinuity of the functor `U_étale ⥤ 𝒳`
 along which the restriction is taken: `f^{-1}` is restriction along the 1-morphism `f` and
 `·|_{U_étale}` is restriction along `u_U`, and both functors are continuous and cocontinuous, so
 Stacks 04BD (2) applies to their composite. -/
-@[stacks 0GQS "part (1): the functor a from all modules on the étale site of the stack to all \
-  modules on the small étale site of the algebraic space is exact"]
 theorem exactFunctor_etaleRestrictedModuleInverseImageFunctor [EssentiallySmall.{u} 𝒳]
     (hp : p.IsFiberedInGroupoids) (hr : r.IsFiberedInGroupoids)
     (eU : StacksRepresentableCFG.EquivalenceOver p

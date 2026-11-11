@@ -19,6 +19,9 @@ inclusion induces an equivalence `(W ∩ Arrows(P))⁻¹P ≌ W⁻¹C`.
   the `CategoryTheory.ObjectProperty` namespace: `W ∩ Arrows(P)` is a saturated multiplicative
   system compatible with the triangulated structure of `P`, and with enough resolutions the
   inclusion of `P` is a localized equivalence.
+* `isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isTriangulated`: the full
+  Stacks 0GSL — moreover the induced functor `(W ∩ Arrows(P))⁻¹P ⥤ W⁻¹C` is triangulated,
+  so with enough resolutions it is an equivalence of pre-triangulated categories.
 
 ## References
 
@@ -99,6 +102,27 @@ private lemma isLocalizedEquivalence_of_hasLeftResolutions
   have : G.IsEquivalence := { }
   exact LocalizerMorphism.IsLocalizedEquivalence.mk' Φ L₁ L₂ G
 
+/-- Let `Φ : W₁ ⟶ W₂` be a morphism of localizers between pre-triangulated categories, where
+`W₁` and `W₂` admit a calculus of left fractions and are compatible with the triangulated
+structure. If `Φ.functor` is triangulated, then so is the induced functor `W₁⁻¹C₁ ⥤ W₂⁻¹C₂` on
+the localizations, for the commutation with shifts it inherits from the localization. -/
+private lemma isTriangulated_localizedFunctor_of_isTriangulated
+    {C₁ : Type u₁} {C₂ : Type u₂} [Category.{v₁} C₁] [Category.{v₂} C₂]
+    [HasZeroObject C₁] [HasShift C₁ ℤ] [Preadditive C₁]
+    [∀ n : ℤ, (shiftFunctor C₁ n).Additive] [Pretriangulated C₁]
+    [HasZeroObject C₂] [HasShift C₂ ℤ] [Preadditive C₂]
+    [∀ n : ℤ, (shiftFunctor C₂ n).Additive] [Pretriangulated C₂]
+    {W₁ : MorphismProperty C₁} {W₂ : MorphismProperty C₂}
+    [W₁.HasLeftCalculusOfFractions] [W₂.HasLeftCalculusOfFractions]
+    [W₁.IsCompatibleWithTriangulation] [W₂.IsCompatibleWithTriangulation]
+    (Φ : LocalizerMorphism W₁ W₂) [Φ.functor.CommShift ℤ] [Φ.functor.IsTriangulated] :
+    (Φ.localizedFunctor W₁.Q W₂.Q).IsTriangulated := by
+  have : W₂.Q.IsTriangulated := Triangulated.Localization.isTriangulated_functor W₂.Q W₂
+  have : W₁.Q.IsTriangulated := Triangulated.Localization.isTriangulated_functor W₁.Q W₁
+  have : W₁.Q.mapArrow.EssSurj := Localization.essSurj_mapArrow _ W₁
+  exact Functor.isTriangulated_of_precomp_iso
+    (CatCommSq.iso Φ.functor W₁.Q W₂.Q (Φ.localizedFunctor W₁.Q W₂.Q)).symm
+
 namespace CategoryTheory.ObjectProperty
 
 variable {C : Type u} [Category.{v} C] [HasZeroObject C] [HasShift C ℤ] [Preadditive C]
@@ -110,8 +134,10 @@ and let `W` be a saturated multiplicative system of morphisms of `C` compatible 
 triangulated structure. Then `W ∩ Arrows(P)`, i.e. `W.inverseImage P.ι`, is a saturated
 multiplicative system on `P` compatible with the triangulated structure, and if every object of `C`
 admits a resolution by `P` — a morphism `s : X' ⟶ X` in `W` with `X'` in `P` — then the inclusion
-of `P` induces an equivalence `(W ∩ Arrows(P))⁻¹P ⥤ W⁻¹C`. -/
-@[stacks 0GSL, sga "4½ Etat_0 2.4.2" "(a)"]
+of `P` induces an equivalence `(W ∩ Arrows(P))⁻¹P ⥤ W⁻¹C`. The full statement of Stacks 0GSL,
+including the exactness of this equivalence, is
+`isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isTriangulated`. -/
+@[sga "4½ Etat_0 2.4.2" "(a)"]
 theorem isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isLocalizedEquivalence
     (hW : W.IsSaturated) [W.IsCompatibleWithTriangulation] :
     (W.inverseImage P.ι).IsSaturated ∧
@@ -136,6 +162,43 @@ theorem isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isLoca
   have : ({ functor := P.ι, map := le_rfl } :
       LocalizerMorphism (W.inverseImage P.ι) W).IsInduced := ⟨rfl⟩
   exact isLocalizedEquivalence_of_hasLeftResolutions _
+
+/-- Let `C` be a pre-triangulated category, let `P` be a full pre-triangulated subcategory of `C`,
+and let `W` be a saturated multiplicative system of morphisms of `C` compatible with the
+triangulated structure. Then `W' = W ∩ Arrows(P)`, i.e. `W.inverseImage P.ι`, is a saturated
+multiplicative system on `P` compatible with the triangulated structure; the functor
+`W'⁻¹P ⥤ W⁻¹C` induced by the inclusion, with the commutation with shifts it inherits from the
+localization, is a triangulated (exact) functor of pre-triangulated categories; and if every
+object of `C` admits a resolution by `P` — a morphism `s : X' ⟶ X` in `W` with `X'` in `P` — this
+functor is an equivalence. Together: `W'⁻¹P ⥤ W⁻¹C` is an equivalence of pre-triangulated
+categories. -/
+@[stacks 0GSL]
+theorem isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isTriangulated
+    (hW : W.IsSaturated) [W.IsCompatibleWithTriangulation] :
+    ∃ (hS : (W.inverseImage P.ι).IsSaturated)
+      (hT : (W.inverseImage P.ι).IsCompatibleWithTriangulation),
+      letI := hW.hasLeftCalculusOfFractions
+      letI := hS.hasLeftCalculusOfFractions
+      letI := hT
+      (({ functor := P.ι, map := le_rfl } :
+            LocalizerMorphism (W.inverseImage P.ι) W).localizedFunctor
+          (W.inverseImage P.ι).Q W.Q).IsTriangulated ∧
+      (({ functor := P.ι, map := le_rfl } :
+            LocalizerMorphism (W.inverseImage P.ι) W).HasLeftResolutions →
+        ({ functor := P.ι, map := le_rfl } :
+            LocalizerMorphism (W.inverseImage P.ι) W).IsLocalizedEquivalence ∧
+        (({ functor := P.ι, map := le_rfl } :
+            LocalizerMorphism (W.inverseImage P.ι) W).localizedFunctor
+          (W.inverseImage P.ι).Q W.Q).IsEquivalence) := by
+  obtain ⟨hS, hT, hE⟩ :=
+    isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isLocalizedEquivalence P W hW
+  refine ⟨hS, hT, ?_⟩
+  let := hW.hasLeftCalculusOfFractions
+  let := hS.hasLeftCalculusOfFractions
+  let := hT
+  refine ⟨isTriangulated_localizedFunctor_of_isTriangulated _, fun hres ↦ ?_⟩
+  have := hE hres
+  exact ⟨this, inferInstance⟩
 
 end CategoryTheory.ObjectProperty
 

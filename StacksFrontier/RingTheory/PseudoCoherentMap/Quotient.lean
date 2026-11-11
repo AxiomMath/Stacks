@@ -124,8 +124,7 @@ theorem pseudoCoherent_quotient_iff_isModulePseudoCoherent
     {A B : Type u} [CommRing A] [CommRing B] [Algebra A B] [Module.Flat A B]
     [Algebra.FinitePresentation A B] (I : Ideal B) :
     Algebra.PseudoCoherent A (B ⧸ I) ↔ IsModulePseudoCoherent (R := B) I := by
-  have hAB : Algebra.PseudoCoherent A B :=
-    (RingHom.isPerfectRingMap_of_flat_of_finitePresentation A B).1
+  have hAB : Algebra.PseudoCoherent A B := .of_flat_of_finitePresentation A B
   have : Module.Finite B (B ⧸ I) :=
     Module.Finite.of_surjective (Algebra.linearMap B (B ⧸ I)) Ideal.Quotient.mk_surjective
   have hdef : Algebra.PseudoCoherent A (B ⧸ I) ↔

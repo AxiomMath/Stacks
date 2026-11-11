@@ -35,7 +35,9 @@ it below. When `A` is a field the numerical assertions are vacuous, since `𝔪_
 nonzero element, and `B` has `(0)` for its only maximal ideal.
 
 The numerical assertions rest on two further results of the source, both of them already proved
-in this repository. Stacks 02MJ is `ord_norm_eq_sum_inertiaDeg_mul_ord` in
+in this repository. Stacks 02MJ is
+`finite_maximalSpectrum_and_ordInt_norm_eq_finsum_inertiaDeg_mul_ordInt` at the end of this file,
+whose norm formula is `ord_norm_eq_sum_inertiaDeg_mul_ord` in
 `StacksFrontier/RingTheory/OrderOfVanishing/Norm.lean`: for `A ⊆ B` a finite extension of domains,
 `ord_A(Nm_{L/K}(y)) = ∑_𝔪 [κ(𝔪) : κ(𝔪_A)] ord_{B_𝔪}(y)`. Stacks 00QB is
 `quasiFinite_exists_finite_subalgebra` in `StacksFrontier/RingTheory/ZariskisMainTheorem.lean`,
@@ -847,6 +849,10 @@ points", and each missing point contributes a positive term to the exact count f
 * `Ring.finite_maximalSpectrum_and_sum_inertiaDeg_mul_ord_le_and_eq_iff_finite`: the three
   assertions of the tag — `B` is semi-local, the inequality above, and equality if and only if
   `A → B` is finite.
+* `finite_maximalSpectrum_and_ordInt_norm_eq_finsum_inertiaDeg_mul_ordInt` (Stacks 02MJ): for
+  `A ⊆ B` a finite extension of domains, `B` is semi-local and
+  `ord_A(Nm_{L/K}(y)) = ∑ᵢ [κ(𝔪ᵢ) : κ(𝔪_A)] · ord_{B_{𝔪ᵢ}}(y)`, under the source's hypotheses
+  only.
 
 ## Implementation notes
 
@@ -911,6 +917,7 @@ against the left side `2`, and `A → B'` is not finite.
 ## References
 
 * [StackProject 02MM](https://stacks.math.columbia.edu/tag/02MM)
+* [StackProject 02MJ](https://stacks.math.columbia.edu/tag/02MJ)
 -/
 
 @[expose] public section
@@ -941,5 +948,89 @@ public theorem Ring.finite_maximalSpectrum_and_sum_inertiaDeg_mul_ord_le_and_eq_
                   (algebraMap B (Localization.AtPrime m.asIdeal) (algebraMap A B x))
               = (Module.finrank K L : ℕ∞) * Ring.ord A x) ↔ Module.Finite A B) :=
                 by apply Stacks.OrderOfVanishing.DegreeInequality.solution
+
+/-- The localisation `B_𝔭` of a finite extension `B` of a domain `A` of Krull dimension at most
+one, at a prime `𝔭`, has Krull dimension at most one: `B` is integral over `A`, so it has
+dimension at most one, and localising does not raise the dimension. -/
+theorem Ring.krullDimLE_one_localization_atPrime_of_finite (A B : Type*) [CommRing A]
+    [IsDomain A] [Ring.KrullDimLE 1 A] [CommRing B] [IsDomain B] [Algebra A B]
+    [Module.Finite A B] (p : Ideal B) [p.IsPrime] :
+    Ring.KrullDimLE 1 (Localization.AtPrime p) := by
+  have : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
+  have : Ring.DimensionLEOne A := ⟨fun {p} hp _ => Ideal.isMaximal_of_isPrime_of_ne_bot p hp⟩
+  have : Ring.DimensionLEOne B := Ring.DimensionLEOne.of_isIntegral (R := A) B
+  rw [Ring.krullDimLE_iff, IsLocalization.AtPrime.ringKrullDim_eq_height p]
+  exact le_trans Ideal.height_le_ringKrullDim_of_isPrime
+    (Ring.krullDimLE_iff.mp (inferInstance : Ring.KrullDimLE 1 B))
+
+/-- **The order of vanishing of a norm** (Stacks 02MJ). Let `A` be a Noetherian local domain of
+dimension one, and let `A ⊆ B` be a finite extension of domains, with fraction fields `K ⊆ L`.
+Then `B` is semi-local, with maximal ideals `𝔪₁, …, 𝔪ₙ`, and for every `y ∈ L^*` (whose norm is
+nonzero, `L/K` being finite)
+
+`ord_A(Nm_{L/K}(y)) = ∑ᵢ [κ(𝔪ᵢ) : κ(𝔪_A)] · ord_{B_{𝔪ᵢ}}(y)`.
+
+Only the source's hypotheses are assumed. Everything the right-hand side needs is constructed
+in the statement from them: `B` is Noetherian, being finite over `A`; each `B_{𝔪ᵢ}` is a
+Noetherian local domain of dimension at most one; and `B_{𝔪ᵢ}` sits inside `L` as the
+localisation of `B` at the larger submonoid `B ∖ {0}`, so that `L` is its fraction field and
+`B → B_{𝔪ᵢ} → L` is `B → L`. -/
+@[stacks 02MJ "The first conjunct is `B` being semi-local, as `Finite (MaximalSpectrum B)`. The
+sum is a `finsum` over `MaximalSpectrum B`; `[κ(𝔪ᵢ) : κ(𝔪_A)]` is `Ideal.inertiaDeg 𝔪ᵢ A`, the
+degree of the residue field of `𝔪ᵢ` over that of `𝔪ᵢ ∩ A = 𝔪_A`; `ord` is `ordInt`. The source's
+`dim A = 1` is `Ring.KrullDimLE 1 A`, which also admits the field case."]
+theorem finite_maximalSpectrum_and_ordInt_norm_eq_finsum_inertiaDeg_mul_ordInt
+    (A B : Type*) [CommRing A] [CommRing B] [IsDomain A] [IsDomain B]
+    [IsNoetherianRing A] [IsLocalRing A] [Ring.KrullDimLE 1 A]
+    [Algebra A B] [Module.Finite A B] (hAB : Function.Injective (algebraMap A B))
+    (K L : Type*) [Field K] [Field L]
+    [Algebra A K] [IsFractionRing A K] [Algebra B L] [IsFractionRing B L]
+    [Algebra K L] [Algebra A L] [IsScalarTower A K L] [IsScalarTower A B L] :
+    Finite (MaximalSpectrum B) ∧
+      ∀ (y : L) (hy : y ≠ 0),
+        haveI : Module.Finite K L := finiteDimensional_fractionRing_of_finite A B K L hAB
+        ordInt A (Algebra.norm K y) (Algebra.norm_ne_zero_iff.mpr hy) =
+          ∑ᶠ v : MaximalSpectrum B, (v.asIdeal.inertiaDeg A : ℤ) *
+            letI : Algebra (Localization.AtPrime v.asIdeal) L :=
+              IsLocalization.localizationAlgebraOfSubmonoidLe _ _ v.asIdeal.primeCompl
+                (nonZeroDivisors B) v.asIdeal.primeCompl_le_nonZeroDivisors
+            haveI : IsScalarTower B (Localization.AtPrime v.asIdeal) L :=
+              IsLocalization.localization_isScalarTower_of_submonoid_le _ _
+                v.asIdeal.primeCompl (nonZeroDivisors B) v.asIdeal.primeCompl_le_nonZeroDivisors
+            haveI : IsFractionRing (Localization.AtPrime v.asIdeal) L :=
+              IsFractionRing.isFractionRing_of_isDomain_of_isLocalization v.asIdeal.primeCompl _ _
+            haveI : IsNoetherianRing B := IsNoetherianRing.of_finite A B
+            haveI := Ring.krullDimLE_one_localization_atPrime_of_finite A B v.asIdeal
+            ordInt (Localization.AtPrime v.asIdeal) y hy := by
+  classical
+  have : FaithfulSMul A B := (faithfulSMul_iff_algebraMap_injective A B).mpr hAB
+  have : Algebra.IsIntegral A B := Algebra.IsIntegral.of_finite A B
+  have : Algebra.IsAlgebraic A B := Algebra.IsIntegral.isAlgebraic
+  have hfin : Finite (MaximalSpectrum B) :=
+    Stacks.OrderOfVanishing.DegreeInequality.finite_maximalSpectrum (A := A)
+  refine ⟨hfin, fun y hy => ?_⟩
+  have : Module.Finite K L := finiteDimensional_fractionRing_of_finite A B K L hAB
+  have : IsNoetherianRing B := IsNoetherianRing.of_finite A B
+  have : Fintype (MaximalSpectrum B) := Fintype.ofFinite _
+  let algL : ∀ v : MaximalSpectrum B, Algebra (Localization.AtPrime v.asIdeal) L := fun v =>
+    IsLocalization.localizationAlgebraOfSubmonoidLe _ _ v.asIdeal.primeCompl (nonZeroDivisors B)
+      v.asIdeal.primeCompl_le_nonZeroDivisors
+  have towL : ∀ v : MaximalSpectrum B, IsScalarTower B (Localization.AtPrime v.asIdeal) L :=
+    fun v => IsLocalization.localization_isScalarTower_of_submonoid_le _ _
+      v.asIdeal.primeCompl (nonZeroDivisors B) v.asIdeal.primeCompl_le_nonZeroDivisors
+  have fracL : ∀ v : MaximalSpectrum B, IsFractionRing (Localization.AtPrime v.asIdeal) L :=
+    fun v => IsFractionRing.isFractionRing_of_isDomain_of_isLocalization v.asIdeal.primeCompl _ _
+  have kdL : ∀ v : MaximalSpectrum B, Ring.KrullDimLE 1 (Localization.AtPrime v.asIdeal) :=
+    fun v => Ring.krullDimLE_one_localization_atPrime_of_finite A B v.asIdeal
+  rw [ord_norm_eq_sum_inertiaDeg_mul_ord A B K L hAB y hy _ rfl
+    (Algebra.norm_ne_zero_iff.mpr hy), finsum_eq_sum_of_fintype]
+  refine Finset.sum_congr rfl fun v _ => ?_
+  have := v.isMaximal
+  have : v.asIdeal.LiesOver (IsLocalRing.maximalIdeal A) :=
+    ⟨(IsLocalRing.eq_maximalIdeal
+      (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) v.asIdeal)).symm⟩
+  congr 2
+  simp only [Ideal.inertiaDeg_eq_of_isMaximal (IsLocalRing.maximalIdeal A) v.asIdeal]
+  simp
 
 end

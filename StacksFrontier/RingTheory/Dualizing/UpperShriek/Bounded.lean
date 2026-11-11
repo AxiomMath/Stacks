@@ -7,7 +7,7 @@ public import StacksFrontier.RingTheory.Dualizing.CoextendRestrictComparison.A72
 public import StacksFrontier.RingTheory.Dualizing.Complexes.Uniqueness
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.PerfectCoextension
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.PolynomialExtension
-public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectAnyPresentation
+public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 
 /-!
 # Boundedness and coherence under algebraic upper shriek
@@ -21,9 +21,9 @@ when `f` is perfect it also maps `D⁻(R)` into `D⁻(A)`, `D⁻_Coh(R)` into `D
 
 * `Dualizing.PolynomialPresentation.upperShriekFunctor_isBoundedBelow` and
   `Dualizing.PolynomialPresentation.upperShriekFunctor_derivedCategoryBPlus` — [stacks 0BZK] (1).
-* `Dualizing.upperShriekFunctor_isBoundedAbove_of_isPerfectRingMap`,
-  `Dualizing.upperShriekFunctor_derivedCategoryBMinus_of_isPerfectRingMap` and
-  `Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_isPerfectRingMap` —
+* `Dualizing.upperShriekFunctor_isBoundedAbove_of_perfect`,
+  `Dualizing.upperShriekFunctor_derivedCategoryBMinus_of_perfect` and
+  `Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_perfect` —
   [stacks 0BZK] (2), with `φ` a perfect ring map.
 * `Dualizing.PolynomialPresentation.upperShriekFunctor_isBoundedAbove`,
   `Dualizing.PolynomialPresentation.upperShriekFunctor_derivedCategoryBMinus` and
@@ -41,7 +41,7 @@ Coherent modules over a Noetherian ring are the finite ones, so `D^?_Coh` is
 
 Perfectness of `f` enters through its target being a perfect module over the polynomial algebra
 of the presentation, which is [stacks 068Y]; the two formulations are related by
-`RingHom.isPerfectModule_of_isPerfectRingMap`.
+`Algebra.Perfect.exists_finite_projective_resolution`, read through [stacks 066Q].
 
 ## References
 
@@ -264,116 +264,62 @@ theorem upperShriekFunctor_derivedCategoryBBounded [IsNoetherianRing R] [IsNoeth
 
 end PolynomialPresentation
 
-/-- The target of a perfect ring map is perfect over the polynomial algebra of any of its
-presentations ([stacks 068Y]). -/
-private theorem isPerfectModule_poly_of_isPerfectRingMap (p : PolynomialPresentation f)
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : letI : Algebra R A := f.toAlgebra
-      RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived) :
+/-- The target of a perfect ring map, made a module over the polynomial algebra of any of its
+presentations, has a finite resolution by finite projective modules ([stacks 068Y]); by
+[stacks 066Q] it is a perfect module there. -/
+private theorem exists_finite_projective_resolution_poly_of_perfect
+    (p : PolynomialPresentation f) (hf : f.Perfect) :
     letI : Module p.Poly A := Module.compHom A p.toRingHom
-    StacksDraft.Perfect.IsPerfectModule (R := p.Poly) A := by
-  let : Algebra R A := f.toAlgebra
-  exact RingHom.isPerfectModule_of_isPerfectRingMap derivedTensor comparison isLeftDerived hf
-    p.variableCount (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective
+    ∃ (d : ℕ) (F : ModuleResolution p.Poly A),
+      (∀ i, Module.Finite p.Poly (F.complex.X i) ∧ Module.Projective p.Poly (F.complex.X i)) ∧
+      ∀ i, d < i → Limits.IsZero (F.complex.X i) := by
+  algebraize [f]
+  exact Algebra.Perfect.exists_finite_projective_resolution
+    (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective
 
 /-- Algebraic upper shriek along a perfect homomorphism of Noetherian rings carries cohomologically
 bounded-above complexes to cohomologically bounded-above complexes. -/
 @[stacks 0BZK "(2), the statement that φ^! maps D⁻(R) into D⁻(A)"]
-theorem upperShriekFunctor_isBoundedAbove_of_isPerfectRingMap
-    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f)
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : letI : Algebra R A := f.toAlgebra
-      RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived)
+theorem upperShriekFunctor_isBoundedAbove_of_perfect
+    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f) (hf : f.Perfect)
     {K : DerivedCategory (ModuleCat.{max v u} R)} (hK : DerivedCategoryB.IsBoundedAbove K) :
     DerivedCategoryB.IsBoundedAbove (p.upperShriekFunctor.{u, v}.obj K) :=
+  letI : Module p.Poly A := Module.compHom A p.toRingHom
   p.upperShriekFunctor_isBoundedAbove.{u, v}
-    (isPerfectModule_poly_of_isPerfectRingMap p derivedTensor comparison isLeftDerived hf) hK
+    ((StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (exists_finite_projective_resolution_poly_of_perfect p hf)) hK
 
 /-- Algebraic upper shriek along a perfect homomorphism of Noetherian rings carries bounded-above
 complexes with coherent cohomology to bounded-above complexes with coherent cohomology. -/
 @[stacks 0BZK "(2), the statement that φ^! maps D⁻_Coh(R) into D⁻_Coh(A)"]
-theorem upperShriekFunctor_derivedCategoryBMinus_of_isPerfectRingMap
-    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f)
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : letI : Algebra R A := f.toAlgebra
-      RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived)
+theorem upperShriekFunctor_derivedCategoryBMinus_of_perfect
+    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f) (hf : f.Perfect)
     {K : DerivedCategory (ModuleCat.{max v u} R)}
     (hK : DerivedCategoryB.derivedCategoryBMinus
       (fun M : ModuleCat.{max v u} R ↦ Module.Finite R M) K) :
     DerivedCategoryB.derivedCategoryBMinus
       (fun M : ModuleCat.{max v u} A ↦ Module.Finite A M)
       (p.upperShriekFunctor.{u, v}.obj K) :=
+  letI : Module p.Poly A := Module.compHom A p.toRingHom
   p.upperShriekFunctor_derivedCategoryBMinus.{u, v}
-    (isPerfectModule_poly_of_isPerfectRingMap p derivedTensor comparison isLeftDerived hf) hK
+    ((StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (exists_finite_projective_resolution_poly_of_perfect p hf)) hK
 
 /-- Algebraic upper shriek along a perfect homomorphism of Noetherian rings carries bounded
 complexes with coherent cohomology to bounded complexes with coherent cohomology. -/
 @[stacks 0BZK "(2), the statement that φ^! maps Dᵇ_Coh(R) into Dᵇ_Coh(A)"]
-theorem upperShriekFunctor_derivedCategoryBBounded_of_isPerfectRingMap
-    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f)
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : letI : Algebra R A := f.toAlgebra
-      RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived)
+theorem upperShriekFunctor_derivedCategoryBBounded_of_perfect
+    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f) (hf : f.Perfect)
     {K : DerivedCategory (ModuleCat.{max v u} R)}
     (hK : DerivedCategoryB.derivedCategoryBBounded
       (fun M : ModuleCat.{max v u} R ↦ Module.Finite R M) K) :
     DerivedCategoryB.derivedCategoryBBounded
       (fun M : ModuleCat.{max v u} A ↦ Module.Finite A M)
       (p.upperShriekFunctor.{u, v}.obj K) :=
+  letI : Module p.Poly A := Module.compHom A p.toRingHom
   p.upperShriekFunctor_derivedCategoryBBounded.{u, v}
-    (isPerfectModule_poly_of_isPerfectRingMap p derivedTensor comparison isLeftDerived hf) hK
+    ((StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (exists_finite_projective_resolution_poly_of_perfect p hf)) hK
 
 end Perfect
 

@@ -1,6 +1,5 @@
 module
 
-public import StacksFrontier.AlgebraicGeometry.Spaces.CohomologyVanishingSeparatedMorphism
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.GeneratedByGlobalSections
 public import StacksFrontier.AlgebraicGeometry.Spaces.AffineMorphismCohomologyIso
 public import StacksFrontier.AlgebraicGeometry.Spaces.PointsAndCoverings.ChangeOfBaseScheme

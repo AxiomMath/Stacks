@@ -221,6 +221,7 @@ theorem homEquiv_comp_map_hom_comp {𝒞' 𝒟' : Type*} [Category 𝒞'] [Categ
     aT.homEquiv P E (e ≫ A.inv) ≫ R.map (A.hom ≫ y) = aT.homEquiv P Z (e ≫ y) := by
   rw [← Adjunction.homEquiv_naturality_right, Category.assoc, Iso.inv_hom_id_assoc]
 
+omit [HasSheafify X'.J AddCommGrpCat.{w}] in
 include comm in
 /-- The reduction followed by the direct image of a map out of `f^*𝒥 = i^*(f')^*𝒥`. -/
 theorem basePullbackIdealReduction_comp_map {Z : SheafOfModules.{w}
@@ -292,14 +293,5 @@ theorem basePullbackIdealReduction_comp_basePullbackIdealIsoIdeal (hf' : f'.IsFl
     (basePullbackIdealReduction_comp_map i t f f' hi ht comm _)).trans
       (homEquiv_map_comp_inv_unit (i := i) (f' := f') (hi := hi) (ht := ht)
         (φ := (MorphismOfThickenings.ofFirstOrderThickenings i t f f' hi ht comm).idealMap)))
-
-omit [X.J.HasSheafCompose (forget AddCommGrpCat.{w})] in
-/-- The two spellings of `f^*t^*𝒥`. -/
-theorem basePullbackIdeal_eq_pullbackModules_toModulesHom :
-    basePullbackIdeal t f ht = (pullbackModules f.toModulesHom).obj
-      ((pullbackModules t.toModulesHom).obj ht.idealOfThickening.I) := by
-  rw [f.toModulesHom_eq_toRingedToposModulesHom, t.toModulesHom_eq_toRingedToposModulesHom]
-  rfl
-
 
 end Deformation.ToposThickening

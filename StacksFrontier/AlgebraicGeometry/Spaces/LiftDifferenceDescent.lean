@@ -138,12 +138,13 @@ is available unconditionally in
 `StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/BaseChangeOfEqualRestriction.lean`, and the
 square-zero ideal of values at an arbitrary target space is
 `AlgebraicGeometry.Space.squareZeroValuesAt`.  What is proved here is the descent,
-unconditionally and for an arbitrary pair of maps.  No `@[stacks 0618]` attribute is placed by
-this file because the remaining step of that tag's content — matching hypothesis (2) of the
-source, the equality of the two maps of conormal modules of
-[Stacks Project, Tag 04CP], against the agreement of the two maps on the defining ideal which
-the data below take as a field — is stated by no declaration; the "Partial coverage" section of
-`StacksFrontier/AlgebraicGeometry/Spaces/LiftDifferenceDerivation.lean` records that.
+unconditionally and for an arbitrary pair of maps.  The remaining step of [Stacks Project, Tag
+0618] — matching hypothesis (2) of the source, the equality of the two maps of conormal modules
+of [Stacks Project, Tag 04CP], against the agreement of the two maps on the defining ideal which
+the data below take as a field — is
+`AlgebraicGeometry.Space.restrictedSharpThroughThickening_app_eq_of_conormalMap_eq`, and the
+statement of that tag is
+`AlgebraicGeometry.Space.exists_derivation_restrictedSharpThroughThickening_sub`.
 
 ## References
 

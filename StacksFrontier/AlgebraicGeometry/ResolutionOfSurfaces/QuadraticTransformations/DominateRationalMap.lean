@@ -20,9 +20,10 @@ chain to `X'`.
 
 ## Main results
 
-* `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap` — Tag 0C5H: a chain
-  of blowups at closed points not lying over the domain of an `S`-rational map into a scheme
-  proper over `S` carries an `S`-morphism agreeing with the rational map.
+* `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap` — the argument of
+  [Stacks, Tag 0C5H] with three inputs taken as arguments; the tag itself, every input proved, is
+  `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap_of_dim_two` in
+  `DominateRationalMapDimTwo.lean`.
 
 ## Implementation notes
 
@@ -81,20 +82,19 @@ private theorem isIso_morphismRestrict_of_isIso_pullback_snd {A B : Scheme.{u}} 
     exact hiso
   exact IsIso.of_isIso_comp_left (pullbackRestrictIsoRestrict p U).hom (p ∣_ U)
 
-/-- **Stacks Project, Tag 0C5H.** Let `S` be a scheme, let `X` be a scheme over `S` all of whose
-local rings are regular, and let `Y` be proper over `S`. Given an `S`-rational map from `X` to
-`Y`, displayed on the dense open `f.domain`, there is a chain of blowups at closed points not
-lying over `f.domain`, with composite `p : Z ⟶ X`, and an `S`-morphism `h : Z ⟶ Y` which agrees
-with the rational map over `f.domain`.
+/-- The argument of [Stacks, Tag 0C5H], with three of its inputs taken as arguments. Let `S` be a
+scheme, let `X` be a Noetherian scheme over `S` all of whose local rings are regular, and let `Y`
+be proper over `S`. Given an `S`-rational map from `X` to `Y`, displayed on the dense open
+`f.domain`, and the three inputs below, there is a chain of blowups at closed points not lying
+over `f.domain`, with composite `p : Z ⟶ X`, and an `S`-morphism `h : Z ⟶ Y` which agrees with
+the rational map over `f.domain`.
 
-Three inputs are hypotheses rather than theorems here: `descent`, the local splitting of
-[Stacks, Tag 0AGT] in the shape the library's [Stacks, Tag 0AHH] consumes; `domination`,
-[Stacks, Tag 0AHI]; and `reduction`, the source's reduction to a domain containing every
-codimension-one point, resting on [Stacks, Tag 0BX7], bundled with the dominating
-`U`-admissible blowup of [Stacks, Tag 081T] for the enlarged domain. -/
-@[stacks 0C5H "granted hypotheses descent (the local splitting of Tag 0AGT), domination \
-(Tag 0AHI, exists_pointBlowupChain_factorization) and reduction (the Tag 0BX7 enlargement of \
-the domain to a cofinite open, bundled with Tag 081T for that open)"]
+The inputs are `descent`, the local splitting of [Stacks, Tag 0AGT] in the shape the library's
+[Stacks, Tag 0AHH] consumes; `domination`, [Stacks, Tag 0AHI]; and `reduction`, the source's
+reduction to a domain containing every codimension-one point, resting on [Stacks, Tag 0BX7],
+bundled with the dominating `U`-admissible blowup of [Stacks, Tag 081T] for the enlarged domain.
+All three are proved for a regular Noetherian scheme of dimension two, in
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap_of_dim_two`. -/
 public theorem exists_pointBlowupChain_resolving_partialMap
     (descent : ∀ (A : Scheme.{u}) (W : Finset A) (J : A.IdealSheafData),
       (∀ y ∈ W, IsClosed ({y} : Set A)) →

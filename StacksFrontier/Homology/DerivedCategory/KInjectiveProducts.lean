@@ -77,26 +77,27 @@ namespace Stacks.KInjectiveProducts
 
 /-- **Countable products in a derived category from K-injective resolutions.** Let `A` be an
 abelian category with countable products in which every cochain complex has a
-quasi-isomorphism to a K-injective complex. Then `D(A)` has countable products.
+quasi-isomorphism to a K-injective complex. Then `D(A)` has countable products; more generally,
+for any `T : Type`, products indexed by `T` in `A` give products indexed by `T` in `D(A)`.
 
 No exactness of the products of `A` is assumed; compare
 `Stacks.DerivedProducts.hasProductsOfShape_derivedCategory`, which does assume it. -/
 theorem hasProductsOfShape_derivedCategory_of_exists_quasiIso_isKInjective
-    {A : Type u} [Category.{v} A] [Abelian A] [HasProductsOfShape ℕ A]
+    {A : Type u} [Category.{v} A] [Abelian A] {T : Type} [HasProductsOfShape T A]
     [HasDerivedCategory.{w} A]
     (hres : ∀ K : CochainComplex A ℤ, ∃ (I : CochainComplex A ℤ) (f : K ⟶ I),
       I.IsKInjective ∧ QuasiIso f) :
-    HasProductsOfShape ℕ (DerivedCategory A) := by
+    HasProductsOfShape T (DerivedCategory A) := by
   refine ⟨fun X ↦ ?_⟩
-  choose I f hI hf using fun n : ℕ ↦ hres (DerivedCategory.Q.objPreimage (X.obj ⟨n⟩))
-  have hiso (n : ℕ) : IsIso (DerivedCategory.Q.map (f n)) :=
+  choose I f hI hf using fun n : T ↦ hres (DerivedCategory.Q.objPreimage (X.obj ⟨n⟩))
+  have hiso (n : T) : IsIso (DerivedCategory.Q.map (f n)) :=
     (DerivedCategory.isIso_Q_map_iff_quasiIso A (f n)).2 (hf n)
-  have e (n : ℕ) : DerivedCategory.Q.obj (I n) ≅ X.obj ⟨n⟩ :=
+  have e (n : T) : DerivedCategory.Q.obj (I n) ≅ X.obj ⟨n⟩ :=
     (asIso (DerivedCategory.Q.map (f n))).symm ≪≫
       DerivedCategory.Q.objObjPreimageIso (X.obj ⟨n⟩)
-  have : HasProduct fun n : ℕ ↦ DerivedCategory.Q.obj (I n) :=
+  have : HasProduct fun n : T ↦ DerivedCategory.Q.obj (I n) :=
     HasLimit.mk ⟨_, CochainComplex.isLimit_fan_Q_pi I hI⟩
-  have e' : Discrete.functor (fun n : ℕ ↦ DerivedCategory.Q.obj (I n)) ≅ X :=
+  have e' : Discrete.functor (fun n : T ↦ DerivedCategory.Q.obj (I n)) ≅ X :=
     Discrete.natIso fun n ↦ e n.as
   exact hasLimit_of_iso e'
 

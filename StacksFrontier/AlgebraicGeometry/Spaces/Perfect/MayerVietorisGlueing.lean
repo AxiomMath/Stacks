@@ -6,7 +6,6 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ModulesAbelian
 public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.MayerVietoris
 public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleModulePullbackCompIsoEtaleRestriction
 public import StacksFrontier.Topology.Sheaves.Cohomology.ExtensionByZero.DerivedAdjunction
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Glueing morphisms out of a Mayer–Vietoris triangle on an elementary distinguished square
@@ -21,14 +20,14 @@ isomorphisms `f : F|_U ⟶ A`, `g : F|_V ⟶ B` with `c = g|_P ∘ f^{-1}|_P`, a
 restrictions of an object `E` of `D(𝒪_X)` with `a|_P = b|_P ∘ c` are induced by a morphism
 `F ⟶ E`.
 
-**Only the second assertion is proved here**, and the first is not: see the implementation
-notes for what it needs and which of those inputs the library does not carry.  The second
-assertion is the source's own deduction from the Mayer–Vietoris sequence for `Hom`, Stacks
-08H9, and it is proved here directly from the Mayer–Vietoris distinguished triangle
-
-`j_{P!}F|_P ⟶ j_{U!}F|_U ⊕ j_{V!}F|_V ⟶ F ⟶ (j_{P!}F|_P)[1]`
-
-of Stacks 08GV part (2), which enters as the hypothesis `hT`.
+This file supplies the pieces of the second assertion that do not depend on the square: the
+canonical first map `CategoryTheory.mayerVietorisGlueMap` of a Mayer–Vietoris triangle, the
+glueing of a pair of morphisms along such a triangle in an arbitrary pretriangulated category,
+and the identifications of the iterated restrictions of an elementary distinguished square with
+the restriction to the intersection.  Both assertions of Stacks 08HB are
+`AlgebraicGeometry.Space.exists_glued_object_and_hom` of
+`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/MayerVietorisGlueingTag.lean`, where the
+Mayer–Vietoris triangle the second assertion runs over is proved.
 
 ## Main definitions
 
@@ -56,68 +55,17 @@ of Stacks 08GV part (2), which enters as the hypothesis `hT`.
 * `CategoryTheory.exists_hom_of_restrictionPair`: glueing a pair of morphisms along a
   Mayer–Vietoris triangle, in an arbitrary pretriangulated category with three adjunctions and
   the two identifications of iterated restrictions.
-* `AlgebraicGeometry.Space.exists_hom_of_glueData`: **Stacks 08HB, the second assertion**, for
-  an elementary distinguished square, granted a glued datum `(F, f, g)` and the Mayer–Vietoris
-  distinguished triangle of Stacks 08GV part (2) at `F`.
+* `AlgebraicGeometry.Space.exists_hom_of_glueData`: the induced morphism of Stacks 08HB on an
+  elementary distinguished square, for a Mayer–Vietoris triangle at `F` supplied as input.
 
 ## Implementation notes
 
-*The compatibility over the intersection is in the conclusion, through the hypotheses.*  The
-source's `c = g|_P ∘ f^{-1}|_P` and `a|_P = b|_P ∘ c` are the hypotheses `hc` and `hab` of
-`AlgebraicGeometry.Space.exists_hom_of_glueData`, written with the two *constructed*
-identifications `AlgebraicGeometry.Space.edsDerivedRestrictCompOpen` and
+The source's compatibilities `c = g|_P ∘ f^{-1}|_P` and `a|_P = b|_P ∘ c` are written with the
+two *constructed* identifications `AlgebraicGeometry.Space.edsDerivedRestrictCompOpen` and
 `…edsDerivedRestrictCompEtale` of the two iterated restrictions with the restriction to the
-intersection; the source writes them silently.  Both are used: `hab` and `hc` together are
-exactly what makes the pair `(a ∘ f, b ∘ g)` agree over `P`, which is the hypothesis `hagree`
-of `CategoryTheory.exists_hom_of_restrictionPair`, and that agreement is what makes the pair
-annihilate the first map of the triangle.  Without it the pair would not glue.
-
-*Why the triangle is a hypothesis, and why the library's Stacks 08GV part (2) does not supply
-it.*  `AlgebraicGeometry.Space.mem_distTriang_mayerVietoris` is stated for *arbitrary* natural
-transformations `a`, `b` out of `j_{P!}((-)|_P)` constrained only by the short exactness of
-part (1), and its second map is the derived transformation of the degreewise counits read
-through `CategoryTheory.Functor.mapDerivedCategoryIdIso`.  The deduction here needs the two
-maps to be the canonical ones — the transposes of the restriction comparisons, that is
-`CategoryTheory.mayerVietorisGlueMap` — and the second map to be the counit of the derived
-adjunction `CategoryTheory.Adjunction.mapDerivedCategory`, because that is what the adjunction
-computation identifies with restriction of morphisms.  Nothing about arbitrary `a` and `b` can
-produce the source's compatibility over `P`, so the triangle in its canonical spelling is the
-named hypothesis `hT`.  It is Stacks 08GV part (2), which the source reaches through Stacks
-08H9; part (1) of Stacks 08GV is itself a gap of the library, recorded as the hypothesis `hMV`
-of `AlgebraicGeometry.Space.mem_distTriang_mayerVietoris`.
-
-*Where the elementary distinguished square is used.*  The hypothesis `hsq` supplies the open
-subspace, the étale algebraic space, the intersection and the five étale morphisms between
-them, and — through `AlgebraicGeometry.Space.isPullback_edsInter` — that the intersection
-really is `U ×_X V`, which is what
-`AlgebraicGeometry.Space.edsRestrictCompEtale` needs in order to identify restriction through
-`V` with restriction along `j_P`.  The *defining* condition of an elementary distinguished
-square, that `j_V` induces an isomorphism over `|X| \ |U|`, is used only through `hT`: it is
-what makes part (1) of Stacks 08GV true.  This is the same division of labour as in the
-source, whose proof of the "moreover" part invokes nothing but Stacks 08H9.
-
-*Extension by zero enters as data*, as in
-`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/MayerVietoris.lean` and in Stacks 08HA: a
-functor together with an adjunction exhibiting it as a left adjoint of restriction pins both
-the functor and the counit `j_{Y!}(F|_Y) ⟶ F` up to a unique compatible isomorphism, and its
-exactness — Stacks 03DJ — is carried by the instance arguments, which is what makes the
-derived adjunction `CategoryTheory.Adjunction.mapDerivedCategory` available.
-
-*What the first assertion needs and what is missing.*  The source builds `F` as the fibre of
-`Rj_{U,*}A ⊕ Rj_{V,*}B ⟶ Rj_{U ×_X V,*}(B|_P)`, shows `F|_U ⟶ A` is an isomorphism using
-Stacks 08GE, and then shows `F|_V ⟶ B` is an isomorphism by placing its cone `B'` in the
-morphism of Mayer–Vietoris direct-image triangles, concluding `Rj_{V,*}B' = 0` by Stacks 014A
-and then `B' = 0` by Stacks 08GG.  Three of those inputs are unavailable here.  Stacks 08GG
-clauses (2)(a) and (2)(b) — the ones that turn `Rj_{V,*}B' = 0` into `B' = 0` — are *not*
-proved by `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedOnComplement.lean`, which
-carries only clauses (1)(a), (1)(b) and (2)(c); their proof needs the base change of the
-square along `j_V`, that is Stacks 08GN.  Stacks 08GW part (2), the direct-image triangle, is
-available only in the existentially quantified form
-`AlgebraicGeometry.Space.exists_mem_distTriang_edsDerivedRestrictPushMayerVietoris`, whose
-maps are not exposed, so the morphism of triangles cannot be written down.  And the statement
-that `B'` is supported on `j_V^{-1}(|X| \ |U|)` needs the commutation of derived restriction
-with the cohomology sheaves, the gap recorded in the implementation notes of that same file.
-So no attribute is placed for the first assertion.
+intersection; the source writes them silently.  Together they make the pair `(a ∘ f, b ∘ g)`
+agree over `P`, which is the hypothesis `hagree` of
+`CategoryTheory.exists_hom_of_restrictionPair`.
 
 ## References
 
@@ -345,29 +293,25 @@ variable [HasSheafify (smallEtaleRingedSite B S hS W.1 W.2).J AddCommGrpCat.{u}]
   [shriekV.Additive] [PreservesFiniteLimits shriekV] [PreservesFiniteColimits shriekV]
   [shriekP.Additive] [PreservesFiniteLimits shriekP] [PreservesFiniteColimits shriekP]
 
-/-- **Stacks 08HB, the second assertion**, granted the Mayer–Vietoris distinguished triangle of
-Stacks 08GV part (2).  Let `(U ⊆ X, j_V : V ⟶ X)` be an elementary distinguished square of
-algebraic spaces over a scheme `S`, let `P = U ×_X V`, write `(-)|_Y` for restriction along
-`j_Y : Y ⟶ X` and let `j_{Y!}` be a left adjoint of it, extension by zero.  Let `F` be an
-object of `D(𝒪_X)` glueing an object `A` of `D(𝒪_U)` and an object `Bo` of `D(𝒪_V)` along an
-isomorphism `c : A|_P ⟶ Bo|_P`: isomorphisms `f : F|_U ⟶ A` and `g : F|_V ⟶ Bo` with
-`c = g|_P ∘ f^{-1}|_P`, which is the hypothesis `hc`.  Suppose `F` sits in the Mayer–Vietoris
-distinguished triangle
+/-- **The induced morphism of Stacks 08HB, for a Mayer–Vietoris triangle supplied as input.**
+Let `(U ⊆ X, j_V : V ⟶ X)` be an elementary distinguished square of algebraic spaces over a
+scheme `S`, let `P = U ×_X V`, write `(-)|_Y` for restriction along `j_Y : Y ⟶ X` and let
+`j_{Y!}` be a left adjoint of it, extension by zero.  Let `F` be an object of `D(𝒪_X)` with
+isomorphisms `f : F|_U ⟶ A` and `g : F|_V ⟶ Bo` satisfying `c = g|_P ∘ f^{-1}|_P` (the
+hypothesis `hc`), sitting in a distinguished triangle
 
 `j_{P!}F|_P ⟶ j_{U!}F|_U ⊕ j_{V!}F|_V ⟶ F ⟶ (j_{P!}F|_P)[1]`
 
-of Stacks 08GV part (2), whose second map is the sum of the two counits and whose first map is
-built from the canonical comparisons of the iterated restrictions; this is the hypothesis `hT`.
-Then for every object `E` of `D(𝒪_X)` and all morphisms `a : A ⟶ E|_U` and `b : Bo ⟶ E|_V` with
-`a|_P = b|_P ∘ c` there is a morphism `φ : F ⟶ E` whose restriction to `U` is `a ∘ f` and whose
-restriction to `V` is `b ∘ g`.
+with the canonical first map and the sum of the counits as second map (the hypothesis `hT`).
+Then for every object `E` of `D(𝒪_X)` and all morphisms `a : A ⟶ E|_U` and `b : Bo ⟶ E|_V`
+with `a|_P = b|_P ∘ c` there is a morphism `φ : F ⟶ E` whose restriction to `U` is `a ∘ f`
+and whose restriction to `V` is `b ∘ g`.
 
-The source's object `B` of `D(𝒪_V)` is written `Bo` here, the letter `B` being the big fppf
-site.  The first assertion of the source — the *existence* of a glueing `(F, f, g)` — is not
-covered by this statement: `F`, `f` and `g` are hypotheses. -/
-@[stacks 08HB "second assertion only (the induced morphism `F ⟶ E`), for a glued datum
-`(F, f, g)` given as a hypothesis and granted the Mayer–Vietoris distinguished triangle of Tag
-08GV part (2) at `F` as hT; the first assertion, existence of the glued object, is NOT covered"]
+The triangle `hT` holds for every `F`: it is
+`AlgebraicGeometry.Space.mem_distTriang_mayerVietorisGlueMap`, and the form of this statement
+without `hT` is `AlgebraicGeometry.Space.exists_hom_of_glueData_of_isElementaryDistinguishedSquare`.
+Both assertions of Stacks 08HB are `AlgebraicGeometry.Space.exists_glued_object_and_hom`, all
+three in `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/MayerVietorisGlueingTag.lean`. -/
 theorem exists_hom_of_glueData
     (adjU : shriekU ⊣ edsRestrictOpen B S hS hsq)
     (adjV : shriekV ⊣ edsRestrictEtale B S hS hsq)

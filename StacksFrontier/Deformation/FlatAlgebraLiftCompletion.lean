@@ -312,7 +312,8 @@ Clause by clause, and why each hypothesis below is there:
   `Module.Flat A M`.
 * **`Module.Finite P M`**: *added*, not in the source's statement. The source's own proof needs
   it — "here we use that `P` is Noetherian and `M` finite", at Stacks 0A6A — and the step is
-  false without it, as the clause on the `_of_isNilpotent_ker` form of
+  false without it, as the implementation notes of
+  `StacksFrontier.Deformation.FlatModuleLiftLocalization` record for the `_of_isNilpotent_ker` form of
   `Deformation.exists_flat_lift_iff_exists_flat_lift_baseChange_of_localizationLift`
   records. Adding a hypothesis makes this statement *weaker* than the source's, so a refutation
   of it refutes the source a fortiori.

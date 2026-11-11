@@ -6,7 +6,7 @@ public import StacksFrontier.Homology.Tor.Presentation
 public import StacksFrontier.Homology.TorAmplitude.CanonicalCertificate
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.TorIndependentBaseChange
 public import StacksFrontier.RingTheory.PseudoCoherentMap.Flat
-public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectAnyPresentation
+public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 
 /-!
 # Base change for the upper shriek of a flat finite-type homomorphism
@@ -85,12 +85,11 @@ theorem PolynomialPresentation.isPerfectModule_of_flat [IsNoetherianRing R]
   let : Algebra.FiniteType R A := RingHom.finiteType_algebraMap.mp p.finiteType
   let : Algebra.FinitePresentation R A :=
     Algebra.FinitePresentation.of_finiteType.mp inferInstance
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring R
-  let α : p.Poly →ₐ[R] A := p.toAlgHom
-  exact RingHom.isPerfectModule_of_isPerfectRingMap D.tensor D.comparison D.isLeftDerived
-    ((RingHom.isPerfectRingMap_of_flat_of_finitePresentation R A).2
-      D.tensor D.comparison D.isLeftDerived)
-    p.variableCount α p.surjective
+  have := Algebra.Perfect.of_flat_of_finitePresentation R A
+  let : Module p.Poly A := Module.compHom A p.toRingHom
+  exact (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+    (Algebra.Perfect.exists_finite_projective_resolution
+      (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective)
 
 /-- For a flat `φ : R → A` of finite type over a Noetherian ring `R`, the universe lift
 `ULift.{v} A` is a perfect module over the polynomial algebra of every polynomial presentation

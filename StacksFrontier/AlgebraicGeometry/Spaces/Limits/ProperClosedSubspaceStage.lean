@@ -151,7 +151,7 @@ theorem exists_chowSchemeCover_over_isAffine (W : BigFppfOver B S hS)
 /-- Let `p : h_{X'} ⟶ X` be a chart lying over `ψ : X' ⟶ T` along `g : X ⟶ h_W` and `θ : T ≅ W`.
 For a closed subspace `D ⊆ X`, the base change of `D ⟶ h_W` along `p` is proper exactly when the
 closed subscheme of `X'` cut out by the chart ideal of `D` is proper over `T`. -/
-private theorem isProper_rep_fst_comp_iff {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+theorem isProper_rep_fst_comp_iff {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X) {W T X' : BigFppfOver B S hS} (g : X ⟶ yoneda.obj W)
     (θ : T ≅ W) (ψ : X' ⟶ T) (p : yoneda.obj X' ⟶ X)
     (hpψ : p ≫ g ≫ yoneda.map θ.inv = yoneda.map ψ) (D : ClosedSubspaces B S hS X) :
@@ -201,7 +201,7 @@ private theorem isProper_rep_fst_comp_iff {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Ty
 /-- **Stacks 08AJ for a closed subspace.** Let `g : X ⟶ h_W` be separated of finite type and let
 `p : h_{X'} ⟶ X` be surjective. If the base change of `D ⟶ h_W` along `p` is proper for a closed
 subspace `D ⊆ X`, then `D ⟶ h_W` is proper. -/
-private theorem isProper_ι_comp_of_isProper_rep_fst {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+theorem isProper_ι_comp_of_isProper_rep_fst {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X) {W X' : BigFppfOver B S hS} (g : X ⟶ yoneda.obj W)
     (hsep : IsSeparated B S hS g) (hft : IsFiniteType B S hS g) (p : yoneda.obj X' ⟶ X)
     (hps : IsSurjective B S hS p) (D : ClosedSubspaces B S hS X)
@@ -260,7 +260,7 @@ private theorem isClosedImmersion_of_isProper_comp {X Y T : Scheme.{u}} (f : X �
 /-- Let `p : h_{X'} ⟶ X` be a proper chart lying over `ψ : X' ⟶ T` along `g : X ⟶ h_W` and
 `θ : T ≅ W`. If `C ⟶ h_W` is proper for a closed subspace `C ⊆ X`, then the closed subscheme of
 `X'` cut out by the chart ideal of `C` is proper over `T`. -/
-private theorem isProper_chartKer_subschemeι_comp {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+theorem isProper_chartKer_subschemeι_comp {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X) {W T X' : BigFppfOver B S hS} (g : X ⟶ yoneda.obj W)
     (θ : T ≅ W) (ψ : X' ⟶ T) (p : yoneda.obj X' ⟶ X) (hp : IsProper B S hS p)
     (hpψ : p ≫ g ≫ yoneda.map θ.inv = yoneda.map ψ) (C : ClosedSubspaces B S hS X)

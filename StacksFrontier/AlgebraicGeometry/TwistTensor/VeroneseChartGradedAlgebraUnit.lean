@@ -5,12 +5,15 @@ public import StacksFrontier.AlgebraicGeometry.TwistTensor.PullbackMultiplicatio
 public import StacksFrontier.AlgebraicGeometry.Variety.Projective.PullbackTwistRegroupingFamily
 
 /-!
-# Situation 01QH's map preserves the unit
+# The comparison `twistComparison` of Situation 01QH preserves the unit
 
 Let `X` be a scheme, `𝓛` an ample invertible sheaf on `X`, `S = Γ_*(X, 𝓛)` and `Y = Proj S`, and
 let `f : X ⟶ Y` be the canonical morphism of [Stacks, Tag 01PZ].  Situation [Stacks, Tag 01QH]
-equips `f` with a `ℤ`-graded `𝒪_X`-algebra map `⨁_{n ∈ ℤ} f^*𝒪_Y(n) ⟶ ⨁_{n ∈ ℤ} 𝓛^{⊗ n}`.  Its
-degreewise components are `Stacks.SectionRingVeroneseChart.twistComparison` and its
+equips `f` with a `ℤ`-graded `𝒪_X`-algebra map `⨁_{n ∈ ℤ} f^*𝒪_Y(n) ⟶ ⨁_{n ∈ ℤ} 𝓛^{⊗ n}`.  The
+Situation's map is `θ` of [Stacks, Tag 01NK], which is
+`Stacks.SectionRingProjMorphism.Theta.projThetaUnital` (the Tag 01QH registration).  This
+file is about a second such family, `Stacks.SectionRingVeroneseChart.twistComparison`, which is
+not proved to agree with `θ`.  The family's degreewise components are `twistComparison` and its
 multiplicativity in an arbitrary integer bidegree is
 `Stacks.SectionRingVeroneseChart.twistComparison_mul`; **this file supplies the remaining datum of
 an algebra map, preservation of the unit.**
@@ -57,8 +60,8 @@ multiplication is a cancellation, not a computation.
 
 ## Main results
 
-* `Stacks.SectionRingVeroneseChart.pbTwistUnit_twistComparison`: **unit preservation for Situation
-  [Stacks, Tag 01QH]'s map** — the degree-zero component carries `pbTwistUnit` to the unit
+* `Stacks.SectionRingVeroneseChart.pbTwistUnit_twistComparison`: **unit preservation for
+  `twistComparison`** — the degree-zero component carries `pbTwistUnit` to the unit
   `(tensorPowModuleZeroIso X 𝓛).inv` of [Stacks, Tag 01CU]'s addition law.
 * `Stacks.SectionRingVeroneseChart.unit_comp_twistComparison_of_mul`: the same for **any** map
   `𝒪_X ⟶ f^*𝒪_Y(0)` satisfying the source algebra's left unit law in a single degree, which is
@@ -292,7 +295,7 @@ theorem twistComparison_congr {a b : ℤ} (h : a = b) :
 
 /-- **Unit preservation, for any map satisfying the source algebra's left unit law in a single
 degree.**  If `η : 𝒪_X ⟶ f^*𝒪_Y(0)` multiplies as the unit does in the bidegree `(0, m)` for one
-integer `m`, then the degree-zero component of Situation [Stacks, Tag 01QH]'s map carries `η` to
+integer `m`, then the degree-zero component of `twistComparison` carries `η` to
 the unit `(tensorPowModuleZeroIso X 𝓛).inv` of [Stacks, Tag 01CU]'s addition law.
 
 The input is the bidegree square `twistComparison_mul` at `(0, m)` together with the target's left
@@ -333,7 +336,7 @@ theorem pbTwistUnit_eq_of_mul (m : ℤ) {η : 𝟙_ X.Modules ⟶ pbTwist L hL 0
     ((unit_comp_twistComparison_of_mul L hL m hη).trans
       (unit_comp_twistComparison_of_mul L hL m (pbTwistUnit_pbTwistMul L hL m)).symm)
 
-/-- **Situation [Stacks, Tag 01QH]'s map preserves the unit.**  The degree-zero component of the
+/-- **`twistComparison` preserves the unit.**  The degree-zero component of the
 map carries the unit `pbTwistUnit` of the source graded `𝒪_X`-algebra `pbTwistMul` — the
 multiplication of the twisting sheaves of [Stacks, Tag 01MO], pulled back along the canonical
 morphism of [Stacks, Tag 01PZ] and conjugated by [Stacks, Tag 01CD] — to the unit of
@@ -341,21 +344,15 @@ morphism of [Stacks, Tag 01PZ] and conjugated by [Stacks, Tag 01CD] — to the u
 by `Stacks.Ample.tensorPowModuleZeroIso`.
 
 Together with the degreewise family `twistComparison` and the bidegree square
-`twistComparison_mul` this is the `ℤ`-graded `𝒪_X`-algebra map
-`⨁_{n ∈ ℤ} f^*𝒪_Y(n) ⟶ ⨁_{n ∈ ℤ} 𝓛^{⊗ n}` the Situation equips the canonical morphism with,
-including the unit datum that distinguishes `Stacks.SheafOfModules.GradedAlgebra.UnitalHom` from
+`twistComparison_mul` this is a unital `ℤ`-graded `𝒪_X`-algebra map
+`⨁_{n ∈ ℤ} f^*𝒪_Y(n) ⟶ ⨁_{n ∈ ℤ} 𝓛^{⊗ n}`, including the unit datum that distinguishes
+`Stacks.SheafOfModules.GradedAlgebra.UnitalHom` from
 `Stacks.SheafOfModules.GradedAlgebra.Hom` (both registered for [Stacks, Tag 0FQW]).
 
-`pbTwistUnit_eq_of_mul` says the source unit is unique, so no choice is being made here. -/
-@[stacks 01QH "unit preservation: the degree-zero component of the Situation's map carries the \
-unit pbTwistUnit of the source graded O_X-algebra pbTwistMul -- Tag 01MO's multiplication of the \
-twisting sheaves pulled back along the canonical morphism of Tag 01PZ and conjugated by Tag 01CD \
--- to the unit of Tag 01CU's addition law for the tensor powers of L, whose degree-zero piece is \
-O_X by tensorPowModuleZeroIso. This is the extra datum of SheafOfModules.GradedAlgebra.UnitalHom \
-over GradedAlgebra.Hom (both registered for 0FQW). With the degreewise family twistComparison and \
-the bidegree square twistComparison_mul the three jointly give the Z-graded O_X-algebra map the \
-Situation equips the canonical morphism with. The source unit is unique \
-(pbTwistUnit_eq_of_mul), so no choice is made"]
+`pbTwistUnit_eq_of_mul` says the source unit is unique, so no choice is being made here.  The
+family is not proved to be the Situation's map, Tag 01NK's `θ`
+(`Stacks.SectionRingProjMorphism.Theta.projThetaUnital`), which carries the Tag 01QH
+registration. -/
 theorem pbTwistUnit_twistComparison :
     pbTwistUnit L hL ≫ twistComparison L hL 0 = (tensorPowModuleZeroIso X L).inv :=
   unit_comp_twistComparison_of_mul L hL 0 (pbTwistUnit_pbTwistMul L hL 0)

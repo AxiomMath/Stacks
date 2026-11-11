@@ -34,6 +34,13 @@ says it is invertible exactly when the restriction of the projection-formula map
 
 which is *not* proved here (see "What is still missing", below).
 
+Stacks 0FZE itself is proved elsewhere in this library, for the same `projectionFormulaMap`, as
+`Stacks.AlgebraicGeometry.ProjectionFormula.isIso_projectionFormulaMap` in
+`StacksFrontier/AlgebraicGeometry/Duality/ProjectionFormulaLocal.lean`, which carries the
+`@[stacks 0FZE]` registration; it goes through its own restriction isomorphisms
+(`restrictSourceIso`, `restrictTargetIso` and `projectionFormulaMap_restrict` there) rather than
+through `restrictedProjectionFormulaMap`.
+
 ## Main definitions
 
 * `pullbackTensorIso` is Stacks 01CD in the scheme vocabulary: pulling back a tensor product
@@ -86,9 +93,10 @@ on bare variables.  For the same reason no `eqToIso` and no `Scheme.Modules.pull
 appears: `pullbackSquareIso` is assembled from `pullbackRestrictIso` and
 `Scheme.Modules.restrictFunctorIsoPullback` instead of from the equality of the two composites.
 
-### What is still missing for Stacks 0FZE
+### What this route still lacks
 
-Two statements, both about *morphisms*.
+Stacks 0FZE is not missing (see above); this route to it lacks two statements, both about
+*morphisms*.
 
 * The compatibility equation displayed above.  Its two sides have the same type, which is
   checked by `restrictedProjectionFormulaMap` elaborating against that type; what is missing is
@@ -98,8 +106,10 @@ Two statements, both about *morphisms*.
   manoeuvre -- inject along `(modulePullbackPushforwardAdjunction _).homEquiv` and rewrite the
   transpose -- for the unit of the structure sheaf.
 * The tensor half of Stacks 01I8, as recorded in Basic.lean: a natural isomorphism
-  `M̃ ⊗_{𝒪_{Spec R}} Ñ ≅ (M ⊗_R N)~`.  This is what the affine-base case itself waits on, and
-  it is independent of everything here.
+  `M̃ ⊗_{𝒪_{Spec R}} Ñ ≅ (M ⊗_R N)~`.  This is what Basic.lean's route to the affine-base case
+  waits on, and it is independent of everything here.  The affine-base case itself is proved
+  otherwise, as `Stacks.AlgebraicGeometry.ProjectionFormula.isIso_projectionFormulaMap_of_isAffine`
+  in `StacksFrontier/AlgebraicGeometry/Duality/ProjectionFormulaAffineBase.lean`.
 
 ## References
 

@@ -40,7 +40,9 @@ because a representing morphism is a monomorphism.
   an ideal sheaf detecting the isomorphism locus on affine test schemes detects it everywhere.
 * `Stacks.Flatness.isomorphismFunctor_representableBy_closedImmersion_of_affineTests` and
   `Stacks.Flatness.finitePresentation_hom_of_representableBy_isomorphismFunctor`: the two
-  assertions of Tag 05PF.
+  assertions of Tag 05PF, separately.
+* `Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`:
+  Tag 05PF, both assertions under the source's assumptions.
 
 ## Implementation notes
 
@@ -107,8 +109,10 @@ end Stacks.Flatness.ModuleMapBaseChangeSituation
 
 namespace Stacks.Flatness
 
-/-- **Stacks Project, Tag 05PF.** The isomorphism-after-base-change functor of a surjection from
-a finitely presented, flat and pure module is represented by a closed immersion into the base.
+/-- The isomorphism-after-base-change functor of a surjection from a finitely presented, flat and
+pure module is represented by a closed immersion into the base: the first assertion of Tag 05PF,
+which together with the second is
+`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`.
 
 The representing closed subscheme is cut out by an ideal sheaf which it suffices to exhibit on
 *affine* schemes over the base, by
@@ -117,7 +121,6 @@ The representing closed subscheme is cut out by an ideal sheaf which it suffices
 sections is projective, where the ideal sheaf is the flattening ideal of Tag 05PE.  That
 devissage is
 `Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor`. -/
-@[stacks 05PF "representability by a closed immersion"]
 theorem isomorphismFunctor_representableBy_closedImmersion_of_affineTests
     (D : ModuleMapBaseChangeSituation.{u})
     [LocallyOfFinitePresentation D.f] [QuasiCompact D.f] [QuasiSeparated D.f]
@@ -128,9 +131,10 @@ theorem isomorphismFunctor_representableBy_closedImmersion_of_affineTests
       Nonempty (D.isomorphismFunctor.RepresentableBy W) :=
   exists_closedImmersion_representableBy_isomorphismFunctor D hflat hpure
 
-/-- **Stacks Project, Tag 05PF.** A closed immersion `Z ⟶ S` representing the
-isomorphism-after-base-change functor is of finite presentation as soon as the target module `G`
-is of finite presentation.
+/-- A closed immersion `Z ⟶ S` representing the isomorphism-after-base-change functor is of
+finite presentation as soon as the target module `G` is of finite presentation: the second
+assertion of Tag 05PF, assembled with the first in
+`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`.
 
 Local finite presentation is Tag 01ZC: by Tag 05MJ(4) the isomorphism functor turns a cofiltered
 inverse limit of affine schemes over the base into a filtered colimit, so the functor of points
@@ -143,7 +147,6 @@ representing the functor exists under the source's own hypotheses, by
 `Stacks.Flatness.isomorphismFunctor_representableBy_closedImmersion_of_affineTests`.  Stating the
 assertion for an arbitrary representative rather than for that one is no weaker, since any two
 representatives of a functor are isomorphic over the base. -/
-@[stacks 05PF "finite presentation of the representing closed immersion"]
 theorem finitePresentation_hom_of_representableBy_isomorphismFunctor
     (D : ModuleMapBaseChangeSituation.{u}) [QuasiCompact D.f]
     [D.F.IsFiniteType] [D.G.IsFinitePresentation]
@@ -160,6 +163,41 @@ theorem finitePresentation_hom_of_representableBy_isomorphismFunctor
     exact (preservesColimit_iff_of_natIso T.op (D.representableByULift e).toIso).2 hlift
   have hmono : Mono i := mono_hom_of_representableBy e
   exact FinitePresentation.mk hlfp inferInstance inferInstance
+
+/-- **Stacks Project, Tag 05PF.** Let `f : X ⟶ S` be a morphism of finite presentation (locally
+of finite presentation, quasi-compact and quasi-separated, Tag 01TP) and let `u : F ⟶ G` be a
+surjection of quasi-coherent modules on `X` with `F` of finite presentation, flat over `S` and
+pure relative to `S`.  Then the functor `F_iso` on schemes over `S`, whose value at
+`T` is a point exactly when the base change `u_T` is an isomorphism, is represented by a closed
+immersion `Z ⟶ S`; moreover `Z ⟶ S` is of finite presentation if `G` is of finite presentation.
+
+The representing closed immersion comes from the étale-local devissage
+`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor`: purity reduces the
+question étale locally on `S` to an affine situation with projective sections, cut out by the
+flattening ideal of Tag 05PE, and the local closed subschemes glue by fpqc descent (Tags 05MJ,
+03I0).  Its finite presentation is
+`Stacks.Flatness.finitePresentation_hom_of_representableBy_isomorphismFunctor`, from Tag 05MJ(4)
+and Tag 05LX.
+
+The instance `F.IsFiniteType` is part of the statement because purity relative to `S` is phrased
+for modules of finite type; it follows from `F.IsFinitePresentation` by
+`Stacks.AlgebraicGeometry.CoherentTFAE.isQuasicoherent_isFiniteType_of_isFinitePresentation`, so
+it adds nothing to the source's assumptions. -/
+@[stacks 05PF "both assertions: representability by a closed immersion, which is of finite \
+  presentation when `G` is"]
+theorem exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation
+    (D : ModuleMapBaseChangeSituation.{u})
+    [LocallyOfFinitePresentation D.f] [QuasiCompact D.f] [QuasiSeparated D.f]
+    [D.F.IsFinitePresentation] [D.F.IsFiniteType] [Epi D.hom]
+    (hflat : IsFlatOver D.f.toLRSHom.toShHom D.F)
+    (hpure : IsPureRelative D.f D.F) :
+    ∃ W : Over D.S, IsClosedImmersion W.hom ∧
+      Nonempty (D.isomorphismFunctor.RepresentableBy W) ∧
+      (D.G.IsFinitePresentation → FinitePresentation W.hom) := by
+  obtain ⟨W, hW, ⟨e⟩⟩ := exists_closedImmersion_representableBy_isomorphismFunctor D hflat hpure
+  refine ⟨W, hW, ⟨e⟩, fun hG ↦ ?_⟩
+  have : IsClosedImmersion W.hom := hW
+  exact finitePresentation_hom_of_representableBy_isomorphismFunctor D W.hom e
 
 end Stacks.Flatness
 

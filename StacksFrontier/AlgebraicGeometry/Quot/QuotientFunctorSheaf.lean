@@ -87,12 +87,14 @@ because an algebraic space is an fppf sheaf — the first clause of Stacks 025Y,
 identification of `Hom(U, Y)` with the sections of `Y` over `U`.  The quotients `Q_i` then all
 live over restrictions of the *single* test scheme `(U, h)`, and amalgamating them is descent
 of quasi-coherent quotients along the covering `{X_{U_i} ⟶ X_U}` of Topologies on Spaces,
-Lemma 73.9.3 — the content of Remark 08IU, which the source cites.  Only the faithfulness
-clause of Stacks 04W8 is available in this development, so the separatedness and the glueing of
-quotients are carried as the two hypotheses
+Lemma 73.9.3 — the content of Remark 08IU, which the source cites and which is
+`AlgebraicGeometry.Space.bijOn_quotientRestrict_of_isFpqcCovering`.  The reduction here states
+the separatedness and the glueing of quotients as the two predicates
 `AlgebraicGeometry.Space.QuotientSituation.QuotientsSeparatedForCoverings` and
-`AlgebraicGeometry.Space.QuotientSituation.QuotientsGlueAlongCoverings`.  Neither is given an
-instance here: a false one would empty every statement that consumes it.
+`AlgebraicGeometry.Space.QuotientSituation.QuotientsGlueAlongCoverings`; both are proved for the
+quotients of Situation 082M in `StacksFrontier/AlgebraicGeometry/Quot/QuotFunctorFpqcSheaf.lean`
+(`AlgebraicGeometry.Space.QuotientSituation.quotientsSeparatedForCoverings_quotients` and
+`AlgebraicGeometry.Space.QuotientSituation.quotientsGlueAlongCoverings_quotients`).
 
 **The topology.**  The source states the sheaf condition for the fpqc topology, which is
 stronger than the fppf condition because the fppf coverings are fpqc coverings.  The statements
@@ -316,11 +318,12 @@ hypothesis: a family of quotients of the `F_{U_i}` for an fppf covering of a tes
 `(U, h)`, agreeing after further pullback, comes from a quotient of `F_U`.
 
 This is the half of the bijection of Remark 08IU whose inverse is fppf descent of
-quasi-coherent modules, which in this development is not available: only the faithfulness
-clause of Stacks 04W8 is carried.  A consumer discharges it from the fullness and the
-effectivity of descent along the covering `{X_{U_i} ⟶ X_U}` together with the two inputs the
-source cites for the conditions, Morphisms of Spaces, Lemma 67.31.5 for flatness over the base
-and Descent on Spaces, Lemma 74.6.2 for finite presentation. -/
+quasi-coherent modules.  It is discharged from the fullness and the effectivity of descent along
+the covering `{X_{U_i} ⟶ X_U}` together with the two inputs the source cites for the
+conditions, Morphisms of Spaces, Lemma 67.31.5 for flatness over the base and Descent on Spaces,
+Lemma 74.6.2 for finite presentation; for the quotients of Situation 082M this is
+`AlgebraicGeometry.Space.QuotientSituation.quotientsGlueAlongCoverings_quotients` of
+`StacksFrontier/AlgebraicGeometry/Quot/QuotFunctorFpqcSheaf.lean`. -/
 def QuotientsGlueAlongCoverings
     (Q : ∀ T : SchemesOver D.Y, Set (Subobject (D.baseChangeModule T))) : Prop :=
   ∀ ⦃U : BigFppfOver B S hS⦄ (h : (schemeSpaceFunctor B S hS).obj U ⟶ D.Y) (R : Sieve U),

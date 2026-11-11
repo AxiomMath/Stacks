@@ -43,9 +43,12 @@ Geometrically the failure is the standard one: an open immersion of affine schem
 detected on a cover of the source, `Spec (k × k) → Spec k` being a local isomorphism without
 being injective.
 
-Consequently part (2) of Tag 01SX is false as stated. The tag is carried here on the largest
-true part of it — the two locality conditions that do hold — and on the refutation of the
-third, each carrier's note saying which of the two it is. No declaration asserts part (2).
+Consequently part (2) of Tag 01SX is false as stated. The tag is carried here on the
+refutation `RingHom.not_stacksPropertyIsLocal_isOpenImmersion` and on the three locality
+conditions separately: the two that hold and the one that fails. The corrected form of part (2),
+in which the localization of the target is taken at an element of the target, is the local
+isomorphism property `Algebra.IsLocalIso`, and `RingHom.stacksPropertyIsLocal_isLocalIso`
+(in `StacksFrontier.AlgebraicGeometry.Morphisms.RingMapProperty.LocalIso`) proves it local.
 
 ## References
 
@@ -112,9 +115,8 @@ theorem isOpenImmersion_algebraMap_away {R S : Type u} [CommRing R] [CommRing S]
 
 /-- Locality condition (1)(a): the affine open-immersion criterion is preserved by
 simultaneous principal localization. This is base change along `R → R_r`. -/
-@[stacks 01SX "part (2) (open immersion), locality condition (1)(a) of 01SR only: the criterion \
-is preserved by simultaneous principal localization. Part (2) itself is false; see \
-not_stacksPropertyIsLocal_isOpenImmersion"]
+@[stacks 01SX "part (2) (open immersion) as printed: locality condition (1)(a) of 01SR holds \
+for the criterion R_f → A_f, which is preserved by simultaneous principal localization"]
 theorem isOpenImmersion_localizationAwayPreserves :
     RingHom.LocalizationAwayPreserves
       (fun {R A : Type u} [CommRing R] [CommRing A] (φ : R →+* A) ↦ φ.IsOpenImmersion) :=
@@ -122,9 +124,8 @@ theorem isOpenImmersion_localizationAwayPreserves :
 
 /-- Locality condition (1)(b): if `R_f → A` satisfies the affine open-immersion criterion then
 so does the induced composite `R → A_a`. -/
-@[stacks 01SX "part (2) (open immersion), locality condition (1)(b) of 01SR only: \
-`P (R_f → A) ⟹ P (R → A_a)`. Part (2) itself is false; see \
-not_stacksPropertyIsLocal_isOpenImmersion"]
+@[stacks 01SX "part (2) (open immersion) as printed: locality condition (1)(b) of 01SR holds \
+for the criterion R_f → A_f, `P (R_f → A) ⟹ P (R → A_a)`"]
 theorem isOpenImmersion_compPrincipalLocalizations
     {R A Rf Aa : Type u} [CommRing R] [CommRing A] [CommRing Rf] [CommRing Aa] (f : R) (a : A)
     [Algebra R Rf] [IsLocalization.Away f Rf] [Algebra A Aa] [IsLocalization.Away a Aa]
@@ -224,8 +225,8 @@ private lemma not_isOpenImmersion_diag (k : Type u) [Field k] : ¬ (diag k).IsOp
 
 /-- The affine open-immersion criterion does not descend from a finite principal open cover of
 the target: this is the third locality condition of `RingHom.StacksPropertyIsLocal`. -/
-@[stacks 01SX "refutation of part (2) (open immersion): locality condition (1)(c) of 01SR fails \
-for the criterion, the witness being the diagonal `k → k × k` of a field, whose two \
+@[stacks 01SX "part (2) (open immersion) as printed: locality condition (1)(c) of 01SR fails \
+for the criterion R_f → A_f, the witness being the diagonal `k → k × k` of a field, whose two \
 localizations at the coordinate idempotents are bijective while the diagonal itself is not a \
 principal localization"]
 theorem not_ofLocalizationFiniteSpanTarget_isOpenImmersion :
@@ -237,10 +238,11 @@ theorem not_ofLocalizationFiniteSpanTarget_isOpenImmersion :
 /-- The affine open-immersion criterion is not a local property of commutative-ring
 homomorphisms. -/
 @[stacks 01SX "refutation of part (2) (open immersion): the criterion is NOT a local property \
-of ring maps, so part (2) is false as stated. Conditions (1)(a) and (1)(b) of 01SR do hold and \
-are the two carriers above; (1)(c) fails by \
-not_ofLocalizationFiniteSpanTarget_isOpenImmersion. Parts (1), (3), (4) and (5) of the tag are \
-true and carried in LocalRingIso, ReducedFibers, FiberDimension and NoetherianTarget"]
+of ring maps, so part (2) is false as stated: conditions (1)(a) and (1)(b) of 01SR hold \
+(isOpenImmersion_localizationAwayPreserves, isOpenImmersion_compPrincipalLocalizations) and \
+(1)(c) fails (not_ofLocalizationFiniteSpanTarget_isOpenImmersion). The corrected part (2), with \
+R_f → A_a for some a ∉ 𝔮, is local: stacksPropertyIsLocal_isLocalIso. Parts (1), (3), (4) \
+and (5) are carried in LocalRingIso, ReducedFibers, FiberDimension and NoetherianTarget"]
 theorem not_stacksPropertyIsLocal_isOpenImmersion :
     ¬ RingHom.StacksPropertyIsLocal
       (fun {R S : Type u} [CommRing R] [CommRing S] (φ : R →+* S) ↦ φ.IsOpenImmersion) :=

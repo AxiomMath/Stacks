@@ -13,29 +13,28 @@ public import Mathlib.RingTheory.LocalRing.MaximalIdeal.Square
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
-# Frobenius-periodic finite modules over a local ring
+# Finite modules isomorphic to the restriction of their Frobenius base change
 
-A finite module over a Noetherian local ring of prime characteristic is finite free if extension of
-scalars along Frobenius gives back the module.
+A finite module `M` over a Noetherian local ring of prime characteristic is free if `F_* F^* M`,
+the Frobenius base change of `M` with its scalars restricted back along Frobenius, is isomorphic
+to `M`.
 
 ## Main definitions
 
-* `frobeniusBaseChange` is extension of scalars along Frobenius, as an `A`-module.
+* `frobeniusBaseChange` is the Frobenius base change `ULift A ⊗[A] M`, as an `A`-module through the
+  source factor `M`, that is, `F_* F^* M`.
 
 ## Main results
 
-* `free_of_frobenius_baseChange_equiv` proves freeness from Frobenius periodicity.
+* `free_of_frobenius_baseChange_equiv` proves freeness from `F_* F^* M ≅ M`.
 
 ## Implementation notes
 
-The implementation of Frobenius base change uses a separate copy of `A` to distinguish the source
-action through Frobenius from the target action by multiplication. Its public scalar ring is `A`
-itself. Finiteness of `M` is a hypothesis, so freeness is the only conclusion needed to express
-finite freeness.
-
-## References
-
-* [Stacks Project, Tag 0EBV](https://stacks.math.columbia.edu/tag/0EBV)
+The `A`-module structure on `frobeniusBaseChange A p M` is the source action `a • (b ⊗ m) =
+b ⊗ a m = (a ^ p * b) ⊗ m`, not multiplication on the target factor. The hypothesis
+`F_* F^* M ≅ M` is much stronger than `F^* M ≅ M`: for `M ≠ 0` it forces `A` to be a field, which
+is how the proof goes. Stacks Tag 0EBV, with `A` acting on the target factor, is
+`free_of_frobeniusPullback_equiv`.
 -/
 
 @[expose] public section
@@ -44,7 +43,9 @@ open scoped TensorProduct
 
 universe u v
 
-/-- The Frobenius base change of an `A`-module, with its target `A`-module action. -/
+/-- The Frobenius base change `ULift A ⊗[A] M` of an `A`-module `M`, where `A` acts on `ULift A`
+through Frobenius. Its `A`-module structure is the source action, so as an `A`-module it is
+`F_* F^* M`. -/
 def frobeniusBaseChange
     (A : Type u) (p : ℕ) (M : Type v) [CommRing A] [Fact p.Prime] [CharP A p]
     [AddCommGroup M] [Module A M] : Type (max u v) :=
@@ -60,8 +61,10 @@ instance (A : Type u) (p : ℕ) (M : Type v)
   unfold frobeniusBaseChange
   infer_instance
 
-/-- The `A`-module structure on the Frobenius base change of `M`, by multiplication on the target
-factor `A`. -/
+/-- The `A`-module structure on the Frobenius base change of `M`. It is the source action
+`a • (b ⊗ m) = b ⊗ a m`, not multiplication on the target factor: the proof of
+`free_of_frobenius_baseChange_equiv` uses it as the standard `A`-module structure of the tensor
+product. -/
 instance (A : Type u) (p : ℕ) (M : Type v)
     [CommRing A] [Fact p.Prime] [CharP A p] [AddCommGroup M] [Module A M] :
     Module A (frobeniusBaseChange A p M) := by
@@ -84,8 +87,9 @@ private lemma map_frobenius_le_pow {A : Type*} [CommSemiring A]
   change frobenius A p x ∈ I ^ p
   simpa only [frobenius_def] using Ideal.pow_mem_pow hx p
 
-/-- A finite Frobenius-periodic module over a Noetherian local ring is free. -/
-@[stacks 0EBV]
+/-- A finite module `M` over a Noetherian local ring of characteristic `p` with `F_* F^* M ≅ M` is
+free. The `A`-action on `frobeniusBaseChange A p M` is the source action, so the hypothesis forces
+`A` to be a field when `M ≠ 0`; Stacks Tag 0EBV is `free_of_frobeniusPullback_equiv`. -/
 theorem free_of_frobenius_baseChange_equiv
     {A : Type u} {M : Type v} [CommRing A] [IsLocalRing A] [IsNoetherianRing A]
     [AddCommGroup M] [Module A M] [Module.Finite A M]

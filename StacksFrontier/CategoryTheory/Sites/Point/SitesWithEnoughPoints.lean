@@ -1,5 +1,6 @@
 module
 public import Mathlib.CategoryTheory.Sites.Point.Conservative
+public import Mathlib.CategoryTheory.Sites.Point.Skyscraper
 public import Mathlib.Algebra.Order.Floor.Extended
 public import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
@@ -34,46 +35,60 @@ public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
 
 /-!
-# Finite limits of sheaves are detected on the stalks
+# Exactness of sheaves is detected on the stalks
 
 Let `(C, J)` be a site and let `{p_i}` be a *conservative* family of points, that is, a family of
 points of the site whose fibre functors on sheaves of sets jointly reflect isomorphisms
 (Stacks 00YK; `CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints`). Then "exactness" of
-sheaves may be checked stalkwise: for a finite diagram `G : K ⥤ Sh(C)` of sheaves, a cone
-`(F, q_j)` over `G` is a limit if and only if the cone of stalks `(F_{p_i}, (q_j)_{p_i})` is a
-limit for every `i`.
+sheaves may be checked stalkwise (Stacks 00YL): injectivity (1), surjectivity (2) and equality (3)
+of maps of sheaves, and, for a finite diagram `G : K ⥤ Sh(C)` of sheaves, being a limit cone (4)
+or a colimit cocone (5).
 
-Both directions come from the left exactness of a stalk functor `F ↦ F_{p_i}`: it is a filtered
-colimit of evaluations, hence commutes with finite limits. Given preservation, a family of functors
-which jointly reflects isomorphisms also reflects those limits that exist, by comparison with the
-actual limit (`CategoryTheory.JointlyReflectIsomorphisms.jointlyReflectsLimit`). Applied to kernels
-this is half of the statement that a sequence of abelian sheaves is exact if and only if it is
-exact on all stalks (Stacks 05V3).
-
-The companion statement for colimits holds for an *arbitrary* shape, a stalk functor being a left
-adjoint, and so has different hypotheses; it is stated separately.
+For (4) and (5) both directions come from the exactness of a stalk functor `F ↦ F_{p_i}`: it is a
+filtered colimit of evaluations, hence commutes with finite limits, and it is a left adjoint, hence
+commutes with colimits. Given preservation, a family of functors which jointly reflects
+isomorphisms also reflects those limits and colimits that exist, by comparison with the actual
+(co)limit (`CategoryTheory.JointlyReflectIsomorphisms.jointlyReflectsLimit` and
+`…jointlyReflectsColimit`). Applied to kernels this is half of the statement that a sequence of
+abelian sheaves is exact if and only if it is exact on all stalks (Stacks 05V3).
 
 ## Main results
 
-* `CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints.nonempty_isLimit_iff`:
-  Stacks 00YL (4) — a conservative family of points reflects, and preserves, the limit of a finite
-  diagram of sheaves.
+All in the namespace `CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints`, one per part of
+Stacks 00YL:
+
+* `injective_app_of_forall_injective_sheafFiber_map`: (1), stalkwise injective maps of sheaves of
+  sets are injective.
+* `isLocallySurjective_of_forall_surjective_sheafFiber_map`: (2), stalkwise surjective maps of
+  sheaves of sets are surjective.
+* `eq_of_forall_sheafFiber_map_eq`: (3), maps of sheaves equal on the stalks are equal.
+* `nonempty_isLimit_iff`: (4), a cone over a finite diagram of sheaves is a limit if and only if it
+  is one on all stalks.
+* `nonempty_isColimit_iff`: (5), a cocone under a finite diagram of sheaves is a colimit if and
+  only if it is one on all stalks.
 
 ## Implementation notes
 
-* Parts (1), (2) and (3) of the source's lemma — injectivity, surjectivity and equality of maps of
-  sheaves are detected on the stalks — are already available, as Mathlib's
-  `CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints.jointlyReflectMonomorphisms`,
-  `…jointlyReflectEpimorphisms` and `…jointlyFaithful`, each carrying the corresponding part of
-  this tag: an injection of sheaves is a monomorphism and a surjection is an epimorphism
-  (Stacks 00WN), and (3) is joint faithfulness of the fibre functors. A tag may be realized by
-  several declarations, and this file adds part (4).
+* Parts (1) and (2) are stated, as in the source, for sheaves of sets, with "injective" and
+  "surjective" in the sense of Stacks 00WM: injective on the sections over every object, and
+  locally surjective (`CategoryTheory.Sheaf.IsLocallySurjective`). They are deduced from Mathlib's
+  `CategoryTheory.ObjectProperty.IsConservativeFamilyOfPoints.jointlyReflectMonomorphisms` and
+  `…jointlyReflectEpimorphisms`, which give the corresponding statements for monomorphisms and
+  epimorphisms of sheaves with values in a general category `A` (and carry the same parts of this
+  tag in Mathlib), the injective and surjective maps of sheaves of sets being the monomorphisms and
+  the epimorphisms (Stacks 00WN). Part (2) assumes `HasSheafify J (Type w)`, the existence of
+  the sheafification of presheaves of sets, which holds for every site in the source's sense
+  (the sheafification of Stacks 00W1), and through which surjectivity of a map of sheaves is
+  identified with its being an epimorphism. Part (3) is Mathlib's `…jointlyFaithful`, for sheaves
+  with values in `A`.
 * Parts (4) and (5) are not one conjunction, because they do not hold under the same hypotheses and
   a conjunction would force each half to carry the other's. A stalk functor is only *left* exact,
   so (4) needs the shape `K` to be finite and needs `Limits.HasFiniteLimits A` and
-  `AB5OfSize.{w, w} A` — exactly the hypotheses of part (1). It is a *left adjoint*, so (5) holds
-  for an arbitrary shape and needs instead `Limits.HasProducts.{w} A`, for the skyscraper sheaf
-  functor it is adjoint to.
+  `AB5OfSize.{w, w} A` — exactly the hypotheses of Mathlib's general form of part (1). It is a
+  *left adjoint*, so (5) holds for every shape and needs instead `Limits.HasProducts.{w} A`, for
+  the skyscraper sheaf functor it is adjoint to, and `HasWeakSheafify J A`, for the colimit in
+  `Sh(C)` it is compared with.
+  It is stated, as in the source, for a finite diagram.
 * No hypothesis on the shape beyond finiteness is needed: `Limits.HasFiniteLimits A` already gives
   `Limits.HasFiniteLimits (Sheaf J A)`, so the limit the two sides are compared with exists.
 * "Is a limit" is spelled `Nonempty (Limits.IsLimit c)` rather than `Limits.IsLimit c`, because
@@ -85,14 +100,15 @@ adjoint, and so has different hypotheses; it is stated separately.
   source names, and the maps the source writes as `(q_j)_{p_i}` are thereby pinned: they are the
   image of `c` under the stalk functor, `(Φ.obj.sheafFiber).mapCone c`.
 * The coefficients are a general category `A` rather than only `Type w` (the source's `Sh(C)` is
-  sheaves of sets), matching parts (1)–(3), which Mathlib states for `A`; hence the
-  concrete-category assumptions on `A` under which conservativity at `Type w` transfers to
-  `A`-valued sheaves (`…IsConservativeFamilyOfPoints.jointlyReflectIsomorphisms`). Taking
-  `A := Type w` recovers the source's statement for sheaves of sets, where only
-  `LocallySmall.{w} C` remains.
-* The category `A` is implicit, being determined by the diagram, whereas in parts (1)–(3) it is
-  explicit for want of anything to determine it. The shape `K` is allowed to live in any universe,
-  which is free: both `Limits.hasLimitsOfShape_of_hasFiniteLimits` and
+  sheaves of sets), in parts (3), (4) and (5), matching the general forms of parts (1) and (2),
+  which Mathlib states for `A`; hence the concrete-category assumptions on `A` under which
+  conservativity at `Type w` transfers to `A`-valued sheaves
+  (`…IsConservativeFamilyOfPoints.jointlyReflectIsomorphisms`). Taking `A := Type w` recovers the
+  source's statements for sheaves of sets, where only `LocallySmall.{w} C` remains, together with
+  `HasWeakSheafify J (Type w)` in part (5), as in part (2).
+* The category `A` is implicit, being determined by the diagram or the maps. The shape `K` is
+  allowed to live in any universe, which is free: both
+  `Limits.hasLimitsOfShape_of_hasFiniteLimits` and
   `Limits.preservesLimitsOfShapeOfPreservesFiniteLimits` are stated for a finite category in an
   arbitrary universe.
 
@@ -150,6 +166,80 @@ public theorem nonempty_isLimit_iff {C : Type u} [Category.{v} C]
     Nonempty (IsLimit c) ↔
       ∀ Φ : P.FullSubcategory, Nonempty (IsLimit ((Φ.obj.sheafFiber (A := A)).mapCone c)) := by
   apply Stacks.SitePoints.StalkwiseLimits.nonempty_isLimit_iff_proof ; assumption
+
+/-- **Stacks 00YL (1).** Let `(C, J)` be a site and let `P` be a conservative family of points of
+it. Let `φ : F ⟶ G` be a map of sheaves of sets. If every stalk map `φ_{p_i}`, `p_i ∈ P`, is
+injective, then `φ` is injective, that is, injective on the sections over every object `U`
+(Stacks 00WM (1)). -/
+@[stacks 00YL "(1): a map of sheaves of sets which is injective on the stalks at a conservative
+  family of points is injective."]
+public theorem injective_app_of_forall_injective_sheafFiber_map {C : Type u} [Category.{v} C]
+    {J : GrothendieckTopology C} {P : ObjectProperty (GrothendieckTopology.Point.{w} J)}
+    (hP : P.IsConservativeFamilyOfPoints) [LocallySmall.{w} C] {F G : Sheaf J (Type w)}
+    (φ : F ⟶ G)
+    (h : ∀ Φ : P.FullSubcategory, Function.Injective (Φ.obj.sheafFiber.map φ)) (U : Cᵒᵖ) :
+    Function.Injective (φ.hom.app U) := by
+  have (Φ : P.FullSubcategory) : Mono (Φ.obj.sheafFiber.map φ) :=
+    (mono_iff_injective _).2 (h Φ)
+  have : Mono φ := (hP.jointlyReflectMonomorphisms (Type w)).mono φ
+  have : Mono φ.hom := (sheafToPresheaf J (Type w)).map_mono φ
+  exact (mono_iff_injective _).1 inferInstance
+
+/-- **Stacks 00YL (2).** Let `(C, J)` be a site and let `P` be a conservative family of points of
+it. Let `φ : F ⟶ G` be a map of sheaves of sets. If every stalk map `φ_{p_i}`, `p_i ∈ P`, is
+surjective, then `φ` is surjective, that is, every section of `G` is locally in the image of `φ`
+(Stacks 00WM (2); `CategoryTheory.Sheaf.IsLocallySurjective`). -/
+@[stacks 00YL "(2): a map of sheaves of sets which is surjective on the stalks at a conservative
+  family of points is surjective."]
+public theorem isLocallySurjective_of_forall_surjective_sheafFiber_map {C : Type u}
+    [Category.{v} C] {J : GrothendieckTopology C}
+    {P : ObjectProperty (GrothendieckTopology.Point.{w} J)}
+    (hP : P.IsConservativeFamilyOfPoints) [LocallySmall.{w} C] [HasSheafify J (Type w)]
+    {F G : Sheaf J (Type w)} (φ : F ⟶ G)
+    (h : ∀ Φ : P.FullSubcategory, Function.Surjective (Φ.obj.sheafFiber.map φ)) :
+    Sheaf.IsLocallySurjective φ := by
+  have (Φ : P.FullSubcategory) : Epi (Φ.obj.sheafFiber.map φ) :=
+    (epi_iff_surjective _).2 (h Φ)
+  have : Epi φ := (hP.jointlyReflectEpimorphisms (Type w)).epi φ
+  exact (Sheaf.isLocallySurjective_iff_epi φ).2 this
+
+/-- **Stacks 00YL (3).** Let `(C, J)` be a site and let `P` be a conservative family of points of
+it. Two maps of sheaves `φ₁ φ₂ : F ⟶ G` which agree on the stalks at every `p_i ∈ P` are
+equal. -/
+@[stacks 00YL "(3): two maps of sheaves which agree on the stalks at a conservative family of
+  points are equal."]
+public theorem eq_of_forall_sheafFiber_map_eq {C : Type u} [Category.{v} C]
+    {J : GrothendieckTopology C} {P : ObjectProperty (GrothendieckTopology.Point.{w} J)}
+    (hP : P.IsConservativeFamilyOfPoints) {A : Type u'} [Category.{v'} A] [LocallySmall.{w} C]
+    [HasColimitsOfSize.{w, w} A] [HasFiniteLimits A] [AB5OfSize.{w, w} A]
+    {FC : A → A → Type*} {CC : A → Type w}
+    [∀ X Y : A, FunLike (FC X Y) (CC X) (CC Y)] [ConcreteCategory.{w} A FC]
+    [(forget A).ReflectsIsomorphisms] [PreservesFilteredColimitsOfSize.{w, w} (forget A)]
+    [J.HasSheafCompose (forget A)] {F G : Sheaf J A} {φ₁ φ₂ : F ⟶ G}
+    (h : ∀ Φ : P.FullSubcategory, Φ.obj.sheafFiber.map φ₁ = Φ.obj.sheafFiber.map φ₂) :
+    φ₁ = φ₂ :=
+  (hP.jointlyFaithful A).map_injective h
+
+/-- **Stacks 00YL (5).** Let `(C, J)` be a site and let `P` be a conservative family of points of
+it. Let `G : K ⥤ Sh(C)` be a finite diagram of sheaves with values in `A`. Then a cocone under `G`
+is a colimit if and only if its image under every stalk functor `F ↦ F_{p_i}`, `p_i ∈ P`, is a
+colimit. -/
+@[stacks 00YL "(5): a cocone under a finite diagram of sheaves is a colimit if and only if it is
+  one in every stalk at a conservative family of points."]
+public theorem nonempty_isColimit_iff {C : Type u} [Category.{v} C]
+    {J : GrothendieckTopology C} {P : ObjectProperty (GrothendieckTopology.Point.{w} J)}
+    (hP : P.IsConservativeFamilyOfPoints) {A : Type u'} [Category.{v'} A] [LocallySmall.{w} C]
+    [HasColimitsOfSize.{w, w} A] [HasWeakSheafify J A] [HasProducts.{w} A]
+    {FC : A → A → Type*} {CC : A → Type w}
+    [∀ X Y : A, FunLike (FC X Y) (CC X) (CC Y)] [ConcreteCategory.{w} A FC]
+    [(forget A).ReflectsIsomorphisms] [PreservesFilteredColimitsOfSize.{w, w} (forget A)]
+    [J.HasSheafCompose (forget A)]
+    {K : Type u''} [SmallCategory K] [FinCategory K] {G : K ⥤ Sheaf J A} (c : Cocone G) :
+    Nonempty (IsColimit c) ↔
+      ∀ Φ : P.FullSubcategory, Nonempty (IsColimit ((Φ.obj.sheafFiber (A := A)).mapCocone c)) := by
+  have : HasFiniteColimits A := hasFiniteColimits_of_hasColimitsOfSize A
+  exact ⟨fun ⟨hc⟩ _Φ ↦ ⟨isColimitOfPreserves _ hc⟩,
+    fun h ↦ ⟨(hP.jointlyReflectIsomorphisms A).jointlyReflectsColimit fun Φ ↦ (h Φ).some⟩⟩
 end
 
 end

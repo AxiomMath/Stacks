@@ -30,7 +30,9 @@ in which the left edge is the identification of [Stacks, Tag 0AX2] and the lower
 induced by `𝒪_X ⟶ f₊ 𝒪_Y`.
 `StacksFrontier/AlgebraicGeometry/Duality/FiniteTraceDerivedInternalHom.lean` builds the edges —
 the left one as the canonical comparison map
-`AlgebraicGeometry.pushforwardRightAdjointToDerivedInternalHom` — and proves that the square
+`AlgebraicGeometry.pushforwardRightAdjointToDerivedInternalHom`, the lower one as the right
+derived functor of evaluation at `1`,
+`AlgebraicGeometry.derivedInternalHomPushforwardEvaluationOne` — and proves that the square
 commutes.  This file proves that the left edge is an *isomorphism*, which is what lets it be
 drawn as an equality, and registers the remark on the two statements together.
 
@@ -84,8 +86,8 @@ restriction of scalars and the internal Hom there are those of the scheme by `rf
   `AlgebraicGeometry.isIso_pushforwardRightAdjointToDerivedInternalHom_of_pseudoCoherent` — the
   comparison map of [Stacks, Tag 0AX2] is invertible on `D_QCoh^+(𝒪_X)`, for `f` finite and
   pseudo-coherent.
-* `AlgebraicGeometry.isIso_pushforwardRightAdjointToDerivedInternalHom_and_comp_evaluation` —
-  **[Stacks, Tag 0AX3]**.
+* `AlgebraicGeometry.isIso_pushforwardRightAdjointToDerivedInternalHom_and_comp_evaluationOne` —
+  **[Stacks, Tag 0AX3]**, with the lower arrow the right derived functor of evaluation at `1`.
 
 ## Implementation notes
 
@@ -437,6 +439,29 @@ theorem isIso_pushforwardRightAdjointToDerivedInternalHom [IsLocallyNoetherian X
   isIso_pushforwardRightAdjointToDerivedInternalHom_of_pseudoCoherent f adj
     ((pseudoCoherent_iff_locallyOfFiniteType f).2 inferInstance) K hK
 
+/-- **The remark of [Stacks, Tag 0AX3], with the lower arrow as the counit of the adjunction of
+[Stacks, Tag 0BV0].** For `f` finite, `X` locally Noetherian and `K` in `D_QCoh^+(𝒪_X)`, the
+comparison map `Rf_* a(K) ⟶ R ℰom_{𝒪_X}(f₊ 𝒪_Y, K)` of [Stacks, Tag 0AX2] is an isomorphism and,
+followed by `AlgebraicGeometry.derivedInternalHomPushforwardEvaluation` — the isomorphism of
+[Stacks, Tag 0BV1] followed by the counit of
+`AlgebraicGeometry.derivedRestrictionHomSheafAdjunction` — it is the trace `Tr_{f, K}`.
+
+Given the comparison map, the second assertion is the triangle identity of that adjunction.  The
+geometric content, that this lower arrow is the map induced by `𝒪_X ⟶ f₊ 𝒪_Y`, is
+`AlgebraicGeometry.derivedInternalHomPushforwardEvaluation_eq_evaluationOne`; the remark with the
+lower arrow stated as the derived evaluation at `1` is
+`AlgebraicGeometry.isIso_pushforwardRightAdjointToDerivedInternalHom_and_comp_evaluationOne`, which
+carries the tag. -/
+theorem isIso_pushforwardRightAdjointToDerivedInternalHom_and_comp_evaluation
+    [IsLocallyNoetherian X] (K : quasiCoherentDerivedCategory X)
+    (hK : DerivedCategoryB.IsBoundedBelow K.obj) :
+    IsIso (pushforwardRightAdjointToDerivedInternalHom f adj K) ∧
+      pushforwardRightAdjointToDerivedInternalHom f adj K ≫
+          (derivedInternalHomPushforwardEvaluation f).app K.obj =
+        (adj.counit.app K).hom :=
+  ⟨isIso_pushforwardRightAdjointToDerivedInternalHom f adj K hK,
+    pushforwardRightAdjointToDerivedInternalHom_comp_evaluation f adj K⟩
+
 /-- **Stacks Project, Tag 0AX3 (Remark 48.11.5).** Let `f : Y ⟶ X` be a finite morphism of
 schemes with `X` locally Noetherian — in particular a finite morphism of Noetherian schemes —
 let `a` be a right adjoint of `Rf_* : D_QCoh(𝒪_Y) ⥤ D_QCoh(𝒪_X)`, and let `K` be an object of
@@ -449,24 +474,28 @@ R ℰom_{𝒪_X}(f₊ 𝒪_Y, K)            -->          K
 ```
 
 the left edge — the comparison map `Rf_* a(K) ⟶ R ℰom_{𝒪_X}(f₊ 𝒪_Y, K)` of
-[Stacks, Tag 0AX2] — is an isomorphism, so that it is the identification the source draws as an
-equality, and the square commutes: that isomorphism followed by the map
-`R ℰom_{𝒪_X}(f₊ 𝒪_Y, K) ⟶ K` induced by `𝒪_X ⟶ f₊ 𝒪_Y` is the trace map `Tr_{f, K}`, the counit
-of `Rf_* ⊣ a`. -/
+[Stacks, Tag 0AX2], the transpose of the trace along the adjunction of [Stacks, Tag 0BV0]
+obtained by deriving `restriction of scalars ⊣ ℰom_{𝒪_X}(f₊ 𝒪_Y, -)` — is an isomorphism, so
+that it is the identification the source draws as an equality, and the square commutes: that
+isomorphism followed by the map `R ℰom_{𝒪_X}(f₊ 𝒪_Y, K) ⟶ K` induced by `𝒪_X ⟶ f₊ 𝒪_Y` is the
+trace map `Tr_{f, K}`, the counit of `Rf_* ⊣ a`.  The lower arrow is
+`AlgebraicGeometry.derivedInternalHomPushforwardEvaluationOne`, the right derived functor of the
+evaluation at `1`, `ℰom_{𝒪_X}(f₊ 𝒪_Y, F) ⟶ F`, `φ ↦ φ(1)`. -/
 @[stacks 0AX3 "the whole remark, for every right adjoint a of Rf_* on D_QCoh and every \
 adjunction exhibiting it: the comparison map Rf_* a(K) ⟶ R Eom_{O_X}(f_* O_Y, K) of Tag 0AX2 is \
-an isomorphism (the left equality of the square) and, followed by the map induced by \
-O_X ⟶ f_* O_Y, it is the trace Tr_{f, K}. Stated for f finite and X locally Noetherian, which \
-contains the source's finite morphism of Noetherian schemes, and K in D_QCoh^+(O_X)"]
-theorem isIso_pushforwardRightAdjointToDerivedInternalHom_and_comp_evaluation
+an isomorphism (the left equality of the square) and, followed by the map \
+R Eom_{O_X}(f_* O_Y, K) ⟶ K induced by O_X ⟶ f_* O_Y (the right derived functor of evaluation \
+at 1), it is the trace Tr_{f, K}. Stated for f finite and X locally Noetherian, which contains \
+the source's finite morphism of Noetherian schemes, and K in D_QCoh^+(O_X)"]
+theorem isIso_pushforwardRightAdjointToDerivedInternalHom_and_comp_evaluationOne
     [IsLocallyNoetherian X] (K : quasiCoherentDerivedCategory X)
     (hK : DerivedCategoryB.IsBoundedBelow K.obj) :
     IsIso (pushforwardRightAdjointToDerivedInternalHom f adj K) ∧
       pushforwardRightAdjointToDerivedInternalHom f adj K ≫
-          (derivedInternalHomPushforwardEvaluation f).app K.obj =
+          (derivedInternalHomPushforwardEvaluationOne f).app K.obj =
         (adj.counit.app K).hom :=
   ⟨isIso_pushforwardRightAdjointToDerivedInternalHom f adj K hK,
-    pushforwardRightAdjointToDerivedInternalHom_comp_evaluation f adj K⟩
+    pushforwardRightAdjointToDerivedInternalHom_comp_evaluationOne f adj K⟩
 
 end Finite
 

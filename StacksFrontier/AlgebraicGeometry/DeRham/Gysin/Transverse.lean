@@ -29,7 +29,11 @@ h^*Ω^p_{Z/S} ----γ^p----→ 𝒪_{X'}|_{Z'} ⊗ h^{-1}ℋ^c_Z(Ω^{p+c}_{X/S})
 
 **commutes**, the left vertical arrow being functoriality of modules of differentials and the
 right one the canonical map of Cohomology, Remark [Stacks, Tag 0G78]. That is
-`Stacks.Gysin.GysinBaseChange.gysinHom_baseChange`.
+`Stacks.Gysin.conormalGysinHom_comp_gysinBaseChangeTargetHom` of
+`StacksFrontier.AlgebraicGeometry.DeRham.Gysin.TransverseGysinSquare`. This file provides the
+pieces it is assembled from, and `Stacks.Gysin.GysinBaseChange.gysinHom_baseChange`, the same
+commutativity for abstract chart data `GysinChartData` together with base-change data
+`GysinBaseChange`.
 
 As in `StacksFrontier.AlgebraicGeometry.DeRham.Gysin.Globalisation` both Gysin maps are read on the
 ambient schemes — the source as `i_*Ω^p_{Z/S}`, the target as the direct image of the local
@@ -65,40 +69,29 @@ sections, that is the same statement.
 * `Stacks.Gysin.GysinBaseChange.gysinHom_baseChange_subschemeFormPullback`: the commutativity on
   a form lifted to the ambient scheme over an equation chart, which is where the computation
   happens.
-* `Stacks.Gysin.GysinBaseChange.gysinHom_baseChange`: **Tag 0G89**, the commutativity of the
-  Gysin square.
+* `Stacks.Gysin.GysinBaseChange.gysinHom_baseChange`: the commutativity of the Gysin square for
+  abstract chart data equipped with base-change data. Tag 0G89 itself, for the Gysin maps
+  `Stacks.DeRham.CohomologicalGysin.conormalGysinHom` of Tag 0G86 and the base-change arrows
+  built in this library, is `Stacks.Gysin.conormalGysinHom_comp_gysinBaseChangeTargetHom`.
 
 ## Implementation notes
 
-**What is proved and what is assumed.** The square is proved to commute. Four things are carried
-as fields of `GysinBaseChange`, each the content of a tag this library does not have.
+**The abstract form.** `GysinBaseChange.gysinHom_baseChange` proves the square commutes for
+any two `GysinChartData` and any base-change data `GysinBaseChange` between them; its four
+groups of fields are the inputs of the source proof. For the canonical Gysin maps of
+Tag 0G86 each is constructed or proved elsewhere in the library, which is how
+`Stacks.Gysin.conormalGysinHom_comp_gysinBaseChangeTargetHom` proves Tag 0G89 outright:
 
-* `GysinBaseChange.tgt` and `tgt_res`: the right vertical arrow, the base-change map on the
-  degree-`c` local cohomology of the ambient forms. The source builds it from Cohomology,
-  Remark [Stacks, Tag 0G78] followed by the derived-to-underived comparison and functoriality of
-  differentials, descended to degree `c` using the vanishing of local cohomology above degree `c`
-  ([Stacks, Tag 0G7N]). The library has the derived map — `supportedPullbackMap` of
-  `SupportedSectionsDerivedPullback.lean` in
-  `StacksFrontier/Topology/Sheaves/Cohomology/SupportedComplexes/` — and the vanishing, but
-  not the descent to a map of degree-`c` sheaves, which is what the Gysin square's arrow is.
-* `GysinBaseChange.tgt_cls`: **the base-change square for the class maps `c_{f₁, …, f_c}`**,
-  which is Derived Categories of Schemes, Remark [Stacks, Tag 0G7U]. The `@[stacks 0G7U]`
-  declarations in
-  `StacksFrontier/AlgebraicGeometry/Perfect/SupportClosedSubset/EquationsBaseChange.lean`
-  are the cartesian square of the closed subschemes cut out by the equations and their
-  pullbacks, not that compatibility of the class maps.
-* `GysinBaseChange.chart`, `chart_ambient`, `chart_equations`: the equation charts of `Z' → X'`
-  obtained by pulling back those of `Z → X`. This is where hypotheses (2) and (3) of the
-  statement — the left square cartesian and the conormal comparison an isomorphism — enter: they
-  are what makes `f'_j = g^♯ f_j` cut out `Z'` with locally free conormal sheaf of the *same*
-  rank `c`, so that the pulled-back family is a chart of a `GysinChartData` for `i'`. Nothing in
-  this library derives `c` equations from a rank-`c` conormal sheaf, which is the same gap
-  `Globalisation.lean` records for `GysinChartData.ambient`.
-* `GysinBaseChange.lift`: local surjectivity of restriction of relative `p`-forms to the closed
-  subscheme, on a covering refining the equation charts. This is
-  `Stacks.Gysin.ChartComparison.lift` of `Globalisation.lean`, over a covering rather than a
-  single open; the library has exactness of the conormal sequence at its right term only
-  ([Stacks, Tag 01UZ]).
+* `GysinBaseChange.tgt` and `tgt_res`, the right vertical arrow (Cohomology, Remark
+  [Stacks, Tag 0G78], descended to degree `c` by [Stacks, Tag 0G7N]):
+  `Stacks.Gysin.gysinBaseChangePull` and `Stacks.Gysin.gysinBaseChangeTargetHom`.
+* `GysinBaseChange.tgt_cls`, the base-change square for the class maps `c_{f₁, …, f_c}`
+  (Derived Categories of Schemes, Remark [Stacks, Tag 0G7U]):
+  `Stacks.Gysin.chartClsOfClassMap_gysinBaseChangePull`.
+* `GysinBaseChange.chart`, `chart_ambient`, `chart_equations`, the pulled-back equation charts:
+  `Stacks.Gysin.EquationChart.ofIsPullback`.
+* `GysinBaseChange.lift`, local liftability of relative `p`-forms:
+  `Stacks.Gysin.exists_subschemeFormPullback_restrict`.
 
 **No field asserts anything about the Gysin maps.** The two Gysin maps are
 `GysinChartData.gysinHom` of the two chart data, and what is proved about them is the
@@ -392,9 +385,9 @@ end BaseChange
 
 /-- **The base-change data of a transverse cartesian square**, for the Gysin maps of
 [Stacks, Tag 0G86] attached to two `GysinChartData`. The module docstring says which field
-stands for which result of the Stacks project and why each is an input rather than a
-consequence. No field says anything about the Gysin maps: the commutativity of the square is
-`GysinBaseChange.gysinHom_baseChange`. -/
+stands for which result of the Stacks project and where the library constructs it for the
+canonical Gysin maps. No field says anything about the Gysin maps: the commutativity of the
+square is `GysinBaseChange.gysinHom_baseChange`. -/
 structure GysinBaseChange {Z X S Z' X' S' : Scheme.{u}} (i : Z ⟶ X) (i' : Z' ⟶ X')
     (h : Z' ⟶ Z) (g : X' ⟶ X) (π : X ⟶ S) (π' : X' ⟶ S') (t : S' ⟶ S)
     (left_comm : h ≫ i = i' ≫ g) (right_comm : g ≫ π = π' ≫ t) {c p : ℕ}
@@ -483,23 +476,15 @@ theorem gysinHom_baseChange_subschemeFormPullback (a : D.Chart) (V : X.Opens)
       (relativeDifferentialFormsPullback g π π' t right_comm (p : ℤ) V ω))
     (funext fun j => (B.chart_equations_res a hV j).symm)
 
-/-- **Stacks Project, Tag 0G89.** For a transverse cartesian square the Gysin maps of
-[Stacks, Tag 0G86] on the two closed immersions fit into a commutative square: the base-change
-map on the targets applied to `γ^p` agrees with `γ^p` applied to the pullback of relative
-differential forms.
+/-- **The Gysin square commutes for abstract chart data.** Given base-change data `B` between
+two `GysinChartData`, the base-change map on the targets applied to `γ^p` agrees with `γ^p`
+applied to the pullback of relative differential forms. The canonical form of
+[Stacks, Tag 0G89] is `Stacks.Gysin.conormalGysinHom_comp_gysinBaseChangeTargetHom`.
 
 The commutativity is checked locally, which is what the source does: on a covering of the open by
 opens inside an equation chart over which the form lifts to the ambient scheme, it is
 `gysinHom_baseChange_subschemeFormPullback`; the target is a sheaf, so it holds over the open
 itself. -/
-@[stacks 0G89 "the Gysin square of a transverse cartesian square commutes, for the Gysin maps \
-GysinChartData.gysinHom of Stacks 0G86; granted the right vertical arrow of Stacks 0G78 \
-descended to degree c by the vanishing of Stacks 0G7N as the hypothesis B.tgt with B.tgt_res, \
-the class-map base-change square of Stacks 0G7U as the hypothesis B.tgt_cls, hypotheses (2) and \
-(3) of the statement -- the left square cartesian and the conormal comparison of Stacks 01R4 an \
-isomorphism -- as the chart correspondence B.chart with B.chart_ambient and B.chart_equations, \
-and the local liftability of relative forms coming from the conormal sequence of Stacks 01UZ as \
-the hypothesis B.lift; none of these four is proved in this library"]
 theorem gysinHom_baseChange (V : X.Opens) (x : Γ(pushforwardRelativeForms i π (p : ℤ), V)) :
     B.tgt V (D.gysinHom.app V x)
       = D'.gysinHom.app (g ⁻¹ᵁ V) (subschemeFormBaseChange i i' h g π π' t left_comm right_comm

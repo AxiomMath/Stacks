@@ -19,10 +19,9 @@ immersions `jₙ : Zₙ ⟶ Xₙ` and maps `tₙ : Zₙ ⟶ Z_{n+1}` making ever
 
 cartesian, there is a closed subscheme `W ⊆ X` with `Zₙ = W ×_S Sₙ` for every `n`, compatibly with
 the maps to `X` and with the `tₙ`. This is [Stacks, Tag 0899] for a projective morphism, proved
-here without hypotheses: `AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback`
-carries the general statement for a separated morphism of finite type, conditional on two
-consequences of Grothendieck's existence theorem, and for a projective `f` the existence theorem
-itself is available unconditionally as
+here without hypotheses. The general statement for a separated morphism of finite type is
+`AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback_holds`; this file gives an
+independent proof for a projective `f`, where the existence theorem itself is available as
 `Stacks.Algebraization.isEquivalence_completionFunctor_of_isProjective_of_vanishing`
 ([Stacks, Tag 0885]).
 

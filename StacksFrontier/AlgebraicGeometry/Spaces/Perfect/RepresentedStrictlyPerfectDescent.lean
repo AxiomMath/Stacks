@@ -111,7 +111,8 @@ attribute [local instance 10000] SmallEtale.hasSheafify_smallEtale
   SmallEtale.wEqualsLocallyBijective_smallEtale smallEtaleRingedSite_hasSheafify
   smallEtaleRingedSite_wEqualsLocallyBijective
 
-attribute [local instance 10000] modulesAbelianAtSchemeUniverse modulesHasDerivedCategory
+attribute [local instance 10000] smallEtaleModulesAbelianAtSchemeUniverse
+  smallEtaleModulesHasDerivedCategory
 
 /-- The transport of modules from the small étale site of `h_U` to the small étale site of its
 scheme carries the structure sheaf to the structure sheaf. -/

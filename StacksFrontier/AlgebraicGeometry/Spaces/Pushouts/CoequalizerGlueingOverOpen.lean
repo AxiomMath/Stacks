@@ -23,8 +23,8 @@ Stacks 0AGI which do not come out of the statement of Stacks 0AGG:
 * the morphism `g` is proper, so that Stacks 0AGG applies to it;
 * the morphism `X₁ ⟶ X` is an isomorphism over the open complement `U` of `Z`, as soon as
   `X₁ ⟶ X` is separated and `π` is quasi-compact. Both are consequences of Stacks 0AGG (the first
-  of its clause (1), the second of its clause (2)), so this is an unconditional clause of
-  Stacks 0AGI once Stacks 0AGG is.
+  of its clause (1), the second of its clause (2)), and Stacks 0AGG is proved as
+  `AlgebraicGeometry.Space.properKernelPairCoequalizers_holds`.
 
 ## Main results
 

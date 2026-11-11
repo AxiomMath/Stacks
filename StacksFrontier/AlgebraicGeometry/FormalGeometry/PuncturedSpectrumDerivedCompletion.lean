@@ -209,7 +209,7 @@ coherent `𝒪_U`-module `ℱ` and an ideal `I ⊆ A`, the comparison map \
 being the derived `I`-adic completion in `D(A)` of the derived sections `RΓ(U,ℱ)` and the tower \
 on the right being the adic quotient tower at `I𝒪_U`. The map shown invertible is the comparison \
 map, characterized by the limit projections through an `α` required to exhibit `RΓ(U,ℱ)^∧` as a \
-derived limit of `n ↦ RΓ(U, ℱ/Iⁿℱ)`"]
+derived limit of `n ↦ RΓ(U, ℱ/Iⁿℱ)`, sitting in the distinguished Milnor triangle with `1 - shift`"]
 theorem isIso_toLimit_homology_derivedCompletion_puncturedSpectrumSections
     (ha : Ideal.span (Set.range a) = I) (i : ℤ) :
     let S := puncturedSpectrumAdicQuotientSystem A a F

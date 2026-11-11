@@ -7,14 +7,15 @@ public import StacksFrontier.AlgebraicGeometry.Chow.KeyLemma.TameSymbolReciproci
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
-# The arrows of Stacks 0EAY at `i = 1` from the tame symbol of Section 42.5
+# The arrows of Stacks 0EAY at `i = 1` from the symbol `d_A` of Stacks 02Q1
 
 Let `X` be a locally Noetherian scheme with a dimension function `δ`. For a specialization
 `x ⇝ x'` with `δ(x) = δ(x') + 1` the local ring `A = 𝒪_{closure {x}, x'}` is a one-dimensional
 Noetherian local domain with fraction field `κ(x)`
 (`Stacks.Chow.ringKrullDim_pointClosureStalk_eq_dimensionFunction_sub`), so it carries
 
-* the tame symbol `d_A` of Section 42.5 (Stacks 02Q1), descended to
+* the symbol `d_A` of Stacks 02Q1 (Appendix A of the chapter: the periodic-determinant symbol
+  of Stacks 02PZ, extended to the fraction field), descended to
   `K^M_2(κ(x)) → K^M_1(κ(x'))` (`Stacks.Chow.sectionTameComponent`), and
 * the order of vanishing `ord_A : K^M_1(κ(x)) = κ(x)^* → ℤ = K^M_0(κ(x'))`
   (`Stacks.Chow.sectionOrdComponent`).
@@ -25,6 +26,12 @@ arrows of Stacks 0EAY at `i = 1`:
 `⨁_{δ(x) = j + 2} K^M_2(κ(x)) ⟶ ⨁_{δ(x) = j + 1} K^M_1(κ(x)) ⟶ ⨁_{δ(x) = j} K^M_0(κ(x))`
 
 (`Stacks.Chow.sectionTameArrow`, `Stacks.Chow.sectionOrdArrow`).
+
+The tame symbol of Section 42.5 (Stacks 0EAH) is the recipe of Stacks 0EAQ, not `d_A`; the two
+agree by `Stacks.Chow.regularModuleSymbol_eq_tameSymbolValue`, and the first arrow built from the
+recipe of Stacks 0EAQ itself is `Stacks.Chow.sectionFormulaTameArrow`, which is shown equal to
+`Stacks.Chow.sectionTameArrow` in
+`StacksFrontier.AlgebraicGeometry.Chow.TameSymbolComparison.FormulaArrows`.
 
 ## References
 
@@ -55,7 +62,7 @@ theorem ringKrullDim_pointClosureStalk_eq_one_of_dimensionFunction {x x' : X} (h
     show (δ x' + 1 - δ x').toNat = 1 by omega]
   rfl
 
-/-- **The degree-two local component**: the tame symbol of Section 42.5 of
+/-- **The degree-two local component**: the symbol `d_A` of Stacks 02Q1 of
 `𝒪_{closure {x}, x'}`, descended to Milnor K-theory and read in `K^M_1(κ(x'))`. -/
 def sectionTameComponent (x x' : X) (h : x ⤳ x') (hd : δ x = δ x' + 1) :
     MilnorKTheory ↥(X.residueField x) (1 + 1) →+ MilnorKTheory ↥(X.residueField x') 1 :=
@@ -93,12 +100,17 @@ theorem sectionTameComponent_locallyFinite :
     change milnorKOneTransport _ (stalkMilnorBoundary _ _ _ α) = 0
     exact (congrArg _ hzero).trans (map_zero _)
 
-/-- **The first displayed arrow of Stacks 0EAY at `i = 1`**, from the tame symbol of
-Section 42.5. -/
+/-- **The first displayed arrow of Stacks 0EAY at `i = 1`**, from the symbol `d_A` of Stacks
+02Q1. Since `d_A` is the tame symbol of Section 42.5
+(`Stacks.Chow.regularModuleSymbol_eq_tameSymbolValue`), this is the arrow
+`Stacks.Chow.sectionFormulaTameArrow` built from the recipe of Stacks 0EAQ. -/
 @[stacks 0EAY "the first displayed arrow in the case i = 1: for a Noetherian (here: locally \
 Noetherian) scheme X with a dimension function δ, the map ⊕_{δ(x) = j + 1} K^M_2(κ(x)) ⟶ \
 ⊕_{δ(x) = j} K^M_1(κ(x)) whose coefficient at x' is the sum over the points x specializing to x' \
-of the tame symbol ∂_A of Section 42.5 of the one-dimensional local ring A = 𝒪_{closure {x}, x'}"]
+of the symbol d_A of Stacks 02Q1 (Appendix A) of the one-dimensional local ring \
+A = 𝒪_{closure {x}, x'}; d_A is the tame symbol ∂_A of Section 42.5 (the recipe of Stacks 0EAQ) \
+by Stacks.Chow.regularModuleSymbol_eq_tameSymbolValue, and the arrow built from that recipe is \
+Stacks.Chow.sectionFormulaTameArrow"]
 def sectionTameArrow (j : ℤ) :
     DimMilnorChainGroup X δ (j + 1) (1 + 1) →+ DimMilnorChainGroup X δ j 1 :=
   chainArrow (⇑δ) 1 (sectionTameComponent δ) (sectionTameComponent_locallyFinite δ) j

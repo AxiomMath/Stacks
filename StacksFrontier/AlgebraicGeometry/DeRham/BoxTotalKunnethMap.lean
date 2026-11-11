@@ -47,7 +47,10 @@ image `p^{-1}`; steps (4) and (5) are `Stacks.Cohomology.BoxKunneth.boxTotalDeri
 operators, which has no infinite coproducts, an infinite direct sum of operators of unbounded
 order being of no finite order. Both complexes are therefore strictly bounded below, which is the
 hypothesis of [Stacks, Tag 0FLT]. For arbitrary complexes the total complex is formed over
-`f^{-1}𝒪_S` in `StacksFrontier.AlgebraicGeometry.DeRham.BoxTotalKunnethMapUnbounded`.
+`f^{-1}𝒪_S` in `StacksFrontier.AlgebraicGeometry.DeRham.BoxTotalKunnethMapUnbounded`, and the relative
+map of [Stacks, Tag 0G4B] for arbitrary complexes is
+`Stacks.Cohomology.BoxKunneth.relativeBoxKunnethMapUnbounded` in
+`StacksFrontier.AlgebraicGeometry.DeRham.RelativeKunnethUnbounded`.
 
 *The step-(5) comparison.* `Stacks.Cohomology.BoxKunneth.BoxTotalComparison` is constructed in
 `StacksFrontier.AlgebraicGeometry.DeRham.BoxTotalComparisonExists` as
@@ -114,12 +117,10 @@ variable {X Y S : Scheme.{u}} (a : X ⟶ S) (b : Y ⟶ S)
 for `𝓕^•` on `X/S` and `𝓖^•` on `Y/S` complexes of quasi-coherent modules with differentials
 differential operators of finite order, both strictly bounded below, and `f` the structure
 morphism of `X ×_S Y`. It is the Künneth map of [Stacks, Tag 0FLP] for the inverse-image ringed
-spaces, followed by `Rf_*` of steps (4) and (5). -/
-@[stacks 0G4B "the map, corrected: `Tot(F ⊠ G)` is formed under strict boundedness below of both
-  complexes, without which it does not exist in the category of finite-order differential
-  operators; and steps (1) to (3) are taken with the derived inverse image `Lp^*`, the canonical
-  comparison `Lp^*F ⟶ p^{-1}F` being inserted into step (4); the step-(5) comparison
-  `Tot(p^{-1}F ⊗ q^{-1}G) ⟶ Tot(F ⊠ G)` is `Stacks.Cohomology.BoxKunneth.boxTotalComparison`"]
+spaces, followed by `Rf_*` of steps (4) and (5). This is the map of [Stacks, Tag 0G4B] for strictly
+bounded below complexes, with the total complex formed among finite-order differential operators;
+the map of [Stacks, Tag 0G4B] for arbitrary complexes is
+`Stacks.Cohomology.BoxKunneth.relativeBoxKunnethMapUnbounded`. -/
 def relativeBoxKunnethMap :
     ((derivedTensorProductFunctor.{u, u + 1} (SheafedSpace.sheaf S.toRingedSpace)).obj
           ((derivedPushforward.{u, u + 1, u + 1} (inverseImageBaseProjection a)).obj
@@ -141,8 +142,6 @@ def relativeBoxKunnethMap :
 steps.** Steps (1) to (3), the two pullback maps and the relative cup product, are the Künneth
 map of [Stacks, Tag 0FLP] for the projections of `(W, f^{-1}𝒪_S)` to `(X, a^{-1}𝒪_S)` and
 `(Y, b^{-1}𝒪_S)`; steps (4) and (5) are `boxTotalDerivedComparison`. -/
-@[stacks 0G4B "the map is the Künneth map of Tag 0FLP for the inverse-image ringed spaces, which
-  is steps (1) to (3) with `Lp^*` for `p^{-1}`, followed by `Rf_*` of steps (4) and (5)"]
 theorem relativeBoxKunnethMap_eq :
     relativeBoxKunnethMap a b K L n₁ n₂ =
       Stacks.Cohomology.DerivedKunneth.kunnethMap (inverseImageBaseProjection a)

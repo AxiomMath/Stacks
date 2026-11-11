@@ -19,20 +19,28 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Chow.RationalEquivalenceSu
 public import StacksFrontier.AlgebraicGeometry.Spaces.ZeroSchemeMaximality
 
 /-!
-# Chern classes commute with Chow cohomology classes
+# Classes of `A^p(X)` commute with the Segre-recursion Chern operations
 
 In Situation 0EDT let `X/B` be good and let `ℰ` be a finite locally free `𝒪_X`-module of rank
 `r`. **Stacks 0ES1** asserts that `c_j(ℰ) ∈ A^j(X)` commutes with every element `c ∈ A^p(X)`, and
 in particular that `c_i(ℰ) ∩ c_j(ℱ) ∩ α = c_j(ℱ) ∩ c_i(ℰ) ∩ α` for a second finite locally free
-`ℱ` of rank `s` and every `α ∈ CH_k(X)`. (The statement in the source reads `c_j(ℒ)`; the proof
-and the "in particular" make clear that `c_j(ℰ)` is meant.)
+`ℱ` of rank `s` and every `α ∈ CH_k(X)`.
+
+This file proves the analogous statements for the operations
+`AlgebraicGeometry.Space.PrivateChern.chernCap` on `CH_*(X') = ⨁_k CH_k(X')`, which are defined
+by the Segre recursion of the proof of Stacks 0ERY rather than as the class
+`AlgebraicGeometry.Space.chernClass` of Stacks 0ERZ; they are not identified with that class here.
+Stacks 0ES1 itself, for the class `c_j(ℰ) ∈ A^j(X)` of Stacks 0ERY and 0ERZ, is proved in
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.ChernClassCentral`
+(`AlgebraicGeometry.Space.ChowCohomologyClass.comp_chernCohomologyClass`,
+`AlgebraicGeometry.Space.commute_of_chernCohomologyClass` and
+`AlgebraicGeometry.Space.chernCap_apply_chernCap_comm`).
 
 An identity in `A^*(X)` is an identity of the cap operations on `CH_*(X')` for every good
 `X' ⟶ X`, and the cap operation of `c_j(ℰ)` on `X'` is `c_j(ℰ|_{X'}) ∩ -`. Here this is proved
 for every finite locally free module on `X'`, not only for those pulled back from `X`.
 
-The Chern classes of Stacks 0ERZ (`AlgebraicGeometry.Space.PrivateChern.chernCap`) are
-polynomials in the Segre operations (Stacks 0ERY, 0ERV), so it suffices that `c` commutes with
+The operations `AlgebraicGeometry.Space.PrivateChern.chernCap` are polynomials in the Segre operations (Stacks 0ERY, 0ERV), so it suffices that `c` commutes with
 proper pushforward and flat pullback, axioms (1) and (2) of a bivariant class (Stacks 0ERJ), and
 with the first Chern class of every invertible module on a test space, which is Stacks 0ERR and
 follows from axiom (3) at the zero section, where the Gysin map of Stacks 0ER1 is the cap product
@@ -46,11 +54,12 @@ by Stacks 0EPD, 0EQT, 0EQR and 0EQZ.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.ChowCohomologyClass.chernCap_commute_capChowHomology`: **Stacks 0ES1**,
-  `c ∩ (c_j(ℰ') ∩ α) = c_j(ℰ') ∩ (c ∩ α)` on `CH_*(X')`.
+* `AlgebraicGeometry.Space.ChowCohomologyClass.chernCap_commute_capChowHomology`:
+  `c ∩ (c_j(ℰ') ∩ α) = c_j(ℰ') ∩ (c ∩ α)` on `CH_*(X')`, for the operations
+  `PrivateChern.chernCap`.
 * `AlgebraicGeometry.Space.commute_chernCap_chernCap` and
-  `AlgebraicGeometry.Space.chernCap_chernCap_comm`: **Stacks 0ES1, in particular**,
-  `c_i(ℰ) ∩ c_j(ℱ) ∩ α = c_j(ℱ) ∩ c_i(ℰ) ∩ α`.
+  `AlgebraicGeometry.Space.chernCap_chernCap_comm`:
+  `c_i(ℰ) ∩ c_j(ℱ) ∩ α = c_j(ℱ) ∩ c_i(ℰ) ∩ α` for the operations `PrivateChern.chernCap`.
 
 ## Implementation notes
 
@@ -271,7 +280,7 @@ private theorem exists_chowClassCanonical_eq {Y : D.Ambient} (s : Y ⟶ D.space)
 /-- **Stacks 0ERR, on a test space.** A class `c ∈ A^p(X)` commutes with the cap product with the
 first Chern class of every invertible module `𝒩` on a good test space `g : Y ⟶ X`:
 `c ∩ (c₁(𝒩) ∩ x) = c₁(𝒩) ∩ (c ∩ x)`. -/
-private theorem cap_canonicalFirstChernCapCanonicalChowMap {Y : D.Ambient} (g : Y ⟶ X)
+theorem cap_canonicalFirstChernCapCanonicalChowMap {Y : D.Ambient} (g : Y ⟶ X)
     (hY : D.IsGood (g ≫ sX)) (N : Modules.{u, u} D.site D.base D.base_mem Y hY.1)
     (hN : IsInvertibleModule (⟨Y, hY.1⟩ : AlgebraicSpaces D.site D.base D.base_mem) N)
     (k l : ℤ) (hkl : l + p = k) (x : chowGroupCanonical.{u + 1} D (g ≫ sX) hY (k + 1)) :
@@ -443,22 +452,18 @@ private theorem capChowHomologyAt_firstChernCapChow {Y : D.Ambient} {g : Y ⟶ X
     chowGroupCanonicalEquivChowGroup_chowClassCanonical, firstChernCapChow_of_chowClass]
   exact congrArg _ (congrArg (chowGroupCanonicalEquivChowGroup.{u + 1} D (g ≫ sX) hY (j + -p)) h₁)
 
-/-- **Stacks 0ES1.** In Situation 0EDT let `X/B` be good and let `c ∈ A^p(X)` (Stacks 0ERK,
-`AlgebraicGeometry.Space.ChowCohomologyClass`). Then `c` commutes with the Chern classes of
-Stacks 0ERZ (`AlgebraicGeometry.Space.PrivateChern.chernCap`): for every good test space
-`g : X' ⟶ X`, every finite locally free `𝒪_{X'}`-module `ℰ'` of rank `r` and every `j`,
+/-- **A class `c ∈ A^p(X)` commutes with the operations `PrivateChern.chernCap`.** In
+Situation 0EDT let `X/B` be good and let `c ∈ A^p(X)` (Stacks 0ERK,
+`AlgebraicGeometry.Space.ChowCohomologyClass`). For every good test space `g : X' ⟶ X`, every
+finite locally free `𝒪_{X'}`-module `ℰ'` of rank `r` and every `j`,
 
   `c ∩ (c_j(ℰ') ∩ α) = c_j(ℰ') ∩ (c ∩ α)`  for all `α ∈ CH_*(X')`,
 
-where `c ∩ -` is the cap operation of `c` on `X'` (`capChowHomology`). For a finite locally free
-`ℰ` of rank `r` on `X` the bivariant class `c_j(ℰ) ∈ A^j(X)` caps on `X'` as `c_j(ℰ|_{X'}) ∩ -`,
-so taking `ℰ' = ℰ|_{X'}` this is the identity `c ∘ c_j(ℰ) = c_j(ℰ) ∘ c` in `A^*(X)` (two
-bivariant classes being equal when their cap operations on all test spaces are); the statement
-here allows any `ℰ'` on `X'`. -/
-@[stacks 0ES1 "the main assertion: for every good test space g : X' → X, every finite locally \
-free E' of rank r on X' (in particular E' = g^*E) and every j, the cap operation of c ∈ A^p(X) on \
-CH_*(X') commutes with c_j(E') ∩ -; this is c ∘ c_j(E) = c_j(E) ∘ c in A^*(X). The source's \
-c_j(L) is a typo for c_j(E)"]
+where `c ∩ -` is the cap operation of `c` on `X'` (`capChowHomology`) and `c_j(ℰ') ∩ -` is the
+operation `AlgebraicGeometry.Space.PrivateChern.chernCap` defined by the Segre recursion. This is
+not Stacks 0ES1 as stated, which is about the class `c_j(ℰ) ∈ A^j(X)` of Stacks 0ERZ
+(`AlgebraicGeometry.Space.chernClass`); that statement is
+`AlgebraicGeometry.Space.ChowCohomologyClass.comp_chernCohomologyClass`. -/
 theorem chernCap_commute_capChowHomology {Y : D.Ambient} (g : Y ⟶ X) (hY : D.IsGood (g ≫ sX))
     (E : Modules.{u, u} D.site D.base D.base_mem Y hY.1) (r : ℕ)
     (hE : PrivateChern.IsFiniteLocallyFreeOfRank D (g ≫ sX) hY E r) (j : ℕ) :
@@ -491,9 +496,8 @@ section Commutation
 
 variable {D : BaseSpaceDimensionSituation.{u}} {X : D.Ambient} {sX : X ⟶ D.space}
 
-/-- **Stacks 0ES1, in particular**, as a commutation of operations on `CH_*(X)`: for finite
-locally free `ℰ` of rank `r` and `ℱ` of rank `s` on a good `X`,
-`c_i(ℰ) ∘ c_j(ℱ) = c_j(ℱ) ∘ c_i(ℰ)`. -/
+/-- The operations `PrivateChern.chernCap` of two finite locally free modules `ℰ`, `ℱ` of ranks
+`r` and `s` on a good `X` commute on `CH_*(X)`: `c_i(ℰ) ∘ c_j(ℱ) = c_j(ℱ) ∘ c_i(ℰ)`. -/
 theorem commute_chernCap_chernCap (hX : D.IsGood sX)
     (E F : Modules.{u, u} D.site D.base D.base_mem X hX.1) (r s : ℕ)
     (hE : PrivateChern.IsFiniteLocallyFreeOfRank D sX hX E r)
@@ -508,18 +512,14 @@ theorem commute_chernCap_chernCap (hX : D.IsGood sX)
     | succ d₂ =>
       exact commute_segreCap (projectiveBundleDatum E d₁ hE) (projectiveBundleDatum F d₂ hF) a b
 
-/-- **Stacks 0ES1, in particular.** In Situation 0EDT let `X/B` be good and let `ℰ`, `ℱ` be
-finite locally free `𝒪_X`-modules of ranks `r` and `s`. Then
+/-- **The operations `PrivateChern.chernCap` of two modules commute on `CH_k(X)`.** For finite
+locally free `ℰ`, `ℱ` of ranks `r` and `s` on a good `X/B`,
 
   `c_i(ℰ) ∩ c_j(ℱ) ∩ α = c_j(ℱ) ∩ c_i(ℰ) ∩ α`
 
-for all `α ∈ CH_k(X)`, the Chern classes being those of Stacks 0ERZ
-(`AlgebraicGeometry.Space.PrivateChern.chernCap`), operations on `CH_*(X) = ⨁_k CH_k(X)` carrying
-`CH_k(X)` to `CH_{k-n}(X)`. The identity is stated in `CH_*(X)`, where `α` is placed in degree
-`k`; both sides lie in the summand `CH_{k-i-j}(X)`, and an identity in `CH_*(X)` is in particular
-one of its components in `CH_{k-i-j}(X)`. -/
-@[stacks 0ES1 "in particular: c_i(E) ∩ c_j(F) ∩ α = c_j(F) ∩ c_i(E) ∩ α for every α ∈ CH_k(X), \
-as an identity in CH_*(X) = ⊕_k CH_k(X) (hence of the components in CH_{k-i-j}(X))"]
+for all `α ∈ CH_k(X)`, for the operations `AlgebraicGeometry.Space.PrivateChern.chernCap` on
+`CH_*(X) = ⨁_k CH_k(X)` defined by the Segre recursion. The "in particular" of Stacks 0ES1 for the
+Chern classes of Stacks 0ERY is `AlgebraicGeometry.Space.chernCap_apply_chernCap_comm`. -/
 theorem chernCap_chernCap_comm (hX : D.IsGood sX)
     (E F : Modules.{u, u} D.site D.base D.base_mem X hX.1) (r s : ℕ)
     (hE : PrivateChern.IsFiniteLocallyFreeOfRank D sX hX E r)

@@ -42,8 +42,10 @@ pairs the corrected statement with the refutation of the separability clause.
 * `RegularProperModelSituation.geometricGenus_eq_and_exists_componentIntersection_eq_weight`
   — equality in [Stacks, Tag 0CEA] forces equality at every step.
 * `RegularProperModelSituation.smooth_of_topologicalGenus_add_geometricGenus_eq_finrank_reduction`
-  — **[Stacks, Tag 0CEE]**, in corrected form: the separability clause
-  of part (2) is asserted for the components of positive genus.
+  — the corrected statement of [Stacks, Tag 0CEE]: the separability clause of part (2) is
+  asserted for the components of positive genus. The tag is registered on its conjunction with
+  the refutation of the printed clause, in
+  `StacksFrontier/AlgebraicGeometry/Curves/Models/GenusEqualityComponents.lean`.
 
 ## References
 
@@ -528,9 +530,11 @@ smooth over `κ_Z`. A smooth rational point makes a curve geometrically integral
 constants ([Stacks, Tag 0CDW]), and a geometrically integral curve whose geometric genus is its
 genus is smooth, because its normalization over `k̄` does not change the genus and is therefore
 an isomorphism ([Stacks, Tag 0CE4]). Projectivity of the integral proper curve through `x` is
-[Stacks, Tag 0A25] for integral curves together with [Stacks, Tag 0BCL]. -/
-@[stacks 0CEE "(1) in full, and (2) with kappa/k separable when H^1(C, O_C) is nonzero \
-(the corrected form)"]
+[Stacks, Tag 0A25] for integral curves together with [Stacks, Tag 0BCL].
+
+The registration of [Stacks, Tag 0CEE] is
+`Stacks.Models.RegularProperModelSituation.smooth_and_not_forall_isSeparable_of_genus_equality`,
+which pairs this statement with the refutation of the separability clause as printed. -/
 theorem smooth_of_topologicalGenus_add_geometricGenus_eq_finrank_reduction
     (x : S.specialFiber) (hx : IsRationalPoint S.specialFiberToSpec x)
     (hsm : InfinitesimalLifting.SmoothAt S.specialFiberToSpec x)

@@ -80,8 +80,8 @@ theorem cohomologyCollapseIsoOfIsAffineHom_hom_comp_map (f : X ⟶ Y)
     have := enoughInjectives_modules B S hS Y.1 Y.2
     ((modulePushforward B S hS f ⋙ globalSectionsFunctor.{u + 1, u, u, u}
           (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)).rightDerived i).map g ≫
-        (cohomologyCollapseIsoOfIsAffineHom B S hS f haff F' h03DW' h072Z i).hom =
-      (cohomologyCollapseIsoOfIsAffineHom B S hS f haff F h03DW h072Z i).hom ≫
+        (cohomologyCollapseIsoOfIsAffineHomOfChartwise B S hS f haff F' h03DW' h072Z i).hom =
+      (cohomologyCollapseIsoOfIsAffineHomOfChartwise B S hS f haff F h03DW h072Z i).hom ≫
         ((globalSectionsFunctor.{u + 1, u, u, u}
           (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)).rightDerived i).map
           ((modulePushforward B S hS f).map g) :=
@@ -103,7 +103,7 @@ def cohomologyPushforwardLinearIsoOfIsAffineHom (f : X ⟶ Y) (haff : IsAffineHo
   have := hasInjectiveResolutions_modules B S hS X.1 X.2
   have := enoughInjectives_modules B S hS Y.1 Y.2
   ((derivedGlobalSectionsPushforwardIso B S hS f i).app F).symm ≪≫
-    cohomologyCollapseIsoOfIsAffineHom B S hS f haff F
+    cohomologyCollapseIsoOfIsAffineHomOfChartwise B S hS f haff F
       (fun n hn => chartwiseIsZeroHigherDirectImage_of_isAffineHom B S hS f haff
         (relativelyRepresentable_of_isAffineHom B S hS f haff) F hF n hn)
       (acyclicPushforwardOfInjective B S hS f) i

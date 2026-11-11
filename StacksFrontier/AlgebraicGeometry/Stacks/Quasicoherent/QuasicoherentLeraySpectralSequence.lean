@@ -78,8 +78,9 @@ sequence abuts to `H^n(𝒳, ℱ)`.  Here `R^q f_{QCoh,*}` is
 `AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImage` (**Stacks 077A**), and
 `H^p` is the right derived functor of `Hom(𝒪, -)` on modules at the universe `u` of the schemes,
 with values in `AddCommGrpCat.{u + 1}`. -/
-@[stacks 0782 "the whole statement, with modules at the module universe u of the schemes; \
-  cohomology the right derived functors of Hom(𝒪, -), valued in AddCommGrpCat.{u + 1}"]
+@[stacks 0782 "for f qcqs and F quasi-coherent, a first quadrant spectral sequence \
+  E_2^{p,q} = H^p(𝒴, R^q f_{QCoh,*} F) ⇒ H^{p+q}(𝒳, F); modules have sections in the universe u \
+  of the schemes, and H^p = R^p Hom(𝒪, -) takes values in AddCommGrpCat.{u + 1}"]
 theorem exists_quasicoherentLeraySpectralSequence
     (hqc : IsQuasiCompactMorphism B S hS f) (hqs : AlgebraicStacks.IsQuasiSeparated B S hS f)
     (F : quasicoherentModules B S hS 𝒳) :

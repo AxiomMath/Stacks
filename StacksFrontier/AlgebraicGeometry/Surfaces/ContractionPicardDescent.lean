@@ -63,8 +63,11 @@ trivializing cover of the target directly.
   contraction**, together with the source's two characterisations
   `picardDecomposition_of_isContraction_eq_iff` (`ℒ = (b^*ℒ')(-nE)`) and
   `picardDecomposition_of_isContraction_eq_iff_exceptionalTwist` (`ℒ(nE) = b^*ℒ'`), and the
-  formula `picardDecomposition_of_isContraction_apply_fst_pushforward` (`ℒ' = b_*ℒ(nE)`), all in
-  the same namespace.
+  formula `ℒ' = b_*ℒ(nE)`, both for the actual pushforward of a representative of `ℒ(nE)`
+  (`picardDecomposition_of_isContraction_apply_fst_eq_picardClass_pushforward`, with
+  `isInvertible_pushforward_exceptionalTwist_of_isContraction` for the invertibility of
+  `b_*ℒ(nE)`) and for every pushforward on Picard classes left inverse to `b^*`
+  (`picardDecomposition_of_isContraction_apply_fst_pushforward`), all in the same namespace.
 * `AlgebraicGeometry.isZero_coh_one_unit_projectiveLineProj` — `H¹(𝐏¹_k, 𝒪) = 0` in the spelling
   of the theorem on formal functions, and
   `AlgebraicGeometry.topologicalKrullDim_eq_one_of_iso_projectiveLineProj` — a scheme isomorphic
@@ -421,6 +424,61 @@ public theorem picardDecomposition_of_isContraction_apply_fst_pushforward
       p (D.exceptionalTwist (D.exceptionalDegree k e L) L) :=
   D.picardDecompositionOfExactness_apply_fst k e b hb
     (D.contractionPicardExactness_of_isContraction k e b hb) hE p hp L
+
+/-- For the contraction of an exceptional curve of the first kind, `b_*ℒ(nE)` is invertible, where
+`ℒ(nE)` is represented by `Stacks.Picard.picardRepresentative` and `n` is the degree of `ℒ` on the
+exceptional curve. -/
+public theorem isInvertible_pushforward_exceptionalTwist_of_isContraction
+    (hb : IsContractionOfExceptionalCurve D b)
+    (hE : D.IsExceptionalCurveOfFirstKind k e) (L : Stacks.Picard.ofScheme X) :
+    Stacks.SheafOfModules.IsInvertible X'.presheaf
+      (structureSheafRing X'.toRingedSpace).property
+      ((Scheme.Modules.pushforward b).obj (Stacks.Picard.picardRepresentative X.toRingedSpace
+        (D.exceptionalTwist (D.exceptionalDegree k e L) L)).obj) := by
+  have : Stacks.SheafOfModules.IsInvertible X.presheaf
+      (structureSheafRing X.toRingedSpace).property
+      (Stacks.Picard.picardRepresentative X.toRingedSpace
+        (D.exceptionalTwist (D.exceptionalDegree k e L) L)).obj :=
+    (Stacks.Picard.picardRepresentative X.toRingedSpace _).property
+  exact D.isInvertible_pushforward_of_isContraction k e b hb _
+    (D.nonempty_pullback_subschemeι_iso_unit_of_exceptionalDegree_eq_zero k e _
+      (D.exceptionalDegree_exceptionalTwist_self k e hE L))
+
+/-- **`ℒ' = b_*ℒ(nE)`.** For the contraction `b : X ⟶ X'` of an exceptional curve of the first
+kind, the `Pic(X')`-component `ℒ'` of the decomposition of a class `ℒ` is the class of the
+invertible module `b_*ℒ(nE)`, the pushforward along `b` of a representative of `ℒ(nE)`, where `n`
+is the degree of `ℒ` on the exceptional curve. -/
+@[stacks 0C5M "the formula L' = b_*L(nE): the Pic(X')-component of the class L is the class of \
+the pushforward along b of a representative of L(nE), for a general contraction of an \
+exceptional curve of the first kind"]
+public theorem picardDecomposition_of_isContraction_apply_fst_eq_picardClass_pushforward
+    (hb : IsContractionOfExceptionalCurve D b)
+    (hE : D.IsExceptionalCurveOfFirstKind k e) (L : Stacks.Picard.ofScheme X) :
+    (D.picardDecomposition_of_isContraction k e b hb hE L).1 =
+      Stacks.SheafOfModules.picardClass X'.presheaf
+        (Stacks.RingedSpace.structureIsSheaf X'.toRingedSpace)
+        ((Scheme.Modules.pushforward b).obj (Stacks.Picard.picardRepresentative X.toRingedSpace
+          (D.exceptionalTwist (D.exceptionalDegree k e L) L)).obj)
+        (D.isInvertible_pushforward_exceptionalTwist_of_isContraction k e b hb hE L) := by
+  have : Stacks.SheafOfModules.IsInvertible X.presheaf
+      (structureSheafRing X.toRingedSpace).property
+      (Stacks.Picard.picardRepresentative X.toRingedSpace
+        (D.exceptionalTwist (D.exceptionalDegree k e L) L)).obj :=
+    (Stacks.Picard.picardRepresentative X.toRingedSpace _).property
+  have hc := D.isIso_counit_app_of_isContraction k e b hb
+    (Stacks.Picard.picardRepresentative X.toRingedSpace
+      (D.exceptionalTwist (D.exceptionalDegree k e L) L)).obj
+    (D.nonempty_pullback_subschemeι_iso_unit_of_exceptionalDegree_eq_zero k e _
+      (D.exceptionalDegree_exceptionalTwist_self k e hE L))
+  refine injective_schemePullbackClassHom_of_isContraction (D := D) (b := b) (hb := hb) ?_
+  rw [picardDecomposition_of_isContraction_apply_fst, contractedPicardHom_of_isContraction,
+    contractedPicardHomOfExactness_apply, D.schemePullbackClassHom_contractedClass k e b]
+  symm
+  refine (Stacks.Picard.pullbackClass_classOf b.toLRSHom.toShHom _ _).trans ?_
+  refine Eq.trans ?_ (Stacks.Picard.classOf_picardRepresentative X.toRingedSpace _)
+  exact (Stacks.SheafOfModules.picardClass_eq_iff X.presheaf
+    (Stacks.RingedSpace.structureIsSheaf X.toRingedSpace) _ _ _ _).2
+    ⟨@asIso _ _ _ _ _ hc⟩
 
 end Scheme.IdealSheafData
 

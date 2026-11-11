@@ -5,7 +5,7 @@ public import Mathlib.Tactic.CategoryTheory.Bicategory.Basic
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
-# 2-fibre products in a (2,1)-category (Stacks 003O, 003Q)
+# 2-fibre products in a (2,1)-category (Stacks 003O, 003P, 003Q)
 
 We work in a `(2,1)`-category: a bicategory `B` in which every 2-morphism is invertible.
 The invertibility is not imposed as an axiom; instead, every 2-morphism that the source
@@ -20,17 +20,30 @@ squares, in the source, is a 1-morphism `k` between the apexes together with inv
 2-cells comparing the two legs, subject to one compatibility square; but composition of
 those data is only associative and unital *up to* an invertible 2-cell, so they do not
 form a category on the nose. They are recorded here as `TwoCommSq.PreHom`, and the
-morphisms of the category of Stacks 003O are their classes modulo the 2-cell equivalence
+morphisms of `TwoCommSq.category` are their classes modulo the 2-cell equivalence
 `TwoCommSq.PreHom.Rel` (`F` and `G` are equivalent when an invertible `θ : F.hom ≅ G.hom`
 matches up their comparison 2-cells). Passing to that quotient is what makes
-`TwoCommSq.category` a strict `Category`.
+`TwoCommSq.category` a strict `Category`. That category is the *homotopy category* of the
+2-category of Stacks 003O, not the 2-category itself: it forgets the 2-morphisms between
+1-morphisms of diagrams. The 2-category, with its 2-morphisms `TwoCommSq.PreHom.Hom₂`, is
+`TwoCommSqBicat.bicategory` in `StacksFrontier.CategoryTheory.TwoFibreProduct.DiagramBicategory`,
+which carries the Stacks 003O registration.
 
-A **2-fibre product** of `f` and `g` (Stacks 003Q) is then a terminal object of that
-category: `IsTwoFibreProduct`. Unfolding the definition, a terminal object supplies the
-projections `p`, `q` and the invertible `ψ : f ∘ p ⟶ g ∘ q` of the source as its `fst`,
-`snd` and `iso` fields, and the terminality is the universal property. Being terminal, a
-2-fibre product is unique up to unique isomorphism, which is
-`twoFibreProduct_uniqueUpToIso` together with `twoFibreProduct_iso_subsingleton`.
+A **2-fibre product** of `f` and `g` (Stacks 003Q) is a final object, in the sense of
+Stacks 003P, of the 2-category of 2-commutative diagrams of Stacks 003O: every square `Q` has a
+pre-morphism `Q ⟶ P`, and any two pre-morphisms `Q ⟶ P` are related by a *unique* 2-morphism
+of Stacks 003O (4) (`TwoCommSq.PreHom.Hom₂`). This is `IsFinalTwoCommSq`; the unique 2-morphism
+is automatically invertible (`IsFinalTwoCommSq.hom₂Iso`).
+
+The library mostly works with the weaker, 1-truncated notion `IsTwoFibreProduct`: a terminal
+object of the quotient category `TwoCommSq.category`, which only remembers that the 2-cell
+relating two pre-morphisms *exists*. A final object is terminal there
+(`IsFinalTwoCommSq.isTwoFibreProduct`), and conversely a terminal object whose two legs jointly
+detect 2-cells (`TwoCommSq.LegsDetectTwoCells`) is final (`isFinalTwoCommSq_of_legsDetect`);
+detection is inherited by every terminal object of the same cospan
+(`legsDetect_of_isTwoFibreProduct`). Being terminal, a 1-truncated 2-fibre product is unique up
+to unique isomorphism of the quotient category, which is `twoFibreProduct_uniqueUpToIso`
+together with `twoFibreProduct_iso_subsingleton`.
 
 Since the morphisms of the category are classes, the mediating morphism terminality supplies is
 a class; `twoFibreProductPreHom` picks a representative of it and `twoFibreProductPreHom_rel`
@@ -90,7 +103,7 @@ private theorem comp_whiskerRight_of_rel {t s c d : B}
 1-morphisms `fst : pt ⟶ x`, `snd : pt ⟶ y` and an invertible 2-morphism
 `iso : fst ≫ f ≅ snd ≫ g` filling the square.
 
-**Stacks 003O.** These are the objects of the category of 2-commutative diagrams over
+**Stacks 003O.** These are the objects of the 2-category of 2-commutative diagrams over
 the cospan `(f, g)`. -/
 @[stacks_fixed 003O]
 structure TwoCommSq (f : x ⟶ z) (g : y ⟶ z) where
@@ -111,8 +124,9 @@ variable {f : x ⟶ z} {g : y ⟶ z}
 invertible comparison 2-cells `isoFst : T.fst ≅ hom ≫ S.fst`, `isoSnd : T.snd ≅ hom ≫ S.snd`
 subject to the Stacks 003O compatibility square.
 
-**Stacks 003O.** These are the morphisms of the category of 2-commutative diagrams, before
-passing to classes modulo the 2-cell equivalence `TwoCommSq.PreHom.Rel`. -/
+**Stacks 003O.** These are the 1-morphisms of the 2-category of 2-commutative diagrams
+(`TwoCommSqBicat.bicategory`), before passing to classes modulo the 2-cell equivalence
+`TwoCommSq.PreHom.Rel`; the 2-morphisms between them are `TwoCommSq.PreHom.Hom₂`. -/
 @[stacks_fixed 003O]
 structure TwoCommSq.PreHom (T S : TwoCommSq f g) where
   /-- the underlying 1-morphism `k : w' ⟶ w` -/
@@ -158,7 +172,8 @@ def comp {T S U : TwoCommSq f g} (F : TwoCommSq.PreHom T S) (G : TwoCommSq.PreHo
 /-- Two pre-morphisms of cones are **equivalent** when they are related by an invertible
 2-cell `θ` between their underlying 1-morphisms, compatible with the comparison
 isomorphisms.  In a `(2,1)`-category this is the natural notion of 2-isomorphism of cone
-morphisms; the category `TwoCommSq (f, g)` of Stacks 003O is the quotient by it. -/
+morphisms; the homotopy category `TwoCommSq.category` of the 2-category of Stacks 003O is the
+quotient by it. -/
 def Rel {T S : TwoCommSq f g} (F G : TwoCommSq.PreHom T S) : Prop :=
   ∃ θ : F.hom ≅ G.hom,
     F.isoFst.hom ≫ (θ.hom ▷ S.fst) = G.isoFst.hom ∧
@@ -235,15 +250,15 @@ theorem assoc_rel {T S U V : TwoCommSq f g}
 
 end TwoCommSq.PreHom
 
-/-! ### The category `TwoCommSq (f, g)` of Stacks 003O -/
+/-! ### The homotopy category of the 2-category of Stacks 003O -/
 
 /-- Morphisms in the category `TwoCommSq (f, g)`: pre-morphisms modulo the 2-cell equivalence. -/
 def TwoCommSq.Hom (T S : TwoCommSq f g) : Type _ := Quotient (TwoCommSq.PreHom.setoid T S)
 
-/-- **Stacks 003O.** The category of 2-commutative diagrams over the cospan `(f, g)`:
-objects are the 2-commutative squares, and morphisms are pre-morphisms modulo the 2-cell
-equivalence, which is what makes composition strictly associative and unital. -/
-@[stacks 003O]
+/-- The **homotopy category** of the 2-category of 2-commutative diagrams over the cospan
+`(f, g)` of Stacks 003O: objects are the 2-commutative squares, and morphisms are pre-morphisms
+modulo the 2-cell equivalence, which is what makes composition strictly associative and unital.
+It forgets the 2-morphisms; the 2-category itself is `TwoCommSqBicat.bicategory`. -/
 instance TwoCommSq.category : Category (TwoCommSq f g) where
   Hom T S := TwoCommSq.Hom T S
   id T := Quotient.mk _ (TwoCommSq.PreHom.id T)
@@ -262,11 +277,20 @@ instance TwoCommSq.category : Category (TwoCommSq f g) where
 
 /-! ### Definition 3: the 2-fibre product predicate (Stacks 003Q) -/
 
-/-- **Stacks 003Q.** A 2-commutative square `P` over `(f, g)` is a **2-fibre product** of
-`f` and `g` when it is a terminal (final) object of the category `TwoCommSq f g` of
-2-commutative diagrams. Its `fst`, `snd` and `iso` fields are the projections `p`, `q` and
-the invertible `ψ : f ∘ p ⟶ g ∘ q` of the source. -/
-@[stacks 003Q]
+/-- **The 1-truncated 2-fibre product.** A 2-commutative square `P` over `(f, g)` is a terminal
+object of the category `TwoCommSq f g`, whose morphisms are pre-morphisms of squares *modulo* the
+2-cell equivalence `TwoCommSq.PreHom.Rel`. Unfolded: every square `Q` has a pre-morphism
+`Q ⟶ P`, and any two pre-morphisms `Q ⟶ P` are related by *some* 2-cell of Stacks 003O (4).
+
+This is weaker than the 2-fibre product of Stacks 003Q, which asks that the 2-cell relating two
+pre-morphisms be *unique* (Stacks 003P (2)); the quotient forgets that uniqueness, and in a
+general `(2,1)`-category the two notions differ. The faithful notion is
+`CategoryTheory.Bicategory.IsFinalTwoCommSq`, which implies this one
+(`CategoryTheory.Bicategory.IsFinalTwoCommSq.isTwoFibreProduct`). The two coincide whenever the
+legs of `P` jointly detect 2-cells (`CategoryTheory.Bicategory.isFinalTwoCommSq_of_legsDetect`),
+which is the case in the 2-categories of categories, of categories fibred in groupoids and of
+stacks in groupoids, where the library's 2-fibre products live. Its `fst`, `snd` and `iso`
+fields are the projections `p`, `q` and the invertible `ψ : f ∘ p ⟶ g ∘ q` of the source. -/
 abbrev IsTwoFibreProduct (P : TwoCommSq f g) : Type _ := IsTerminal P
 
 /-- **A pre-morphism realizing the mediating morphism into a 2-fibre product.** A morphism of
@@ -286,23 +310,183 @@ theorem twoFibreProductPreHom_rel {P Q : TwoCommSq f g} (hP : IsTwoFibreProduct 
 
 /-! ### Main Statement: uniqueness of 2-fibre products -/
 
-/-- **Uniqueness of 2-fibre products (the comparison isomorphism).**
-Any two 2-fibre products of the same cospan `(f, g)` are isomorphic as objects of
-`TwoCommSq (f, g)`.  Since both are terminal objects, the isomorphism is the canonical one
+/-- **Uniqueness of 1-truncated 2-fibre products (the comparison isomorphism).**
+Any two terminal objects of the quotient category `TwoCommSq (f, g)` (see
+`CategoryTheory.Bicategory.IsTwoFibreProduct`) are isomorphic as objects of it.  Since both are
+terminal objects, the isomorphism is the canonical one
 of `CategoryTheory.Limits.IsTerminal.uniqueUpToIso`. -/
 theorem twoFibreProduct_uniqueUpToIso {P₁ P₂ : TwoCommSq f g}
     (hP₁ : IsTwoFibreProduct P₁) (hP₂ : IsTwoFibreProduct P₂) :
     Nonempty (P₁ ≅ P₂) :=
   ⟨hP₁.uniqueUpToIso hP₂⟩
 
-/-- **Uniqueness of the comparison isomorphism.**  Any two isomorphisms from a
-2-commutative square to a 2-fibre product of the same cospan `(f, g)` are equal; so the
-comparison isomorphism of `twoFibreProduct_uniqueUpToIso` is the unique isomorphism
-`P₁ ≅ P₂`, and 2-fibre products are unique up to unique isomorphism. Terminality of `P₂`
+/-- **Uniqueness of the comparison isomorphism, in the quotient category.**  Any two isomorphisms
+of the quotient category `TwoCommSq (f, g)` from a 2-commutative square to a terminal object of
+it are equal; so the comparison isomorphism of `twoFibreProduct_uniqueUpToIso` is the unique
+isomorphism `P₁ ≅ P₂` there. Since these isomorphisms are classes of pre-morphisms modulo
+2-cells, this is a statement about the 1-truncation, not the "unique up to unique 2-isomorphism"
+of the 2-category of Stacks 003O. Terminality of `P₂`
 alone suffices, since it already forces any two morphisms into `P₂` to agree. -/
 theorem twoFibreProduct_iso_subsingleton {P₁ P₂ : TwoCommSq f g}
     (hP₂ : IsTwoFibreProduct P₂) :
     Subsingleton (P₁ ≅ P₂) :=
   ⟨fun i j => Iso.ext (hP₂.hom_ext i.hom j.hom)⟩
+
+/-! ### The 2-morphisms of Stacks 003O and final objects (Stacks 003P, 003Q) -/
+
+/-- A **2-morphism of pre-morphisms of cones** `F ⟶ G` (Stacks 003O (4)): a 2-morphism
+`hom : F.hom ⟶ G.hom` of the underlying 1-morphisms carrying the comparison 2-cells of `F` to
+those of `G`, i.e. with `(id_a ⋆ δ) ∘ α₁ = α₂` and `(id_b ⋆ δ) ∘ β₁ = β₂`. -/
+@[ext]
+structure TwoCommSq.PreHom.Hom₂ {T S : TwoCommSq f g} (F G : TwoCommSq.PreHom T S) where
+  /-- the underlying 2-morphism `δ : k₁ ⟶ k₂` -/
+  hom : F.hom ⟶ G.hom
+  /-- the first triangle of Stacks 003O (4) -/
+  isoFst_hom_comp : F.isoFst.hom ≫ hom ▷ S.fst = G.isoFst.hom
+  /-- the second triangle of Stacks 003O (4) -/
+  isoSnd_hom_comp : F.isoSnd.hom ≫ hom ▷ S.snd = G.isoSnd.hom
+
+namespace TwoCommSq.PreHom.Hom₂
+
+variable {T S : TwoCommSq f g}
+
+/-- The identity 2-morphism of a pre-morphism of cones. -/
+def id (F : TwoCommSq.PreHom T S) : F.Hom₂ F where
+  hom := 𝟙 F.hom
+  isoFst_hom_comp := by simp
+  isoSnd_hom_comp := by simp
+
+/-- Vertical composition of 2-morphisms of pre-morphisms of cones (Stacks 003O (5)). -/
+def comp {F G H : TwoCommSq.PreHom T S} (δ : F.Hom₂ G) (δ' : G.Hom₂ H) : F.Hom₂ H where
+  hom := δ.hom ≫ δ'.hom
+  isoFst_hom_comp := by
+    rw [comp_whiskerRight, ← Category.assoc, δ.isoFst_hom_comp, δ'.isoFst_hom_comp]
+  isoSnd_hom_comp := by
+    rw [comp_whiskerRight, ← Category.assoc, δ.isoSnd_hom_comp, δ'.isoSnd_hom_comp]
+
+end TwoCommSq.PreHom.Hom₂
+
+/-- **Stacks 003Q.** A 2-commutative square `P` over `(f, g)` is a **2-fibre product** of `f`
+and `g`: a final object, in the sense of Stacks 003P, of the 2-category of 2-commutative
+diagrams over `(f, g)` of Stacks 003O. That is, (1) every 2-commutative square `Q` has a
+1-morphism `preHom Q : Q ⟶ P`, and (2) any two 1-morphisms `F G : Q ⟶ P` are related by a
+unique 2-morphism `F ⟶ G` of Stacks 003O (4), which is then invertible
+(`CategoryTheory.Bicategory.IsFinalTwoCommSq.hom₂Iso`), so `F` and `G` are isomorphic by a
+unique 2-morphism. The `fst`, `snd` and `iso` fields of `P` are the projections `p`, `q` and
+the invertible `ψ : f ∘ p ⟶ g ∘ q` of the source. -/
+@[stacks 003Q "final object of the 2-category of 2-commutative diagrams (003O, 003P), with the \
+uniqueness of the 2-isomorphism of 003P (2)"]
+structure IsFinalTwoCommSq (P : TwoCommSq f g) where
+  /-- Stacks 003P (1): a 1-morphism from every 2-commutative square -/
+  preHom : ∀ Q : TwoCommSq f g, TwoCommSq.PreHom Q P
+  /-- Stacks 003P (2): any two 1-morphisms are related by a unique 2-morphism -/
+  uniqueHom₂ : ∀ {Q : TwoCommSq f g} (F G : TwoCommSq.PreHom Q P), Unique (F.Hom₂ G)
+
+namespace IsFinalTwoCommSq
+
+variable {P Q : TwoCommSq f g} (hP : IsFinalTwoCommSq P)
+include hP
+
+/-- Any two 2-morphisms between two 1-morphisms into a final object are equal. -/
+theorem hom₂_ext {F G : TwoCommSq.PreHom Q P} (δ δ' : F.Hom₂ G) : δ = δ' :=
+  ((hP.uniqueHom₂ F G).uniq δ).trans ((hP.uniqueHom₂ F G).uniq δ').symm
+
+/-- **The unique 2-morphism of Stacks 003P (2) is invertible.** Its inverse is the unique
+2-morphism the other way, since both composites are 2-morphisms from a 1-morphism to itself,
+hence identities. -/
+def hom₂Iso (F G : TwoCommSq.PreHom Q P) : F.hom ≅ G.hom where
+  hom := (hP.uniqueHom₂ F G).default.hom
+  inv := (hP.uniqueHom₂ G F).default.hom
+  hom_inv_id := congrArg TwoCommSq.PreHom.Hom₂.hom
+    (hP.hom₂_ext (TwoCommSq.PreHom.Hom₂.comp _ _) (TwoCommSq.PreHom.Hom₂.id F))
+  inv_hom_id := congrArg TwoCommSq.PreHom.Hom₂.hom
+    (hP.hom₂_ext (TwoCommSq.PreHom.Hom₂.comp _ _) (TwoCommSq.PreHom.Hom₂.id G))
+
+/-- Any two 1-morphisms into a final object are 2-cell equivalent. -/
+theorem rel (F G : TwoCommSq.PreHom Q P) : TwoCommSq.PreHom.Rel F G :=
+  ⟨hP.hom₂Iso F G, (hP.uniqueHom₂ F G).default.isoFst_hom_comp,
+    (hP.uniqueHom₂ F G).default.isoSnd_hom_comp⟩
+
+omit hP in
+/-- **A 2-fibre product is a 1-truncated 2-fibre product**: a final object of the 2-category of
+2-commutative diagrams is a terminal object of the quotient category `TwoCommSq f g`. -/
+def isTwoFibreProduct {P : TwoCommSq f g} (hP : IsFinalTwoCommSq P) : IsTwoFibreProduct P :=
+  IsTerminal.ofUniqueHom (fun Q => Quotient.mk _ (hP.preHom Q))
+    (fun Q m => Quotient.inductionOn m fun L => Quotient.sound (hP.rel L (hP.preHom Q)))
+
+end IsFinalTwoCommSq
+
+/-- The two legs of a 2-commutative square **jointly detect 2-cells** into its apex: two
+2-morphisms `η θ : a ⟶ b` between 1-morphisms `a b : t ⟶ P.pt` are equal as soon as they agree
+after whiskering with `P.fst` and with `P.snd`. -/
+def TwoCommSq.LegsDetectTwoCells (P : TwoCommSq f g) : Prop :=
+  ∀ ⦃t : B⦄ ⦃a b : t ⟶ P.pt⦄ (η θ : a ⟶ b),
+    η ▷ P.fst = θ ▷ P.fst → η ▷ P.snd = θ ▷ P.snd → η = θ
+
+/-- **A 1-truncated 2-fibre product whose legs detect 2-cells is a 2-fibre product.** The
+2-morphism relating two pre-morphisms exists by terminality in the quotient category, and it is
+unique because two such 2-morphisms agree after whiskering with each leg, the comparison 2-cells
+being invertible. -/
+noncomputable def isFinalTwoCommSq_of_legsDetect {P : TwoCommSq f g} (hP : IsTwoFibreProduct P)
+    (hd : P.LegsDetectTwoCells) : IsFinalTwoCommSq P where
+  preHom Q := twoFibreProductPreHom hP Q
+  uniqueHom₂ F G :=
+    { default :=
+        { hom := (Classical.choose (twoFibreProductPreHom_rel hP F G)).hom
+          isoFst_hom_comp := (Classical.choose_spec (twoFibreProductPreHom_rel hP F G)).1
+          isoSnd_hom_comp := (Classical.choose_spec (twoFibreProductPreHom_rel hP F G)).2 }
+      uniq := fun δ => TwoCommSq.PreHom.Hom₂.ext <| hd _ _
+        ((cancel_epi F.isoFst.hom).1 (δ.isoFst_hom_comp.trans
+          (Classical.choose_spec (twoFibreProductPreHom_rel hP F G)).1.symm))
+        ((cancel_epi F.isoSnd.hom).1 (δ.isoSnd_hom_comp.trans
+          (Classical.choose_spec (twoFibreProductPreHom_rel hP F G)).2.symm)) }
+
+/-- Whiskering with isomorphic 1-morphisms detects the same equalities of 2-morphisms. -/
+private theorem whiskerRight_eq_of_iso {t c d : B} {a b : t ⟶ c} {η θ : a ⟶ b} {u v : c ⟶ d}
+    (φ : u ≅ v) (h : η ▷ u = θ ▷ u) : η ▷ v = θ ▷ v := by
+  refine (cancel_epi (a ◁ φ.hom)).1 ?_
+  rw [whisker_exchange, whisker_exchange, h]
+
+/-- Whiskering with a composite detects the same equalities as whiskering twice. -/
+private theorem whiskerRight_whiskerRight_eq {t c d e : B} {a b : t ⟶ c} {η θ : a ⟶ b}
+    {u : c ⟶ d} {v : d ⟶ e} (h : η ▷ (u ≫ v) = θ ▷ (u ≫ v)) : η ▷ u ▷ v = θ ▷ u ▷ v := by
+  rw [whiskerRight_comp, whiskerRight_comp] at h
+  exact (cancel_mono _).1 ((cancel_epi _).1 h)
+
+/-- Whiskering twice detects the same equalities as whiskering with the composite. -/
+private theorem whiskerRight_comp_eq {t c d e : B} {a b : t ⟶ c} {η θ : a ⟶ b}
+    {u : c ⟶ d} {v : d ⟶ e} (h : η ▷ u ▷ v = θ ▷ u ▷ v) : η ▷ (u ≫ v) = θ ▷ (u ≫ v) := by
+  rw [whiskerRight_comp, whiskerRight_comp, h]
+
+/-- Whiskering with an identity detects equality of 2-morphisms. -/
+private theorem eq_of_whiskerRight_id {t c : B} {a b : t ⟶ c} {η θ : a ⟶ b}
+    (h : η ▷ 𝟙 c = θ ▷ 𝟙 c) : η = θ := by
+  rw [whiskerRight_id, whiskerRight_id] at h
+  exact (cancel_mono _).1 ((cancel_epi _).1 h)
+
+/-- **Detection of 2-cells passes between 1-truncated 2-fibre products of one cospan.** If `P`
+and `Q` are both terminal in the quotient category and the legs of `Q` detect 2-cells, so do the
+legs of `P`: a 2-morphism into `P.pt` is recovered, up to the unitor, from its whiskering with
+the composite `P ⟶ Q ⟶ P`, which is 2-isomorphic to the identity. -/
+theorem legsDetect_of_isTwoFibreProduct {P Q : TwoCommSq f g} (hP : IsTwoFibreProduct P)
+    (hQ : IsTwoFibreProduct Q) (hdQ : Q.LegsDetectTwoCells) : P.LegsDetectTwoCells := by
+  intro t a b η θ hfst hsnd
+  let F := twoFibreProductPreHom hQ P
+  let G := twoFibreProductPreHom hP Q
+  obtain ⟨e, -, -⟩ := twoFibreProductPreHom_rel hP (F.comp G) (TwoCommSq.PreHom.id P)
+  have hF : η ▷ F.hom = θ ▷ F.hom := hdQ _ _
+    (whiskerRight_whiskerRight_eq (whiskerRight_eq_of_iso F.isoFst hfst))
+    (whiskerRight_whiskerRight_eq (whiskerRight_eq_of_iso F.isoSnd hsnd))
+  have hFG : η ▷ (F.hom ≫ G.hom) = θ ▷ (F.hom ≫ G.hom) :=
+    whiskerRight_comp_eq (congrArg (· ▷ G.hom) hF)
+  exact eq_of_whiskerRight_id (whiskerRight_eq_of_iso e hFG)
+
+/-- **When the legs of one 1-truncated 2-fibre product detect 2-cells, the two notions agree for
+the whole cospan**: every terminal object of the quotient category is then a 2-fibre product in
+the sense of Stacks 003Q. -/
+noncomputable def isFinalTwoCommSq_of_isTwoFibreProduct_of_legsDetect {P Q : TwoCommSq f g}
+    (hP : IsTwoFibreProduct P) (hQ : IsTwoFibreProduct Q) (hdQ : Q.LegsDetectTwoCells) :
+    IsFinalTwoCommSq P :=
+  isFinalTwoCommSq_of_legsDetect hP (legsDetect_of_isTwoFibreProduct hP hQ hdQ)
 
 end CategoryTheory.Bicategory

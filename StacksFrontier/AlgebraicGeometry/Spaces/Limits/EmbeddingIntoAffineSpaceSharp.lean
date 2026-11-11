@@ -25,21 +25,20 @@ separated, which is the hypothesis the remark is about.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.exists_not_isAbsolutelyLocallySeparated_not_isImmersion` is
-  **Stacks 088M**, the half of the remark which is a theorem: an algebraic space
-  satisfying every hypothesis of Stacks 088L except local separatedness, which it fails,
-  and for which the conclusion of Stacks 088L fails as well.
+* `AlgebraicGeometry.Space.exists_not_isAbsolutelyLocallySeparated_not_isImmersion`: the
+  statement of Stacks 088M, derived through Stacks 088L.  Stacks 088M itself is
+  `AlgebraicGeometry.Space.exists_not_isAbsolutelyLocallySeparated_not_isImmersion'` in
+  `StacksFrontier/AlgebraicGeometry/Spaces/Limits/EmbeddingIntoAffineSpaceSharpUnconditional.lean`,
+  which needs none of the hypotheses `hreg`, `hdiag`, `hchart` of this file.
 
 ## Implementation notes
 
-The negation of local separatedness is obtained from Stacks 088L itself rather than from
-an independent argument: the half of Stacks 02Z1 asserting that this quotient is not
-locally separated is not proved in this development — see
-`StacksFrontier/AlgebraicGeometry/Spaces/AffineLineInvolutionQuasiSeparated.lean`, which
-proves only the quasi-separatedness half — so what is available is the failure of the
-conclusion of Stacks 088L, and local separatedness is refuted by contraposition.  This
-costs nothing in content: the point of Stacks 088M is exactly that the two cannot both
-hold.
+The negation of local separatedness is obtained here from Stacks 088L by contraposition,
+from the failure of the conclusion of Stacks 088L.  The half of Stacks 02Z1 asserting that
+this quotient is not locally separated is proved directly, as
+`AlgebraicGeometry.AffineLineInvolution.not_isAbsolutelyLocallySeparated_involutionQuotient`
+in `StacksFrontier/Examples/Spaces/AffineLineInvolutionNotLocallySeparated.lean`, and the
+unconditional form of Stacks 088M uses it instead.
 
 Regularity of the site's size cutoff is used because this development's Stacks 088L
 carries a cardinality side condition on the sections of `U`, which Stacks 088L itself does
@@ -70,8 +69,10 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
-/-- **Stacks 088M**, the half of the remark which is a theorem: the hypothesis of Stacks
-088L that `X` be locally separated cannot be dropped.
+/-- The statement of Stacks 088M, reached through Stacks 088L: the hypothesis of Stacks
+088L that `X` be locally separated cannot be dropped.  Stacks 088M itself is the primed
+`exists_not_isAbsolutelyLocallySeparated_not_isImmersion'`, with no `hreg`, `hdiag` or
+`hchart`.
 
 Over a field in which two is invertible there is a finite type morphism `f : Y ⟶ X` of
 algebraic spaces with `Y` an affine scheme and `X` quasi-separated — so every hypothesis
@@ -85,10 +86,6 @@ contraposition, which is what `hreg` is for.  See the implementation notes of th
 
 The remark also raises the question whether Stacks 088L holds without quasi-separatedness.
 That is an open question, not a result, and nothing here formalizes it. -/
-@[stacks 088M "the failure of 088L without local separatedness, carried by 088W and so \
-conditional on the same effective descent hypotheses, and over a site whose cutoff is \
-regular; the open question the remark raises about quasi-separatedness is not a theorem \
-and is not formalized"]
 theorem exists_not_isAbsolutelyLocallySeparated_not_isImmersion
     (k : Type u) [Field k] (hchar : (2 : k) ≠ 0)
     (B : BigFppfSite.{u}) (hreg : B.cutoff.IsRegular)

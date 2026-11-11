@@ -50,8 +50,8 @@ Everything is in the namespace `Crystalline.GlobalCrystallineSituation.SmallSite
 ## What is and is not proved
 
 **No tag attribute is placed in this module.**  [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.  The hypothesis list of
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.  The hypothesis list of
 `...SmallSite.computes07LG_of_doubleComplexSmall` is `K`, `hcolumns`, `rowTarget`, `rowComparison`,
 `hrows`, `hrow0`, `hcolumn0`, `hker`; what falls here is `hker`, for every quasi-coherent
 coefficient sheaf.  The others are untouched.

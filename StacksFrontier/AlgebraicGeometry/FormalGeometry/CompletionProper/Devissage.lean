@@ -40,16 +40,16 @@ The two pieces the induction rests on are proved here with no hypotheses at all:
   `Stacks.Algebraization.isSystemAnnihilatedBy_bot`, which is what makes `⊥ ∈ Ξ` the whole of
   essential surjectivity.
 
-What remains as a hypothesis is `hDev`, the source's inductive step, and `hFF`, the theorem on
-formal functions in degree zero that Stacks 0883 itself assumes. The source obtains `hDev` from
-Chow's lemma (Stacks 0200) together with Stacks 087T, the projective case Stacks 0885, the
-coherence of a proper direct image (Stacks 02O5) and Stacks 088A, 088B. Of that chain this
-library carries 0200 (`AlgebraicGeometry.hasDenseChowModification`, unconditionally, with
-exactly the instances a proper `f` over a Noetherian base provides), 087T
-(`StacksFrontier/AlgebraicGeometry/ClosedPushforward/Coherent.lean`) and 0889
-(`Stacks.Algebraization.exists_unique_algebraization_of_isNoetherian`, unconditionally, which is
-the engine of 088A); 0885 is conditional on the same `hFF` and on a generation statement resting
-on the absent Stacks 0884 and 0897, and nothing in this library carries 088A, 088B or 02O5.
+The declaration `isEquivalence_completionFunctor_of_devissage` takes the source's inductive step
+as the binder `hDev`, and `hFF`, the theorem on formal functions in degree zero that Stacks 0883
+uses, as a second binder. Both are discharged in
+`CompletionProper/GrothendieckExistenceProper.lean`: `hFF` by
+`Stacks.Algebraization.isIso_globalSectionsToLimit_of_isProper` and `hDev` by
+`Stacks.Coherent.essImage_completionFunctor_of_devissageStep`, which follows the source's step
+through Chow's lemma (Stacks 0200), Stacks 087T, the projective case Stacks 0885, the coherence of
+a proper direct image (Stacks 02O5) and Stacks 088A, 088B. The resulting statement, with exactly
+the source's hypotheses, is `Stacks.Algebraization.isEquivalence_completionFunctor_of_isProper`,
+which carries the tag 088C.
 
 ## Main results
 
@@ -61,8 +61,9 @@ on the absent Stacks 0884 and 0897, and nothing in this library carries 088A, 08
 * `Stacks.Algebraization.essImage_completionFunctor_of_devissage` — the Noetherian induction:
   given the inductive step, every object of `Coh(X, 𝓘)` killed by any ideal sheaf is in the
   essential image of the completion functor. Unconditional.
-* `Stacks.Algebraization.isEquivalence_completionFunctor_of_devissage` — **Stacks 088C** for a
-  proper morphism, from `hFF` and the inductive step `hDev`.
+* `Stacks.Algebraization.isEquivalence_completionFunctor_of_devissage` — the completion functor
+  of a proper morphism is an equivalence once `hFF` and the inductive step `hDev` are supplied;
+  `Stacks.Algebraization.isEquivalence_completionFunctor_of_isProper` supplies both.
 
 ## Implementation notes
 
@@ -227,43 +228,30 @@ public theorem essImage_completionFunctor_of_devissage (X : Scheme.{u}) [IsNoeth
 
 /-! ### Grothendieck existence for a proper morphism -/
 
-/-- **Stacks 088C.** Let `A` be a Noetherian ring complete with respect to an ideal `I`, let
-`f : X ⟶ Spec A` be a proper morphism of schemes and set `𝓘 = I · 𝒪_X`. Then the completion
-functor `Coh(𝒪_X) ⥤ Coh(X, 𝓘)` of Stacks 0880 is an equivalence — faithful, full and essentially
-surjective — granted
+/-- **Grothendieck existence for a proper morphism, from the theorem on formal functions and the
+inductive step.** Let `A` be a Noetherian ring complete with respect to an ideal `I`, let
+`f : X ⟶ Spec A` be a proper morphism of schemes and set `𝓘 = I · 𝒪_X`. Suppose
 
 * `hFF`, the theorem on formal functions in degree zero (Stacks 087U), which is what Stacks 0883
-  assumes for full faithfulness and which this library does not carry unconditionally, and
+  uses for full faithfulness, and
 * `hDev`, the inductive step of the source's Noetherian induction: a coherent `𝓘`-adic system
   killed by a quasi-coherent ideal sheaf `K` is in the essential image of the completion functor
   as soon as every coherent `𝓘`-adic system killed by an ideal sheaf strictly larger than `K` is.
 
-Everything else is proved here. Full faithfulness is Stacks 0883 read through `hFF`. Essential
-surjectivity is the Noetherian induction `essImage_completionFunctor_of_devissage` applied at the
-zero ideal sheaf, which kills every system by `isSystemAnnihilatedBy_bot`; the induction is
-legitimate because the quasi-coherent ideal sheaves of the Noetherian scheme `X` satisfy the
-ascending chain condition. Noetherianity of `X` is not an added hypothesis: local Noetherianity
-follows from `LocallyOfFiniteType f` over the Noetherian base and quasi-compactness from the
-universal closedness of `f` and the quasi-compactness of `Spec A`.
+Then the completion functor `Coh(𝒪_X) ⥤ Coh(X, 𝓘)` of Stacks 0880 is an equivalence. Full
+faithfulness is Stacks 0883 read through `hFF`. Essential surjectivity is the Noetherian induction
+`essImage_completionFunctor_of_devissage` applied at the zero ideal sheaf, which kills every
+system by `isSystemAnnihilatedBy_bot`; the induction is legitimate because the quasi-coherent
+ideal sheaves of the Noetherian scheme `X` satisfy the ascending chain condition. Noetherianity of
+`X` is not an added hypothesis: local Noetherianity follows from `LocallyOfFiniteType f` over the
+Noetherian base and quasi-compactness from the universal closedness of `f` and the
+quasi-compactness of `Spec A`.
 
-`hDev` is the source's own step. Granted `hFF` it is, like the generation hypothesis `hGen` of
-`Stacks.Algebraization.isEquivalence_completionFunctor_of_exists_epi`, equivalent to the
-conclusion; what differs is the obligation. `hGen` grants nothing and is not a step of the
-source's proof for a proper morphism — the source proves it only in the projective case, by
-Stacks 0884 — whereas `hDev` is discharged one ideal sheaf at a time with the statement already
-available on every strictly larger ideal sheaf. The source supplies `hDev`
-by Chow's lemma (Stacks 0200), Stacks 087T, the projective case Stacks 0885, the coherence of a
-proper direct image (Stacks 02O5) and Stacks 088A together with 088B; of those this library
-carries 0200 and 087T unconditionally, has 0885 only with `hFF` and a generation hypothesis
-resting on the absent Stacks 0884 and 0897, and carries none of 02O5, 088A, 088B. -/
-@[stacks 088C "for a proper f, with the theorem on formal functions in degree zero (087U) as \
-the hypothesis hFF and the inductive step of the source's Noetherian induction over the \
-quasi-coherent ideal sheaves of X as the hypothesis hDev -- that a coherent adic system killed \
-by an ideal sheaf K is in the essential image of the completion functor as soon as every \
-coherent adic system killed by a strictly larger ideal sheaf is. The induction itself, its \
-ascending chain condition (for which the source cites 01Y8) and its conclusion at the zero ideal \
-sheaf are proved unconditionally here; the source supplies hDev from Chow's lemma (0200), 087T, \
-the projective case (0885), the coherence of a proper direct image (02O5) and 088A with 088B"]
+Both binders hold for every such `f`:
+`Stacks.Algebraization.isEquivalence_completionFunctor_of_isProper`
+(`CompletionProper/GrothendieckExistenceProper.lean`), which carries Stacks 088C, discharges `hFF`
+by `Stacks.Algebraization.isIso_globalSectionsToLimit_of_isProper` and `hDev` by
+`Stacks.Coherent.essImage_completionFunctor_of_devissageStep`. -/
 public theorem isEquivalence_completionFunctor_of_devissage
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A) [IsAdicComplete I A]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of A)) [IsProper f]

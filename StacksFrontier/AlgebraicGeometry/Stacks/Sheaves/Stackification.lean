@@ -10,27 +10,29 @@ public import StacksFrontier.CategoryTheory.Sites.Stack.MorSeparated
 public import StacksFrontier.CategoryTheory.Sites.Topos.ToposMorphismDefs
 
 /-!
-# Stackification does not change the fppf topos (Stacks 06WQ)
+# Stackification does not change the fppf topos
 
 Let `f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in groupoids over the big fppf category
 of a scheme `S`. If `f` induces an equivalence of stackifications, then the morphism of topoi
 `Sh(𝒳_fppf) ⟶ Sh(𝒴_fppf)` of Stacks 06TS is an equivalence.
 
-Inducing an equivalence of stackifications is expressed by the two local criteria of
-Stacks 02ZN, which is what the stackification of a category fibred in groupoids is
-characterized by: on every fibre the induced maps of morphism presheaves are locally injective
-and locally surjective, and every object of a fibre of the target is, along a covering sieve,
-in the essential image. Phrasing the hypothesis this way means neither stackification has to be
-constructed or chosen.
+This file proves the conclusion under the two local clauses of Stacks 02ZN on `f` itself,
+gathered in `CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence`: on every
+fibre the induced maps of morphism presheaves are locally injective and locally surjective, and
+every object of a fibre of the target is, along a covering sieve, in the essential image. The
+hypothesis of the source — stackifications `𝒳 ⥤ 𝒳'` and `𝒴 ⥤ 𝒴'` and an equivalence
+`𝒳' ⥤ 𝒴'` over the site compatible with `f` — is reduced to these clauses, and Stacks 06WQ
+registered, in `StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.StackificationInduced`.
 
-From those two criteria the 1-morphism is shown to be a dense subsite inclusion for the
+From those two clauses the 1-morphism is shown to be a dense subsite inclusion for the
 inherited topologies of Stacks 06TP — cover-dense, locally full and locally faithful — and the
 inverse image of the induced morphism of topoi is restriction along it, so it is an equivalence.
 
 ## Main definitions
 
-* `CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence`: the hypothesis of
-  Stacks 06WQ, in the local form of Stacks 02ZN.
+* `CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence`: the two local
+  clauses of Stacks 02ZN for a 1-morphism `f`, which a 1-morphism inducing an equivalence of
+  stackifications satisfies.
 
 ## Main results
 
@@ -39,8 +41,10 @@ inverse image of the induced morphism of topoi is restriction along it, so it is
 * `CategoryTheory.Functor.IsFibredOneMorphism.isDenseSubsite_of_isStackificationEquivalence`:
   a 1-morphism inducing an equivalence of stackifications is a dense subsite inclusion for the
   inherited topologies.
-* `AlgebraicGeometry.Stack.isEquivalence_inverseImage_of_isStackificationEquivalence`:
-  **Stacks 06WQ**, the inverse image of the induced morphism of fppf topoi is an equivalence.
+* `AlgebraicGeometry.Stack.isEquivalence_inverseImage_of_isStackificationEquivalence`: the
+  inverse image of the induced morphism of fppf topoi is an equivalence, under the two local
+  clauses. Stacks 06WQ itself, under the hypothesis of the source, is
+  `AlgebraicGeometry.Stack.isEquivalence_inverseImage_of_isEquivalenceOver_stackifications`.
 
 ## Implementation notes
 
@@ -166,15 +170,16 @@ private theorem exists_comp_pullbackMap_eq (hp : p.IsFiberedInGroupoids) {A B : 
     (Functor.IsPreFibered.pullbackMap (rfl : p.obj B = p.obj B) (p.map f))
   exact ⟨_, inferInstance, Functor.IsStronglyCartesian.fac p (p.map f) _ hone g⟩
 
-/-- A 1-morphism `F` of categories fibred in groupoids over a site *induces an equivalence of
-stackifications* when it satisfies the two local criteria of Stacks 02ZN: on every fibre the
-induced map of morphism presheaves is locally injective and locally surjective, and every object
-of a fibre of the target is, along a covering sieve of the base, in the essential image of `F`
-on fibres.
+/-- The two local clauses of Stacks 02ZN for a 1-morphism `F` of fibred categories over a site:
+on every fibre the induced map of morphism presheaves is locally injective and locally
+surjective, and every object of a fibre of the target is, along a covering sieve of the base, in
+the essential image of `F` on fibres.
 
-These are the conditions characterizing a stackification, so they hold for `F` exactly when the
-stackifications of source and target are equivalent over `F`; stating the hypothesis in this
-form avoids constructing either stackification. The second clause is
+This is not itself the statement that `F` induces an equivalence of stackifications, which
+speaks of stackifications of source and target; a 1-morphism into a category fibred in groupoids
+which does induce one satisfies these clauses, by
+`CategoryTheory.Functor.IsFibredOneMorphism.isStackificationEquivalence_of_isEquivalenceOver`.
+The second clause is
 `CategoryTheory.Functor.LocallyEssSurjOnFibers`, spelled with
 `CategoryTheory.Functor.fiberFunctorOfCompEq` rather than
 `CategoryTheory.Functor.Fiber.mapOfComp` because that is the spelling the criteria of
@@ -366,14 +371,16 @@ end CategoryTheory.Functor
 
 namespace AlgebraicGeometry.Stack
 
-/-- **Stacks 06WQ.** If a 1-morphism `F : 𝒳 ⥤ 𝒴` of categories fibred in groupoids over the big
-fppf category of `S` induces an equivalence of stackifications, then the morphism of topoi
-`Sh(𝒳_fppf) ⟶ Sh(𝒴_fppf)` of Stacks 06TS is an equivalence.
+/-- If a 1-morphism `F : 𝒳 ⥤ 𝒴` of categories fibred in groupoids over the big fppf category of
+`S` satisfies the two local clauses of Stacks 02ZN
+(`CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence`), then the morphism of
+topoi `Sh(𝒳_fppf) ⟶ Sh(𝒴_fppf)` of Stacks 06TS is an equivalence. Stacks 06WQ, whose hypothesis
+is that `F` induces an equivalence of stackifications, is derived from this as
+`AlgebraicGeometry.Stack.isEquivalence_inverseImage_of_isEquivalenceOver_stackifications`.
 
 The functor displayed is the inverse image of that morphism of topoi, which by Stacks 06TS is
 restriction along `F`; the morphism of topoi is an equivalence exactly when its inverse image
 is. -/
-@[stacks 06WQ]
 theorem isEquivalence_inverseImage_of_isStackificationEquivalence
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {𝒳 : Type v₁} [Category.{u} 𝒳] {𝒴 : Type v₂} [Category.{u} 𝒴]

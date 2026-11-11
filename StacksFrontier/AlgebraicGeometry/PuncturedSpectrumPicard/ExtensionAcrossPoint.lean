@@ -11,8 +11,8 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 Let `A` be a ring, `U` an open of `Spec A`, `𝔭 ∈ U` a point and `V = U ∖ {𝔭}`.  The one-point
 extension step of [Stacks, Tag 0F2F] asserts that if the punctured spectrum of `A_𝔭` has trivial
-Picard group then `Pic(U) ⟶ Pic(V)` is surjective; it is carried as the hypothesis
-`Stacks.PuncturedSpectrumPicard.PicardExtendsAcrossPoint` by
+Picard group then `Pic(U) ⟶ Pic(V)` is surjective; it is stated as
+`Stacks.PuncturedSpectrumPicard.PicardExtendsAcrossPoint` in
 `StacksFrontier/AlgebraicGeometry/PuncturedSpectrumPicard/ExtensionToPuncturedSpectrum.lean`.
 
 This file proves it.  The argument glues the given invertible module on `V` with the *trivial*
@@ -62,7 +62,7 @@ the fpqc covering `(U ∖ {𝔭}) ⊔ Spec 𝒪_{U, 𝔭} ⟶ U` that [Stacks, T
 * `Stacks.PuncturedSpectrumPicard.surjective_schemePullbackClass_puncturedOpen`: the one-point
   extension for a closed point of an arbitrary scheme.
 * `Stacks.PuncturedSpectrumPicard.picardExtendsAcrossPoint`:
-  **`PicardExtendsAcrossPoint` for a Noetherian ring**, the carried input of
+  **`PicardExtendsAcrossPoint` for a Noetherian ring**, the one-point step of the proof of
   [Stacks, Tag 0F2F].
 
 ## Implementation notes
@@ -484,10 +484,10 @@ section Main
 open of `Spec A`, `𝔭 ∈ U` and `V = U ∖ {𝔭}`: if the punctured spectrum of `A_𝔭` has trivial
 Picard group then `Pic(U) ⟶ Pic(V)` is surjective.
 
-This is the input that
-`StacksFrontier/AlgebraicGeometry/PuncturedSpectrumPicard/ExtensionToPuncturedSpectrum.lean`
-carries as the hypothesis `PicardExtendsAcrossPoint`.  `V` is the open complement of `𝔭` taken
-inside the scheme `U` (`surjective_schemePullbackClass_homOfLE_of_puncturedOpen`), the side
+This is the statement `PicardExtendsAcrossPoint` of
+`StacksFrontier/AlgebraicGeometry/PuncturedSpectrumPicard/ExtensionToPuncturedSpectrum.lean`.
+`V` is the open complement of `𝔭` taken inside the scheme `U`
+(`surjective_schemePullbackClass_homOfLE_of_puncturedOpen`), the side
 condition of [Stacks, Tag 0F21] holds because `Spec A` is a Noetherian space
 (`quasiCompact_ι_of_noetherianSpace`), the punctured local scheme of `U` at `𝔭` is the punctured
 spectrum of `A_𝔭` (`preimage_puncturedOpen_fromSpecStalk`,
@@ -508,30 +508,25 @@ theorem picardExtendsAcrossPoint (A : Type u) [CommRing A] [IsNoetherianRing A] 
 
 end Main
 
-/-! ### Stacks 0F2F with the one-point extension step discharged -/
+/-! ### Surjectivity of `Pic(U) ⟶ Pic(U₀)` with the one-point extension step discharged -/
 
 section Tag
 
 variable {A : Type u} [CommRing A] [IsLocalRing A] [IsNoetherianRing A] {f : A}
 
-/-- **Stacks 0F2F, with the one-point extension step discharged.**  Surjectivity of
-`Pic(U) ⟶ Pic(U₀)` for the punctured spectrum `U` of a Noetherian local ring `A` and the
-punctured spectrum `U₀` of `A/fA`.
+/-- **Surjectivity of `Pic(U) ⟶ Pic(U₀)` from the conclusion of [Stacks, Tag 0F2D].**  For the
+punctured spectrum `U` of a Noetherian local ring `A` and the punctured spectrum `U₀` of `A/fA`:
+if every class on `U₀` comes from an open `U₀ ⊆ U' ⊆ U` (`PicardColimitSurjective`) and every
+maximal ideal `𝔭` of `A_f` has `Pic` of the punctured spectrum of `A_𝔭` trivial, then
+`Pic(U) ⟶ Pic(U₀)` is surjective.
 
 This is `Stacks.PuncturedSpectrumPicard.surjective_schemePullbackClass_puncturedClosedFibre`
-with its `hstep` hypothesis supplied by `picardExtendsAcrossPoint`, so the only input still
-granted is the conclusion of [Stacks, Tag 0F2D]. -/
-@[stacks 0F2F "GRANTED, and not proved here, ONE input: h0F2D, the conclusion of Stacks 0F2D \
-for (A,f), carried as Stacks.PuncturedSpectrumPicard.PicardColimitSurjective — the predicate \
-the restricted 0F2D of StacksFrontier.AlgebraicGeometry.PuncturedSpectrumPicard.FormalTower \
-states unproved and explicitly disclaims, so that tag's restriction is inherited here. The \
-source's other input, `By Limits, Lemma 0F21 applied n times`, is NO LONGER granted: the \
-one-point step is proved as Stacks.PuncturedSpectrumPicard.picardExtendsAcrossPoint and \
-supplied here. Clause (2) of the source is h2, transcribed with the two standard \
-identifications performed in the statement: a maximal ideal of A_f is a prime 𝔭 of A with \
-f ∉ 𝔭 maximal among such, and (A_f)_𝔭 = A_𝔭 = Localization.AtPrime 𝔭"]
+with its `hstep` hypothesis supplied by `picardExtendsAcrossPoint`.  [Stacks, Tag 0F2F] itself,
+under the source's hypotheses, is
+`surjective_schemePullbackClass_puncturedClosedFibre_of_localCohomology`, which supplies
+`hcolim` by [Stacks, Tag 0F2D] (`picardColimitSurjective`). -/
 theorem surjective_schemePullbackClass_puncturedClosedFibre_of_isNoetherianRing
-    (hf : f ∈ maximalIdeal A) (h0F2D : PicardColimitSurjective A f)
+    (hf : f ∈ maximalIdeal A) (hcolim : PicardColimitSurjective A f)
     (h2 : ∀ p : PrimeSpectrum A, f ∉ p.asIdeal →
       (∀ q : PrimeSpectrum A, p.asIdeal < q.asIdeal → f ∈ q.asIdeal) →
       Subsingleton (Stacks.Picard.ofScheme
@@ -539,7 +534,7 @@ theorem surjective_schemePullbackClass_puncturedClosedFibre_of_isNoetherianRing
     Function.Surjective (Stacks.Picard.schemePullbackClass
       (morphismRestrict (Stacks.Algebraization.closedImmersion A f)
         (Stacks.Divisors.puncturedSpectrum A))) :=
-  surjective_schemePullbackClass_puncturedClosedFibre hf (picardExtendsAcrossPoint A) h0F2D h2
+  surjective_schemePullbackClass_puncturedClosedFibre hf (picardExtendsAcrossPoint A) hcolim h2
 
 end Tag
 

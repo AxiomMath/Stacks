@@ -47,9 +47,9 @@ derived tensor product of Stacks 0BYI.
 
 There Stacks 0FJT applies: `Γ(Y, U)` and `Γ(X, V)` are Noetherian because `Y` and `X` are
 locally Noetherian, and `Γ(Y, U) → Γ(X, V)` is a perfect ring map because `f` is a perfect
-morphism — that is the defining condition of Stacks 0687, instantiated at the canonical
-certificate. Its equivalence (1) ⇒ (3) makes `Γ(Y, U) → Γ(X, V)` a local complete intersection
-homomorphism.
+morphism: the chart property of Stacks 0687, read through Mathlib's
+`AlgebraicGeometry.HasRingHomProperty.appLE`. Its equivalence (1) ⇒ (3) makes `Γ(Y, U) → Γ(X, V)`
+a local complete intersection homomorphism.
 
 The ring-level conclusion arrives in the `Scheme.Hom.appLE` spelling, while Stacks 07DB is stated
 at `Scheme.Hom.appTop` of the restriction `f|_V^U`; the two are converted into one another by
@@ -130,12 +130,9 @@ theorem isLocalCompleteIntersection_appLE_of_hasTorAmplitude
   let := Stacks.NaiveCotangentAffineStalk.algebraAppLE f hVU
   have _hA : IsNoetherianRing Γ(Y, U) := IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
   have _hB : IsNoetherianRing Γ(X, V) := IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
-  -- The canonical certificate of Stacks 0BYI, spelled out so that its three fields are the
-  -- three arguments Stacks 0FJT reads perfectness off.
-  have hperf := Perfect.perfect_appLE f V hV U hU hVU
-    { tensor := (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct Γ(Y, U)).tensor
-      comparison := StacksDraft.TorAmplitude.canonicalTensorComparison Γ(Y, U)
-      isLeftDerived := StacksDraft.TorAmplitude.canonicalTensorIsLeftDerived Γ(Y, U) }
+  -- Perfectness of `Γ(Y, U) → Γ(X, V)`: the chart property of Stacks 0687.
+  have : Algebra.Perfect Γ(Y, U) Γ(X, V) :=
+    RingHom.perfect_algebraMap.mp (HasRingHomProperty.appLE @Perfect f ‹_› ⟨U, hU⟩ ⟨V, hV⟩ hVU)
   -- Condition (1) of Stacks 0FJT is Tor amplitude at the three fields of the canonical
   -- certificate; both it and `HasTorAmplitudeCanonical` are read off a bounded flat
   -- representative, by Stacks 0654.
@@ -147,7 +144,7 @@ theorem isLocalCompleteIntersection_appLE_of_hasTorAmplitude
         Γ(X, V) (NaiveCotangent.naiveCotangentObject Γ(Y, U) Γ(X, V)) (-1) 0).1
       (hasTorAmplitudeCanonical_naiveCotangentObject_of_hasTorAmplitude f hVU hU hV hamp))
   exact ((NaiveCotangent.hasTorAmplitude_tfae_isLocalCompleteIntersection
-    Γ(Y, U) Γ(X, V) hperf).out 1 3).mp harg
+    Γ(Y, U) Γ(X, V)).out 1 3).mp harg
 
 end NaiveCotangentLocalCompleteIntersection
 

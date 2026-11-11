@@ -106,6 +106,14 @@ on `AlgebraicGeometry.Stack.exists_openSubstack_isLocallyQuasiFinite_uncondition
 `AlgebraicGeometry.Stack.exists_isOpenSubspace_isLocallyQuasiFinite`, which state the fibre
 hypothesis as `AlgebraicGeometry.Stack.FibreIsLocallyQuasiFiniteNear` — the intermediate
 condition the source's own proof extracts from `dim_z(F) = 0` — and those two are now untagged.
+Also untagged, and superseded by the two restatements below, is the conditional twin
+`AlgebraicGeometry.Stack.exists_openSubstack_isLocallyQuasiFinite` of
+`StacksFrontier/AlgebraicGeometry/Stacks/ChartShrinkingQuasiFiniteEtale.lean`, which takes the
+fibre hypothesis in the same intermediate form and in addition the two clauses of
+**Stacks 06M5** as inputs — the locus `W` with `hW` and its compatibility `hBaseChange` with the
+base change along the field-valued point. Those inputs cannot be discharged in that file: the
+locus of **Stacks 06M3** is constructed in
+`StacksFrontier/AlgebraicGeometry/Stacks/RelativePropertyLocus.lean`, which imports it.
 
 Restating *those* two at `dim_z(F) = 0`, which would have left the registration where it was,
 is not available: the bridge lives here, and this file is downstream of both of them —

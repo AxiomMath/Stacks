@@ -35,9 +35,12 @@ the two long exact sequences of cohomology then make `H¹(X, 𝒪_X) ⟶ H¹(X, 
 `H¹(X, coim) ⟶ H¹(X, f_*𝒪_Y)` surjective, hence `H¹(X, 𝒪_X) ⟶ H¹(X, f_*𝒪_Y)` surjective; and
 `H¹(X, f_*𝒪_Y) = H¹(Y, 𝒪_Y)` because `f` is affine ([Stacks, Tag 089W]).
 
-This file proves that argument. The two vanishing statements, and the finite dimensionality of
-`H¹(X, 𝒪_X)` which turns a surjection into an inequality of dimensions, are carried as
-hypotheses; see the implementation notes for what is and is not covered.
+This file proves that argument for an affine morphism, with the two vanishing statements and the
+finite dimensionality of `H¹(X, 𝒪_X)`, which turns a surjection into an inequality of
+dimensions, as inputs. Those three inputs are discharged from the source's hypotheses in
+`StacksFrontier/AlgebraicGeometry/Curves/GenusCurve/GenusGoesDownUnconditional.lean`, whose
+`AlgebraicGeometry.genus_le_of_isFinite_of_isClosedImmersion_over_dense_open` is
+[Stacks, Tag 0CE3] itself.
 
 ## Main definitions
 
@@ -62,8 +65,8 @@ hypotheses; see the implementation notes for what is and is not covered.
 * `AlgebraicGeometry.finrank_cohomologyOverField_le_of_isZero`: the inequality of dimensions that
   surjectivity gives.
 * `AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero`: **the inequality
-  `dim_k H¹(Y, 𝒪_Y) ≤ dim_k H¹(X, 𝒪_X)`** of [Stacks, Tag 0CE3], with the two vanishing
-  statements and the finite dimensionality as hypotheses.
+  `dim_k H¹(Y, 𝒪_Y) ≤ dim_k H¹(X, 𝒪_X)`** for an affine `f`, from the two vanishing
+  statements and the finite dimensionality of `H¹(X, 𝒪_X)`.
 * `AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero_hgroup` and
   `AlgebraicGeometry.genus_le_of_isAffineHom_of_subsingleton_sheafCohomology`: the same with the
   two vanishing hypotheses in the two abelian-group spellings of cohomology, which are the
@@ -71,44 +74,32 @@ hypotheses; see the implementation notes for what is and is not covered.
 
 ## Implementation notes
 
-**What is proved and what is assumed.** The attribute on
-`AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero` carries a clause string, because three
-inputs of the source's proof are hypotheses of that theorem rather than consequences of its
-other hypotheses:
+**What is proved here and where the inputs come from.** Three inputs of the source's proof are
+hypotheses of `AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero`, so that the cohomological
+step stands on its own for any affine `f`. The library proves each of them under the source's
+hypotheses, and `AlgebraicGeometry.genus_le_of_isFinite_of_isClosedImmersion_over_dense_open`
+(`StacksFrontier/AlgebraicGeometry/Curves/GenusCurve/GenusGoesDownUnconditional.lean`) assembles
+them into [Stacks, Tag 0CE3]:
 
 * `H¹(X, ℱ) = 0` for the cokernel `ℱ` of `𝒪_X ⟶ f_*𝒪_Y`. In the source this is clause (3) of
-  [Stacks, Tag 0AYT], applied to a coherent module whose support has dimension at most zero.
-  The library has clause (1) of that tag,
-  `AlgebraicGeometry.nonempty_generatingSections_of_support_dim_le_zero`, and clause (5), but
-  not clause (3): the statement that is missing is
-  `IsZero (cohomologyOverField k f F i)` for `f : X ⟶ Spec k` proper, `F` coherent with
-  `topologicalKrullDim (SheafOfModules.supp F) ≤ 0` and `0 < i`. With that clause in hand, the
-  hypothesis would still have to be met by showing that the support of the cokernel has
-  dimension at most zero, which is where the hypotheses that `f` is a closed immersion over a
-  dense open and that `X` has dimension at most one enter; neither of those hypotheses is used
-  anywhere else in the argument, which is why neither appears below.
-* `H²(X, 𝒢) = 0` for the kernel `𝒢`. In the source this is [Stacks, Tag 02UZ]. The library has
-  that proposition as
-  `Stacks.CohomologyVanishing.subsingleton_sheafCohomology_of_noetherianSpace`, for the
-  cohomology `CategoryTheory.Sheaf.H` of an abelian sheaf on the site of opens, and it carries
-  clause (1) of [Stacks, Tag 0A3G] for spectral spaces as a hypothesis — which
-  `Stacks.CohomologyVanishing.cohomology_subsingleton_of_isCohomologyTransport` supplies from
-  `Stacks.CohomologyVanishing.IsCohomologyTransport`, the consequence of [Stacks, Tag 0A3D] that
-  the library does not have. Only in dimension zero is the proposition unconditional. The
-  change of spelling is *not* the obstruction: the variants
+  [Stacks, Tag 0AYT], applied to a coherent module whose support has dimension at most zero;
+  the library has that clause as
+  `AlgebraicGeometry.isZero_cohomologyOverField_of_topologicalKrullDim_supp_le_zero`. The bound
+  on the support is where the hypotheses that `f` is a closed immersion over a dense open and
+  that `X` has dimension at most one enter.
+* `H²(X, 𝒢) = 0` for the kernel `𝒢`. In the source this is [Stacks, Tag 02UZ]; the library has
+  the vanishing by dimension as
+  `AlgebraicGeometry.isZero_cohomologyOverField_of_topologicalKrullDim_le`. The variants
   `AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero_hgroup` and
   `AlgebraicGeometry.genus_le_of_isAffineHom_of_subsingleton_sheafCohomology` carry the two
-  vanishing hypotheses in the `Hgroup` and in the `CategoryTheory.Sheaf.H` spellings, so the
-  statement of [Stacks, Tag 02UZ] can be applied to the latter with nothing in between.
+  vanishing hypotheses in the `Hgroup` and in the `CategoryTheory.Sheaf.H` spellings.
 * finite dimensionality of `H¹(X, 𝒪_X)` over `k`, which is [Stacks, Tag 02O6] at the base
-  `Spec k`. The library proves that tag relative to [Stacks, Tag 02O5] and unconditionally for a
-  finite morphism (`AlgebraicGeometry.finiteDimensional_cohomologyOverField_of_isFinite`), but
-  not for a proper one; it is carried as a hypothesis here for the same reason that
-  `AlgebraicGeometry.eulerCharacteristic_add_of_shortExact_of_finiteDimensional` carries it.
+  `Spec k`; the library has it for a proper morphism as
+  `AlgebraicGeometry.finiteDimensional_cohomologyOverField_of_isProper`.
 
 Properness of `X` over `k` and the bound on its dimension are therefore absent from the
 statements below: they are used by the source only to produce those three inputs. The
-hypothesis that `f` is finite is weakened to `AlgebraicGeometry.IsAffineHom`, which is all the
+hypothesis that `f` is finite is relaxed to `AlgebraicGeometry.IsAffineHom`, which is all the
 comparison [Stacks, Tag 089W] needs, and which `AlgebraicGeometry.IsFinite` extends.
 
 **Splitting the four-term sequence.** The middle object is the coimage
@@ -269,16 +260,17 @@ private theorem genus_eq_finrank_cohomologyOverField_structureSheafModule :
   rw [genus_eq_finrank_structureSheafCohomology,
     (structureSheafCohomologyIsoCohomologyOverField k g 1).toLinearEquiv.finrank_eq]
 
-/-- **[Stacks, Tag 0CE3] with its three cohomological inputs as hypotheses.** Let `f : Y ⟶ X` be
-an affine morphism of schemes over a field `k`, and let `φ : 𝒪_X ⟶ f_*𝒪_Y` be the canonical
-comparison map. If `H¹(X, coker φ) = 0`, if `H²(X, ker φ) = 0` and if `H¹(X, 𝒪_X)` is finite
-dimensional over `k`, then the genus of `Y` is at most the genus of `X`, that is
+/-- **The cohomological step of [Stacks, Tag 0CE3].** Let `f : Y ⟶ X` be an affine morphism of
+schemes over a field `k`, and let `φ : 𝒪_X ⟶ f_*𝒪_Y` be the canonical comparison map. If
+`H¹(X, coker φ) = 0`, if `H²(X, ker φ) = 0` and if `H¹(X, 𝒪_X)` is finite dimensional over `k`,
+then the genus of `Y` is at most the genus of `X`, that is
 `dim_k H¹(Y, 𝒪_Y) ≤ dim_k H¹(X, 𝒪_X)`.
 
 The three hypotheses replace the properness of `X` over `k`, the bound on its dimension and the
 hypothesis that `f` is a closed immersion over a dense open, which the source uses only to
-produce them; see the implementation notes of this file. -/
-@[stacks 0CE3 "with the two cohomology vanishings and the finiteness of H¹(X,𝒪_X) as hypotheses"]
+produce them. The tag itself, under exactly the source's hypotheses, is
+`AlgebraicGeometry.genus_le_of_isFinite_of_isClosedImmersion_over_dense_open`, which discharges
+all three. -/
 theorem genus_le_of_isAffineHom_of_isZero (f : Y ⟶ X) [IsAffineHom f]
     (hcoker : IsZero (cohomologyOverField k g (cokernel (structureSheafToPushforward f)) 1))
     (hker : IsZero (cohomologyOverField k g (kernel (structureSheafToPushforward f)) 2))
@@ -292,10 +284,11 @@ theorem genus_le_of_isAffineHom_of_isZero (f : Y ⟶ X) [IsAffineHom f]
   exact finrank_cohomologyOverField_le_of_isZero k g (structureSheafToPushforward f) 1 hfin
     hcoker hker
 
-/-- **[Stacks, Tag 0CE3] with its two vanishing inputs in the abelian-group spelling of
-cohomology.** This is `AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero` with the two
-vanishing hypotheses stated for `Hgroup`, the right derived functor of the abelian-group-valued
-sections, which is the spelling in which the vanishing theorems of the library are stated. -/
+/-- **The cohomological step of [Stacks, Tag 0CE3], with its two vanishing inputs in the
+abelian-group spelling of cohomology.** This is
+`AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero` with the two vanishing hypotheses stated
+for `Hgroup`, the right derived functor of the abelian-group-valued sections, which is the
+spelling in which the vanishing theorems of the library are stated. -/
 theorem genus_le_of_isAffineHom_of_isZero_hgroup (f : Y ⟶ X) [IsAffineHom f]
     (hcoker : IsZero
       (Hgroup X.ringCatSheaf ⊤ 1 (cokernel (structureSheafToPushforward f))))
@@ -307,11 +300,12 @@ theorem genus_le_of_isAffineHom_of_isZero_hgroup (f : Y ⟶ X) [IsAffineHom f]
     ((isZero_cohomologyOverField_iff_isZero_hgroup k g _ 1).2 hcoker)
     ((isZero_cohomologyOverField_iff_isZero_hgroup k g _ 2).2 hker) hfin
 
-/-- **[Stacks, Tag 0CE3] with its two vanishing inputs in the `Ext`-theoretic spelling of
-cohomology.** This is `AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero` with the two
-vanishing hypotheses stated for `CategoryTheory.Sheaf.H` of the underlying abelian sheaf, which
-is the spelling of [Stacks, Tag 02UZ] and of the vanishing theorems for abelian sheaves on a
-space of bounded dimension. The transport is
+/-- **The cohomological step of [Stacks, Tag 0CE3], with its two vanishing inputs in the
+`Ext`-theoretic spelling of cohomology.** This is
+`AlgebraicGeometry.genus_le_of_isAffineHom_of_isZero` with the two vanishing hypotheses stated
+for `CategoryTheory.Sheaf.H` of the underlying abelian sheaf, which is the spelling of
+[Stacks, Tag 02UZ] and of the vanishing theorems for abelian sheaves on a space of bounded
+dimension. The transport is
 `Stacks.LocalCohomology.isZero_Hgroup_of_subsingleton_sheafCohomology`, which is why both
 degrees are required to be positive and the two hypotheses are stated in degrees one and two. -/
 theorem genus_le_of_isAffineHom_of_subsingleton_sheafCohomology (f : Y ⟶ X)

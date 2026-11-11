@@ -43,8 +43,9 @@ divided power polynomial algebra on the `ξ_i(j)` over the divided power envelop
 
 ## Main results
 
-* `Crystalline.exists_ringEquiv_pAdicCompletedDividedPowerPolynomial` — the displayed
-  isomorphism of algebras over `D` induced by the coprojection.
+* `Crystalline.exists_ringEquiv_pAdicCompletedDividedPowerPolynomial_over_coprojection` — the
+  displayed isomorphism of algebras over `D` induced by the coprojection, for the algebra
+  structure `Crystalline.pAdicCompletedCoprojection` of `D(n)` over `D`.
 
 ## Implementation notes
 
@@ -1331,19 +1332,17 @@ private theorem tensorPowerStructureEquiv_coprojectionDifference (n : ℕ) (q : 
               (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n) z)
           (dpCoefficients_dividedPowerPolynomialVariable (ι × Fin n) q))))
 
-/-- **Stacks Project, Lemma 60.17.5, Tag 07L2.** Let `D` and `D(n)` be as in (07J8) and
-(07JF).  The coprojection `P → P ⊗_A … ⊗_A P`, `h ↦ h ⊗ 1 ⊗ … ⊗ 1` induces an isomorphism
+/-- **A ring isomorphism `D(n) ≅ lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩` over some ring map
+`φ : D → D(n)` agreeing with the coprojection on the image of `P`.**
 
-`D(n) = lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩`
-
-of algebras over `D`, with `ξ_i(j) = x_i ⊗ 1 ⊗ … ⊗ 1 - 1 ⊗ … ⊗ 1 ⊗ x_i ⊗ 1 ⊗ … ⊗ 1` for
-`j = 1, …, n`, where the second `x_i` is placed in the `(j + 1)`-st slot.
-
-The map `φ` induced by the coprojection is the algebra structure of `D(n)` over `D`: it
-agrees with the coprojection on the image of `P`.  The isomorphism `e` is an isomorphism
-over `φ`, and it carries the image of `ξ_i(j)` in `D(n)` to the divided power variable
-`ξ_i(j)`. -/
-@[stacks 07L2]
+This is weaker than [Stacks, Lemma 60.17.5, Tag 07L2]: the map `φ` is existentially quantified
+and only constrained on the image of `P`, which does not determine a ring map out of `D` (the
+divided powers `x^[k]` of elements of `J` are not in that image, and a ring map, unlike a divided
+power morphism, is not determined on them).  So `φ` need not be the algebra structure of `D(n)`
+over `D`.  The statement of the lemma, over the canonical algebra structure
+`Crystalline.pAdicCompletedCoprojection` and with the isomorphism pinned down on every divided
+power `ξ_i(j)^[k]`, is
+`Crystalline.existsUnique_ringEquiv_pAdicCompletedDividedPowerPolynomial_dpow`. -/
 public theorem exists_ringEquiv_pAdicCompletedDividedPowerPolynomial (n : ℕ) :
     ∃ (φ : pAdicCompletedDividedPowerEnvelope s f hf →+*
         pAdicCompletedTensorPowerEnvelope s f hf n)
@@ -1520,20 +1519,394 @@ public theorem tensorEnvelopeDPEquiv_coprojection (n : ℕ) (x : MvPolynomial ι
     tensorDifferenceCoordinates_coprojection, (addVariablesEquiv_spec s f n).2.2.1,
     setIndexedDividedPowerPolynomialReindexEquiv_algebraMap]
 
+/-! ### The algebra structure of `D(n)` over `D`, and the lemma over it -/
+
+/-- **The map of divided power envelopes induced by the coprojection** `P → P ⊗_A ⋯ ⊗_A P`,
+`h ↦ h ⊗ 1 ⊗ ⋯ ⊗ 1`: the divided power morphism `D_{P, γ}(J) → D_{P ⊗ ⋯ ⊗ P, γ}(J(n))` over
+`A` given by the universal property of the envelope of `J`. -/
+public noncomputable def coprojectionEnvelopeMap (n : ℕ) :
+    DividedPowers.DPMorphism (polynomialDividedPowerEnvelope s f).object.dividedPowers
+      (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object.dividedPowers :=
+  (polynomialEnvelopeMap s f (tensorPowerPresentation s f n)
+    (mvPolynomialCoprojection s.A (0 : Fin (n + 1)))
+    (tensorPowerPresentation_comp_coprojection s f 0)).1
+
+/-- The map of envelopes induced by the coprojection is the coprojection on the image of `P`. -/
+public theorem coprojectionEnvelopeMap_algebraMap (n : ℕ) (x : MvPolynomial ι s.A) :
+    coprojectionEnvelopeMap s f n ((polynomialDividedPowerEnvelope s f).algebraMap.toRingHom x) =
+      (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).algebraMap.toRingHom
+        (mvPolynomialCoprojection s.A (0 : Fin (n + 1)) x) :=
+  polynomialEnvelopeMap_polynomial s f _ _ _ x
+
+/-- **The algebra structure of `D(n)` over `D`**: the `p`-adic completion
+`D → D(n)` of the map of divided power envelopes induced by the coprojection
+`P → P ⊗_A ⋯ ⊗_A P`, `h ↦ h ⊗ 1 ⊗ ⋯ ⊗ 1`. -/
+public noncomputable def pAdicCompletedCoprojection (n : ℕ) :
+    pAdicCompletedDividedPowerEnvelope s f hf →+* pAdicCompletedTensorPowerEnvelope s f hf n :=
+  adicCompletionMap (coprojectionEnvelopeMap s f n).toRingHom _ _ (by
+    rw [Ideal.map_span, Set.image_singleton, map_natCast])
+
+/-- The algebra structure of `D(n)` over `D` extends the map of envelopes induced by the
+coprojection. -/
+public theorem pAdicCompletedCoprojection_algebraMap (n : ℕ)
+    (z : (polynomialDividedPowerEnvelope s f).object) :
+    pAdicCompletedCoprojection s f hf n
+        (algebraMap (polynomialDividedPowerEnvelope s f).object
+          (pAdicCompletedDividedPowerEnvelope s f hf) z) =
+      algebraMap (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object
+        (pAdicCompletedTensorPowerEnvelope s f hf n)
+        (coprojectionEnvelopeMap s f n z) :=
+  RingHom.congr_fun (adicCompletionMap_comp_algebraMap (coprojectionEnvelopeMap s f n).toRingHom
+    (Ideal.span {(s.p : (polynomialDividedPowerEnvelope s f).object)})
+    (Ideal.span {(s.p : (polynomialDividedPowerEnvelope s
+      (tensorPowerPresentation s f n)).object)})
+    (by rw [Ideal.map_span, Set.image_singleton, map_natCast])) z
+
+/-- The algebra structure of `D(n)` over `D` restricts to the coprojection on the image of `P`. -/
+public theorem pAdicCompletedCoprojection_toPAdic (n : ℕ) (x : MvPolynomial ι s.A) :
+    pAdicCompletedCoprojection s f hf n (toPAdicCompletedDividedPowerEnvelope s f hf x) =
+      toPAdicCompletedDividedPowerEnvelope s (tensorPowerPresentation s f n)
+        (tensorPowerPresentation_surjective s f hf n)
+        (mvPolynomialCoprojection s.A (0 : Fin (n + 1)) x) :=
+  (pAdicCompletedCoprojection_algebraMap s f hf n _).trans
+    (congrArg (algebraMap (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object
+        (pAdicCompletedTensorPowerEnvelope s f hf n))
+      (coprojectionEnvelopeMap_algebraMap s f n x))
+
+/-- **The identification of the envelope of `J(n)` carries the map induced by the coprojection
+to the coefficient map.**  Both `tensorEnvelopeDPEquiv⁻¹ ∘ algebraMap` and the map induced by the
+coprojection are divided power morphisms over `A` out of the envelope of `J` which agree on the
+image of `P`, so they agree by the universal property of the envelope. -/
+public theorem tensorEnvelopeDPEquiv_coprojectionEnvelopeMap (n : ℕ)
+    (y : (polynomialDividedPowerEnvelope s f).object) :
+    tensorEnvelopeDPEquiv s f n (coprojectionEnvelopeMap s f n y) =
+      algebraMap (polynomialDividedPowerEnvelope s f).object
+        (setIndexedDividedPowerPolynomialAlgebra
+          (polynomialDividedPowerEnvelope s f).object (ι × Fin n)) y := by
+  let b : DividedPowers.DPMorphism (polynomialDividedPowerEnvelope s f).object.dividedPowers
+      (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object.dividedPowers :=
+    DividedPowers.DPMorphism.mk' (DividedPowers.IsDPMorphism.comp _
+      (tensorEnvelopeDPEquiv_symm_isDPMorphism s f n)
+      (setIndexedDividedPowerPolynomialCoefficient_isDPMorphism
+        (polynomialDividedPowerEnvelope s f).object (ι × Fin n)))
+  have hb : ∀ z, b z = (tensorEnvelopeDPEquiv s f n).symm
+      (algebraMap (polynomialDividedPowerEnvelope s f).object
+        (setIndexedDividedPowerPolynomialAlgebra
+          (polynomialDividedPowerEnvelope s f).object (ι × Fin n)) z) := fun _ => rfl
+  have hab : coprojectionEnvelopeMap s f n = b := by
+    apply polynomialEnvelopeMap_ext s f (tensorPowerPresentation s f n)
+    · exact (polynomialEnvelopeMap s f (tensorPowerPresentation s f n)
+        (mvPolynomialCoprojection s.A (0 : Fin (n + 1)))
+        (tensorPowerPresentation_comp_coprojection s f 0)).2
+    · ext a
+      change b ((polynomialDividedPowerEnvelope s f).structureMap.toRingHom a) =
+        (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).structureMap.toRingHom a
+      rw [hb, RingEquiv.symm_apply_eq, tensorEnvelopeDPEquiv_structureMap]
+    · intro x
+      rw [hb, coprojectionEnvelopeMap_algebraMap, RingEquiv.eq_symm_apply,
+        tensorEnvelopeDPEquiv_coprojection]
+  rw [hab, hb, RingEquiv.apply_symm_apply]
+
+/-- **Two ring maps between `p`-adic completions agreeing on the uncompleted ring are equal**:
+the level-`k` value of the image only depends on the level-`k` value of the argument, and every
+level of an element of the completion is the level of an element of the ring. -/
+private theorem pAdicCompletion_ringHom_ext {R S : Type*} [CommRing R] [CommRing S] (p : ℕ)
+    {φ ψ : AdicCompletion (pIdeal R p) R →+* AdicCompletion (pIdeal S p) S}
+    (h : ∀ r : R, φ (AdicCompletion.of _ R r) = ψ (AdicCompletion.of _ R r)) : φ = ψ := by
+  have hzero : ∀ (k : ℕ) (w : AdicCompletion (pIdeal S p) S),
+      (((p : S) ^ k) • w).val k = 0 := by
+    intro k w
+    have hmem : ((p : S) ^ k) • w ∈ (pIdeal S p) ^ k •
+        (⊤ : Submodule S (AdicCompletion (pIdeal S p) S)) :=
+      Submodule.smul_mem_smul (Ideal.pow_mem_pow (Ideal.mem_span_singleton_self _) k)
+        Submodule.mem_top
+    rw [AdicCompletion.pow_smul_top_eq_ker_eval (Submodule.fg_span_singleton _),
+      LinearMap.mem_ker] at hmem
+    exact hmem
+  refine RingHom.ext fun x => AdicCompletion.ext fun k => ?_
+  obtain ⟨t, ht⟩ := Submodule.mkQ_surjective
+    ((pIdeal R p) ^ k • (⊤ : Submodule R R)) (x.val k)
+  have hmem : x - AdicCompletion.of _ R t ∈ (pIdeal R p) ^ k •
+      (⊤ : Submodule R (AdicCompletion (pIdeal R p) R)) := by
+    rw [AdicCompletion.pow_smul_top_eq_ker_eval (Submodule.fg_span_singleton _),
+      LinearMap.mem_ker]
+    change (x - AdicCompletion.of _ R t).val k = 0
+    rw [AdicCompletion.val_sub_apply, ← ht]
+    exact sub_self _
+  let : DistribMulAction R (Submodule R (AdicCompletion (pIdeal R p) R)) :=
+    Submodule.pointwiseDistribMulAction
+  have hmem' : x - AdicCompletion.of _ R t ∈ ((p : R) ^ k) •
+      (⊤ : Submodule R (AdicCompletion (pIdeal R p) R)) := by
+    rw [← Submodule.ideal_span_singleton_smul, ← Ideal.span_singleton_pow]
+    exact hmem
+  obtain ⟨z, -, hz⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).mp hmem'
+  have key : ∀ χ : AdicCompletion (pIdeal R p) R →+* AdicCompletion (pIdeal S p) S,
+      (χ x).val k = (χ (AdicCompletion.of _ R t)).val k := by
+    intro χ
+    have hχ : χ x - χ (AdicCompletion.of _ R t) = ((p : S) ^ k) • χ z := by
+      rw [← map_sub, ← hz, ← Nat.cast_pow, Nat.cast_smul_eq_nsmul, map_nsmul,
+        ← Nat.cast_smul_eq_nsmul S, Nat.cast_pow]
+    rw [← sub_eq_zero, ← AdicCompletion.val_sub_apply, hχ, hzero]
+  rw [key φ, key ψ, h]
+
+/-- The isomorphism `D(n) = lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩` built from the identification
+`Crystalline.tensorEnvelopeDPEquiv` of divided power rings, followed by the comparison of the
+two completions. -/
+private noncomputable def tensorPowerCoprojectionEquiv (n : ℕ) :
+    pAdicCompletedTensorPowerEnvelope s f hf n ≃+*
+      pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n :=
+  (pAdicCompletionEquiv (tensorEnvelopeDPEquiv s f n) s.p).trans
+    (envelopeCoefficientsEquiv s f hf n)
+
+private theorem tensorPowerCoprojectionEquiv_algebraMap (n : ℕ)
+    (z : (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object) :
+    tensorPowerCoprojectionEquiv s f hf n
+        (algebraMap (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object
+          (pAdicCompletedTensorPowerEnvelope s f hf n) z) =
+      algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+        (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n)
+        (dpCoefficients (S := pAdicCompletedDividedPowerEnvelope s f hf) (ι × Fin n)
+          (tensorEnvelopeDPEquiv s f n z)) := by
+  rw [tensorPowerCoprojectionEquiv, RingEquiv.trans_apply, pAdicCompletionEquiv_algebraMap]
+  exact envelopeCoefficientsEquiv_of s f hf n _
+
+private theorem tensorPowerCoprojectionEquiv_pAdicCompletedCoprojection (n : ℕ)
+    (y : pAdicCompletedDividedPowerEnvelope s f hf) :
+    tensorPowerCoprojectionEquiv s f hf n (pAdicCompletedCoprojection s f hf n y) =
+      toPAdicCompletedDividedPowerPolynomial s f hf n y := by
+  have h := pAdicCompletion_ringHom_ext (R := (polynomialDividedPowerEnvelope s f).object)
+    (S := dividedPowerPolynomialOverEnvelope s f hf n) s.p
+    (φ := (tensorPowerCoprojectionEquiv s f hf n).toRingHom.comp
+      (pAdicCompletedCoprojection s f hf n))
+    (ψ := toPAdicCompletedDividedPowerPolynomial s f hf n) (fun r => by
+      change tensorPowerCoprojectionEquiv s f hf n (pAdicCompletedCoprojection s f hf n
+        (algebraMap _ _ r)) = _
+      rw [pAdicCompletedCoprojection_algebraMap, tensorPowerCoprojectionEquiv_algebraMap,
+        tensorEnvelopeDPEquiv_coprojectionEnvelopeMap,
+        (dpCoefficients (S := pAdicCompletedDividedPowerEnvelope s f hf) (ι × Fin n)).commutes]
+      exact congrArg
+        (algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+          (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n))
+        (IsScalarTower.algebraMap_apply (polynomialDividedPowerEnvelope s f).object
+          (pAdicCompletedDividedPowerEnvelope s f hf)
+          (dividedPowerPolynomialOverEnvelope s f hf n) r))
+  exact RingHom.congr_fun h y
+
+private theorem tensorPowerCoprojectionEquiv_coprojectionDifference (n : ℕ) (q : ι × Fin n) :
+    tensorPowerCoprojectionEquiv s f hf n
+        (toPAdicCompletedDividedPowerEnvelope s (tensorPowerPresentation s f n)
+          (tensorPowerPresentation_surjective s f hf n) (coprojectionDifference s n q)) =
+      coprojectionDifferenceVariable s f hf n q := by
+  rw [toPAdicCompletedDividedPowerEnvelope_apply, tensorPowerCoprojectionEquiv_algebraMap,
+    tensorEnvelopeDPEquiv_coprojectionDifference, dpCoefficients_dividedPowerPolynomialVariable]
+  rfl
+
+/-- The image of `ξ_i(j)` in the divided power envelope of `J(n)` lies in its divided power
+ideal: it is the image of a variable under the divided power morphism
+`tensorEnvelopeDPEquiv⁻¹`. -/
+private theorem coprojectionDifference_mem_envelopeIdeal (n : ℕ) (q : ι × Fin n) :
+    (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).algebraMap.toRingHom
+        (coprojectionDifference s n q) ∈
+      (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object.ideal := by
+  have h := (tensorEnvelopeDPEquiv_symm_isDPMorphism s f n).ideal_comp
+    (Ideal.mem_map_of_mem _
+      (variable_mem_polynomialIdeal (polynomialDividedPowerEnvelope s f).object q))
+  simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom] at h
+  rwa [← tensorEnvelopeDPEquiv_coprojectionDifference s f n q, RingEquiv.symm_apply_apply] at h
+
+private theorem dpCoefficients_dividedPowerPolynomialVariableMonomial {R S : Type*}
+    [CommRing R] [CommRing S] [Algebra R S] (W : Type*) (q : W) (k : ℕ) :
+    dpCoefficients (R := R) (S := S) W (dividedPowerPolynomialVariableMonomial R q k) =
+      dividedPowerPolynomialVariableMonomial S q k := by
+  simp [dpCoefficients, dividedPowerPolynomialVariableMonomial, DividedPowerAlgebra.map_apply_dp]
+
+/-- The isomorphism `D(n) = lim_e D⟨ξ_i(j)⟩/p^e` carries the image in `D(n)` of each divided
+power `ξ_i(j)^[k]` taken in the envelope of `J(n)` to the divided power monomial `ξ_i(j)^[k]`. -/
+private theorem tensorPowerCoprojectionEquiv_dpow (n : ℕ) (q : ι × Fin n) (k : ℕ) :
+    tensorPowerCoprojectionEquiv s f hf n
+        (algebraMap (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object
+          (pAdicCompletedTensorPowerEnvelope s f hf n)
+          ((polynomialDividedPowerEnvelope s
+            (tensorPowerPresentation s f n)).object.dividedPowers.dpow k
+            ((polynomialDividedPowerEnvelope s
+              (tensorPowerPresentation s f n)).algebraMap.toRingHom
+              (coprojectionDifference s n q)))) =
+      algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+        (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n)
+        (dividedPowerPolynomialVariableMonomial
+          (pAdicCompletedDividedPowerEnvelope s f hf) q k) := by
+  have h := (tensorEnvelopeDPEquiv_isDPMorphism s f n).dpow_comp (n := k) _
+    (coprojectionDifference_mem_envelopeIdeal s f n q)
+  simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom] at h
+  rw [tensorEnvelopeDPEquiv_coprojectionDifference,
+    setIndexedDividedPowerPolynomialDividedPowers_dpow_variable] at h
+  rw [tensorPowerCoprojectionEquiv_algebraMap, ← h,
+    dpCoefficients_dividedPowerPolynomialVariableMonomial]
+
+/-- **Two ring maps out of `lim_e D⟨ξ_i(j)⟩/p^e` agreeing on `D` and on every divided power
+monomial `ξ_i(j)^[k]` are equal**: the divided power monomials span `D⟨ξ_i(j)⟩` over `D`, and a
+ring map out of the `p`-adic completion is determined on the uncompleted ring. -/
+private theorem pAdicCompletedDividedPowerPolynomial_ringHom_ext (n : ℕ)
+    {φ ψ : pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n →+*
+      pAdicCompletedTensorPowerEnvelope s f hf n}
+    (hD : ∀ y : pAdicCompletedDividedPowerEnvelope s f hf,
+      φ (toPAdicCompletedDividedPowerPolynomial s f hf n y) =
+        ψ (toPAdicCompletedDividedPowerPolynomial s f hf n y))
+    (hξ : ∀ (q : ι × Fin n) (k : ℕ),
+      φ (algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+          (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n)
+          (dividedPowerPolynomialVariableMonomial
+            (pAdicCompletedDividedPowerEnvelope s f hf) q k)) =
+        ψ (algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+          (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n)
+          (dividedPowerPolynomialVariableMonomial
+            (pAdicCompletedDividedPowerEnvelope s f hf) q k))) :
+    φ = ψ := by
+  refine pAdicCompletion_ringHom_ext (R := dividedPowerPolynomialOverEnvelope s f hf n)
+    (S := (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object) s.p
+    fun r => ?_
+  change φ (algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+      (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n) r) =
+    ψ (algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+      (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n) r)
+  have hr : r ∈ Submodule.span (pAdicCompletedDividedPowerEnvelope s f hf)
+      (Set.range (dividedPowerPolynomialMonomial (pAdicCompletedDividedPowerEnvelope s f hf)
+        (ι := ι × Fin n))) := by
+    rw [monomial_span_eq_top]
+    exact Submodule.mem_top
+  induction hr using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨m, rfl⟩ := hx
+    simp only [dividedPowerPolynomialMonomial, Finsupp.prod, map_prod]
+    exact Finset.prod_congr rfl fun q _ => hξ q (m q)
+  | zero => simp only [map_zero]
+  | add x y _ _ hx hy => simp only [map_add, hx, hy]
+  | smul d x _ hx =>
+    have hsmul : algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+        (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n) (d • x) =
+        toPAdicCompletedDividedPowerPolynomial s f hf n d *
+          algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+            (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n) x := by
+      rw [Algebra.smul_def, map_mul]
+      rfl
+    rw [hsmul, map_mul φ, map_mul ψ]
+    exact congrArg₂ (· * ·) (hD d) hx
+
+/-- **An isomorphism `D(n) = lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩` of algebras over `D` carrying
+`ξ_i(j)` to `ξ_i(j)`**, the existence half of [Stacks, Lemma 60.17.5, Tag 07L2]. Let `D` and
+`D(n)` be as in (07J8) and (07JF).  The coprojection `P → P ⊗_A … ⊗_A P`,
+`h ↦ h ⊗ 1 ⊗ … ⊗ 1` induces an isomorphism
+
+`D(n) = lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩`
+
+of algebras over `D`, with `ξ_i(j) = x_i ⊗ 1 ⊗ … ⊗ 1 - 1 ⊗ … ⊗ 1 ⊗ x_i ⊗ 1 ⊗ … ⊗ 1` for
+`j = 1, …, n`, where the second `x_i` is placed in the `(j + 1)`-st slot.
+
+Here `D(n)` is an algebra over `D` through its canonical structure map
+`Crystalline.pAdicCompletedCoprojection`, the `p`-adic completion of the divided power morphism
+of envelopes induced by the coprojection (on the image of `P` it is the coprojection,
+`Crystalline.pAdicCompletedCoprojection_toPAdic`), and the right hand side through
+`Crystalline.toPAdicCompletedDividedPowerPolynomial`, the map `D → D⟨ξ_i(j)⟩ → lim_e`.  The
+isomorphism `e` commutes with these two structure maps, so it is an isomorphism of algebras over
+`D`, and it carries the image of `ξ_i(j)` in `D(n)` to the divided power variable `ξ_i(j)`.
+
+These two conditions do not determine `e` when `D` has `p`-torsion (over `𝔽_p`, the
+automorphism `ξ^[p] ↦ ξ^[p] + ξ` of `D⟨ξ⟩` over `D` fixes `ξ`), so this is not yet the statement
+that the map *induced by the coprojection* is an isomorphism.  That statement, pinning `e` down
+on every divided power `ξ_i(j)^[k]`, is
+`Crystalline.existsUnique_ringEquiv_pAdicCompletedDividedPowerPolynomial_dpow`. -/
+public theorem exists_ringEquiv_pAdicCompletedDividedPowerPolynomial_over_coprojection (n : ℕ) :
+    ∃ e : pAdicCompletedTensorPowerEnvelope s f hf n ≃+*
+        pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n,
+      (∀ y : pAdicCompletedDividedPowerEnvelope s f hf,
+          e (pAdicCompletedCoprojection s f hf n y) =
+            toPAdicCompletedDividedPowerPolynomial s f hf n y) ∧
+      (∀ q : ι × Fin n,
+          e (toPAdicCompletedDividedPowerEnvelope s (tensorPowerPresentation s f n)
+            (tensorPowerPresentation_surjective s f hf n) (coprojectionDifference s n q)) =
+            coprojectionDifferenceVariable s f hf n q) :=
+  ⟨tensorPowerCoprojectionEquiv s f hf n,
+    tensorPowerCoprojectionEquiv_pAdicCompletedCoprojection s f hf n,
+    tensorPowerCoprojectionEquiv_coprojectionDifference s f hf n⟩
+
+/-- **Stacks Project, Lemma 60.17.5, Tag 07L2.** Let `D` and `D(n)` be as in (07J8) and
+(07JF).  The coprojection `P → P ⊗_A … ⊗_A P`, `h ↦ h ⊗ 1 ⊗ … ⊗ 1` induces an isomorphism
+
+`D(n) = lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩`
+
+of algebras over `D`, with `ξ_i(j) = x_i ⊗ 1 ⊗ … ⊗ 1 - 1 ⊗ … ⊗ 1 ⊗ x_i ⊗ 1 ⊗ … ⊗ 1` for
+`j = 1, …, n`, where the second `x_i` is placed in the `(j + 1)`-st slot.
+
+`D(n)` is an algebra over `D` through `Crystalline.pAdicCompletedCoprojection`, the `p`-adic
+completion of the divided power morphism of envelopes induced by the coprojection, and the right
+hand side through `Crystalline.toPAdicCompletedDividedPowerPolynomial`.  The map induced by the
+coprojection is the map of algebras over `D` sending each divided power `ξ_i(j)^[k]` of the
+right hand side to the image in `D(n)` of the divided power `ξ_i(j)^[k]` of the envelope of
+`J(n)`; such a map is unique, since these divided power monomials span `D⟨ξ_i(j)⟩` over `D`.
+The statement is that there is exactly one ring isomorphism `e` whose inverse is that map:
+`e` commutes with the two structure maps from `D`, carries the image of `ξ_i(j)` to `ξ_i(j)`,
+and carries the image of each `ξ_i(j)^[k]` to `ξ_i(j)^[k]`. -/
+@[stacks 07L2 "`D(n)` is an algebra over `D` through `pAdicCompletedCoprojection`, the \
+completion of the divided power morphism of envelopes induced by the coprojection; the \
+isomorphism is pinned down, uniquely, on every divided power `ξ_i(j)^[k]`"]
+public theorem existsUnique_ringEquiv_pAdicCompletedDividedPowerPolynomial_dpow (n : ℕ) :
+    ∃! e : pAdicCompletedTensorPowerEnvelope s f hf n ≃+*
+        pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n,
+      (∀ y : pAdicCompletedDividedPowerEnvelope s f hf,
+          e (pAdicCompletedCoprojection s f hf n y) =
+            toPAdicCompletedDividedPowerPolynomial s f hf n y) ∧
+      (∀ q : ι × Fin n,
+          e (toPAdicCompletedDividedPowerEnvelope s (tensorPowerPresentation s f n)
+            (tensorPowerPresentation_surjective s f hf n) (coprojectionDifference s n q)) =
+            coprojectionDifferenceVariable s f hf n q) ∧
+      (∀ (q : ι × Fin n) (k : ℕ),
+          e (algebraMap (polynomialDividedPowerEnvelope s (tensorPowerPresentation s f n)).object
+              (pAdicCompletedTensorPowerEnvelope s f hf n)
+              ((polynomialDividedPowerEnvelope s
+                (tensorPowerPresentation s f n)).object.dividedPowers.dpow k
+                ((polynomialDividedPowerEnvelope s
+                  (tensorPowerPresentation s f n)).algebraMap.toRingHom
+                  (coprojectionDifference s n q)))) =
+            algebraMap (dividedPowerPolynomialOverEnvelope s f hf n)
+              (pAdicCompletedDividedPowerPolynomialOverEnvelope s f hf n)
+              (dividedPowerPolynomialVariableMonomial
+                (pAdicCompletedDividedPowerEnvelope s f hf) q k)) := by
+  refine ⟨tensorPowerCoprojectionEquiv s f hf n,
+    ⟨tensorPowerCoprojectionEquiv_pAdicCompletedCoprojection s f hf n,
+      tensorPowerCoprojectionEquiv_coprojectionDifference s f hf n,
+      tensorPowerCoprojectionEquiv_dpow s f hf n⟩, ?_⟩
+  rintro e ⟨hD, -, hξ⟩
+  have h : e.symm.toRingHom = (tensorPowerCoprojectionEquiv s f hf n).symm.toRingHom := by
+    apply pAdicCompletedDividedPowerPolynomial_ringHom_ext s f hf n
+    · intro y
+      simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom]
+      rw [e.symm_apply_eq.mpr (hD y).symm, (RingEquiv.symm_apply_eq _).mpr
+        (tensorPowerCoprojectionEquiv_pAdicCompletedCoprojection s f hf n y).symm]
+    · intro q k
+      simp only [RingEquiv.toRingHom_eq_coe, RingEquiv.coe_toRingHom]
+      rw [e.symm_apply_eq.mpr (hξ q k).symm, (RingEquiv.symm_apply_eq _).mpr
+        (tensorPowerCoprojectionEquiv_dpow s f hf n q k).symm]
+  have h' : e.symm = (tensorPowerCoprojectionEquiv s f hf n).symm :=
+    RingEquiv.ext (RingHom.congr_fun h)
+  rw [← e.symm_symm, h', RingEquiv.symm_symm]
+
 end Crystalline
 
 end
 
 /-! ### The displayed equation
 
-Equation 60.17.1.1 is the display `D(n) = lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩` occurring in the
-lemma above, and the theorem above is what proves it: the isomorphism it produces is the
-displayed one, over the algebra structure `φ` of `D(n)` over `D` and carrying the image of
-each `ξ_i(j)` to the divided power variable of the same name. The tag is therefore recorded
-on that theorem rather than restated, which would duplicate the result under a second name.
+Equation 60.17.5.1 is the display `D(n) = lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩` occurring in
+[Stacks, Lemma 60.17.5, Tag 07L2], and
+`Crystalline.exists_ringEquiv_pAdicCompletedDividedPowerPolynomial_over_coprojection` is what
+proves it: the isomorphism it produces is the displayed one, an isomorphism of algebras over `D`
+for the algebra structure `Crystalline.pAdicCompletedCoprojection` induced by the coprojection,
+carrying the image of each `ξ_i(j)` to the divided power variable of the same name.  The tag is
+therefore recorded on that theorem rather than restated.
 -/
 
-add_to_stacks 07L3 "equation 60.17.1.1, the display of this lemma: the isomorphism `e` \
-produced here is `D(n) = lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩`, over the algebra structure `φ` of \
-`D(n)` over `D` and carrying the image of each `ξ_i(j)` to the divided power variable of the \
-same name" Crystalline.exists_ringEquiv_pAdicCompletedDividedPowerPolynomial
+add_to_stacks 07L3 "equation 60.17.5.1, the display of Lemma 07L2: the isomorphism `e` \
+produced here is `D(n) = lim_e D⟨ξ_i(j)⟩/p^e D⟨ξ_i(j)⟩` as algebras over `D`, for the algebra \
+structure `pAdicCompletedCoprojection` of `D(n)` induced by the coprojection, carrying the image \
+of each `ξ_i(j)` to the divided power variable of the same name"
+  Crystalline.exists_ringEquiv_pAdicCompletedDividedPowerPolynomial_over_coprojection

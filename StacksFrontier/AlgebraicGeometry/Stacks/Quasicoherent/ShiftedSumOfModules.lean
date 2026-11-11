@@ -7,69 +7,60 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatBaseChan
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.HigherDirectImageLocallyQuasicoherent
 
 /-!
-# A sum of shifted modules in `LQCoh^fbc` is their product (Stacks 08IZ)
+# A sum of shifted modules with affine-acyclic summands is their product (towards Stacks 08IZ)
 
-Let `𝒳` be an algebraic stack and let `ℱ_n`, `n ≥ 0`, be sheaves of `𝒪_𝒳`-modules on the big fppf
-site of `𝒳` which are locally quasi-coherent (**Stacks 06WJ**) and have the flat base change
-property (**Stacks 0762**).  **Stacks 08IZ** says that the canonical map
+Let `p : 𝒳 ⥤ (Sch/S)_{fppf}` be a category fibred in groupoids and let `ℱ_n`, `n ≥ 0`, be sheaves
+of `𝒪_𝒳`-modules on its big fppf site.  This file proves that the canonical map
 
 `⊕_n ℱ_n[n] ⟶ ∏_n ℱ_n[n]`
 
-is an isomorphism in `D(𝒪_𝒳)`.  The canonical map is `Pi.lift (Sigma.π ...)`, the map whose
-component from the `m`-th summand to the `n`-th factor is the identity for `m = n` and zero
-otherwise.
+is an isomorphism in `D(𝒪_𝒳)` as soon as the objects lying over an affine scheme cover `𝒳_fppf`
+and `H^q(x, ℱ_n) = 0` for `q > 0` and every such object `x`.  The canonical map is
+`Pi.lift (Sigma.π ...)`, the map whose component from the `m`-th summand to the `n`-th factor is
+the identity for `m = n` and zero otherwise.
 
-The source's one-line proof is the citation of **Stacks 08IY**: the sum is the derived limit of
-its canonical truncations, and those truncations are the finite partial sums, whose limit is the
-product.  Here 08IY enters exactly as it is formalized, through
-`AlgebraicGeometry.Stack.isIso_to_isDerivedLimit_truncGETower_of_lqcFbc` and the covering class
-`AlgebraicGeometry.Stack.hasEnoughObjects_isAffineOver`
-(`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/DerivedLimitOfTruncations.lean`), and the
-rest of the argument is
-`Stacks.ShiftedSum.isIso_piLift_sigmaPi_of_distTriang_truncation`.
-
-## The index set
-
-The source writes `ℱ_n` without saying over what the index `n` runs.  It is read here as `n ≥ 0`,
-which is the case the section applies — immediately afterwards, to `E = ⊕_{m ≥ 0} 𝒪_𝒳[m]` — and
-the case the source's proof supports: for a family indexed by all of `ℤ` the truncation
-`τ_{≥ -N}(⊕_n ℱ_n[n])` is not a finite partial sum, and the identification of the sum with the
-product then needs the comparison on K-injective resolutions rather than 08IY alone.  See the
-implementation notes of
-`StacksFrontier/Algebra/Homology/DerivedCategory/ShiftedSumIsProduct.lean`.
+This is the argument of **Stacks 08IZ**: the sum is the derived limit of its canonical
+truncations (**Stacks 0D6P** with `d = 0`, the argument of **Stacks 08IY**), and those
+truncations are the finite partial sums, whose limit is the product
+(`Stacks.ShiftedSum.isIso_piLift_sigmaPi_of_distTriang_truncation`).  **Stacks 08IZ** itself, for
+an algebraic stack and modules that are locally quasi-coherent with the flat base change property
+of **Stacks 0762**, with the vanishing proved rather than assumed, is
+`AlgebraicGeometry.Stack.isIso_coproductToProduct_shiftedSingleFamily_algebraicStack` in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/ShiftedSumOfModulesAlgebraicStack.lean`.
 
 ## Main results
 
 * `AlgebraicGeometry.Stack.shiftedSingleFamily`: the family `n ↦ ℱ_n[n]` in `D(𝒪_𝒳)`.
-* `AlgebraicGeometry.Stack.isIso_coproductToProduct_shiftedLqcFbc`: **Stacks 08IZ**.
+* `AlgebraicGeometry.Stack.isIso_coproductToProduct_shiftedSingleFamily_of_isZero_rightDerived`:
+  the sum-to-product isomorphism from the affine vanishing of the summands.
+* `AlgebraicGeometry.Stack.isIso_coproductToProduct_shiftedLqcFbc`: the same at hom universe
+  `u + 1`, for summands satisfying the presheaf reading
+  `AlgebraicGeometry.Stack.IsLocallyQuasicoherentWithFlatBaseChange` of the flat base change
+  property, with the vanishing `AlgebraicGeometry.Stack.HasAffineAcyclicLqcFbcModules` as a
+  hypothesis.
 
-## What is carried
+## The index set
 
-The hypothesis `hvan` is `AlgebraicGeometry.Stack.HasAffineAcyclicLqcFbcModules`, *the same
-predicate the library's 08IY carries*: the vanishing `H^p(x, ℱ) = 0` for `p > 0`, `ℱ` in
-`LQCoh^fbc(𝒪_𝒳)` and `x` an object lying over an affine scheme, which the source obtains from
-**Stacks 075R**, **Stacks 075F**, **Stacks 0756** and **Stacks 01XB**, none of which this
-repository has.  Carrying the same predicate is deliberate: whoever discharges it discharges it
-for 08IY and for this statement at once.
+The family is indexed by `n ≥ 0`, which is the case the source applies — immediately after 08IZ,
+to `E = ⊕_{m ≥ 0} 𝒪_𝒳[m]` — and the case the source's proof supports: for a family indexed by all
+of `ℤ` the truncation `τ_{≥ -N}(⊕_n ℱ_n[n])` is not a finite partial sum.  See the implementation
+notes of `StacksFrontier/Algebra/Homology/DerivedCategory/ShiftedSumIsProduct.lean`.
 
-The instance hypotheses are those of 08IY — `HasSheafify`, `WEqualsLocallyBijective` and
-`EnoughInjectives` on the fppf modules of `𝒳`, satisfiable by
-`AlgebraicGeometry.Stack.enoughInjectives_fppfSiteModules_of_univLE` — together with
-`IsGrothendieckAbelian` for those modules, which is what supplies the countable direct sums and
-products of `D(𝒪_𝒳)` (**Stacks 07D9**), and which is carried as an instance in the same way by
-`StacksFrontier/CategoryTheory/Sites/Cohomology/HypercohomologyEdge/AcyclicObject.lean`.  The four
-(co)products the statement needs are *not* hypotheses: they are produced from that instance by
-`Stacks.Injectives.hasCoproducts_derivedCategory`,
-`Stacks.Injectives.hasProducts_derivedCategory` and
-`CategoryTheory.Limits.hasCoproducts_shrink`.
+## Instance hypotheses
+
+`HasSheafify`, `WEqualsLocallyBijective` and `EnoughInjectives` on the fppf modules of `𝒳`, and
+`IsGrothendieckAbelian` for those modules, which supplies the countable direct sums and products
+of `D(𝒪_𝒳)` (**Stacks 07D9**) through `Stacks.Injectives.hasCoproducts_derivedCategory`,
+`Stacks.Injectives.hasProducts_derivedCategory` and `CategoryTheory.Limits.hasCoproducts_shrink`.
+For an algebraic stack all of them hold, and they are discharged in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/ShiftedSumOfModulesAlgebraicStack.lean`.
 
 ## References
 
 * [Stacks Project, Tag 08IZ](https://stacks.math.columbia.edu/tag/08IZ)
 * [Stacks Project, Tag 08IY](https://stacks.math.columbia.edu/tag/08IY)
+* [Stacks Project, Tag 0D6P](https://stacks.math.columbia.edu/tag/0D6P)
 * [Stacks Project, Tag 07D9](https://stacks.math.columbia.edu/tag/07D9)
-* [Stacks Project, Tag 06WJ](https://stacks.math.columbia.edu/tag/06WJ)
-* [Stacks Project, Tag 0762](https://stacks.math.columbia.edu/tag/0762)
 -/
 
 @[expose] public noncomputable section
@@ -88,7 +79,7 @@ variable (B : BigFppfSite.{u}) (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
 
 section
 
-variable {𝒳 : Type v} [Category.{u + 1} 𝒳] (p : 𝒳 ⥤ BigFppfOver B S hS)
+variable {𝒳 : Type v} [Category.{w} 𝒳] (p : 𝒳 ⥤ BigFppfOver B S hS)
   (hp : p.IsFiberedInGroupoids)
   [HasSheafify (BigFppfOver.associatedTopology B S hS p .fppf) AddCommGrpCat.{u}]
   [(BigFppfOver.associatedTopology B S hS p .fppf).WEqualsLocallyBijective AddCommGrpCat.{u}]
@@ -97,26 +88,31 @@ variable {𝒳 : Type v} [Category.{u + 1} 𝒳] (p : 𝒳 ⥤ BigFppfOver B S h
 
 /-- The family `n ↦ ℱ_n[n]` in `D(𝒪_𝒳)`: the sheaf `ℱ_n` of `𝒪_𝒳`-modules placed in
 cohomological degree `-n`. -/
-def shiftedSingleFamily (F : ℕ → fppfSiteModules B S hS p hp) :
+def shiftedSingleFamily [HasDerivedCategory (fppfSiteModules B S hS p hp)]
+    (F : ℕ → fppfSiteModules B S hS p hp) :
     ℕ → DerivedCategory (fppfSiteModules B S hS p hp) :=
   fun n => (DerivedCategory.singleFunctor (fppfSiteModules B S hS p hp) (-(n : ℤ))).obj (F n)
 
-/-- **Stacks 08IZ.** Let `𝒳` be an algebraic stack and let `ℱ_n`, `n ≥ 0`, be sheaves of
-`𝒪_𝒳`-modules on its big fppf site which are locally quasi-coherent (**Stacks 06WJ**) and have
-the flat base change property (**Stacks 0762**).  Then the canonical map
+/-- **The argument of Stacks 08IZ from the affine vanishing of its summands.** Let
+`p : 𝒳 ⥤ (Sch/S)_{fppf}` be a category fibred in groupoids whose objects lying over an affine
+scheme cover `𝒳_fppf`, and let `ℱ_n`, `n ≥ 0`, be `𝒪_𝒳`-modules with `H^q(x, ℱ_n) = 0` for
+`q > 0` and every object `x` lying over an affine scheme.  Then the canonical map
 
 `⊕_n ℱ_n[n] ⟶ ∏_n ℱ_n[n]`
 
 is an isomorphism in `D(𝒪_𝒳)`.
 
-The vanishing `hvan` is the hypothesis the library's **Stacks 08IY** carries, and it is carried in
-exactly that form; see this file's module documentation. -/
-@[stacks 08IZ "the sum of a family of shifted LQCoh^fbc modules, indexed by n ≥ 0 as the \
-source's proof supports, maps isomorphically to their product in D(𝒪_𝒳); the affine \
-acyclicity the library's Stacks 08IY carries is carried here as that same predicate"]
-theorem isIso_coproductToProduct_shiftedLqcFbc (F : ℕ → fppfSiteModules B S hS p hp)
-    (hF : ∀ n : ℕ, IsLocallyQuasicoherentWithFlatBaseChange B E h S hS p hp (F n).val)
-    (hvan : HasAffineAcyclicLqcFbcModules B E h S hS p hp) :
+The cohomology sheaves of the sum are the `ℱ_n`, so the sum is the derived limit of its canonical
+truncations (**Stacks 0D6P** with `d = 0`, the argument of **Stacks 08IY**), and those truncations
+are the finite partial sums, whose limit is the product
+(`Stacks.ShiftedSum.isIso_piLift_sigmaPi_of_distTriang_truncation`). -/
+theorem isIso_coproductToProduct_shiftedSingleFamily_of_isZero_rightDerived
+    (F : ℕ → fppfSiteModules B S hS p hp)
+    (hcov : (BigFppfOver.associatedTopology B S hS p .fppf).HasEnoughObjects
+      (fun x => IsAffineOver B S hS (p.obj x)))
+    (hvan : ∀ n : ℕ, ∀ V : 𝒳, IsAffineOver B S hS (p.obj V) → ∀ q : ℕ, 0 < q →
+      IsZero (((SheafOfModules.evaluation (fppfSiteRingSheaf B S hS p hp)
+        (.op V)).rightDerived q).obj (F n))) :
     IsIso (Pi.lift (Sigma.π (shiftedSingleFamily B S hS p hp F))) := by
   classical
   have hge : ∀ n : ℕ, (shiftedSingleFamily B S hS p hp F n).IsGE (-(n : ℤ)) := by
@@ -146,18 +142,9 @@ theorem isIso_coproductToProduct_shiftedLqcFbc (F : ℕ → fppfSiteModules B S 
         Stacks.ShiftedSum.homologyCoproductIso (shiftedSingleFamily B S hS p hp F) hge hle n ≪≫
           (DerivedCategory.singleFunctorCompHomologyFunctorIso
             (fppfSiteModules B S hS p hp) (-(n : ℤ))).app (F n)
-      have hval : (F n).val ≅
-          ((DerivedCategory.homologyFunctor (fppfSiteModules B S hS p hp) (-(n : ℤ))).obj
-            (∐ shiftedSingleFamily B S hS p hp F)).val :=
-        (SheafOfModules.forget (fppfSiteRingSheaf B S hS p hp)).mapIso hiso.symm
-      have hlqc := isLocallyQuasicoherent_of_iso B E h S hS p hp hval (hF n).1
-      have hfbc : HasFlatBaseChangeProperty B E h S hS p hp (etaleTopology B)
-          (etaleTopology_le_topology B)
-          ((DerivedCategory.homologyFunctor (fppfSiteModules B S hS p hp) (-(n : ℤ))).obj
-            (∐ shiftedSingleFamily B S hS p hp F)).val :=
-        hasFlatBaseChangeProperty_of_iso B E h S hS p hp (etaleTopology B)
-          (etaleTopology_le_topology B) hval (hF n).2
-      exact hvan _ ⟨hlqc, hfbc⟩ V hV q hq
+      exact (hvan n V hV q hq).of_iso
+        (((SheafOfModules.evaluation (fppfSiteRingSheaf B S hS p hp) (.op V)).rightDerived
+          q).mapIso hiso)
     · have hz := Stacks.ShiftedSum.isZero_homologyCoproduct_of_pos
         (shiftedSingleFamily B S hS p hp F) hle r hr
       have : Injective ((DerivedCategory.homologyFunctor (fppfSiteModules B S hS p hp) r).obj
@@ -181,12 +168,47 @@ theorem isIso_coproductToProduct_shiftedLqcFbc (F : ℕ → fppfSiteModules B S 
     (fun L c pr d hT hcn =>
       Stacks.Cohomology.AcyclicCover.isIso_to_isDerivedLimit_truncGETower_of_acyclic
         (fppfSiteRingSheaf B S hS p hp) (∐ shiftedSingleFamily B S hS p hp F)
-        (fun x => IsAffineOver B S hS (p.obj x))
-        (hasEnoughObjects_isAffineOver B S hS p hp)
+        (fun x => IsAffineOver B S hS (p.obj x)) hcov
         (fun V hV q hq r => hvan' V hV q hq r) L c pr d hT hcn)
   simp only [Stacks.DerivedLimit.truncGETower_map_homOfLE_succ] at htriangle
   exact Stacks.ShiftedSum.isIso_piLift_sigmaPi_of_distTriang_truncation
     (shiftedSingleFamily B S hS p hp F) hge hle connecting htriangle
+
+end
+
+section
+
+variable {𝒳 : Type v} [Category.{u + 1} 𝒳] (p : 𝒳 ⥤ BigFppfOver B S hS)
+  (hp : p.IsFiberedInGroupoids)
+  [HasSheafify (BigFppfOver.associatedTopology B S hS p .fppf) AddCommGrpCat.{u}]
+  [(BigFppfOver.associatedTopology B S hS p .fppf).WEqualsLocallyBijective AddCommGrpCat.{u}]
+  [EnoughInjectives (fppfSiteModules B S hS p hp)]
+  [IsGrothendieckAbelian.{m} (fppfSiteModules B S hS p hp)]
+
+/-- **The sum-to-product isomorphism of Stacks 08IZ, at hom universe `u + 1`, from the affine
+vanishing as a hypothesis.** Let `p : 𝒳 ⥤ (Sch/S)_{fppf}` be a category fibred in groupoids and
+let `ℱ_n`, `n ≥ 0`, be sheaves of `𝒪_𝒳`-modules on its big fppf site which satisfy the presheaf
+reading `AlgebraicGeometry.Stack.IsLocallyQuasicoherentWithFlatBaseChange` of
+locally quasi-coherent with the flat base change property.  If `hvan`, the affine vanishing
+`AlgebraicGeometry.Stack.HasAffineAcyclicLqcFbcModules`, holds, then the canonical map
+
+`⊕_n ℱ_n[n] ⟶ ∏_n ℱ_n[n]`
+
+is an isomorphism in `D(𝒪_𝒳)`.
+
+This is not Stacks 08IZ: it takes the affine vanishing as the hypothesis `hvan`, and it reads the
+flat base change property at the presheaf level, which is stronger than **Stacks 0762**.
+**Stacks 08IZ** itself, for an algebraic stack with the source's reading of 0762 and with no
+vanishing hypothesis, is
+`AlgebraicGeometry.Stack.isIso_coproductToProduct_shiftedSingleFamily_algebraicStack` in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/ShiftedSumOfModulesAlgebraicStack.lean`. -/
+theorem isIso_coproductToProduct_shiftedLqcFbc (F : ℕ → fppfSiteModules B S hS p hp)
+    (hF : ∀ n : ℕ, IsLocallyQuasicoherentWithFlatBaseChange B E h S hS p hp (F n).val)
+    (hvan : HasAffineAcyclicLqcFbcModules B E h S hS p hp) :
+    IsIso (Pi.lift (Sigma.π (shiftedSingleFamily B S hS p hp F))) :=
+  isIso_coproductToProduct_shiftedSingleFamily_of_isZero_rightDerived B S hS p hp F
+    (hasEnoughObjects_isAffineOver B S hS p hp)
+    (fun n V hV q hq => hvan (F n) (hF n) V hV q hq)
 
 end
 

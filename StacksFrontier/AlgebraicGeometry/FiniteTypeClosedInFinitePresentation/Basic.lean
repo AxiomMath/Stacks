@@ -23,6 +23,8 @@ finitely-presented morphism to the base is again of finite presentation.
 
 * `AlgebraicGeometry.FinitePresentation.comp`: morphisms of finite presentation are closed under
   composition.
+* `AlgebraicGeometry.locallyOfFinitePresentation_comp_and_finitePresentation_comp`: Tag 01TR,
+  composition for both the local and the global notion of finite presentation.
 * `AlgebraicGeometry.exists_qcqs_finitePresentation_isClosedImmersion_of_exists_immersion`: the
   passage from an immersion to a closed immersion described above, recording that the scheme
   constructed is quasi-compact and quasi-separated.
@@ -69,8 +71,6 @@ universe u
 
 namespace AlgebraicGeometry
 
-add_to_stacks 01TR "locally of finite presentation"
-  AlgebraicGeometry.locallyOfFinitePresentation_comp
 add_to_sga "6 III 1.14" "special case" AlgebraicGeometry.locallyOfFinitePresentation_comp
 add_to_ega "IV 1.4.3" AlgebraicGeometry.locallyOfFinitePresentation_comp
 
@@ -78,10 +78,11 @@ add_to_ega "IV 1.4.3" AlgebraicGeometry.locallyOfFinitePresentation_comp
 
 Mathlib has no bundled `FinitePresentation` predicate for schemes, so this statement is not one
 it can make; its three components compose in Mathlib, by
-`AlgebraicGeometry.locallyOfFinitePresentation_comp` — tagged just above, being the Stacks
-statement for the local notion — and the `MorphismProperty.IsStableUnderComposition` instances
-for `QuasiCompact` and `QuasiSeparated`, which is all the proof below uses. No attribute is
-attached for that reason. -/
+`AlgebraicGeometry.locallyOfFinitePresentation_comp` and the
+`MorphismProperty.IsStableUnderComposition` instances for `QuasiCompact` and `QuasiSeparated`,
+which is all the proof below uses. Tag 01TR, which asserts both this and the statement for the
+local notion, is carried by
+`AlgebraicGeometry.locallyOfFinitePresentation_comp_and_finitePresentation_comp` below. -/
 @[ega "I 6.6.4" "(ii), special case",
   ega "IV 1.4.3" "(ii), special case",
   ega "IV 1.6.2",
@@ -91,6 +92,24 @@ theorem FinitePresentation.comp {X Y Z : Scheme.{u}} {f : X ⟶ Y} {g : Y ⟶ Z}
   have := hf.1; have := hf.2.1; have := hf.2.2
   have := hg.1; have := hg.2.1; have := hg.2.2
   ⟨inferInstance, inferInstance, inferInstance⟩
+
+/-- The composition of two morphisms locally of finite presentation is locally of finite
+presentation, and the composition of two morphisms of finite presentation is of finite
+presentation.
+
+The first assertion is Mathlib's instance `AlgebraicGeometry.locallyOfFinitePresentation_comp`;
+the second is `AlgebraicGeometry.FinitePresentation.comp`, for the Stacks notion
+`AlgebraicGeometry.FinitePresentation` (locally of finite presentation, quasi-compact and
+quasi-separated). -/
+@[stacks 01TR "Both assertions: the first is Mathlib's
+  `AlgebraicGeometry.locallyOfFinitePresentation_comp`, the second
+  `AlgebraicGeometry.FinitePresentation.comp`."]
+theorem locallyOfFinitePresentation_comp_and_finitePresentation_comp {X Y Z : Scheme.{u}}
+    (f : X ⟶ Y) (g : Y ⟶ Z) :
+    (LocallyOfFinitePresentation f → LocallyOfFinitePresentation g →
+        LocallyOfFinitePresentation (f ≫ g)) ∧
+      (FinitePresentation f → FinitePresentation g → FinitePresentation (f ≫ g)) :=
+  ⟨fun _ _ => inferInstance, FinitePresentation.comp⟩
 
 /-- A quasi-compact scheme which admits an immersion into a scheme of finite presentation over a
 quasi-separated base admits a closed immersion into a quasi-compact quasi-separated scheme of

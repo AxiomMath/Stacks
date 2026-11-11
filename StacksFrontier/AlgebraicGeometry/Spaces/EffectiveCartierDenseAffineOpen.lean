@@ -30,10 +30,11 @@ set `|X| ∖ |U|` is an effective Cartier divisor, so that `U = X ∖ D`.  This 
   the reduced induced closed subspace on the complement of a dense affine open subspace has
   point set that complement and is an effective Cartier divisor read on étale scheme charts,
   that is, it satisfies condition (2) of Stacks 083C.
-* `AlgebraicGeometry.Space.exists_isEffectiveCartierDivisor_compl_denseAffineOpen`:
-  **Stacks 0DML**, with its two scheme-level and chart-level inputs taken as hypotheses.
+* `AlgebraicGeometry.Space.exists_isEffectiveCartierDivisor_compl_denseAffineOpen`: the
+  deduction of the conclusion of Stacks 0DML from its scheme-level and chart-level inputs,
+  stated with those inputs as explicit arguments.
 * `AlgebraicGeometry.Space.exists_isEffectiveCartierDivisor_compl_denseAffineOpen'`:
-  **Stacks 0DML** with both of those inputs discharged.
+  **Stacks 0DML**, with both of those inputs supplied by the library.
 * `AlgebraicGeometry.Space.exists_denseAffineOpen_isEffectiveCartierDivisor_compl`: on a
   regular Noetherian separated algebraic space there *is* a dense affine open subspace, and
   its complement is an effective Cartier divisor.
@@ -348,7 +349,7 @@ theorem exists_hasEffectiveCartierEtaleCover_reducedClosedSubspace_compl
   rw [← hVanish]
   exact hBCW ((BigFppfOver.toScheme B S hS).obj V) hVnoeth hVsep O hOaff hOdense hUFD
 
-/-- **Stacks Project, Tag 0DML.** Let `S` be a scheme and let `X` be a regular Noetherian
+/-- **Stacks 0DML from its two inputs.** Let `S` be a scheme and let `X` be a regular Noetherian
 separated algebraic space over `S`.  Let `U ⊆ X` be a dense affine open subspace, presented by
 an open immersion `u : h_W ⟶ X` whose source has affine underlying scheme and whose set of
 points is dense.  Then there is an effective Cartier divisor `D ⊆ X` with `U = X ∖ D`: namely
@@ -356,11 +357,11 @@ the reduced induced closed subspace on the closed set `|X| ∖ |U|`.
 
 The hypothesis `hBCW` is Stacks 0BCW in the form its own proof gives, for the reduced induced
 closed subscheme on the complement of a dense affine open of a scheme, and `h083C` is the
-implication (2) ⟹ (1) of Stacks 083C; both are inputs this library does not have, and the
-conclusion of the chart-level statement
-`AlgebraicGeometry.Space.exists_hasEffectiveCartierEtaleCover_reducedClosedSubspace_compl`
-needs only the first of them. -/
-@[stacks 0DML]
+implication (2) ⟹ (1) of Stacks 083C.  Both are proved in the library, by
+`AlgebraicGeometry.isEffectiveCartierDivisor_vanishingIdeal_compl_denseAffineOpen` and
+`AlgebraicGeometry.Space.isEffectiveCartierDivisor_of_hasEffectiveCartierEtaleCover`, and
+`AlgebraicGeometry.Space.exists_isEffectiveCartierDivisor_compl_denseAffineOpen'` is the
+statement with them supplied. -/
 theorem exists_isEffectiveCartierDivisor_compl_denseAffineOpen
     (X : AlgebraicSpaces B S hS)
     (hsep : IsAbsolutelySeparated B S hS hZ X.1)

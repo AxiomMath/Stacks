@@ -23,8 +23,9 @@ affine — objects of `X_étale`.
 * `AlgebraicGeometry.hasFiniteShriekPresentation_qcqs_of_affine` — the affine presentation is a
   quasi-compact quasi-separated one.
 * `AlgebraicGeometry.isConstructibleModuleSheaf_iff_hasFiniteShriekPresentation` and
-  `AlgebraicGeometry.isConstructibleModuleSheaf_iff_affineShriekPresentation` — **Stacks 095N** at
-  its two presentations, the quasi-compact quasi-separated one and the affine one.
+  `AlgebraicGeometry.isConstructibleModuleSheaf_iff_affineShriekPresentation` — Stacks 095N at
+  its two presentations, the quasi-compact quasi-separated one and the affine one, from the inputs
+  `hshriek` and `hgen`.
 
 ## Implementation notes
 
@@ -33,24 +34,19 @@ Both directions rest on the weak Serre property of the constructible sheaves of 
 finite direct sum is an iterated extension of its summands, and the kernel and the cokernel of a
 map between constructible sheaves are constructible.
 
-Two inputs are carried as explicit hypotheses rather than proved, each a Stacks result this library
-does not have at this site.
+The two inputs of the argument are taken here as arguments `hshriek` and `hgen`, and both are
+proved in the library.
 
 `hshriek` is the sheaves-of-modules case of **Stacks 03S8**, that `j_{U!}Λ` is constructible for
-`U` a quasi-compact quasi-separated object of `X_étale`. The library has part (1) of that tag,
-`AlgebraicGeometry.isConstructibleSetSheaf_sheafifiedYoneda`, for sheaves of *sets*; by
-`AlgebraicGeometry.moduleShriekConstantIsoFree` the module form is the free module sheaf on that
-sheaf of sets, and nothing in the library carries constructibility across the free-module functor.
+`U` a quasi-compact quasi-separated object of `X_étale`. It is
+`AlgebraicGeometry.isConstructibleModuleSheaf_moduleShriekConstant`.
 
 `hgen` is the finite generation step of the proof of Stacks 095N: a constructible sheaf of
-`Λ`-modules is a quotient of a finite direct sum of extensions by zero. Its infinite form is
-proved — `AlgebraicGeometry.epi_desc_moduleShriekConstant` surjects the direct sum over *all* pairs
-of an étale object and a section of the sheaf over it onto the sheaf — and what `hgen` adds is that
-finitely many pairs suffice. In the source that is the compactness of the constructible topology of
-the spectral space `X`, applied to the supports of the cokernels of the partial sums; those
-supports are constructible subsets by `AlgebraicGeometry.isConstructible_support_moduleSheaf`
-(Stacks 09YS (3)), but that their intersection is empty is the finite generation of the geometric
-stalks, which is not available here.
+`Λ`-modules is a quotient of a finite direct sum of extensions by zero. It is
+`AlgebraicGeometry.exists_finite_epi_sigma_moduleShriekConstant_of_isConstructibleModuleSheaf` and
+its affine companion. With both discharged, Stacks 095N is
+`AlgebraicGeometry.isConstructibleModuleSheaf_iff_qcqsShriekPresentation` and
+`AlgebraicGeometry.isConstructibleModuleSheaf_iff_hasFiniteAffineShriekPresentation`.
 
 Granting `hgen`, the passage from a surjection to a presentation is what is proved below: the
 kernel of a surjection from a finite direct sum of constructible generators is constructible, so
@@ -217,17 +213,15 @@ public theorem hasFiniteShriekPresentation_of_isConstructibleModuleSheaf
   exact (sheafToPresheaf (SmallEtale.topology B X.1 X.property)
       (ModuleCat.{u + 1} R)).mapIso eF ≪≫ (uliftPresheafIso B X R F).symm
 
-/-- **Stacks 095N, the quasi-compact quasi-separated presentation.** Let `X` be a quasi-compact and
-quasi-separated scheme and `Λ` a Noetherian ring. A sheaf of `Λ`-modules on `X_étale` is
-constructible exactly when it is the cokernel of a map between finite direct sums of extensions by
-zero of constant free rank-one module sheaves at quasi-compact and quasi-separated objects of
-`X_étale`.
+/-- **Stacks 095N, the quasi-compact quasi-separated presentation, from its two inputs.** Let `X`
+be a quasi-compact and quasi-separated scheme and `Λ` a Noetherian ring. A sheaf of `Λ`-modules
+on `X_étale` is constructible exactly when it is the cokernel of a map between finite direct sums
+of extensions by zero of constant free rank-one module sheaves at quasi-compact and
+quasi-separated objects of `X_étale`.
 
-The hypotheses `hshriek` and `hgen` are carried; see the module documentation. -/
-@[stacks 095N "quasi-compact quasi-separated presentation, carrying as explicit hypotheses the \
-sheaves-of-modules case of Stacks 03S8 (hshriek), that an extension by zero of a constant free \
-rank-one module sheaf is constructible, and the finite generation step of the proof (hgen), that a \
-constructible sheaf of modules is a quotient of a finite direct sum of such sheaves"]
+This is the assembly step, with the inputs `hshriek` and `hgen` as arguments; both are proved, and
+the statement with nothing granted is
+`AlgebraicGeometry.isConstructibleModuleSheaf_iff_qcqsShriekPresentation`. -/
 public theorem isConstructibleModuleSheaf_iff_hasFiniteShriekPresentation
     [CompactSpace X.1] [QuasiSeparatedSpace X.1]
     (hshriek : ∀ U : SmallEtale B X.1 X.property,
@@ -250,18 +244,17 @@ public theorem isConstructibleModuleSheaf_iff_hasFiniteShriekPresentation
     isConstructibleModuleSheaf_of_hasFiniteShriekPresentation B X R _
       (fun _ hW => hshriek _ hW.1 hW.2) F⟩
 
-/-- **Stacks 095N, the affine presentation.** The étale objects of the presentation may be taken
-affine: a sheaf of `Λ`-modules on `X_étale` is constructible exactly when it is the cokernel of a
-map between finite direct sums of extensions by zero of constant free rank-one module sheaves at
-affine objects of `X_étale`.
+/-- **Stacks 095N, the affine presentation, from its two inputs.** The étale objects of the
+presentation may be taken affine: a sheaf of `Λ`-modules on `X_étale` is constructible exactly
+when it is the cokernel of a map between finite direct sums of extensions by zero of constant free
+rank-one module sheaves at affine objects of `X_étale`.
 
-The hypotheses `hshriek` and `hgen` are carried; see the module documentation. The refinement of a
-covering sieve of `X_étale` by a finite family with affine sources, which is what makes the affine
-form of `hgen` reachable, is
+This is the assembly step, with the inputs `hshriek` and `hgen` as arguments; both are proved, and
+the statement with nothing granted is
+`AlgebraicGeometry.isConstructibleModuleSheaf_iff_hasFiniteAffineShriekPresentation`. The
+refinement of a covering sieve of `X_étale` by a finite family with affine sources, which is what
+makes the affine form of `hgen` reachable, is
 `AlgebraicGeometry.SmallEtale.exists_finite_affine_refinement_of_mem_topology`. -/
-@[stacks 095N "affine presentation, carrying as explicit hypotheses the sheaves-of-modules case of \
-Stacks 03S8 at affine objects (hshriek) and the finite generation step of the proof by affine \
-objects (hgen)"]
 public theorem isConstructibleModuleSheaf_iff_affineShriekPresentation
     [CompactSpace X.1] [QuasiSeparatedSpace X.1]
     (hshriek : ∀ U : SmallEtale B X.1 X.property, SmallEtale.IsAffine B X.1 X.property U →

@@ -146,7 +146,7 @@ public abbrev etaleFiniteSupportStalkMap :
 /-- Two sections over a subsingleton scheme of the base change `U ×_X W` which land on the
 graph of `W → U` agree after both projections are composed with the structure morphism
 `W ⟶ U`: on the graph the second projection is the first followed by `W ⟶ U`. -/
-private theorem etaleGraph_fiber_eq_of_mem
+public theorem etaleGraph_fiber_eq_of_mem
     (W : SmallEtale B U.obj.left.1 U.obj.left.property) (T : Scheme.{u}) [Subsingleton T]
     (r : T ⟶ (SmallEtale.toScheme B U.obj.left.1 U.obj.left.property).obj
       (baseChange B U.obj.hom ((smallEtalePostcompose B X hX U).obj W)))
@@ -180,7 +180,7 @@ private theorem etaleFiniteSupportStalkMap_graph
     (etaleFiniteSupportStalkMap B X hX U s F
       (etaleGerm B X hX s ((etaleFiniteSupportPresheaf B X hX U).obj F)
         ((smallEtalePostcompose B X hX U).obj W) (liftedPoint B X hX U s x W q)
-        (graphSectionToFiniteSupport B X hX U F W a))) x =
+        (graphSectionToFiniteSupport.{u, u} B X hX U F W a))) x =
       etaleGerm B U.obj.left.1 U.obj.left.property (x.toGeometricPoint B U.obj.hom s) F.obj
         W q a := by
   have hcomp := etaleGraphIntoSupportOpen_comp B X hX U W
@@ -226,7 +226,7 @@ private theorem etaleFiniteSupportStalkMap_graph_ne
     (etaleFiniteSupportStalkMap B X hX U s F
       (etaleGerm B X hX s ((etaleFiniteSupportPresheaf B X hX U).obj F)
         ((smallEtalePostcompose B X hX U).obj W) (liftedPoint B X hX U s x W q)
-        (graphSectionToFiniteSupport B X hX U F W a))) y = 0 := by
+        (graphSectionToFiniteSupport.{u, u} B X hX U F W a))) y = 0 := by
   classical
   by_cases h : ∃ (V : (geometricPointFiber B U.obj.left.1 U.obj.left.property
       (y.toGeometricPoint B U.obj.hom s)).Elements)

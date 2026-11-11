@@ -180,12 +180,6 @@ finite type over `A`. Then `Spf (φ) : Spf C ⟶ Spf A` is of finite type.
 The base change of `Spf (φ)` along a point of `Spf A` out of an affine object of the site is an
 affine morphism of finite type of the site, and those two properties are Zariski local at the
 target, so the charts over the affine opens of an arbitrary test object glue. -/
-@[stacks 0ANT "the implication (2) ⟹ (1): a taut continuous homomorphism of weakly admissible \
-topological rings over `S` whose target is topologically of finite type over its source has \
-formal spectrum map of finite type, at every scheme-valued point of the target and not only at \
-those factoring through a thickening stage. That the two formal spectra are affine formal \
-algebraic spaces is Stacks 0AIF for a weakly admissible ring and belongs to the situation of \
-the lemma, whose condition (1) speaks of a finite type morphism of them."]
 theorem isFiniteType_formalSpectrumMap_of_isTaut
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)

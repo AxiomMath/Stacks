@@ -54,7 +54,9 @@ ring at a singular point of the blowup is the case `n = 1` of the source's dimen
 `dim_κ(𝔪ⁿ/𝔪ⁿ⁺¹) = 2n + 1`, which the project does not prove; its Krull dimension is likewise not
 computed here; and normality of the blowup of `Spec(A^)` in the maximal ideal of `A^`, which
 clause (2) of Tag 0BG7 consumes, needs `A^` to define a rational singularity — clause (1) of
-Tag 0BG7, which is absent. All three are carried in binders, so nothing here carries a
+Tag 0BG7, proved as
+`AlgebraicGeometry.definesRationalSingularity_adicCompletion_and_isNormalDomain_stalk_blowUp` but
+not discharged here. All three are carried in binders, so nothing here carries a
 `@[stacks]` attribute: with those hypotheses added to the source's setup these statements say
 less than the source does.
 
@@ -147,7 +149,8 @@ field mapping onto its residue field. Then that local ring is Gorenstein.
 
 Clause (2) of [Stacks, Tag 0BG7] makes the completion of the local ring at `x` a normal domain,
 and `AlgebraicGeometry.isGorensteinLocalRing_of_isDomain_adicCompletion` concludes. The
-hypothesis on the completion of `A` is clause (1) of Tag 0BG7, which the project does not prove;
+hypothesis on the completion of `A` is clause (1) of Tag 0BG7, proved as
+`AlgebraicGeometry.definesRationalSingularity_adicCompletion_and_isNormalDomain_stalk_blowUp`;
 it is what feeds [Stacks, Tag 0B4Z] at `A^`, the other three inputs of which — `A^` a normal
 domain, Nagata, of dimension two — are supplied by the situation, by completeness, and by the
 invariance of Krull dimension under completion.

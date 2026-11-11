@@ -5,7 +5,6 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Affine
 public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentSeparator
 public import StacksFrontier.AlgebraicGeometry.Spaces.RingedSite
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Modules.CohomologyOfModules
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # The coherator of an affine algebraic space is the associated module of the global sections
@@ -16,9 +15,11 @@ Let `X` be an affine algebraic space over a scheme `S` contained in a big fppf s
 `Q_X : Mod(𝒪_X) ⥤ QCoh(𝒪_X)`
 
 of Stacks 077V (2) is the functor sending an `𝒪_X`-module `𝓕` to the quasi-coherent
-`𝒪_X`-module associated to the `A`-module `Γ(X, 𝓕)`.  That is proved here, in both of the
-shapes in which it is a statement: `Γ(X, -) ⋙ (-)^~` *is* a right adjoint of the inclusion
-`QCoh(𝒪_X) ⥤ Mod(𝒪_X)`, and consequently any coherator is naturally isomorphic to it.
+`𝒪_X`-module associated to the `A`-module `Γ(X, 𝓕)`.  This file proves its formal step,
+in both shapes, with the associated-module equivalence `(-)^~` carried as a binder:
+`Γ(X, -) ⋙ (-)^~` is a right adjoint of the inclusion `QCoh(𝒪_X) ⥤ Mod(𝒪_X)`, and consequently
+any coherator is naturally isomorphic to it.  The unconditional, registered form of the lemma is
+in `StacksFrontier.AlgebraicGeometry.Spaces.AffineSpaceCoheratorAssociatedModule`.
 
 ## Main definitions
 
@@ -30,10 +31,20 @@ shapes in which it is a statement: `Γ(X, -) ⋙ (-)^~` *is* a right adjoint of 
 
 ## Main results
 
-* `AlgebraicGeometry.Space.inclusionAdjunctionGlobalSectionsAssociated`: **Stacks 08H0 (1)** —
-  `Γ(X, -) ⋙ (-)^~` is right adjoint to `QCoh(𝒪_X) ⥤ Mod(𝒪_X)`, so it *is* a coherator of `X`.
-* `AlgebraicGeometry.Space.coheratorIsoAssociatedGlobalSections`: **Stacks 08H0 (1)** — any
-  coherator of `X` is naturally isomorphic to `Γ(X, -) ⋙ (-)^~`.
+* `AlgebraicGeometry.Space.inclusionAdjunctionGlobalSectionsAssociated`: given a carried
+  associated-module equivalence `assoc` with its adjunction to global sections,
+  `Γ(X, -) ⋙ assoc.functor` is right adjoint to `QCoh(𝒪_X) ⥤ Mod(𝒪_X)`.
+* `AlgebraicGeometry.Space.coheratorIsoAssociatedGlobalSections`: with the same carried data, any
+  coherator of `X` is naturally isomorphic to `Γ(X, -) ⋙ assoc.functor`.
+
+These are **not** the registrations of Stacks 08H0 (1): the carried `assoc` is the substance of
+the lemma, and at module universe `m := u` it cannot exist at all for a representable affine
+algebraic space with nontrivial global functions
+(`AlgebraicGeometry.Space.not_nonempty_equivalence_moduleCat_quasicoherentSheaves_yoneda`), so
+there the statements are vacuous.  The unconditional Stacks 08H0 (1) is
+`AlgebraicGeometry.Space.inclusionAdjunctionGlobalSectionsAssociated_of_isAffineSpace` and
+`AlgebraicGeometry.Space.coheratorIsoGlobalSectionsAssociated_of_isAffineSpace` in
+`StacksFrontier.AlgebraicGeometry.Spaces.AffineSpaceCoheratorAssociatedModule`.
 * `AlgebraicGeometry.Space.exists_coheratorAdjunction_smallEtale`: a coherator with its
   adjunction exists, from Stacks 077V (2); this is the anti-vacuity check for the `Q`/`adjQ`
   binders.
@@ -68,14 +79,15 @@ identity is about a chosen witness rather than about the coherator.  So the pair
 data, and the statement is then about every coherator rather than about one chosen one, which
 is stronger.
 
-Neither carry is vacuous.  The coherator pair is satisfiable:
+The coherator pair is satisfiable:
 `AlgebraicGeometry.Space.exists_coheratorAdjunction_smallEtale` below produces it at the module
 universe `u` from Stacks 077V (2), with no hypothesis.  The
-associated-module equivalence is satisfiable because it is a theorem of the source — the affine
-case of Stacks 03DX (2) — and it is satisfiable non-degenerately: `assoc` being an equivalence
-forces `QCoh(𝒪_X)` to have as many objects as `Mod(A)` has, so it cannot be discharged by
-collapsing the category.  What is *not* done here is to exhibit it in this development's
-vocabulary; that is the missing input named above.
+associated-module equivalence is **not** satisfiable at `m := u` when `X` is representable with
+nontrivial ring of global functions:
+`AlgebraicGeometry.Space.not_nonempty_equivalence_moduleCat_quasicoherentSheaves_yoneda` refutes
+it there, since `A` lies in `Type (u + 1)` and `ModuleCat.{u + 1} A` is equivalent to no category
+with Hom-sets in `Type u`.  So both statements below are vacuous at `m := u`; at `m ≥ u + 1` the
+binder may be satisfiable, but it still assumes the input that does the work.
 
 ## Implementation notes
 
@@ -151,23 +163,22 @@ variable (assoc : ModuleCat.{max (u + 1) m} (globalSectionRingSmallEtale B S hS 
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).ι ⊣
         moduleGlobalSectionsSmallEtale.{u, m} B S hS F hF)
 
-/-- **Stacks 08H0 (1).**  Let `X` be an affine algebraic space and `A = Γ(X, 𝒪_X)`.  The functor
-sending an `𝒪_X`-module `𝓕` to the quasi-coherent `𝒪_X`-module associated to the `A`-module
-`Γ(X, 𝓕)` is a right adjoint of the inclusion `QCoh(𝒪_X) ⥤ Mod(𝒪_X)`; that is, it is a
-coherator of `X`.
+/-- Let `X` be an algebraic space, `A = Γ(X, 𝒪_X)`, and let `assoc : Mod(A) ≌ QCoh(𝒪_X)` be an
+equivalence (read at `ModuleCat.{max (u + 1) m} A`) with an adjunction
+`adjAssoc : assoc.functor ⋙ ι ⊣ Γ(X, -)`.  Then `Γ(X, -) ⋙ assoc.functor` is a right adjoint of
+the inclusion `ι : QCoh(𝒪_X) ⥤ Mod(𝒪_X)`.  The affineness binder is not used by the proof.
 
-Carried: the associated-module equivalence `assoc : Mod(A) ≌ QCoh(𝒪_X)` of the affine case of
-Stacks 03DX (2) and its adjunction `adjAssoc` to global sections, Stacks 01BH (4).  See
-"What is carried, and why it is an input and not the conclusion" in the module documentation.
+This is the formal step of Stacks 08H0 (1) with its substantive input carried, and it is not a
+registration of that tag.  At `m := u` the binder `assoc` cannot exist for a representable affine
+algebraic space with nontrivial global functions
+(`AlgebraicGeometry.Space.not_nonempty_equivalence_moduleCat_quasicoherentSheaves_yoneda`), so the
+statement is vacuous there.  The unconditional Stacks 08H0 (1) is
+`AlgebraicGeometry.Space.inclusionAdjunctionGlobalSectionsAssociated_of_isAffineSpace`.
 
 The proof is the source's, and is the one the scheme analogue Stacks 08D9 (1) uses: composing
 the adjunction `assoc.inverse ⊣ assoc.functor` of the equivalence with `adjAssoc` gives
 `assoc.inverse ⋙ assoc.functor ⋙ ι ⊣ Γ(X, -) ⋙ assoc.functor`, and the left-hand side is `ι`
 by the counit of the equivalence. -/
-@[stacks 08H0 "(1): the coherator of an affine algebraic space is the associated module of the \
-global sections; carried are the associated-module equivalence Mod(A) ≌ QCoh(O_X) of the affine \
-case of Stacks 03DX(2) and its adjunction to global sections (Stacks 01BH(4)), neither of which \
-this development has on the small etale site of an algebraic space"]
 def inclusionAdjunctionGlobalSectionsAssociated (_hAffine : IsAffineSpace B S hS F) :
     (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, m}
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).ι ⊣
@@ -181,21 +192,20 @@ def inclusionAdjunctionGlobalSectionsAssociated (_hAffine : IsAffineSpace B S hS
       Functor.isoWhiskerRight assoc.counitIso _ ≪≫ Functor.leftUnitor _
   (assoc.symm.toAdjunction.comp adjAssoc).ofNatIsoLeft hleft
 
-/-- **Stacks 08H0 (1).**  Let `X` be an affine algebraic space and `A = Γ(X, 𝒪_X)`.  Every
-coherator `Q_X : Mod(𝒪_X) ⥤ QCoh(𝒪_X)` of `X` — every right adjoint of the inclusion
-`QCoh(𝒪_X) ⥤ Mod(𝒪_X)`, which is what Stacks 077V (2) produces — is naturally isomorphic to the
-functor sending `𝓕` to the quasi-coherent `𝒪_X`-module associated to the `A`-module
-`Γ(X, 𝓕)`.
+/-- Let `X` be an algebraic space, `A = Γ(X, 𝒪_X)`, and let `assoc : Mod(A) ≌ QCoh(𝒪_X)` be an
+equivalence with an adjunction `adjAssoc : assoc.functor ⋙ ι ⊣ Γ(X, -)`.  Then every right adjoint
+`Q` of the inclusion `ι : QCoh(𝒪_X) ⥤ Mod(𝒪_X)` is naturally isomorphic to
+`Γ(X, -) ⋙ assoc.functor`.
 
-Carried: a coherator `Q` with its adjunction `adjQ`, and the associated-module equivalence; see
-"What is carried, and why it is an input and not the conclusion" in the module documentation.
+This is the formal step of Stacks 08H0 (1) with its substantive input carried, and it is not a
+registration of that tag: at `m := u` the binder `assoc` cannot exist for a representable affine
+algebraic space with nontrivial global functions
+(`AlgebraicGeometry.Space.not_nonempty_equivalence_moduleCat_quasicoherentSheaves_yoneda`), so the
+statement is vacuous there.  The unconditional Stacks 08H0 (1) is
+`AlgebraicGeometry.Space.coheratorIsoGlobalSectionsAssociated_of_isAffineSpace`.
 Both sides are right adjoints of the inclusion, by `adjQ` and by
 `AlgebraicGeometry.Space.inclusionAdjunctionGlobalSectionsAssociated`, and a right adjoint is
 unique up to a unique natural isomorphism. -/
-@[stacks 08H0 "(1): every coherator of an affine algebraic space is naturally the associated \
-module of the global sections; carried are a coherator with its adjunction (Stacks 077V(2), \
-which the development has only as an existence statement) and the associated-module equivalence \
-Mod(A) ≌ QCoh(O_X) of the affine case of Stacks 03DX(2) with its adjunction to global sections"]
 def coheratorIsoAssociatedGlobalSections
     (Q : Modules.{u, m} B S hS F hF ⥤ QuasicoherentSheaves.{u, m} B S hS F hF)
     (adjQ : (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, m}

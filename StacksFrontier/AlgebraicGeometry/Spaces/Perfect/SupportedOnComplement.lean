@@ -22,10 +22,16 @@ triangle of Stacks 08GV part (2) the first term and the `U`-summand of the secon
 in the direct-image triangle of Stacks 08GW part (2) the third term and the `U`-summand of the
 second vanish.  Both deductions are carried out below.
 
-Of part (2) only clause (c) is obtained, and it is obtained from clauses (a) and (b) and from
-clause (1)(a) at the two objects `j_!F` and `Rj_*F`, all of which enter as hypotheses: the
-source's proof of (2)(a) and (2)(b) is a base change of the square to `V`, where `j` acquires
-a section, and that reduction is not available here.  See the implementation notes.
+For part (2) this file proves the passage from clauses (a) and (b), and from clause (1)(a) at
+the two objects `j_!F` and `Rj_*F`, to clause (c).
+
+The deductions here take their inputs (the Mayer–Vietoris statements, the vanishing of the
+restrictions of a supported object, the other clauses) as explicit arguments.  All of those
+inputs are theorems of the library, and every clause of Stacks 08GG is proved unconditionally,
+and registered, in `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedOnComplementClauses.lean`
+(see `AlgebraicGeometry.Space.isIso_of_cohomologySupportedOn_edsEtale` there for all five
+clauses together), in `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedExtensionByZero.lean`
+and in `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedPushforwardPerfect.lean`.
 
 ## Main definitions
 
@@ -44,14 +50,14 @@ a section, and that reduction is not available here.  See the implementation not
   unit of `M ⊣ R` at `L F` and at `R F` are all invertible, the comparison `L F ⟶ R F`
   adjunct to the inverse of the first is invertible.  This is the formal content of the
   passage from clauses (2)(a), (2)(b) and (1)(a) to clause (2)(c).
-* `AlgebraicGeometry.Space.isIso_counit_mapDerivedCategory_of_cohomologySupportedOn`:
-  **Stacks 08GG, clause (1)(b)**, granted part (1) of Stacks 08GV and the vanishing of the
-  restrictions.
-* `AlgebraicGeometry.Space.exists_isIso_derivedRestrictPush_of_cohomologySupportedOn`:
-  **Stacks 08GG, clause (1)(a)**, in the existentially quantified form that Stacks 08GW
-  part (2) permits here.
-* `AlgebraicGeometry.Space.isIso_supportedShriekToPushforward`: **Stacks 08GG, clause (2)(c)**,
-  granted clauses (2)(a), (2)(b) and (1)(a).
+* `AlgebraicGeometry.Space.isIso_counit_mapDerivedCategory_of_cohomologySupportedOn`: the
+  deduction of clause (1)(b) of Stacks 08GG from part (1) of Stacks 08GV and the vanishing of
+  the restrictions to `U` and to `P`.
+* `AlgebraicGeometry.Space.exists_isIso_derivedRestrictPush_of_cohomologySupportedOn`: the
+  deduction from Stacks 08GW part (2) that an object supported on `T` is isomorphic to
+  `Rj_*(E|_V)`.
+* `AlgebraicGeometry.Space.isIso_supportedShriekToPushforward`: the deduction of clause (2)(c)
+  from clauses (2)(a), (2)(b) and (1)(a).
 
 ## Implementation notes
 
@@ -60,34 +66,34 @@ a section, and that reduction is not available here.  See the implementation not
 cohomology sheaf `Hⁱ(E)` have `AlgebraicGeometry.Space.supportOfSheaf` contained in `T`.  No
 new predicate is introduced.
 
-*Why the restriction vanishings are hypotheses, and what they are.*  The source passes from
-"`E` is supported on `T`" to "`E|_U = 0`" by `Hⁱ(E|_U) = Hⁱ(E)|_U` and the vanishing of a
-sheaf with empty support, Stacks 04K5.  The first of those two steps is not available:
-Mathlib records no commutation of `CategoryTheory.Functor.mapDerivedCategory` with the
-homology functors — the same gap recorded in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/ComplexesWithSupport.lean`, which is why the derived
-equivalence of Stacks 0AEI is not carried there either.  So the implication is isolated as the
-single named hypothesis `hvan`, stated for every étale morphism whose points land in `|U|`,
-and the support hypothesis `hE` is consumed through it.  Applying `hvan` to the open immersion
-and to the morphism out of the intersection gives exactly the source's `E|_U = 0` and
-`E|_P = 0`; the containment of point sets is immediate for the first and is functoriality of
-`AlgebraicGeometry.Space.pointsMap` for the second, so those are proved and not assumed.
+*The restriction vanishings.*  The source passes from "`E` is supported on `T`" to
+"`E|_U = 0`" by `Hⁱ(E|_U) = Hⁱ(E)|_U` and the vanishing of a sheaf with empty support, Stacks
+04K5.  The deductions here take that implication as the argument `hvan`, stated for every
+étale morphism whose points land in `|U|`; it is a theorem of the library,
+`AlgebraicGeometry.Space.isZero_etaleModulePullback_mapDerivedCategory_of_range_subset`.
+Applying `hvan` to the open immersion and to the morphism out of the intersection gives exactly
+the source's `E|_U = 0` and `E|_P = 0`; the containment of point sets is immediate for the
+first and is functoriality of `AlgebraicGeometry.Space.pointsMap` for the second.
 
 *Why clause (1)(a) is existential.*  `AlgebraicGeometry.Space.`
 `exists_mem_distTriang_edsDerivedRestrictPushMayerVietoris`, the library's Stacks 08GW
 part (2), quantifies the four maps of its triangle existentially, as the source does; the
 canonical derived unit `E ⟶ Rj_{V,*}(E|_V)` is the map its proof term constructs but is not
 exposed by its statement.  So what is proved here is that *some* map `E ⟶ Rj_{V,*}(E|_V)` is
-an isomorphism, that is `E ≅ Rj_{V,*}(E|_V)`.  Clause (1)(b) does not suffer from this: the
-extension-by-zero triangle of Stacks 08GV part (2) carries the derived counit explicitly.
+an isomorphism, that is `E ≅ Rj_{V,*}(E|_V)`.  The statement about the canonical unit is
+`AlgebraicGeometry.Space.isIso_derivedUnit_edsDerivedRestrictPushEtale_of_cohomologySupportedOn`
+(at the chosen total right derived functors) and
+`AlgebraicGeometry.Space.isIso_unit_derivedRestrict_of_cohomologySupportedOn` (at any right
+adjoint of derived restriction).
 
 *The derived direct images of a vanishing restriction.*  `R_U` and `R_P` are right derived
 functors of the composites `j_{Y,*}((-)|_Y)`, not of `j_{Y,*}` alone, so `R_U E = 0` does not
 follow formally from `E|_U = 0`; the source's step uses that restriction needs no derivation,
 which is `AlgebraicGeometry.Space.isIso_etaleModulePullback_derivedUnit` together with the
-composition of derived functors of Stacks 08GE.  That composition is not assembled here, so
-the two vanishings enter as the named hypotheses `hRU` and `hRP`, stated as implications from
-the restriction vanishings that `hvan` produces.
+composition of derived functors of Stacks 08GE.  The deduction here takes the two vanishings as
+the arguments `hRUzero` and `hRPzero`, stated as implications from the restriction vanishings
+that `hvan` produces; at the chosen total right derived functors they are
+`AlgebraicGeometry.Space.isZero_totalRightDerived_etaleRestrictPush_of_isZero`.
 
 *Extension by zero and the derived adjunctions enter as data*, exactly as in
 `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/MayerVietoris.lean` and in Stacks 08HA: a
@@ -98,12 +104,11 @@ adjunctions are taken on the unbounded derived categories, which is where the so
 comparison `j_!F ⟶ Rj_*F` lives; the source asserts it only for supported `F`, and indeed a
 normalized comparison on all of `D(𝒪_V)` need not exist for a nonseparated étale `j`.
 
-*What is not proved.*  Clauses (2)(a) and (2)(b) are not proved and carry no attribute.  The
-source proves them by replacing `X` by `V`, `U` by `U ×_X V` and `V` by `V ×_X V` using Stacks
-08GN, 08GE and 08HA, observing that `V ×_X V ⟶ V` has a section, and running the two
-Mayer–Vietoris triangles on the resulting square; the stalkwise conservativity of Stacks 04K5
-is what turns the conclusion back into the original statement.  None of that base-change
-reduction is carried by the library.
+*Clauses (2)(a) and (2)(b).*  The source proves them by a base change of the square to `V`,
+where `j` acquires a section.  The library proves them without that reduction:
+`j_!F` is supported on `T` (Stacks 08HA), so clause (1)(b) at `j_!F`, the triangle identity
+and the conservativity of `j_!` give clause (2)(a), and clause (1)(a) at `j_!F` then gives
+clause (2)(b); see `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/SupportedOnComplementClauses.lean`.
 
 ## References
 
@@ -263,7 +268,8 @@ theorem isZero_mapDerivedCategory_comp_of_isZero
   IsZero.of_iso (shriek.mapDerivedCategory.map_isZero hE)
     ((Functor.mapDerivedCategoryComp (etaleModulePullback.{u, u} B S hS g hg) shriek).app E)
 
-/-- **Stacks 08GG, clause (1)(b).**  Let `(U ⊆ X, j : V ⟶ X)` be an elementary distinguished
+/-- **The deduction of clause (1)(b) of Stacks 08GG from Mayer–Vietoris.**  Let
+`(U ⊆ X, j : V ⟶ X)` be an elementary distinguished
 square of algebraic spaces over a scheme `S`, let `P = U ×_X V` and set `T = |X| \ |U|`.  Let
 `E` be an object of `D(𝒪_X)` supported on `T`.  Then the canonical map `j_!(E|_V) ⟶ E`, the
 derived counit of the adjunction `j_! ⊣ (-)|_V`, is an isomorphism.
@@ -276,15 +282,6 @@ support on `T` makes `E|_U` and `E|_P` vanish, hence also their extensions by ze
 first term of the triangle vanishes — whence the second map is an isomorphism — and the
 `U`-summand of the second term vanishes, so the inclusion of the `V`-summand is an
 isomorphism.  The composite of the two is the derived counit. -/
-@[stacks 08GG "clause (1)(b): the derived counit j_!(E|_V) ⟶ E is an isomorphism for E
-supported on T = |X| \\ |U|. Proved in full from (i) hMV, which is part (1) of Tag 08GV and is a
-theorem of the library, shortExact_edsShriekMayerVietoris, taken here as an input for arbitrary
-maps a and b out of the intersection exactly as in mem_distTriang_mayerVietoris, and (ii) hvan, the
-implication from support on T to the vanishing of the restriction to an etale space over |U|:
-that is Tag 04K5 plus H^i(E|_Y) = H^i(E)|_Y, and the latter is unavailable because Mathlib
-records no commutation of Functor.mapDerivedCategory with the homology functors. The two
-instances of hvan that the proof needs, at the open immersion and at the intersection, are
-proved here and not assumed. Extension by zero enters as data, as in Tag 08HA"]
 theorem isIso_counit_mapDerivedCategory_of_cohomologySupportedOn
     (a : etaleModulePullback.{u, u} B S hS (edsInterHom B S hS hsq)
           (isEtale_edsInterHom B S hS hsq) ⋙ shriekP ⟶
@@ -356,7 +353,8 @@ variable {W : AlgebraicSpaces B S hS} {V : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u
   [HasSheafify (smallEtaleRingedSite B S hS W.1 W.2).J AddCommGrpCat.{u}]
   [(smallEtaleRingedSite B S hS W.1 W.2).J.WEqualsLocallyBijective AddCommGrpCat.{u}]
 
-/-- **Stacks 08GG, clause (1)(a)**, in the existentially quantified form that the library's
+/-- **The deduction from Mayer–Vietoris of Stacks 08GG, clause (1)(a)**, in the existentially
+quantified form that the library's
 Stacks 08GW part (2) permits.  Let `(U ⊆ X, j : V ⟶ X)` be an elementary distinguished square
 of algebraic spaces over a scheme `S`, let `P = U ×_X V` and set `T = |X| \ |U|`.  Let `R_U`,
 `R_V` and `R_P` be right derived functors of the three composites `j_{Y,*}((-)|_Y)`, and
@@ -371,17 +369,6 @@ support on `T` makes `E|_U` and `E|_P` vanish, hence also the two derived direct
 third term of the triangle vanishes — whence the first map is an isomorphism — and the
 `U`-summand of the second term vanishes, so the projection to the `V`-summand is an
 isomorphism.  The composite of the two is a map `E ⟶ R_V E`. -/
-@[stacks 08GG "clause (1)(a): E is isomorphic to Rj_*(E|_V) for E supported on T = |X| \\ |U|.
-WEAKER THAN THE CLAUSE IN ONE RESPECT, stated here because the library's Tag 08GW part (2),
-exists_mem_distTriang_edsDerivedRestrictPushMayerVietoris, quantifies the maps of its triangle
-existentially as the source does: what is proved is that SOME map E ⟶ R_V E is an isomorphism,
-not that the canonical derived unit is. Granted (i) hMV, which is part (1) of Tag 08GW and is
-itself only proved there from part (1) of Tag 08GV plus the surjectivity of Tag 01FW, (ii)
-hvan, the implication from support on T to the vanishing of the restriction to an etale space
-over |U| -- Tag 04K5 plus the unavailable commutation of Functor.mapDerivedCategory with the
-homology functors -- and (iii) hRUzero and hRPzero, the vanishing of the two derived direct
-images at a vanishing restriction, which is Tag 08GE together with the fact that restriction
-needs no derivation"]
 theorem exists_isIso_derivedRestrictPush_of_cohomologySupportedOn
     (RU RV RP : DerivedCategory (Modules.{u, u} B S hS W.1 W.2) ⥤
       DerivedCategory (Modules.{u, u} B S hS W.1 W.2))
@@ -473,7 +460,7 @@ def supportedShriekToPushforward
   letI := h
   adjPush.homEquiv (shriekD.obj F) F (inv (adjShriek.unit.app F))
 
-/-- **Stacks 08GG, clause (2)(c)**, granted clauses (2)(a), (2)(b) and (1)(a).  Let
+/-- **The deduction of clause (2)(c) of Stacks 08GG from the other clauses.**  Let
 `(U ⊆ X, j : V ⟶ X)` be an elementary distinguished square of algebraic spaces over a scheme
 `S`, set `T = |X| \ |U|` and let `F` be an object of `D(𝒪_V)` supported on `j^{-1}T`.  Granted
 that the unit `F ⟶ (j_!F)|_V` of clause (2)(a) and the counit `(Rj_*F)|_V ⟶ F` of clause
@@ -484,18 +471,8 @@ The deduction is `CategoryTheory.Adjunction.isIso_homEquiv_inv_unit`: clauses (2
 (2)(b) make the restriction of the comparison invertible, and clause (1)(a) at its source and
 at its target then makes the comparison itself invertible, by naturality of the unit of
 `(-)|_V ⊣ Rj_*`.  The source instead obtains all three clauses at once from the base change of
-the square to `V`; this is a cleaner route to (2)(c) from the other two, and it is the only
-part of the source's part (2) obtained here. -/
-@[stacks 08GG "clause (2)(c): the comparison j_!F ⟶ Rj_*F is an isomorphism for F supported on
-j^{-1}T. CONDITIONAL on the other clauses, which are its named hypotheses: h2a is clause
-(2)(a), h2b is clause (2)(b), and h1aShriek and h1aPush are clause (1)(a) at the two objects
-j_!F and Rj_*F. NONE of those four is proved in the library -- clauses (2)(a) and (2)(b) need
-the source's base change of the square to V, where j acquires a section, which the library
-does not carry; clause (1)(a) is proved here only in the existentially quantified form
-exists_isIso_derivedRestrictPush_of_cohomologySupportedOn, which does not name the canonical
-unit that this statement uses. What IS proved here is the implication, which is the source's
-own passage to (2)(c). Derived extension by zero and derived direct image enter as the two
-adjunctions of derived restriction, as in Tag 08HA"]
+the square to `V`.  All four inputs are theorems of the library; the unconditional clause (2)(c)
+is `AlgebraicGeometry.Space.isIso_supportedShriekToPushforward_of_supported`. -/
 theorem isIso_supportedShriekToPushforward
     (F : DerivedCategory (Modules.{u, u} B S hS (edsEtale B S hS hsq).1
       (edsEtale B S hS hsq).2))

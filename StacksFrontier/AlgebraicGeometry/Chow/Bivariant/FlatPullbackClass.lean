@@ -18,16 +18,22 @@ bivariant class of degree `-r` for `f`.
 
 ## Main definitions
 
-* `Stacks.Chow.ProperPushforwardFlatPullbackBaseChange` — Stacks 02RG on Chow groups, as a
-  hypothesis.
-* `Stacks.Chow.GysinSystem.FlatPullbackNaturality` — Stacks 0B71 on Chow groups, with the
-  identification of Stacks 0B6Y, as a hypothesis.
+* `Stacks.Chow.ProperPushforwardFlatPullbackBaseChange` — the statement of Stacks 02RG on Chow
+  groups, proved as `Stacks.Chow.properPushforwardFlatPullbackBaseChange` of
+  `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullbackProperPushforward`.
+* `Stacks.Chow.GysinSystem.FlatPullbackNaturality` — the statement of Stacks 0B71 on Chow
+  groups for a Gysin system, with the identification of Stacks 0B6Y.
 * `Stacks.Chow.flatPullbackBivariantCap` — the cap operation: flat pullback along the base change
   of `f`, read in the degree a class of degree `-r` produces. This is **not** declared here; it is
   imported from `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullback`, which this module
   builds on. See the implementation notes.
-* `Stacks.Chow.flatPullbackBivariantClass` — **Stacks 0B78**, that cap operation together with
-  the three naturality laws, as an element of `A^{-r}(X ⟶ Y)`.
+* `Stacks.Chow.flatPullbackBivariantClass` — that cap operation together with the three
+  naturality laws, as an element of `A^{-r}(X ⟶ Y)` over an arbitrary Gysin system, given the
+  three statements `hS1`, `hRG`, `h71` for that system. The unconditional class of Stacks 0B78,
+  at the Gysin system of the first Chern class, is
+  `Stacks.Chow.flatPullbackBivariantClassOfInvertible` of
+  `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullbackProperPushforward`, and in the
+  group `A^{-r}(X ⟶ Y)` of Stacks 0B76 it is `Stacks.Chow.flatPullbackBivariantChowClass`.
 
 ## Main results
 
@@ -37,10 +43,10 @@ bivariant class of degree `-r` for `f`.
   a test scheme.
 * `Stacks.Chow.flatPullbackBivariantCap_proper_naturality` and
   `Stacks.Chow.flatPullbackBivariantCap_gysin_naturality` — the projection formula and the Gysin
-  law of Stacks 0B76 for the cap operation, from the hypotheses `hRG` and `h71`. The third law,
-  the flat-pullback law `Stacks.Chow.flatPullbackBivariantCap_flat_naturality`, is the one that is
-  proved outright rather than assumed, and it too is imported rather than declared here.
-* `Stacks.Chow.flatPullbackBivariantClass_cap` — the class of Stacks 0B78 caps by flat pullback.
+  law of Stacks 0B76 for the cap operation, from the statements `hRG` and `h71`. The third law,
+  the flat-pullback law `Stacks.Chow.flatPullbackBivariantCap_flat_naturality`, needs neither
+  and is imported rather than declared here.
+* `Stacks.Chow.flatPullbackBivariantClass_cap` — that class caps by flat pullback.
 
 ## Implementation notes
 
@@ -55,48 +61,40 @@ same proposition — `Stacks.Chow.FlatPullbackDescends` is definitionally the in
 the imported declarations serve both, and no second construction of the cap operation is made.
 
 What is left here is what the imported module does not provide: the projection formula, the Gysin
-law, the bivariant class of Stacks 0B78 itself, and the proof that that class satisfies the
-imported characterization.
+law, and the assembly of the class over an arbitrary Gysin system.
 
-### Which inputs are proved here and which are hypotheses
+### The inputs of the source proof
 
 The source deduces Stacks 0B78 from four lemmas: Stacks 02S1, 02RD, 02RG and 0B71. Two further
 inputs are needed to write the cap operation down at all, namely that the base change of `f`
 along a test scheme is again flat, which is formal, and that it has relative dimension `r`, which
 is Stacks 02NK.
 
-Of these, Stacks 02RD and Stacks 02NK are theorems of this repository and are used as such.
-Stacks 02RD, `Stacks.Chow.flatPullback_comp`, is descended to Chow groups here as
-`Stacks.Chow.flatPullbackChow_comp_heq`, and it is what discharges the flat-pullback law of
-Stacks 0B76 outright rather than assuming it; that discharge is
+All of these are theorems of this repository. Stacks 02RD, `Stacks.Chow.flatPullback_comp`, is
+descended to Chow groups here as `Stacks.Chow.flatPullbackChow_comp_heq`, and it discharges the
+flat-pullback law of Stacks 0B76; that discharge is
 `Stacks.Chow.flatPullbackBivariantCap_flat_naturality`, which is imported. Stacks 02NK,
 `AlgebraicGeometry.RelativeDimension.of_isPullback`, gives the relative dimension of every base
 change, in `Stacks.Chow.relativeDimension_pullbackSnd`.
 
-The other three are not in this repository and are carried as explicitly named hypotheses of
-`Stacks.Chow.flatPullbackBivariantClass`, each standing in for one tag of the source:
+The construction here is stated over an arbitrary `Stacks.Chow.GysinSystem` `G`, so the other
+three inputs enter as named statements, each being one tag of the source:
 
 * `hS1 : Stacks.Chow.FlatPullbackDescends C` is **Stacks 02S1**, bundled over all flat morphisms
-  over the base. Without it flat pullback does not descend from cycles to Chow groups, so the cap
-  operation does not exist. In this repository Stacks 02S1 is proved only along open immersions.
+  over the base; it is the theorem `Stacks.Chow.flatPullbackDescends`.
 * `hRG : Stacks.Chow.ProperPushforwardFlatPullbackBaseChange C` is **Stacks 02RG** on Chow
-  groups, in the four-corner form of the source: a cartesian square with proper horizontal legs
-  and flat vertical legs of a common relative dimension. In this repository Stacks 02RG is proved
-  only when the two horizontal legs are isomorphisms,
-  `Stacks.Chow.flatPullbackChow_chowPushforwardOfIso`, which is the instance of this hypothesis
-  in which `u₀` and `u₁` are invertible.
-* `h71 : G.FlatPullbackNaturality r` is **Stacks 0B71** on Chow groups, together with the
-  identification of **Stacks 0B6Y** of the zero scheme upstairs with the base change of the zero
-  scheme downstairs, which is what the isomorphism `ε` in that hypothesis records. Neither tag is
-  in this repository.
+  groups, in the four-corner form of the source; it is the theorem
+  `Stacks.Chow.properPushforwardFlatPullbackBaseChange`.
+* `h71 : G.FlatPullbackNaturality r` is **Stacks 0B71** on Chow groups for the Gysin system `G`,
+  together with the identification of **Stacks 0B6Y**, which is what the isomorphism `ε` in that
+  statement records. For the Gysin system of the first Chern class of an invertible module the
+  corresponding identity is the theorem
+  `Stacks.Chow.gysinSystemOfInvertible_flatPullbackNaturalityAtZeroSchemeComparison`, and the
+  class assembled from it is `Stacks.Chow.flatPullbackBivariantClassOfInvertible`.
 
-Each of the three is a `Pi` into `Prop`, hence itself a `Prop`, so assuming it asserts exactly
-the corresponding statement and nothing more; substituting the genuine lemmas discharges it and
-leaves Stacks 0B78 unconditional. None of the three mentions `Stacks.Chow.BivariantClass`, and
-none asserts any part of the conclusion of Stacks 0B78: that conclusion is that *this particular
-rule is a bivariant class*, whereas `hS1`, `hRG` and `h71` are statements about flat pullback,
-proper pushforward and Gysin maps in the generality in which the source states them, with no
-reference to `f`.
+Each of the three is a `Pi` into `Prop`, so it asserts exactly the corresponding statement and
+nothing more. None of them mentions `Stacks.Chow.BivariantClass` or `f`. The declarations here
+carry no `@[stacks 0B78]`: the tag is on the unconditional class.
 
 ### The Gysin system
 
@@ -248,16 +246,14 @@ theorem relativeDimension_pullbackSnd {X Y T : Scheme.{u}} (f : X ⟶ Y) [Locall
     AlgebraicGeometry.RelativeDimension (pullback.snd f g) r :=
   AlgebraicGeometry.RelativeDimension.of_isPullback (IsPullback.of_hasPullback f g) hfr
 
-/-! ### Stacks 02RG and Stacks 0B71 as hypotheses -/
+/-! ### The statements of Stacks 02RG and Stacks 0B71 -/
 
 /-- **Stacks 02RG on Chow groups.** In a cartesian square with horizontal legs `u₀ : A₀ ⟶ B₀` and
 `u₁ : A₁ ⟶ B₁` proper and vertical legs `d : A₁ ⟶ A₀` and `v : B₁ ⟶ B₀` flat of relative
 dimension `r`, all over the base, flat pullback commutes with proper pushforward.
 
-Carried as a hypothesis, because Stacks 02RG is proved in this repository only when the two
-horizontal legs are isomorphisms. That case,
-`Stacks.Chow.flatPullbackChow_chowPushforwardOfIso`, is the instance of this statement in which
-`u₀` and `u₁` are invertible. -/
+This statement is the theorem `Stacks.Chow.properPushforwardFlatPullbackBaseChange` of
+`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullbackProperPushforward`. -/
 def ProperPushforwardFlatPullbackBaseChange (C : ChowSituation.{u}) : Prop :=
   ∀ {A₀ A₁ B₀ B₁ : Scheme.{u}} (sA₀ : A₀ ⟶ C.S) [LocallyOfFiniteType sA₀] (sA₁ : A₁ ⟶ C.S)
     [LocallyOfFiniteType sA₁] (sB₀ : B₀ ⟶ C.S) [LocallyOfFiniteType sB₀] (sB₁ : B₁ ⟶ C.S)
@@ -285,8 +281,9 @@ with the zero scheme upstairs, over the base. Then the Gysin map of `s` commutes
 pullback.
 
 The isomorphism `ε` is the identification of Stacks 0B6Y of the zero scheme upstairs with the
-base change of the zero scheme downstairs; the identity itself is Stacks 0B71. Neither is in this
-repository, so both are carried here. -/
+base change of the zero scheme downstairs; the identity itself is Stacks 0B71. For the Gysin
+system of the first Chern class of an invertible module the corresponding identity is
+`Stacks.Chow.gysinSystemOfInvertible_flatPullbackNaturalityAtZeroSchemeComparison`. -/
 def GysinSystem.FlatPullbackNaturality {C : ChowSituation.{u}} (G : GysinSystem C) (r : ℕ) :
     Prop :=
   ∀ {T A A'' : Scheme.{u}} (q : T ⟶ C.S) [LocallyOfFiniteType q] (sA : A ⟶ C.S)
@@ -481,16 +478,12 @@ theorem flatPullbackBivariantCap_gysin_naturality (h71 : G.FlatPullbackNaturalit
 
 /-! ### The bivariant class of Stacks 0B78 -/
 
-/-- **Stacks 0B78.** For `f : X ⟶ Y` flat of relative dimension `r` between schemes locally of
-finite type over the base, the rule which assigns to a test scheme `g : T ⟶ Y` the flat pullback
-`A_k(T) ⟶ A_{k+r}(X ×_Y T)` along the base change of `f` is a bivariant class of degree `-r`
-for `f`.
-
-The three inputs of the source that this repository does not have are the named hypotheses `hS1`
-(Stacks 02S1), `hRG` (Stacks 02RG) and `h71` (Stacks 0B71, with the identification of Stacks
-0B6Y). The fourth, Stacks 02RD, is proved here, as is Stacks 02NK; see the implementation notes
-of `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullbackClass`. -/
-@[stacks 0B78 "with Stacks 02S1 as hS1, Stacks 02RG as hRG and Stacks 0B71 as h71"]
+/-- For `f : X ⟶ Y` flat of relative dimension `r` between schemes locally of finite type over
+the base, the rule which assigns to a test scheme `g : T ⟶ Y` the flat pullback
+`A_k(T) ⟶ A_{k+r}(X ×_Y T)` along the base change of `f`, as a bivariant class of degree `-r`
+for `f` over an arbitrary Gysin system `G`, given Stacks 02S1 as `hS1`, Stacks 02RG as `hRG` and
+the statement of Stacks 0B71 for `G` as `h71`. The unconditional class of Stacks 0B78 is
+`Stacks.Chow.flatPullbackBivariantClassOfInvertible`. -/
 def flatPullbackBivariantClass (hRG : ProperPushforwardFlatPullbackBaseChange C)
     (h71 : G.FlatPullbackNaturality r) :
     BivariantClass C G sX sY f hf (-(r : ℤ)) where
@@ -514,8 +507,8 @@ def flatPullbackBivariantClass (hRG : ProperPushforwardFlatPullbackBaseChange C)
     exact flatPullbackBivariantCap_gysin_naturality C G sX sY f hf r hfr hS1 h71 g L s k e hbase
       _ α
 
-/-- **Stacks 0B78.** The class of Stacks 0B78 caps by flat pullback along the base change of `f`,
-up to the transport of degrees. -/
+/-- The class `Stacks.Chow.flatPullbackBivariantClass` caps by flat pullback along the base
+change of `f`, up to the transport of degrees. -/
 theorem flatPullbackBivariantClass_cap (hRG : ProperPushforwardFlatPullbackBaseChange C)
     (h71 : G.FlatPullbackNaturality r) {T : Scheme.{u}} (g : T ⟶ Y) [LocallyOfFiniteType g]
     (k : ℤ) (α : chowGroup C (g ≫ sY) k) :

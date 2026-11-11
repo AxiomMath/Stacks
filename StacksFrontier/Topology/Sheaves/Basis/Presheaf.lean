@@ -59,7 +59,9 @@ open TopologicalSpace
 variable {X : Type*} [TopologicalSpace X]
 
 /-- A presheaf of sets on a basis `B` for the topology on `X`. -/
-@[stacks_fixed 009I "(1)", ega "0 3.2.1" "set-valued definition"]
+@[stacks 009I "(1) presheaf of sets on `B`: `F(U)` for `U ∈ B`, maps `ρ^U_V` for `V ⊆ U` \
+  in `B`, `ρ^U_U = id`, `ρ^U_W = ρ^V_W ∘ ρ^U_V`; stated for any family `B` of subsets of `X`, \
+  a basis of the topology in particular", ega "0 3.2.1" "set-valued definition"]
 structure PresheafOnBasis (B : Set (Set X)) where
   /-- The set assigned to each basis open. -/
   obj : ∀ U ∈ B, Type*
@@ -74,7 +76,8 @@ structure PresheafOnBasis (B : Set (Set X)) where
     res hU hW (hWV.trans hVU) x = res hV hW hWV (res hU hV hVU x)
 
 /-- A morphism of presheaves of sets on a basis `B`. -/
-@[stacks_fixed 009I "(2)", ega "0 3.2.3" "morphism definition"]
+@[stacks 009I "(2) morphism `φ : F → G`: a map `F(U) → G(U)` for each `U ∈ B` compatible \
+  with the restriction maps", ega "0 3.2.3" "morphism definition"]
 structure PresheafOnBasis.Hom {B : Set (Set X)} (F G : PresheafOnBasis B) where
   /-- The component map at each basis open. -/
   app : ∀ {U : Set X} (hU : U ∈ B), F.obj U hU → G.obj U hU

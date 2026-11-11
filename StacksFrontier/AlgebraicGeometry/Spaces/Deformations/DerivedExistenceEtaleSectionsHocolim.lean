@@ -17,12 +17,13 @@ as soon as every `RΓ_A(X, E ⊗^L M)` with `E` perfect does, and the canonical 
 
 ## Main results
 
-* `DerivedExistenceSystem.isZero_etaleSections_of_forall_isPerfect`: for `M ∈ D_QCoh(𝒪_X)`
+* `SeparatedDerivedExistenceSystem.isZero_etaleSections_of_forall_isPerfect`: for `M ∈ D_QCoh(𝒪_X)`
   with `RΓ_A(X, E ⊗^L M) = 0` for every perfect `E`, also `RΓ_A(U, M|_U) = 0`.
-* `DerivedExistenceSystem.isIso_etaleSectionsBaseChangeMap_of_isIso`: the canonical map
+* `SeparatedDerivedExistenceSystem.isIso_etaleSectionsBaseChangeMap_of_isIso`: the canonical map
   `RΓ(U, K) ⊗^L_A Aₙ ⟶ RΓ(Uₙ, Kₙ)` is invertible given that every
-  `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` with `E` perfect is invertible.
-* `DerivedExistenceSystem.isIso_etaleSectionsBaseChangeMap`: for `K = DQ_X(R lim Kₙ)` and
+  `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` with `E` perfect is invertible (proved: [Stacks, Tag 0DIM],
+  `…isIso_stageSections_map_tensor_coheratorLimitPullbackMap`).
+* `SeparatedDerivedExistenceSystem.isIso_etaleSectionsBaseChangeMap`: for `K = DQ_X(R lim Kₙ)` and
   `j : U ⟶ X` étale with `U` quasi-compact and quasi-separated, the canonical map
   `RΓ(U, K) ⊗^L_A Aₙ ⟶ RΓ(Uₙ, Kₙ)` is an isomorphism in `D(Aₙ)`.
 
@@ -47,9 +48,9 @@ attribute [local instance 5000] SheafOfModules.instAbelian
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable {D : DerivedExistenceSystem.{u}}
+variable {D : SeparatedDerivedExistenceSystem.{u}}
   {U : AlgebraicSpaces D.B (limitBase D.system) D.containsLimitBase} {j : U ⟶ D.X.left}
 
 /-- For `M ∈ D_QCoh(𝒪_X)` and `j : U ⟶ X` étale with `U` quasi-compact and quasi-separated,
@@ -93,7 +94,10 @@ theorem isZero_etaleSections_of_forall_isPerfect
 
 /-- If for every perfect `E` on `X` the map `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` is invertible, then
 `RΓ(U, K) ⊗^L_A Aₙ ⟶ RΓ(Uₙ, Kₙ)` is an isomorphism, for `j : U ⟶ X` étale with `U`
-quasi-compact and quasi-separated. -/
+quasi-compact and quasi-separated. The hypothesis is proved, as
+`isIso_stageSections_map_tensor_coheratorLimitPullbackMap` (part of [Stacks, Tag 0DIM],
+`isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`); for the chosen coherator the
+unconditional form is `isIso_etaleSectionsBaseChangeMap`. -/
 theorem isIso_etaleSectionsBaseChangeMap_of_isIso
     (DQ : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left ⥤
       (spaceQuasicoherentProp D.B (limitBase D.system) D.containsLimitBase
@@ -116,16 +120,16 @@ theorem isIso_etaleSectionsBaseChangeMap_of_isIso
     (isZero_etaleSections_of_forall_isPerfect hj hUqc hUqs) h0DIM
 
 variable (D) (j) in
-/-- In Situation 0DIK let `K = DQ_X(R lim Kₙ)` be the object of [Stacks, Tag 0DIL]
-(`AlgebraicGeometry.Space.DerivedExistenceSystem.quasicoherentLimit`, for the coherator `DQ_X`
+/-- In the situation of `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem`, given the
+pseudo-coherence of the `Mₙ`, let `K = DQ_X(R lim Kₙ)` be the object of [Stacks, Tag 0DIL]
+(`AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.quasicoherentLimit`, for the coherator
+`DQ_X`
 right adjoint to `D_QCoh(𝒪_X) ⥤ D(𝒪_X)`). For every étale `j : U ⟶ X` with `U`
 quasi-compact and quasi-separated and every `n`, the canonical map
 `RΓ(U, K) ⊗^L_A Aₙ ⟶ RΓ(Uₙ, Kₙ)` in `D(Aₙ)`, with `Uₙ = U ×_X Xₙ` (the base change map of `RΓ`
 along `Spec Aₙ ⟶ Spec A`, then `RΓ(Uₙ, -)` of `τₙ|_{Uₙ}`, with `τₙ : Lpₙ^*K ⟶ Kₙ` adjoint to the
 projection), is an isomorphism. -/
-@[stacks 0DIP "for U → X étale with U qcqs, RΓ(U, K) ⊗^L_A A_n → RΓ(U_n, K_n) is an isomorphism \
-  in D(A_n), U_n = U ×_X X_n; nothing is granted or assumed"]
-theorem isIso_etaleSectionsBaseChangeMap
+theorem isIso_etaleSectionsBaseChangeMap (hpc : D.StageSectionsPseudoCoherent)
     (hj : IsEtale D.B (limitBase D.system) D.containsLimitBase j.hom)
     (hUqc : IsQuasiCompactSpace D.B (limitBase D.system) D.containsLimitBase U.1)
     (hUqs : IsAbsolutelyQuasiSeparated D.B (limitBase D.system) D.containsLimitBase
@@ -133,7 +137,32 @@ theorem isIso_etaleSectionsBaseChangeMap
     IsIso (D.etaleSectionsBaseChangeMap j D.coherator D.coheratorAdjunction n) :=
   isIso_etaleSectionsBaseChangeMap_of_isIso D.coherator D.coheratorAdjunction hj hUqc hUqs n
     (D.isIso_stageSections_map_tensor_coheratorLimitPullbackMap D.coherator
-      D.coheratorAdjunction n)
+      D.coheratorAdjunction hpc n)
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
+
+/-- In Situation 0DIK let `K = DQ_X(R lim Kₙ)` be the object of [Stacks, Tag 0DIL]
+(`AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.quasicoherentLimit` of
+`D.toSeparated`, for the coherator `DQ_X`
+right adjoint to `D_QCoh(𝒪_X) ⥤ D(𝒪_X)`). For every étale `j : U ⟶ X` with `U`
+quasi-compact and quasi-separated and every `n`, the canonical map
+`RΓ(U, K) ⊗^L_A Aₙ ⟶ RΓ(Uₙ, Kₙ)` in `D(Aₙ)`, with `Uₙ = U ×_X Xₙ` (the base change map of `RΓ`
+along `Spec Aₙ ⟶ Spec A`, then `RΓ(Uₙ, -)` of `τₙ|_{Uₙ}`, with `τₙ : Lpₙ^*K ⟶ Kₙ` adjoint to the
+projection), is an isomorphism. -/
+@[stacks 0DIP "in Situation 0DIK with K = DQ_X(R lim K_n) as in 0DIL: for every étale U → X with \
+  U qcqs and every n, the canonical map RΓ(U, K) ⊗^L_A A_n → RΓ(U_n, K_n) is an isomorphism in \
+  D(A_n), U_n = U ×_X X_n; the full statement, with 0CRW and 0DIM proved in the library"]
+theorem isIso_etaleSectionsBaseChangeMap (D : DerivedExistenceSystem.{u})
+    {U : AlgebraicSpaces D.B (limitBase D.system) D.containsLimitBase} (j : U ⟶ D.X.left)
+    (hj : IsEtale D.B (limitBase D.system) D.containsLimitBase j.hom)
+    (hUqc : IsQuasiCompactSpace D.B (limitBase D.system) D.containsLimitBase U.1)
+    (hUqs : IsAbsolutelyQuasiSeparated D.B (limitBase D.system) D.containsLimitBase
+      D.B.contains_terminal U.1) (n : ℕ) :
+    IsIso (D.toSeparated.etaleSectionsBaseChangeMap j D.toSeparated.coherator
+      D.toSeparated.coheratorAdjunction n) :=
+  D.toSeparated.isIso_etaleSectionsBaseChangeMap j D.stageSectionsPseudoCoherent hj hUqc hUqs n
 
 end DerivedExistenceSystem
 

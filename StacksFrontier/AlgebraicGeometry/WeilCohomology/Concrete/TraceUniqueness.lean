@@ -23,7 +23,8 @@ where `Δ` is open and closed (the diagonal of an étale morphism).
 
 * `Stacks.WeilCohomology.SmoothProjectiveScheme.isOpenImmersion_diag_of_relativeDimension_zero`
 * `Stacks.WeilCohomology.FirstChernClassData.key_of_cup_eq_zero`
-* `trace_unique`, `bijective_diagonalContract` (Remark 0FIK), `key_diagonalClass`,
+* `perfectDuality_diagonalClass_and_existsUnique_trace` (Remark 0FIK), `trace_unique`,
+  `bijective_diagonalContract`, `key_diagonalClass`,
   `key_of_relativeDimension_zero` (namespace
   `Stacks.WeilCohomology.FirstChernClassData.IsCohomologicalChernCharacter`)
 -/
@@ -183,16 +184,14 @@ theorem key_diagonalClass (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.ProjectiveBund
   exact h.key_of_blowup_relation hA1 hA3 hA4 hA7 X d (d - 1) (by omega) hX.relativeDimension
     (blowupTheta (diag X) α d) hrel a
 
-/-- **Stacks Project, Remark 0FIK: uniqueness of the trace map.** Let (D0), (D1), (D2') satisfy
+/-- **Uniqueness of the trace map**, the second assertion of Remark 0FIK
+(`perfectDuality_diagonalClass_and_existsUnique_trace`). Let (D0), (D1), (D2') satisfy
 (A1)–(A7), with `γ` the cycle class map of Tag 0FIF, and let `X` be a nonempty smooth projective
 scheme over `k`, equidimensional of dimension `d`. Then a linear map `λ : H^{2d}(X)(d) ⟶ F` with
 `(1 ⊗ λ)γ([Δ]) = 1` as in axiom (A6) is unique.
 
 The axioms used are (A1), (A3), (A4), (A5) and (A7), through the identity
 `γ([Δ]) ∪ p₁^*a = γ([Δ]) ∪ p₂^*a` (`key_diagonalClass`); (A2) enters through `γ` itself. -/
-@[stacks 0FIK "uniqueness of the trace map λ of (A6): two linear maps H^{2d}(X)(d) → F \
-normalized by (1 ⊗ λ)γ([Δ]) = 1 are equal, for X nonempty equidimensional of dimension d and γ \
-the cycle class map of 0FIF"]
 theorem trace_unique (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.ProjectiveBundleAxiom)
     (hA4 : 𝔇.DivisorAxiom) (hA5 : 𝔇.KunnethAxiom) (hA7 : 𝔇.BlowupAxiom)
     (X : (SmoothProjectiveScheme k).FullSubcategory) (d : ℕ) (hX : IsNonemptyEquidimensional X d)
@@ -206,14 +205,12 @@ theorem trace_unique (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.ProjectiveBundleAxi
     (h.untwistClass_diagonalClass_mem hA1 hA3 X _)
     (h.key_diagonalClass hA1 hA3 hA4 hA7 X d hX) lam lam' hlam hlam'
 
-/-- **Stacks Project, Remark 0FIK: `γ([Δ])` defines a perfect duality** between `H^i(X)` and
+/-- **`γ([Δ])` defines a perfect duality**, the first assertion of Remark 0FIK
+(`perfectDuality_diagonalClass_and_existsUnique_trace`), between `H^i(X)` and
 `H^{2d-i}(X)(d)`. Let (D0), (D1), (D2') satisfy (A1)–(A7), with `γ` the cycle class map of Tag
 0FIF, and let `X` be a nonempty smooth projective scheme over `k`, equidimensional of dimension
 `d`. For `i + j = 2d`, contraction against the `(i, j)` Künneth component of `γ([Δ])`,
 `μ ↦ (1 ⊗ μ)γ([Δ])_{i,j}`, is a bijection `(H^j(X)(d))^* ⟶ H^i(X)`. -/
-@[stacks 0FIK "γ([Δ]) ∈ ⊕_i H^i(X) ⊗ H^{2d-i}(X)(d) defines a perfect duality between H^i(X) \
-and H^{2d-i}(X)(d): contraction against its (i, 2d-i) Künneth component is a bijection \
-(H^{2d-i}(X)(d))^* → H^i(X), for X nonempty equidimensional of dimension d"]
 theorem bijective_diagonalContract (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.ProjectiveBundleAxiom)
     (hA4 : 𝔇.DivisorAxiom) (hA5 : 𝔇.KunnethAxiom)
     (hA6 : 𝔇.TraceAxiomFor hA5 h.codimensionCycleClass) (hA7 : 𝔇.BlowupAxiom)
@@ -225,6 +222,48 @@ theorem bijective_diagonalContract (hA1 : 𝔇.CoproductAxiom) (hA3 : 𝔇.Proje
   exact 𝔇.bijective_diagonalContract_of_key hA5 X d _
     (h.untwistClass_diagonalClass_mem hA1 hA3 X _)
     (h.key_diagonalClass hA1 hA3 hA4 hA7 X d hX) lam hlam hij
+
+/-- **Stacks Project, Remark 0FIK: uniqueness of trace maps.** Let (D0), (D1), (D2') satisfy
+(A1)–(A7), with `γ` the cycle class map of Tag 0FIF, and let `X` be a nonempty smooth projective
+scheme over `k`, equidimensional of dimension `d`. Then:
+
+* `γ([Δ]) ∈ ⨁_i H^i(X) ⊗ H^{2d-i}(X)(d)` defines a perfect duality between `H^i(X)` and
+  `H^{2d-i}(X)(d)` for all `i`: both are finite dimensional, and contraction against the
+  `(i, 2d-i)` Künneth component of `γ([Δ])`, `μ ↦ (1 ⊗ μ)γ([Δ])_{i,2d-i}`, is a bijection
+  `(H^{2d-i}(X)(d))^* ⟶ H^i(X)`;
+* the linear map `∫_X = λ : H^{2d}(X)(d) ⟶ F` of axiom (A6), normalised by
+  `(1 ⊗ λ)γ([Δ]) = 1`, exists and is unique.
+
+The proof is the remark's: the left-dual structure of Lemma 0FIJ, through the identity
+`γ([Δ]) ∪ p₁^*a = γ([Δ]) ∪ p₂^*a` (`key_diagonalClass`), and the linear algebra of Tag 0FFV
+(`...Concrete.DiagonalExpansion`). Axiom (A2) enters only through `γ`. -/
+@[stacks 0FIK "for X nonempty smooth projective equidimensional of dimension d and data \
+satisfying (A1)-(A7): γ([Δ]) defines a perfect duality between H^i(X) and H^{2d-i}(X)(d) for \
+all i (both finite dimensional, contraction (H^{2d-i}(X)(d))^* → H^i(X) bijective), and the \
+trace map λ of (A6) is unique"]
+theorem perfectDuality_diagonalClass_and_existsUnique_trace (hA1 : 𝔇.CoproductAxiom)
+    (hA3 : 𝔇.ProjectiveBundleAxiom) (hA4 : 𝔇.DivisorAxiom) (hA5 : 𝔇.KunnethAxiom)
+    (hA6 : 𝔇.TraceAxiomFor hA5 h.codimensionCycleClass) (hA7 : 𝔇.BlowupAxiom)
+    (X : (SmoothProjectiveScheme k).FullSubcategory) (d : ℕ)
+    (hX : IsNonemptyEquidimensional X d) :
+    (∀ i j : ℤ, i + j = 2 * (d : ℤ) →
+      FiniteDimensional F (𝔇.grade X i) ∧
+        FiniteDimensional F (tateTwist F 𝔇.tate (𝔇.grade X j) d) ∧
+        Function.Bijective (𝔇.diagonalContract hA5 X d
+          (h.codimensionCycleClass (prod X X) d (diagonalClass X d)) i j)) ∧
+      ∃! lam : tateTwist F 𝔇.tate (𝔇.grade X (2 * (d : ℤ))) d →ₗ[F] F,
+        𝔇.traceContract hA5 X d lam
+          (h.codimensionCycleClass (prod X X) d (diagonalClass X d)) = 1 := by
+  obtain ⟨lam, hlam⟩ := hA6 X d hX
+  obtain ⟨l, hD⟩ := 𝔇.exists_diagonalData hA5 X d _
+    (h.untwistClass_diagonalClass_mem hA1 hA3 X _) lam hlam
+    (h.key_diagonalClass hA1 hA3 hA4 hA7 X d hX)
+  have : FiniteDimensional F (𝔇.H X) := DiagonalExpansion.finiteDimensional hD
+  refine ⟨fun i j hij ↦ ⟨inferInstance, ?_,
+    h.bijective_diagonalContract hA1 hA3 hA4 hA5 hA6 hA7 X d hX hij⟩,
+    ⟨lam, hlam, fun lam' hlam' ↦ h.trace_unique hA1 hA3 hA4 hA5 hA7 X d hX lam' lam hlam' hlam⟩⟩
+  exact LinearEquiv.finiteDimensional
+    (tateTwistCoordinates (V := 𝔇.grade X j) 𝔇.coord (d : ℤ)).symm
 
 end IsCohomologicalChernCharacter
 

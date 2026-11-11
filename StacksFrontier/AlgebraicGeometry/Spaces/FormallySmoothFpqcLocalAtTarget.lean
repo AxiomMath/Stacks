@@ -46,43 +46,29 @@ smoothness of ring maps descends along faithfully flat ring maps (**Stacks 06CM*
 * `AlgebraicGeometry.Space.formallySmooth_iff_affine_pullback`: formal smoothness of a morphism
   of algebraic spaces over `S` is detected by its base changes along the scheme-valued points of
   the target whose source is an affine object of the site.
-* `AlgebraicGeometry.Space.formallySmooth_isLocalAtTarget_fpqc_of_chartDescent` and
-  `AlgebraicGeometry.Space.formallySmooth_isLocalAtTarget_fpqc`: **Stacks 06CS**, granting
-  `AlgebraicGeometry.Space.FormallySmoothEtaleChartDescent`.
+* `AlgebraicGeometry.Space.formallySmooth_isLocalAtTarget_fpqc_of_chartDescent`: fpqc locality
+  on the base of formal smoothness, from an instance of
+  `AlgebraicGeometry.Space.FormallySmoothEtaleChartDescent`, and its instance form
+  `AlgebraicGeometry.Space.formallySmooth_isLocalAtTarget_fpqc`.
 
 ## Implementation notes
 
-`AlgebraicGeometry.Space.FormallySmoothEtaleChartDescent` is the one input the proof below takes
-on faith: it is the converse implication of [Stacks Project, Tag 061K], with condition (3) read
-on affine opens.
-
-It is not available unconditionally. `AlgebraicGeometry.Space.formallySmooth_iff_etaleCharts`
-and `AlgebraicGeometry.Space.formallySmooth_iff_holdsOnSurjectiveEtaleChart` do give Tag 061K,
-but each is itself conditional on two explicit hypotheses of its own: the implication (3) ⟹ (1)
-of [Stacks Project, Tag 0D0F], and the pseudo-torsor triviality of
-[Stacks Project, Tag 03AJ]. The hypothesis used here is *implied* by those two — the first
-upgrades `Stacks.Smooth.FormallySmoothAffineLocally` to `Stacks.Smooth.FormallySmoothScheme`,
-and the converse direction of `formallySmooth_iff_holdsOnSurjectiveEtaleChart` then applies — so
-it is the weaker assumption, and assuming it rather than the pair gives the stronger statement.
-An unconditional proof needs the sheaf of local lifts on the small étale site of a thickening,
-the sheaf of relative differentials of an algebraic space, local projectivity of it and the
-vanishing of the first étale cohomology of the resulting `Hom`-sheaf. The middle two are
-available — [Stacks Project, Tag 04CT] is `AlgebraicGeometry.Space.sheafOfDifferentials` and
-[Stacks Project, Tag 061I] is
-`AlgebraicGeometry.Space.isLocallyProjective_sheafOfDifferentials` of
-`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsLocallyProjective.lean` — and the
-cohomology vanishing is not; see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmoothChartCriterion.lean`.
-
-Everything else is discharged here. The forward implication of Tag 061K, in the same
-affine-open reading, *is* available unconditionally and is used: it is
+The class `AlgebraicGeometry.Space.FormallySmoothEtaleChartDescent` isolates the one input the
+argument below needs beyond fpqc descent of affine-local formal smoothness of schemes: the
+converse implication of [Stacks Project, Tag 061K], with condition (3) read on affine opens. It
+holds for every big fppf site and every base scheme, by
+`AlgebraicGeometry.Space.formallySmoothEtaleChartDescent` of
+`StacksFrontier/AlgebraicGeometry/Spaces/FormallySmooth/FpqcLocalAtTarget.lean`, which deduces it
+from [Stacks Project, Tag 061K], `AlgebraicGeometry.Space.formallySmooth_tfae_etaleCharts`; that
+file also states [Stacks Project, Tag 06CS] itself, as
+`AlgebraicGeometry.Space.formallySmooth_isLocalAtTarget_fpqc'`. The forward implication of
+Tag 061K, in the same affine-open reading, is
 `AlgebraicGeometry.Space.holdsOnEveryEtaleChart_formallySmoothAffineLocally`.
 
-The source instead reduces Tag 06CS to Tag 061K in both directions together with the scheme-level
-fpqc locality of formal smoothness; reading condition (3) of Tag 0D0F in place of the
-infinitesimal lifting property of a scheme morphism keeps the forward implication unconditional,
-since the scheme-level statement that is missing — the implication (3) ⟹ (1) of Tag 0D0F — is
-only needed to go from the affine-open reading back to the lifting property.
+The source reduces Tag 06CS to Tag 061K in both directions together with the scheme-level fpqc
+locality of formal smoothness; reading condition (3) of Tag 0D0F in place of the infinitesimal
+lifting property of a scheme morphism lets the scheme-level step be fpqc descent of affine-local
+formal smoothness, which is [Stacks Project, Tag 06CM] on affine opens.
 
 ## References
 
@@ -306,23 +292,17 @@ private theorem formallySmoothAffineLocally_chartBaseChange (B : BigFppfSite.{u}
       e.hom (q.map s)).mpr hW
   exact he ▸ @heP
 
-/-! ### The missing input: Stacks 061K, condition (3) implies condition (1) -/
+/-! ### Stacks 061K, condition (3) implies condition (1) -/
 
 /-- **The implication (3) ⟹ (1) of [Stacks Project, Tag 061K], with condition (3) read on affine
 opens.** A morphism of algebraic spaces over `S` which admits one commuting square of étale
 scheme charts whose chart of the source is surjective and whose underlying scheme morphism is
 affine-locally formally smooth is formally smooth.
 
-This library does not prove it: the argument of the source needs the sheaf of local lifts on the
-small étale site of the thickening, the sheaf of relative differentials of an algebraic space,
-local projectivity of it and the vanishing of the first étale cohomology of the resulting
-`Hom`-sheaf. The second and third of those are available — the differentials are
-`AlgebraicGeometry.Space.sheafOfDifferentials` and their local projectivity is [Stacks Project,
-Tag 061I], `AlgebraicGeometry.Space.isLocallyProjective_sheafOfDifferentials` of
-`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsLocallyProjective.lean` — so what is
-left is the sheaf of local lifts and the cohomology vanishing. The converse implication, in the
-same reading, is
-`AlgebraicGeometry.Space.holdsOnSurjectiveEtaleChart_formallySmoothAffineLocally`. -/
+It holds for every big fppf site and every base scheme, by
+`AlgebraicGeometry.Space.formallySmoothEtaleChartDescent`, a consequence of
+`AlgebraicGeometry.Space.formallySmooth_tfae_etaleCharts`. The converse implication, in the same
+reading, is `AlgebraicGeometry.Space.holdsOnSurjectiveEtaleChart_formallySmoothAffineLocally`. -/
 class FormallySmoothEtaleChartDescent (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) : Prop where
   /-- Formal smoothness from one surjective étale chart square carrying affine-local formal
@@ -372,9 +352,11 @@ private theorem formallySmooth_of_affineFpqcPresieve (B : BigFppfSite.{u}) (S : 
 
 /-! ### Stacks 06CS -/
 
-/-- **Stacks 06CS, granting the implication (3) ⟹ (1) of Stacks 061K.** Formal smoothness of
-morphisms of algebraic spaces over `S` is local on the base for the fpqc topology of
-Stacks 03YH.
+/-- Formal smoothness of morphisms of algebraic spaces over `S` is local on the base for the fpqc
+topology of Stacks 03YH, given the implication (3) ⟹ (1) of Stacks 061K in the form
+`AlgebraicGeometry.Space.FormallySmoothEtaleChartDescent`. That class always holds
+(`AlgebraicGeometry.Space.formallySmoothEtaleChartDescent`), and Stacks 06CS itself is
+`AlgebraicGeometry.Space.formallySmooth_isLocalAtTarget_fpqc'`.
 
 The ascent half is Stacks 049U. For the descent half, a lifting problem for `f : X ⟶ Y` is one
 for the base change of `f` along a point of `Y` with affine source
@@ -382,10 +364,6 @@ for the base change of `f` along a point of `Y` with affine source
 condition of Stacks 03MQ supplies a finite family of affine objects covering it and refining the
 given covering, and `AlgebraicGeometry.Space.formallySmooth_of_affineFpqcPresieve` descends along
 that family. -/
-@[stacks 06CS "granting the implication (3) ⟹ (1) of Stacks 061K with condition (3) read on \
-affine opens; the library's own Stacks 061K is itself conditional on the implication (3) ⟹ (1) \
-of Stacks 0D0F and on the pseudo-torsor triviality of Stacks 03AJ, and this grant is implied by \
-those two, so it is the weaker assumption"]
 theorem formallySmooth_isLocalAtTarget_fpqc_of_chartDescent (B : BigFppfSite.{u})
     (S : Scheme.{u}) (hS : B.Contains S) (hchart : FormallySmoothEtaleChartDescent B S hS) :
     (formallySmoothProperty B S hS).IsLocalAtTarget
@@ -417,18 +395,11 @@ theorem formallySmooth_isLocalAtTarget_fpqc_of_chartDescent (B : BigFppfSite.{u}
     exact MorphismProperty.pullbackSnd_of_comm (formallySmoothProperty B S hS) f (gi i) gT a' k'
       hcomm (hlocal (g := gi i) (Presieve.ofArrows.mk i))
 
-/-- **Stacks 06CS.** Formal smoothness of morphisms of algebraic spaces over `S` is local on the
-base for the fpqc topology of Stacks 03YH.
-
-The one input not available in this library is the implication (3) ⟹ (1) of Stacks 061K, read on
-affine opens, which is carried as the instance hypothesis
-`AlgebraicGeometry.Space.FormallySmoothEtaleChartDescent`; see
-`AlgebraicGeometry.Space.formallySmooth_isLocalAtTarget_fpqc_of_chartDescent`, where it appears
-as an explicit hypothesis, for the argument. -/
-@[stacks 06CS "granting the implication (3) ⟹ (1) of Stacks 061K with condition (3) read on \
-affine opens; the library's own Stacks 061K is itself conditional on the implication (3) ⟹ (1) \
-of Stacks 0D0F and on the pseudo-torsor triviality of Stacks 03AJ, and this grant is implied by \
-those two, so it is the weaker assumption"]
+/-- Formal smoothness of morphisms of algebraic spaces over `S` is local on the base for the fpqc
+topology of Stacks 03YH, as an instance found through
+`AlgebraicGeometry.Space.FormallySmoothEtaleChartDescent`; that class always holds
+(`AlgebraicGeometry.Space.formallySmoothEtaleChartDescent`). Stacks 06CS is
+`AlgebraicGeometry.Space.formallySmooth_isLocalAtTarget_fpqc'`. -/
 instance formallySmooth_isLocalAtTarget_fpqc (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) [hchart : FormallySmoothEtaleChartDescent B S hS] :
     (formallySmoothProperty B S hS).IsLocalAtTarget

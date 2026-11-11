@@ -22,7 +22,9 @@ identification of the associated graded of the cohomology with a subquotient of 
 * `FilteredDifferentialObject.inducedFiltration`: the filtration
   `F^p H(K, d) = Im(H(F^p K, d) ⟶ H(K, d))` on the cohomology.
 * `FilteredDifferentialObject.WeaklyConvergesTo`, `FilteredDifferentialObject.AbutsTo`: weak
-  convergence and abutment of the associated spectral sequence.
+  convergence and abutment relative to externally supplied limit data (a generic interface; the
+  notions of Stacks 012I for the spectral sequence of `(K, F, d)` itself are
+  `FilteredDifferentialObject.WeaklyConverges` and `FilteredDifferentialObject.Abuts`).
 
 ## Main results
 
@@ -62,7 +64,9 @@ variable (C)
 /-- A *filtered differential object* `(K, F, d)` of an abelian category `A` is a filtered object
 `(K, F)` of `A` endowed with an endomorphism `d : (K, F) → (K, F)` whose square is zero:
 `d ∘ d = 0`. -/
-@[stacks_fixed 012B]
+@[stacks 012B "the filtered object `(K, F)` is `toFilteredObjectForDifferential` (Definition 0121: \
+  a `ℤ`-indexed decreasing filtration by subobjects); `d` is an endomorphism of filtered objects \
+  (`d_respects`) with `d ≫ d = 0` (`d_squared`)"]
 structure FilteredDifferentialObject extends FilteredObjectForDifferential C where
   /-- The differential endomorphism on the underlying object. -/
   d : X ⟶ X
@@ -184,10 +188,13 @@ section
 /-!
 ## Weak convergence and abutment of spectral sequences
 
-For a filtered differential object `(K, F, d)` in an abelian category, the associated spectral
-sequence *weakly converges* to `H(K)` when the comparison `gr^p H(K) → E_∞^p` is an isomorphism for
-every `p`, and *abuts* to `H(K)` when moreover the induced filtration on the cohomology is
-separated and exhaustive.
+For a filtered differential object `(K, F, d)` in an abelian category, the predicates below are a
+generic interface: they take a limit term `E_∞` and a comparison `gr^p H(K) → E_∞^p` as free data
+(`AssociatedSpectralSequence`), not the limit term `Z_∞^p / B_∞^p` of the spectral sequence of
+`(K, F, d)` and the canonical comparison of Stacks 012F. They are therefore not the notions of
+Stacks 012I; those are `FilteredDifferentialObject.WeaklyConverges` and
+`FilteredDifferentialObject.Abuts` in
+`StacksFrontier.Algebra.Homology.SpectralSequence.FilteredDifferentialObjectSpectralSequence`.
 -/
 
 open CategoryTheory CategoryTheory.Limits
@@ -205,24 +212,28 @@ noncomputable def inducedFiltrationInclusionSucc (X : FilteredDifferentialObject
 noncomputable def grH (X : FilteredDifferentialObject A) (p : ℤ) : A :=
   cokernel (X.inducedFiltrationInclusionSucc p)
 
-/-- The associated spectral sequence data. -/
+/-- Limit data for weak convergence: a family `E_∞^p` together with morphisms
+`gr^p H(X) ⟶ E_∞^p`. Both are free data, not computed from `X`: this is a generic interface, and
+the canonical limit term of the spectral sequence of `X` is not part of it. -/
 structure AssociatedSpectralSequence (X : FilteredDifferentialObject A) where
   /-- The `E_∞` page. -/
   Einf : ℤ → A
   /-- The comparison morphism `gr^p H(X) ⟶ E_∞^p`. -/
   comparison : ∀ p : ℤ, X.grH p ⟶ Einf p
 
-/-- The spectral sequence *weakly converges to `H(X)`* when the comparison
-`gr^p H(X) ⟶ E_∞^p` is an isomorphism for every `p`. -/
-@[stacks 012I "weakly_converges"]
+/-- Weak convergence relative to the supplied limit data `ss`: the given comparison
+`gr^p H(X) ⟶ E_∞^p` is an isomorphism for every `p`. This is a generic interface, not Stacks 012I
+(the data `ss` is arbitrary); weak convergence of the spectral sequence of `X` in the sense of
+Stacks 012I is `FilteredDifferentialObject.WeaklyConverges`. -/
 def WeaklyConvergesTo (X : FilteredDifferentialObject A) (ss : AssociatedSpectralSequence X) :
     Prop :=
   ∀ p : ℤ, IsIso (ss.comparison p)
 
-/-- The spectral sequence *abuts to `H(X)`* when it weakly converges and the induced filtration on
-`H(X)` is separated and exhaustive: the only subobject contained in every `F^p H(X)` is `⊥`, and
-the only one containing every `F^p H(X)` is `⊤`. -/
-@[stacks 012I "abuts"]
+/-- Abutment relative to the supplied limit data `ss`: `WeaklyConvergesTo X ss` and the induced
+filtration on `H(X)` is separated and exhaustive: the only subobject contained in every
+`F^p H(X)` is `⊥`, and the only one containing every `F^p H(X)` is `⊤`. This is a generic
+interface, not Stacks 012I (the data `ss` is arbitrary); abutment of the spectral sequence of `X`
+in the sense of Stacks 012I is `FilteredDifferentialObject.Abuts`. -/
 def AbutsTo (X : FilteredDifferentialObject A) (ss : AssociatedSpectralSequence X) : Prop :=
   WeaklyConvergesTo X ss ∧
     (∀ Y : Subobject X.homology, (∀ p : ℤ, Y ≤ X.inducedFiltration p) → Y = ⊥) ∧

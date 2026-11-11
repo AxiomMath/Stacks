@@ -33,25 +33,28 @@ is the passage between the two relative properties, and
 `AlgebraicGeometry.Stack.isLimitPreservingOnObjects_iff_isLocallyOfFinitePresentation` is
 Stacks 06CX.
 
-*Index universes.* Limit preservation on objects quantifies over a cofiltered index category,
-and the formalized form of Stacks 06CX is proved for index categories in the universe of the
-schemes: it concludes
-`AlgebraicGeometry.BigFppfOver.IsLimitPreservingOnObjects.{u, u, u}`. Stacks 06CY is therefore
-proved at those index universes, which is the scope recorded on the tag. The condition for a
-larger index universe is strictly stronger than for a smaller one, so it cannot be recovered
-from the pinned form; the statement for arbitrary index universes is
-`AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion_of_criterion`, which
-takes Stacks 06CX at those universes as a hypothesis and is otherwise the same deduction.
+*Index universes.* Limit preservation on objects quantifies over a cofiltered index category.
+The directed systems of the source are sets, which here means index categories whose objects and
+morphisms lie in universes bounded by the universe `u` of the schemes. The formalized form of
+Stacks 06CX concludes the condition for index categories in the universe `u` itself; every index
+category in universes bounded by `u` is equivalent to one in `u`, and the condition is invariant
+under such a replacement (`AlgebraicGeometry.BigFppfOver.isLimitPreservingOnObjects_of_univLE`),
+which gives Stacks 06CY for all of the source's index categories.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion`: **Stacks 06CY**, for
-  index categories in the universe of the schemes.
+* `AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion_of_univLE`:
+  **Stacks 06CY**, for every index category in universes bounded by that of the schemes.
+* `AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion`: the same at index
+  categories in the universe of the schemes.
+* `AlgebraicGeometry.BigFppfOver.isLimitPreservingOnObjects_of_univLE`: the condition at index
+  categories in the universe of the schemes implies it in all universes bounded by it.
 * `AlgebraicGeometry.Stack.hasRelativeProperty_locallyOfFinitePresentation_of_isOpenImmersion`:
   the relative open-immersion property of Stacks 03YK implies the relative property of being
   locally of finite presentation.
-* `AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion_of_criterion`: the same
-  conclusion at arbitrary index universes, granted Stacks 06CX there.
+* `AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion_of_criterion`: the
+  deduction from Stacks 06CX phrased for index categories in arbitrary universes, from the
+  corresponding form of Stacks 06CX.
 
 ## Implementation notes
 
@@ -76,9 +79,43 @@ no instance in scope.
 
 open CategoryTheory
 
-namespace AlgebraicGeometry.Stack
-
 universe u v w vI wI
+
+namespace AlgebraicGeometry.BigFppfOver
+
+/-- Limit preservation on objects for index categories in the universe `u` of the schemes implies
+it for every index category in universes `vI` and `wI` bounded by `u`: such a category is
+essentially small, and the condition is invariant under replacing the index category by an
+equivalent one. -/
+theorem isLimitPreservingOnObjects_of_univLE [hv : UnivLE.{vI, u}] [hw : UnivLE.{wI, u}]
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
+    {𝒳 𝒴 : CatFiberedInGroupoids.{u, v, u + 1, w} (BigFppfOver B S hS)} (f : 𝒳 ⟶ 𝒴)
+    (hf : IsLimitPreservingOnObjects.{u, u, u} B S hS 𝒳 𝒴 f) :
+    IsLimitPreservingOnObjects.{u, vI, wI} B S hS 𝒳 𝒴 f := by
+  intro I _ _ D c hc i y x γ hγ
+  let E : I ≃ Shrink.{u} I := equivShrink I
+  let I' := InducedCategory I E.symm
+  have : LocallySmall.{u} I' := ⟨fun _ _ => inferInstance⟩
+  let J := ShrinkHoms I'
+  have : (inducedFunctor E.symm).EssSurj :=
+    ⟨fun X => ⟨E X, ⟨eqToIso (E.symm_apply_apply X)⟩⟩⟩
+  have : (inducedFunctor E.symm).IsEquivalence := { }
+  let e : J ≌ I := (ShrinkHoms.equivalence I' : I' ≌ J).symm.trans
+    (inducedFunctor E.symm).asEquivalence
+  let q : J ⥤ I := e.functor
+  have : IsCofiltered J := IsCofiltered.of_equivalence e.symm
+  have hc' : Limits.IsLimit ((BigAffineFppf.toScheme B S hS).mapCone (c.whisker q)) :=
+    (Functor.Initial.isLimitWhiskerEquiv q
+      ((BigAffineFppf.toScheme B S hS).mapCone c)).symm hc
+  obtain ⟨k, rfl⟩ : ∃ k : J, q.obj k = i :=
+    ⟨ShrinkHoms.toShrinkHoms (E i), E.symm_apply_apply i⟩
+  obtain ⟨j, a, x', xU, δ, β, γ', hδ, hβ, hβiso, hγ', hcomm⟩ :=
+    hf J (q ⋙ D) (c.whisker q) hc' k y x γ hγ
+  exact ⟨q.obj j, q.map a, x', xU, δ, β, γ', hδ, hβ, hβiso, hγ', hcomm⟩
+
+end AlgebraicGeometry.BigFppfOver
+
+namespace AlgebraicGeometry.Stack
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {𝒳 𝒴 : CatFiberedInGroupoids.{u, v, u + 1, w} (BigFppfOver B S hS)}
@@ -101,18 +138,15 @@ theorem hasRelativeProperty_locallyOfFinitePresentation_of_isOpenImmersion
     (P := Space.openImmersionProperty B S hS)
     (fun _ _ a ha => Space.isLocallyOfFinitePresentation_of_isOpenImmersion B S hS ha) hp hopen
 
-/-- **Stacks 06CY.** A 1-morphism of categories fibred in groupoids over the big fppf site of
-`S` which is representable by algebraic spaces and an open immersion in the sense of Stacks 04XB
-is limit preserving on objects.
+/-- A 1-morphism of categories fibred in groupoids over the big fppf site of `S` which is
+representable by algebraic spaces and an open immersion in the sense of Stacks 04XB is limit
+preserving on objects, for index categories in the universe of the schemes. Stacks 06CY for every
+index category of the source is
+`AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion_of_univLE`.
 
 An open immersion of algebraic spaces is locally of finite presentation, so the relative
 open-immersion property of Stacks 03YK implies the relative property of being locally of finite
 presentation; Stacks 06CX turns the latter into limit preservation on objects. -/
-@[stacks 06CY "index categories in the universe of the schemes, which is the scope of the \
-formalized form of Tag 06CX that the proof uses. Limit preservation on objects for a larger index \
-universe is a strictly stronger condition, so it does not follow from the pinned form; it is \
-`isLimitPreservingOnObjects_of_isOpenImmersion_of_criterion`, which takes Tag 06CX at those \
-universes as a hypothesis"]
 theorem isLimitPreservingOnObjects_of_isOpenImmersion
     (p : 𝒳 ⟶ 𝒴) (hp : IsRepresentableByAlgebraicSpaces B S hS p.hom)
     (hopen : IsOpenImmersion B S hS p) :
@@ -120,14 +154,32 @@ theorem isLimitPreservingOnObjects_of_isOpenImmersion
   (isLimitPreservingOnObjects_iff_isLocallyOfFinitePresentation B S hS 𝒳 𝒴 p hp).2
     (hasRelativeProperty_locallyOfFinitePresentation_of_isOpenImmersion B S hS hp hopen)
 
-/-- Stacks 06CY for index categories in arbitrary universes, granted Stacks 06CX there.
+/-- **Stacks 06CY.** A 1-morphism of categories fibred in groupoids over the big fppf site of
+`S` which is representable by algebraic spaces and an open immersion in the sense of Stacks 04XB
+is limit preserving on objects, for every index category whose objects and morphisms form sets,
+that is, live in universes `vI` and `wI` bounded by the universe `u` of the schemes.
 
-Limit preservation on objects quantifies over the cofiltered index category, so the condition
-for a larger index universe is strictly stronger and is not implied by the one for a smaller
-universe. The formalized form of Stacks 06CX is proved for index categories in the universe of the
-schemes, which is why
-`AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion` is stated there; this is
-the same deduction with Stacks 06CX at the index universes in play supplied as a hypothesis. -/
+The directed systems of the source are sets, so these are exactly its index categories. Such an
+index category is equivalent to one in the universe `u`, and the condition there is
+`AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion`; the transport is
+`AlgebraicGeometry.BigFppfOver.isLimitPreservingOnObjects_of_univLE`. -/
+@[stacks 06CY "index categories range over all cofiltered categories whose objects and morphisms \
+lie in universes bounded by that of the schemes, which covers the directed sets of the source"]
+theorem isLimitPreservingOnObjects_of_isOpenImmersion_of_univLE
+    [UnivLE.{vI, u}] [UnivLE.{wI, u}]
+    (p : 𝒳 ⟶ 𝒴) (hp : IsRepresentableByAlgebraicSpaces B S hS p.hom)
+    (hopen : IsOpenImmersion B S hS p) :
+    BigFppfOver.IsLimitPreservingOnObjects.{u, vI, wI} B S hS 𝒳 𝒴 p :=
+  BigFppfOver.isLimitPreservingOnObjects_of_univLE (hv := inferInstanceAs UnivLE.{vI, u})
+    (hw := inferInstanceAs UnivLE.{wI, u}) B S hS p
+    (isLimitPreservingOnObjects_of_isOpenImmersion B S hS p hp hopen)
+
+/-- The deduction of Stacks 06CY from Stacks 06CX, phrased for index categories in arbitrary
+universes: given the implication of Stacks 06CX from local finite presentation to limit
+preservation on objects at the index universes `vI` and `wI`, an open immersion is limit
+preserving on objects at those universes. For index universes bounded by that of the schemes,
+which are the source's, the conclusion holds outright:
+`AlgebraicGeometry.Stack.isLimitPreservingOnObjects_of_isOpenImmersion_of_univLE`. -/
 theorem isLimitPreservingOnObjects_of_isOpenImmersion_of_criterion
     (p : 𝒳 ⟶ 𝒴) (hp : IsRepresentableByAlgebraicSpaces B S hS p.hom)
     (hopen : IsOpenImmersion B S hS p)

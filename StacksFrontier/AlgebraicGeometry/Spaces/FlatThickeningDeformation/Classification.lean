@@ -27,7 +27,10 @@ proof (`Deformation.autMulEquivAmbientSolution`), whose automorphisms are `Ext�
 (`solutionAutMulEquivExtZero`).
 
 ## Main results
-* `AlgebraicGeometry.Space.FlatThickeningDeformation.classes_addTorsor_and_autMulEquiv`.
+* `AlgebraicGeometry.Space.FlatThickeningDeformation.classes_addTorsor_and_autMulEquiv`: the
+  existence of a torsor structure and of a group isomorphism. The statement with the natural
+  action is `classes_naturalAddTorsor_and_autMulEquiv` in
+  `StacksFrontier.AlgebraicGeometry.Spaces.FlatThickeningDeformation.NaturalClassification`.
 
 ## References
 * [Stacks Project, Tag 0D17](https://stacks.math.columbia.edu/tag/0D17)
@@ -72,7 +75,7 @@ def Deformation.autMulEquivNaiveCotangentExtZero (D : Deformation f) :
   (Deformation.autMulEquivAmbientSolution hZ D).trans
     (solutionAutMulEquivExtZero hZ f (D.ambientSolution hZ))
 
-/-- **[Stacks Project, Tag 0D17]**. Let `S` be a scheme, `Y ⊂ Y'` a first order thickening of
+/-- **The shape of [Stacks Project, Tag 0D17]**, without the actions pinned down. Let `S` be a scheme, `Y ⊂ Y'` a first order thickening of
 algebraic spaces over `S` (`hZ`) and `f : X ⟶ Y` a flat morphism of algebraic spaces over `S`
 (`hf`). If there exists a flat `f' : X' ⟶ Y'` with an isomorphism `a : X ≅ X' ×_{Y'} Y` over `Y`
 (`hD`; a `Deformation f` is exactly such a pair, see `Deformation.ofPair`, `Deformation.pairIso`),
@@ -86,8 +89,13 @@ then
 `f^*𝒞_{Y/Y'}` is `liftedPulledBackConormal hZ f` (its sections lifted to the universe of those of
 `NL_{X/Y}`); the `Ext` groups are those of any model of the derived category of `𝒪_X`-modules. The
 isomorphisms themselves are `classes_addTorsor` and `Deformation.autMulEquivNaiveCotangentExtZero`
-(an isomorphism of groups, which in particular identifies the underlying sets). -/
-@[stacks 0D17, sga "7 VI 4.16" "special case"]
+(an isomorphism of groups, which in particular identifies the underlying sets).
+
+The first conjunct asserts some torsor structure, which amounts to `Classes f` being in bijection
+with `Ext¹`; the natural action of the source, characterised by the obstruction class of
+[Stacks 08UG] as in [Stacks 08UK], is `classes_addTorsor_vadd_iff`, and the tag is registered on
+`classes_naturalAddTorsor_and_autMulEquiv`. -/
+@[sga "7 VI 4.16" "special case"]
 theorem classes_addTorsor_and_autMulEquiv (hf : IsFlat B S hS f.hom)
     (hD : Nonempty (Deformation f)) :
     Nonempty (AddTorsor

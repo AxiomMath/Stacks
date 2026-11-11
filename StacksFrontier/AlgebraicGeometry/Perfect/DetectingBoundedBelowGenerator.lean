@@ -15,7 +15,8 @@ is detected by eventual vanishing, as `i → -∞`, of any of the groups `Hom(G�
 `Ext^i(G, E)`, `H^i(X, G^∨ ⊗^L E)`, and by boundedness below of `RHom_X(G, E)` and of
 `RΓ(X, G^∨ ⊗^L E)`.
 
-Three of the clause equivalences of that statement are proved here. The eventual vanishing of
+Three of the clause equivalences of that statement are proved here; the full statement is
+`Stacks.SheafOfModules.tfae_plus_of_isPerfect_generator`. The eventual vanishing of
 `Hom(G⟦-i⟧, E)` agrees with that of `Ext^i(G, E)`, by the adjunction between the shifts
 `⟦-i⟧ ⊣ ⟦i⟧`. The eventual vanishing of `Ext^i(G, E)` agrees with that of
 `H^i(X, G^∨ ⊗^L E)`, because the two groups are the same: the duality identification
@@ -48,17 +49,16 @@ Generation of `D_QCoh(𝒪_X)` by `G` is spelled out as the hypothesis that an o
 is zero. Vanishing of a group of morphisms is `Subsingleton`, and `D⁺(ℤ)` is the object
 property `plus` of the canonical t-structure on `D(AddCommGrpCat)`.
 
-The duality identification is used in the form in which the library has it: the canonical map
-`M ⊗^L_{𝒪_X} G^∨ ⟶ RSheafHom(G, M)` of Stacks 08I1 is taken as a hypothesis to be invertible,
-at every shift `M = E⟦i⟧` of `E`, exactly as
-`Stacks.SheafOfModules.bijective_derivedTensorDualGlobalSectionsMap` takes it. Perfectness of
-`G` is what the source uses to get that invertibility, and the library does not yet have that
-implication; so it is an explicit hypothesis rather than a consequence of `_hG`.
+The third result takes the invertibility of the canonical map
+`M ⊗^L_{𝒪_X} G^∨ ⟶ RSheafHom(G, M)` of Stacks 08I1, at every shift `M = E⟦i⟧`, as a binder
+`h08I1`. The library proves that invertibility for every perfect `G`, as
+`Stacks.SheafOfModules.isIso_derivedTensorDualToSheafHom_of_isPerfect`, and the same
+equivalence with no binder beyond perfectness of `G` is
+`Stacks.SheafOfModules.eventually_subsingleton_ext_iff_isZero_homology_atBot`.
 
-The remaining clause equivalences of the source are not available: identifying
-`H^i(RHom_X(G, E))` with `Ext^i(G, E)` needs the derived internal Hom to commute with the shift
-in its second variable, and the derived internal Hom of this development has no such
-compatibility.
+The full equivalence of conditions (1) to (7) of the source, including the identification of
+`H^i(RHom_X(G, E))` with `Ext^i(G, E)`, is
+`Stacks.SheafOfModules.tfae_plus_of_isPerfect_generator`.
 
 ## References
 
@@ -155,7 +155,7 @@ private theorem subsingleton_ext_iff_isZero_homology_aux
         (@asIso _ _ _ _ (derivedTensorDualToSheafHom X.sheaf G (E⟦i⟧)) h))
     have hz : Function.Bijective (fun w => z.hom w) := ConcreteCategory.bijective_of_isIso z.hom
     exact (derivedSheafHomGlobalSectionsEquiv X.sheaf G (E⟦i⟧)).bijective.comp hz
-  let : ((derivedTensor X.sheaf).flip.obj (derivedDual X.sheaf G)).CommShift ℤ :=
+  let _ : ((derivedTensor X.sheaf).flip.obj (derivedDual X.sheaf G)).CommShift ℤ :=
     (canonicalDerivedTensorProduct (ringedSite X.sheaf)).commShift_left (derivedDual X.sheaf G)
   let shiftIso := (DerivedCategory.homologyFunctor AddCommGrpCat.{u} 0).mapIso
       ((derivedModuleGlobalSections (ringedSite X.sheaf)).mapIso
@@ -171,19 +171,21 @@ private theorem subsingleton_ext_iff_isZero_homology_aux
   rw [AddCommGrpCat.isZero_iff_subsingleton]
   exact (((Equiv.ofBijective _ hbij).symm).trans (Equiv.ofBijective _ hshift)).subsingleton_congr
 
-/-- **Stacks 0GEQ, conditions (3) and (5).** For a perfect generator `G` of `D_QCoh(𝒪_X)` on a
-quasi-compact, quasi-separated scheme and an object `E` of `D_QCoh(𝒪_X)`, the groups
-`Ext^i_X(G, E)` vanish for `i ≪ 0` exactly when the cohomology groups
-`H^i(X, G^∨ ⊗^L_{𝒪_X} E)` do, granted that the canonical map
-`E⟦i⟧ ⊗^L_{𝒪_X} G^∨ ⟶ RSheafHom(G, E⟦i⟧)` of Stacks 08I1 is invertible for every `i`.
+/-- For a perfect generator `G` of `D_QCoh(𝒪_X)` on a quasi-compact, quasi-separated scheme and
+an object `E` of `D_QCoh(𝒪_X)`, if the canonical map `E⟦i⟧ ⊗^L_{𝒪_X} G^∨ ⟶ RSheafHom(G, E⟦i⟧)`
+of Stacks 08I1 is invertible for every `i`, then the groups `Ext^i_X(G, E)` vanish for `i ≪ 0`
+exactly when the cohomology groups `H^i(X, G^∨ ⊗^L_{𝒪_X} E)` do.
+
+The invertibility binder always holds for a perfect `G`, by
+`Stacks.SheafOfModules.isIso_derivedTensorDualToSheafHom_of_isPerfect`; the equivalence without
+it is `Stacks.SheafOfModules.eventually_subsingleton_ext_iff_isZero_homology_atBot`, and the full
+Stacks 0GEQ is `Stacks.SheafOfModules.tfae_plus_of_isPerfect_generator`.
 
 The two conditions hold of the same `i`, because `Ext^i_X(G, E)` and `H^i(X, G^∨ ⊗^L_{𝒪_X} E)`
 are the same group: Stacks 08DQ identifies `H⁰(X, M ⊗^L_{𝒪_X} G^∨)` with `Hom(G, M)`, and at
 `M = E⟦i⟧` the left side becomes `H^i(X, G^∨ ⊗^L_{𝒪_X} E)` because tensoring with `G^∨` and
 `RΓ(X, -)` are triangulated, hence commute with the shift, and `H⁰` of an `i`-fold shift is
 `H^i`. -/
-@[stacks 0GEQ "conditions (3) and (5): eventual vanishing of Ext^i(G, E) and of
-H^i(X, G^vee ⊗ E), granted the 08I1 map E[i] ⊗ G^vee ⟶ RSheafHom(G, E[i]) invertible for all i"]
 theorem eventually_subsingleton_ext_iff_isZero_homology_derivedTensorDual
     (_hqc : CompactSpace X) (_hqs : QuasiSeparatedSpace X)
     (G E : DerivedCategory (StructureSheafModules X.sheaf))

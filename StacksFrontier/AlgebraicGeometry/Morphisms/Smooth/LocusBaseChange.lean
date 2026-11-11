@@ -99,7 +99,9 @@ morphism `f' : X' ⟶ S'` is smooth is the inverse image under `g' : X' ⟶ X` o
 of `X` where `f` is smooth.
 
 **Stacks Project, Tag 02V4.** Both of its cases are covered, the first by flatness of `f` and
-the second by flatness of `g`. -/
+the second by flatness of `g`. The instance `LocallyOfFinitePresentation f'` imposes no condition:
+it follows from that of `f` by stability under base change, and it is what makes the smooth locus
+`f'.smoothLocus` of the base-changed morphism defined. -/
 @[stacks 02V4,
   ega "IV 17.7.2" "(ii)",
   ega "IV 17.7.4" "(v)",

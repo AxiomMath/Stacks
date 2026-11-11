@@ -12,6 +12,7 @@ public import StacksFrontier.Homology.Devissage.DerivedHomCoproductsLargeUnivers
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizing
 public import StacksFrontier.Topology.Sheaves.Cohomology.InternalHom.DerivedSheafHomothetyLocal
 public import StacksFrontier.AlgebraicGeometry.Duality.UpperShriekRelativePerfectionPerfect
+import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineLocal
 
 /-!
 # The homothety of the relative dualizing complex
@@ -41,7 +42,6 @@ If `ω` is an object of `D(𝒪_X)` with the affine-chart description of `f^!�
 @[expose] public noncomputable section
 
 open AlgebraicGeometry CategoryTheory CategoryTheory.MonoidalCategory TopologicalSpace Opposite
-open StacksDraft.TorAmplitude
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
@@ -55,9 +55,9 @@ variable {S : Scheme.{u}} [IsNoetherian S] {X Y : AlgebraicGeometry.FTS S} (f : 
 affine open `U ⊆ X` over an affine open `V ⊆ Y` and a polynomial presentation `p` of `f.appLE V U`,
 the derived homothety `Γ(X, U) ⟶ R𝐻om(φ^!Γ(Y, V), φ^!Γ(Y, V))` is an isomorphism.
 
-This is [Stacks, Tag 0BZW] (1)(c), the chart ring map being perfect by
-`AlgebraicGeometry.Perfect.perfect_appLE`; it is read at the chain level, so at the tensor--Hom
-adjunction the comparison of [Stacks, Tag 0A6H] is stated with. -/
+This is [Stacks, Tag 0BZW] (1)(c), the chart ring map being perfect by the chart property of
+[Stacks, Tag 0687] (`AlgebraicGeometry.HasRingHomProperty.appLE`); it is read at the chain level,
+so at the tensor--Hom adjunction the comparison of [Stacks, Tag 0A6H] is stated with. -/
 theorem isIso_derivedHomothety_upperShriekFunctor_structureModel [Perfect f.left]
     {U : X.left.Opens} (hU : IsAffineOpen U) {V : Y.left.Opens} (hV : IsAffineOpen V)
     (hUV : U ≤ f.left ⁻¹ᵁ V)
@@ -70,14 +70,14 @@ theorem isIso_derivedHomothety_upperShriekFunctor_structureModel [Perfect f.left
       (p.upperShriekFunctor.{u, u}.obj (structureModel (Y := Y) V))) := by
   have hVn : IsNoetherianRing Γ(Y.left, V) :=
     IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
-  let D : CertifiedDerivedTensoring.{u, u} Γ(Y.left, V) :=
-    canonicalCertifiedDerivedTensoring Γ(Y.left, V)
   let : Module p.Poly Γ(X.left, U) := Module.compHom Γ(X.left, U) p.toRingHom
   have hperf₀ : StacksDraft.Perfect.IsPerfectModule (R := p.Poly) Γ(X.left, U) := by
     let : Algebra Γ(Y.left, V) Γ(X.left, U) := (f.left.appLE V U hUV).hom.toAlgebra
-    exact RingHom.isPerfectModule_of_isPerfectRingMap D.tensor D.comparison D.isLeftDerived
-      (AlgebraicGeometry.Perfect.perfect_appLE f.left U hU V hV hUV D) p.variableCount
-      (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective
+    have : Algebra.Perfect Γ(Y.left, V) Γ(X.left, U) := RingHom.perfect_algebraMap.mp
+      (HasRingHomProperty.appLE @Perfect f.left ‹_› ⟨V, hV⟩ ⟨U, hU⟩ hUV)
+    exact (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution _).mpr
+      (Algebra.Perfect.exists_finite_projective_resolution
+        (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective)
   obtain ⟨J, b, hJge, hJinj, ⟨eJ⟩, hJ⟩ :=
     Dualizing.upperShriekFunctor_unit_exists_quasiIso_homothety.{u, u} p
       (StacksDraft.Perfect.isPerfectModule_ulift.{u, u} Γ(X.left, U) hperf₀)

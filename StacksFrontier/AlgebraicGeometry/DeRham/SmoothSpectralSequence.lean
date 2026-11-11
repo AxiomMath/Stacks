@@ -49,9 +49,9 @@ the filtration and the identification of its graded pieces.
 
 ## Main results
 
-* `Stacks.DeRhamSmooth.exists_boundedDeRhamSpectralSequence`: **[Stacks, Tag 0FMM]**, the
-  bounded spectral sequence with first page `deRhamFirstPage` abutting to
-  `deRhamHigherDirectImage`.
+* `Stacks.DeRhamSmooth.exists_boundedDeRhamSpectralSequence`: the bounded spectral sequence of
+  [Stacks, Tag 0FMM], with first page `deRhamFirstPage` abutting to `deRhamHigherDirectImage`,
+  from a filtered complex on `Ω^•_{X/S}` with the properties used in the proof.
 
 ## Implementation notes
 
@@ -75,13 +75,18 @@ depending on a chosen derived functor; the spectral sequence is produced by
 `Stacks.Cohomology.FilteredComplex.relativeSpectralSequence_of_filteredKInjectiveResolution` at
 that functor, with the filtered K-injective resolution of [Stacks, Tag 0BKI].
 
-The filtration itself is a hypothesis. What is granted is the filtered complex
+In this file the filtration is a parameter: the filtered complex
 `F^•Ω^•_{X/S}` of Section 0FMK (`K`, `hKX`), its exhaustion (`hexh`, from which the
 `p ≪ 0` clause of Tag 0FLL is derived here), the vanishing of `R^nf_*F^pΩ^•_{X/S}` for
 `p ≫ 0` (`hvanish`, which is the boundedness coming from `F^pΩ^q_{X/S} = 0` for `q < p`),
 and the identification of `R^{p + q}f_*gr^pΩ^•_{X/S}` with
 `H^q(Ω^p_{Y/S} ⊗^{\mathbf L}_{𝒪_Y} Rf_*Ω^•_{X/Y})` (`hgr`), which is the computation of the
 graded pieces in Section 0FMK followed by the projection formula of [Stacks, Tag 0FML].
+All of these are proved for the filtration of Section 0FMK, in
+`StacksFrontier.AlgebraicGeometry.DeRham.SmoothFiltration`,
+`StacksFrontier.AlgebraicGeometry.DeRham.SmoothSpectralSequenceOfStepSquares` and
+`StacksFrontier.AlgebraicGeometry.DeRham.SmoothGradedPieceStepSquaresProof`; the unconditional
+statement is `Stacks.DeRhamSmooth.exists_boundedDeRhamSpectralSequence_of_smooth`.
 
 ## References
 
@@ -174,7 +179,8 @@ def deRhamFirstPage (p q : ℤ) : Modules (inverseImageBase g) :=
           (Scheme.Hom.relativeDifferentialForms g p))).obj
         (DerivedCategory.Plus.ι.obj (derivedDeRhamDirectImage f))))
 
-/-- **Stacks Project, Tag 0FMM.** Let `f : X ⟶ Y` be a quasi-compact, quasi-separated and smooth
+/-- The spectral sequence of [Stacks, Tag 0FMM] from an arbitrary filtered complex `K` with
+`K.X = Ω^•_{X/S}`. Let `f : X ⟶ Y` be a quasi-compact, quasi-separated and smooth
 morphism of schemes over a base `S`, with `g : Y ⟶ S` the structure morphism of the target.
 There is a bounded cohomological spectral sequence of sheaves of `g^{-1}𝒪_S`-modules on `Y`,
 starting at its first page, with
@@ -183,15 +189,15 @@ starting at its first page, with
 
 which abuts to `R^{p + q}f_*Ω^•_{X/S}`.
 
-The filtration of `Ω^•_{X/S}` by the forms pulled back from `Y` is supplied as the filtered
-complex `K` with `K.X = Ω^•_{X/S}`, together with its exhaustion `hexh`, the eventual vanishing
-`hvanish` of the higher direct images of its far steps, and the identification `hgr` of
-`R^{p + q}f_*gr^pK` with the first page; `hgr` is the computation of the graded pieces
+Here the filtration is an arbitrary filtered complex `K` with `K.X = Ω^•_{X/S}`, together with
+its exhaustion `hexh`, the eventual vanishing `hvanish` of the higher direct images of its far
+steps, and the identification `hgr` of `R^{p + q}f_*gr^pK` with the first page; `hgr` is the
+computation of the graded pieces
 `gr^kΩ^•_{X/S} = f^{-1}Ω^k_{Y/S}[-k] ⊗_{f^{-1}𝒪_Y} Ω^•_{X/Y}` of Section 0FMK followed by the
 projection formula of Tag 0FML. The spectral sequence, its boundedness in the sense of Tag
-0BDU, and its abutment are then those of the filtered complex `K`. -/
-@[stacks 0FMM "granted the filtration of Section 0FMK as the hypotheses K, hKX, hexh and \
-hvanish, and its graded pieces together with Tag 0FML as the hypothesis hgr"]
+0BDU, and its abutment are then those of the filtered complex `K`. For the filtration of
+Section 0FMK all of these inputs are proved in the library, and the unconditional statement is
+`Stacks.DeRhamSmooth.exists_boundedDeRhamSpectralSequence_of_smooth`. -/
 theorem exists_boundedDeRhamSpectralSequence
     [QuasiCompact f] [QuasiSeparated f] [Smooth f]
     (K : CochainComplex.Filtered

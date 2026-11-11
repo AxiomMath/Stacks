@@ -38,7 +38,9 @@ file, and Stacks 08AN follows with no hypothesis beyond the source's.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.property_of_coherent_of_isNoetherian`: **Stacks 08AN**.
+* `AlgebraicGeometry.Space.property_of_coherent_of_isNoetherian`: the dévissage of Stacks 08AN
+  for a property holding on zero modules.  Stacks 08AN itself, with the errata's correction,
+  is registered at `AlgebraicGeometry.Space.property_of_isCoherent_of_integralWitness`.
 
 ## Implementation notes
 
@@ -72,8 +74,9 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### Stacks 08AN -/
 
-/-- **Stacks Project, Tag 08AN.**  Let `X` be a Noetherian algebraic space over a scheme `S` and
-let `P` be a property of coherent `𝒪_X`-modules such that
+/-- **The dévissage of Stacks 08AN for a property holding on zero modules.**  Let `X` be a
+Noetherian algebraic space over a scheme `S` and let `P` be a property of coherent
+`𝒪_X`-modules such that
 
 1. for a short exact sequence of coherent modules, if two out of three terms have `P` then so
    does the third;
@@ -93,8 +96,6 @@ every module.  The three inputs that
 Stacks 07UR by `AlgebraicGeometry.Space.hasIdealDevissage_of_isCoherent`, coherence of `i_*I` by
 `AlgebraicGeometry.Space.isCoherent_modulePushforward_quasicoherentIdeal`, and Stacks 07UQ by
 `AlgebraicGeometry.Space.existsIdealInjectionDevissageStep_of_isNoetherian`. -/
-@[stacks 08AN "corrected: P is also required to hold for zero modules, without which the \
-statement fails on an algebraic space with no points"]
 theorem property_of_coherent_of_isNoetherian (hZtop : B.Contains (⊤_ Scheme.{u}))
     (X : AlgebraicSpaces B S hS) (hX : IsNoetherian B S hS hZtop X.1)
     (P : Modules.{u, u} B S hS X.1 X.2 → Prop)

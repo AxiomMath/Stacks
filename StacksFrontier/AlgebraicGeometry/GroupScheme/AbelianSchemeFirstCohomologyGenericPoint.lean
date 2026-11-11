@@ -41,8 +41,11 @@ cohomology with coefficients in `G`.
 
 * `AlgebraicGeometry.pointsPresheaf_isSheaf` says that the points of a commutative group scheme
   over `W` form an abelian sheaf on the big fppf site over `W`.
-* `AlgebraicGeometry.fppfH1_restriction_genericPoint_injective`: **Stacks 0AF9**, with the
-  geometric content of the source's sketch of proof as an explicit hypothesis, see below.
+* `AlgebraicGeometry.fppfH1_restriction_genericPoint_injective`: the cohomological half of
+  Stacks 0AF9, from the triviality of torsors with a section over `Spec K`, see below. The
+  unconditional Stacks 0AF9 is
+  `AlgebraicGeometry.fppfH1_restriction_genericPoint_injective_of_dim_two` in
+  `AbelianSchemeFirstCohomologyInjective.lean`.
 
 ## Implementation notes
 
@@ -62,18 +65,15 @@ site once `W` and `G` are small enough to lie in it, and the big fppf topology i
 multiplicative sheaf of Tag 040N. The commutativity of `G`, which an abelian scheme has, is
 what makes the source's `H^1` an abelian cohomology group, so it is no restriction on `G`.
 
-**The hypothesis.** The source's proof of this lemma is labelled a *sketch*, and in its middle
-it reads "By (insert future reference on resolving indeterminacies of morphisms by blowing
-quadratic transformations for surfaces) the irreducible components of the geometric fibres of
-`Z → W` are rational curves": the step is attached to no tag of the project and there is
-nothing in this library to discharge it. What that sketch proves, granting the step, is the
-geometric statement that an fppf `G`-torsor with a section over `Spec K` is trivial, and that
-statement is carried here as the hypothesis `htrivial`, which the attribute's clause string
-names. What is proved unconditionally is the passage from it to the cohomological statement:
-a class in the kernel of the restriction map is the class of a torsor (Tag 03AJ), the
-restriction of that class to `Spec K` vanishes exactly when the torsor acquires a section over
-`Spec K`, and a trivial torsor has vanishing class. That passage is
-`Stacks.Cohomology.Torsors.injective_cohomologyPresheaf_map_of_isTrivial`.
+**The hypothesis.** The theorem of this file takes as its hypothesis `htrivial` the geometric
+statement that an fppf `G`-torsor with a section over `Spec K` is trivial, and proves the
+passage from it to the cohomological statement: a class in the kernel of the restriction map is
+the class of a torsor (Tag 03AJ), the restriction of that class to `Spec K` vanishes exactly when
+the torsor acquires a section over `Spec K`, and a trivial torsor has vanishing class. That
+passage is `Stacks.Cohomology.Torsors.injective_cohomologyPresheaf_map_of_isTrivial`. The
+geometric statement itself, for which the source's sketch leaves a step to an unwritten
+reference on resolving indeterminacies of surfaces, is proved in
+`AbelianSchemeFirstCohomologyInjective.lean`, which also states Stacks 0AF9 unconditionally.
 
 `IsAbelianScheme` is the definition the source uses in the footnote of its Section 110.74: a
 flat proper group scheme of finite presentation all of whose fibres are abelian varieties.
@@ -171,15 +171,14 @@ public def genericPointToBase [IrreducibleSpace W]
     genericPointObj B W hW hK ⟶ Over.mk (𝟙 (B.obj hW)) :=
   Over.mkIdTerminal.from (genericPointObj B W hW hK)
 
-/-- **Stacks 0AF9.** Let `W` be a two dimensional regular integral Noetherian scheme with
-function field `K` and let `G → W` be an abelian scheme. Then the restriction map
+/-- **The passage from torsors to cohomology in Stacks 0AF9.** If every fppf `G`-torsor with a
+section over `Spec K` is trivial (the hypothesis `htrivial`), then the restriction map
 `H¹_fppf(W, G) → H¹_fppf(Spec K, G)` along the generic point is injective.
 
-The geometric conclusion of the source's sketch of proof — an fppf `G`-torsor with a section
-over `Spec K` is trivial — is the hypothesis `htrivial`; the sketch obtains it from a step the
-source itself leaves to an unwritten reference on resolving indeterminacies of morphisms for
-surfaces. See the implementation notes of this file. -/
-@[stacks 0AF9 "with the sketch's conclusion that a G-torsor with a K-point is trivial as htrivial"]
+The hypothesis `htrivial` is proved for a two dimensional regular integral Noetherian `W` and an
+abelian scheme `G` in `AlgebraicGeometry.isTrivial_of_nonempty_sections_genericPoint`, and the
+unconditional Stacks 0AF9 is
+`AlgebraicGeometry.fppfH1_restriction_genericPoint_injective_of_dim_two`. -/
 public theorem fppfH1_restriction_genericPoint_injective
     [IsIntegral W] [AlgebraicGeometry.IsNoetherian W] (_hreg : IsRegular W)
     (_hdim : topologicalKrullDim (W : Type u) = (2 : WithBot ℕ∞))

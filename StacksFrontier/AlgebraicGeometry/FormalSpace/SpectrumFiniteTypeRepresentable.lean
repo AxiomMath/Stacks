@@ -150,25 +150,6 @@ Definition 0AM4, part (2), and is unconditional.
 Over a point whose source is quasi-compact the Bootstrap condition is the source's own
 computation, `AlgebraicGeometry.FormalSpace.compactPullbackRepresentable_formalSpectrumMap`;
 the passage to an arbitrary point is the locality of the three conditions on the target. -/
-@[stacks 0ANT "the implication (2) ⟹ (1) with its conclusion unrestricted: the base change \
-of the formal spectrum map is taken along an arbitrary scheme-valued point of `Spf A`, not \
-only along one factoring through a thickening stage. Condition (1) is concluded as \
-Definition 0AM4, part (2), verbatim; what the argument produces is condition (2) of \
-Stacks 0AJJ — representable by algebraic spaces plus of finite type in the Bootstrap sense \
-of Stacks 03XZ — and Stacks 0AJJ, \
-`AlgebraicGeometry.FormalSpace.isFiniteType_iff_isBootstrapFiniteType`, carries it to \
-Definition 0AM4, part (2), unconditionally. \
-Condition (2) is taken in the form of \
-condition (a) of Stacks 0ANU, `TopologicalRing.FiniteTypeModuloEveryWeakIdeal`, which is what \
-the source's proof of this implication derives from condition (2) in its first sentence; that \
-derivation is \
-`TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType` and assumes \
-no countability, so this implication is the source's with its hypothesis weakened. Condition (a) \
-implies condition (2) back, with no countability assumption either, by \
-`TopologicalRing.isTopologicallyOfFiniteType_of_finiteTypeModuloEveryWeakIdeal`; condition (2) \
-verbatim is the hypothesis of this implication as it appears in \
-`AlgebraicGeometry.FormalSpace.isFiniteType_formalSpectrumMap_iff_\
-isTaut_and_isTopologicallyOfFiniteType`"]
 theorem isLocallyOfFiniteTypeAndQuasiCompact_formalSpectrumMap_of_finiteTypeModuloEveryWeakIdeal
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -193,11 +174,6 @@ theorem isLocallyOfFiniteTypeAndQuasiCompact_formalSpectrumMap_of_finiteTypeModu
 homomorphism of weakly admissible topological rings over `S` which is taut and of finite type
 modulo every weak ideal of definition has formal spectrum map locally of finite type, with the
 base change taken along an arbitrary scheme-valued point of `Spf A`. -/
-@[stacks 0ANT "the implication (2) ⟹ (1) for the local condition of Stacks 0AM4 part (1), \
-with the base change taken along an arbitrary scheme-valued point of `Spf A`; condition (2) is \
-taken in the form of condition (a) of Stacks 0ANU, as on \
-`AlgebraicGeometry.FormalSpace.isLocallyOfFiniteTypeAndQuasiCompact_formalSpectrumMap_\
-of_finiteTypeModuloEveryWeakIdeal`"]
 theorem isLocallyOfFiniteType_formalSpectrumMap_of_finiteTypeModuloEveryWeakIdeal
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -217,14 +193,6 @@ being locally of finite type contains, and that implication carries no side cond
 the locally-of-finite-type half of condition (1) is used, here and in the ring-theoretic half
 `AlgebraicGeometry.FormalSpace.finiteType_quotientMap_of_isFiniteType_formalSpectrumMap`, so
 no comparison with condition (2) of Stacks 0AJJ is needed. -/
-@[stacks 0ANT "the implication (1) ⟹ (2) in full, with condition (1) read as Definition 0AM4, \
-part (2), verbatim: both halves of condition (2) are deduced \
-from condition (1). Tautness is the implication (1) ⟹ (3) of Stacks 0AN5, \
-`AlgebraicGeometry.FormalSpace.isTaut_of_isRepresentableByAlgebraicSpaces_formalSpectrumMap`, \
-applied to the representability by algebraic spaces that being locally of finite type \
-contains. No hypothesis beyond the source's: that implication of Stacks 0AN5 carries no side \
-condition, because the library's Stacks 0AKN consumes of a formal spectrum only its \
-presentation by affine thickenings, which is its construction"]
 theorem isTaut_and_isTopologicallyOfFiniteType_of_isFiniteType_formalSpectrumMap'
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)
@@ -283,24 +251,10 @@ implication (1) ⟹ (3) of Stacks 0AN5, which carries no side condition because 
 Stacks 0AKN consumes of a formal spectrum only its presentation by affine thickenings,
 `AlgebraicGeometry.FormalSpace.hasThickeningPresentation_formalSpectrum`. -/
 @[stacks 0ANT "the equivalence, with condition (1) read as Definition 0AM4, part (2), \
-verbatim and condition (2) read verbatim as tautness together with being topologically of \
-finite type. The forward \
-implication is \
-`AlgebraicGeometry.FormalSpace.isTaut_and_isTopologicallyOfFiniteType_\
-of_isFiniteType_formalSpectrumMap'` \
-and uses only the locally-of-finite-type half of condition (1); the backward implication \
-goes through condition (a) of Stacks 0ANU by \
-`TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType` and then \
-produces condition (2) of Stacks 0AJJ — representable by algebraic spaces plus of finite \
-type in the Bootstrap sense of Stacks 03XZ — and reaches Definition 0AM4, part (2), through \
-Stacks 0AJJ, `AlgebraicGeometry.FormalSpace.isFiniteType_iff_isBootstrapFiniteType`, which \
-is unconditional. No countability assumption is made: condition (2) and condition (a) of \
-Stacks 0ANU imply one another outright, by \
-`TopologicalRing.isTopologicallyOfFiniteType_of_finiteTypeModuloEveryWeakIdeal` and \
-`TopologicalRing.finiteTypeModuloEveryWeakIdeal_of_topologicallyOfFiniteType`. \
-No hypothesis beyond the source's: the implication (1) ⟹ (3) of Stacks 0AN5 that the forward \
-direction needs carries no side condition, the library's Stacks 0AKN consuming of a formal \
-spectrum only its presentation by affine thickenings"]
+verbatim — locally of finite type and quasi-compact — and condition (2) read verbatim as \
+tautness together with being topologically of finite type, Definition 0ANS. Both directions \
+are proved and tautness is deduced from condition (1), by the implication (1) ⟹ (3) of \
+Stacks 0AN5. No countability assumption and no hypothesis beyond the source's is made."]
 theorem isFiniteType_formalSpectrumMap_iff_isTaut_and_isTopologicallyOfFiniteType
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E) :

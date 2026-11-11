@@ -402,8 +402,8 @@ and `f' = f ∘ h`, and let `F'_n` be the functor of equation 0CWV for `(f' : X'
 `F_n` is a subfunctor of `F'_n` — the canonical natural transformation `F_n ⟶ F'_n` is a
 monomorphism — and if `h(|X'|) ⊇ Ass_{X/Y}(F)` then `F_n = F'_n` — that monomorphism is an
 isomorphism. -/
-@[stacks 0CX0 "the full statement at the source's hypotheses, nothing granted or assumed: \
-Situation 0CWU (f locally of finite type, F quasi-coherent of finite type) and h etale only. \
+@[stacks 0CX0 "Full statement under Situation 0CWU (f locally of finite type, F \
+quasi-coherent of finite type) with h etale, both clauses. \
 'F_n is a subfunctor of F'_n' is that the canonical natural transformation F_n -> F'_n between \
 these subterminal functors is a monomorphism, and 'F_n = F'_n' is that it is an isomorphism. \
 Ass_{X/Y}(F) is the relative weak assassin of Stacks 0CV0, which the source writes Ass_{X/Y}(F) \

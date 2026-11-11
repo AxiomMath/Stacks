@@ -13,8 +13,9 @@ public import StacksCore.Tactic.StacksAttribute
 
 Stacks, Homological Algebra, Section 12.28, dual to Section 12.27. The definition of a projective
 object (013B), coproducts of projectives (013D) and enough projectives (013E) are Mathlib's; their
-tags are attached below. This file adds the characterisation of projective objects (013C) and
-functorial projective surjections (013F).
+tags are attached below. This file adds functorial projective surjections (013F) and most of the
+characterisation of projective objects (013C), which is assembled in
+`StacksFrontier.CategoryTheory.Preadditive.Projective.Characterization`.
 -/
 
 @[expose] public section
@@ -41,11 +42,11 @@ states the equivalence of four conditions:
 3. Every short exact sequence ending in `P` splits.
 4. `Ext^1(P, A) = 0` for every `A`.
 
-The headline `projective_iff_every_ses_splits` records the full equivalence
-`(1) ↔ (3)`. The forward implications `(1) → (2)` and `(1) → (4)` are recorded
-separately as `homFunctor_shortExact_of_projective` and `ext_one_eq_zero_of_projective`.
-
-The reverse directions `(2) → (1)` and `(4) → (1)` are not included here.
+Here `projective_iff_every_ses_splits` gives `(1) ↔ (3)`, and
+`homFunctor_shortExact_of_projective` and `ext_one_eq_zero_of_projective` give the forward
+implications `(1) → (2)` and `(1) → (4)`. The full four-way equivalence, registered as
+Stacks 013C, is `projective_tfae` in
+`StacksFrontier/CategoryTheory/Preadditive/Projective/Characterization.lean`.
 -/
 
 open CategoryTheory CategoryTheory.Limits Opposite
@@ -94,7 +95,6 @@ lemma homFunctorExact_of_projective {P : 𝒜} (hP : Projective P) :
   exact ShortComplex.ShortExact.mk hexact
 
 /-- `(1) → (2)`: if `P` is projective then `Hom(P, -)` is exact. -/
-@[stacks 013C "(1)⇒(2)"]
 theorem homFunctor_shortExact_of_projective {P : 𝒜} [hP : Projective P]
     (S : ShortComplex 𝒜) (hS : S.ShortExact) :
     ((homFunctor P).mapShortComplex.obj S).ShortExact :=
@@ -142,15 +142,9 @@ lemma projective_of_everySESEndingInPSplits {P : 𝒜}
   refine ⟨sp.s ≫ q₁, ?_⟩
   rw [Category.assoc, hpb, ← Category.assoc, hs, Category.id_comp]
 
-/-- **Stacks 013C** (narrowed). `(1) ↔ (3)`: `P` is projective iff every short exact
-sequence ending in `P` splits.
-
-The Stacks lemma states the equivalence of four conditions; this records the
-equivalence between projectivity and the splitting property. The forward
-implications to the other two conditions are given by
-`homFunctor_shortExact_of_projective` and `ext_one_eq_zero_of_projective`. -/
-@[stacks 013C "(1)⇔(3)",
-  sga "3 VIIB 1.4.3" "more general",
+/-- `(1) ↔ (3)`: `P` is projective iff every short exact sequence ending in `P` splits.
+The full four-way equivalence is `projective_tfae`. -/
+@[sga "3 VIIB 1.4.3" "more general",
   sga "6 I 1.3.1" "(i) ⇔ (ii), special case",
   sga "6 V 2.2.1" "special case"]
 theorem projective_iff_every_ses_splits (P : 𝒜) :
@@ -159,7 +153,6 @@ theorem projective_iff_every_ses_splits (P : 𝒜) :
 
 /-- `(1) → (4)`: if `P` is projective then `Ext^1(P, A) = 0` for every `A`.
 We use the standard `HasExt` instance from `HasExt.standard 𝒜`. -/
-@[stacks 013C "(1)⇒(4)"]
 theorem ext_one_eq_zero_of_projective {P : 𝒜} [Projective P] (A : 𝒜) :
     haveI : HasExt.{max u v} 𝒜 := HasExt.standard 𝒜
     ∀ (e : Abelian.Ext.{max u v} P A 1), e = 0 := by

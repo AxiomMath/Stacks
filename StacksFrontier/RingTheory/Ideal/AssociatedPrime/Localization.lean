@@ -147,8 +147,16 @@ end AssLocalization
 
 Let `R → S` be a homomorphism of commutative rings, let `N` be an `S`-module, and
 assume `N` is flat as an `R`-module. Let `K` be the total ring of fractions of `R`.
-Writing `Ass` for the set of associated primes, in Mathlib's sense using the radical
-of the annihilator, two things hold:
+Stacks 05C1 (Lemma 10.65.4) says
+`Ass_S(N) = Ass_S(N ⊗_R K) = Ass_{S ⊗_R K}(N ⊗_R K)` via the canonical inclusion
+`Spec(S ⊗_R K) ⊆ Spec(S)`, with `Ass` the exact-annihilator notion of Stacks 00LA
+(`Stacks.AssociatedPrimes.assPrimes`). This is `assPrimes_chain`, which also states that
+contraction along `algebraMap S (S ⊗_R K)` is injective on ideals and carries
+`Ass_{S ⊗_R K}(N ⊗_R K)` onto `Ass_S(N ⊗_R K)`.
+
+The file also records the analogous statements for Mathlib's radical-based
+`associatedPrimes`, which differ from the Stacks notion outside the Noetherian case.
+Writing `Ass` for that set, two things hold:
 
 1. `Ass_S(N) = Ass_S(N ⊗_R K)` as subsets of `Ideal S`;
 2. the comap `Ideal.comap (algebraMap S (S ⊗_R K))` along the canonical inclusion
@@ -233,8 +241,9 @@ theorem baseChange_map_injective [Module.Flat R N] (μN : N →ₗ[R] NK)
   exact Module.Flat.isSMulRegular_of_nonZeroDivisors c.property
 
 omit [IsScalarTower R S N] [IsScalarTower R S NK] in
-/-- **Stacks 05C1, part 1 (abstract).**  If `N` is flat over `R`, then
-`Ass_S(N) = Ass_S(N ⊗_R K)` as subsets of `Ideal S`. -/
+/-- Part 1 of the Mathlib-`associatedPrimes` analogue of Stacks 05C1 (abstract).  If `N` is
+flat over `R`, then `associatedPrimes S N = associatedPrimes S (N ⊗_R K)` as subsets of
+`Ideal S`; for the Stacks notion see `assPrimes_eq_of_baseChange`. -/
 theorem associatedPrimes_eq_of_baseChange [Module.Flat R N] (μN : N →ₗ[R] NK) (μNₛ : N →ₗ[S] NK)
     (hμN : IsLocalizedModule (nonZeroDivisors R) μN)
     (hμNₛ : IsLocalizedModule (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) μNₛ)
@@ -266,7 +275,8 @@ theorem associatedPrimes_eq_of_baseChange [Module.Flat R N] (μN : N →ₗ[R] N
   rw [hIx, hcolon]
 
 omit [Module R N] [IsScalarTower R S N] [Module R NK] [IsScalarTower R S NK] in
-/-- **Stacks 05C1, part 2 (abstract).**  Transport along the canonical inclusion
+/-- Part 2 of the Mathlib-`associatedPrimes` analogue of Stacks 05C1 (abstract).  Transport
+along the canonical inclusion
 `Spec(S ⊗_R K) ⊆ Spec(S)` identifies the associated primes of `N ⊗_R K` over `S` with those
 over `S ⊗_R K`: the preimage under `Ideal.comap (algebraMap S SK)` of `Ass_S(N ⊗_R K)` equals
 `Ass_{S ⊗_R K}(N ⊗_R K)`. -/
@@ -302,12 +312,12 @@ theorem comap_injective
     (Algebra.algebraMapSubmonoid S (nonZeroDivisors R))).injective
 
 omit [IsScalarTower R S N] [IsScalarTower R S NK] in
-/-- **Stacks 05C1, combined (abstract).**  Under flatness, via the canonical map
-`Spec(S ⊗_R K) → Spec(S)`, we have
-`Ass_S(N) = Ass_S(N ⊗_R K) = Ass_{S ⊗_R K}(N ⊗_R K)`, where the last equality is read as the
-preimage identity along `Ideal.comap (algebraMap S (S ⊗_R K))`.  All localization data are
-explicit hypotheses. -/
-@[stacks 05C1]
+/-- An analogue of Stacks 05C1 for Mathlib's radical-based `associatedPrimes` (not the
+Stacks notion of associated prime, which is `assPrimes_chain` below).  Under flatness, via the
+canonical map `Spec(S ⊗_R K) → Spec(S)`, we have
+`Ass_S(N) = Ass_S(N ⊗_R K)` and the preimage identity along
+`Ideal.comap (algebraMap S (S ⊗_R K))` relating `Ass_S(N ⊗_R K)` and
+`Ass_{S ⊗_R K}(N ⊗_R K)`.  All localization data are explicit hypotheses. -/
 theorem associatedPrimes_chain [Module.Flat R N] (μN : N →ₗ[R] NK) (μNₛ : N →ₗ[S] NK)
     (hSK : IsLocalization (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) SK)
     (hμN : IsLocalizedModule (nonZeroDivisors R) μN)
@@ -318,6 +328,122 @@ theorem associatedPrimes_chain [Module.Flat R N] (μN : N →ₗ[R] NK) (μNₛ 
         = associatedPrimes SK NK :=
   ⟨associatedPrimes_eq_of_baseChange μN μNₛ hμN hμNₛ hμ, preimage_comap_associatedPrimes_eq hSK⟩
 
+/-! ## The Stacks notion of associated prime
+
+The statements above use Mathlib's radical-based `associatedPrimes`. Stacks 05C1 is about the
+exact-annihilator notion `Stacks.AssociatedPrimes.assPrimes` (Stacks 00LA): `p = Ann(m)` on the
+nose. Without a Noetherian hypothesis the two notions differ, so we redo the argument for
+`assPrimes`. The identification of `Ass_S(N ⊗_R K)` with `Ass_{S ⊗_R K}(N ⊗_R K)` "via the
+canonical inclusion `Spec(S ⊗_R K) ⊆ Spec(S)`" is stated as: contraction along
+`algebraMap S (S ⊗_R K)` is injective on ideals, and carries `Ass_{S ⊗_R K}(N ⊗_R K)` onto
+`Ass_S(N ⊗_R K)`.
+-/
+
+omit [Module R NK] [IsScalarTower R S NK] in
+/-- If `SK` is the localization of `S` at `T`, every `t ∈ T` acts injectively on the
+`SK`-module `NK`. -/
+theorem smul_eq_zero_iff_of_isLocalization
+    (hSK : IsLocalization (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) SK)
+    (t : Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) (y : NK) :
+    (t : S) • y = 0 ↔ y = 0 := by
+  refine ⟨fun h => ?_, fun h => by rw [h, smul_zero]⟩
+  obtain ⟨u, hu⟩ := IsLocalization.map_units SK t
+  rw [← algebraMap_smul SK (t : S) y, ← hu] at h
+  simpa using congrArg (fun z => (↑u⁻¹ : SK) • z) h
+
+omit [IsScalarTower R S N] [IsScalarTower R S NK] in
+/-- **Stacks 05C1, first equality.**  If `N` is flat over `R`, then
+`Ass_S(N) = Ass_S(N ⊗_R K)`, with `Ass` the exact-annihilator notion of Stacks 00LA. -/
+theorem assPrimes_eq_of_baseChange [Module.Flat R N] (μN : N →ₗ[R] NK) (μNₛ : N →ₗ[S] NK)
+    (hSK : IsLocalization (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) SK)
+    (hμN : IsLocalizedModule (nonZeroDivisors R) μN)
+    (hμNₛ : IsLocalizedModule (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) μNₛ)
+    (hμ : ∀ n, μNₛ n = μN n) :
+    assPrimes S N = assPrimes S NK := by
+  have hμNₛ_inj : Function.Injective μNₛ := fun a b hab =>
+    baseChange_map_injective μN hμN (by rwa [← hμ, ← hμ])
+  -- `Ann_S(t • μNₛ n / t) = Ann_S(n)`: every element of `NK` has the form `μNₛ n / t`.
+  have key : ∀ (x : NK) (n : N) (t : Algebra.algebraMapSubmonoid S (nonZeroDivisors R)),
+      (t : S) • x = μNₛ n → Ideal.torsionOf S NK x = Ideal.torsionOf S N n := by
+    intro x n t ht
+    ext r
+    rw [Ideal.mem_torsionOf_iff, Ideal.mem_torsionOf_iff,
+      ← smul_eq_zero_iff_of_isLocalization hSK t (r • x), smul_comm (t : S) r x, ht,
+      ← map_smul, ← map_zero μNₛ]
+    exact hμNₛ_inj.eq_iff
+  ext p
+  refine ⟨fun ⟨hp, n, hn⟩ => ⟨hp, μNₛ n, (key _ n 1 (one_smul S _)).trans hn⟩, ?_⟩
+  rintro ⟨hp, x, hx⟩
+  obtain ⟨⟨n, t⟩, ht⟩ := IsLocalizedModule.surj
+    (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) μNₛ x
+  exact ⟨hp, n, (key x n t ht).symm.trans hx⟩
+
+/-- Contraction of ideals along `algebraMap S SK` is injective when `SK` is a localization
+of `S`. -/
+theorem ideal_comap_injective
+    (hSK : IsLocalization (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) SK) :
+    Function.Injective (Ideal.comap (algebraMap S SK)) := fun I J h => by
+  have e : ∀ L : Ideal SK, Ideal.map (algebraMap S SK) (Ideal.comap (algebraMap S SK) L) = L :=
+    IsLocalization.map_under (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) SK
+  rw [← e I, h, e J]
+
+omit [Module R NK] [IsScalarTower R S NK] in
+/-- **Stacks 05C1, second equality.**  Contraction along `algebraMap S SK`, that is the
+canonical inclusion `Spec(S ⊗_R K) ⊆ Spec(S)`, carries `Ass_{S ⊗_R K}(N ⊗_R K)` onto
+`Ass_S(N ⊗_R K)`, with `Ass` the exact-annihilator notion of Stacks 00LA. -/
+theorem image_comap_assPrimes_eq
+    (hSK : IsLocalization (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) SK) :
+    Ideal.comap (algebraMap S SK) '' assPrimes SK NK = assPrimes S NK := by
+  set T := Algebra.algebraMapSubmonoid S (nonZeroDivisors R)
+  -- `Ann_S(x)` is the contraction of `Ann_{SK}(x)`.
+  have hcomap : ∀ x : NK,
+      (Ideal.torsionOf SK NK x).comap (algebraMap S SK) = Ideal.torsionOf S NK x := by
+    intro x
+    ext r
+    rw [Ideal.mem_comap, Ideal.mem_torsionOf_iff, Ideal.mem_torsionOf_iff, algebraMap_smul]
+  ext q
+  constructor
+  · rintro ⟨p, ⟨hp, x, rfl⟩, rfl⟩
+    exact ⟨Ideal.IsPrime.comap (algebraMap S SK) (hK := hp), x, (hcomap x).symm⟩
+  · rintro ⟨hq, x, rfl⟩
+    -- `Ann_S(x)` misses `T`, since `T` acts injectively and `x ≠ 0`.
+    have hdisj : Disjoint (T : Set S) (Ideal.torsionOf S NK x : Set S) := by
+      rw [Set.disjoint_left]
+      intro t ht htx
+      have hx0 : x = 0 :=
+        (smul_eq_zero_iff_of_isLocalization hSK ⟨t, ht⟩ x).mp ((Ideal.mem_torsionOf_iff x t).mp htx)
+      exact hq.ne_top (by rw [hx0, Ideal.torsionOf_zero])
+    have hprime : (Ideal.torsionOf SK NK x).IsPrime := by
+      have e : Ideal.map (algebraMap S SK) ((Ideal.torsionOf SK NK x).comap (algebraMap S SK))
+          = Ideal.torsionOf SK NK x := IsLocalization.map_under T SK _
+      rw [← e, hcomap]
+      exact IsLocalization.isPrime_of_isPrime_disjoint T SK _ hq hdisj
+    exact ⟨_, ⟨hprime, x, rfl⟩, hcomap x⟩
+
+omit [IsScalarTower R S N] [IsScalarTower R S NK] in
+/-- **Stacks 05C1 / Lemma 10.65.4.**  Let `R → S` be a ring map, `N` an `S`-module that is flat
+over `R`, and `K` the fraction field of `R` (more generally, its total ring of fractions).
+Then `Ass_S(N) = Ass_S(N ⊗_R K) = Ass_{S ⊗_R K}(N ⊗_R K)` via the canonical inclusion
+`Spec(S ⊗_R K) ⊆ Spec(S)`: the first equality holds as sets of ideals of `S`, and contraction
+along `algebraMap S (S ⊗_R K)` is injective on ideals and maps `Ass_{S ⊗_R K}(N ⊗_R K)` onto
+`Ass_S(N ⊗_R K)`.  Here `Ass` is the exact-annihilator notion `assPrimes` of Stacks 00LA,
+`S ⊗_R K` is modelled as the localization `SK` of `S` at the image of `R⁰`, and `N ⊗_R K` as
+the localization `NK` of `N` at `R⁰` (over `R`) and at the image of `R⁰` (over `S`), the two
+localization maps agreeing. -/
+@[stacks 05C1 "Exact-annihilator Ass (00LA); S ⊗_R K and N ⊗_R K modelled by their \
+localization universal properties; R generalized from a domain to any ring with K its total \
+ring of fractions."]
+theorem assPrimes_chain [Module.Flat R N] (μN : N →ₗ[R] NK) (μNₛ : N →ₗ[S] NK)
+    (hSK : IsLocalization (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) SK)
+    (hμN : IsLocalizedModule (nonZeroDivisors R) μN)
+    (hμNₛ : IsLocalizedModule (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) μNₛ)
+    (hμ : ∀ n, μNₛ n = μN n) :
+    assPrimes S N = assPrimes S NK ∧
+      Function.Injective (Ideal.comap (algebraMap S SK)) ∧
+      Ideal.comap (algebraMap S SK) '' assPrimes SK NK = assPrimes S NK :=
+  ⟨assPrimes_eq_of_baseChange μN μNₛ hSK hμN hμNₛ hμ, ideal_comap_injective hSK,
+    image_comap_assPrimes_eq hSK⟩
+
 /-! ## The concrete tensor-product corollaries
 
 These restate the results above directly for the actual tensor products `N ⊗[R] K`
@@ -327,8 +453,9 @@ its canonical `S`-module structure by left base change, and `S ⊗[R] K` its can
 `IsLocalization (Algebra.algebraMapSubmonoid S (nonZeroDivisors R)) (S ⊗[R] K)`.
 -/
 
-/-- **Stacks 05C1, part 1 (concrete).**  The equality of associated-prime sets stated for the
-actual tensor product `N ⊗[R] K` with its canonical `S`-module structure. -/
+/-- Part 1 of the Mathlib-`associatedPrimes` analogue of Stacks 05C1 (concrete).  The equality
+of associated-prime sets, in Mathlib's radical-based sense, stated for the actual tensor product
+`N ⊗[R] K` with its canonical `S`-module structure. -/
 theorem associatedPrimes_eq_baseChange_tensor [Module.Flat R N] :
     associatedPrimes S N = associatedPrimes S (N ⊗[R] K) := by
   -- The S-linear localization map `μNₛ : N → N ⊗[R] K`, `n ↦ n ⊗ₜ 1`.

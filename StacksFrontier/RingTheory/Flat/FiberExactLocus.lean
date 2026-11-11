@@ -3,7 +3,7 @@ public import StacksFrontier.RingTheory.CohenMacaulay.Defs
 public import StacksFrontier.Topology.Dimension.Equidimensional
 import StacksFrontier.RingTheory.Depth.ExactnessCriterion
 import StacksFrontier.RingTheory.Flat.LocalCriteria
-import StacksFrontier.RingTheory.Sequence.RegularLocus
+public import StacksFrontier.RingTheory.Sequence.RegularLocus
 import Mathlib.RingTheory.TensorProduct.Pi
 
 /-!
@@ -23,7 +23,10 @@ a shrinking of `Spec S` to a neighbourhood on which the relative dimension is co
 Lemma 00RH; and 00RH is proved from Theorem 00RC, the openness of the flat locus, whose own proof
 is this lemma applied to a polynomial ring `S = R[x_1, …, x_n]` — whose fibres `κ(𝔭)[x_1, …, x_n]`
 *are* equidimensional. So the equidimensional form proved here is the form on the critical path:
-00RC needs no more, and the source's 00RB follows from 00RC through 00RH.
+00RC needs no more. Once 00RC is proved, the source's 00RB follows from it directly, with no
+hypothesis on the fibres: that is
+`Algebra.isOpen_setOf_exact_baseChange_fiber_of_flat_of_isMaximalCohenMacaulay` in
+`StacksFrontier.RingTheory.Flat.FiberExactLocusFlat`, which carries the tag.
 
 ## Main results
 
@@ -103,8 +106,9 @@ An earlier draft of this file reduced the lemma instead to the openness of the l
 cokernels `F_i/φ_i(F_{i+1})` are flat over `R`, using Lemma 00MI in both directions. That
 equivalence is correct — it is the standard consequence of the local criterion — but the openness
 of the relative flat locus is Theorem 00RC, whose only proof runs through the present lemma applied
-to a finite free resolution, so that reduction is circular and is not used here. The route above is
-the source's.
+to a finite free resolution, so that reduction is circular here and is not used in this file. The
+route above is the source's. Downstream of 00RC the reduction is no longer circular, and
+`StacksFrontier.RingTheory.Flat.FiberExactLocusFlat` uses it to prove 00RB as the source states it.
 
 ## References
 
@@ -127,8 +131,8 @@ open TensorProduct
 
 /-- Exactness of the complex `0 → A ⊗ F_{e+1} → ⋯ → A ⊗ F_0` obtained from
 `0 → F_{e+1} →[φ e] ⋯ →[φ 0] F_0` by base change along `S → A`, at every term but the last. -/
-private def BaseChangeExact {S : Type*} [CommRing S] {F : ℕ → Type*} [∀ i, AddCommGroup (F i)]
-    [∀ i, Module S (F i)] (A : Type*) [CommRing A] [Algebra S A] (e : ℕ)
+@[expose] public def BaseChangeExact {S : Type*} [CommRing S] {F : ℕ → Type*}
+    [∀ i, AddCommGroup (F i)] [∀ i, Module S (F i)] (A : Type*) [CommRing A] [Algebra S A] (e : ℕ)
     (φ : ∀ i, F (i + 1) →ₗ[S] F i) : Prop :=
   Function.Injective (LinearMap.baseChange A (φ e)) ∧
     ∀ k < e, Function.Exact (LinearMap.baseChange A (φ (k + 1))) (LinearMap.baseChange A (φ k))
@@ -229,7 +233,7 @@ private lemma notMem_support_iff_subsingleton_tensor {S : Type*} [CommRing S] (X
 /-- Exactness of the localised complex `F_{•,𝔮}` is an open condition on `𝔮`: the homology of
 `F_•` is a finite `S`-module in each degree, localisation commutes with homology, and the support
 of a finite module is closed. -/
-private theorem isOpen_setOf_baseChangeExact_localization {S : Type*} [CommRing S]
+public theorem isOpen_setOf_baseChangeExact_localization {S : Type*} [CommRing S]
     [IsNoetherianRing S] {F : ℕ → Type*} [∀ i, AddCommGroup (F i)] [∀ i, Module S (F i)]
     [∀ i, Module.Finite S (F i)] (e : ℕ) (φ : ∀ i, F (i + 1) →ₗ[S] F i)
     (hφ : ∀ k < e, φ k ∘ₗ φ (k + 1) = 0) :
@@ -364,7 +368,7 @@ private lemma injective_and_exact_iff_of_ladder {R : Type*} [Semiring R] {M M' :
 intermediate `S`-algebra `A` and then over `T`. With `A = S_𝔮` and `T = S_𝔮/𝔭S_𝔮` this is what
 lets a criterion over the local ring `S_𝔮`, such as Lemma 00MI, be applied to the fibre complex,
 which the statement presents as a base change from `S`. -/
-private lemma baseChangeExact_baseChange_iff {S : Type*} [CommRing S] {F : ℕ → Type*}
+public lemma baseChangeExact_baseChange_iff {S : Type*} [CommRing S] {F : ℕ → Type*}
     [∀ i, AddCommGroup (F i)] [∀ i, Module S (F i)] (A : Type*) [CommRing A] [Algebra S A]
     (T : Type*) [CommRing T] [Algebra S T] [Algebra A T] [IsScalarTower S A T] (e : ℕ)
     (φ : ∀ i, F (i + 1) →ₗ[S] F i) :
@@ -500,7 +504,7 @@ over `R_𝔭`; the local homomorphism `R_𝔭 → S_𝔮` of Noetherian local ri
 `S_𝔮 ⊗_S F_•` therefore satisfy the hypotheses of Lemma 00MI, whose reduction modulo
 `𝔪_{R_𝔭}` is `F̄_{•,𝔮}` by `Ideal.map_maximalIdeal_eq_map_under` and
 `baseChangeExact_baseChange_iff`. -/
-private theorem baseChangeExact_localization_of_baseChangeExact_fiber {R S : Type*} [CommRing R]
+public theorem baseChangeExact_localization_of_baseChangeExact_fiber {R S : Type*} [CommRing R]
     [CommRing S] [Algebra R S] [IsNoetherianRing R] [IsNoetherianRing S] [Module.Flat R S] (e : ℕ)
     {F : ℕ → Type*} [∀ i, AddCommGroup (F i)] [∀ i, Module S (F i)] [∀ i, Module.Free S (F i)]
     [∀ i, Module.Finite S (F i)] (φ : ∀ i, F (i + 1) →ₗ[S] F i)
@@ -1163,11 +1167,14 @@ private theorem exists_basicOpen_subset_setOf_baseChangeExact_fiber {R S : Type*
     ⟨g, hgq, fun q' hq' =>
       (baseChangeExact_congr (G := fun i => Fin (n i) → S) _ e φ ψ E hsq).mp (hg q' hq')⟩
 
-/-- **Stacks 00RB.** Let `R` be Noetherian, let `R → S` be a flat ring map of finite type all of
-whose nonempty fibres `S ⊗_R κ(𝔭)` are Cohen–Macaulay of dimension `d`, and let
+/-- **Stacks 00RB, for equidimensional fibres.** Let `R` be Noetherian, let `R → S` be a flat ring
+map of finite type all of whose nonempty fibres `S ⊗_R κ(𝔭)` are Cohen–Macaulay and
+equidimensional of dimension `d`, and let
 `0 → F_{e+1} →[φ e] F_e → ⋯ → F_1 →[φ 0] F_0` be a finite complex of finite free `S`-modules.
 Then the set of primes `𝔮` of `S` at which the fibre complex `(S_𝔮/𝔭S_𝔮) ⊗_S F_•`, where
-`𝔭 = R ∩ 𝔮`, is exact at `F̄_{e+1}, …, F̄_1` is open in `Spec S`. -/
+`𝔭 = R ∩ 𝔮`, is exact at `F̄_{e+1}, …, F̄_1` is open in `Spec S`. Stacks 00RB as stated, without
+equidimensionality, is
+`Algebra.isOpen_setOf_exact_baseChange_fiber_of_flat_of_isMaximalCohenMacaulay`. -/
 public theorem solution {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] [IsNoetherianRing R]
     [Algebra.FiniteType R S] [Module.Flat R S] (d : ℕ)
     (hfib :
@@ -1219,8 +1226,9 @@ the set of primes `𝔮` of `S` at which the fibre complex
 
 Equidimensionality of the fibres is the hypothesis the source's proof consumes, through Lemma
 00RA, and it is what Theorem 00RC needs, where the lemma is applied to a polynomial ring over `R`;
-the source's own statement asks only that the fibres be Cohen–Macaulay of dimension `d`, and
-follows from Theorem 00RC through Lemma 00RH. See the module docstring. -/
+the source's own statement asks only that the fibres be Cohen–Macaulay of dimension `d`, and is
+`isOpen_setOf_exact_baseChange_fiber_of_flat_of_isMaximalCohenMacaulay`, proved from Theorem 00RC.
+See the module docstring. -/
 public theorem
   isOpen_setOf_exact_baseChange_fiber_of_flat_of_isMaximalCohenMacaulay_of_equidimensional
     {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] [IsNoetherianRing R]

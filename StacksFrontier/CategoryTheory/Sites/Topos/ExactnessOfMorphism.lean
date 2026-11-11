@@ -38,12 +38,18 @@ import StacksCore.Tactic.EgaSgaAttribute
 /-!
 # Exactness properties of a morphism of topoi
 
-Stacks tag 04D6 lists eight implications among eleven properties of a morphism of topoi
-`f`, that is, of an adjunction `f⁻¹ ⊣ f_*`.  Formalized here, in that topos-free
-adjunction form, are (a) `(2) ⇒ (1)`, (b) `(3) ⇒ (1)`, (d) `(9) ⇒ (3)`, the `(1) ⇒ (8)`
-half of (g), and both directions of (h) `(7) ⇔ (2)`, relating full faithfulness of `f_*`,
-faithfulness of `f_*`, the counit of the adjunction being pointwise epi or pointwise iso,
-and `f_*` reflecting epimorphisms.
+Stacks tag 04D6 lists eleven properties of the pushforward `f_*` of a morphism of topoi
+`f : Sh(C) → Sh(D)` and eight implications (a)–(h) among them.
+
+## Main results
+
+* `exactness_properties_bundled`: the part of the lemma that holds for an arbitrary adjunction
+  `L ⊣ R`, namely (a) `(2) ⇒ (1)`, (b) `(3) ⇒ (1)`, the `(9) ⇒ (3)` direction of (d) and both
+  directions of (h) `(2) ⇔ (7)`.
+
+The complete lemma, for a morphism of topoi `f : Sh(C) → Sh(D)`, is
+`MorphismOfTopoi.pushforward_exactness_implications` in
+`StacksFrontier.CategoryTheory.Sites.Topos.PushforwardExactness`.
 -/
 
 @[expose] public section
@@ -62,29 +68,20 @@ private theorem isIso_counit_app_of_fullyFaithful
   have : R.Faithful := hRff.faithful
   inferInstance
 
-/-- **Stacks Tag 04D6** (abstract bundled form for an adjunction `L ⊣ R`,
-playing the role of a morphism of topoi `f⁻¹ ⊣ f_*`). Five of the eight
-sub-implications of the Stacks lemma in their topos-free formulation:
+/-- Part of Stacks 04D6, for an arbitrary adjunction `L ⊣ R` in the role of `f⁻¹ ⊣ f_*`: the
+implications among properties (1) `R` faithful, (2) `R` fully faithful, (3) the counit
+`L R X ⟶ X` epi for all `X`, (7) the counit an isomorphism for all `X`, and (9) `R` reflects
+epimorphisms that need no topos structure. The five conjuncts are, in order,
 
-* (a) (2) ⇒ (1):       `R` fully faithful implies `R` faithful;
-* (b) (3) ⇒ (1):       each component of the counit `L∘R ⟶ id` being an
-                       epimorphism implies `R` is faithful;
-* (d) (9) ⇒ (3):       if `R` reflects epimorphisms, then each component of
-                       the counit is an epimorphism (since the counit-image
-                       under `R` is split epi, hence epi);
-* (g) (9) ⇒ (8), (10): a faithful functor reflects monomorphisms (8) and
-                       bijections (10) automatically; we record (8) here, and
-                       (10) follows by combining (8) with (9);
-* (h) (7) ⇒ (2):       counit pointwise iso implies `R` fully faithful;
-* (h) (2) ⇒ (7):       `R` fully faithful implies the counit is pointwise
-                       iso.
+* (a) `(2) ⇒ (1)`;
+* (b) `(3) ⇒ (1)`;
+* `(9) ⇒ (3)`, one direction of (d): `R` of the counit is split epi by the triangle identity;
+* `(7) ⇒ (2)`, one direction of (h);
+* `(2) ⇒ (7)`, the other direction of (h).
 
-All six are immediate consequences of existing Mathlib lemmas:
-`Adjunction.faithful_R_of_epi_counit_app`, `Adjunction.counit_epi_of_R_faithful`,
-`Adjunction.fullyFaithfulROfIsIsoCounit`,
-`Adjunction.counit_isIso_of_R_fully_faithful`,
-`Functor.reflectsMonomorphisms_of_faithful`. -/
-@[stacks 04D6, sga "4 I 5.6" "iv) <=> v)", sga "4 I 6.4" "epic counit ⇒ ψ faithful"]
+The complete lemma, for a morphism of topoi, is
+`MorphismOfTopoi.pushforward_exactness_implications`. -/
+@[sga "4 I 5.6" "iv) <=> v)", sga "4 I 6.4" "epic counit ⇒ ψ faithful"]
 theorem exactness_properties_bundled :
     (R.FullyFaithful → R.Faithful) ∧
     ((∀ X, Epi (h.counit.app X)) → R.Faithful) ∧
@@ -148,4 +145,3 @@ then the right adjoint is faithful. This wraps
 lemma faithful_R_of_counit_app_epi
     (hepi : ∀ X, Epi (h.counit.app X)) : R.Faithful :=
   h.faithful_R_of_epi_counit_app
-

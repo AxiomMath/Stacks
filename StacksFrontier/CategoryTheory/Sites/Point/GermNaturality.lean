@@ -44,15 +44,17 @@ public import Mathlib.Topology.Sheaves.Init
 /-!
 # Germ naturality at a point of a site
 
-Stacks tag 00YM says that a family of points of a site `(C, J)` is *conservative* iff for
-any two distinct sections of a sheaf some germ at some point of the family separates them.
-Formalized here is the identity the Stacks proof turns on: for a point `P : C ⥤ Type u`,
-pushing the germ of a section `s ∈ F(U)` at `x ∈ P U` along a sheaf morphism `φ : F ⟶ G`
-gives the germ of the pushed section `φ s`.  The step that extracts the separating index
-from `s ≠ s'` through the equalizer and pushout-of-codiagonal arguments is not formalized;
-the codiagonal-of-iso input it needs is `codiagonal_stalkSet_isIso`.
--/
+For a functor `P : C ⥤ Type u` which is continuous for the trivial topology on `Type u` and whose
+sheaf pushforward is a right adjoint, pushing the germ of a section `s ∈ F(U)` at `x ∈ P U` along a
+sheaf morphism `φ : F ⟶ G` gives the germ of the pushed section `φ s` (`stalkSet_map_germ`). The
+file also records that the stalk-set functor preserves pushouts, so that it carries the codiagonal
+`G ⨿_F G ⟶ G` of a morphism which is an isomorphism on stalks to an isomorphism.
 
+These are auxiliary facts about a single point. Stacks 00YM itself, the characterization of
+conservative families of points by germs separating sections, is
+`CategoryTheory.GrothendieckTopology.isConservativeFamily_iff_exists_toPresheafFiber_ne` in
+`StacksFrontier/CategoryTheory/Sites/Point/SeparatingGerms.lean`.
+-/
 @[expose] public section
 
 open CategoryTheory Opposite Limits
@@ -91,7 +93,7 @@ def stalkSet {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
     ⋙ sheafToPresheaf (GrothendieckTopology.trivial (Type u)) (Type u)
     ⋙ (CategoryTheory.evaluation (Type u)ᵒᵖ (Type u)).obj (op PUnit.{u + 1})
 
-/-- The germ00YM of a section `s : F(U)` at a point `x : P U` of the stalk. -/
+/-- The germ of a section `s : F(U)` at a point `x : P U` of the stalk. -/
 def germ00YM {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
     (P : C ⥤ Type u)
     [P.IsContinuous J (GrothendieckTopology.trivial (Type u))]
@@ -157,15 +159,9 @@ lemma stalkSet_map_apply {C : Type u} [SmallCategory C] (J : GrothendieckTopolog
       = ((pullbackFunctor J P).map φ).hom.app (Opposite.op PUnit.{u + 1}) y :=
   rfl
 
-/-- **Germ naturality (narrowed substantiation).**
-
-For distinct sections `s ≠ s' ∈ F(U)`, the Stacks argument identifies
-an index `i` and a point `x ∈ u_i(U)` separating their germs in the
-stalk at `p_i`. The "Unwinding the definitions" step rests on the
-identity below: pushing a germ00YM along a sheaf morphism agrees with the
-germ00YM of the pushed section. The remaining categorical packaging
-(equalizer of representable maps, etc.) is deferred. -/
-@[stacks 00YM]
+/-- **Germ naturality.** Pushing the germ at `x ∈ P U` of a section `s ∈ F(U)` along a sheaf
+morphism `φ : F ⟶ G` gives the germ at `x` of `φ s`. This is an auxiliary naturality fact; Stacks
+00YM is `CategoryTheory.GrothendieckTopology.isConservativeFamily_iff_exists_toPresheafFiber_ne`. -/
 lemma stalkSet_map_germ {C : Type u} [SmallCategory C] (J : GrothendieckTopology C)
     (P : C ⥤ Type u)
     [P.IsContinuous J (GrothendieckTopology.trivial (Type u))]
@@ -184,9 +180,9 @@ lemma stalkSet_map_germ {C : Type u} [SmallCategory C] (J : GrothendieckTopology
 
 /-! ### Auxiliary categorical input
 
-The codiagonal-of-iso facts used by the portion of the 00YM argument that is not
-formalized above: `stalkSet J P` preserves pushouts, and a pushout-preserving functor
-carries the codiagonal of an iso to an iso. -/
+Codiagonal-of-iso facts of the kind used in the source's proof of Stacks 00YM:
+`stalkSet J P` preserves pushouts, and a pushout-preserving functor carries the codiagonal of
+an iso to an iso. -/
 
 /-- The category `Sheaf J (Type u)` has pushouts. -/
 instance hasPushouts_sheaf_type {C : Type u} [SmallCategory C]

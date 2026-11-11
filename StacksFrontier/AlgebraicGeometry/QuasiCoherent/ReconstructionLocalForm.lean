@@ -59,22 +59,6 @@ equivalence.  Let `U ⊆ X` be an affine open and let `G` be a finitely presente
 are an equivalence `F_U : QCoh(𝒪_U) ≌ QCoh(𝒪_V)` compatible with `e` and the two restrictions, an
 isomorphism of schemes `f_U : V ≅ U` and an invertible sheaf `L_U` of `𝒪_V`-modules such that
 `F_U` is inverse image along `f_U` followed by `- ⊗_{𝒪_V} L_U`. -/
-@[stacks 0GPJ "steps 3 to 8 only: the statement LOCALIZED at one affine open `U ⊆ X`, with \
-the module `G` of step 2 given as a hypothesis.  This is the per-chart building block; the \
-statement over a whole cover is \
-`AlgebraicGeometry.exists_isOpenCover_schemeIso_invertibleSheaf_of_isAffineOpenCover`, where the \
-covering of `Y` is proved (`AlgebraicGeometry.isOpenCover_of_supportedCorrespondence`) and `G` is \
-produced rather than hypothesised, so nothing in this clause is left open by this file alone.  \
-Step 9's descent datum is available too: \
-`AlgebraicGeometry.restrictionSquareFunctor` makes `F_U` explicit with `rfl` \
-section formulas (the localization lift has no formula on sections, which is why it is rebuilt), \
-and `AlgebraicGeometry.ReconstructionGlue.glueData` is a complete `FunctorGlueData`, all five \
-fields, its covering hypothesis discharged by \
-`AlgebraicGeometry.exists_gluedQuasicoherentFunctor_restrictIso`.  What remains open for 0GPJ as \
-a whole is the gluing of the per-chart `f_U` and `L_U` into a single isomorphism `Y ≅ X` and a \
-single invertible `𝒪_Y`-module, which the source dismisses with \"We omit the details\".  As in \
-the affine case the comparison of functors is stated after forgetting quasi-coherence, between \
-functors into all `𝒪_V`-modules"]
 theorem exists_isAffineOpen_schemeIso_invertibleSheaf_of_isFinitePresentation (U : X.Opens)
     (hUaff : IsAffineOpen U)
     (G : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory)

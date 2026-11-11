@@ -317,8 +317,8 @@ affine objects: for a morphism `f : T ⟶ T'` of objects of `S_étale` whose und
 affine, the base-change comparison `Γ(T) ⊗_{Γ(T')} 𝒢(T') ⟶ 𝒢(T)` is bijective.
 
 This is a step of Stacks 03DX (2) at `τ = étale`, whose statement as an equivalence of categories
-is `AlgebraicGeometry.SmallEtale.isEquivalence_associatedModuleQcohOnSite'`. -/
-@[stacks 03DX "quasi-coherent implies cartesian between affine objects of the small étale site"]
+is `AlgebraicGeometry.SmallEtale.isEquivalence_associatedModuleQcohOnSite'`; being a step and not
+the clause, it carries no `stacks` attribute. -/
 theorem bijective_restrictionBaseChange_of_isQuasicoherentOnSite
     (G : SheafOfModules.{u} (structureSheaf B S hS)) (hG : G.IsQuasicoherentOnSite)
     {T T' : SmallEtale B S hS}

@@ -73,7 +73,11 @@ variable {C : Type u} [SmallCategory C] {D : Type u} [SmallCategory D] {E : Type
 functor `u : C ⥤ D` in the opposite direction which is continuous and whose induced functor on
 sheaves of sets `u_s = f⁻¹ : Sh(C) ⥤ Sh(D)` is exact, i.e. preserves both finite limits and
 finite colimits. Here `u_s` is `Functor.sheafPullback`, the left adjoint of the pushforward
-`u^s = f_* = Functor.sheafPushforwardContinuous`. -/
+`u^s = f_* = Functor.sheafPushforwardContinuous`.
+
+Continuity here is Mathlib's `Functor.IsContinuous` (restriction preserves sheaves), which is the
+conclusion of Stacks 00WW and is weaker than continuity in the sense of Stacks 00WV. The notion of
+Stacks 00X1 itself, built on Stacks continuity, is `Stacks.Sites.Site.IsMorphismOfSites`. -/
 @[sga "4 IV 4.9.1"]
 structure IsMorphismOfSites (u : C ⥤ D) (J : GrothendieckTopology C)
     (K : GrothendieckTopology D) : Prop where
@@ -88,9 +92,6 @@ structure IsMorphismOfSites (u : C ⥤ D) (J : GrothendieckTopology C)
     haveI := isContinuous
     PreservesFiniteColimits (u.sheafPullback (Type u) J K)
 
-attribute [stacks_fixed 00X1
-  "A morphism of sites is a continuous functor in the opposite direction whose induced
-  functor `u_s` on sheaves of sets is exact."] IsMorphismOfSites
 attribute [sga "4 IV 4.9" "morphism of sites def"] IsMorphismOfSites
 
 /-- For a continuous `u`, the induced functor `u_s` on sheaves of sets is right exact. -/

@@ -36,8 +36,11 @@ homotopic, so the two associated triangles are isomorphic in the homotopy catego
 
 * `DGModule.connectingMap_homotopic`: the connecting maps of two pairs of compatible
   splittings are homotopic.
-* `DGModule.associatedTriangle_iso_of_compatibleSplittings`: the triangles associated to two
-  pairs of compatible splittings are isomorphic in the homotopy category.
+* `DGModule.associatedTriangleIsoOfCompatibleSplittings`: the canonical isomorphism, given by
+  the identities, between the triangles associated to two pairs of compatible splittings.
+* `DGModule.exists_triangleHtpyIso_eq_id_of_compatibleSplittings`: the triangles associated to
+  two pairs of compatible splittings are isomorphic in the homotopy category via the identity
+  morphisms of `K`, `L` and `M` (Stacks Tag 09K6).
 
 ## Implementation notes
 
@@ -769,18 +772,17 @@ theorem Homotopic.of_eq {M N : DGModule A} {f g : Hom M N} (h : f = g) :
   exact ⟨{ H := { toFun := fun n => 0, map_smul := by intro i n a x; simp }
            rel := by intro n x; simp }⟩
 
-/-- The triangle associated to an admissible short exact sequence is, up to canonical
-isomorphism in the homotopy category `K(Mod_{(A,d)})`, independent of the choice of
-compatible splittings: for any two pairs of compatible splittings `(s, π)` and `(s', π')`,
-the identity morphisms on `K`, `L`, `M` form an isomorphism of the associated triangles
-`T : K → L → M → K[1]` and `T' : K → L → M → K[1]` in `K(Mod_{(A,d)})`. -/
-@[stacks 09K6]
-theorem associatedTriangle_iso_of_compatibleSplittings
+/-- The **canonical isomorphism** in the homotopy category `K(Mod_{(A,d)})` between the
+triangles `K → L → M → K[1]` associated to two pairs of compatible splittings `(s, π)` and
+`(s', π')` of an admissible short exact sequence: its vertex maps are the identities of `K`,
+`L` and `M`; the `mor₃`-square commutes up to homotopy because the connecting maps are
+homotopic (`connectingMap_homotopic`). -/
+def associatedTriangleIsoOfCompatibleSplittings
     {K L M : DGModule A} (E : AdmissibleSES K L M)
     (P P' : E.CompatibleSplittings) :
-    Nonempty (TriangleHtpyIso P.associatedTriangle P'.associatedTriangle) := by
-  refine ⟨{ u₁ := HtpyEquiv.id K, u₂ := HtpyEquiv.id L, u₃ := HtpyEquiv.id M,
-            comm₁ := ?_, comm₂ := ?_, comm₃ := ?_ }⟩
+    TriangleHtpyIso P.associatedTriangle P'.associatedTriangle := by
+  refine { u₁ := HtpyEquiv.id K, u₂ := HtpyEquiv.id L, u₃ := HtpyEquiv.id M,
+           comm₁ := ?_, comm₂ := ?_, comm₃ := ?_ }
   iterate 2
     apply Homotopic.of_eq
     apply Hom.ext; intro n
@@ -802,6 +804,31 @@ theorem associatedTriangle_iso_of_compatibleSplittings
         show P'.associatedTriangle.mor₃ = P'.connectingMap from rfl]
     rw [hL, hR]
     exact connectingMap_homotopic (E := E) (P := P) (P' := P')
+
+
+/-- The triangles associated to two pairs of compatible splittings of an admissible short
+exact sequence are isomorphic in the homotopy category `K(Mod_{(A,d)})`. The canonical
+isomorphism, given by the identity morphisms, is `associatedTriangleIsoOfCompatibleSplittings`
+(see `exists_triangleHtpyIso_eq_id_of_compatibleSplittings`). -/
+theorem associatedTriangle_iso_of_compatibleSplittings
+    {K L M : DGModule A} (E : AdmissibleSES K L M)
+    (P P' : E.CompatibleSplittings) :
+    Nonempty (TriangleHtpyIso P.associatedTriangle P'.associatedTriangle) :=
+  ⟨associatedTriangleIsoOfCompatibleSplittings (E := E) (P := P) (P' := P')⟩
+
+/-- The triangle `K → L → M → K[1]` associated to an admissible short exact sequence
+`0 → K → L → M → 0` of differential graded `A`-modules is, up to canonical isomorphism in
+`K(Mod_{(A,d)})`, independent of the choice of compatible splittings `(s, π)`: for any two
+pairs `(s, π)` and `(s', π')` there is an isomorphism of the associated triangles in
+`K(Mod_{(A,d)})` whose three vertex maps are the identities of `K`, `L` and `M` (the
+connecting maps `δ` and `δ'` being homotopic). -/
+@[stacks 09K6]
+theorem exists_triangleHtpyIso_eq_id_of_compatibleSplittings
+    {K L M : DGModule A} (E : AdmissibleSES K L M)
+    (P P' : E.CompatibleSplittings) :
+    ∃ e : TriangleHtpyIso P.associatedTriangle P'.associatedTriangle,
+      e.u₁ = HtpyEquiv.id K ∧ e.u₂ = HtpyEquiv.id L ∧ e.u₃ = HtpyEquiv.id M :=
+  ⟨associatedTriangleIsoOfCompatibleSplittings (E := E) (P := P) (P' := P'), rfl, rfl, rfl⟩
 
 end DGModule
 

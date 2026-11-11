@@ -9,10 +9,10 @@ public import StacksCore.Tactic.StacksAttribute
 /-!
 # Effective descent data and representability for sheaves of large sets
 
-Let `(C, J)` be a site with `C : Type u` and `Category.{v} C`, and let `S : C`. Stacks 02W5
-part (2) says that the canonical descent datum of a sheaf `G` on the slice site `C/S` relative
-to a covering `{f i : X i ⟶ S}` is effective exactly when `G` is representable. The form of that
-statement in
+Let `(C, J)` be a site with `C : Type u` and `Category.{v} C`, and let `S : C`. The abstract-site
+analogue of Stacks 02W5 part (2) says that the canonical descent datum of a sheaf `G` on the slice
+site `C/S` relative to a covering `{f i : X i ⟶ S}` is effective exactly when `G` is
+representable. The form of that statement in
 `CategoryTheory.GrothendieckTopology.effectiveDescentData_toDescentData_iff` is about sheaves of
 `Type v`-valued sets and the Yoneda embedding `(J.over S).yoneda`; it is restated here for sheaves
 of `Type (max u v)`-valued sets and the sheafified Yoneda embedding
@@ -34,9 +34,11 @@ sheafification and does not satisfy the hypothesis
 
 ## Main results
 
-* `CategoryTheory.GrothendieckTopology.effectiveDescentDataSheafified_toDescentData_iff` is
-  Stacks 02W5 part (2) for sheaves of `Type (max u v)`-valued sets: the canonical descent datum
-  of `G` is effective if and only if the underlying presheaf of `G` is representable.
+* `CategoryTheory.GrothendieckTopology.effectiveDescentDataSheafified_toDescentData_iff` is the
+  abstract-site analogue of Stacks 02W5 part (2) for sheaves of `Type (max u v)`-valued sets:
+  the canonical descent datum of `G` is effective if and only if the underlying presheaf of `G`
+  is representable. For descent data of schemes, Stacks 02W5 is proved in
+  `StacksFrontier.AlgebraicGeometry.Descent.DescentDataSheaves`.
 * `CategoryTheory.GrothendieckTopology.essImage_uliftYoneda_iff` and
   `CategoryTheory.Sheaf.essImage_sheafifiedYoneda_iff`: on a subcanonical site a sheaf of
   `Type (max u v)`-valued sets is a sheafified representable exactly when its underlying presheaf
@@ -139,12 +141,13 @@ def effectiveDescentDataSheafified [J.Subcanonical]
   (Sheaf.sheafifiedYoneda (J.over S) ⋙
     (J.pseudofunctorOver (Type max u v)).toDescentData f).essImage
 
-/-- **Stacks 02W5, part (2), for sheaves of large sets.** Let `(C, J)` be a subcanonical site
-with `C : Type u` and `Category.{v} C`, let `{f i : X i ⟶ S}` be a covering of an object `S`
-of `C`, and let `G` be a sheaf of `Type (max u v)`-valued sets on the slice site `C/S`. Then the
-canonical descent datum of `G` is effective — isomorphic to the descent datum of a sheafified
-representable — if and only if the underlying presheaf of `G` is representable. -/
-@[stacks 02W5 "part (2), for sheafified ULift Yoneda", sga "3 IV 4.6.8" "partial"]
+/-- **An abstract-site analogue of Stacks 02W5, part (2), for sheaves of large sets.** Let
+`(C, J)` be a subcanonical site with `C : Type u` and `Category.{v} C`, let `{f i : X i ⟶ S}` be
+a covering of an object `S` of `C`, and let `G` be a sheaf of `Type (max u v)`-valued sets on
+the slice site `C/S`. Then the canonical descent datum of `G` is effective — isomorphic to the
+descent datum of a sheafified representable — if and only if the underlying presheaf of `G` is
+representable. -/
+@[sga "3 IV 4.6.8" "partial"]
 theorem effectiveDescentDataSheafified_toDescentData_iff [J.Subcanonical]
     [HasWeakSheafify (J.over S) (Type max u v)] (hf : Sieve.ofArrows X f ∈ J S)
     (G : Sheaf (J.over S) (Type max u v)) :

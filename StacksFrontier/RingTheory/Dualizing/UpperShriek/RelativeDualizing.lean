@@ -37,9 +37,9 @@ statements also hold for flat `φ` with no further hypothesis.
   cohomologically bounded-above object with finite cohomology is pseudo-coherent.
 * `Dualizing.PolynomialPresentation.upperShriekFunctor_unit_derivedCategoryBBounded`: if `A` is a
   perfect `P`-module, then `ω_{A/R}` lies in `Dᵇ_Coh(A)`.
-* `Dualizing.upperShriekFunctor_unit_derivedCategoryBBounded_of_isPerfectRingMap`: for a perfect
+* `Dualizing.upperShriekFunctor_unit_derivedCategoryBBounded_of_perfect`: for a perfect
   `φ`, `ω_{A/R}` lies in `Dᵇ_Coh(A)`.
-* `Dualizing.upperShriekFunctor_unit_isPseudoCoherent_of_isPerfectRingMap`: for a perfect `φ`,
+* `Dualizing.upperShriekFunctor_unit_isPseudoCoherent_of_perfect`: for a perfect `φ`,
   `ω_{A/R}` is pseudo-coherent over `A`.
 * `Dualizing.upperShriekFunctor_unit_derivedCategoryBBounded_of_flat`: for a flat `φ`, `ω_{A/R}`
   lies in `Dᵇ_Coh(A)`.
@@ -142,66 +142,27 @@ theorem upperShriekFunctor_unit_derivedCategoryBBounded [IsNoetherianRing R] [Is
 end PolynomialPresentation
 
 /-- Let `φ : R →+* A` be a perfect homomorphism of finite type of Noetherian rings. Then the
-relative dualizing complex `ω_{A/R} = φ^!(R)` lies in `Dᵇ_Coh(A)`.
-
-Perfectness of `φ` is `RingHom.IsPerfectRingMap`, stated with a derived tensor product taken as
-input: the bifunctor `derivedTensor`, its comparison `comparison` with termwise tensoring, and
-the certificate `isLeftDerived` that each `- ⊗ᴸ N[0]` is a total left derived functor. -/
+relative dualizing complex `ω_{A/R} = φ^!(R)` lies in `Dᵇ_Coh(A)`. -/
 @[stacks 0BZW "(1)(a)", sga "5 III 6.2" "partial"]
-theorem upperShriekFunctor_unit_derivedCategoryBBounded_of_isPerfectRingMap
-    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f)
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : letI : Algebra R A := f.toAlgebra
-      RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived) :
+theorem upperShriekFunctor_unit_derivedCategoryBBounded_of_perfect
+    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f) (hf : f.Perfect) :
     DerivedCategoryB.derivedCategoryBBounded
       (fun N : ModuleCat.{max v u} A ↦ Module.Finite A N)
       (p.upperShriekFunctor.{u, v}.obj
         ((DerivedCategory.singleFunctor (ModuleCat.{max v u} R) 0).obj
           (ModuleCat.of R (ULift.{v} R)))) :=
-  upperShriekFunctor_derivedCategoryBBounded_of_isPerfectRingMap.{u, v} p derivedTensor
-    comparison isLeftDerived hf
+  upperShriekFunctor_derivedCategoryBBounded_of_perfect.{u, v} p hf
     derivedCategoryBBounded_singleFunctor_obj_ulift.{u, v}
 
 /-- The relative dualizing complex `ω_{A/R} = φ^!(R)` of a perfect homomorphism of finite type of
-Noetherian rings is pseudo-coherent over `A`. Perfectness of `φ` is taken with respect to the
-given derived tensor product `derivedTensor`, `comparison`, `isLeftDerived`. -/
-theorem upperShriekFunctor_unit_isPseudoCoherent_of_isPerfectRingMap
-    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f)
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : letI : Algebra R A := f.toAlgebra
-      RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived) :
+Noetherian rings is pseudo-coherent over `A`. -/
+theorem upperShriekFunctor_unit_isPseudoCoherent_of_perfect
+    [IsNoetherianRing R] [IsNoetherianRing A] (p : PolynomialPresentation f) (hf : f.Perfect) :
     StacksDraft.PseudoCoherence.IsPseudoCoherent
       (p.upperShriekFunctor.{u, v}.obj
         ((DerivedCategory.singleFunctor (ModuleCat.{max v u} R) 0).obj
           (ModuleCat.of R (ULift.{v} R)))) :=
-  have h := upperShriekFunctor_unit_derivedCategoryBBounded_of_isPerfectRingMap.{u, v} p
-    derivedTensor comparison isLeftDerived hf
+  have h := upperShriekFunctor_unit_derivedCategoryBBounded_of_perfect.{u, v} p hf
   isPseudoCoherent_of_derivedCategoryBMinus.{u, v} ⟨h.1.2, h.2⟩
 
 /-- For a flat homomorphism `φ : R →+* A` of finite type of Noetherian rings, the relative
@@ -218,11 +179,8 @@ theorem upperShriekFunctor_unit_derivedCategoryBBounded_of_flat
   let : Algebra.FiniteType R A := RingHom.finiteType_algebraMap.mp p.finiteType
   let : Algebra.FinitePresentation R A :=
     Algebra.FinitePresentation.of_finiteType.mp inferInstance
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring R
-  exact upperShriekFunctor_unit_derivedCategoryBBounded_of_isPerfectRingMap.{u, v} p
-    D.tensor D.comparison D.isLeftDerived
-    ((RingHom.isPerfectRingMap_of_flat_of_finitePresentation R A).2 D.tensor D.comparison
-      D.isLeftDerived)
+  exact upperShriekFunctor_unit_derivedCategoryBBounded_of_perfect.{u, v} p
+    (RingHom.perfect_algebraMap.mpr (Algebra.Perfect.of_flat_of_finitePresentation R A))
 
 /-- The relative dualizing complex `ω_{A/R} = φ^!(R)` of a flat homomorphism of finite type of
 Noetherian rings is pseudo-coherent over `A`. -/

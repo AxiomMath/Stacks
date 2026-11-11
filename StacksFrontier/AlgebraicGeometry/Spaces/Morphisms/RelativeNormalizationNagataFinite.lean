@@ -280,7 +280,8 @@ end Dominance
 /-- Let `f : Y ⟶ X` be a quasi-separated morphism of finite type of algebraic spaces over `S` with
 `X` Nagata and `Y` reduced. Then the normalization `ν : X' ⟶ X` of `X` in `Y`, any factorization
 `Y ⟶ X' ⟶ X` of `f` satisfying `AlgebraicGeometry.Space.IsRelativeNormalization`, is finite. -/
-@[stacks 0BB0]
+@[stacks 0BB0 "for f : Y ⟶ X quasi-separated of finite type, X Nagata and Y reduced, every \
+normalization of X in Y in the sense of Stacks 0823 is finite over X"]
 theorem IsRelativeNormalization.isFinite_of_isNagata_of_isReduced
     (hnorm : IsRelativeNormalization B S hS f ν f')
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)

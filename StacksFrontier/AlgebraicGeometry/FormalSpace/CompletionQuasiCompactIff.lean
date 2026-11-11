@@ -25,8 +25,9 @@ under the completion functor of Stacks 0AR5 the morphism `g` corresponding to `f
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.isQuasiCompact_completionSheafMap_of_isQuasiCompact`: if `f` is
-  quasi-compact then `f_{/T}` is quasi-compact in the sense of Stacks 0AJC, for an arbitrary
+* `AlgebraicGeometry.FormalSpace.isQuasiCompact_completionSheafMap_of_isQuasiCompact`:
+  **Stacks 0GDE**, if `f` is quasi-compact then `f_{/T}` is quasi-compact in the sense of
+  Stacks 0AJC, for an arbitrary
   morphism of algebraic spaces and an arbitrary set of points.
 * `AlgebraicGeometry.FormalSpace.isQuasiCompact_of_isQuasiCompact_completionSheafMap`: the
   converse, for a morphism which is an isomorphism over `U` and a locally Noetherian `X`.
@@ -171,7 +172,12 @@ algebraic spaces over `S` and let `T` be a set of points of `X`. Then the comple
 `f_{/T} : X'_{/T'} ⟶ X_{/T}` is quasi-compact in the sense of Stacks 0AJC: every fibre product
 of it with an affine scheme of the site is a quasi-compact formal algebraic space. Such a fibre
 product is the universe lift of the fibre product `T₀ ×_X X'`, which is a quasi-compact algebraic
-space because `f` is quasi-compact. -/
+space because `f` is quasi-compact. The source fixes a closed subset `T`, which is what makes
+the two completions formal algebraic spaces; the conclusion holds for every set of points. -/
+@[stacks 0GDE "quasi-compactness of `f_{/T}` in the sense of Stacks 0AJC, in the form of \
+condition (3) of Stacks 0AJB: every fibre product of `f_{/T}` with an affine scheme of the site \
+mapping to `X_{/T}` is a quasi-compact formal algebraic space; stated for an arbitrary set `T` \
+of points of `X`, closed in the source"]
 theorem isQuasiCompact_completionSheafMap_of_isQuasiCompact
     {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX' : IsAlgebraicSpace B S hS X') (hX : IsAlgebraicSpace B S hS X)

@@ -289,8 +289,8 @@ theorem cotangentComplex_d_negOne_zero_apply (m : (𝕂).X (-1)) :
 
 omit P in
 /-- The differential of the lifted cotangent complex out of degree `0` vanishes. -/
-theorem cotangentComplexULift_d_zero_one (x : (cotangentComplexULift.{u, v, w} A B).X 0) :
-    (cotangentComplexULift.{u, v, w} A B).d 0 1 x = 0 :=
+theorem cotangentComplexULift_d_zero_one (x : (uliftCotangentComplex.{u, v, w} A B).X 0) :
+    (uliftCotangentComplex.{u, v, w} A B).d 0 1 x = 0 :=
   ULift.ext (((ModuleCat.isZero_iff_subsingleton).1
     (CommAlgCat.cotangentComplex_isZero_pos A (CommAlgCat.of A B) 1 (by decide))).elim _ _)
 

@@ -184,7 +184,8 @@ A finite morphism is affine, hence representable
 (`AlgebraicGeometry.Space.relativelyRepresentable_of_isAffineHom`), and proper by Stacks 04NZ
 (`AlgebraicGeometry.Space.isFinite_iff_isAffineHom_and_isProper`), so this is
 `AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isProper`.  The vanishing assertion of
-Stacks 07UH is `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isFinite`. -/
+Stacks 07UH is
+`AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isFinite_of_isCoherent`. -/
 @[stacks 07UH "coherence of the direct image"]
 theorem isCoherent_modulePushforward_of_isFinite' (f : X ⟶ Y) (hf : IsFinite B S hS f.hom)
     (hY : HasEtaleLocalProperty B S hS Y.1 (fun T : Scheme.{u} ↦ IsLocallyNoetherian T))

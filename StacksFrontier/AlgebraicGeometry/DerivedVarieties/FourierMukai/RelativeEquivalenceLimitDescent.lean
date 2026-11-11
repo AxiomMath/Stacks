@@ -739,8 +739,12 @@ convolution kernel commute with base change ([Stacks, Tag 08IB], [Stacks, Tag 0C
 [Stacks, Tag 0G0I] descend to a later stage by [Stacks, Tag 09RF] again
 (`AlgebraicGeometry.perfectIsoDescendsAlongBaseChangedTower`).
 
-The source writes `X_i = S_i ×_{S_0} X_0`; the base change is taken here on the other side,
-which differs by the symmetry of the fibre product. -/
+The source's hypotheses on the system, that it is directed with affine transitions and
+quasi-compact and quasi-separated stages, are the fields of `D : DescentSituation I`
+([Stacks, Tag 09RD]), whose chosen index `D.base` is the source's `0`; smoothness and properness
+of `X_0 ⟶ S_0` and `Y_0 ⟶ S_0` are instance arguments. The index type `I` lives in the universe
+of the schemes. The source writes `X_i = S_i ×_{S_0} X_0`; the base change is taken here on the
+other side, which differs by the symmetry of the fibre product. -/
 @[stacks 0G0L]
 theorem exists_isRelativeEquivalenceKernel_of_limit {I : Type u} [Preorder I]
     [IsDirected I (· ≤ ·)] (D : DescentSituation.{u, u} I)

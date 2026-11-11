@@ -71,7 +71,7 @@ spelling. Everything else is written in one of those spellings throughout.
 
 open CategoryTheory CategoryTheory.Limits Opposite
 
-universe u
+universe u w
 
 namespace AlgebraicGeometry.SmallEtale
 
@@ -264,7 +264,7 @@ end BaseChange
 section Comparison
 
 variable (F : Sheaf (SmallEtale.topology B U.obj.left.1 U.obj.left.property)
-  AddCommGrpCat.{u + 1})
+  AddCommGrpCat.{max (u + 1) w})
 
 /-! The finite-support direct image is characterised rather than constructed, so the colimit
 `colim_Z H_Z(F)` and its value over an étale test object are two spellings of one group, and
@@ -303,7 +303,7 @@ public def graphSectionToFiniteSupport
 /-- The graph generators are natural in the abelian sheaf. -/
 public theorem graphSectionToFiniteSupport_naturality
     {F G : Sheaf (SmallEtale.topology B U.obj.left.1 U.obj.left.property)
-      AddCommGrpCat.{u + 1}} (φ : F ⟶ G)
+      AddCommGrpCat.{max (u + 1) w}} (φ : F ⟶ G)
     (W : SmallEtale B U.obj.left.1 U.obj.left.property) :
     graphSectionToFiniteSupport B X hX U F W ≫
         colim.map (finiteSupportDiagramMap B U.obj.hom φ
@@ -391,16 +391,23 @@ public theorem graphSectionToFiniteSupport_restrict
       (etaleGraphFiniteSupport B X hX U W)).support_eq.trans
         (etaleGraphFiniteSupport_baseChange B X hX U g).symm))
 
+end Comparison
+
+section Preunit
+
+variable (F : Sheaf (SmallEtale.topology B U.obj.left.1 U.obj.left.property)
+  AddCommGrpCat.{u + 1})
+
 /-- The graph generators, assembled into a morphism from `F` to the restriction along `U ⟶ X`
 of the finite-support direct image of `F`. This is the datum the universal property of the
 left Kan extension turns into the comparison map. -/
 public def graphSectionPreunit :
     F.obj ⟶ (smallEtalePostcompose B X hX U).op ⋙
       (etaleFiniteSupportPresheaf B X hX U).obj F where
-  app W := graphSectionToFiniteSupport B X hX U F W.unop
-  naturality _ _ g := (graphSectionToFiniteSupport_restrict B X hX U F g.unop).symm
+  app W := graphSectionToFiniteSupport.{u, u} B X hX U F W.unop
+  naturality _ _ g := (graphSectionToFiniteSupport_restrict.{u, u} B X hX U F g.unop).symm
 
-end Comparison
+end Preunit
 
 /-! ### Stacks 0F6Q: the canonical map and its value on generators -/
 
@@ -420,7 +427,7 @@ public def etaleExtensionToFiniteSupport :
           (smallEtalePostcompose B X hX U).op
           ((etaleFiniteSupportPresheaf B X hX U).map φ) := by
       refine NatTrans.ext (funext fun W => ?_)
-      exact (graphSectionToFiniteSupport_naturality B X hX U φ W.unop).symm
+      exact (graphSectionToFiniteSupport_naturality.{u, u} B X hX U φ W.unop).symm
     have hc := ((smallEtalePostcompose B X hX U).op.lanAdjunction
       AddCommGrpCat.{u + 1}).counit.naturality
         ((etaleFiniteSupportPresheaf B X hX U).map φ)

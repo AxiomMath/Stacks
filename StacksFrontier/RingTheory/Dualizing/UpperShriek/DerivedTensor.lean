@@ -49,9 +49,9 @@ over `P` with `RHom_P(A, P)`, the iterated change of rings of Tag 08YU cancels t
 `- ⊗_R^L P`, and the remaining shift is moved into the tensor factor by the universal property of
 the left derived functor, after which the factor is evaluated at `R` by the unitors of the tensor
 product of complexes.  Perfectness of `φ` enters only through the hypothesis of Tag 0BZE, namely
-that `A` is a perfect `P`-module, which is Tag 068Y; that reduction is
-`Dualizing.PolynomialPresentation.isPerfectModule_poly_of_isPerfectRingMap`, and the second
-statement below takes perfectness of `φ` in that form.
+that `A` is a perfect `P`-module, which is Tag 068Y at the presentation
+(`Algebra.Perfect.exists_finite_projective_resolution`, read through Tag 066Q); the second
+statement below takes perfectness of `φ` itself, `RingHom.Perfect`, as its hypothesis.
 
 Tag 0BZE enters at the module universe `max v u` of these statements, independent of the ring
 universe `u`, and that is the generality in which
@@ -512,34 +512,18 @@ public theorem upperShriekFunctor_iso_derivedTensorProduct
 /-- **Stacks 0BZU.** Let `φ : R → A` be a perfect ring homomorphism and let `p` be
 a polynomial presentation of `φ`.  Then the algebraic upper shriek functor of `p` is derived
 tensor product over `R` with the single object `φ^!(R)` of `D(A)`: `φ^!(K) = K ⊗_R^L φ^!(R)`,
-naturally in `K` in `D(R)`.  A flat homomorphism of finite type is perfect, so the hypothesis is
-not vacuous.
+naturally in `K` in `D(R)`.  A flat homomorphism of finite presentation is perfect (Tag 067J,
+`Algebra.Perfect.of_flat_of_finitePresentation`), so the hypothesis is not vacuous.
 
-Perfectness is taken in the form of `RingHom.IsPerfectRingMap`, which is relative to a certified
-model of the derived tensor product on `D(R)`; by Tag 068Y it gives perfectness of `A` as a module
-over the polynomial algebra of `p`, which is the hypothesis of Tag 0BZE.  That is the only thing
-`Dualizing.PolynomialPresentation.upperShriekFunctor_iso_derivedTensorProduct` asks for, so this
-is exactly that statement with its perfectness rewritten. -/
-@[stacks 0BZU "for a perfect homomorphism of Noetherian rings, at an arbitrary polynomial \
-presentation and an arbitrary module universe"]
-public theorem upperShriekFunctor_iso_derivedTensorProduct_of_isPerfectRingMap
-    (p : PolynomialPresentation f)
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : letI : Algebra R A := f.toAlgebra
-      RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived) :
+Perfectness of `φ` is `RingHom.Perfect`.  By Tag 068Y at `p`
+(`Algebra.Perfect.exists_finite_projective_resolution`) and Tag 066Q it gives perfectness of `A`
+as a module over the polynomial algebra of `p`, which is the hypothesis of Tag 0BZE.  That is the
+only thing `Dualizing.PolynomialPresentation.upperShriekFunctor_iso_derivedTensorProduct` asks
+for, so this is exactly that statement with its perfectness rewritten. -/
+@[stacks 0BZU "for a perfect homomorphism, at an arbitrary polynomial presentation and an \
+arbitrary module universe"]
+public theorem upperShriekFunctor_iso_derivedTensorProduct_of_perfect
+    (p : PolynomialPresentation f) (hf : f.Perfect) :
     letI : MonoidalCategoryStruct (ModuleCat.{max v u} R) :=
       ModuleCat.liftedModuleMonoidalStruct.{u, max v u}
     letI : MonoidalCategory (ModuleCat.{max v u} R) :=
@@ -548,12 +532,12 @@ public theorem upperShriekFunctor_iso_derivedTensorProduct_of_isPerfectRingMap
       (MonoidalCategoryStruct.tensorUnit (ModuleCat.{max v u} R))
     Nonempty (p.upperShriekFunctor.{u, v} ≅
       derivedTensorProductOver.{u, v} f (p.upperShriekFunctor.{u, v}.obj R₀)) :=
-  p.upperShriekFunctor_iso_derivedTensorProduct.{u, v}
-    (by
-      let : Algebra R A := f.toAlgebra
-      exact RingHom.isPerfectModule_of_isPerfectRingMap derivedTensor comparison isLeftDerived
-        hf p.variableCount (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes)
-        p.surjective)
+  p.upperShriekFunctor_iso_derivedTensorProduct.{u, v} (by
+    algebraize [f]
+    let : Module p.Poly A := Module.compHom A p.toRingHom
+    exact (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (Algebra.Perfect.exists_finite_projective_resolution
+        (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective))
 
 /-! ### The tensor formula with the isomorphism built
 

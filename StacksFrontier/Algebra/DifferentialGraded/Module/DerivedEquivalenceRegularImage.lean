@@ -42,11 +42,13 @@ equivalence commuting with the translation. The statements below assume only tha
 more general than the source's. The `R`-linear equivalence of Tag 09S7 satisfies them, its
 `R`-linearity being `DifferentialGraded.Bimodule.derivedTensorEquivalence_linear`.
 
-*What is not formalized here.* The remainder of the source's remark is the observation that a
-left `A`-module structure on `N`, compatible with the differential and commuting with the right
-`B`-action, is the one ingredient still missing before Tag 09S7 applies, together with the claim
-that it exists when `F` lifts to a functor of differential graded categories. Those are not
-proved here, so `N` is not produced as a differential graded `(A, B)`-bimodule.
+*The rest of the remark.* The remark goes on to say that a left `A`-module structure on `N`, or
+on a differential graded `B`-module quasi-isomorphic to it, is what is needed for Tag 09S7 to
+apply, and that such a structure exists when `F` lifts to a functor of differential graded
+categories. Both are proved in
+`StacksFrontier.Algebra.DifferentialGraded.Module.DerivedEquivalenceDGLift`:
+`DifferentialGraded.Bimodule.isEquivalence_derivedTensorFunctor_of_iso_obj_q_regularModule` and
+`DifferentialGraded.Bimodule.isEquivalence_derivedTensorFunctor_ofDGLift`.
 
 *The shape of the cohomology statement.* `DifferentialGradedAlgebra.Cohomology` carries no
 additive or multiplicative structure in this development, so the identification

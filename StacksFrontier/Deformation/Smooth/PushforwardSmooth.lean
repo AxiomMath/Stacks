@@ -9,9 +9,9 @@ import StacksCore.Tactic.EgaSgaAttribute
 # Smoothness as essential surjectivity of the induced functor to the 2-fibre product
 
 A morphism `φ : 𝓕 ⟶ 𝓖` of categories cofibered in groupoids over `𝒞_Λ` is smooth exactly when,
-for every surjection `B → A` of the base and every choice of pushforwards along it, the functor
-`𝓕(B) ⟶ 𝓕(A) ×_{𝓖(A)} 𝓖(B)` determined by those choices is essentially surjective.  By Tag
-06HH it suffices to test this on small extensions.
+for every surjection `B → A` of the base, the functor `𝓕(B) ⟶ 𝓕(A) ×_{𝓖(A)} 𝓖(B)` determined
+by a choice of pushforwards along it is essentially surjective; the choice may be fixed once and
+for all, or quantified over.  By Tag 06HH it suffices to test this on small extensions.
 
 ## Main results
 
@@ -20,12 +20,16 @@ for every surjection `B → A` of the base and every choice of pushforwards alon
   arrows out of the codomain of a strongly cocartesian arrow.
 * `Deformation.essSurj_inducedFunctorToPullback_of_isSmooth`: smoothness gives essential
   surjectivity of the induced functor.
-* `Deformation.exists_lift_of_inducedFunctorToPullback_essSurj`: essential surjectivity of the
-  induced functor over one arrow of the base solves every lifting problem over that arrow.
-* `Deformation.isSmooth_iff_inducedFunctorToPullback_essSurj`: the equivalence, tested on
-  surjections.
-* `Deformation.isSmooth_iff_inducedFunctorToPullback_essSurj_smallExtension`: the equivalence,
-  tested on small extensions.
+* `Deformation.exists_lift_of_inducedFunctorToPullback_essSurj_of_choice`: essential
+  surjectivity of the induced functor for one choice of pushforwards over one arrow of the base
+  solves every lifting problem over that arrow.
+* `Deformation.isSmooth_iff_inducedFunctorToPullback_essSurj_of_choices`: Tag 06HI for a fixed
+  choice of pushforwards, tested on surjections.
+* `Deformation.isSmooth_iff_inducedFunctorToPullback_essSurj_smallExtension_of_choices`: Tag 06HI
+  for a fixed choice of pushforwards, tested on small extensions.
+* `Deformation.isSmooth_iff_inducedFunctorToPullback_essSurj` and
+  `Deformation.isSmooth_iff_inducedFunctorToPullback_essSurj_smallExtension`: the same
+  equivalences with the choices quantified over.
 
 ## Implementation notes
 
@@ -150,23 +154,22 @@ public lemma essSurj_inducedFunctorToPullback_of_isSmooth
     ((fiberFunctorOver φ.toFunctor φ.w A).obj (PF.obj xx))
     (S.target.toFunctor.obj z.snd) (φ.map (PF.inclusion xx)) hκ _ _ (hL.trans hR.symm)
 
-/-- **Stacks Project, Tag 06HI.** If the functor to the 2-fibre product determined by some
-choice of pushforwards along an arrow `f` of the base is essentially surjective, then every
-lifting problem over `f` has a compatible solution. -/
-@[stacks 06HI "smooth_iff_essSurj", sga "7 VI 2.6(b)" "The 'if' direction"]
-public lemma exists_lift_of_inducedFunctorToPullback_essSurj
-    (h𝓕 : IsCofiberedInGroupoids 𝓕.p) (h𝓖 : IsCofiberedInGroupoids 𝓖.p)
+/-- **Stacks Project, Tag 06HI.** If the functor to the 2-fibre product determined by one
+fixed choice `PF`, `PG` of pushforwards along an arrow `f` of the base is essentially
+surjective, then every lifting problem over `f` has a compatible solution. -/
+@[stacks 06HI "smooth_iff_essSurj: the 'if' direction, fixed choice of pushforwards",
+  sga "7 VI 2.6(b)" "The 'if' direction"]
+public lemma exists_lift_of_inducedFunctorToPullback_essSurj_of_choice
+    (h𝓖 : IsCofiberedInGroupoids 𝓖.p)
     (φ : BasedFunctor 𝓕 𝓖)
     {B A : ArtinianLocalAlgCat.{u, v, w} Λ k} (f : B ⟶ A)
-    (hes : ∀ (PF : PushforwardChoice 𝓕.p f) (PG : PushforwardChoice 𝓖.p f),
-      (inducedFunctorToPullback
+    (PF : PushforwardChoice 𝓕.p f) (PG : PushforwardChoice 𝓖.p f)
+    (hes : (inducedFunctorToPullback
         (pushforwardSquareOfChoices 𝓕.p 𝓖.p h𝓖 φ.toFunctor φ.w PF PG)).EssSurj)
     (y : 𝓖.obj) (x : 𝓕.obj) (g : y ⟶ φ.obj x) (hg : 𝓖.p.IsHomLift f g) :
     ∃ (x' : 𝓕.obj) (lift : x' ⟶ x) (a : φ.obj x' ⟶ y),
       𝓕.p.IsHomLift f lift ∧ 𝓖.p.IsHomLift (𝟙 B) a ∧ φ.map lift = a ≫ g := by
   classical
-  let PF := pushforwardChoiceOfIsCofibered h𝓕 f
-  let PG := pushforwardChoiceOfIsCofibered h𝓖 f
   set S := pushforwardSquareOfChoices 𝓕.p 𝓖.p h𝓖 φ.toFunctor φ.w PF PG
   have hx : 𝓕.p.obj x = A :=
     (BasedFunctor.w_obj φ x).symm.trans (IsHomLift.codomain_eq 𝓖.p f g)
@@ -182,7 +185,7 @@ public lemma exists_lift_of_inducedFunctorToPullback_essSurj
     cocartesianComparison_hom_fac 𝓖.p f b
       ((fiberFunctorOver φ.toFunctor φ.w A).obj a) (PG.obj b)
       g (PG.inclusion b) hgc (PG.cocartesian b)
-  obtain ⟨xx, ⟨e⟩⟩ := (hes PF PG).mem_essImage ⟨a, b, i⟩
+  obtain ⟨xx, ⟨e⟩⟩ := hes.mem_essImage ⟨a, b, i⟩
   have hcomm : φ.map (PF.inclusion xx) ≫ (S.comm.app xx).hom.1 =
       PG.inclusion ((fiberFunctorOver φ.toFunctor φ.w B).obj xx) :=
     pushforwardComparison_hom_fac 𝓕.p 𝓖.p h𝓖 φ.toFunctor φ.w PF PG xx
@@ -202,11 +205,74 @@ public lemma exists_lift_of_inducedFunctorToPullback_essSurj
     have : IsIso i.hom.1 := (Functor.Fiber.fiberInclusion.mapIso i).isIso_hom
     exact (cancel_mono i.hom.1).mp (hLHS.trans hRHS.symm)
 
-/-- **Stacks Project, Tag 06HI.** A morphism of categories cofibered in groupoids over `𝒞_Λ`
-is smooth if and only if, for every surjection `B → A` of the base and every choice of
-pushforwards along it, the functor `𝓕(B) ⟶ 𝓕(A) ×_{𝓖(A)} 𝓖(B)` determined by those choices is
-essentially surjective. -/
-@[stacks 06HI "smooth_iff_essSurj"]
+/-- If the functor to the 2-fibre product determined by every choice of pushforwards along an
+arrow `f` of the base is essentially surjective, then every lifting problem over `f` has a
+compatible solution.  This is the special case of
+`Deformation.exists_lift_of_inducedFunctorToPullback_essSurj_of_choice` for the choices given by
+`Deformation.pushforwardChoiceOfIsCofibered`. -/
+public lemma exists_lift_of_inducedFunctorToPullback_essSurj
+    (h𝓕 : IsCofiberedInGroupoids 𝓕.p) (h𝓖 : IsCofiberedInGroupoids 𝓖.p)
+    (φ : BasedFunctor 𝓕 𝓖)
+    {B A : ArtinianLocalAlgCat.{u, v, w} Λ k} (f : B ⟶ A)
+    (hes : ∀ (PF : PushforwardChoice 𝓕.p f) (PG : PushforwardChoice 𝓖.p f),
+      (inducedFunctorToPullback
+        (pushforwardSquareOfChoices 𝓕.p 𝓖.p h𝓖 φ.toFunctor φ.w PF PG)).EssSurj)
+    (y : 𝓖.obj) (x : 𝓕.obj) (g : y ⟶ φ.obj x) (hg : 𝓖.p.IsHomLift f g) :
+    ∃ (x' : 𝓕.obj) (lift : x' ⟶ x) (a : φ.obj x' ⟶ y),
+      𝓕.p.IsHomLift f lift ∧ 𝓖.p.IsHomLift (𝟙 B) a ∧ φ.map lift = a ≫ g :=
+  exists_lift_of_inducedFunctorToPullback_essSurj_of_choice h𝓖 φ f
+    (pushforwardChoiceOfIsCofibered h𝓕 f) (pushforwardChoiceOfIsCofibered h𝓖 f) (hes _ _)
+    y x g hg
+
+/-- **Stacks Project, Tag 06HI.** Fix, for every arrow `f : B ⟶ A` of the base, choices
+`PF f`, `PG f` of pushforwards along `f` in `𝓕` and in `𝓖`.  A morphism `φ` of categories
+cofibered in groupoids over `𝒞_Λ` is smooth if and only if, for every surjection `B → A`, the
+functor `𝓕(B) ⟶ 𝓕(A) ×_{𝓖(A)} 𝓖(B)` determined by the fixed choices is essentially
+surjective. -/
+@[stacks 06HI "smooth_iff_essSurj: fixed choice of pushforwards, on surjections"]
+public theorem isSmooth_iff_inducedFunctorToPullback_essSurj_of_choices
+    (h𝓕 : IsCofiberedInGroupoids 𝓕.p) (h𝓖 : IsCofiberedInGroupoids 𝓖.p)
+    (φ : BasedFunctor 𝓕 𝓖)
+    (PF : ∀ ⦃B A : ArtinianLocalAlgCat.{u, v, w} Λ k⦄ (f : B ⟶ A), PushforwardChoice 𝓕.p f)
+    (PG : ∀ ⦃B A : ArtinianLocalAlgCat.{u, v, w} Λ k⦄ (f : B ⟶ A), PushforwardChoice 𝓖.p f) :
+    IsSmooth φ ↔
+      ∀ ⦃B A : ArtinianLocalAlgCat.{u, v, w} Λ k⦄ (f : B ⟶ A),
+        Function.Surjective f.hom →
+          (inducedFunctorToPullback
+            (pushforwardSquareOfChoices 𝓕.p 𝓖.p h𝓖 φ.toFunctor φ.w (PF f) (PG f))).EssSurj where
+  mp hsm _ _ f hf :=
+    essSurj_inducedFunctorToPullback_of_isSmooth h𝓕 h𝓖 φ hsm f hf (PF f) (PG f)
+  mpr hes _ _ f hf y x g hg :=
+    exists_lift_of_inducedFunctorToPullback_essSurj_of_choice h𝓖 φ f (PF f) (PG f)
+      (hes f hf) y x g hg
+
+/-- **Stacks Project, Tag 06HI.** Fix, for every arrow `f : B ⟶ A` of the base, choices
+`PF f`, `PG f` of pushforwards along `f` in `𝓕` and in `𝓖`.  A morphism `φ` of categories
+cofibered in groupoids over `𝒞_Λ` is smooth if and only if, for every small extension
+`B → A`, the functor `𝓕(B) ⟶ 𝓕(A) ×_{𝓖(A)} 𝓖(B)` determined by the fixed choices is
+essentially surjective.  The reverse direction goes through Tag 06HH. -/
+@[stacks 06HI "smooth_iff_essSurj: fixed choice of pushforwards, on small extensions"]
+public theorem isSmooth_iff_inducedFunctorToPullback_essSurj_smallExtension_of_choices
+    (h𝓕 : IsCofiberedInGroupoids 𝓕.p) (h𝓖 : IsCofiberedInGroupoids 𝓖.p)
+    (φ : BasedFunctor 𝓕 𝓖)
+    (PF : ∀ ⦃B A : ArtinianLocalAlgCat.{u, v, w} Λ k⦄ (f : B ⟶ A), PushforwardChoice 𝓕.p f)
+    (PG : ∀ ⦃B A : ArtinianLocalAlgCat.{u, v, w} Λ k⦄ (f : B ⟶ A), PushforwardChoice 𝓖.p f) :
+    IsSmooth φ ↔
+      ∀ ⦃B A : ArtinianLocalAlgCat.{u, v, w} Λ k⦄ (f : B ⟶ A),
+        IsSmallExtension (CommRingCat.ofHom f.hom.toRingHom) →
+          (inducedFunctorToPullback
+            (pushforwardSquareOfChoices 𝓕.p 𝓖.p h𝓖 φ.toFunctor φ.w (PF f) (PG f))).EssSurj where
+  mp hsm _ _ f hf :=
+    essSurj_inducedFunctorToPullback_of_isSmooth h𝓕 h𝓖 φ hsm f hf.2.2.2.2.1 (PF f) (PG f)
+  mpr hes :=
+    isSmooth_of_lifts_smallExtensions h𝓕 h𝓖 φ fun _ _ f hf y x g hg =>
+      exists_lift_of_inducedFunctorToPullback_essSurj_of_choice h𝓖 φ f (PF f) (PG f)
+        (hes f hf) y x g hg
+
+/-- A morphism of categories cofibered in groupoids over `𝒞_Λ` is smooth if and only if, for
+every surjection `B → A` of the base and every choice of pushforwards along it, the functor
+`𝓕(B) ⟶ 𝓕(A) ×_{𝓖(A)} 𝓖(B)` determined by those choices is essentially surjective.  Tag 06HI
+for a fixed choice is `Deformation.isSmooth_iff_inducedFunctorToPullback_essSurj_of_choices`. -/
 public theorem isSmooth_iff_inducedFunctorToPullback_essSurj
     (h𝓕 : IsCofiberedInGroupoids 𝓕.p) (h𝓖 : IsCofiberedInGroupoids 𝓖.p)
     (φ : BasedFunctor 𝓕 𝓖) :
@@ -221,9 +287,10 @@ public theorem isSmooth_iff_inducedFunctorToPullback_essSurj
   mpr hes _ _ f hf y x g hg :=
     exists_lift_of_inducedFunctorToPullback_essSurj h𝓕 h𝓖 φ f (hes f hf) y x g hg
 
-/-- **Stacks Project, Tag 06HI.** The same equivalence, tested only on small extensions: by
-Tag 06HH the lifting property for small extensions already implies smoothness. -/
-@[stacks 06HI "smooth_iff_essSurj_smallExtension"]
+/-- The same equivalence, tested only on small extensions and on every choice of pushforwards:
+by Tag 06HH the lifting property for small extensions already implies smoothness.  Tag 06HI for
+a fixed choice is
+`Deformation.isSmooth_iff_inducedFunctorToPullback_essSurj_smallExtension_of_choices`. -/
 public theorem isSmooth_iff_inducedFunctorToPullback_essSurj_smallExtension
     (h𝓕 : IsCofiberedInGroupoids 𝓕.p) (h𝓖 : IsCofiberedInGroupoids 𝓖.p)
     (φ : BasedFunctor 𝓕 𝓖) :

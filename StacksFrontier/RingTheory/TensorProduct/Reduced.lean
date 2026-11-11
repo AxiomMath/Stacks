@@ -181,10 +181,9 @@ theorem exists_idempotent_of_exists_idempotent
 
 open scoped TensorProduct
 
-/-- **Stacks 00I4**, the degenerate `R = k` case of clause (2): the tensor product `k ⊗[k] S` of
-`k` with a reduced `k`-algebra `S` is reduced. -/
-@[stacks 00I4 "Only the degenerate R = k case of clause (2); clause (1) and the \
-general clause (2) are not formalized."]
+/-- The tensor product `k ⊗[k] S` of `k` with a reduced `k`-algebra `S` is reduced. For the
+tensor product of two reduced algebras over a perfect field (Stacks 00I4) see
+`PerfectField.isReduced_tensorProduct`. -/
 theorem isReduced_tensorProduct_baseField_left (k : Type*) [Field k] (S : Type*)
     [CommRing S] [Algebra k S] [IsReduced S] : IsReduced (k ⊗[k] S) :=
   isReduced_of_injective

@@ -24,8 +24,11 @@ assembled from those projections: its `n`-th component takes the image of `x ∈
 of `x` in `M n`.
 
 Only the isomorphism of `A`-modules is proved here. [Stacks, Tag 02OC] also asserts that the
-comparison is a homeomorphism for the limit topologies; that is not formalized, and neither
-statement below claims it.
+comparison is a homeomorphism for the limit topologies; that assertion, and the complete
+statement of the tag under the source's own hypotheses, is
+`Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_isProper` in
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ArtinReesChain.lean`, which is
+built on the two declarations below.
 
 The source's proof is run abstractly in
 `StacksFrontier/RingTheory/AdicCompletion/IntertwinedFiltration.lean`: with `K n = ker (M ⟶ M n)`,
@@ -236,15 +239,16 @@ public lemma pow_smul_top_le_ker_adicCohomologyProj [F.IsQuasicoherent] (p n : �
 
 variable (p : ℕ) (c : ℕ)
 
-/-- **Stacks Project, Tag 02OC**, granted [Stacks, Tag 02OB], and for the `A`-module
-isomorphism only.
+/-- **The comparison isomorphism of the theorem on formal functions, from the clauses of
+[Stacks, Tag 02OB].**
 
 With `𝓘 = I · 𝒪_X`, the `I`-adic completion of `H^p(X, ℱ)` is the limit of the tower
 `n ↦ H^p(X, ℱ / 𝓘 ^ n ℱ)`. The map is the one assembled from the projections
 `H^p(X, ℱ) ⟶ H^p(X, ℱ / 𝓘 ^ n ℱ)`, which is the content of
 `formalFunctionsEquiv_proj_of`. [Stacks, Tag 02OC] further asserts that the comparison is a
-homeomorphism for the limit topologies; that is **not** proved here, and no statement in this
-file claims it.
+homeomorphism for the limit topologies; this declaration does not claim it. The complete
+statement of [Stacks, Tag 02OC], homeomorphism included and with the two hypotheses below
+discharged, is `Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_isProper`.
 
 The two hypotheses are clauses (1) and (3) of [Stacks, Tag 02OB], for a fixed `c`, in the shape
 `Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_idealPowerQuotient` produces
@@ -258,9 +262,6 @@ annihilation argument needs, appears.
 
 Everything else is `Stacks.IntertwinedFiltration.adicCompletionEquivTowerLimit`, the source's
 own argument carried out abstractly. -/
-@[stacks 02OC "the isomorphism of A-modules only, not the homeomorphism for the limit
-topologies; granted Tag 02OB, whose clauses (1) and (3) are carried as the hypotheses
-h02OB_ker and h02OB_range"]
 public def formalFunctionsEquiv [F.IsQuasicoherent]
     (h02OB_ker : ∀ n : ℕ, c ≤ n →
       LinearMap.ker (adicCohomologyProj A f I F p n) ≤
@@ -282,13 +283,11 @@ public def formalFunctionsEquiv [F.IsQuasicoherent]
       le_antisymm (fun _ hx => (h02OB_range n k hk).le hx)
         (fun _ hx => (h02OB_range n k hk).ge hx)
 
-/-- **The comparison isomorphism of [Stacks, Tag 02OC] is the canonical one**: its `n`-th
-component carries the image in `H^p(X, ℱ) ^∧_I` of a class `x ∈ H^p(X, ℱ)` to the image of `x`
-in `H^p(X, ℱ / 𝓘 ^ n ℱ)`. Together with `formalFunctionsEquiv` this says that the maps
+/-- **The comparison isomorphism of the theorem on formal functions is the canonical one**:
+its `n`-th component carries the image in `H^p(X, ℱ) ^∧_I` of a class `x ∈ H^p(X, ℱ)` to the
+image of `x` in `H^p(X, ℱ / 𝓘 ^ n ℱ)`. Together with `formalFunctionsEquiv` this says that the maps
 `H^p(X, ℱ) / I ^ n H^p(X, ℱ) ⟶ H^p(X, ℱ / 𝓘 ^ n ℱ)` assemble into an isomorphism, rather than
 merely that the two modules are isomorphic. -/
-@[stacks 02OC "the identification of the isomorphism of formalFunctionsEquiv as the one
-assembled from the projections; same hypotheses, and again nothing about the limit topologies"]
 public lemma formalFunctionsEquiv_proj_of [F.IsQuasicoherent]
     (h02OB_ker : ∀ n : ℕ, c ≤ n →
       LinearMap.ker (adicCohomologyProj A f I F p n) ≤

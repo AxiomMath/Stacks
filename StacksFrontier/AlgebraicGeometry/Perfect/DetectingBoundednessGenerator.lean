@@ -400,8 +400,12 @@ Generation of `D_QCoh(𝒪_X)` by `G` is the hypothesis that an object of `D(�
 quasi-coherent cohomology receiving only zero morphisms from the shifts of `G` is zero, and
 `E ∈ D_QCoh(𝒪_X)` is quasi-coherence of the cohomology sheaves of `E`. `RHom_X(G, E)` is the
 global derived hom, read in `D(ℤ)`; `D^+(ℤ)` is the property `plus` of the canonical
-t-structure on `D(AddCommGrpCat)`. -/
-@[stacks 0GEQ]
+t-structure on `D(AddCommGrpCat)`.
+
+This is the full statement of Stacks 0GEQ: all seven of its conditions, under exactly its
+hypotheses. -/
+@[stacks 0GEQ "the full statement: the equivalence of conditions (1) to (7), with (7) split \
+into (a), (b) and (c), for every perfect P"]
 theorem tfae_plus_of_isPerfect_generator
     (hqc : CompactSpace X) (hqs : QuasiSeparatedSpace X)
     (G E : DerivedCategory (StructureSheafModules X.sheaf))

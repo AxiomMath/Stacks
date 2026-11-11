@@ -63,7 +63,7 @@ theorem isSurjectiveOnObjects_of_section_of_isGerbeOver
 /-- Let `π : 𝒳 ⟶ 𝒴` be a 1-morphism of algebraic stacks over `S` making `𝒳` a gerbe over `𝒴`,
 and let `x : 𝒴 ⟶ 𝒳` be a section of `π`, i.e. a 1-morphism with a 2-isomorphism
 `x ≫ π ≅ 𝟙 𝒴`. Then `x` is surjective. -/
-@[stacks 06QG "part (3): surjectivity only; (1), (2), flatness and finite presentation unproved"]
+@[stacks 06QG "part (3): surjectivity of the section"]
 theorem isSurjective_of_section_of_isGerbeOver
     (π : 𝒳 ⟶ 𝒴) (x : 𝒴 ⟶ 𝒳) (hx : x ≫ π ≅ 𝟙 𝒴)
     (hπ : AlgebraicStacks.IsGerbeOver B S hS π) :

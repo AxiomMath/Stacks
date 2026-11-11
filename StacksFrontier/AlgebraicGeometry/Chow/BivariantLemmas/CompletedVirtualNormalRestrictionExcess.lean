@@ -67,7 +67,9 @@ composition on completions (a class for `𝟙 ≫ (Z' ⟶ X')`). -/
 @[stacks 0FV7 "res(c(Z → X, N)) = c_top(E) ∘ c(Z' → X', N') in A^*(Z' → X')^∧, for a cartesian \
 square of closed immersions (the chosen fibre product Z' = Z ×_X X', where restriction lives), \
 virtual normal sheaves N, N' of arbitrary rank, and a short exact sequence 0 → N' → g^*N → E → 0 \
-of finite locally free modules whose dual square against the conormal sheaves commutes"]
+of finite locally free modules whose dual square against the conormal sheaves commutes; c the \
+completed classes of Tag 0FBK, c_top(E) of Tag 0FA4, the composite read at Z' → X'; proved as in \
+the source, by the base-change clause of Tag 0FBK and then Tag 0FBL"]
 theorem completedVirtualNormalGysinRestriction_eq_of_isTopChernComposition
     (w : inc ≫ pr = 0) (hseq : (ShortComplex.mk inc pr w).ShortExact)
     (hcomm : pullbackDualMap (pullback.fst i f) N.bundle ≫

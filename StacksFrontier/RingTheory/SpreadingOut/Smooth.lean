@@ -1069,9 +1069,10 @@ properties in play are properties of a map with no algebra instance attached: th
 `RingHom.Smooth` and `RingHom.FinitePresentation` of the base changes and of `φ` itself.
 
 Smoothness is Mathlib's `RingHom.Smooth`, which is `RingHom.FormallySmooth` together with
-`RingHom.FinitePresentation` (`RingHom.smooth_def`). That is the source's notion of smooth by
-Proposition 00TN, not a second definition: the source defines smooth by the naive cotangent
-complex and proves the two agree.
+`RingHom.FinitePresentation` (`RingHom.smooth_def`). That is the source's Definition 00T2, not a
+second definition: Mathlib's formal smoothness is the cotangent condition (`Ω` projective and
+`H¹(L) = 0`), which with finite presentation is the source's condition on the naive cotangent
+complex.
 
 The conclusion is the source's existential. Its cofinal strengthening, `∀ i, ∃ j ≥ i`, follows in
 one step from `RingHom.Smooth.isStableUnderBaseChange`, since `A_j ⊗[R] C` is the base change of
@@ -1120,7 +1121,7 @@ finite presentation. If the base change `1 ⊗ φ : A ⊗[R] B → A ⊗[R] C` i
 which is cofinal, is the diagram; `A = colim A_i` is `Limits.ColimitPresentation J A` in
 `CommAlgCat R` over a filtered `J` whose colimit is computed on underlying sets, and the base
 change of `φ` is Mathlib's `Algebra.TensorProduct.map (AlgHom.id R _) φ`. Smooth is
-`RingHom.Smooth`, the source's notion by Proposition 00TN. See the module docstring."]
+`RingHom.Smooth`, the source's Definition 00T2. See the module docstring."]
 public theorem exists_baseChange_smooth_of_colimitPresentation
     {R : Type u} [CommRing R] {J : Type w} [Category.{t} J] [IsFiltered J]
     {A : CommAlgCat.{v} R} (pres : ColimitPresentation J A)

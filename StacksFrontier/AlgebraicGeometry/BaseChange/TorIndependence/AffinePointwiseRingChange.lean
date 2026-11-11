@@ -91,7 +91,7 @@ end Transport
 
 /-- The comparison `alphaH` and the complex datum `(N, e, Z, v, α)` of `φ` give
 `T e⁻¹ ≫ (alphaH ≫ Q α) = φ ≫ v`. -/
-private theorem map_inv_comp_alphaH_comp_eq {A A' : Type u} [CommRing A] [CommRing A']
+theorem map_inv_comp_alphaH_comp_eq {A A' : Type u} [CommRing A] [CommRing A']
     [Algebra A A'] {K : DerivedCategory (ModuleCat.{u} A)}
     {K' : DerivedCategory (ModuleCat.{u} A')}
     (φ : (totalDerivedExtensionScalars.{u, u, u} (algebraMap A A')).functor.obj K ⟶ K')

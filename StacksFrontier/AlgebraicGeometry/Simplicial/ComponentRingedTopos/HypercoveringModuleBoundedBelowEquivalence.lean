@@ -54,9 +54,12 @@ ringed augmentation of Stacks 0D9D is.
   class `𝒫` of sheaves of modules containing the pullbacks, granted that the unit is invertible
   on `D⁺(O_D)` and the counit on `D⁺_𝒫(O_C)`.
 * `Stacks.CategoryTheory.Hypercovering.derivedPullbackEquivalenceOfHypercovering`:
-  the same for the ringed augmentation of a hypercovering and the cartesian `O`-modules, which is
-  **Stacks 0DA2**, together with `.derivedPullbackEquivalenceOfHypercovering_functor` and
-  `..._inverse` identifying its two functors with the restrictions of `La^*` and of `R a_*`.
+  the same for the ringed augmentation of a hypercovering and the cartesian `O`-modules, taking
+  its three inputs as arguments, together with `.derivedPullbackEquivalenceOfHypercovering_functor`
+  and `..._inverse` identifying its two functors with the restrictions of `La^*` and of `R a_*`.
+  The three inputs are proved, and Stacks 0DA2 stated with no hypothesis, in
+  `HypercoveringModuleBoundedBelowEquivalenceUnconditional.lean`, in this directory
+  (`Stacks.CategoryTheory.Hypercovering.exists_derivedPullbackEquivalence_hypercoveringOfTerminal`).
 
 ## Main results
 
@@ -78,36 +81,35 @@ ringed augmentation of Stacks 0D9D is.
   soon as the unit is invertible on `D(O_D)` and every object of `𝒫` is `a^*` of a sheaf of
   modules on the augmentation site.
 
-## What Stacks 0DA2 still lacks here
+## The three inputs
 
-`Stacks.CategoryTheory.Hypercovering.derivedPullbackEquivalenceOfHypercovering` carries three
-named hypotheses, and says so in its clause string.
+`Stacks.CategoryTheory.Hypercovering.derivedPullbackEquivalenceOfHypercovering` takes three
+inputs as arguments; all three are proved for every hypercovering in
+`HypercoveringModuleBoundedBelowEquivalenceUnconditional.lean`, which states Stacks 0DA2.
 
-* `hunit` and `hacyclic` are the two inputs of this library's Stacks 0DA0, inherited unchanged
-  from `Stacks.CategoryTheory.Hypercovering`
-  `.isIso_derivedPullbackPushforwardUnit_app_of_hypercovering`: the first is Stacks 0D8E in its
-  module form, that the underived unit `M ⟶ a_*a^*M` is an isomorphism, and the second is that
-  `a^*` of a K-injective complex computes `R a_*`. See the module docstring of
-  `HypercoveringModuleCohomologicalDescent.lean`, in this directory, for why neither is
-  available.
+* `hunit` and `hacyclic` are the two inputs of
+  `Stacks.CategoryTheory.Hypercovering.isIso_derivedPullbackPushforwardUnit_app_of_hypercovering`:
+  the first is Stacks 0D8E in its module form, that the underived unit `M ⟶ a_*a^*M` is an
+  isomorphism, and the second is that `a^*` of a K-injective complex computes `R a_*`. Both hold
+  for every hypercovering, by
+  `CategoryTheory.SimplicialSemiRepresentable`
+  `.isIso_pullbackAdjPushforwardModules_unit_of_hypercoveringOfTerminal` and
+  `.pullbackComputesDerivedPushforward_of_hypercoveringOfTerminal` in
+  `HypercoveringModuleCohomologicalDescentUnconditional.lean`, in this directory.
 * `hsurj` is the remaining clause of Stacks 0D9Z: every cartesian `O`-module on the total site
-  lies in the essential image of `a^*`. It is carried in exactly the shape in which
-  `CategoryTheory.SimplicialSiteSituation.RingedAugmentation.isCartesianModule_of_mem_essImage`
-  carries the converse inclusion, and for the same reason: the development has the essential-image
-  inclusion and faithfulness of `a^*` and nothing more.
+  lies in the essential image of `a^*`.
 
-Nothing else is assumed. In particular the exactness of `a^*`, the exactness of both derived
-functors, the restriction of both to the bounded below subcategories, and the propagation of the
-counit from `𝒜` to all of `D⁺_𝒜` are proved here.
+Everything else is proved here: the exactness of `a^*`, the exactness of both derived functors,
+the restriction of both to the bounded below subcategories, and the propagation of the counit
+from `𝒜` to all of `D⁺_𝒜`.
 
 ## Implementation notes
 
-**`𝒜` is not known here to be a weak Serre subcategory.** The source introduces the cartesian
-`O`-modules as a weak Serre subcategory of `Mod(O)`, citing Stacks 0D7J part (2). This library
-has only part (1) of that tag, for cartesian *abelian sheaves*
-(`CategoryTheory.SimplicialSiteSituation.isCartesianAbSheaf_isWeakSerreClass`); the module half,
-which the source proves from flatness of the face morphisms, is absent. That is harmless for the
-statement: `D⁺_𝒜(O)` is `DerivedCategoryB.derivedCategoryBPlus` of the class of cartesian
+**The weak Serre property of `𝒜` is not used here.** The source introduces the cartesian
+`O`-modules as a weak Serre subcategory of `Mod(O)`, citing Stacks 0D7J part (2); that property is
+proved in `HypercoveringModuleBoundedBelowEquivalenceUnconditional.lean`
+(`Stacks.CategoryTheory.Hypercovering.isWeakSerreClass_hypercoveringCartesianModules`), but the
+argument of this file does not need it: `D⁺_𝒜(O)` is `DerivedCategoryB.derivedCategoryBPlus` of the class of cartesian
 modules, the full subcategory of bounded below objects all of whose cohomology modules are
 cartesian, and the equivalence below is about exactly that subcategory. The weak Serre property
 is what would make it a *triangulated* subcategory, and no step of the argument needs it — which
@@ -526,7 +528,7 @@ local instance wEqualsLocallyBijectiveTotalBoundedBelow (S : SimplicialSiteSitua
 /-- **The cartesian `O`-modules are closed under isomorphism**, which is
 `CategoryTheory.SimplicialSiteSituation.isCartesianModule_of_iso` read as an instance. It is all
 that the equivalence of Stacks 0DA2 uses of the class `𝒜`; the weak Serre property of
-Stacks 0D7J (2) is not needed and is not available here. -/
+Stacks 0D7J (2) is not needed. -/
 instance isClosedUnderIsomorphisms_isModuleFiberTransitionIso (S : SimplicialSiteSituation.{u})
     (O : Sheaf S.totalTopology CommRingCat.{u}) :
     ObjectProperty.IsClosedUnderIsomorphisms (S.IsModuleFiberTransitionIso O) where
@@ -547,8 +549,8 @@ variable {C : Type u} [SmallCategory C] [HasEqualizers C] [HasPullbacks C] (J : 
   (H : HypercoveringOfTerminal.{u, u} J) (OC : Sheaf J.toGrothendieck CommRingCat.{u})
 
 /-- The cartesian `O`-modules on the total site of a hypercovering, the weak Serre subcategory
-`𝒜 ⊂ Mod(O)` of Stacks 0DA2 — read here only as a class of objects closed under isomorphism, the
-module half of Stacks 0D7J being unavailable. -/
+`𝒜 ⊂ Mod(O)` of Stacks 0DA2. Its weak Serre property is
+`isWeakSerreClass_hypercoveringCartesianModules`. -/
 abbrev hypercoveringCartesianModules :
     ObjectProperty (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf
         (J := ((hypercoveringSituation J H).totalRingedTopos
@@ -583,36 +585,26 @@ theorem isCartesianModule_pullbackModules_hypercovering
   RingedAugmentation.isCartesianModule_pullbackModules
     (hypercoveringRingedAugmentation J H OC) N
 
-/-- **Stacks 0DA2**, granted the inputs the library does not have. For a site `C` with equalizers
-and fibre products, a sheaf of commutative rings `O_C` on it, a hypercovering `K` of `C`, the
-ringed augmentation `a : (Sh((C/K)_total), O) ⟶ (Sh(C), O_C)` of Stacks 0D9W with `O = a⁻¹O_C`,
-and the class `𝒜 ⊂ Mod(O)` of cartesian `O`-modules, the derived pullback is an equivalence
+/-- **The equivalence `La^* : D⁺(O_C) ≌ D⁺_𝒜(O)` of Stacks 0DA2, from its three inputs.** For a
+site `C` with equalizers and fibre products, a sheaf of commutative rings `O_C` on it, a
+hypercovering `K` of `C`, the ringed augmentation `a : (Sh((C/K)_total), O) ⟶ (Sh(C), O_C)` of
+Stacks 0D9W with `O = a⁻¹O_C`, and the class `𝒜 ⊂ Mod(O)` of cartesian `O`-modules, the derived
+pullback is an equivalence
 
 `La^* : D⁺(O_C) ⟶ D⁺_𝒜(O)`
 
 with quasi-inverse `R a_*`. Both functors of the equivalence are the restrictions of `La^*` and of
 `R a_*` on the nose, since the equivalence is the restricted adjunction.
 
-Three hypotheses are carried. `hunit` and `hacyclic` are the two inputs of this library's
-Stacks 0DA0, inherited unchanged from
+The three inputs are taken as arguments. `hunit` and `hacyclic` are the two inputs of
 `isIso_derivedPullbackPushforwardUnit_app_of_hypercovering`: the first is Stacks 0D8E in its
 module form, that the underived unit `M ⟶ a_*a^*M` is an isomorphism, and the second is that
-`a^*` of a K-injective complex computes `R a_*`. `hsurj` is the remaining clause of
-Stacks 0D9Z, that every cartesian `O`-module on the total site lies in the essential image of
-`a^*`; the development carries the converse inclusion
-(`RingedAugmentation.isCartesianModule_of_mem_essImage`) and faithfulness of `a^*`, and the
-degree-zero condition on a hypercovering does not supply the rest. The derived content of
-Stacks 0D7U is *not* assumed: see the module docstring.
-
-`𝒜` is read as the class of cartesian `O`-modules, closed under isomorphism; that it is a weak
-Serre subcategory, which is Stacks 0D7J (2) and which this library has only for abelian sheaves,
-is not used anywhere in the argument. -/
-@[stacks 0DA2 "granted the two inputs of this library's Tag 0DA0 -- the module form of Tag 0D8E \
-as hunit and the Ra_*-acyclicity of a^* of a K-injective complex as hacyclic -- and granted the \
-essential-surjectivity clause of Tag 0D9Z as hsurj. The weak Serre property of the cartesian \
-O-modules, Tag 0D7J (2), is not available in this library and is not used: D^+_A(O) is read as \
-the bounded below objects whose cohomology modules are cartesian",
-  sga "4 Vbis 2.2.7" "special case",
+`a^*` of a K-injective complex computes `R a_*`. `hsurj` is the remaining clause of Stacks 0D9Z,
+that every cartesian `O`-module on the total site lies in the essential image of `a^*`. All three
+are proved for every hypercovering, and the equivalence with no hypothesis is
+`derivedPullbackEquivalenceOfHypercoveringOfTerminal`, in
+`HypercoveringModuleBoundedBelowEquivalenceUnconditional.lean`, where Stacks 0DA2 is stated. -/
+@[sga "4 Vbis 2.2.7" "special case",
   sga "4 Vbis 2.4.12" "special case"]
 def derivedPullbackEquivalenceOfHypercovering
     (hunit : IsIso (AlgebraicGeometry.RingedToposHom.pullbackAdjPushforwardModules
@@ -647,10 +639,8 @@ def derivedPullbackEquivalenceOfHypercovering
       (hypercoveringRingedAugmentation J H OC).totalRingedHom
       (hypercoveringCartesianModules J H OC) hall hsurj M hM)
 
-/-- **Stacks 0DA2, the forward functor of the equivalence is `La^*`:** it is the restriction of
-the derived pullback to the bounded below subcategories. -/
-@[stacks 0DA2 "the forward functor of the equivalence is La^*, under the three hypotheses of \
-`derivedPullbackEquivalenceOfHypercovering`"]
+/-- **The forward functor of the equivalence is `La^*`:** it is the restriction of the derived
+pullback to the bounded below subcategories. -/
 theorem derivedPullbackEquivalenceOfHypercovering_functor
     (hunit : IsIso (AlgebraicGeometry.RingedToposHom.pullbackAdjPushforwardModules
       (hypercoveringRingedAugmentation J H OC).totalRingedHom).unit)
@@ -672,10 +662,8 @@ theorem derivedPullbackEquivalenceOfHypercovering_functor
         (isCartesianModule_pullbackModules_hypercovering J H OC) :=
   rfl
 
-/-- **Stacks 0DA2, the quasi-inverse of the equivalence is `R a_*`:** it is the restriction of the
-derived direct image to the bounded below subcategories. -/
-@[stacks 0DA2 "the quasi-inverse of the equivalence is Ra_*, under the three hypotheses of \
-`derivedPullbackEquivalenceOfHypercovering`"]
+/-- **The quasi-inverse of the equivalence is `R a_*`:** it is the restriction of the derived
+direct image to the bounded below subcategories. -/
 theorem derivedPullbackEquivalenceOfHypercovering_inverse
     (hunit : IsIso (AlgebraicGeometry.RingedToposHom.pullbackAdjPushforwardModules
       (hypercoveringRingedAugmentation J H OC).totalRingedHom).unit)

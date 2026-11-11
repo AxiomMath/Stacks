@@ -35,7 +35,6 @@ clients can use the existing `IsCancelSMul` API directly.
 
 ## References
 
-* [Stacks Project, Tag 03LD](https://stacks.math.columbia.edu/tag/03LD)
 * [Stacks Project, Tag 07S1](https://stacks.math.columbia.edu/tag/07S1)
 * [Stacks Project, Tag 07S2](https://stacks.math.columbia.edu/tag/07S2)
 -/
@@ -44,9 +43,6 @@ clients can use the existing `IsCancelSMul` API directly.
 
 open CategoryTheory CartesianMonoidalCategory
 open scoped CategoryTheory.MonObj
-
-add_to_stacks 03LD "associativity" CategoryTheory.ModObj.mul_smul_self
-add_to_stacks 03LD "identity" CategoryTheory.ModObj.one_smul_self
 
 namespace AlgebraicGeometry
 

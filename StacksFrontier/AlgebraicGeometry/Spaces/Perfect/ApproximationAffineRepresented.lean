@@ -1,6 +1,6 @@
 module
 
-public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.ApproximationAffine
+public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.ModulesAtSchemeUniverse
 public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.SmallEtalePerfectForward
 public import StacksFrontier.AlgebraicGeometry.Spaces.RepresentedAssociatedModuleEtalePullback
 public import StacksFrontier.AlgebraicGeometry.Spaces.RepresentedAssociatedModuleSupport
@@ -70,7 +70,8 @@ attribute [local instance 10000] SmallEtale.hasSheafify_smallEtale
   smallEtaleRingedSite_wEqualsLocallyBijective_over
 
 
-attribute [local instance 10000] modulesAbelianAtSchemeUniverse modulesHasDerivedCategory
+attribute [local instance 10000] smallEtaleModulesAbelianAtSchemeUniverse
+  smallEtaleModulesHasDerivedCategory
 
 /-- The support of a cohomology sheaf of `ε^*K`, for `K` with quasi-coherent cohomology in that
 degree, is the preimage of the support of the corresponding cohomology sheaf of `K`. -/
@@ -88,7 +89,7 @@ theorem mem_supportOfSheaf_homology_representedDerivedAssociatedModule_iff
       ¬ IsZero (TopCat.Presheaf.stalk (X := (BigFppfOver.toScheme B S hS).obj U)
           ((DerivedCategory.homologyFunctor _ i).obj K).val.presheaf
           (schemePointsHomeomorph B S hS U p)) :=
-  (Set.ext_iff.1 (supportOfSheaf_eq_of_mapIso B S hS (yoneda.obj U)
+  (Set.ext_iff.1 (supportOfSheaf_eq_of_sheafIso B S hS (yoneda.obj U)
     (isAlgebraicSpace_yoneda B S hS U) ((SheafOfModules.toSheaf _).mapIso
       (((representedAssociatedModule B S hS U
         (isAlgebraicSpace_yoneda B S hS U)).mapDerivedCategoryHomologyIso i).app K))) p).trans
@@ -115,7 +116,7 @@ theorem isZero_stalk_homology_of_supportOfSheaf_subset
   obtain ⟨p, rfl⟩ := (schemePointsHomeomorph B S hS U).surjective x
   by_contra hne
   refine hx ⟨p, h ?_, rfl⟩
-  exact (Set.ext_iff.1 (supportOfSheaf_eq_of_mapIso B S hS (yoneda.obj U)
+  exact (Set.ext_iff.1 (supportOfSheaf_eq_of_sheafIso B S hS (yoneda.obj U)
     (isAlgebraicSpace_yoneda B S hS U) ((SheafOfModules.toSheaf _).mapIso
       ((DerivedCategory.homologyFunctor (Modules.{u, u} B S hS (yoneda.obj U)
         (isAlgebraicSpace_yoneda B S hS U)) i).mapIso eE))) p).1

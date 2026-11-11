@@ -13,14 +13,16 @@ injective, which is the injective half of the first conclusion of [Stacks, Tag 0
 `H¹(Y, 𝒪_Y) = 0` forces `H¹(X, 𝒪_X) = 0`.
 
 This is the hypothesis `transfer` of
-`AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing`, the formalization of
-[Stacks, Tag 0B4Q]. It is proved here, and the tag is restated without it.
+`AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing`, the source's argument for
+[Stacks, Tag 0B4Q] over three of its inputs. It is proved here, and that argument is restated
+without it. The complete statement of Tag 0B4Q is
+`AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing`.
 
 ## Main results
 
 * `AlgebraicGeometry.firstStructureSheafCohomologyVanishes_of_dominates`: the descent.
-* `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_dominate`:
-  [Stacks, Tag 0B4Q] over its two remaining carried hypotheses.
+* `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_dominate`: the
+  argument for [Stacks, Tag 0B4Q] over its two remaining inputs.
 
 ## References
 
@@ -59,8 +61,10 @@ theorem firstStructureSheafCohomologyVanishes_of_dominates (A : Type u) [CommRin
   have : IsIso g.c := isIso_c_of_isBirational_of_isNormal g hgbir
   exact isZeroFirstStructureSheafCohomology_of_isIso_c g hY
 
-/-- **[Stacks, Tag 0B4Q].** A Nagata regular local ring `A` of dimension two defines a rational
-singularity.
+/-- **The argument of [Stacks, Tag 0B4Q] over two of its inputs.** A Nagata regular local ring
+`A` of dimension two defines a rational singularity once the two inputs below are given. The
+complete statement, with nothing assumed, is
+`AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing_of_isNagataRing`.
 
 This is `AlgebraicGeometry.definesRationalSingularity_of_isRegularLocalRing` with its hypothesis
 `transfer` discharged by `AlgebraicGeometry.firstStructureSheafCohomologyVanishes_of_dominates`.

@@ -73,13 +73,18 @@ verbatim, with `rw` and instance search seeing through the name. What the name a
 source, and every tag around it, speaks of a bare module `M` with `[Module R M]` rather than of
 an object of `ModuleCat R`.
 
-The source leaves the projective dimension of the zero module implicit; reading its definition
-literally gives `0`, the zero module being projective, while Mathlib's value there is `⊥`
-(`CategoryTheory.projectiveDimension_eq_bot_iff`). The two conventions agree on every inequality
-`pd M ≤ d`, since `⊥ ≤ d`, so they agree on finite projective dimension and on the resolutions
-that exist; the difference is visible only in the remark following the source's definition,
-which here reads `Module.projectiveDimension R M = 0 ↔ Projective M ∧ M` nontrivial
-(`CategoryTheory.projectiveDimension_eq_zero_iff`).
+For the zero module the conventions differ. The source's definition gives it projective
+dimension `0`, the sequence `0 → 0 → 0` being a resolution of length `0` by projectives, and the
+remark following the definition confirms this: projective dimension `0` holds exactly for the
+projective modules, the zero module among them. Mathlib's value there is `⊥`
+(`CategoryTheory.projectiveDimension_eq_bot_iff`), and accordingly
+`Module.projectiveDimension R M = 0 ↔ Projective M ∧ M` nontrivial
+(`CategoryTheory.projectiveDimension_eq_zero_iff`). The two conventions agree on every inequality
+`pd M ≤ d` with `d : ℕ`, since `⊥ ≤ d`, so they agree on finite projective dimension and on the
+resolutions that exist. They differ on an equality `pd M = d`: for `M = 0` the source's `pd M = 0`
+is `pd M = ⊥` here, not `pd M = 0`. A source statement that assumes `pd M = d` is therefore
+formalized faithfully with the hypothesis `pd M ≤ d` wherever the conclusion is monotone in `d`,
+as for 00O5 (`pd_syzygy_projective_of_le`); an equality hypothesis would exclude the zero module.
 
 The source's rings are commutative, but neither the notion nor Mathlib's API for it uses
 commutativity, so only `[Ring R]` is assumed. The definition needs no smallness hypothesis to
@@ -131,7 +136,8 @@ infinite projective dimension (More on Algebra, Example 0A5Q).
 all `i > d`. For `R` small in `M`'s universe this is the source's invariant, the least `d` for
 which there is an exact sequence `0 → P_d → ⋯ → P_0 → M → 0` with all `P_i` projective (00O5,
 0CXC), and `M` then has *finite projective dimension* in the sense of the source exactly when
-this is `≠ ⊤` (`CategoryTheory.projectiveDimension_ne_top_iff`). It is `⊥` for the zero module. -/
+this is `≠ ⊤` (`CategoryTheory.projectiveDimension_ne_top_iff`). It is `⊥` for the zero module,
+whose projective dimension in the source is `0`. -/
 @[stacks 00O4, ega "0 17.2.1" "dim.proj definition"]
 public noncomputable abbrev Module.projectiveDimension (R : Type u) [Ring R] (M : Type v)
     [AddCommGroup M] [Module R M] : WithBot ℕ∞ :=

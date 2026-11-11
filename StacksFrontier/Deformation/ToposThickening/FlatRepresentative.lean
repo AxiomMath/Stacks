@@ -34,9 +34,10 @@ identically, so the canonical class `ω(K₀)` of Tag 0DIU is zero. This is the 
   `Deformation.ComplexLift.curvatureMap_eq_zero`,
   `Deformation.ComplexLift.derivedCurvature_eq_zero`: a lifted differential squaring to zero has
   vanishing curvature, at the three levels at which the curvature is recorded.
-* `Deformation.ComplexLift.obstructionMap_eq_zero_of_dd_eq_zero`: **Tag 0DIW, `(2) ⇒ (1)`** at a
-  flat lift whose lifted differential squares to zero; the full equivalence is
-  `Deformation.ComplexLift.omega_eq_zero_iff_nonempty_derivedLift`.
+* `Deformation.ComplexLift.obstructionMap_eq_zero_of_dd_eq_zero`: the implication `(2) ⇒ (1)` of
+  Tag 0DIW at a flat lift whose lifted differential squares to zero, for the class stated
+  against a supplied derived ideal tensor datum; the full equivalence, for every square-zero
+  ideal, is `Deformation.ComplexLift.tensorOmegaMinus_eq_zero_iff_nonempty_derivedLift`.
 
 ## Implementation notes
 
@@ -174,7 +175,7 @@ category of the reduction. -/
 theorem derivedCurvature_eq_zero (D : DerivedIdealTensor I) : derivedCurvature D T = 0 := by
   simp [derivedCurvature, curvatureMap_eq_zero T hdd]
 
-/-- **Stacks 0DIW, the implication `(2) ⇒ (1)`, at a flat lift whose differential squares to
+/-- **The implication `(2) ⇒ (1)` of Stacks 0DIW, at a flat lift whose differential squares to
 zero.** If the lifted differential of a flat lift of `K₀` already squares to zero — that is, if
 `K₀` is the reduction of a bounded above complex of flat `O`-modules — then the class computed by
 that lift vanishes.
@@ -182,9 +183,10 @@ that lift vanishes.
 The curvature of such a lift is the zero map, because zero satisfies the characterization of the
 curvature; and `ω(K₀)` is the curvature transported along isomorphisms. The implication for an
 arbitrary `K ∈ D⁻(O)` with `K ⊗^L_O O₀ ≅ K₀` is
-`Deformation.ComplexLift.omega_eq_zero_of_nonempty_derivedLift`, and the full equivalence of
-Tag 0DIW is `Deformation.ComplexLift.omega_eq_zero_iff_nonempty_derivedLift`. -/
-@[stacks 0DIW "(2) implies (1), at a flat lift whose lifted differential squares to zero"]
+`Deformation.ComplexLift.omega_eq_zero_of_nonempty_derivedLift`. The class here is stated
+against `D : DerivedIdealTensor I`, which exists only when `I` is flat over `O₀`; the full
+equivalence of Tag 0DIW for every square-zero ideal is
+`Deformation.ComplexLift.tensorOmegaMinus_eq_zero_iff_nonempty_derivedLift`. -/
 theorem obstructionMap_eq_zero_of_dd_eq_zero (D : DerivedIdealTensor I) :
     obstructionMap D T = 0 := by
   simp [obstructionMap, derivedCurvature_eq_zero T hdd D]

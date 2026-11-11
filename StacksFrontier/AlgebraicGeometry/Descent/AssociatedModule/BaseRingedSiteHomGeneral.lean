@@ -11,11 +11,12 @@ public import StacksFrontier.CategoryTheory.Sites.MorphismOfSitesLimits
 /-!
 # `((Sch/S)_τ, 𝒪) ⟶ (S_Zar, 𝒪_S)` as a morphism of ringed sites
 
-`AlgebraicGeometry.BigFppfOver.baseToZariskiRingedToposHom` packages the comparison of Stacks
-070U as an `AlgebraicGeometry.RingedToposSiteHom`, which records only continuity of the
+`AlgebraicGeometry.BigFppfOver.baseToZariskiRingedToposHom` packages the data of the comparison
+of Stacks 070U as an `AlgebraicGeometry.RingedToposSiteHom`, which records only continuity of the
 underlying functor.  This module supplies the *site* condition and repackages the comparison as
-an `AlgebraicGeometry.RingedSite.HomGeneral`, which is the form that carries a morphism of
-topoi.
+an `AlgebraicGeometry.RingedSite.HomGeneral`, a morphism of ringed sites in the sense of
+Stacks 03AD, which is the form that carries a morphism of topoi and the one Stacks 070U is
+registered on.
 
 This is the big-site analogue of
 `StacksFrontier.AlgebraicGeometry.Descent.AssociatedModule.SmallEtaleRingedSiteHomGeneral`, and the
@@ -168,14 +169,17 @@ public instance opensToBig_isMorphismOfSites (τ : SiteKind) :
 
 /-! ### The comparison as a morphism of ringed sites -/
 
-/-- **Stacks 070U as a morphism of ringed sites at independent object universes**: the
-continuous inclusion of the small Zariski site of `S` into the big `τ`-site, now known to define
-a morphism of sites at the universe of the structure rings, together with the identification of
-the sections of `𝒪_S` over an open with the functions on it.
+/-- **Stacks 070U**: the morphism of ringed sites `f : ((Sch/S)_τ, 𝒪) ⟶ (S_Zar, 𝒪_S)` in the
+sense of Stacks 03AD, for each `τ ∈ {Zariski, étale, smooth, syntomic, fppf}`, at independent
+object universes: the continuous inclusion of the small Zariski site of `S` into the big
+`τ`-site, which defines a morphism of sites at the universe of the structure rings, together
+with the identification of the sections of `𝒪_S` over an open with the functions on it.
 
 This is the same geometric datum and the same structure map as
-`AlgebraicGeometry.BigFppfOver.baseToZariskiRingedToposHom`, which carries Stacks 070U; what is
-added is the site condition, and with it the morphism of topoi. -/
+`AlgebraicGeometry.BigFppfOver.baseToZariskiRingedToposHom`, which records only continuity;
+what is added is the site condition, and with it the morphism of topoi. -/
+@[stacks 070U "the morphism of ringed sites of 070R, for each of the five topologies, at \
+  independent object universes"]
 public def baseToZariskiRingedSiteHom (τ : SiteKind) :
     RingedSite.HomGeneral (baseRingedSite B S hS τ) S.zariskiRingedSite where
   u := opensToBig B S hS

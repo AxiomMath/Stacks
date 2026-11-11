@@ -365,8 +365,6 @@ lives.
 The forgetful functor is applied to the whole equation, so nothing has to be known about what it
 does to the comparison of the two inverse images — only about the structure map of the
 inclusion, which is `AlgebraicGeometry.Space.map_structureSharpCommRing`. -/
-@[stacks 0618 "the two structure maps of two lifts, as a pair of parallel homomorphisms into \
-the structure sheaf of the thickening which agree after the structure map of the inclusion"]
 theorem inverseImageStructureSharpOfRestrictEq_comp_structureSharp :
     (sheafCompose (SmallEtale.topology B S hS X'.1)
             (forget₂ CommRingCat.{u} RingCat.{u})).map
@@ -390,8 +388,6 @@ Its four defining equations are `AlgebraicGeometry.Space.liftDifference_add`,
 `AlgebraicGeometry.Space.liftDifference_smul_add_smul`,
 `AlgebraicGeometry.Space.liftDifference_app_eq_zero` and
 `AlgebraicGeometry.Space.liftDifference_naturality`, which apply to it verbatim. -/
-@[stacks 0618 "the derivation, for the two structure maps of two morphisms of a thickening \
-agreeing on its closed subspace"]
 noncomputable def liftPairDifference (U : (SmallEtale B S hS X'.1)ᵒᵖ)
     (r : ((sheafCompose (SmallEtale.topology B S hS X'.1)
       (forget₂ CommRingCat.{u} RingCat.{u})).obj

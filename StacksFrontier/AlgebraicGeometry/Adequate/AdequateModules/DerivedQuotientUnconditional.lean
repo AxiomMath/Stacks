@@ -54,6 +54,46 @@ The derived categories are the standard models, in which the derived functors of
 (`Stacks.Adequate.BigSite.derivedZariskiAdjunction`); the declarations which mention those
 functors seat the standard model locally.
 
+The two registrations of [Stacks, Tag 070X] are pinned to the source's data as follows.
+
+* *The functors are the derived functors of the `f` of [Stacks, Tag 070U].* The morphism of
+  ringed topoi is `Stacks.Adequate.BigSite.zariskiRingedToposHom`, the morphism of ringed sites
+  `Stacks.Adequate.BigSite.zariskiRingedSiteHom` of [Stacks, Tag 070U]. Its total derived
+  functors are `Stacks.Adequate.BigSite.derivedZariskiPullback` and
+  `Stacks.Adequate.BigSite.derivedZariskiPushforward`, adjoint by
+  `Stacks.Adequate.BigSite.derivedZariskiAdjunction` ([Stacks, Tag 07A6]). The functors
+  `Stacks.Adequate.BigSite.derivedQuasicoherentPullback` and
+  `Stacks.Adequate.BigSite.derivedAdequateDirectImage` of the statements are these two functors
+  restricted (`DerivedCategoryB.liftLeft`, `DerivedCategoryB.liftRight`) to
+  `D_QCoh(S)` and `D_Adeq(𝒪)`; they are not arbitrary adjoint functors.
+* *[Stacks, Tag 070W] is proved, not assumed.* The adjunction is
+  `Stacks.Adequate.BigSite.derivedQuasicoherentAdequateAdjunction`, the restriction of
+  `Stacks.Adequate.BigSite.derivedZariskiAdjunction`, and the invertibility of its unit on
+  `D_QCoh(S)` is `Stacks.Adequate.BigSite.isIso_derivedZariskiAdjunction_unit_app`, a theorem
+  with no hypothesis on `S`, on `τ` or on the chosen big site. Neither enters the statements as a
+  hypothesis.
+* *The quotient is by the parasitic complexes.* The class of morphisms inverted is `trW` of
+  `D_𝒞(𝒪)`, `Stacks.Adequate.BigSite.derivedParasitic` (complexes whose cohomology modules are
+  adequate and parasitic, `Stacks.Adequate.BigSite.parasiticModule`) read on `D_Adeq(𝒪)`: the
+  morphisms whose cone lies in `D_𝒞(𝒪)`. It is not defined as the kernel of `Rf_*`; that this
+  kernel is `D_𝒞(𝒪)` is the theorem `Stacks.Adequate.BigSite.kernel_derivedAdequateDirectImage`,
+  through [Stacks, Tag 06ZM] (`Stacks.Adequate.BigSite.parasiticModule_iff_isZero`).
+* *The triangulated structures are the induced ones.* `D(𝒪)` carries the triangulated structure
+  of its standard model; `D_Adeq(𝒪)` and `D_QCoh(S)` carry the structures Mathlib induces on the
+  full subcategory of a triangulated subcategory (distinguished triangles: those whose image in
+  the ambient category is distinguished), from the instances
+  `Stacks.Adequate.BigSite.isTriangulated_derivedAdequate_ringedSite` and
+  `Stacks.Adequate.isTriangulated_derivedQuasicoherent_zariskiRingedSite`. These are the only
+  triangulated data in the statements, through `trW`. The shift datum of `Rf_*`,
+  `Stacks.Adequate.BigSite.derivedAdequateDirectImageCommShift`, transported across the
+  adjunction from that of the restricted `Lf^*` (itself the shift datum of the ambient derived
+  pullback, [Stacks, Tag 06YY]), is used only in the proof, where
+  `Stacks.Adequate.BigSite.isTriangulated_derivedAdequateDirectImage` shows `Rf_*` triangulated.
+
+The equivalence `Stacks.Adequate.BigSite.derivedAdequateParasiticQuotientEquivalence` is the one
+induced by `Rf_*` on the localization, `CategoryTheory.Localization.equivalenceFromModel` applied
+to the localization theorem.
+
 The source first reduces to the Zariski topology by [Stacks, Tag 070V]. That reduction is not
 needed: the inputs from [Stacks, Tag 070W] are proved for each of the five topologies directly.
 
@@ -63,6 +103,8 @@ needed: the inputs from [Stacks, Tag 070W] are proved for each of the five topol
 * [Stacks Project, Tag 070W](https://stacks.math.columbia.edu/tag/070W)
 * [Stacks Project, Tag 06ZM](https://stacks.math.columbia.edu/tag/06ZM)
 * [Stacks Project, Tag 06YY](https://stacks.math.columbia.edu/tag/06YY)
+* [Stacks Project, Tag 070U](https://stacks.math.columbia.edu/tag/070U)
+* [Stacks Project, Tag 07A6](https://stacks.math.columbia.edu/tag/07A6)
 -/
 
 @[expose] public noncomputable section

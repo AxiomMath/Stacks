@@ -13,12 +13,18 @@ import StacksCore.Tactic.EgaSgaAttribute
 
 Let `k` be a field. The tensor product `R ⊗[k] S` of a reduced `k`-algebra `R` with a
 geometrically reduced `k`-algebra `S` is reduced, and so is `K ⊗[k] S` for a reduced `k`-algebra
-`S` and a field extension `K/k` which is separable or separably generated.
+`S` and a field extension `K/k` which is separable or separably generated. Over a perfect field
+every reduced algebra is geometrically reduced, so any two reduced algebras have reduced tensor
+product.
 
 ## Main results
 
 * `Algebra.IsGeometricallyReduced.isReduced_tensorProduct`: the tensor product of a reduced
   `k`-algebra with a geometrically reduced `k`-algebra is reduced.
+* `Algebra.IsGeometricallyReduced.of_perfectField`: over a perfect field every reduced algebra is
+  geometrically reduced.
+* `PerfectField.isReduced_tensorProduct`: over a perfect field the tensor product of two reduced
+  algebras is reduced.
 * `Algebra.IsGeometricallyReduced.of_isSeparable`: a separable algebraic extension is
   geometrically reduced.
 * `Stacks.GeometricallyReduced.Separability.isGeometricallyReduced_of_isSeparablyGenerated`: a
@@ -34,6 +40,7 @@ geometrically reduced `k`-algebra `S` is reduced, and so is `K ⊗[k] S` for a r
 
 * [Stacks Project, Tag 034N](https://stacks.math.columbia.edu/tag/034N)
 * [Stacks Project, Tag 030U](https://stacks.math.columbia.edu/tag/030U)
+* [Stacks Project, Tag 00I4](https://stacks.math.columbia.edu/tag/00I4)
 -/
 
 @[expose] public section
@@ -114,6 +121,41 @@ public instance Algebra.IsGeometricallyReduced.isReduced_tensorProduct
     (k R S : Type*) [Field k] [CommRing R] [Algebra k R] [IsReduced R]
     [CommRing S] [Algebra k S] [Algebra.IsGeometricallyReduced k S] :
     IsReduced (R ⊗[k] S) := Stacks.GeometricallyReduced.TensorReduced.solution k R S
+
+/-! ### Reduced algebras over a perfect field -/
+
+/-- Over a perfect field `k`, every reduced `k`-algebra is geometrically reduced. -/
+@[stacks 00I4 "Clause (1): over a perfect field `k` every reduced `k`-algebra is geometrically
+  reduced, stated with Mathlib's `Algebra.IsGeometricallyReduced` (equivalent to the source's
+  Definition 030S by Lemma 030V); the source's form, reducedness of `K ⊗[k] S` for every field
+  extension `K/k`, is `PerfectField.isReduced_tensorProduct_field`."]
+public theorem Algebra.IsGeometricallyReduced.of_perfectField (k S : Type*) [Field k]
+    [PerfectField k] [CommRing S] [Algebra k S] [IsReduced S] :
+    Algebra.IsGeometricallyReduced k S := by
+  have : IsPerfectClosure (algebraMap k k) (ringExpChar k) :=
+    IsPRadical.of_id (K := k) (p := ringExpChar k)
+  refine ((Algebra.isGeometricallyReduced_tfae k (ringExpChar k) S k
+    (AlgebraicClosure k)).out 3 6).mp ?_
+  exact isReduced_of_injective (Algebra.TensorProduct.lid k S) (AlgEquiv.injective _)
+
+/-- Over a perfect field `k`, the tensor product of two reduced `k`-algebras is reduced. -/
+@[stacks 00I4 "Clause (2): over a perfect field `k` the tensor product `R ⊗[k] S` of two reduced
+  `k`-algebras is reduced."]
+public theorem PerfectField.isReduced_tensorProduct (k R S : Type*) [Field k] [PerfectField k]
+    [CommRing R] [Algebra k R] [IsReduced R] [CommRing S] [Algebra k S] [IsReduced S] :
+    IsReduced (R ⊗[k] S) :=
+  have := Algebra.IsGeometricallyReduced.of_perfectField k S
+  inferInstance
+
+/-- Over a perfect field `k`, a reduced `k`-algebra `S` is geometrically reduced in the sense of
+Definition 030S: `K ⊗[k] S` is reduced for every field extension `K/k`. -/
+@[stacks 00I4 "Clause (1) in the source's Definition 030S of geometric reducedness: over a perfect
+  field `k`, for a reduced `k`-algebra `S`, the ring `K ⊗[k] S` is reduced for every field extension
+  `K/k`."]
+public theorem PerfectField.isReduced_tensorProduct_field (k S : Type*) [Field k] [PerfectField k]
+    [CommRing S] [Algebra k S] [IsReduced S] (K : Type*) [Field K] [Algebra k K] :
+    IsReduced (K ⊗[k] S) :=
+  PerfectField.isReduced_tensorProduct k K S
 
 end
 

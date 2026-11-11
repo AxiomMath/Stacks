@@ -325,6 +325,9 @@ private theorem indEtale_uLift.{a, b} {A : Type u} {B : Type v}
 attribute [local instance] ULift.algebra' in
 /-- **Lemma 0BSI across universes.** If `B` is ind-étale over `A` and `C` is ind-étale over `B`,
 then `C` is ind-étale over `A`. -/
+@[stacks 0BSI "\"`A → B` is a filtered colimit of étale ring maps\" is `StacksDraft.IndEtale A B`
+(Lemma `097I`), with `A`, `B` and `C` in independent universes, and the source's `A → B → C` is an
+`IsScalarTower A B C`. The single-universe form is `CommAlgCat.ind_etale_comp`."]
 theorem indEtale_comp {A : Type u} {B : Type v} {C : Type w}
     [CommRing A] [CommRing B] [CommRing C]
     [Algebra A B] [Algebra B C] [Algebra A C] [IsScalarTower A B C]

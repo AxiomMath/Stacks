@@ -39,10 +39,11 @@ No `@[stacks 01N0]` attribute is attached. Tag 01N0 is a three-part statement ab
 `(U(ψ), r_ψ, θ)` of Stacks 01MY, whose third part concerns the comparison maps
 `θ : r_ψ^* O_X(n) ⟶ O_Y(n)` of twisting sheaves, which are not formalized here; and its
 hypothesis is surjectivity of `A_d ⟶ B_d` for all `d ≫ 0`, which is weaker than the surjectivity
-of `ψ` assumed here. Part (3) itself is formalized elsewhere and carries the attribute there:
-surjectivity of `θ` in `StacksFrontier/AlgebraicGeometry/ProjTwistEpi/Basic.lean`, and its
-injectivity on the canonical twisted sections, for `𝒜` generated in degree one, in
-`StacksFrontier/AlgebraicGeometry/ProjSaturation/QuotientComparison.lean`. What is proved is
+of `ψ` assumed here. The tag is carried elsewhere under its own hypothesis: parts (1) and (2) in
+`StacksFrontier/AlgebraicGeometry/RelativeProjChain/EventualSurjective.lean`, and part (3) — the
+surjectivity of `θ`, and an example where `θ₁` is not an isomorphism — in
+`StacksFrontier/AlgebraicGeometry/ProjTwistEpi/Basic.lean` and
+`StacksFrontier/AlgebraicGeometry/ProjTwistCompare/NotIsoExample.lean`. What is proved is
 part (2) under the stronger hypothesis, for Mathlib's `AlgebraicGeometry.Proj.map`, which is
 01MY's `r_ψ` in the case `U(ψ) = Proj B` that part (1) of 01N0 asserts.
 

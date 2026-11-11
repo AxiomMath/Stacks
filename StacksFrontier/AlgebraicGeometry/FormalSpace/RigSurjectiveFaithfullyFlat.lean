@@ -9,35 +9,42 @@ public import StacksFrontier.RingTheory.Ideal.AssociatedPrime.Basic
 public import StacksFrontier.Topology.Algebra.AdicTopology.AdicRingMap
 
 /-!
-# Rig-surjectivity of a flat affine formal morphism is faithful flatness of its closed fibre
+# Preliminaries for Stacks 0AQY
 
 Let `A` be a Noetherian ring complete with respect to an ideal `I` whose `I`-torsion vanishes,
 and let `C` be an `I`-adically complete `A`-algebra with `A/Iⁿ → C/IⁿC` flat and of finite type
 for every `n`. Then `Spf C → Spf A` is rig-surjective if and only if `A/I → C/IC` is faithfully
-flat (Stacks 0AQY).
+flat (Stacks 0AQY). The criterion itself is
+`AlgebraicGeometry.FormalSpace.isRigSurjective_formalSpectrumMap_iff_faithfullyFlat'`, in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RigSurjectiveFaithfullyFlatUnconditional`; this file
+collects the ring-theoretic and set-theoretic steps of its proof, together with forms of the
+criterion that take the representability of the adic points of `Spf A` as an explicit argument.
 
-One direction is Stacks 0AQX, already available as
+One direction is Stacks 0AQX, available as
 `AlgebraicGeometry.FormalSpace.isRigSurjective_formalSpectrumMap`. For the converse one
 produces, from a maximal ideal `I ⊆ 𝔪 ⊆ A`, an adic point of `Spf A` whose closed point lies
 over `𝔪`: the vanishing of the `I`-torsion makes `I` contain an `A`-regular element `a`
 (Stacks 00LL, which is how Stacks 05EA and 00L6 enter), so a prime `𝔮` of `A_𝔪` avoiding `a`
-and closed in the punctured spectrum exists (Stacks 02IM), the one-dimensional local domain
-`A_𝔪/𝔮` is dominated by a discrete valuation ring `V` (Stacks 00PH), and the completion
-`R = V^∧` is a complete discrete valuation ring (Stacks 0AP1). Rig-surjectivity lifts this
-point to `Spf C` after an extension `R ⊆ R'`, and the lift is `Spf` of a ring map `C → R'`
-(Stacks 0AN0) whose kernel pulls back to a prime of `C` lying over `𝔪`. So `Spec(C/IC) →
-Spec(A/I)` hits every closed point, and flatness turns that into faithful flatness
-(Stacks 00HQ).
+exists (Stacks 02IM), the one-dimensional local domain `A_𝔪/𝔮` is dominated by a discrete
+valuation ring `V` (Stacks 00PH), and the completion `R = V^∧` is a complete discrete valuation
+ring (Stacks 0AP1). This file provides those steps.
+
+Rig-surjectivity applies to such a point once `Spf R → Spf A` is representable by algebraic
+spaces. That is the implication (3) ⟹ (1) of Stacks 0AN5 for an adic, hence taut
+(Stacks 0GBS part (1)), homomorphism, which the library proves as
+`AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut`,
+which is how `RigSurjectiveFaithfullyFlatUnconditional` removes the argument.
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.isRigSurjective_formalSpectrumMap_iff_faithfullyFlat`:
-  **Stacks 0AQY**.
-* `AlgebraicGeometry.FormalSpace.exists_isPrime_comap_eq_of_isRigSurjective`: the geometric
-  half of Stacks 0AQY, that rig-surjectivity makes every maximal ideal of `A` containing `I`
-  a contraction of a prime of `C`.
+* `AlgebraicGeometry.FormalSpace.isRigSurjective_formalSpectrumMap_iff_faithfullyFlat` and
+  `AlgebraicGeometry.FormalSpace.exists_isPrime_comap_eq_of_isRigSurjective`: the criterion and
+  its geometric half, with the representability of adic points as the argument
+  `hAdicRepresentable`.
 * `AlgebraicGeometry.FormalSpace.hasLargeSite_of_mk_lt_cutoff`: a quotient system on a ring
   smaller than the cutoff of the site has a large enough site.
+* `AlgebraicGeometry.FormalSpace.mk_adicCompletion_lt_cutoff`: the adic completion of a ring
+  smaller than the cutoff is smaller than the cutoff.
 
 ## Implementation notes
 
@@ -48,27 +55,6 @@ Stacks 0AIS needs — `hasLargeSite_of_mk_lt_cutoff` derives
 `AlgebraicGeometry.FormalSpace.mk_lt_cutoff_of_quotientSystem` supplies that bound for a
 complete adic ring already carrying a quotient system. Stacks 0AN0 itself asks for no such
 condition.
-
-The one hypothesis that is carried is `hAdicRepresentable`: a continuous homomorphism out of
-`A` which is adic induces a morphism of formal spectra representable by algebraic spaces,
-*for a weakly admissible target*. Since an adic homomorphism is taut
-(`RingHom.isTaut_of_isAdic`, Stacks 0GBS part (1)), that statement is an instance of the
-implication (3) ⟹ (1) of **Stacks 0AN5**, which identifies representability of a morphism of
-affine formal spectra with tautness of the ring map; the weak admissibility of the target is
-carried for exactly that reason, since 0AN5 is stated for weakly admissible topological rings
-and without it `formalSpectrum DR` is not known to be an affine formal algebraic space at all.
-It is the single missing input: `AlgebraicGeometry.FormalSpace.IsRigSurjective` renders
-adicness of its quantified point as representability, and the adicness itself, which is what
-the source proof produces and all this proof needs, is established here as `RingHom.IsAdic`.
-Everything else in the source argument is proved.
-
-Towards 0AN5 (3) ⟹ (1) the library has the cartesian square it rests on, namely
-`AlgebraicGeometry.FormalSpace.isPullback_formalSpectrumMap_stage_of_isTaut`: for a taut
-homomorphism the stage `Spec (C ⧸ K)` cut out by the closure of the extended ideal *is* the
-fibre product `Spf C ×_{Spf A} Spec (A ⧸ I)`. What is missing is the passage from that, which
-represents the base change of `Spf φ` along a quasi-compact point of `Spf A` (Stacks 0AIA), to
-the base change along an arbitrary one; in the source this is the unexplained "we conclude"
-at the end of the proof of 0AN5.
 
 ## References
 
@@ -391,7 +377,10 @@ theorem exists_isPrime_comap_eq_of_isRigSurjective (I : Ideal A)
     Ideal.comap_isPrime g.toRingHom _, ?_⟩
   rw [Ideal.comap_comap, hring, ← Ideal.comap_comap, IsLocalRing.maximalIdeal_comap, hrmax]
 
-/-- **Stacks 0AQY.** Let `A` be a Noetherian ring complete with respect to an ideal `I` whose
+/-- The criterion of Stacks 0AQY, with the representability of the adic points of `Spf A`
+as the argument `hAdicRepresentable`; Stacks 0AQY itself is
+`isRigSurjective_formalSpectrumMap_iff_faithfullyFlat'`, which supplies that argument from
+Stacks 0AN5. Let `A` be a Noetherian ring complete with respect to an ideal `I` whose
 `I`-torsion vanishes, and let `C` be an `I`-adically complete `A`-algebra such that
 `A/Iⁿ → C/IⁿC` is flat and of finite type for every `n`. Then `Spf C → Spf A` is rig-surjective
 if and only if `A/I → C/IC` is faithfully flat.
@@ -401,8 +390,6 @@ Faithful flatness gives rig-surjectivity by Stacks 0AQX. Conversely, a closed po
 `exists_isPrime_comap_eq_of_isRigSurjective` contracts a prime of `C` onto it; so
 `Spec(C/IC) → Spec(A/I)` meets every closed point, which for a flat map is faithful flatness
 (Stacks 00HQ). -/
-@[stacks 0AQY "modulo Stacks 0AN5 part (3) implies part (1) for the adic point, carried as
-  `hAdicRepresentable`"]
 theorem isRigSurjective_formalSpectrumMap_iff_faithfullyFlat (I : Ideal A)
     (hAadic : IsAdic I) (hAcomplete : IsAdicComplete I A)
     (hCadic : IsAdic (I.map (algebraMap A C)))

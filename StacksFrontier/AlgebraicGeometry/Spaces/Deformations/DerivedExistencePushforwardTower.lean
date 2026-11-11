@@ -18,32 +18,35 @@ public import StacksFrontier.Algebra.Homology.HomotopyCategory.ExactFunctorHomol
 /-!
 # The direct images `Rjₙ,*` and `Riₙ,*` of Situation 0DIK
 
-In Situation 0DIK (`AlgebraicGeometry.Space.DerivedExistenceSystem`) the infinitesimal base
+In Situation 0DIK (`AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem`) the infinitesimal base
 changes `Xₙ` sit in `X` and in `Xₙ₊₁` by closed immersions `jₙ : Xₙ ⟶ X` and `iₙ : Xₙ ⟶ Xₙ₊₁`. The
 direct image of modules along a closed immersion of algebraic spaces is exact, so its derived
 functor is computed degreewise. This module records, for the tower `Rjₙ,* Kₙ` of the proof of
 Stacks 0DIL:
 
-* `DerivedExistenceSystem.stagePushforward n : D(𝒪_{Xₙ}) ⥤ D(𝒪_X)` and
-  `DerivedExistenceSystem.transitionPushforward n : D(𝒪_{Xₙ}) ⥤ D(𝒪_{Xₙ₊₁})`, the exact direct
+* `SeparatedDerivedExistenceSystem.stagePushforward n : D(𝒪_{Xₙ}) ⥤ D(𝒪_X)` and
+  `SeparatedDerivedExistenceSystem.transitionPushforward n : D(𝒪_{Xₙ}) ⥤ D(𝒪_{Xₙ₊₁})`, the exact
+  direct
   images on the derived categories `derivedCategoryAt` of Situation 0DIK;
-* `DerivedExistenceSystem.stagePushforwardCompIso n : Riₙ,* ⋙ Rjₙ₊₁,* ≅ Rjₙ,*`, from the
+* `SeparatedDerivedExistenceSystem.stagePushforwardCompIso n : Riₙ,* ⋙ Rjₙ₊₁,* ≅ Rjₙ,*`, from the
   composition law of the direct image of modules (Stacks 03LU) and `iₙ ≫ jₙ₊₁ = jₙ`;
 * `transitionToposDerivedAdjunction n : Liₙ^* ⊣ Riₙ,*` for the ringed-topos derived direct image
   `transitionToposDerivedPushforward n` (Stacks 07A6), with `Liₙ^*` the derived pullback of
   Situation 0DIK, identified with the exact `Riₙ,*` by
-  `DerivedExistenceSystem.transitionToposDerivedPushforwardIso` (both are right derived functors
-  of degreewise direct image), giving `DerivedExistenceSystem.transitionAdjunction`;
-* `DerivedExistenceSystem.pushforwardTower : ℕᵒᵖ ⥤ D(𝒪_X)`, the tower `n ↦ Rjₙ,* Kₙ` with
-  transitions `DerivedExistenceSystem.towerMap` built from the `φₙ`;
-* `DerivedExistenceSystem.isQuasicoherentOnSite_homology_towerObj`: its terms lie in
-  `D_QCoh(𝒪_X)` (Stacks 08JL), and `DerivedExistenceSystem.isZero_homology_towerObj`: they
+  `SeparatedDerivedExistenceSystem.transitionToposDerivedPushforwardIso` (both are right derived
+  functors
+  of degreewise direct image), giving `SeparatedDerivedExistenceSystem.transitionAdjunction`;
+* `SeparatedDerivedExistenceSystem.pushforwardTower : ℕᵒᵖ ⥤ D(𝒪_X)`, the tower `n ↦ Rjₙ,* Kₙ` with
+  transitions `SeparatedDerivedExistenceSystem.towerMap` built from the `φₙ`;
+* `SeparatedDerivedExistenceSystem.isQuasicoherentOnSite_homology_towerObj`: its terms lie in
+  `D_QCoh(𝒪_X)` (Stacks 08JL), and `SeparatedDerivedExistenceSystem.isZero_homology_towerObj`: they
   inherit upper bounds from the `Kₙ`.
 
 ## Implementation notes
 
 The module categories are spelled through the small étale ringed *topos*
-(`DerivedExistenceSystem.toposModules`), as in `derivedCategoryAt`, and the derived categories
+(`SeparatedDerivedExistenceSystem.toposModules`), as in `derivedCategoryAt`, and the derived
+categories
 are at the standard model, which Situation 0DIK fixes; taken by `letI`.
 
 ## References
@@ -98,9 +101,9 @@ def rightDerivedIsoOfFactors {C D H : Type*} [Category* C] [Category* D] [Catego
   haveI := Functor.isRightDerivedFunctor_of_inverts W RF' e
   Functor.rightDerivedUnique RF RF' α e.inv W
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- The infinitesimal base change `Xₙ`. -/
 abbrev stage (n : ℕ) : AlgebraicSpaces D.B (limitBase D.system) D.containsLimitBase :=
@@ -157,7 +160,8 @@ def stagePushforward (n : ℕ) :
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
   haveI := D.preservesFiniteColimits_toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
-    (D.toDerivedExistenceSituation.closedSpaceProjection n)
+    ((isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
   (D.toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)).mapDerivedCategory
 
@@ -174,7 +178,8 @@ def transitionPushforward (n : ℕ) :
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
   haveI := D.preservesFiniteColimits_toposPushforward
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
-    (D.toDerivedExistenceSituation.closedTransitionSpace n)
+    ((isClosedImmersion_transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
   (D.toposPushforward
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)).mapDerivedCategory
 
@@ -191,21 +196,24 @@ def stagePushforwardCompIso (n : ℕ) :
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
   haveI := D.preservesFiniteColimits_toposPushforward
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
-    (D.toDerivedExistenceSituation.closedTransitionSpace n)
+    ((isClosedImmersion_transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
   haveI := D.additive_toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X (n + 1))
   haveI := D.preservesFiniteLimits_toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X (n + 1))
   haveI := D.preservesFiniteColimits_toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X (n + 1))
-    (D.toDerivedExistenceSituation.closedSpaceProjection (n + 1))
+    ((isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective (n + 1)))
   haveI := D.additive_toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
   haveI := D.preservesFiniteLimits_toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
   haveI := D.preservesFiniteColimits_toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
-    (D.toDerivedExistenceSituation.closedSpaceProjection n)
+    ((isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
   RingTheory.TorIndependence.mapDerivedCategoryCompNatIso _ _ _
     (modulePushforwardCompIso' D.B (limitBase D.system) D.containsLimitBase
       (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
@@ -283,7 +291,8 @@ def transitionPushforwardFactorsh (n : ℕ) :
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
   haveI := D.preservesFiniteColimits_toposPushforward
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
-    (D.toDerivedExistenceSituation.closedTransitionSpace n)
+    ((isClosedImmersion_transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
   Functor.mapDerivedCategoryFactorsh (D.toposPushforward
     (transitionSpace D.system D.B D.containsLimitBase D.containsBaseAt D.X n))
 
@@ -344,7 +353,8 @@ private instance (n : ℕ) : PreservesFiniteLimits (D.toposPushforward
 private instance (n : ℕ) : PreservesFiniteColimits (D.toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)) :=
   D.preservesFiniteColimits_toposPushforward _
-    (D.toDerivedExistenceSituation.closedSpaceProjection n)
+    ((isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
 
 /-- **The terms `Rjₙ,* Kₙ` of the tower lie in `D_QCoh(𝒪_X)`**: `jₙ,*` is exact, so
 `Hᵠ(Rjₙ,* Kₙ) = jₙ,* Hᵠ(Kₙ)`, which is quasi-coherent, `jₙ` being affine (Stacks 08JL and the
@@ -362,7 +372,8 @@ theorem isQuasicoherentOnSite_homology_towerObj (n : ℕ) (q : ℤ) :
   have h := isQuasicoherentOnSite_modulePushforward_isAffineHom D.B (limitBase D.system)
     D.containsLimitBase (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
     (isAffineHom_of_isClosedImmersion _ _ _ _
-      (D.toDerivedExistenceSituation.closedSpaceProjection n))
+      ((isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n)))
     _ (D.isQuasicoherentOnSite_homology_K n q)
   rw [← pushforwardModules_eq_modulePushforward] at h
   exact h
@@ -379,6 +390,21 @@ theorem isZero_homology_towerObj (n : ℕ) (q : ℤ)
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)).map_isZero h).of_iso
     ((Functor.mapDerivedCategoryHomologyIso (D.toposPushforward
       (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)) q).app (D.K n))
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
+
+variable (D : DerivedExistenceSystem.{u})
+
+/-- The modules on the small étale ringed topos of an algebraic space, in Situation 0DIK. -/
+abbrev toposModules (Y : AlgebraicSpaces D.B (limitBase D.system) D.containsLimitBase) :=
+  SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf
+    (smallEtaleRingedTopos D.B (limitBase D.system) D.containsLimitBase Y).O)
+
+/-- `D(𝒪_X)` at the standard model, in Situation 0DIK. -/
+abbrev limitDerivedCategory :=
+  @DerivedCategory (D.toposModules D.X.left) _ _ (HasDerivedCategory.standard _)
 
 end DerivedExistenceSystem
 

@@ -4,14 +4,17 @@ public import StacksFrontier.AlgebraicGeometry.TwistTensor.VeroneseChartBidegree
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Situation 01QH's map is a map of `ℤ`-graded `𝒪_X`-algebras
+# The comparison `twistComparison` of Situation 01QH is a map of `ℤ`-graded `𝒪_X`-algebras
 
 Let `X` be a scheme, `𝓛` an ample invertible sheaf on `X`, `S = Γ_*(X, 𝓛)` and `Y = Proj S`, and
 let `f : X ⟶ Y` be the canonical morphism of [Stacks, Tag 01PZ].  Situation [Stacks, Tag 01QH]
-equips `f` with a `ℤ`-graded `𝒪_X`-algebra map `⨁_{n ∈ ℤ} f^*𝒪_Y(n) ⟶ ⨁_{n ∈ ℤ} 𝓛^{⊗ n}`.  Its
-degreewise components are `Stacks.SectionRingVeroneseChart.twistComparison`; **this file supplies
-the multiplicativity, in an arbitrary integer bidegree, which is what makes the family a map of
-graded algebras rather than a family of maps.**
+equips `f` with a `ℤ`-graded `𝒪_X`-algebra map `⨁_{n ∈ ℤ} f^*𝒪_Y(n) ⟶ ⨁_{n ∈ ℤ} 𝓛^{⊗ n}`.  The
+Situation's map is `θ` of [Stacks, Tag 01NK], which is
+`Stacks.SectionRingProjMorphism.Theta.projThetaUnital` (the Tag 01QH registration).  This
+file is about a second such family, `Stacks.SectionRingVeroneseChart.twistComparison`, which is
+not proved to agree with `θ`.  The family's degreewise components are `twistComparison`;
+**this file supplies the multiplicativity, in an arbitrary integer bidegree, which is what makes
+the family a map of graded algebras rather than a family of maps.**
 
 `twistComparison` is the forward map of a composite of five isomorphisms and the bidegree square
 for it is the five legs' squares pasted.  Four of the five are proved elsewhere:
@@ -36,12 +39,12 @@ What is added here is the square for the remaining structural leg
   and why it is at that spelling and not at `⊗`.
 * `Stacks.SectionRingVeroneseChart.pbTwistMul`: **the graded `𝒪_X`-algebra structure on
   `⨁_{n ∈ ℤ} f^*𝒪_Y(n)`** — `twistMulModules` pulled back along `f` and conjugated by
-  [Stacks, Tag 01CD].  This is the source algebra of Situation [Stacks, Tag 01QH]'s map.
+  [Stacks, Tag 01CD].  This is the source algebra of `twistComparison`.
 
 ## Main results
 
-* `Stacks.SectionRingVeroneseChart.twistComparison_mul`: **multiplicativity of Situation
-  [Stacks, Tag 01QH]'s map in an arbitrary integer bidegree `(n, m)`** — `pbTwistMul` followed by
+* `Stacks.SectionRingVeroneseChart.twistComparison_mul`: **multiplicativity of `twistComparison`
+  in an arbitrary integer bidegree `(n, m)`** — `pbTwistMul` followed by
   the comparison in the degree `n + m` is the comparisons in the degrees `n` and `m` on the two
   factors followed by the addition law `Stacks.Ample.tensorPowModuleAddIso` of
   [Stacks, Tag 01CU] for the tensor powers of `𝓛`.
@@ -101,7 +104,8 @@ bidegree, and that is what `twistComparison` and `twistComparison_mul` supply be
 preservation, the extra datum of `Stacks.SheafOfModules.GradedAlgebra.UnitalHom`, is
 `Stacks.SectionRingVeroneseChart.pbTwistUnit_twistComparison` of
 `StacksFrontier/AlgebraicGeometry/TwistTensor/VeroneseChartGradedAlgebraUnit.lean`; the three
-declarations jointly give the Situation's `ℤ`-graded `𝒪_X`-algebra map.
+declarations jointly give a unital `ℤ`-graded `𝒪_X`-algebra map, not identified with the
+Situation's `θ`.
 
 It is proved there from the bidegree square below rather than independently of it: the degree-zero
 pieces of both algebras are `𝒪_X`, both units are forced, and the square at a bidegree `(0, m)`
@@ -301,8 +305,7 @@ variable {X : Scheme.{u}} (L : X.Modules) [IsInvertibleModule X L]
 /-- **The graded `𝒪_X`-algebra structure on `⨁_{n ∈ ℤ} f^*𝒪_Y(n)`**: the canonical multiplication
 `Stacks.AlgebraicGeometry.TwistTensor.twistMulModules` of the twisting sheaves of
 [Stacks, Tag 01MO], pulled back along the canonical morphism of [Stacks, Tag 01PZ] and conjugated
-by the comparison of [Stacks, Tag 01CD].  This is the source algebra of Situation
-[Stacks, Tag 01QH]'s map. -/
+by the comparison of [Stacks, Tag 01CD].  This is the source algebra of `twistComparison`. -/
 def pbTwistMul (n m : ℤ) :
     pbTwist L hL n ⊗ pbTwist L hL m ⟶ pbTwist L hL (n + m) :=
   (pullbackTensorModulesIso (Stacks.SectionRingProjMorphism.projHomOfIsAmple L hL)
@@ -386,7 +389,7 @@ theorem pbTwistIsoGood_mul (n m : ℤ) :
 
 /-! ### The five legs, pasted -/
 
-/-- Situation [Stacks, Tag 01QH]'s map in degree `c`, with its five legs written out. -/
+/-- `twistComparison` in degree `c`, with its five legs written out. -/
 theorem twistComparison_eq (c : ℤ) :
     twistComparison L hL c =
       ((pbTwistIsoGood L hL c).hom ≫
@@ -460,7 +463,7 @@ theorem twistComparison_mul_aux (n m : ℤ) :
       (pbTwist L hL 1) (pbTwistIsoGood L hL 1).symm n m)
     (tensorPowModuleIsoOfIsoInt_mul (pbTwist L hL 1) L (degreeOneIso L hL) n m)
 
-/-- **Situation [Stacks, Tag 01QH]'s map is multiplicative in an arbitrary integer bidegree.**  The
+/-- **`twistComparison` is multiplicative in an arbitrary integer bidegree.**  The
 graded `𝒪_X`-algebra structure `pbTwistMul` on `⨁_{n ∈ ℤ} f^*𝒪_Y(n)`, followed by the comparison
 in the degree `n + m`, is the comparisons in the degrees `n` and `m` on the two factors, followed
 by the addition law `Stacks.Ample.tensorPowModuleAddIso` of [Stacks, Tag 01CU] for the tensor
@@ -470,21 +473,12 @@ Together with the degreewise family `twistComparison` this makes the family a ho
 sheaves of `ℤ`-graded algebras in this repository (`Stacks.SheafOfModules.GradedAlgebra.Hom`,
 registered for [Stacks, Tag 0FQW]), which is exactly a degreewise family together with
 multiplicativity in every bidegree; with unit preservation
-(`Stacks.SectionRingVeroneseChart.pbTwistUnit_twistComparison`) the three are the `ℤ`-graded
-`𝒪_X`-algebra map `⨁_{n ∈ ℤ} f^*𝒪_Y(n) ⟶ ⨁_{n ∈ ℤ} 𝓛^{⊗ n}` the Situation equips the canonical
-morphism with.
+(`Stacks.SectionRingVeroneseChart.pbTwistUnit_twistComparison`) the three are a unital
+`ℤ`-graded `𝒪_X`-algebra map `⨁_{n ∈ ℤ} f^*𝒪_Y(n) ⟶ ⨁_{n ∈ ℤ} 𝓛^{⊗ n}`. It is not proved to be
+the Situation's map, Tag 01NK's `θ` (`Stacks.SectionRingProjMorphism.Theta.projThetaUnital`).
 
 The proof is the pasting `twistComparison_mul_aux` of the five legs' squares, read at the
 unfolding `twistComparison_eq` of the composite. -/
-@[stacks 01QH "multiplicativity of the Situation's map in an arbitrary integer bidegree (n, m). \
-With the degreewise family twistComparison this makes the family a homomorphism of sheaves of \
-Z-graded algebras here (SheafOfModules.GradedAlgebra.Hom, registered for 0FQW), which is exactly \
-a degreewise family plus multiplicativity in every bidegree; with unit preservation \
-(pbTwistUnit_twistComparison, the extra datum of GradedAlgebra.UnitalHom) the three jointly give \
-the Z-graded O_X-algebra map the Situation equips the canonical morphism with. The graded algebra \
-structure on the source is pbTwistMul, Tag 01MO's multiplication of the twisting sheaves pulled \
-back along the canonical morphism of Tag 01PZ and conjugated by Tag 01CD; on the target it is \
-Tag 01CU's addition law"]
 theorem twistComparison_mul (n m : ℤ) :
     pbTwistMul L hL n m ≫ twistComparison L hL (n + m) =
       (twistComparison L hL n ⊗ₘ twistComparison L hL m) ≫

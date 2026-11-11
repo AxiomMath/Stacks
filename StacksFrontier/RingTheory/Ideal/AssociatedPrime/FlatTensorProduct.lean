@@ -38,7 +38,10 @@ a Noetherian `R` and `M` finite, `Ass_R(P ⊗_R M) ⊆ Ass_R(M)`.
 
 ## Main results
 
-* `Stacks.AssociatedPrimes.FibreRings.solution`: Stacks Tag 05C2.
+* `Stacks.AssociatedPrimes.FibreRings.solution`: the analogue of Stacks Tag 05C2 for Mathlib's
+  radical `associatedPrimes` on the `S`-side and on the fibre rings. Tag 05C2 itself, with the
+  annihilator `Ass` of Tag 00LA on every side, is `assStacks_tensorProduct_of_flat_fiberRing` in
+  `StacksFrontier.RingTheory.Ideal.AssociatedPrime.FlatTensorProductFibre`.
 
 ## Implementation notes
 
@@ -408,15 +411,17 @@ associated prime, flat module, tensor product, fibre ring, residue field
 
 open TensorProduct
 
-/-- **Stacks Tag 05C2.** Let `R → S` be a ring map, let `M` be an `R`-module and let `N` be an
-`S`-module which is flat as an `R`-module. Viewing `Spec(S ⊗_R κ(𝔭))` as a subset of `Spec(S)`
-(Tag 00E6), we have
+/-- The radical analogue of Stacks Tag 05C2. Let `R → S` be a ring map, let `M` be an `R`-module
+and let `N` be an `S`-module which is flat as an `R`-module. Viewing `Spec(S ⊗_R κ(𝔭))` as a
+subset of `Spec(S)` (Tag 00E6), we have
 `Ass_S(N ⊗_R M) ⊇ ⋃_{𝔭 ∈ Ass_R(M)} Ass_{S ⊗_R κ(𝔭)}(N ⊗_R κ(𝔭))`,
-and this inclusion is an equality if `R` is Noetherian. Here `Ass_R(M)` is the source's set of
-associated primes of Tag 00LA, the primes that *are* the annihilator of an element of `M`; over a
-Noetherian ring it agrees with Mathlib's `associatedPrimes`, which is how the second assertion
-spells it. -/
-@[stacks 05C2, ega "IV 3.3.1" "affine case", ega "IV 3.3.6" "affine case, X = S"]
+and this inclusion is an equality if `R` is Noetherian. Here `Ass_S` and `Ass_{S ⊗_R κ(𝔭)}` are
+Mathlib's `associatedPrimes`, the primes equal to the *radical* of the annihilator of an element,
+which differs from the `Ass` of Tag 00LA over a non-Noetherian ring; the index set of the first
+assertion is the set of Tag 00LA, and that of the second Mathlib's `associatedPrimes R M`, which
+agrees with it over the Noetherian `R`. Tag 05C2 itself, with the annihilator `Ass` of Tag 00LA on
+every side, is `assStacks_tensorProduct_of_flat_fiberRing`. -/
+@[ega "IV 3.3.1" "affine case", ega "IV 3.3.6" "affine case, X = S"]
 public theorem associatedPrimes.tensorProduct_of_flat_fiberRing {R S M N : Type*} [CommRing R]
     [CommRing S] [Algebra R S] [AddCommGroup M] [Module R M] [AddCommGroup N] [Module S N]
     [Module R N] [IsScalarTower R S N] [Module.Flat R N] :

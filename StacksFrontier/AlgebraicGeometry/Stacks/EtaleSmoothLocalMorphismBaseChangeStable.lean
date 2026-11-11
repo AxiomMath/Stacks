@@ -1,6 +1,7 @@
 module
 
 public import StacksCore.Tactic.StacksAttribute
+public import StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordPresentationExistence
 public import StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordSpecialPresentation
 public import StacksFrontier.AlgebraicGeometry.Stacks.EtaleSmoothLocalMorphismEvery
 public import StacksFrontier.AlgebraicGeometry.Stacks.EtaleSmoothLocalMorphismEveryConverse
@@ -24,8 +25,11 @@ induces from `P` is stable under arbitrary base change.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.hasEtaleSmoothLocalProperty_baseChange`: **Stacks 0CII**, for the
-  canonical 2-fibre product square.
+* `AlgebraicGeometry.Stack.hasEtaleSmoothLocalProperty_baseChange`: the source's argument for
+  **Stacks 0CII** at the canonical 2-fibre product square. The registered statement, for every
+  2-fibre product square, is `AlgebraicGeometry.Stack`
+  `.hasEtaleSmoothLocalProperty_snd_of_isTwoFibreProduct_of_isStableUnderBaseChange`, in
+  `StacksFrontier.AlgebraicGeometry.Stacks.EtaleSmoothLocalMorphismBaseChange`.
 
 ## Implementation notes
 
@@ -38,7 +42,10 @@ generality.
 
 The source builds that diagram from three choices: a smooth presentation `V ⟶ 𝒴` surjective on
 objects, a surjective étale presentation `U ⟶ 𝒳 ×_𝒴 V` — this is the one appeal to
-**Stacks 0CIA**, hence the hypothesis `hForward` — and a smooth presentation `V' ⟶ 𝒵 ×_𝒴 V`
+**Stacks 0CIA**, through the forward direction of **Stacks 06N3**, which is the theorem
+`AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM` read at the terminal scheme
+(every big fppf site contains it, `AlgebraicGeometry.BigFppfSite.contains_terminal`) — and a
+smooth presentation `V' ⟶ 𝒵 ×_𝒴 V`
 surjective on objects. Its top-left corner is the algebraic space `V' ×_V U` and its top
 horizontal morphism is the base change of `U ⟶ V` along `V' ⟶ V`, which is where stability of
 `P` under base change is used, through **Stacks 04SD** in the form
@@ -54,8 +61,10 @@ the canonical 2-fibre product of the cospan the new diagram sits over. Every com
 `isRelativelyEtale_preHom_diagramCone_of_chart`, the étale reading of
 `AlgebraicGeometry.Stack.isRelativelySmooth_preHom_diagramCone_of_chart`.
 
-The statement is for the canonical 2-fibre product square, which is the shape
-`AlgebraicGeometry.Stack.AlgebraicStacks.isDM_baseChange` is stated at.
+The statement here is for the canonical 2-fibre product square, which is the shape
+`AlgebraicGeometry.Stack.AlgebraicStacks.isDM_baseChange` is stated at; the passage to an
+arbitrary 2-fibre product square is made in
+`StacksFrontier.AlgebraicGeometry.Stacks.EtaleSmoothLocalMorphismBaseChange`.
 
 ## References
 
@@ -128,27 +137,23 @@ private theorem prop_representingMap_twoFibreProductFst
     IsPullback.of_map_of_faithful (ObjectProperty.ι _) hsq1
   exact MorphismProperty.IsStableUnderBaseChange.of_isPullback hsqA hq
 
-/-- **Stacks 0CII.** Let `P` be a property of morphisms of algebraic spaces over `S` which is
-étale-smooth local on the source-and-target and stable under base change. Then the property of
-Deligne–Mumford 1-morphisms of algebraic stacks over `S` that **Stacks 0CIG** induces from `P`
-is inherited by the base change of a 1-morphism along the canonical 2-fibre product square.
+/-- **Stacks 0CII, at the canonical 2-fibre product square.** Let `P` be a property of morphisms
+of algebraic spaces over `S` which is étale-smooth local on the source-and-target and stable under
+base change. Then the property of Deligne–Mumford 1-morphisms of algebraic stacks over `S` that
+**Stacks 0CIG** induces from `P` is inherited by the base change of a 1-morphism along the
+canonical 2-fibre product square.
 
 The Deligne–Mumford condition on the base change is **Stacks 050F**, and the diagram of
 condition (2) of **Stacks 0CIF** is the source's: its top-left corner is `V' ×_V U` for a smooth
-presentation `V ⟶ 𝒴`, a surjective étale presentation `U ⟶ 𝒳 ×_𝒴 V` and a smooth presentation
-`V' ⟶ 𝒵 ×_𝒴 V`, and its top horizontal morphism is the base change of `U ⟶ V` along
-`V' ⟶ V`. -/
-@[stacks 0CII "for the canonical 2-fibre product square of Stacks 003Q, which is the shape the
-  library version of Stacks 050F is stated at, and with the substantial direction of Stacks 06N3 as
-  the explicit hypothesis hForward (the structure theorem behind it, Stacks 06MD, 06N0, 06N2, 06G2,
-  06G3, is absent from the library); it enters only through Stacks 0CIA, which supplies the
-  surjective etale presentation the source's argument chooses"]
+presentation `V ⟶ 𝒴`, a surjective étale presentation `U ⟶ 𝒳 ×_𝒴 V` (Stacks 0CIA, from
+`existsEtalePresentationOfIsAbsolutelyDM`) and a smooth presentation `V' ⟶ 𝒵 ×_𝒴 V`, and its top
+horizontal morphism is the base change of `U ⟶ V` along `V' ⟶ V`. The statement for every
+2-fibre product square is
+`hasEtaleSmoothLocalProperty_snd_of_isTwoFibreProduct_of_isStableUnderBaseChange`. -/
 theorem hasEtaleSmoothLocalProperty_baseChange
     (P : MorphismProperty (AlgebraicSpaces B S hS))
     (hP : Space.IsEtaleSmoothLocalOnSourceAndTarget B S hS P)
     [P.IsStableUnderBaseChange]
-    (hZ : B.Contains (⊤_ Scheme.{u}))
-    (hForward : ExistsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS hZ)
     {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒵 ⟶ 𝒴)
     (hf : HasEtaleSmoothLocalProperty B S hS P f) :
     HasEtaleSmoothLocalProperty B S hS P
@@ -172,7 +177,8 @@ theorem hasEtaleSmoothLocalProperty_baseChange
   obtain ⟨W, pres, hpreset, hpressu⟩ :=
     exists_etalePresentation_of_isDeligneMumfordStack.{u, w} B S hS (𝒜 := Jf₀.pt)
       (AlgebraicStacks.isDeligneMumfordStack_twoFibreProduct_algebraicSpace.{u, w}
-        B S hS hZ hForward f hf.1 V hV vS)
+        B S hS B.contains_terminal
+        (existsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS B.contains_terminal) f hf.1 V hV vS)
   have hU : IsAlgebraicSpace B S hS (yoneda.obj W) := isAlgebraicSpace_yoneda B S hS W
   set eU := PresheafOfCategories.sliceElementsEquivalenceOver W with heU
   set cc : fibredCategory B S hS (yoneda.obj W) ⟶ Jf₀.pt :=

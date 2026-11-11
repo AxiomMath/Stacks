@@ -57,20 +57,17 @@ not the tag. Besides this step that tag needs the trace map of Duality for Schem
 [Stacks, Tag 0AWG] — which is the counit of the adjunction `Rf_* ⊣ a` of [Stacks, Tag 0A9E],
 proved in this development as
 `Stacks.Duality.isLeftAdjoint_quasiCoherentDerivedPushforward_of_qcqs` and used in exactly that
-way by `Stacks.Duality.sheafyTrace` ([Stacks, Tag 0B6H]) — and three results that are not
-available here.
+way by `Stacks.Duality.sheafyTrace` ([Stacks, Tag 0B6H]) — and the results below.
 
-* The duality step inside [Stacks, Tag 0AXD], which is the hypothesis `hvanish` of
-  `AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_dualizingModule`. Two things block
-  it, each checked. Its computation `RHom_A(Rf_*ω_X^•, ω_A^•) = Rf_*𝒪_X` is the invertibility of
-  `Stacks.Duality.sheafyTrace`, [Stacks, Tag 0GEW], which
-  `Stacks.Duality.isIso_sheafyTrace_of_isProper` reduces to [Stacks, Tag 0GEV] and
-  `Stacks.Duality.isIso_sheafyTrace_of_isPseudoCoherent` reduces further to [Stacks, Tag 0A9Q],
-  the invertibility of the trace after the coherator; that is open, and
-  `Stacks.Duality.not_isIso_sheafyTrace` shows the coherator cannot be dropped from it. And the
-  contradiction the step ends in is [Stacks, Tag 0AXC], and that tag is proved outright here as
-  `…VanishingSituation.hom_residueFieldShift_derivedGlobalSections_eq_zero`, so it blocks nothing.
-  The affine comparison `D(A) = D_QCoh(𝒪_{Spec(A)})` *is* available, as [Stacks, Tag 06Z0],
+* Grauert-Riemenschneider vanishing, [Stacks, Tag 0AXD], is not one of them: it is proved, with
+  its duality step (the hypothesis `hvanish` of
+  `AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_dualizingModule`) discharged as
+  `AlgebraicGeometry.VanishingSituation.forall_linearMap_residueField_eq_zero`, and stated
+  unconditionally as
+  `AlgebraicGeometry.VanishingSituation.isZero_firstCohomology_of_properRightAdjoint_isoShiftTwo`.
+  The contradiction its duality step ends in is [Stacks, Tag 0AXC], proved here as
+  `…VanishingSituation.hom_residueFieldShift_derivedGlobalSections_eq_zero`, and the affine
+  comparison `D(A) = D_QCoh(𝒪_{Spec(A)})` is [Stacks, Tag 06Z0],
   `AlgebraicGeometry.derivedTilde_isEquivalence`.
 * The duality passage from `Rf_*ω_X = ω_A` to `Rf_*𝒪_X = 𝒪_{Spec(A)}`, which is the same
   invertibility of `Stacks.Duality.sheafyTrace` and so rests on the same [Stacks, Tag 0A9Q].

@@ -117,7 +117,15 @@ theorem IsRigSurjective.of_isPullback_of_isAdicMorphism {W X Y Z : FppfSheaf B S
 
 /-- **Stacks 0GDN.** Let `f : X ⟶ Y` be a morphism of locally Noetherian formal algebraic spaces
 over `S` which is a formal modification. Then for any adic morphism `g : Z ⟶ Y` of locally
-Noetherian formal algebraic spaces, the base change `X ×_Y Z ⟶ Z` is a formal modification. -/
+Noetherian formal algebraic spaces, the base change `X ×_Y Z ⟶ Z` is a formal modification.
+
+The fibre product is locally Noetherian by
+`AlgebraicGeometry.FormalSpace.isLocallyNoetherian_pullback_of_isRigEtale`; properness is
+Stacks 0GBT, rig-étaleness Stacks 0GD1, and the rig-surjectivity of the base change and of its
+diagonal Stacks 0AQS, the diagonal being the base change of `Δ_f` along the adic comparison
+morphism `X' ×_Z X' ⟶ X ×_Y X` of `AlgebraicGeometry.FormalSpace.isPullback_selfPullbackMap`.
+No hypothesis beyond those of the source is made: `g` is adic in the sense of Definition 0AQ3,
+and neither `g` nor `Δ_f` is assumed locally of finite type. -/
 @[stacks 0GDN]
 theorem isFormalModification_pullback_snd_of_isAdicMorphism {X Y Z : FppfSheaf B S hS}
     (f : X ⟶ Y) (g : Z ⟶ Y) (hZ : IsLocallyNoetherian B S hS Z)

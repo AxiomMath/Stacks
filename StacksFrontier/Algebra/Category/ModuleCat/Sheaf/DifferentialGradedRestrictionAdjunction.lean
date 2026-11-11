@@ -47,20 +47,17 @@ and this file proves that it is left adjoint to `res_φ`, which is the second as
 
 ## Implementation notes
 
-**The tensor product is a hypothesis, not a construction.** The tensor product of a right
-differential graded module with a differential graded bimodule is not constructed in this
-development: over a general ringed site there is no monoidal structure on sheaves of modules to
-build it from, so
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedTensor.lean` pins it by a
-universal property instead. Everything below therefore carries a
-`SheafOfModules.TensorFunctorData A B (φ.toBimodule hφ)`, the datum of
-[Stacks, Tag 0FTE](https://stacks.math.columbia.edu/tag/0FTE): a functor
-`Mod(A, d) ⥤ Mod(B, d)` whose value at `M` *is* a tensor product `M ⊗_A {}_A B_B`, together
-with the description `x ⊗ y ↦ f (x) ⊗ y` of its action on morphisms. That is the same
-hypothesis that
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedPullbackTensor.lean` carries,
-and it is strictly weaker than the conclusion here: it mentions neither restriction of scalars,
-nor `φ`, nor any hom-set bijection.
+**The tensor product enters through its universal property.** Everything below is stated for
+a `SheafOfModules.TensorFunctorData A B (φ.toBimodule hφ)`: a functor `Mod(A, d) ⥤ Mod(B, d)`
+whose value at `M` *is* a tensor product `M ⊗_A {}_A B_B` in the sense of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedTensor.lean`, together with the
+description `x ⊗ y ↦ f (x) ⊗ y` of its action on morphisms. The proof uses only that universal
+property, so it applies to any such functor and works over an arbitrary sheaf of rings and in
+arbitrary universes. The library constructs one,
+`SheafOfModules.RelativeTensor.tensorFunctorDataDgTensorRight`, and the adjunction for it,
+with nothing carried, is
+`SheafOfModules.DifferentialGradedModule.baseChangeRestrictionAdjunction` in
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedBaseChangeAdjunction.lean`.
 
 **Unit preservation is a hypothesis.** As in
 `StacksFrontier/Algebra/Category/ModuleCat/Sheaf/DifferentialGradedRestriction.lean`, Definition
@@ -117,9 +114,6 @@ site rather than the structure sheaf of a ringed site; a ringed site `X` is the 
 
 * [Stacks Project, Tag 0FRP](https://stacks.math.columbia.edu/tag/0FRP) — restriction of
   scalars, the bimodule `{}_A B_B` and the adjunction proved here.
-* [Stacks Project, Tag 0FTE](https://stacks.math.columbia.edu/tag/0FTE) — the tensor product
-  `M ⊗_A N` of a right differential graded module with a differential graded bimodule, carried
-  here as the hypothesis `SheafOfModules.TensorFunctorData`.
 * [Stacks Project, Tag 0FRM](https://stacks.math.columbia.edu/tag/0FRM) — balanced bilinear
   families, the universal property of the tensor product.
 * [Stacks Project, Tag 0FRQ](https://stacks.math.columbia.edu/tag/0FRQ) — differential graded
@@ -831,8 +825,10 @@ def extensionRestrictionHomEquiv (M : DifferentialGradedModule.{t, a, m} A)
 /-- **Extension of scalars is left adjoint to restriction of scalars.** For a unit-preserving
 homomorphism `φ : A ⟶ B` of sheaves of differential graded `R`-algebras and a tensor product
 functor `- ⊗_{A, φ} B` with the bimodule `{}_A B_B`, that functor is left adjoint to `res_φ`.
-This is the adjunction of [Stacks, Tag 0FRP](https://stacks.math.columbia.edu/tag/0FRP). -/
-@[stacks 0FRP "base change is left adjoint to res_phi, given a TensorFunctorData of 0FTE"]
+This is the adjunction of [Stacks, Tag 0FRP](https://stacks.math.columbia.edu/tag/0FRP) for an
+arbitrary functor whose values are tensor products with `{}_A B_B`; for the tensor product functor
+the library constructs it is
+`SheafOfModules.DifferentialGradedModule.baseChangeRestrictionAdjunction`. -/
 def extensionRestrictionAdjunction : D.functor ⊣ restriction.{t, a, m} φ hφ :=
   Adjunction.mkOfHomEquiv
     { homEquiv := fun M L => extensionRestrictionHomEquiv φ hφ D M L

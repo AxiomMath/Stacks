@@ -67,8 +67,10 @@ namespace AlgebraicGeometry
 
 universe u
 
-/-- A scheme quasi-compact and locally of finite type over a Noetherian scheme is Noetherian.
-This is Tag 01T6 for a Noetherian target. -/
+/-- **Stacks 01T6, Noetherian case.** If `f : X ⟶ Y` is quasi-compact and locally of finite type
+(that is, of finite type) and `Y` is Noetherian, then `X` is Noetherian. The locally Noetherian
+case is `AlgebraicGeometry.isLocallyNoetherian_of_locallyOfFiniteType`. -/
+@[stacks 01T6 "Noetherian case: `f` quasi-compact and locally of finite type, `Y` Noetherian"]
 lemma isNoetherian_of_locallyOfFiniteType {X Y : Scheme.{u}} (f : X ⟶ Y)
     [LocallyOfFiniteType f] [QuasiCompact f] [IsNoetherian Y] : IsNoetherian X :=
   have : IsLocallyNoetherian X := LocallyOfFiniteType.isLocallyNoetherian f

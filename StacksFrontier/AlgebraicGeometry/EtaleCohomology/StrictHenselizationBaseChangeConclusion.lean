@@ -38,8 +38,10 @@ strict henselizations; and the conclusion follows by Tag 03PU.
 
 ## Main results
 
-* `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_strictHenselizationStalks` is
-  **Stacks Project, Tag 0F00**.
+* `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_strictHenselizationStalks` — the
+  stalkwise argument of Tag 0F00 for a sheaf `F` whose stalks satisfy the conclusion of Tag 03Q9.
+  Tag 0F00 itself, with no such condition, is
+  `isIso_smallEtaleSetBaseChange_of_geometricallyConnected_strictHenselization`.
 
 ## Implementation notes
 
@@ -56,13 +58,13 @@ quasi-compact unconditionally. The Tag 03PU step is discharged by
 `AlgebraicGeometry.GeometricPoint.ofPoint`, whose members lie over the points of `X` and therefore
 cover it.
 
-Tag 03Q9 for sheaves of sets is not available in the library — the only form of it present,
-`Stacks.StrictlyHenselian.higherDirectImageEtaleStalkIso`, is for abelian sheaves, degreewise, and
-over a base which is already the spectrum of a strictly henselian local ring — and that tag is
-being formalized elsewhere. Its conclusion is therefore carried as the declared hypothesis
-`h03Q9`, spelled out by `Stacks.EtaleCohomology.StalkIsSections`: at each geometric point `x̄` of
-`X` it provides the two stalk computations as bijections and asks that the stalk map of the base
-change map agree, through them, with the canonical comparison of global sections. Nothing else
+Tag 03Q9 for sheaves of sets in degree zero is
+`Stacks.EtaleCohomology.isIso_Γ_map_smallEtaleSetBaseChange_strictHenselization`, which the proof
+of `isIso_smallEtaleSetBaseChange_of_geometricallyConnected_strictHenselization` uses. In this
+file its conclusion is instead the explicit condition `h03Q9`, spelled out by
+`Stacks.EtaleCohomology.StalkIsSections`: at each geometric point `x̄` of `X` it provides the two
+stalk computations as bijections and asks that the stalk map of the base change map agree,
+through them, with the canonical comparison of global sections. Nothing else
 about the two stalks is used, which is why `StalkIsSections` takes the stalk map as a variable
 `ψ` instead of naming it: the map is supplied by the caller — in the theorem below, by the stalk
 map itself — and the definition says of it only what Tag 03Q9 says.
@@ -174,7 +176,7 @@ private theorem isIso_of_stalkIsSections (sq : IsPullback h e f g)
       (strictHenselizationBasePullbackSheaf B hS f x F))
     α β hcomparison hcompat
 
-/-- **Stacks Project, Tag 0F00.** Let
+/-- **The stalkwise argument of Tag 0F00.** Let
 
 ```
 Y --h--> X

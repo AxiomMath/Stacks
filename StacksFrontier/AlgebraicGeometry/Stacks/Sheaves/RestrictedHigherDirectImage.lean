@@ -39,7 +39,10 @@ image along `y` (Stacks 075H), and **Stacks 075N**, the restricted total direct 
   exact direct image commutes with the cohomology functors of the derived category.** This is
   the step that moves `H^i` past the restriction `π_{V,*}`, and it is exactly what the
   exactness hypotheses of Stacks 075N's carrier supply.
-* `AlgebraicGeometry.Space.restrictedHigherDirectImageChartIso`: **Stacks 0GQH.**
+* `AlgebraicGeometry.Space.restrictedHigherDirectImageChartIso`: the identity of Stacks 0GQH in
+  derived form, from the base change isomorphism `bc` of the chart square. The lemma itself, for
+  `ℱ` in `LQCoh^{fbc}(𝒪_𝒳)` and the fppf higher direct image of `Mod(𝒪_𝒳)`, is
+  `AlgebraicGeometry.Stack.restrictedFppfModulesHigherDirectImage`, which carries the tag.
 
 ## Implementation notes
 
@@ -274,10 +277,11 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (smallEtaleRingedTopos B S hS ⟨F, hF⟩).Modules (ComplexShape.up ℤ))]
 
 include αfStack in
-/-- **Stacks 0GQH.** For an object `y : V ⟶ 𝒴` of `𝒴`, with `𝒱` the category fibred in
-groupoids of that object, `𝒰 = 𝒱 ×_𝒴 𝒳` the 2-fibre product — presented by the *algebraic
-space* `F = U`, because `f` is representable by algebraic spaces — and `f' : 𝒰 ⥤ 𝒱` the base
-change of `f`, inducing a morphism `U ⟶ V` on presenting algebraic spaces
+/-- **The identity of Stacks 0GQH, in derived form.** For an object `y : V ⟶ 𝒴` of `𝒴`, with
+`𝒱` the category fibred in groupoids of that object, `𝒰 = 𝒱 ×_𝒴 𝒳` the 2-fibre product —
+presented by the *algebraic space* `F = U`, because `f` is representable by algebraic
+spaces — and `f' : 𝒰 ⥤ 𝒱` the base change of `f`, inducing a morphism `U ⟶ V` on presenting
+algebraic spaces
 (`AlgebraicGeometry.Space.inducedAlgebraicSpacesHom`):
 
 ```text
@@ -295,41 +299,12 @@ The chain is the source's: `hDg` and `bc` are its reduction to the representable
 `AlgebraicGeometry.Space.restrictedDerivedDirectImageIso` together with
 `AlgebraicGeometry.RingedToposHom.derivedPushforwardOfExactCompHomologyFunctorIso` are its
 appeal to Stacks 075N. See the implementation notes of this file for what each hypothesis is
-and where the source's hypotheses on `f` and on `ℱ` are consumed. -/
-@[stacks 0GQH "(R^i f_*F)|_{V_etale} = R^i f'_{small,*}(F|_{U_etale}) for the base change f' of
-  f along an object y : V -> Y of Y, with U = V x_Y X an ALGEBRAIC SPACE (f is representable by
-  algebraic spaces, so U need not be a scheme) and f'_{small,*} the direct image of the small
-  etale sites of algebraic spaces; stated for every i and naturally in the complex of
-  O_X-modules, with R^i the i-th cohomology of the total right derived direct image, which is
-  what composes with Tag 075N. PROVED here from four inputs, two of which are themselves
-  assumed, and all named: (1) `bc`, the BASE CHANGE isomorphism of the 2-cartesian square in
-  derived form, which is Tag 075H -- carried in this library only for ABELIAN sheaves
-  (`abelianHigherDirectImageBaseChangeIso`), the module-coefficient statement
-  `nonempty_moduleHigherDirectImageBaseChangeIso` being itself conditional on a linearity
-  hypothesis that is 075H's own module-coefficient assertion, so the module case is ASSUMED;
-  (2) `hDg`, that the derived inverse image along the chart is computed degreewise, which is
-  exactness of the inverse image of sheaves of modules; (3) Tag 075N, via
-  `restrictedDerivedDirectImageIso`, which is now UNCONDITIONAL -- four inputs that carrier used
-  to ask for are gone: Tag 073N itself, the 2-isomorphism of the two legs of the square, is
-  PROVED, as `AlgebraicGeometry.Space.restrictionRingedSquareInducedAlgebraicSpaces`, out of
-  invertibility of the comparison map of equation 075M
-  (`AlgebraicGeometry.Space.isIso_restrictedDirectImageComparison`) and its structure-sheaf
-  compatibility; exactness of the module-level restrictions pi_{U,*}, pi_{V,*} is PROVED, as
-  `AlgebraicGeometry.Space.exactFunctor_pushforwardModules_projectionRingedToposHom`;
-  Tag 093Y for degreewise f_* is no longer needed, the unit of the exact pi_{V,*} being
-  invertible; and the condition the composition criterion consumes at the leg f_small . pi_U is
-  PROVED, as
-  `AlgebraicGeometry.Space.pushforwardComputesDerived_smallEtaleRingedToposHom`, out of the
-  unconditional Tag 0D6E for a morphism of ringed topoi;
-  and (4) the commutation of H^i with an exact direct image, which IS proved here
-  (`derivedPushforwardOfExactCompHomologyFunctorIso`). The source's
-  remaining hypotheses are consumed rather than restated: representability of f by algebraic
-  spaces is `hF`,`eF`,`hG`,`eG`, the presentations that make the right-hand side exist;
-  quasi-compactness and quasi-separatedness enter only through `hf`; and F in LQCoh^fbc, whose
-  role (Tag 0771 part (4)(a)) is to license computing R^i f_* in the etale topology, is built
-  into the statement, every site here being the etale one, so the conclusion is stated for an
-  arbitrary complex of O_X-modules and contains that case. The reduction of Tag 0771 part (3)
-  is not needed and not used"]
+and where the source's hypotheses on `f` and on `ℱ` are consumed.
+
+This declaration takes the base change isomorphism `bc` as an argument. Stacks 0GQH itself,
+with exactly the source's hypotheses, is
+`AlgebraicGeometry.Stack.restrictedFppfModulesHigherDirectImage`, which goes through
+`AlgebraicGeometry.Stack.restrictedStackModuleHigherDirectImageIsoOfScheme` instead. -/
 noncomputable def restrictedHigherDirectImageChartIso
     (Dy : DerivedCategory
         (FibredSite.associatedRingedTopos B S hS p𝒴 h𝒴 .etale).Modules ⥤

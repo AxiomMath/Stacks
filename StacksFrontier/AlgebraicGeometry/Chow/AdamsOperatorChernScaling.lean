@@ -15,7 +15,13 @@ of Stacks 0FEM. Stacks 0FEN says that for every `α ∈ K_0(Vect(X))`
 
   `c_i(ψ²(α)) = 2^i c_i(α)`  and  `ch_i(ψ²(α)) = 2^i ch_i(α)`.
 
-Both equations are proved here, the second from the first.
+Both equations are proved here, the second from the first, for a carried Chern class datum and
+under the carried splitting hypothesis described below; the second equation is moreover about the
+power-sum map `Stacks.Chow.chernCharacterKGroup`, whose degree-`0` component is `0` rather than
+the rank. Neither is therefore registered as Stacks 0FEN. The tag is carried by the unconditional
+statements for the genuine maps: `Stacks.Chow.totalChernKClass_secondAdams`,
+`Stacks.Chow.chernCharacterVectorBundle_secondAdams` and
+`Stacks.Chow.chernClass_chernCharacter_secondAdams`, whose Chern character has `ch_0` the rank.
 
 ## Main definitions
 
@@ -48,10 +54,10 @@ Both equations are proved here, the second from the first.
   `c(α) = ∏ (1 + x_j)` becomes `c(ψ²(α)) = ∏ (1 + 2x_j)`.
 * `Stacks.Chow.chernClassKGroup_pullback` — the Chern class map commutes with a pullback of Chow
   cohomology; this is what makes the identity descend from the splitting space to `X`.
-* `Stacks.Chow.chernClassKGroup_secondAdams` — **Stacks 0FEN, the first equation**:
-  `c_i(ψ²(α)) = 2^i c_i(α)`.
-* `Stacks.Chow.chernCharacterKGroup_secondAdams` — **Stacks 0FEN, the second equation**:
-  `ch_i(ψ²(α)) = 2^i ch_i(α)`.
+* `Stacks.Chow.chernClassKGroup_secondAdams` — the first equation of Stacks 0FEN,
+  `c_i(ψ²(α)) = 2^i c_i(α)`, under the carried hypotheses.
+* `Stacks.Chow.chernCharacterKGroup_secondAdams` — the analogue of the second equation of
+  Stacks 0FEN for `Stacks.Chow.chernCharacterKGroup`, faithful only in degrees `p ≥ 1`.
 
 ## The dictionary
 
@@ -583,40 +589,22 @@ theorem chernClassKGroup_secondAdams_eq_chowSeriesScale
   rw [secondAdamsRingHom_apply]
   exact chernClassKGroupHom_eq_iff.1 hα
 
-/-- **Stacks Project, Tag 0FEN, the first equation.** Let `(S, δ)` be as in Stacks 02QL, let `X`
-be locally of finite type over `S`, let `ψ²` be the second Adams operation of Stacks 0FEJ and let
-`c` be the Chern class map of Stacks 0FEL. Then
+/-- **The first equation of Stacks 0FEN, for a carried Chern class datum.** Let `(S, δ)` be as
+in Stacks 02QL, let `X` be locally of finite type over `S`, let `ψ²` be the second Adams operation
+of Stacks 0FEJ and let `c` be the Chern class map `Stacks.Chow.chernClassKGroup` of a total Chern
+class datum `D`. If `hsplit` holds, then
 
   `c_i(ψ²(α)) = 2^i c_i(α)`
 
 for every `α ∈ K_0(Vect(X))` and every `i ≥ 0`.
 
-The parameters `R`, `D` and `hX` are the data Stacks 0FEL and Stacks 0FEJ already carry; `hsplit`
-is the splitting principle of Stacks 02UL, which the source's proof uses and which this
-repository does not have, in the shape `Stacks.Chow.SecondAdamsSplitting` records. The scaling
-map is not assumed to be a ring map, the base case is not assumed, and the descent is proved. -/
-@[stacks 0FEN "the first equation, c_i(psi^2(alpha)) = 2^i c_i(alpha), for every alpha in \
-  K_0(Vect(X)); psi^2 is AlgebraicGeometry.VectorBundleKZero.secondAdamsRingHom of Stacks 0FEJ \
-  and c is Stacks.Chow.chernClassKGroup of Stacks 0FEL, so the parameters R, D and hX are the \
-  data those two already carry. CARRIED in addition: (1) the splitting principle of Stacks \
-  02UL, not formalized in this repository, as Stacks.Chow.HasSecondAdamsSplitting -- a family \
-  of morphisms p_r : P_r -> X, jointly injective on each A^i(X), along each of which [E] \
-  becomes a sum of classes of invertible modules, together with the restriction map of Stacks \
-  0B7F and its multiplicativity and Chern class compatibility (which Stacks 0B7F does not \
-  formalize, needing the composition product of Stacks 0FE0) and the functoriality of \
-  K_0(Vect(-)) (which this repository does not construct, as the notes of \
-  StacksFrontier.AlgebraicGeometry.Chow.SecondAdamsOperator record); the family rather than a \
-  single morphism is what keeps modules of non-constant rank in scope, since the source reduces \
-  to constant rank over the rank loci (Stacks 0ESW) before applying Stacks 02UL; and (2) Stacks \
-  02U0 and Stacks 02SZ, the vanishing of c_j of an invertible module above degree 1 and the \
-  additivity c_1(L tensor L) = 2 c_1(L), with Stacks 01CT (1), as \
-  Stacks.Chow.InvertibleChernClassData -- properties of the bivariant Chern classes of Stacks \
-  0B7H, which this repository characterizes but does not construct. NOT carried, and proved \
-  here: that the 2^i-scaling of A^i(X) is a ring endomorphism of the product (the source's \
-  first step, which is what reduces the lemma to additive generators), the base case \
-  c(L tensor L) = 1 + 2 c_1(L), the value psi^2([L]) = [L tensor L] (proved in Stacks 0FEJ), \
-  the computation of c(psi^2(alpha)) on a sum of classes of invertible modules, and the descent \
-  along the pullback"]
+The hypothesis `hsplit` carries the splitting principle of Stacks 02UL, in the shape
+`Stacks.Chow.SecondAdamsSplitting` records, together with the facts on invertible modules of
+`Stacks.Chow.InvertibleChernClassData`; the source has no such hypothesis. This is therefore not
+registered as Stacks 0FEN: the first equation of the tag, for the genuine Chern class map and with
+no hypothesis beyond the source's, is `Stacks.Chow.totalChernKClass_secondAdams` and
+`Stacks.Chow.chernClass_chernCharacter_secondAdams`. The scaling map is not assumed to be a ring
+map, the base case is not assumed, and the descent is proved. -/
 theorem chernClassKGroup_secondAdams {D : TotalChernClassSeries C G sX R}
     (hX : SquarePowersData X)
     (hsplit : ∀ E : X.Modules, IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) E →
@@ -655,14 +643,16 @@ structure NewtonPowerSums (C : ChowSituation.{u}) (G : GysinSystem C) {X : Schem
   powerSum_chowSeriesScale : ∀ (p : ℕ) (a : chowCohomologySeries C G sX),
     powerSum p (chowSeriesScale a) = ((2 : ℕ) ^ p) • powerSum p a
 
-/-- **The Chern character of Stacks 0FEM.** The degree-`p` component
+/-- **The power-sum map `α ↦ P_p(c(α))/p!`.** The class
 
-  `ch_p(α) = P_p(c_1(α), …, c_p(α))/p! ∈ A^p(X) ⊗ 𝐐`
+  `P_p(c_1(α), …, c_p(α))/p! ∈ A^p(X) ⊗ 𝐐`
 
-of the Chern character of `α ∈ K_0(Vect(X))`, the target being `∏_{p ≥ 0} (A^p(X) ⊗ 𝐐)`. On a
-generator `[ℰ]` this is the source's formula for `ch(ℰ)`, and it is additive by
-`Stacks.Chow.chernCharacterKGroup_add`, which is the content Stacks 0FEM extends to
-`K_0(Vect(X))`. -/
+for `α ∈ K_0(Vect(X))`, the target being `∏_{p ≥ 0} (A^p(X) ⊗ 𝐐)`. It is additive by
+`Stacks.Chow.chernCharacterKGroup_add`. For `p ≥ 1` this is the component `ch_p` of the Chern
+character of Stacks 0FEM; in degree `0` it is not, since it depends only on the total Chern class
+series and `NewtonPowerSums.powerSum_mul` forces it to vanish, whereas `ch_0` is the rank. The
+Chern character of Stacks 0FEM itself, with `ch_0` the rank, is
+`Stacks.Chow.chernCharacterRingHom`. -/
 def chernCharacterKGroup {D : TotalChernClassSeries C G sX R} (N : NewtonPowerSums C G sX R)
     (α : VectorBundleKZero X) (p : ℕ) :
     TensorProduct ℤ ℚ (chowCohomologyComponent C G sX (p : ℤ)) :=
@@ -679,28 +669,25 @@ theorem chernCharacterKGroup_add {D : TotalChernClassSeries C G sX R}
     N.powerSum_mul p _ _ (chernClassKGroup_apply_zero D α) (chernClassKGroup_apply_zero D β),
     TensorProduct.tmul_add]
 
-/-- **Stacks Project, Tag 0FEN, the second equation.** In the situation of
-`Stacks.Chow.chernClassKGroup_secondAdams`, with `ch` the Chern character of Stacks 0FEM,
+/-- **The second equation of Stacks 0FEN for the power-sum map `chernCharacterKGroup`.** In the
+situation of `Stacks.Chow.chernClassKGroup_secondAdams`, and for every family `N` of power sums,
 
-  `ch_i(ψ²(α)) = 2^i ch_i(α)`
+  `chernCharacterKGroup N (ψ²(α)) i = 2^i chernCharacterKGroup N α i`
 
 for every `α ∈ K_0(Vect(X))` and every `i ≥ 0`.
 
+For `i ≥ 1` this is the second equation of Stacks 0FEN, `ch_i(ψ²(α)) = 2^i ch_i(α)`, under the
+carried hypotheses. In degree `0` it is not: `Stacks.Chow.chernCharacterKGroup` is a function of
+the total Chern class series, and `NewtonPowerSums.powerSum_mul` forces its degree-`0` component
+to vanish, whereas the Chern character of Stacks 0FEM has `ch_0` equal to the rank. This is
+therefore not registered as Stacks 0FEN; the second equation for the genuine Chern character, with
+`ch_0` the rank and with no hypothesis beyond the source's, is
+`Stacks.Chow.chernCharacterVectorBundle_secondAdams` and
+`Stacks.Chow.chernClass_chernCharacter_secondAdams`.
+
 This is deduced from the first equation in its series form,
 `Stacks.Chow.chernClassKGroup_secondAdams_eq_chowSeriesScale`, together with the weighted
-homogeneity of the Newton power sums: `ch_i` is `P_i(c_1, …, c_i)/i!` and `P_i` is weighted
-homogeneous of degree `i`. No second splitting argument is needed. -/
-@[stacks 0FEN "the second equation, ch_i(psi^2(alpha)) = 2^i ch_i(alpha), for every alpha in \
-  K_0(Vect(X)); ch is Stacks.Chow.chernCharacterKGroup, the Chern character of Stacks 0FEM \
-  written out as ch_p(alpha) = P_p(c_1(alpha), ..., c_p(alpha))/p! in the product over p >= 0 \
-  of A^p(X) tensor Q, which is the library's Stacks.Chow.fullRationalChowCohomology. It is \
-  deduced from the first equation rather than proved by a second splitting argument. CARRIED in \
-  addition to what the first equation carries: the power sums P_p themselves, as \
-  Stacks.Chow.NewtonPowerSums, with their additivity for the Cauchy product (Stacks 0F9C) and \
-  their weighted homogeneity of degree p -- Stacks.Chow.powerSumClassArbitraryRank of Stacks \
-  0ESX assembles the power sums over the rank loci from a quantified family rather than from a \
-  polynomial expression, so neither property can be read off here. The weighted homogeneity is \
-  a combinatorial property of P_p alone, with no geometry in it"]
+homogeneity of the power sums. -/
 theorem chernCharacterKGroup_secondAdams {D : TotalChernClassSeries C G sX R}
     (N : NewtonPowerSums C G sX R) (hX : SquarePowersData X)
     (hsplit : ∀ E : X.Modules, IsFiniteLocallyFree.{u, u, u} (R := X.ringCatSheaf) E →

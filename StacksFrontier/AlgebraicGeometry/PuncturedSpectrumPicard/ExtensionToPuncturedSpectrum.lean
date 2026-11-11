@@ -27,9 +27,10 @@ makes the prime maximal in `A_f`, so that hypothesis (2) applies to it.
 
 **The induction.**  With that in hand, `U'` is obtained from `U` by removing finitely many
 points, each removable singly, so a class on `U'` is pushed back to `U` one point at a time.
-Each single step is [Stacks, Tag 0F21] together with hypothesis (2) at that point; it is carried
-here as the hypothesis `Stacks.PuncturedSpectrumPicard.PicardExtendsAcrossPoint` and is not
-proved in this file.
+Each single step is [Stacks, Tag 0F21] together with hypothesis (2) at that point; it is stated
+here as `Stacks.PuncturedSpectrumPicard.PicardExtendsAcrossPoint` and proved for every Noetherian
+ring as `Stacks.PuncturedSpectrumPicard.picardExtendsAcrossPoint` in
+`StacksFrontier/AlgebraicGeometry/PuncturedSpectrumPicard/ExtensionAcrossPoint.lean`.
 
 ## Main definitions
 
@@ -37,9 +38,11 @@ proved in this file.
   complement of an open of `Spec A`.
 * `Stacks.PuncturedSpectrumPicard.exceptionalPoints`: the points of the punctured spectrum missed by
   an open `U'`, the source's `𝔭₁, …, 𝔭ₙ`.
-* `Stacks.PuncturedSpectrumPicard.PicardExtendsAcrossPoint`: **a granted input**, the extension
-  of an invertible module across one point whose local ring has punctured spectrum with trivial
-  Picard group.  This is the source's "Limits, Lemma 0F21 applied `n` times" for a single `n`.
+* `Stacks.PuncturedSpectrumPicard.PicardExtendsAcrossPoint`: the one-point extension step, the
+  extension of an invertible module across one point whose local ring has punctured spectrum with
+  trivial Picard group.  This is the source's "Limits, Lemma 0F21 applied `n` times" for a single
+  `n`; it holds for every Noetherian ring
+  (`Stacks.PuncturedSpectrumPicard.picardExtendsAcrossPoint`).
 
 ## Main results
 
@@ -50,8 +53,10 @@ proved in this file.
   among the primes avoiding `f`, i.e. is a maximal ideal of `A_f`.
 * `Stacks.PuncturedSpectrumPicard.surjective_schemePullbackClass_homOfLE_of_finite`: the
   induction — the one-point step applied to a finite exceptional set.
-* `Stacks.PuncturedSpectrumPicard.surjective_schemePullbackClass_puncturedClosedFibre`:
-  **[Stacks, Tag 0F2F]**, granted the conclusion of [Stacks, Tag 0F2D] and the one-point step.
+* `Stacks.PuncturedSpectrumPicard.surjective_schemePullbackClass_puncturedClosedFibre`: the proof
+  of [Stacks, Tag 0F2F] from the conclusion of [Stacks, Tag 0F2D] and the one-point step.  The tag
+  itself, under the source's hypotheses, is
+  `surjective_schemePullbackClass_puncturedClosedFibre_of_localCohomology`.
 
 ## Implementation notes
 
@@ -320,7 +325,7 @@ end Exceptional
 
 section Induction
 
-/-- **The one-point extension step for the punctured spectrum, taken as an input.**  Let `A` be
+/-- **The one-point extension step for the punctured spectrum.**  Let `A` be
 a ring, `U` an open of `Spec A`, `𝔭 ∈ U` a point, and `V` the open `U ∖ {𝔭}`.  If the punctured
 spectrum of the local ring `A_𝔭` has trivial Picard group, then every invertible module on `V`
 is the restriction of an invertible module on `U`.
@@ -332,14 +337,14 @@ library as
 `AlgebraicGeometry.GlueingNearPoint.moduleGlueingEquivalenceNearClosedPoint` — turns that
 glueing datum into a module on `U`.
 
-**Nothing in this file proves this.**  Carrying out that argument needs two further ingredients
-this library does not have: the translation between `Stacks.Picard.ofScheme` and the category
+It holds for every Noetherian ring: that is
+`Stacks.PuncturedSpectrumPicard.picardExtendsAcrossPoint`, proved in
+`StacksFrontier/AlgebraicGeometry/PuncturedSpectrumPicard/ExtensionAcrossPoint.lean` through the
+translation between `Stacks.Picard.ofScheme` and the category
 `AlgebraicGeometry.GlueingNearPoint.FinitePresentationModules` in which [Stacks, Tag 0F21] is
-stated, and the identification of `𝒪_{Spec A, 𝔭}` with `A_𝔭` carrying the punctured local scheme
-`Spec 𝒪_{Spec A, 𝔭} ∖ {𝔭}` to the punctured spectrum of `A_𝔭`.  It is stated here, for one point
-and one open, so that what the reduction below consumes is legible and so that it is visibly
-weaker than the conclusion of the tag: it mentions neither `f`, nor the punctured closed fibre,
-nor the punctured spectrum of `A`. -/
+stated, and the identification of `𝒪_{Spec A, 𝔭}` with `A_𝔭`.  It is stated here, for one point
+and one open, so that the reduction below can consume it before those ingredients are
+imported. -/
 def PicardExtendsAcrossPoint (A : Type u) [CommRing A] : Prop :=
   ∀ (V U : (Spec (CommRingCat.of A)).Opens) (p : PrimeSpectrum A), p ∈ U → ∀ hVU : V ≤ U,
     (V : Set ↥(Spec (CommRingCat.of A))) = (U : Set ↥(Spec (CommRingCat.of A))) \ {p} →
@@ -495,37 +500,26 @@ theorem mem_ι_image_of_mem_of_ne {V : (Stacks.Divisors.puncturedSpectrum A).toS
 
 variable [IsNoetherianRing A]
 
-/-- **[Stacks, Tag 0F2F].**  Let `(A, 𝔪)` be a Noetherian local ring and `f ∈ 𝔪`.  Write `U` for
-the punctured spectrum of `A` and `U₀` for the punctured closed fibre.  Granted the conclusion of
-[Stacks, Tag 0F2D] for `(A, f)` and the one-point extension step
-`PicardExtendsAcrossPoint`, and assuming that every maximal ideal `𝔭` of `A_f` has
-`Pic` of the punctured spectrum of `A_𝔭` trivial, restriction `Pic(U) → Pic(U₀)` is surjective.
+/-- **The proof of [Stacks, Tag 0F2F], from [Stacks, Tag 0F2D] and the one-point step.**  Let
+`(A, 𝔪)` be a Noetherian local ring and `f ∈ 𝔪`.  Write `U` for the punctured spectrum of `A` and
+`U₀` for the punctured closed fibre.  If every class on `U₀` comes from an open `U₀ ⊆ U' ⊆ U`
+(`PicardColimitSurjective`, the conclusion of [Stacks, Tag 0F2D]), the one-point extension step
+`PicardExtendsAcrossPoint` holds, and every maximal ideal `𝔭` of `A_f` has `Pic` of the punctured
+spectrum of `A_𝔭` trivial, then restriction `Pic(U) → Pic(U₀)` is surjective.
 
-A class on `U₀` comes, by [Stacks, Tag 0F2D], from a class on some open `U₀ ⊆ U' ⊆ U`.  The
+Hypothesis `h2` is the source's clause (2), transcribed with the two standard identifications: a
+maximal ideal of `A_f` is a prime `𝔭` of `A` with `f ∉ 𝔭` maximal among such, and
+`(A_f)_𝔭 = A_𝔭`.  The tag itself, under the source's hypotheses, is
+`surjective_schemePullbackClass_puncturedClosedFibre_of_localCohomology`, which supplies the
+first input by `picardColimitSurjective` and the second by `picardExtendsAcrossPoint`.
+
+A class on `U₀` comes from a class on some open `U₀ ⊆ U' ⊆ U`.  The
 exceptional set `U ∖ U'` is finite and consists of points closed in `U` and maximal in `A_f`
 (`finite_exceptionalPoints`, `isOpen_puncturedSpectrum_sdiff_singleton`,
 `eq_closedPoint_of_lt_of_mem_exceptionalPoints`), so the class extends across those points one at a
 time by `surjective_schemePullbackClass_homOfLE_of_finite`. -/
-@[stacks 0F2F "GRANTED, and NOT proved anywhere in this file, two inputs, both carried as \
-hypotheses: (i) h0F2D, the conclusion of Stacks 0F2D for (A,f), which is clause (1) `the \
-conditions of Lemma 0F2D hold` of the source read through that lemma's conclusion — it is \
-Stacks.PuncturedSpectrumPicard.PicardColimitSurjective, the predicate the restricted 0F2D of \
-StacksFrontier.AlgebraicGeometry.PuncturedSpectrumPicard.FormalTower states unproved and \
-explicitly disclaims, so the restriction of that tag is inherited here; and (ii) hstep, \
-Stacks.PuncturedSpectrumPicard.PicardExtendsAcrossPoint, the extension of an invertible module \
-across ONE point 𝔭 of ONE open of Spec A whose local ring has punctured spectrum with trivial \
-Picard group — the source's `By Limits, Lemma 0F21 applied n times` for a single n, which needs \
-the Pic-versus-FinitePresentationModules translation and the identification of 𝒪_{Spec A,𝔭} \
-with A_𝔭 before Stacks 0F21 (proved here as \
-AlgebraicGeometry.GlueingNearPoint.moduleGlueingEquivalenceNearClosedPoint) can discharge it. \
-PROVED here, from those two: everything else in the source's proof — that U ∖ U' lies in D(f), \
-is FINITE, and consists of points closed in U and maximal in A_f (the source's `points \
-corresponding to prime ideals 𝔭₁,…,𝔭ₙ as in (2)`), and the induction applying the one-point \
-step n times. Clause (2) of the source is hypothesis h2, transcribed with the two standard \
-identifications performed in the statement: a maximal ideal of A_f is a prime 𝔭 of A with \
-f ∉ 𝔭 maximal among such, and (A_f)_𝔭 = A_𝔭 = Localization.AtPrime 𝔭"]
 theorem surjective_schemePullbackClass_puncturedClosedFibre (hf : f ∈ maximalIdeal A)
-    (hstep : PicardExtendsAcrossPoint A) (h0F2D : PicardColimitSurjective A f)
+    (hstep : PicardExtendsAcrossPoint A) (hcolim : PicardColimitSurjective A f)
     (h2 : ∀ p : PrimeSpectrum A, f ∉ p.asIdeal →
       (∀ q : PrimeSpectrum A, p.asIdeal < q.asIdeal → f ∈ q.asIdeal) →
       Subsingleton (Stacks.Picard.ofScheme
@@ -534,7 +528,7 @@ theorem surjective_schemePullbackClass_puncturedClosedFibre (hf : f ∈ maximalI
       (morphismRestrict (Stacks.Algebraization.closedImmersion A f)
         (Stacks.Divisors.puncturedSpectrum A))) := by
   intro c
-  obtain ⟨V, j, hj, cV, hcV⟩ := h0F2D c
+  obtain ⟨V, j, hj, cV, hcV⟩ := hcolim c
   have hUle : (Stacks.Divisors.puncturedSpectrum A).ι ''ᵁ V ≤
       Stacks.Divisors.puncturedSpectrum A := (Stacks.Divisors.puncturedSpectrum A).ι_image_le V
   have hU0 : ∀ q : PrimeSpectrum A, q ≠ closedPoint A → f ∈ q.asIdeal →

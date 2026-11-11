@@ -762,7 +762,9 @@ and every component of `C ∩ X` through such a point has dimension exactly `1`,
 disjunction is what condition (4) of the source's proof gives, and its first disjunct is the
 source's inequality whenever `Z ∩ T_i` is nonempty, by Tag 0AZP; in the empty case the second
 disjunct `dim (Z_j ∩ T_i) + n ≤ d + d' i` is what holds. The second clause is as the source has
-it, and is vacuous exactly in the empty case. -/
+it, and is vacuous exactly in the empty case. The statement on `X^{reg}` itself, with the source's
+inequality whenever `Z ∩ T_i` is nonempty and proper intersection when it is empty, is
+`exists_intersectProperly_cycleComap_regularLocus_eq`; the erratum is recorded in `errata.md`. -/
 @[stacks 0B61 "the variant of the moving lemma 0B0E stated there, for an arbitrary open subscheme \
 U ⟶ X of the nonsingular locus of a closed subvariety X ⊆ 𝐏(V) (the source's U = X^reg), with the \
 dimensions of the T_i allowed to vary; (C · X)|_U is the coefficientwise inverse image of the \
@@ -1011,18 +1013,9 @@ The first clause is the disjunction that condition (4) of the source's proof yie
 disjunct is the source's own inequality, which Tag 0AZP supplies from the second whenever
 `Z ∩ T_i` is nonempty, and which alone would be false in the bottom case `Z ∩ T_i = ∅` — see the
 quadric-surface counterexample in the implementation notes of this module. The second clause is
-vacuous exactly on that bottom case and needs no guard. -/
-@[stacks 0B0E "the whole lemma. `X ⊂ 𝐏^N` is read as `⊆`, so `dim X = N` is covered: there `X` \
-is the whole of `𝐏(V)` and the conclusion holds with `C = Z` and an empty family of `Z_j`, which \
-is the empty case of the source's chain of projections. The non-strict dimension clause is \
-registered in the disjunctive form `dim (Z_j ∩ T_i) ≤ dim (Z ∩ T_i) ∨ dim (Z_j ∩ T_i) + n ≤ d + \
-d'` — written additively because `WithBot ℕ∞` has no subtraction — which is what condition (4) \
-of the source's proof yields and which implies the source's own first inequality wherever Tag \
-0AZP makes it true, namely whenever `Z ∩ T_i` is nonempty; in the bottom case `Z ∩ T_i = ∅` the \
-source's first inequality is refuted by a nonsingular quadric surface in 𝐏^3 with Z and T_1 two \
-distinct lines of one ruling, written out in this module's implementation notes, and the second \
-disjunct is what holds there. The strict clause is as the source has it, and is vacuous exactly \
-on that bottom case"]
+vacuous exactly on that bottom case and needs no guard. The registration of Tag 0B0E is
+`exists_intersectProperly_torFormulaCycleIntersectionProduct_eq_and_le`, which adds the source's
+inequality at every `i` with `Z ∩ T_i` nonempty. -/
 public theorem exists_intersectProperly_torFormulaCycleIntersectionProduct_eq
     (k V : Type u) [Field k] [IsAlgClosed k] [AddCommGroup V] [Module k V]
     [FiniteDimensional k V] [Nontrivial V] [DecidableEq (projectiveSpaceOfModule k V)]

@@ -47,7 +47,7 @@ composite morphism to `X` factor through `Y`, by the universal property of blowi
 * `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_isEffectiveCartierDivisor` — an ideal
   sheaf supported on a finite set of closed points with regular two-dimensional local rings
   becomes an invertible ideal sheaf along a chain of blowups at closed points over that set,
-  granted at each point of the support the local splitting of the pulled-back ideal into a power
+  given at each point of the support the local splitting of the pulled-back ideal into a power
   of the exceptional divisor times an ideal of smaller total colength.
 * `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_factorization` — a proper morphism to `X`
   which is an isomorphism away from a finite set of closed points with regular two-dimensional
@@ -55,16 +55,20 @@ composite morphism to `X` factor through `Y`, by the universal property of blowi
 
 ## Implementation notes
 
-The local splitting at a point of the support is a hypothesis of the main theorem: it is the
+The local splitting at a point of the support is an argument of the induction here: it is the
 content of [Stacks, Tag 0AGT](https://stacks.math.columbia.edu/tag/0AGT), the local statement for
-a regular two-dimensional local ring, which is not among the results proved here. Everything
-else — the recursion on the total colength, the composition of the chains it produces, and the
-invertibility of the resulting inverse image — is unconditional.
+a regular two-dimensional local ring, proved downstream as
+`Stacks.ResolutionOfSurfaces.pointBlowupDescent`. The recursion on the total colength, the
+composition of the chains it produces, and the invertibility of the resulting inverse image are
+proved here; [Stacks, Tag 0AHH] itself is
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_principalizing`.
 
-The dominating result consumes a second statement that is not proved here, and it too is threaded
-through as a hypothesis rather than discharged: the existence of a `U`-admissible blowup of `X`
+The dominating result takes a second argument: the existence of a `U`-admissible blowup of `X`
 dominating a proper morphism which is an isomorphism over `U`, which is
-[Stacks, Tag 081T](https://stacks.math.columbia.edu/tag/081T). Admissibility is
+[Stacks, Tag 081T](https://stacks.math.columbia.edu/tag/081T), proved over a Noetherian base as
+`Stacks.ResolutionOfSurfaces.exists_isAdmissibleBlowup_dominating_of_isNoetherian`;
+[Stacks, Tag 0AHI] itself is
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_factorization_of_isProper`. Admissibility is
 `Stacks.Blowup.IsAdmissibleBlowup`, and the morphism from the chain to that blowup is produced by
 the universal property of blowing up,
 [Stacks, Tag 0806](https://stacks.math.columbia.edu/tag/0806).
@@ -145,15 +149,17 @@ public theorem PointBlowupChain.isEffectiveCartierDivisor_comap {X Y : Scheme.{u
     exact AlgebraicGeometry.isPullbackDefined_blowUpToBase
       (Scheme.IdealSheafData.vanishingIdeal ⟨{w}, hw⟩) _ ih
 
-/-- **Stacks Project, Tag 0AHH**, the induction on the total colength. Let `T` be a finite set of
-closed points of a scheme `X` whose local rings are regular of dimension two, and let `I` be a
-quasi-coherent sheaf of ideals whose quotient is supported on `T`. Assume that at every point `y`
+/-- The induction on the total colength in the proof of [Stacks, Tag 0AHH]. Let `T` be a finite
+set of closed points of a scheme `X` whose local rings are regular of dimension two, and let `I` be
+a quasi-coherent sheaf of ideals whose quotient is supported on `T`. Assume that at every point `y`
 of the support of such an ideal the pulled-back ideal splits as `dE + I'` for the exceptional
 divisor `E` of the blowup at `y` and an ideal `I'` again supported on a finite set of closed
 points with regular two-dimensional local rings lying over `T` and of strictly smaller total
 colength — the local statement of Tag 0AGT. Then there is a sequence of blowups at closed points
-lying over `T` along which `I` becomes an invertible sheaf of ideals. -/
-@[stacks 0AHH "the induction on the total colength, granted the local splitting of Tag 0AGT"]
+lying over `T` along which `I` becomes an invertible sheaf of ideals.
+
+The splitting is proved as `Stacks.ResolutionOfSurfaces.pointBlowupDescent`, and Tag 0AHH itself
+is `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_principalizing`. -/
 public theorem exists_pointBlowupChain_isEffectiveCartierDivisor
     (descent : ∀ (Y : Scheme.{u}) (S : Finset Y) (J : Y.IdealSheafData),
       (∀ y ∈ S, IsClosed ({y} : Set Y)) →
@@ -217,16 +223,16 @@ public theorem exists_pointBlowupChain_isEffectiveCartierDivisor
           (Stacks.Blowup.isEffectiveCartierDivisor_exceptionalIdeal M) d))
       hcartier
 
-/-- **Stacks Project, Tag 0AHI.** Let `X` be a Noetherian scheme, let `T` be a finite set of
-closed points of `X` whose local rings are regular of dimension two, and let `U` be the
-complement of `T`. A proper morphism `f : Y ⟶ X` which is an isomorphism over `U` is dominated by
-a sequence `Xₙ → … → X₁ → X` of blowups at closed points lying over `T`, in the sense that the
-composite `Xₙ ⟶ X` factors through `f`.
+/-- The final step of the proof of [Stacks, Tag 0AHI]. Let `X` be a Noetherian scheme, let `T`
+be a finite set of closed points of `X` whose local rings are regular of dimension two, and let
+`U` be the complement of `T`. A proper morphism `f : Y ⟶ X` which is an isomorphism over `U` and
+is dominated by a `U`-admissible blowup is dominated by a sequence `Xₙ → … → X₁ → X` of blowups
+at closed points lying over `T`, in the sense that the composite `Xₙ ⟶ X` factors through `f`.
 
-Two statements are threaded through as hypotheses rather than discharged: the local splitting of
-[Stacks, Tag 0AGT] that the formalized form of [Stacks, Tag 0AHH] consumes, and the dominating
-`U`-admissible blowup of [Stacks, Tag 081T]. -/
-@[stacks 0AHI "granted Tag 081T and the local splitting of Tag 0AGT"]
+The local splitting of [Stacks, Tag 0AGT] is the argument `descent`, and the dominating
+`U`-admissible blowup of [Stacks, Tag 081T] is the argument `dominated`. Both are proved in the
+library, and Tag 0AHI itself is
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_factorization_of_isProper`. -/
 public theorem exists_pointBlowupChain_factorization
     (descent : ∀ (Y : Scheme.{u}) (S : Finset Y) (J : Y.IdealSheafData),
       (∀ y ∈ S, IsClosed ({y} : Set Y)) →

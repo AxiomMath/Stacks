@@ -56,7 +56,8 @@ variable (A : Type u) [CommRing A]
 
 /-- Scalars act on a derived tensor product through the second variable as they act on the
 object. -/
-theorem map_smul_id_right (K L : DerivedCategory (ModuleCat.{u} A)) (a : A) :
+theorem map_smul_id_right [HasDerivedCategory (ModuleCat.{u} A)]
+    (K L : DerivedCategory (ModuleCat.{u} A)) (a : A) :
     ((canonicalDerivedTensorProductFunctor A).obj K).map (a • 𝟙 L) =
       a • 𝟙 (((canonicalDerivedTensorProductFunctor A).obj K).obj L) := by
   obtain ⟨P, hP, ⟨eP⟩⟩ := CochainComplex.KFlat.exists_kFlat_representative K

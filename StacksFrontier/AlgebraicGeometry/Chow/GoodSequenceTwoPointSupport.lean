@@ -63,10 +63,11 @@ public theorem minimal_support_of_support_subset
   · exact IsLocalRing.le_maximalIdeal q.isPrime.ne_top
   · exact le_rfl
 
-/-- **Stacks Project, Tag 02QC.** A finite module whose support meets no prime other than `q`
-and the closed point admits a sequence whose successive quotients are copies of `R / q` and
-whose span removes `q` from the support. Its number of terms is the localized length at `q`. -/
-@[stacks 02QC "support at two points"]
+/-- A variant of the existence half of Tag 02QC: a finite module whose support meets no prime
+other than `q` and the closed point admits a sequence whose successive quotients are copies of
+`R / q` and whose span removes `q` from the support, with as many terms as the localized length
+at `q`. That every such sequence has this length is
+`Module.FiniteLength.eq_toNat_length_localized_of_successive_quotients`. -/
 public theorem exists_sequence_with_successive_quotients_of_support_subset
     {R : Type u} {N : Type v} [CommRing R] [IsNoetherianRing R] [IsLocalRing R]
     [AddCommGroup N] [Module R N] [Module.Finite R N] (q : PrimeSpectrum R)

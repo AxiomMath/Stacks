@@ -34,7 +34,10 @@ and the commutativity of first Chern classes (Stacks 0EQZ).
 
 ## Main results
 
-* `AlgebraicGeometry.Space.chernCap_tensorObj_of_isInvertibleModule`: Stacks 0ES4.
+* `AlgebraicGeometry.Space.chernCap_tensorObj_of_isInvertibleModule`: the formula of Stacks 0ES4
+  on `CH_*(X)` for `AlgebraicGeometry.Space.PrivateChern.chernCap`; Stacks 0ES4 for the classes of
+  Definition 0ERZ is `AlgebraicGeometry.Space.chernCapGraded_tensorObj_of_isInvertibleModule`
+  (`StacksFrontier.AlgebraicGeometry.Spaces.Chow.ChernClassTensorInvertible`).
 * `AlgebraicGeometry.Space.PrivateChern.commute_firstChernCapChow`: the cap products with the
   first Chern classes of two invertible modules commute on `CH_*(X)`.
 * `AlgebraicGeometry.Space.PrivateChern.chernCap_eq_of_iso`: isomorphic modules have the same
@@ -301,22 +304,25 @@ attribute [local instance] modulesMonoidalCategory
 
 variable {D : BaseSpaceDimensionSituation.{u}}
 
-/-- **Stacks 0ES4, the Chern classes of a twist by an invertible module.** In Situation 0EDT let
-`X/B` be good, let `ℰ` be a finite locally free `𝒪_X`-module of rank `r` and let `ℒ` be an
-invertible `𝒪_X`-module; `ℰ ⊗ ℒ` is finite locally free of rank `r`. Then for every `i`
+/-- **The twist formula of Stacks 0ES4 for the Chern classes computed from the Segre
+operations.** In Situation 0EDT let `X/B` be good, let `ℰ` be a finite locally free
+`𝒪_X`-module of rank `r` and let `ℒ` be an invertible `𝒪_X`-module; `ℰ ⊗ ℒ` is finite locally
+free of rank `r`. Then for every `i`
 
-  `c_i(ℰ ⊗ ℒ) = ∑_{j=0}^{i} C(r + j - i, j) c_{i-j}(ℰ) c₁(ℒ)^j`.
+  `c_i(ℰ ⊗ ℒ) = ∑_{j=0}^{i} C(r + j - i, j) c_{i-j}(ℰ) c₁(ℒ)^j`
 
-For `i ≤ r` the binomial coefficient is the source's `C(r - i + j, j)`; for `i > r` both sides
-vanish, which is the convention `c_i = 0` above the rank, the left side by vanishing above the
-rank and the right side termwise (`c_{i-j}(ℰ) = 0` for `i - j > r` and `C(r + j - i, j) = 0`
-otherwise).
+as operations on `CH_*(X) = ⨁_k CH_k(X)`, for the Chern classes
+`AlgebraicGeometry.Space.PrivateChern.chernCap`, the coefficients of the inverse of the Segre
+series of the projective bundle. For `i ≤ r` the binomial coefficient is the source's
+`C(r - i + j, j)`; for `i > r` both sides vanish, which is the convention `c_i = 0` above the
+rank, the left side by vanishing above the rank and the right side termwise
+(`c_{i-j}(ℰ) = 0` for `i - j > r` and `C(r + j - i, j) = 0` otherwise).
 
-The Chern classes are those of Stacks 0ERZ, `c_n(ℰ) ∩ -` on `CH_*(X)` (`chernCap`). An identity in
-`A^*(X)` is an identity of the operations on `CH_*(Y)` for every good `Y ⟶ X`; the operation of
-`c_n(ℰ)` on `CH_*(Y)` is `c_n(f^*ℰ) ∩ -`, and `f^*(ℰ ⊗ ℒ) ≅ f^*ℰ ⊗ f^*ℒ` with `f^*ℰ` of rank `r`
-and `f^*ℒ` invertible, so the statement for all good `X` is the statement in `A^*(X)`. -/
-@[stacks 0ES4]
+Stacks 0ES4 itself, for the Chern classes `c_j(ℰ) ∈ A^j(X)` of Definition 0ERZ, is
+`AlgebraicGeometry.Space.chernCapGraded_tensorObj_of_isInvertibleModule`, which applies this
+theorem on every good test space `X' ⟶ X` to the pulled back modules, through the identification
+of the two descriptions of the Chern classes
+(`AlgebraicGeometry.Space.chowGroupCanonicalGradedToChowHomology_chernCapGraded`). -/
 theorem chernCap_tensorObj_of_isInvertibleModule {X : D.Ambient} {sX : X ⟶ D.space}
     (hX : D.IsGood sX) {E L : Modules.{u, u} D.site D.base D.base_mem X hX.1} {r : ℕ}
     (hE : PrivateChern.IsFiniteLocallyFreeOfRank D sX hX E r)

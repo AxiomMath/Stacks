@@ -6,11 +6,13 @@ public import StacksFrontier.AlgebraicGeometry.Duality.UpperShriekStructureSheaf
 /-!
 # The fibre-dimension bound of Tag 0BV5 for the relative dualizing complex, unconditionally
 
-`Stacks.Duality.neg_fibreDim_le_of_nontrivial_stalk_homology_upperShriek` proves the bound
-`H^i(f^!𝒪_Y)_x ≠ 0 ⟹ -dim_x(X_y) ≤ i` of [Stacks, Tag 0BV5] granted the affine-chart
-description of `f^!𝒪_Y` at a chart through `x`. That description is
-`Stacks.Duality.upperShriekStructureSheafCharts` ([Stacks, Tag 0BV2] for `𝒪_Y`), so the bound
-holds without that hypothesis.
+This file proves [Stacks, Tag 0BV5]: `H^i(f^!𝒪_Y)_x ≠ 0 ⟹ -dim_x(X_y) ≤ i` for a morphism
+`f : X ⟶ Y` of `FTS S`. The reduction to an affine chart
+`Stacks.Duality.neg_fibreDim_le_of_nontrivial_stalk_homology_upperShriek` takes the affine-chart
+description of `f^!𝒪_Y` at a chart through `x` as input; that description is proved, as
+`Stacks.Duality.upperShriekStructureSheafCharts` ([Stacks, Tag 0BV2] for `𝒪_Y`), and the local
+dimension `dim_x(X_y)` is a natural number because the fibre is of finite type over a field,
+which `StacksFrontier/AlgebraicGeometry/Duality/UpperShriekFibreDimensionFinite.lean` adds.
 
 ## Main results
 
@@ -19,7 +21,11 @@ holds without that hypothesis.
 * `Stacks.Duality.exists_chart_of_upperShriekStructureSheafCharts` — the chart description at a
   chart inside any neighbourhood.
 * `Stacks.Duality.neg_fibreDim_le_of_nontrivial_stalk_homology_upperShriek_unconditional` —
-  **[Stacks, Tag 0BV5]**.
+  the bound `-d ≤ i` for every natural number `d` equal to `dim_x(X_y)`.
+
+The statement registered as [Stacks, Tag 0BV5], with `dim_x(X_y)` shown to be a natural number, is
+`Stacks.Duality.exists_fibreDim_eq_and_neg_le_of_nontrivial_stalk_homology_upperShriek` in
+`StacksFrontier/AlgebraicGeometry/Duality/UpperShriekFibreDimensionFinite.lean`.
 
 ## References
 
@@ -54,8 +60,8 @@ omit [AlgebraicGeometry.IsNoetherian S] in
 /-- Around every point of `X` there is an affine chart `U ⊆ f⁻¹(V)` with a polynomial
 presentation of `Γ(Y, V) → Γ(X, U)`, inside any given open neighbourhood. -/
 theorem exists_chart_presentation (x : X.left) (W : X.left.Opens) (hxW : x ∈ W) :
-    ∃ (U : X.left.Opens), IsAffineOpen U ∧ ∃ (V : Y.left.Opens), IsAffineOpen V ∧
-      ∃ (hUV : U ≤ f.left ⁻¹ᵁ V), x ∈ U ∧ U ≤ W ∧
+    ∃ (U : X.left.Opens) (_hU : IsAffineOpen U) (V : Y.left.Opens) (_hV : IsAffineOpen V)
+      (hUV : U ≤ f.left ⁻¹ᵁ V), x ∈ U ∧ U ≤ W ∧
         Nonempty (Dualizing.PolynomialPresentation (f.left.appLE V U hUV).hom) := by
   obtain ⟨V, hV, hxV, -⟩ :=
     exists_isAffineOpen_mem_and_subset (X := Y.left) (x := f.left.base x) (U := ⊤) (by simp)
@@ -83,16 +89,11 @@ theorem exists_chart_of_upperShriekStructureSheafCharts (h : UpperShriekStructur
   obtain ⟨U, hU, V, hV, hUV, hxU, hUW, ⟨p⟩⟩ := exists_chart_presentation f x W hxW
   exact ⟨U, hU, V, hV, hUV, hxU, hUW, p, h V hV U hU hUV p⟩
 
-/-- **Stacks Project, Tag 0BV5 (Lemma 48.21.3).** In Situation 48.16.1 let `f : X ⟶ Y` be a
-morphism of `FTS S` and let `x ∈ X` with image `y ∈ Y`. Then
-
-  `H^i(f^!𝒪_Y)_x ≠ 0  ⟹  -dim_x(X_y) ≤ i`,
-
-for every compactification `j` defining `f^!`; the local dimension `dim_x(X_y)` of the fibre is
-named by the hypothesis `hd` identifying it with a natural number `d`. The chart description of
-`f^!𝒪_Y` is `Stacks.Duality.upperShriekStructureSheafCharts`, and on a chart the bound is
-[Stacks, Tag 0E9P]. -/
-@[stacks 0BV5]
+/-- **The bound of Tag 0BV5 at a named dimension.** For a morphism `f : X ⟶ Y` of `FTS S`,
+`x ∈ X` and every natural number `d` equal to the local dimension `dim_x(X_y)` of the fibre,
+`H^i(f^!𝒪_Y)_x ≠ 0 ⟹ -d ≤ i`, for every compactification `j` defining `f^!`. The chart
+description of `f^!𝒪_Y` is `Stacks.Duality.upperShriekStructureSheafCharts`, and on a chart the
+bound is [Stacks, Tag 0E9P]. -/
 theorem neg_fibreDim_le_of_nontrivial_stalk_homology_upperShriek_unconditional
     (x : X.left) (d : ℕ)
     (hd : topologicalKrullDimAt (f.left.fiber (f.left x)) (f.left.asFiber x) =

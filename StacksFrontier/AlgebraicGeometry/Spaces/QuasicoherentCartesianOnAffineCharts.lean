@@ -535,8 +535,8 @@ theorem isQuasicoherentOnSite_iff_isCartesianOnAffineCharts_anyUniverse
 
 /-- **The forward half of the chart criterion for quasi-coherence on the small étale site of an
 algebraic space**: a quasi-coherent `𝒪_F`-module, with sections in the universe of the schemes, is
-cartesian on affine charts. -/
-@[stacks 03DX "quasi-coherent implies cartesian"]
+cartesian on affine charts.  This is a statement about a single module over an algebraic space,
+not a clause of Descent, Proposition 03DX, and it carries no `stacks` attribute. -/
 theorem isCartesianOnAffineCharts_of_isQuasicoherentOnSite
     (G : Modules.{u, u} B S hS F hF) (hG : G.IsQuasicoherentOnSite) :
     IsCartesianOnAffineCharts G :=
@@ -545,9 +545,9 @@ theorem isCartesianOnAffineCharts_of_isQuasicoherentOnSite
 /-- **The chart criterion for quasi-coherence on the small étale site of an algebraic space**: an
 `𝒪_F`-module, with sections in the universe of the schemes, is quasi-coherent if and only if it
 is cartesian on affine charts.  The base `F` is an algebraic space, and the statement is a
-criterion on a single module rather than the equivalence of categories
-`QCoh(𝒪_S) ⥤ QCoh(S_étale, 𝒪)` for a scheme `S`. -/
-@[stacks 03DX "part (2)"]
+criterion on a single module, not the equivalence of categories
+`QCoh(𝒪_S) ⥤ QCoh(S_étale, 𝒪)` for a scheme `S` of Descent, Proposition 03DX (2), and it carries
+no `stacks` attribute. -/
 theorem isQuasicoherentOnSite_iff_isCartesianOnAffineCharts
     (G : Modules.{u, u} B S hS F hF) :
     G.IsQuasicoherentOnSite ↔ IsCartesianOnAffineCharts G :=

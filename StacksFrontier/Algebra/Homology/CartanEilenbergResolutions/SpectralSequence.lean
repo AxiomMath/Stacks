@@ -34,9 +34,11 @@ Cartan-Eilenberg resolutions, built in
 * `CochainComplex.exists_cartanEilenbergResolution`: a cochain complex which is strictly `≥ n`
   over an abelian category with enough injectives has a Cartan-Eilenberg resolution whose
   double complex is again strictly `≥ n` in the first direction.
-* `CochainComplex.CartanEilenbergResolution.exists_homologyIso_rightDerivedPlus`: the
-  `'E₁`-page of `F(I)` is the complex `R^qF(K^•)`, the `''E₂`-page of `F(I)` is
-  `R^pF(H^q(K^•))`, and the cohomology of the total complex of `F(I)` is `H^n(RF(K^•))`.
+* `CochainComplex.CartanEilenbergResolution.exists_homologyIso_rightDerivedPlus`: the iterated
+  homology `H^q(F(I)^{p,•})` is the complex `R^qF(K^•)`, the iterated homology
+  `H^p_{II}(H^q_I(F(I)))` is `R^pF(H^q(K^•))`, and the cohomology of the total complex of `F(I)`
+  is `H^n(RF(K^•))`. The spectral sequences themselves, and [Stacks, Tag 015J] in full, are in
+  `StacksFrontier.Algebra.Homology.CartanEilenbergResolutions.Convergence`.
 
 ## Implementation notes
 
@@ -754,15 +756,19 @@ public theorem _root_.CochainComplex.exists_cartanEilenbergResolution {C : Type 
   exists_cartanEilenbergResolution_of_horseshoe (horseshoeProperty C)
     exists_injectiveResolution_isZero K n
 
-/-- **The spectral sequences of a Cartan-Eilenberg resolution.** Let `F : 𝒜 ⥤ ℬ` be an
-additive functor of abelian categories, with `𝒜` having enough injectives, let `K` be a
-bounded below cochain complex of `𝒜` and let `I` be a Cartan-Eilenberg resolution of `K`.
-For the double complex `L = F(I)`: the `'E₁`-page `H^q(L^{p,•})` is the complex `R^qF(K^p)`
-in `p`, with differential induced by that of `K`; the `''E₂`-page
-`H^p_{II}(H^q_I(L^{•,•}))` is `R^pF(H^q(K^•))`; and `H^n(Tot(L))` is `H^n(RF(K^•))`, the
-abutment of both spectral sequences. -/
-@[stacks 015J,
-  ega "0 11.4.3" "bounded below case",
+/-- **The objects behind the spectral sequences of a Cartan-Eilenberg resolution.** Let
+`F : 𝒜 ⥤ ℬ` be an additive functor of abelian categories, with `𝒜` having enough injectives,
+let `K` be a bounded below cochain complex of `𝒜` and let `I` be a Cartan-Eilenberg resolution
+of `K`. For the double complex `L = F(I)`: the iterated homology `H^q(L^{p,•})` is the complex
+`R^qF(K^p)` in `p`, with differential induced by that of `K`; the iterated homology
+`H^p_{II}(H^q_I(L^{•,•}))` is `R^pF(H^q(K^•))`; and `H^n(Tot(L))` is `H^n(RF(K^•))`.
+
+These are statements about objects built from `L`, not about a spectral sequence: they are the
+computations that [Stacks, Tag 015J] makes of the pages `'E_1` and `''E_2` and of the abutment.
+The lemma itself, with the two spectral sequences, their pages, boundedness, convergence and the
+finiteness of the induced filtrations, is
+`CochainComplex.CartanEilenbergResolution.spectralSequences_rightDerivedPlus`. -/
+@[ega "0 11.4.3" "bounded below case",
   ega "0 12.4.1" "bounded below complexes",
   ega "0 12.1.7" "partial"]
 public theorem _root_.CochainComplex.CartanEilenbergResolution.exists_homologyIso_rightDerivedPlus

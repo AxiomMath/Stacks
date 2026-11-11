@@ -217,7 +217,9 @@ When `𝒜` is bounded it is the relative spectrum `AlgebraicGeometry.Space.boun
 built inside the site of `X`, read in the enlarged site
 (`AlgebraicGeometry.Space.nonempty_iso_changeBigSite_boundedRelativeSpec`).
 
-No hypothesis is placed on `𝒜` beyond quasi-coherence. -/
+No hypothesis is placed on `𝒜` beyond quasi-coherence. This is the only declaration registered
+as Stacks 081W; the bounded construction `AlgebraicGeometry.Space.boundedRelativeSpec` and the
+value `AlgebraicGeometry.Space.relativeSpec` of a given anti-equivalence are not. -/
 @[stacks 081W "the relative spectrum Spec_X(A) of an arbitrary quasi-coherent O_X-algebra A on \
 an algebraic space X, with no further hypothesis: the algebraic space affine over X corresponding \
 to A under 081V. It lives on an enlargement relativeSpectrumSite A of the big fppf site of X \

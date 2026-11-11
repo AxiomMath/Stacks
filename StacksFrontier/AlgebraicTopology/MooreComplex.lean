@@ -287,9 +287,9 @@ the identity of `A` to the summand indexed by `α ∘ φ` if `α ∘ φ` is agai
 otherwise. Its Moore complex `s(K(A, k))` has homology `A` in degree `k` and zero in all other
 degrees. The simplicial object `E` of [Stacks, Tag 0192] sits in a termwise split short exact
 sequence `0 → K(A, k) → E → K(A, k + 1) → 0`; its object of `n`-simplices is `⨁ A` over the
-monotone maps `α : [n] → [k + 1]` whose image is `[k]` or `[k + 1]`, equivalently `E = Γ₀ L` for
-`L` the two-term chain complex `A --𝟙--> A` in degrees `k + 1` and `k`, and its Moore complex
-`s(E)` is acyclic.
+monotone maps `α : [n] → [k + 1]` whose image is `[k]` or `[k + 1]`, and its Moore complex `s(E)` is
+acyclic, by an explicit null-homotopy of its identity. The same holds for `Γ₀ L`, for `L` the
+two-term chain complex `A --𝟙--> A` in degrees `k + 1` and `k`.
 
 The *normalized complex* `N(U)` is the subcomplex of `s(U)` obtained by intersecting the kernels of
 all but one of the face maps in each degree, with differential the restriction of the remaining
@@ -306,10 +306,13 @@ concentrated in the top degree, has `A` in degree `k` and `0` in every other deg
 
 * `AlgebraicTopology.alternatingFaceMapComplex_preservesHomology`: the Moore complex functor
   `s : Simp(C) ⥤ Ch_{≥0}(C)` is exact.
-* `AlgebraicTopology.DoldKan.acyclic_alternatingFaceMapComplex_Γ₀_double`: the Moore complex of the
+* `AlgebraicTopology.acyclic_alternatingFaceMapComplex_emEobj`: the Moore complex of the
   simplicial object `E` of [Stacks, Tag 0192] is acyclic.
+* `AlgebraicTopology.DoldKan.acyclic_alternatingFaceMapComplex_Γ₀_double`: the Moore complex of
+  `Γ₀` of the two-term complex `A --𝟙--> A` in degrees `k + 1` and `k` is acyclic.
 * `AlgebraicTopology.DoldKan.homology_alternatingFaceMapComplex_Γ₀_single`: the Moore complex of
-  `K(A, k)` has homology `A` in degree `k`, and zero homology in every other degree.
+  `Γ₀` of the complex `A` concentrated in degree `k` has homology `A` in degree `k`, and zero
+  homology in every other degree.
 * `AlgebraicTopology.isIsomorphic_normalizedMooreComplex_eilenbergMacLane_single`: the normalized
   complex of the Eilenberg-MacLane object `K(A, k)` is isomorphic to the chain complex `A`
   concentrated in degree `k`.
@@ -460,21 +463,22 @@ section Statements
 variable {C : Type u} [Category.{v} C] [Preadditive C] [HasFiniteCoproducts C]
   [HasZeroObject C] [CategoryWithHomology C]
 
-/-- **Stacks 0196**.
-The Moore complex of the simplicial object `E` of [Stacks, Tag 0192], the termwise split extension
-of `K(A, k + 1)` by `K(A, k)`, that is `Γ₀` of the two-term complex `A --𝟙--> A` in degrees `k + 1`
-and `k`, is acyclic. -/
-@[stacks 0196]
+/-- The Moore complex of `Γ₀ L`, for `Γ₀` the inverse of the Dold-Kan equivalence and `L` the
+two-term chain complex `A --𝟙--> A` in degrees `k + 1` and `k`, is acyclic. This is a Dold-Kan
+counterpart of [Stacks, Tag 0196]; the statement of that tag, about the explicit simplicial object
+`E` of [Stacks, Tag 0192], is `AlgebraicTopology.acyclic_alternatingFaceMapComplex_emEobj`. -/
 public theorem acyclic_alternatingFaceMapComplex_Γ₀_double (A : C) (k : ℕ) :
     K[Γ₀.obj (HomologicalComplex.double (𝟙 A)
       (show (ComplexShape.down ℕ).Rel (k + 1) k by simp))].Acyclic :=
   acyclic_alternatingFaceMapComplex_Γ₀ (acyclic_double (𝟙 A) _ (Nat.succ_ne_self k))
 
-/-- **Stacks 0197**.
-The Moore complex of the Eilenberg-MacLane object `K(A, k)` of an object `A` of an additive
-category with homology has homology `A` in degree `k` and zero homology in every other degree. Here
-`K(A, k)` is `Γ₀.obj L` for `L` the chain complex `A` concentrated in degree `k`. -/
-@[stacks 0197]
+/-- The Moore complex of `Γ₀.obj L`, for `L` the chain complex `A` concentrated in degree `k` and
+`Γ₀` the inverse of the Dold-Kan equivalence, of an object `A` of an additive category with
+homology, has homology `A` in degree `k` and zero homology in every other degree. For an abelian
+category, `Γ₀.obj L` is isomorphic to the Eilenberg-MacLane object `K(A, k) = i_{k!}U` by
+`AlgebraicTopology.eilenbergMacLaneIsoΓ₀Single`, and [Stacks, Tag 0197] for `K(A, k)` itself is
+`AlgebraicTopology.homology_alternatingFaceMapComplex_eilenbergMacLane`, both in
+`StacksFrontier.AlgebraicTopology.MooreComplexEilenbergMacLane`. -/
 public theorem homology_alternatingFaceMapComplex_Γ₀_single (A : C) (k : ℕ) :
     IsIsomorphic
         (K[Γ₀.obj ((HomologicalComplex.single C (ComplexShape.down ℕ) k).obj A)].homology k) A ∧
@@ -493,6 +497,219 @@ end Statements
 end EilenbergMacLaneHomology
 
 end AlgebraicTopology.DoldKan
+
+namespace AlgebraicTopology
+
+section EilenbergMacLaneAcyclic
+
+open CategoryTheory Limits Opposite Simplicial CategoryTheory.SimplicialObject.EilenbergMacLane
+
+/-- The map `α' : ⦋n + 1⦌ ⟶ ⦋k + 1⦌` extending `α : ⦋n⦌ ⟶ ⦋k + 1⦌` by `α'(n + 1) = k + 1`. -/
+private def extendTop {n k : ℕ} (α : ⦋n⦌ ⟶ ⦋k + 1⦌) : ⦋n + 1⦌ ⟶ ⦋k + 1⦌ :=
+  SimplexCategory.Hom.mk
+    { toFun := fun i => if h : (i : ℕ) < n + 1 then α.toOrderHom ⟨i, h⟩ else Fin.last (k + 1)
+      monotone' := by
+        intro i j hij
+        dsimp only
+        split_ifs with hi hj hj
+        · exact α.toOrderHom.monotone (Fin.mk_le_mk.mpr hij)
+        · exact Fin.le_last _
+        · exact absurd (lt_of_le_of_lt (Fin.le_def.mp hij) hj) hi
+        · exact le_rfl }
+
+/-- The values of `extendTop α`. -/
+private lemma extendTop_apply {n k : ℕ} (α : ⦋n⦌ ⟶ ⦋k + 1⦌) (i : Fin (n + 2)) :
+    (extendTop α).toOrderHom i =
+      if h : (i : ℕ) < n + 1 then α.toOrderHom ⟨i, h⟩ else Fin.last (k + 1) :=
+  rfl
+
+/-- The image of `α'` is that of `α` together with `k + 1`, so `α'` attains every value `≤ k`
+exactly when `α` does. -/
+private lemma coversBelow_extendTop_iff {n k : ℕ} (α : ⦋n⦌ ⟶ ⦋k + 1⦌) :
+    coversBelow k (extendTop α) ↔ coversBelow k α := by
+  simp only [coversBelow, imageFinset, Finset.mem_image, Finset.mem_univ, true_and]
+  refine ⟨fun h i hi => ?_, fun h i hi => ?_⟩
+  · obtain ⟨x, hx⟩ := h i hi
+    rw [extendTop_apply] at hx
+    split_ifs at hx with hxn
+    · exact ⟨_, hx⟩
+    · subst hx
+      simp at hi
+  · obtain ⟨x, hx⟩ := h i hi
+    refine ⟨x.castSucc, ?_⟩
+    rw [extendTop_apply, dite_eq_left (by simpa using x.isLt)]
+    exact hx
+
+/-- The value of `p.succAbove i`. -/
+private lemma val_succAbove {n : ℕ} (p : Fin (n + 1)) (i : Fin n) :
+    ((p.succAbove i : Fin (n + 1)) : ℕ) = if (i : ℕ) < p then (i : ℕ) else i + 1 := by
+  unfold Fin.succAbove
+  split_ifs with h₁ h₂ h₂ <;> simp_all [Fin.lt_def]
+
+/-- The face map `δ p` acts as `p.succAbove`. -/
+private lemma δ_apply {n : ℕ} (p : Fin (n + 2)) (i : Fin (n + 1)) :
+    (SimplexCategory.δ p).toOrderHom i = p.succAbove i := rfl
+
+/-- `α' ∘ δ_{n + 1} = α`. -/
+private lemma δ_last_comp_extendTop {n k : ℕ} (α : ⦋n⦌ ⟶ ⦋k + 1⦌) :
+    SimplexCategory.δ (Fin.last (n + 1)) ≫ extendTop α = α := by
+  ext i : 3
+  rw [SimplexCategory.comp_toOrderHom, OrderHom.comp_coe, Function.comp_apply, δ_apply,
+    Fin.succAbove_last, extendTop_apply, dite_eq_left (by simpa using i.isLt)]
+  rfl
+
+/-- `α' ∘ δ_j = (α ∘ δ_j)'` for `j ≤ n`. -/
+private lemma δ_castSucc_comp_extendTop {m k : ℕ} (α : ⦋m + 1⦌ ⟶ ⦋k + 1⦌) (j : Fin (m + 2)) :
+    SimplexCategory.δ j.castSucc ≫ extendTop α = extendTop (SimplexCategory.δ j ≫ α) := by
+  ext i : 3
+  simp only [SimplexCategory.comp_toOrderHom, OrderHom.comp_coe, Function.comp_apply,
+    extendTop_apply, δ_apply]
+  have hv := val_succAbove j.castSucc i
+  have hlt : (i : ℕ) < m + 2 := i.isLt
+  simp only [Fin.val_castSucc] at hv
+  split_ifs with h₁ h₂ h₂
+  · refine congrArg α.toOrderHom (Fin.ext ?_)
+    rw [Fin.val_mk, hv, val_succAbove]
+  · split_ifs at hv <;> omega
+  · split_ifs at hv <;> omega
+  · rfl
+
+/-- For `α : [0] → [k + 1]` the composite `α' ∘ δ_0` is constant with value `k + 1`, so it misses
+`0` and is not admissible. -/
+private lemma not_coversBelow_δ_zero_comp_extendTop {k : ℕ} (α : ⦋0⦌ ⟶ ⦋k + 1⦌) :
+    ¬ coversBelow k (SimplexCategory.δ 0 ≫ extendTop α) := by
+  intro h
+  obtain ⟨x, -, hx⟩ := Finset.mem_image.mp (h 0 (Nat.zero_le _))
+  rw [SimplexCategory.comp_toOrderHom, OrderHom.comp_coe, Function.comp_apply, δ_apply,
+    extendTop_apply, dite_eq_right (by simp)] at hx
+  exact absurd (congrArg Fin.val hx) (by simp)
+
+
+section Homotopy
+
+variable {𝒜 : Type*} [Category 𝒜] [Abelian 𝒜] [HasFiniteBiproducts 𝒜] (A : 𝒜) (k : ℕ)
+
+/-- The inclusion of the summand of `E_n` indexed by `β`, and zero when `β` is not admissible. -/
+private noncomputable def summandι {n : ℕ} (β : ⦋n⦌ ⟶ ⦋k + 1⦌) : A ⟶ (emEobj A k).obj (op ⦋n⦌) :=
+  if h : coversBelow k β then
+    biproduct.ι (fun _ : {α : ⦋n⦌ ⟶ ⦋k + 1⦌ // coversBelow k α} => A) ⟨β, h⟩
+  else 0
+
+/-- `summandι` vanishes on a non-admissible index. -/
+private lemma summandι_of_not {n : ℕ} {β : ⦋n⦌ ⟶ ⦋k + 1⦌} (h : ¬ coversBelow k β) :
+    summandι A k β = 0 :=
+  dite_eq_right h
+
+/-- The structure map of `E` along `φ` sends the summand of `β` to the summand of `φ ≫ β`. -/
+private lemma summandι_map {m n : ℕ} (β : ⦋n⦌ ⟶ ⦋k + 1⦌) (φ : ⦋m⦌ ⟶ ⦋n⦌) :
+    summandι A k β ≫ (emEobj A k).map φ.op = summandι A k (φ ≫ β) := by
+  by_cases hβ : coversBelow k β
+  · rw [summandι, dite_eq_left hβ, emObject_map A _ _ (coversBelow_hP k) φ.op]
+    refine biproduct.hom_ext _ _ fun b => ?_
+    rw [Category.assoc, biproduct.matrix_π, biproduct.ι_desc]
+    unfold summandι
+    split_ifs with h₁ h₂ h₂
+    · rw [biproduct.ι_π, dite_eq_left (Subtype.ext h₁.symm), eqToHom_refl]
+    · exact absurd (h₁ ▸ b.2) h₂
+    · rw [biproduct.ι_π_ne _ (fun e => h₁ (congrArg Subtype.val e).symm)]
+    · rw [zero_comp]
+  · rw [summandι_of_not A k hβ, zero_comp,
+      summandι_of_not A k (fun h => hβ (coversBelow_of_precomp k φ β h))]
+
+/-- Two morphisms out of `E_n` agree when they agree on every admissible summand. -/
+private lemma ext_summand {n : ℕ} {Y : 𝒜} (f g : (emEobj A k).obj (op ⦋n⦌) ⟶ Y)
+    (h : ∀ α : ⦋n⦌ ⟶ ⦋k + 1⦌, coversBelow k α → summandι A k α ≫ f = summandι A k α ≫ g) :
+    f = g :=
+  biproduct.hom_ext' _ _ fun α => by
+    have := h α.1 α.2
+    rwa [summandι, dite_eq_left α.2] at this
+
+/-- A morphism `E_n ⟶ E_n` restricting to the inclusion on every admissible summand is the
+identity. -/
+private lemma ext_summand_id {n : ℕ}
+    (f : (emEobj A k).obj (op ⦋n⦌) ⟶ (emEobj A k).obj (op ⦋n⦌))
+    (h : ∀ α : ⦋n⦌ ⟶ ⦋k + 1⦌, coversBelow k α → summandι A k α ≫ f = summandι A k α) :
+    f = 𝟙 _ :=
+  ext_summand A k _ _ fun α hα => (h α hα).trans (Category.comp_id _).symm
+
+/-- The map `h_n : E_n ⟶ E_{n + 1}` sending the summand of `α` to the summand of `α'`. -/
+private noncomputable def extendTopHom (n : ℕ) :
+    (emEobj A k).obj (op ⦋n⦌) ⟶ (emEobj A k).obj (op ⦋n + 1⦌) :=
+  biproduct.desc fun α => summandι A k (extendTop α.1)
+
+/-- `h_n` sends the summand of `β` to the summand of `β'`. -/
+private lemma summandι_extendTopHom {n : ℕ} (β : ⦋n⦌ ⟶ ⦋k + 1⦌) :
+    summandι A k β ≫ extendTopHom A k n = summandι A k (extendTop β) := by
+  by_cases hβ : coversBelow k β
+  · rw [summandι, dite_eq_left hβ, extendTopHom, biproduct.ι_desc]
+  · rw [summandι_of_not A k hβ, zero_comp,
+      summandι_of_not A k ((coversBelow_extendTop_iff β).not.mpr hβ)]
+
+/-- The differential of `s(E)` on the summand of `β` is `∑ᵢ (-1)ⁱ` (summand of `β ∘ δᵢ`). -/
+private lemma summandι_d {m : ℕ} (β : ⦋m + 1⦌ ⟶ ⦋k + 1⦌) :
+    summandι A k β ≫ ((alternatingFaceMapComplex 𝒜).obj (emEobj A k)).d (m + 1) m =
+      ∑ i : Fin (m + 2), (-1 : ℤ) ^ (i : ℕ) • summandι A k (SimplexCategory.δ i ≫ β) := by
+  change summandι A k β ≫ (AlternatingFaceMapComplex.obj (emEobj A k)).d (m + 1) m = _
+  rw [AlternatingFaceMapComplex.obj_d_eq, Preadditive.comp_sum]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [Preadditive.comp_zsmul]
+  exact congrArg _ (summandι_map A k β _)
+
+/-- The null-homotopy `(-1)^(n + 1) h_n`. -/
+private noncomputable def homotopyHom : ∀ i j, (ComplexShape.down ℕ).Rel j i →
+    (((alternatingFaceMapComplex 𝒜).obj (emEobj A k)).X i ⟶
+      ((alternatingFaceMapComplex 𝒜).obj (emEobj A k)).X j) :=
+  fun i _ hij => ((-1 : ℤ) ^ (i + 1)) • (extendTopHom A k i ≫
+    eqToHom (congrArg ((alternatingFaceMapComplex 𝒜).obj (emEobj A k)).X hij))
+
+/-- The null-homotopic map built from `(-1)^(n + 1) h_n` is the identity of `s(E)`. -/
+private lemma nullHomotopicMap'_homotopyHom :
+    Homotopy.nullHomotopicMap' (homotopyHom A k) = 𝟙 _ := by
+  ext n : 1
+  rcases n with _ | m
+  · rw [Homotopy.nullHomotopicMap'_f_of_not_rel_left (show (ComplexShape.down ℕ).Rel 1 0 from rfl)
+      (fun l hl => by simp at hl)]
+    refine ext_summand A k _ _ fun α _ => ?_
+    simp only [homotopyHom, eqToHom_refl, Category.comp_id, HomologicalComplex.id_f]
+    rw [Preadditive.zsmul_comp, Preadditive.comp_zsmul, ← Category.assoc, summandι_extendTopHom,
+      summandι_d, Fin.sum_univ_castSucc, Fin.sum_univ_one, Fin.castSucc_zero,
+      summandι_of_not A k (not_coversBelow_δ_zero_comp_extendTop α), δ_last_comp_extendTop]
+    simp
+  · rw [Homotopy.nullHomotopicMap'_f (show (ComplexShape.down ℕ).Rel (m + 2) (m + 1) from rfl)
+      (show (ComplexShape.down ℕ).Rel (m + 1) m from rfl)]
+    refine ext_summand_id A k _ fun α _ => ?_
+    simp only [homotopyHom, eqToHom_refl, Category.comp_id]
+    simp only [Preadditive.comp_add, Preadditive.zsmul_comp, Preadditive.comp_zsmul,
+      ← Category.assoc, summandι_d, Preadditive.sum_comp, summandι_extendTopHom]
+    rw [Fin.sum_univ_castSucc (n := m + 2)]
+    simp only [δ_last_comp_extendTop, δ_castSucc_comp_extendTop, Fin.val_castSucc, Fin.val_last]
+    have e : ((-1 : ℤ)) ^ (m + 1 + 1) = -(-1) ^ (m + 1) := by rw [pow_succ, mul_neg_one]
+    have e2 : ((-1 : ℤ)) ^ (m + 1 + 1) * (-1) ^ (m + 1 + 1) = 1 := by
+      rw [← pow_add]; exact Even.neg_one_pow ⟨m + 1 + 1, rfl⟩
+    rw [smul_add, smul_smul, e2, one_smul, e, neg_smul]
+    abel
+
+/-- **Stacks 0196**.
+Let `𝒜` be an abelian category, let `A` be an object of `𝒜` and let `k ≥ 0` be an integer. The
+Moore complex `s(E)` of the simplicial object `E = emEobj A k` of [Stacks, Tag 0192], whose
+`n`-simplices are `⨁ A` over the monotone maps `α : [n] → [k + 1]` with image `[k]` or `[k + 1]`,
+is acyclic. Following Stacks, the maps `h_n : E_n ⟶ E_{n + 1}` sending the summand of `α` to the
+summand of its extension `α'` by `α'(n + 1) = k + 1` satisfy `d h_n - h_{n - 1} d = (-1)^(n + 1)`,
+so `(-1)^(n + 1) h_n` is a null-homotopy of the identity of `s(E)`. -/
+@[stacks 0196]
+public theorem acyclic_alternatingFaceMapComplex_emEobj :
+    ((alternatingFaceMapComplex 𝒜).obj (emEobj A k)).Acyclic := by
+  have ho : Homotopy (𝟙 _) 0 :=
+    (Homotopy.ofEq (nullHomotopicMap'_homotopyHom A k).symm).trans (Homotopy.nullHomotopy' _)
+  intro i
+  rw [HomologicalComplex.exactAt_iff_isZero_homology, IsZero.iff_id_eq_zero,
+    ← HomologicalComplex.homologyMap_id, ho.homologyMap_eq, HomologicalComplex.homologyMap_zero]
+
+end Homotopy
+
+end EilenbergMacLaneAcyclic
+
+end AlgebraicTopology
 
 namespace AlgebraicTopology
 

@@ -48,6 +48,12 @@ Stacks 044R. The square
 
 * `AlgebraicGeometry.Stack.quotientStack_twoFibreProduct`: **Stacks 04M9** — the square is a
   2-fibre product.
+* `AlgebraicGeometry.Stack.isFinalTwoCommSq_relativeProductSquare` and
+  `AlgebraicGeometry.Stack.isFinalTwoCommSq_of_isTwoFibreProduct_of_isStackInGroupoids`: the
+  relative product of a
+  cospan of stacks in groupoids, and every terminal object of the quotient category of squares
+  over such a cospan, is a 2-fibre product in the sense of Stacks 003Q, with the uniqueness of
+  the 2-isomorphism of Stacks 003P (2).
 * `AlgebraicGeometry.Stack.quotientStack_twoCartesian_source_target`: **Stacks 04P6**, the
   displayed 2-cartesian diagram of More on Groupoids in Spaces, Section 1, with its apex `R`, legs
   `s` and `t`, projections `π` and canonical 2-arrow written out in the statement.
@@ -870,6 +876,36 @@ noncomputable def relativeProductIsTerminal :
   Limits.IsTerminal.ofUniqueHom (fun T => Quotient.mk _ (relativeProductPreHom h₀ s₀ hprod T))
     fun T q => Quotient.inductionOn q fun F =>
       Quotient.sound (relativeProductPreHom_rel h₀ s₀ hprod T F)
+
+/-- **The projections of the relative product jointly detect 2-cells.** A morphism of the explicit
+2-fibre product over the site is determined by its two components. -/
+theorem legsDetectTwoCells_relativeProductSquare :
+    (relativeProductSquare h₀ s₀ hprod).LegsDetectTwoCells := by
+  intro t a b η θ hfst hsnd
+  apply Bicategory.InducedBicategory.hom₂_ext
+  apply BasedNatTrans.ext
+  ext w
+  exact Hom.ext' (congrArg (fun ε => ε.hom.toNatTrans.app w) hfst)
+    (congrArg (fun ε => ε.hom.toNatTrans.app w) hsnd)
+
+/-- **The relative product is a 2-fibre product in the sense of Stacks 003Q** in the 2-category
+of stacks in groupoids: a final object of the 2-category of 2-commutative diagrams over the
+cospan, any two 1-morphisms into it being isomorphic by a unique 2-morphism. -/
+noncomputable def isFinalTwoCommSq_relativeProductSquare :
+    Bicategory.IsFinalTwoCommSq (relativeProductSquare h₀ s₀ hprod) :=
+  Bicategory.isFinalTwoCommSq_of_legsDetect (relativeProductIsTerminal h₀ s₀ hprod)
+    (legsDetectTwoCells_relativeProductSquare h₀ s₀ hprod)
+
+variable {h₀ s₀} in
+/-- **For a cospan of stacks in groupoids whose explicit 2-fibre product is a stack in groupoids,
+the two notions of 2-fibre product agree**: every terminal object of the quotient category of
+2-commutative squares over the cospan is a final object of the 2-category of 2-commutative
+diagrams (Stacks 003Q). -/
+noncomputable def isFinalTwoCommSq_of_isTwoFibreProduct_of_isStackInGroupoids
+    {P : Bicategory.TwoCommSq h₀ s₀}
+    (hP : Bicategory.IsTwoFibreProduct P) : Bicategory.IsFinalTwoCommSq P :=
+  Bicategory.isFinalTwoCommSq_of_isTwoFibreProduct_of_legsDetect hP
+    (relativeProductIsTerminal h₀ s₀ hprod) (legsDetectTwoCells_relativeProductSquare h₀ s₀ hprod)
 
 end Terminality
 

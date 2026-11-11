@@ -4,8 +4,8 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SmallEtaleEquiUniverseMode
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.Descent.FibredTensorHypotheses
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.InternalHom
 public import StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.FibreProducts
-public import StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
-import StacksCore.Tactic.StacksAttribute
+public import
+ StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.InternalHomFilteredColimitsSections
 
 /-!
 # Stacks 0GQZ: Hom out of a finitely presented module and filtered colimits on a stack
@@ -46,35 +46,33 @@ smallness of that site is an instance hypothesis throughout: it holds as soon as
 size-bounded category of schemes is essentially small and every fibre of `𝒳` is, by
 `AlgebraicGeometry.Stack.essentiallySmall_obj`, and the second of those is not formal.
 
-## What is proved and what is assumed
+## What is proved here and what is proved elsewhere
 
-The site hypothesis of Stacks 0GN0 is *not* discharged here. Conditions (2)(a), (2)(b) and (2)(c)
-of Stacks 0GMS are available for the fppf site of a quasi-compact algebraic stack which is
-quasi-separated over a quasi-separated base — they are
-`AlgebraicGeometry.Stack.exists_isAffineObject_isLocallySurjective_terminal_from`,
-`AlgebraicGeometry.Stack.hasFiniteCoverRefinementsFrom_fppfTopology` and
-`AlgebraicGeometry.Stack.exists_fin_affineObjects_isLocallySurjective_prodLift` — but they are
-statements about sheaves of sets at the canonical sheaf universe `Type (u + 1)` of that site,
-whereas Stacks 0GN0 consumes the corresponding statement at `Type u` for the model. Sheaf-level
-conditions do not transport along an equivalence of sites across a universe gap (see the module
-docstring of `StacksFrontier/CategoryTheory/Sites/QuasiCompact/CoveringSetTransport.lean`), so
-checking them on the model is separate work, performed for the small étale site of an algebraic
-space in `StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModelCoveringSet.lean` and not performed
-here. It is carried as the hypothesis `hX` below.
+The site hypothesis of Stacks 0GN0 — the condition of Stacks 0GMR part (4) for the model — is
+*not* discharged in this file: the comparison theorems below carry it as the hypothesis `hX`, for
+a category fibred in groupoids which need not be an algebraic stack. They are the engine of
+Stacks 0GQZ, not Stacks 0GQZ itself.
 
-Finite presentation of `𝒢`, by contrast, *is* a hypothesis about `𝒢` on the fppf site itself, and
-is carried across to the model by
-`AlgebraicGeometry.FibredSite.isFinitePresentation_modulesEquivFppfModelModules`. It is Mathlib's
-predicate `SheafOfModules.IsFinitePresentation`, which is the one Stacks 0GN0 is stated over; the
-site predicate `SheafOfModules.IsFinitePresentationOnSite` of Stacks 03DL, in which the stacks
-development states finite presentation elsewhere, is not bridged to it anywhere in the tree, so
-the two clauses below are about the Mathlib predicate only.
+Stacks 0GQZ, under exactly the source's hypotheses, is proved in
+`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfHomQuasiCompactStack.lean`, as
+`AlgebraicGeometry.Stack.isIso_colimit_post_hom_of_isQuasiCompactStack`,
+`AlgebraicGeometry.Stack.isIso_colimit_post_hom_quasicoherent_of_isQuasiCompactStack` and their
+conjunction
+`AlgebraicGeometry.Stack.isIso_colimit_post_hom_and_quasicoherent_of_isQuasiCompactStack`, which
+carry the tag. There, `hX` is discharged for a quasi-compact and quasi-separated algebraic
+stack by checking conditions (2)(a), (2)(b) and (2)(c) of Stacks 0GMS on the model itself
+(`AlgebraicGeometry.Stack.FppfModel.exists_set_isLocallySurjective_and_isQuasiCompact_prod_self`);
+finite presentation in the sense of Stacks 03DL (`SheafOfModules.IsFinitePresentationOnSite`) is
+converted to Mathlib's `SheafOfModules.IsFinitePresentation` by
+`SheafOfModules.isFinitePresentation_of_isFinitePresentationOnSite'`; and the colimit clause of
+Stacks 06WV (4) for the inclusion of `QCoh(𝒪_𝒳)` is
+`AlgebraicGeometry.FibredSite.preservesColimitsOfSize_quasicoherentInclusion'`.
 
-Accordingly neither quasi-compactness nor quasi-separatedness of `𝒳` appears below, and `𝒳` is
-not assumed to be an algebraic stack: those hypotheses of the source enter only through `hX`,
-and no hypothesis is carried that is not used. This follows the shape of
-`AlgebraicGeometry.Stack.isIso_colimit_post_rightDerived_globalSections_fppf`, the companion
-statement for cohomology.
+Finite presentation of `𝒢` below is Mathlib's predicate `SheafOfModules.IsFinitePresentation`,
+the one Stacks 0GN0 is stated over, on the fppf site itself; it is carried across to the model by
+`AlgebraicGeometry.FibredSite.isFinitePresentation_modulesEquivFppfModelModules`. This follows
+the shape of `AlgebraicGeometry.Stack.isIso_colimit_post_rightDerived_globalSections_fppf`, the
+companion statement for cohomology.
 
 ## Main definitions
 
@@ -94,11 +92,11 @@ statement for cohomology.
 * `Stacks.SheafOfModules.SmallModelSite.isFinitePresentation_modulesEquivalence` and
   `AlgebraicGeometry.FibredSite.isFinitePresentation_modulesEquivFppfModelModules`: finite
   presentation is carried to the model.
-* `AlgebraicGeometry.FibredSite.isIso_colimit_post_hom_of_isFinitePresentation`:
-  **Stacks 0GQZ for all modules**, with `hX` carried.
-* `AlgebraicGeometry.FibredSite.isIso_colimit_post_hom_quasicoherent_of_isFinitePresentation`:
-  **Stacks 0GQZ for quasi-coherent modules**, with `hX` and the closure of quasi-coherence under
-  the colimits at issue carried.
+* `AlgebraicGeometry.FibredSite.isIso_colimit_post_hom_of_isFinitePresentation`: the comparison
+  of Stacks 0GQZ for all modules on a category fibred in groupoids, with `hX` carried.
+* `AlgebraicGeometry.FibredSite.isIso_colimit_post_hom_quasicoherent_of_isFinitePresentation`: the
+  same for quasi-coherent modules, with `hX` and preservation of the colimit by the inclusion of
+  the quasi-coherent modules carried.
 
 ## Implementation notes
 
@@ -120,9 +118,11 @@ The quasi-coherent clause is deduced from the clause for all modules through the
 inclusion of the quasi-coherent modules: `Hom` out of a fixed object of a full subcategory is
 `Hom` out of its image, so `Hom(𝒢, -)` commutes with a colimit of quasi-coherent modules as soon
 as the inclusion does and `Hom(𝒢, -)` commutes with its image. That the inclusion preserves the
-colimit — the colimit clause of Stacks 03M1 for the fppf site of a stack — is the carried
-hypothesis; it is available for an algebraic space only conditionally, in
-`AlgebraicGeometry.Space.isQuasicoherent_colimit_of_h03DX`, and not at all for a stack.
+colimit is carried as a hypothesis here; for the fppf site of a category fibred in groupoids it
+is the colimit clause of Stacks 06WV (4),
+`AlgebraicGeometry.FibredSite.preservesColimitsOfSize_quasicoherentInclusion'`, which is used
+rather than assumed in `AlgebraicGeometry.FibredSite`
+`.isIso_colimit_post_hom_quasicoherent_of_isFinitePresentation_without_inclusionColimits`.
 
 ## References
 
@@ -336,7 +336,7 @@ theorem preservesColimitsOfShape_coyoneda_fullSubcategory (G : P.FullSubcategory
 
 end CategoryTheory.ObjectProperty
 
-/-! ### Stacks 0GQZ -/
+/-! ### The comparison of Stacks 0GQZ, with the site hypothesis carried -/
 
 namespace AlgebraicGeometry.FibredSite
 
@@ -391,8 +391,8 @@ model.** `Hom_𝒳(𝒢, -)` commutes with filtered colimits of `𝒪_𝒳`-modu
 transport of `𝒢` to `AlgebraicGeometry.FibredSite.fppfModelRingedSite` is of finite presentation
 and that the model satisfies the condition of Stacks 0GMR part (4).
 
-This is the content of both clauses of Stacks 0GQZ below; see their docstrings and "What is
-proved and what is assumed" in the module docstring for the status of the two hypotheses. -/
+This is the content of both clauses of Stacks 0GQZ; see "What is proved here and what is proved
+elsewhere" in the module docstring for where the two hypotheses are discharged. -/
 theorem preservesColimitsOfShape_coyoneda_fppf_of_isFinitePresentation_model
     (hp : p.IsFiberedInGroupoids)
     (G : SheafOfModules.{u} (ringStructureSheafCore B S hS p hp .fppf))
@@ -410,7 +410,7 @@ theorem preservesColimitsOfShape_coyoneda_fppf_of_isFinitePresentation_model
 
 end General
 
-/-! ### Stacks 0GQZ on the fppf site of an algebraic stack
+/-! ### The comparison of Stacks 0GQZ on the fppf site of a category fibred in groupoids
 
 The fppf site of a category fibred in groupoids over the big fppf category of `S` has its objects
 in `Type (u + 1)` and its morphisms in `Type u`; that is the shape the fppf site of an algebraic
@@ -450,7 +450,8 @@ theorem isFinitePresentation_modulesEquivFppfModelModules (hp : p.IsFiberedInGro
     (hasSheafify_associatedTopology_over B S hS p .fppf)
     (wEqualsLocallyBijective_associatedTopology_over B S hS p .fppf) G hG
 
-/-- **Stacks 0GQZ for all modules.** Let `𝒳` be a category fibred in groupoids over the big fppf
+/-- **The comparison of Stacks 0GQZ for all modules, with the site hypothesis carried.** Let `𝒳`
+be a category fibred in groupoids over the big fppf
 category of a scheme `S` contained in a big fppf site, with the fppf topology of Stacks 06TP and
 the structure sheaf of Stacks 06TV, and assume its total category essentially small. Let `𝒢` be an
 `𝒪_𝒳`-module of finite presentation and `D` a filtered system of `𝒪_𝒳`-modules. Then the canonical
@@ -465,17 +466,14 @@ is a bijection, granted the hypothesis `hX`.
 which the fppf site itself — whose objects lie one universe above its morphisms — is not. It is
 what the source checks for the objects of the site lying over affine schemes, through
 Stacks 0GMS case (2), using quasi-compactness and quasi-separatedness of the algebraic stack.
-Neither of those two hypotheses of the source appears here, and `𝒳` is not assumed to be an
-algebraic stack: they enter only through `hX`.
+This is not Stacks 0GQZ: `𝒳` is not assumed to be an algebraic stack, and `hX` is carried.
+Stacks 0GQZ itself, with `hX` discharged for a quasi-compact and quasi-separated algebraic stack,
+is `AlgebraicGeometry.Stack.isIso_colimit_post_hom_of_isQuasiCompactStack`.
 
 Finite presentation is `SheafOfModules.IsFinitePresentation`, Mathlib's predicate, which is the
-one Stacks 0GN0 is stated over; the site predicate
-`SheafOfModules.IsFinitePresentationOnSite` of Stacks 03DL used elsewhere in the stacks
-development is not bridged to it anywhere in the tree. See "What is proved and what is assumed"
-in the module docstring. -/
-@[stacks 0GQZ "all modules; condition 0GMR (4) for the equi-universe model of the fppf site is a \
-hypothesis, so quasi-compactness, quasi-separatedness and algebraicity of the stack do not \
-appear; finite presentation is Mathlib's, not 03DL's; the index category is small"]
+one Stacks 0GN0 is stated over; the site predicate `SheafOfModules.IsFinitePresentationOnSite` of
+Stacks 03DL is converted to it by
+`SheafOfModules.isFinitePresentation_of_isFinitePresentationOnSite'`. -/
 theorem isIso_colimit_post_hom_of_isFinitePresentation (hp : p.IsFiberedInGroupoids)
     (G : SheafOfModules.{u} (ringStructureSheafCore B S hS p hp .fppf))
     (hG : G.IsFinitePresentation)
@@ -492,19 +490,21 @@ theorem isIso_colimit_post_hom_of_isFinitePresentation (hp : p.IsFiberedInGroupo
     B S hS p hp G (isFinitePresentation_modulesEquivFppfModelModules B S hS p hp G hG) K hX
   inferInstance
 
-/-- **Stacks 0GQZ for quasi-coherent modules.** The same comparison, for a filtered colimit taken
-in the category `QCoh(𝒪_𝒳)` of Stacks 06WG rather than in all `𝒪_𝒳`-modules.
+/-- **The comparison of Stacks 0GQZ for quasi-coherent modules, with hypotheses carried.** The
+same comparison, for a filtered colimit taken in the category `QCoh(𝒪_𝒳)` of Stacks 06WG rather
+than in all `𝒪_𝒳`-modules.
 
 Beyond the hypothesis `hX` of
 `AlgebraicGeometry.FibredSite.isIso_colimit_post_hom_of_isFinitePresentation` this carries one
 more: that the inclusion of the quasi-coherent modules into all modules preserves colimits of
-shape `K`, which is the colimit clause of Stacks 03M1 for the fppf site of `𝒳`. That clause is
-available for an algebraic space only conditionally, in
-`AlgebraicGeometry.Space.isQuasicoherent_colimit_of_h03DX`, and is not available for a stack. -/
-@[stacks 0GQZ "quasi-coherent modules; condition 0GMR (4) for the equi-universe model of the \
-fppf site and preservation of the colimit by the inclusion of QCoh (the colimit clause of 03M1) \
-are hypotheses, so quasi-compactness, quasi-separatedness and algebraicity of the stack do not \
-appear; finite presentation is Mathlib's, not 03DL's; the index category is small"]
+shape `K`. That hypothesis holds on the fppf site of every category fibred in groupoids by the
+colimit clause of Stacks 06WV (4),
+`AlgebraicGeometry.FibredSite.preservesColimitsOfSize_quasicoherentInclusion'`, and is dropped in
+`AlgebraicGeometry.FibredSite`
+`.isIso_colimit_post_hom_quasicoherent_of_isFinitePresentation_without_inclusionColimits`.
+This is not Stacks 0GQZ; that, with `hX` discharged for a quasi-compact and quasi-separated
+algebraic stack, is
+`AlgebraicGeometry.Stack.isIso_colimit_post_hom_quasicoherent_of_isQuasiCompactStack`. -/
 theorem isIso_colimit_post_hom_quasicoherent_of_isFinitePresentation
     (hp : p.IsFiberedInGroupoids) (G : quasicoherentModules.{u, u + 1, u, u} B S hS p hp)
     (hG : G.obj.IsFinitePresentation)

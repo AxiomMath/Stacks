@@ -72,8 +72,11 @@ the 2-categorical statements are stated for fibre categories in the universes of
 `Type (max u₁ v₁)` with morphisms in `v₁`. The transfer lemmas are universe-polymorphic.
 
 The converse of `CategoryTheory.Functor.isStack_comp_forget`, Construction B for stacks, is
-`CategoryTheory.Over.isStack_of_comp_forget`, and the bijection on objects of stacks is
-`CategoryTheory.Over.stackConstructionObjEquiv`; both need `[HasPullbacks 𝒞]`.
+`CategoryTheory.Over.isStack_of_isStack_comp_forget`, and the bijection on objects of stacks is
+`CategoryTheory.Over.basedStackEquivStackPair`, both for an arbitrary site
+(`StacksFrontier/CategoryTheory/Sites/Localization/StackOfCompForget.lean`). The earlier versions
+`CategoryTheory.Over.isStack_of_comp_forget` and `CategoryTheory.Over.stackConstructionObjEquiv`
+assume `[HasPullbacks 𝒞]`.
 -/
 
 @[expose] public section

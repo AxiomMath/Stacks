@@ -309,16 +309,23 @@ public def starForms : Submodule Λ (GL (Fin 2) (AdeleRing K) → Λ) where
   smul_mem' c f hf x s hs := by
     simp only [Pi.smul_apply, smul_eq_mul, ← Finset.mul_sum, hf x s hs, mul_zero]
 
+/-- `C(Λ)` with central character `φ` satisfies the star cusp condition. -/
+public theorem cuspFormsWithChar_le_starForms (φ : Place K → Λ) :
+    cuspFormsWithChar K Λ φ ≤ starForms K Λ :=
+  Submodule.span_le.2 fun _ hf => IsUnramifiedCuspForm.starCusp hf.1
+
 /-- `C(Λ)` satisfies the star cusp condition. -/
 public theorem cuspFormsCentralChar_le_starForms : cuspFormsCentralChar K Λ ≤ starForms K Λ :=
-  Submodule.span_le.2 fun _ hf => IsUnramifiedCuspForm.starCusp hf.1
+  cuspFormsWithChar_le_starForms Λ _
 
 variable {Λ}
 
-/-- Postcomposition with an injective ring map preserves cusp forms with central character. -/
-public theorem IsCuspFormCentralChar.mapCoeffs {Λ' : Type*} [CommRing Λ'] {ι : Λ →+* Λ'}
-    (hι : Function.Injective ι) {f : GL (Fin 2) (AdeleRing K) → Λ}
-    (hf : IsCuspFormCentralChar Λ f) : IsCuspFormCentralChar Λ' (mapCoeffs ι f) := by
+/-- Postcomposition with an injective ring map `ι` sends cusp forms with central character `φ`
+to cusp forms with central character `ψ`, when `ψ_v = ι(φ_v)`. -/
+public theorem IsCuspFormWithChar.mapCoeffs {Λ' : Type*} [CommRing Λ'] {ι : Λ →+* Λ'}
+    (hι : Function.Injective ι) {φ : Place K → Λ} {ψ : Place K → Λ'}
+    (hψ : ∀ v, ι (φ v) = ψ v) {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : IsCuspFormWithChar Λ φ f) : IsCuspFormWithChar Λ' ψ (mapCoeffs ι f) := by
   refine ⟨⟨fun x γ => by simp [Stacks.Adeles.mapCoeffs, hf.1.right_invariant x γ],
     fun x u => by simp [Stacks.Adeles.mapCoeffs, hf.1.left_invariant x u],
     fun x U hU hinv s hs => ?_⟩, fun v a ha x => ?_⟩
@@ -326,10 +333,16 @@ public theorem IsCuspFormCentralChar.mapCoeffs {Λ' : Type*} [CommRing Λ'] {ι 
         f (x * GeneralLinearGroup.upperRightHom z) := fun z y hy => hι (hinv z y hy)
     have := hf.1.vanishing_constant_term x U hU hinv' s hs
     simp only [Stacks.Adeles.mapCoeffs, ← map_sum, this, map_zero]
-  · rw [← map_natCast ι]
+  · rw [← hψ v]
     change ι _ * ι (f (a * x)) = ι (f x)
     rw [← map_mul]
     exact congrArg ι (hf.2 v a ha x)
+
+/-- Postcomposition with an injective ring map preserves cusp forms with central character. -/
+public theorem IsCuspFormCentralChar.mapCoeffs {Λ' : Type*} [CommRing Λ'] {ι : Λ →+* Λ'}
+    (hι : Function.Injective ι) {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : IsCuspFormCentralChar Λ f) : IsCuspFormCentralChar Λ' (mapCoeffs ι f) :=
+  IsCuspFormWithChar.mapCoeffs hι (fun _ => map_natCast ι _) hf
 
 end BaseChange
 
@@ -337,17 +350,22 @@ section BaseChangeMap
 
 variable (F Λ : Type w) [Field F] [Field Λ] [Algebra F Λ]
 
-/-- Composing an element of `C(F)` with `F → Λ` gives an element of `C(Λ)`. -/
-public theorem mapCoeffs_mem_cuspFormsCentralChar {f : GL (Fin 2) (AdeleRing K) → F}
-    (hf : f ∈ cuspFormsCentralChar K F) :
-    mapCoeffs (algebraMap F Λ) f ∈ cuspFormsCentralChar K Λ := by
+section WithChar
+
+variable {F Λ} {φ : Place K → F} {ψ : Place K → Λ}
+
+/-- Composing an element of `C(F)` with central character `φ` with `F → Λ` gives an element of
+`C(Λ)` with central character `ψ`, when `ψ_v` is the image of `φ_v`. -/
+public theorem mapCoeffs_mem_cuspFormsWithChar (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v)
+    {f : GL (Fin 2) (AdeleRing K) → F} (hf : f ∈ cuspFormsWithChar K F φ) :
+    mapCoeffs (algebraMap F Λ) f ∈ cuspFormsWithChar K Λ ψ := by
   induction hf using Submodule.span_induction with
   | mem f hf =>
-    exact mem_cuspFormsCentralChar (IsCuspFormCentralChar.mapCoeffs (algebraMap F Λ).injective hf)
+    exact mem_cuspFormsWithChar (IsCuspFormWithChar.mapCoeffs (algebraMap F Λ).injective hψ hf)
   | zero =>
     have : mapCoeffs (algebraMap F Λ) (0 : GL (Fin 2) (AdeleRing K) → F) = 0 := by
       funext x; simp [Stacks.Adeles.mapCoeffs]
-    rw [this]; exact (cuspFormsCentralChar K Λ).zero_mem
+    rw [this]; exact (cuspFormsWithChar K Λ ψ).zero_mem
   | add f g _ _ hf hg =>
     have : mapCoeffs (algebraMap F Λ) (f + g) =
         mapCoeffs (algebraMap F Λ) f + mapCoeffs (algebraMap F Λ) g := by
@@ -358,6 +376,94 @@ public theorem mapCoeffs_mem_cuspFormsCentralChar {f : GL (Fin 2) (AdeleRing K) 
         algebraMap F Λ c • mapCoeffs (algebraMap F Λ) f := by
       funext x; simp [Stacks.Adeles.mapCoeffs]
     rw [this]; exact Submodule.smul_mem _ _ hf
+
+variable (K F Λ) in
+/-- The `F`-linear map `C(F) → C(Λ)`, `f ↦ ι ∘ f`, between the modules with central characters
+`φ` and `ψ`, when `ψ_v` is the image of `φ_v`. -/
+public def cuspFormsMapWithChar (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v) :
+    cuspFormsWithChar K F φ →ₗ[F] cuspFormsWithChar K Λ ψ where
+  toFun f := ⟨mapCoeffs (algebraMap F Λ) f, mapCoeffs_mem_cuspFormsWithChar hψ f.2⟩
+  map_add' f g := Subtype.ext (funext fun x => by simp [Stacks.Adeles.mapCoeffs])
+  map_smul' c f := Subtype.ext (funext fun x => by
+    simp [Stacks.Adeles.mapCoeffs, Algebra.smul_def])
+
+/-- The function underlying `cuspFormsMapWithChar K F Λ hψ f` is `ι ∘ f`. -/
+@[simp]
+public theorem coe_cuspFormsMapWithChar (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v)
+    (f : cuspFormsWithChar K F φ) :
+    ((cuspFormsMapWithChar K F Λ hψ f : cuspFormsWithChar K Λ ψ) :
+      GL (Fin 2) (AdeleRing K) → Λ) = mapCoeffs (algebraMap F Λ) f := rfl
+
+variable (K F Λ) in
+/-- The base change map `Λ ⊗_F C(F) → C(Λ)`, `c ⊗ f ↦ c · (ι ∘ f)`, for the central characters
+`φ` and `ψ`, when `ψ_v` is the image of `φ_v`. -/
+public def cuspFormsBaseChangeWithChar (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v) :
+    TensorProduct F Λ (cuspFormsWithChar K F φ) →ₗ[Λ] cuspFormsWithChar K Λ ψ :=
+  LinearMap.liftBaseChange Λ (cuspFormsMapWithChar K F Λ hψ)
+
+/-- The base change map sends `c ⊗ f` to `c · (ι ∘ f)`. -/
+public theorem cuspFormsBaseChangeWithChar_tmul (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v) (c : Λ)
+    (f : cuspFormsWithChar K F φ) :
+    cuspFormsBaseChangeWithChar K F Λ hψ (c ⊗ₜ f) = c • cuspFormsMapWithChar K F Λ hψ f :=
+  LinearMap.liftBaseChange_tmul _ _ _ _
+
+/-- The images in `C(Λ)` of an `F`-basis of `C(F)` are `Λ`-linearly independent. -/
+public theorem linearIndependent_cuspFormsMapWithChar (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v)
+    {ι : Type*} {b : ι → cuspFormsWithChar K F φ} (hb : LinearIndependent F b) :
+    LinearIndependent Λ (fun i => cuspFormsMapWithChar K F Λ hψ (b i)) := by
+  classical
+  set B := Module.Basis.ofVectorSpace F Λ
+  rw [linearIndependent_iff']
+  intro s c hc i hi
+  have hcoord : ∀ j, ∀ i ∈ s, B.repr (c i) j = 0 := by
+    intro j
+    have hb' := linearIndependent_iff'.1 hb s (fun i => B.repr (c i) j)
+    refine hb' ?_
+    apply Subtype.ext
+    funext x
+    have h := congrArg (fun g : cuspFormsWithChar K Λ ψ => (g : GL (Fin 2) (AdeleRing K) → Λ) x)
+      hc
+    simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply, Pi.smul_apply,
+      coe_cuspFormsMapWithChar, Stacks.Adeles.mapCoeffs, smul_eq_mul, Submodule.coe_zero,
+      Pi.zero_apply] at h
+    have h2 := congrArg (fun z => B.repr z j) h
+    simp only [map_sum, map_zero, Finsupp.coe_zero, Pi.zero_apply,
+      Finsupp.coe_finsetSum, Finset.sum_apply] at h2
+    simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply, Pi.smul_apply,
+      smul_eq_mul, Submodule.coe_zero, Pi.zero_apply]
+    rw [← h2]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [mul_comm (c i), ← Algebra.smul_def, map_smul, Finsupp.smul_apply, smul_eq_mul, mul_comm]
+  have : B.repr (c i) = 0 := Finsupp.ext fun j => hcoord j i hi
+  simpa using this
+
+/-- The base change map is injective. -/
+public theorem cuspFormsBaseChangeWithChar_injective (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v) :
+    Function.Injective (cuspFormsBaseChangeWithChar K F Λ hψ) := by
+  classical
+  set b := Module.Basis.ofVectorSpace F (cuspFormsWithChar K F φ)
+  set b' := b.baseChange Λ
+  have hli := linearIndependent_cuspFormsMapWithChar hψ b.linearIndependent
+  rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
+  intro t ht
+  have hrep := b'.linearCombination_repr t
+  rw [← hrep, Finsupp.apply_linearCombination] at ht
+  have hcomp : (cuspFormsBaseChangeWithChar K F Λ hψ) ∘ b' =
+      fun i => cuspFormsMapWithChar K F Λ hψ (b i) := by
+    funext i
+    simp [b', cuspFormsBaseChangeWithChar_tmul]
+  rw [hcomp] at ht
+  have := linearIndependent_iff.1 hli _ ht
+  rw [← hrep, this, map_zero]
+
+end WithChar
+
+
+/-- Composing an element of `C(F)` with `F → Λ` gives an element of `C(Λ)`. -/
+public theorem mapCoeffs_mem_cuspFormsCentralChar {f : GL (Fin 2) (AdeleRing K) → F}
+    (hf : f ∈ cuspFormsCentralChar K F) :
+    mapCoeffs (algebraMap F Λ) f ∈ cuspFormsCentralChar K Λ :=
+  mapCoeffs_mem_cuspFormsWithChar (fun _ => map_natCast _ _) hf
 
 variable (K) in
 /-- The `F`-linear map `C(F) → C(Λ)`, `f ↦ ι ∘ f`. -/
@@ -387,49 +493,13 @@ public theorem cuspFormsBaseChange_tmul (c : Λ) (f : cuspFormsCentralChar K F) 
 
 /-- The images in `C(Λ)` of an `F`-basis of `C(F)` are `Λ`-linearly independent. -/
 public theorem linearIndependent_cuspFormsMap {ι : Type*} {b : ι → cuspFormsCentralChar K F}
-    (hb : LinearIndependent F b) : LinearIndependent Λ (fun i => cuspFormsMap K F Λ (b i)) := by
-  classical
-  set B := Module.Basis.ofVectorSpace F Λ
-  rw [linearIndependent_iff']
-  intro s c hc i hi
-  have hcoord : ∀ j, ∀ i ∈ s, B.repr (c i) j = 0 := by
-    intro j
-    have hb' := linearIndependent_iff'.1 hb s (fun i => B.repr (c i) j)
-    refine hb' ?_
-    apply Subtype.ext
-    funext x
-    have h := congrArg (fun g : cuspFormsCentralChar K Λ => (g : GL (Fin 2) (AdeleRing K) → Λ) x) hc
-    simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply, Pi.smul_apply,
-      coe_cuspFormsMap, Stacks.Adeles.mapCoeffs, smul_eq_mul, Submodule.coe_zero,
-      Pi.zero_apply] at h
-    have h2 := congrArg (fun z => B.repr z j) h
-    simp only [map_sum, map_zero, Finsupp.coe_zero, Pi.zero_apply,
-      Finsupp.coe_finsetSum, Finset.sum_apply] at h2
-    simp only [Submodule.coe_sum, Submodule.coe_smul, Finset.sum_apply, Pi.smul_apply,
-      smul_eq_mul, Submodule.coe_zero, Pi.zero_apply]
-    rw [← h2]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [mul_comm (c i), ← Algebra.smul_def, map_smul, Finsupp.smul_apply, smul_eq_mul, mul_comm]
-  have : B.repr (c i) = 0 := Finsupp.ext fun j => hcoord j i hi
-  simpa using this
+    (hb : LinearIndependent F b) : LinearIndependent Λ (fun i => cuspFormsMap K F Λ (b i)) :=
+  linearIndependent_cuspFormsMapWithChar (fun _ => map_natCast _ _) hb
 
 /-- The base change map is injective. -/
 public theorem cuspFormsBaseChange_injective :
-    Function.Injective (cuspFormsBaseChange K F Λ) := by
-  classical
-  set b := Module.Basis.ofVectorSpace F (cuspFormsCentralChar K F)
-  set b' := b.baseChange Λ
-  have hli := linearIndependent_cuspFormsMap (F := F) (Λ := Λ) b.linearIndependent
-  rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
-  intro t ht
-  have hrep := b'.linearCombination_repr t
-  rw [← hrep, Finsupp.apply_linearCombination] at ht
-  have hcomp : (cuspFormsBaseChange K F Λ) ∘ b' = fun i => cuspFormsMap K F Λ (b i) := by
-    funext i
-    simp [b', cuspFormsBaseChange_tmul]
-  rw [hcomp] at ht
-  have := linearIndependent_iff.1 hli _ ht
-  rw [← hrep, this, map_zero]
+    Function.Injective (cuspFormsBaseChange K F Λ) :=
+  cuspFormsBaseChangeWithChar_injective (fun _ => map_natCast _ _)
 
 end BaseChangeMap
 
@@ -480,7 +550,8 @@ public theorem exists_adeleLattice_le_of_isOpen {U : AddSubgroup (AdeleRing K)}
     intro v hv
     refine hm v (a' v) ?_
     have := ha v
-    rwa [hE v, ite_eq_left hv] at this
+    rw [hE v] at this
+    simpa only [hv, ↓reduceIte] using this
   rw [ha']
   exact hsub this
 
@@ -497,7 +568,6 @@ public theorem principalAdeles_toAddSubgroup :
     (principalAdeles K).toAddSubgroup = principal k K := by
   rw [principal, range_diag]
 
-omit k [Field k] [Finite k] in
 /-- If `φ` is invariant under `W ⊇ N` and `W₀ ⊇ N`, `N` of finite index in a group of exponent
 `p`, and the sums of `φ` over the transversals of `W₀` vanish, then so do its sums over the
 transversals of `W`, provided `p` is invertible. -/
@@ -519,8 +589,6 @@ public theorem sum_eq_zero_of_finer {G : Type*} [AddCommGroup G] {Λ : Type*} [C
   rw [hn, nsmul_eq_mul, Nat.cast_pow] at e1
   exact ((hp.pow n).mul_right_eq_zero).1 e1.symm
 
-omit k [Field k] [Finite k] [Algebra k K] [Algebra (RatFunc k) K]
-  [IsScalarTower k (RatFunc k) K] [FunctionField k K] in
 /-- The integrand of a right `GL₂(K)`-invariant function, invariant under `W`, is invariant under
 `K + W`. -/
 public theorem integrand_add_mem_sup {Λ : Type*} {f : GL (Fin 2) (AdeleRing K) → Λ}
@@ -558,18 +626,18 @@ public theorem isUnramifiedCuspForm_of_starCusp {Λ : Type w} [CommRing Λ]
   have hA : ∀ z, ∀ y ∈ (principalAdeles K).toAddSubgroup ⊔ U,
       f (x * GeneralLinearGroup.upperRightHom (z + y)) =
         f (x * GeneralLinearGroup.upperRightHom z) :=
-    fun z y hy => integrand_add_mem_sup h2 x hinv z hy
+    fun z y hy => integrand_add_mem_sup k h2 x hinv z hy
   have hB : ∀ z, ∀ y ∈ (principalAdeles K).toAddSubgroup ⊔ stabSubgroup K x,
       f (x * GeneralLinearGroup.upperRightHom (z + y)) =
         f (x * GeneralLinearGroup.upperRightHom z) :=
-    fun z y hy => integrand_add_mem_sup h2 x
+    fun z y hy => integrand_add_mem_sup k h2 x
       (fun z' y' hy' => left_inv_upperRight_add h1 x z' hy') z hy
   have hZ : ∀ s₀ : Finset (AdeleRing K), (∀ a, ∃! z ∈ s₀,
       a - z ∈ (principalAdeles K).toAddSubgroup ⊔ stabSubgroup K x) →
       ∑ z ∈ s₀, f (x * GeneralLinearGroup.upperRightHom z) = 0 :=
     fun s₀ hs₀ => hs x s₀ hs₀
   have hG := ringChar_nsmul_adele k (K := K)
-  exact sum_eq_zero_of_finer hG hp (sup_le_sup_left inf_le_left _)
+  exact sum_eq_zero_of_finer k hG hp (sup_le_sup_left inf_le_left _)
     (sup_le_sup_left inf_le_right _) hN hA hB hZ hsU
 
 
@@ -586,15 +654,21 @@ public theorem isUnit_ringChar_of_algebra (hp : IsUnit (ringChar k : Λ)) :
   have : ((ringChar k : ℕ) : Λ) = 0 := by rw [← map_natCast (algebraMap F Λ), h, map_zero]
   exact hp.ne_zero this
 
-/-- The coordinates of an element of `C(Λ)` in an `F`-basis of `Λ` lie in `C(F)`. -/
-public theorem coord_mem_cuspFormsCentralChar (hp : IsUnit (ringChar k : Λ))
-    {g : GL (Fin 2) (AdeleRing K) → Λ} (hg : g ∈ cuspFormsCentralChar K Λ)
+section WithChar
+
+variable {φ : Place K → F} {ψ : Place K → Λ}
+
+/-- The coordinates of an element of `C(Λ)` with central character `ψ` in an `F`-basis of `Λ`
+lie in `C(F)` with central character `φ`, when `ψ_v` is the image of `φ_v`. -/
+public theorem coord_mem_cuspFormsWithChar (hp : IsUnit (ringChar k : Λ))
+    (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v)
+    {g : GL (Fin 2) (AdeleRing K) → Λ} (hg : g ∈ cuspFormsWithChar K Λ ψ)
     (j : Module.Basis.ofVectorSpaceIndex F Λ) :
-    (fun x => (Module.Basis.ofVectorSpace F Λ).repr (g x) j) ∈ cuspFormsCentralChar K F := by
+    (fun x => (Module.Basis.ofVectorSpace F Λ).repr (g x) j) ∈ cuspFormsWithChar K F φ := by
   set B := Module.Basis.ofVectorSpace F Λ
-  have hW := cuspFormsCentralChar_le_reducedForms k Λ hg
-  have hS := cuspFormsCentralChar_le_starForms Λ hg
-  refine mem_cuspFormsCentralChar ⟨isUnramifiedCuspForm_of_starCusp k
+  have hW := cuspFormsWithChar_le_reducedFormsWithChar k Λ ψ hg
+  have hS := cuspFormsWithChar_le_starForms Λ ψ hg
+  refine mem_cuspFormsWithChar ⟨isUnramifiedCuspForm_of_starCusp k
     (isUnit_ringChar_of_algebra k hp) (fun κ x => by simp only [hW.1 κ x])
     (fun γ x => by simp only [hW.2.1 γ x]) (fun x s hs => ?_), fun v a ha x => ?_⟩
   · have := hS x s hs
@@ -603,20 +677,22 @@ public theorem coord_mem_cuspFormsCentralChar (hp : IsUnit (ringChar k : Λ))
       Finsupp.coe_zero, Pi.zero_apply] at h2
     exact h2
   · have h := congrArg (fun z => B.repr z j) (hW.2.2.1 v a ha x)
-    change ((v.residueCard : ℕ) : F) * B.repr (g (a * x)) j = B.repr (g x) j
-    rw [← h, show ((v.residueCard : ℕ) : Λ) * g (a * x) = (v.residueCard : ℕ) • g (a * x) by
-      rw [nsmul_eq_mul], map_nsmul, Finsupp.smul_apply, nsmul_eq_mul]
+    change φ v * B.repr (g (a * x)) j = B.repr (g x) j
+    rw [← h, ← hψ v, ← Algebra.smul_def, map_smul, Finsupp.smul_apply, smul_eq_mul]
 
-/-- Only finitely many coordinates of an element of `C(Λ)` are nonzero. -/
-public theorem exists_finset_coord (hp : IsUnit (ringChar k : Λ))
-    {g : GL (Fin 2) (AdeleRing K) → Λ} (hg : g ∈ cuspFormsCentralChar K Λ) :
+/-- Only finitely many coordinates of an element of `C(Λ)` with central character `ψ` are
+nonzero, when `ψ_v` is the image of a unit `φ_v` of `F`. -/
+public theorem exists_finset_coord_withChar (hp : IsUnit (ringChar k : Λ))
+    (hφ : ∀ v, IsUnit (φ v)) (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v)
+    {g : GL (Fin 2) (AdeleRing K) → Λ} (hg : g ∈ cuspFormsWithChar K Λ ψ) :
     ∃ J : Finset (Module.Basis.ofVectorSpaceIndex F Λ), ∀ j ∉ J, ∀ x,
       (Module.Basis.ofVectorSpace F Λ).repr (g x) j = 0 := by
   classical
   set B := Module.Basis.ofVectorSpace F Λ
-  obtain ⟨P, hP⟩ := exists_finset_eval_eq k F (isUnit_ringChar_of_algebra k hp) (K := K)
+  obtain ⟨P, hP⟩ := exists_finset_eval_eq_withChar k F hφ (K := K)
   refine ⟨P.biUnion fun p => (B.repr (g p)).support, fun j hj x => ?_⟩
-  have hjW := cuspFormsCentralChar_le_reducedForms k F (coord_mem_cuspFormsCentralChar k hp hg j)
+  have hjW := cuspFormsWithChar_le_reducedFormsWithChar k F φ
+    (coord_mem_cuspFormsWithChar k hp hψ hg j)
   obtain ⟨p, hpP, u, hu⟩ := hP x
   have h0 : B.repr (g p) j = 0 := by
     by_contra h
@@ -624,18 +700,22 @@ public theorem exists_finset_coord (hp : IsUnit (ringChar k : Λ))
   have := hu _ hjW
   rw [this, h0, mul_zero]
 
-/-- The base change map is surjective when `p` is invertible in `Λ`. -/
-public theorem cuspFormsBaseChange_surjective (hp : IsUnit (ringChar k : Λ)) :
-    Function.Surjective (cuspFormsBaseChange K F Λ) := by
+/-- The base change map `Λ ⊗_F C(F) → C(Λ)` for the central characters `φ` and `ψ` is
+surjective when `p` is invertible in `Λ`, every `φ_v` is a unit and `ψ_v` is the image of
+`φ_v`. -/
+public theorem cuspFormsBaseChangeWithChar_surjective (hp : IsUnit (ringChar k : Λ))
+    (hφ : ∀ v, IsUnit (φ v)) (hψ : ∀ v, algebraMap F Λ (φ v) = ψ v) :
+    Function.Surjective (cuspFormsBaseChangeWithChar K F Λ hψ) := by
   classical
   rintro ⟨g, hg⟩
   set B := Module.Basis.ofVectorSpace F Λ
-  obtain ⟨J, hJ⟩ := exists_finset_coord k hp (F := F) hg
-  refine ⟨∑ j ∈ J, B j ⊗ₜ ⟨_, coord_mem_cuspFormsCentralChar k hp hg j⟩, ?_⟩
+  obtain ⟨J, hJ⟩ := exists_finset_coord_withChar k hp hφ hψ hg
+  refine ⟨∑ j ∈ J, B j ⊗ₜ ⟨_, coord_mem_cuspFormsWithChar k hp hψ hg j⟩, ?_⟩
   apply Subtype.ext
   funext x
-  simp only [map_sum, cuspFormsBaseChange_tmul, Submodule.coe_sum, Submodule.coe_smul,
-    Finset.sum_apply, Pi.smul_apply, coe_cuspFormsMap, Stacks.Adeles.mapCoeffs, smul_eq_mul]
+  simp only [map_sum, cuspFormsBaseChangeWithChar_tmul, Submodule.coe_sum, Submodule.coe_smul,
+    Finset.sum_apply, Pi.smul_apply, coe_cuspFormsMapWithChar, Stacks.Adeles.mapCoeffs,
+    smul_eq_mul]
   have hx : g x = ∑ j ∈ J, (B.repr (g x)) j • B j := by
     conv_lhs => rw [← B.linearCombination_repr (g x)]
     rw [Finsupp.linearCombination_apply, Finsupp.sum]
@@ -646,6 +726,29 @@ public theorem cuspFormsBaseChange_surjective (hp : IsUnit (ringChar k : Λ)) :
   conv_rhs => rw [hx]
   refine Finset.sum_congr rfl fun j _ => ?_
   rw [Algebra.smul_def, mul_comm]
+
+end WithChar
+
+/-- The coordinates of an element of `C(Λ)` in an `F`-basis of `Λ` lie in `C(F)`. -/
+public theorem coord_mem_cuspFormsCentralChar (hp : IsUnit (ringChar k : Λ))
+    {g : GL (Fin 2) (AdeleRing K) → Λ} (hg : g ∈ cuspFormsCentralChar K Λ)
+    (j : Module.Basis.ofVectorSpaceIndex F Λ) :
+    (fun x => (Module.Basis.ofVectorSpace F Λ).repr (g x) j) ∈ cuspFormsCentralChar K F :=
+  coord_mem_cuspFormsWithChar k hp (fun _ => map_natCast _ _) hg j
+
+/-- Only finitely many coordinates of an element of `C(Λ)` are nonzero. -/
+public theorem exists_finset_coord (hp : IsUnit (ringChar k : Λ))
+    {g : GL (Fin 2) (AdeleRing K) → Λ} (hg : g ∈ cuspFormsCentralChar K Λ) :
+    ∃ J : Finset (Module.Basis.ofVectorSpaceIndex F Λ), ∀ j ∉ J, ∀ x,
+      (Module.Basis.ofVectorSpace F Λ).repr (g x) j = 0 :=
+  exists_finset_coord_withChar k hp (isUnit_residueCard k (isUnit_ringChar_of_algebra k hp))
+    (fun _ => map_natCast _ _) hg
+
+/-- The base change map is surjective when `p` is invertible in `Λ`. -/
+public theorem cuspFormsBaseChange_surjective (hp : IsUnit (ringChar k : Λ)) :
+    Function.Surjective (cuspFormsBaseChange K F Λ) :=
+  cuspFormsBaseChangeWithChar_surjective k hp
+    (isUnit_residueCard k (isUnit_ringChar_of_algebra k hp)) (fun _ => map_natCast _ _)
 
 end Surjective
 

@@ -88,7 +88,10 @@ That is the datum `LefschetzGaloisDescent`, and the trace formula follows from i
 * `Stacks.EtaleCohomology.LefschetzGaloisDescent.openDatum_eq_zero` — the global Lefschetz
   number of the open complement vanishes, from the Galois descent of Steps 7 to 9.
 * `Stacks.EtaleCohomology.LefschetzGaloisDescent.globalLefschetzNumber_eq_localLefschetzNumber`
-  — the Lefschetz trace formula.
+  — the global and local Lefschetz numbers of a dévissage with a Galois descent agree.  The
+  Lefschetz trace formula of Tag 03TZ itself, for a projective curve over a finite field and
+  `K ∈ D_ctf(X, Λ)`, is proved in
+  `Stacks.EtaleCohomology.globalLefschetzNumberOfCtf_eq_sum_rationalPointStalkTrace`.
 * `Stacks.EtaleCohomology.projectiveLineLefschetzDevissage` and
   `Stacks.EtaleCohomology.projectiveLine_globalLefschetzNumber_eq_localLefschetzNumber` — a
   dévissage with `n` rational points and non-zero graded pieces, realised on the projective line
@@ -972,21 +975,18 @@ public theorem openDatum_eq_zero : globalLefschetzNumber Λ D.openDatum = 0 := b
   exact Finset.sum_eq_zero fun g _ => G.coefficientTrace_smul_moduleTrace_eq_zero g
 
 include G in
-/-- **The Lefschetz trace formula (Stacks 03TZ).** Let `X` be a projective curve over a finite
-field `k`, let `Λ` be a finite ring and let `K` be an object of `D_ctf(X, Λ)`. Then the global
-and local Lefschetz numbers of `K` are equal:
+/-- **The Lefschetz numbers of a dévissage with a Galois descent agree.** For a dévissage `D` of
+`RΓ(X_k̄, K)` along the rational points of `X` equipped with a Galois descent `G`, the global and
+local Lefschetz numbers read off `D` are equal:
 
   `Tr(π_X^* | RΓ(X_k̄, K)) = ∑_{x ∈ X(k)} Tr(π_x | K_x̄)`
 
-in `Λ^natural`. The dévissage of `RΓ(X_k̄, K)` along the rational points of `X` splits the left
-hand side into the trace on the open complement of `X(k)` plus the right hand side, and the
-Galois descent of `Stacks.EtaleCohomology.LefschetzGaloisDescent` makes the trace on the open
-complement vanish. -/
-@[stacks 03TZ "the global and local Lefschetz numbers agree, with the Galois decomposition of \
-the trace on the open complement (Stacks 03UC and 03UD) and the annihilation of each \
-coefficient trace by the order of its stabiliser (Stacks 03UB, and Weil's formula Stacks 03U1 \
-through the absence of fixed points on the Galois cover) as hypotheses; the reductions of Steps \
-3 to 6 of Stacks 03UG are not formalized"]
+in `Λ^natural`. The dévissage splits the left hand side into the trace on the open complement of
+`X(k)` plus the right hand side, and the Galois descent makes the trace on the open complement
+vanish. This is the shape of the argument of Steps 7 to 9 of the proof of Tag 03UG, for the data
+of a `LefschetzDevissage` and a `LefschetzGaloisDescent`; the Lefschetz trace formula of
+Tag 03TZ itself, for a projective curve over a finite field and `K ∈ D_ctf(X, Λ)`, is
+`Stacks.EtaleCohomology.globalLefschetzNumberOfCtf_eq_sum_rationalPointStalkTrace`. -/
 public theorem globalLefschetzNumber_eq_localLefschetzNumber [Fintype points] :
     globalLefschetzNumber Λ D.globalDatum = localLefschetzNumber Λ points D.stalkDatum :=
   D.globalLefschetzNumber_eq_localLefschetzNumber_of_openDatum_eq_zero G.openDatum_eq_zero

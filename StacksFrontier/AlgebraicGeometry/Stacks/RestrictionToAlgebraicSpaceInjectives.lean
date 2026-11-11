@@ -68,12 +68,16 @@ condition for sheaves of sets, which needs no hypothesis — it is discharged ou
 The source assumes `𝒳` is an *algebraic stack* representable by an *algebraic space* `F`.
 Neither algebraicity enters the argument: all that is used is the functor `F_étale ⥤ 𝒳` of Tag
 073M together with the representability data carried by an étale chart of `F`. So the
-hypotheses below are only that `p` be fibred in groupoids and that an equivalence over the site
+hypotheses below are that `p` be fibred in groupoids and that an equivalence over the site
 with the category of elements of `F` be given, which is a generalization of the source's
 statement and not a weakening of its conclusion.
 
 The source adds that the same statements are *false* for sheaves of modules, referring to Tag
-0758; that negative statement is not formalized here.
+0758. That is `AlgebraicGeometry.Space.restriction_modules_not_preserves_injectives`, in
+`StacksFrontier.AlgebraicGeometry.Stacks.RestrictionToAlgebraicSpaceModules`, which also states both
+parts for abelian sheaves in the universe of the schemes with no size hypothesis
+(`AlgebraicGeometry.Space.injective_restrictionAbSheafFunctor_obj_univ` and
+`AlgebraicGeometry.Space.isKInjective_restrictionAbSheafFunctor_obj_univ`).
 
 ## References
 

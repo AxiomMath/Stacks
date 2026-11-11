@@ -772,7 +772,9 @@ private lemma exists_spectralSequence_of_functorResolution
     ((Γ.mapHomologicalComplex (.up ℤ)).obj I)
     ((α.mapHomologicalComplex (.up ℤ)).app I) hα
 
-private def extendSingleNatIso (A : Type*) [Category A] [Abelian A] :
+/-- Extending along `ℕ ↪ ℤ` an object placed in degree `0` gives the object placed in degree `0`,
+naturally. -/
+public def singleExtendUpNatIso (A : Type*) [Category A] [Abelian A] :
     HomologicalComplex.single A (.up ℕ) 0 ⋙ ComplexShape.embeddingUpNat.extendFunctor A ≅
       HomologicalComplex.single A (.up ℤ) 0 :=
   have h0 : ComplexShape.embeddingUpNat.f 0 = (0 : ℤ) := by simp
@@ -817,7 +819,7 @@ public lemma exists_spectralSequence_of_natFunctorResolution
     (HomologicalComplex.singleMapHomologicalComplex Γ (.up ℕ) 0).inv ≫
       Functor.whiskerRight α (Γ.mapHomologicalComplex (.up ℕ))
   let a' : Γ ⋙ HomologicalComplex.single A (.up ℤ) 0 ⟶ G :=
-    (Functor.isoWhiskerLeft Γ (extendSingleNatIso A)).inv ≫
+    (Functor.isoWhiskerLeft Γ (singleExtendUpNatIso A)).inv ≫
       Functor.whiskerRight a (ComplexShape.embeddingUpNat.extendFunctor A)
   refine exists_spectralSequence_of_functorResolution Γ G a' ?_ I ?_
   · intro X i hi
@@ -828,7 +830,7 @@ public lemma exists_spectralSequence_of_natFunctorResolution
     have ha : QuasiIso (a.app (I.X n)) := by
       dsimp [a]
       infer_instance
-    exact quasiIso_comp ((extendSingleNatIso A).inv.app (Γ.obj (I.X n)))
+    exact quasiIso_comp ((singleExtendUpNatIso A).inv.app (Γ.obj (I.X n)))
       (HomologicalComplex.extendMap (a.app (I.X n)) ComplexShape.embeddingUpNat)
       (hφ' := (HomologicalComplex.quasiIso_extendMap_iff
         (a.app (I.X n)) ComplexShape.embeddingUpNat).mpr ha)

@@ -30,7 +30,7 @@ for this situation.
 Both are obtained the way the source obtains them: from an *absolute* principal homogeneous
 statement over the upper thickening alone — Stacks 08ME for 08MU, Stacks 08MP for 08MR — by
 transporting it along the identification that Stacks 08MQ supplies for a strict square and a
-relatively flat module. See the scope section for what is carried as a hypothesis.
+relatively flat module. See the scope section for how the 08MQ input enters.
 
 ## Main definitions
 
@@ -50,8 +50,14 @@ relatively flat module. See the scope section for what is carried as a hypothesi
 
 * `Deformation.ToposThickening.hasFlatLift_iff_nonempty_flatLift`: a flat lift exists exactly
   when the type of flat lifts is nonempty, so that `FlatLift` is the data behind `HasFlatLift`.
-* `Deformation.ToposThickening.flatLiftClass_torsor`: **Stacks 08MU**.
-* `Deformation.ToposThickening.moduleMapLift_torsor_of_isFlat`: **Stacks 08MR**.
+* `Deformation.ToposThickening.flatLiftClass_torsor`: the principal homogeneous set of Stacks 08MU
+  from the class-level dictionary of Stacks 08MQ, taken as an argument. The dictionary is proved
+  by `Deformation.ToposThickening.isFlatLiftClassCorrespondence`; Stacks 08MU itself, with only
+  the source's hypotheses, is `Deformation.ToposThickening.nonempty_addTorsor_flatLiftClass`, and
+  with the action pinned down `Deformation.ToposThickening.exists_addTorsor_flatLiftClass`.
+* `Deformation.ToposThickening.moduleMapLift_torsor_of_isFlat`: Stacks 08MR from a given
+  identification of its coefficient module with the ideal product. Stacks 08MR itself is
+  `Deformation.ToposThickening.exists_addTorsor_moduleMapLift`.
 
 ## Implementation notes
 
@@ -90,11 +96,15 @@ one of the two components the identity.
 
 ## Scope
 
-Stacks 08MQ — the characterization of the `O'`-modules flat over `O_{ℬ'}` — is not in the
-library at the time of writing; it is being formalized elsewhere and is not duplicated here.
-Each result below therefore carries the consequence of 08MQ that its proof consumes as an
-explicit hypothesis, stated with 08MQ's own hypotheses as antecedents so that 08MQ discharges
-it. This is the treatment of
+Stacks 08MQ — the characterization of the `O'`-modules flat over `O_{ℬ'}` — is in the
+library, as `Deformation.ToposThickening.isFlat_iff_isIso_canonicalMap`, but in modules this one
+cannot import. Each result below therefore takes the consequence of 08MQ that its proof consumes
+as an explicit argument, stated with 08MQ's own hypotheses as antecedents so that 08MQ
+discharges it. Both arguments are proved downstream —
+`Deformation.ToposThickening.isFlatLiftClassCorrespondence` and
+`Deformation.ToposThickening.isIdealProductTensorIso` — and the unconditional statements are
+`Deformation.ToposThickening.nonempty_addTorsor_flatLiftClass` (Stacks 08MU) and
+`Deformation.ToposThickening.exists_addTorsor_moduleMapLift` (Stacks 08MR). This is the treatment of
 `Deformation.ToposThickening.IsFlatLiftCorrespondence` in
 `StacksFrontier/Deformation/ToposThickening/FlatLiftObstruction.lean`, and the hypothesis for
 Stacks 08MU below is that one with its second clause strengthened from an equivalence of
@@ -119,7 +129,7 @@ statement needs.
   one-line proof "combine Lemmas 08MP and 08MQ".
 
 Nothing below asserts the content of 08MQ, and neither result is weaker than its source
-statement once 08MQ is available.
+statement once the argument is supplied.
 
 ## References
 
@@ -281,9 +291,9 @@ abbrev FlatLiftClass (i : RingedToposHom X X') (f' : RingedToposHom X' S')
 
 variable [HasSheafify X'.J AddCommGrpCat.{w}]
 
-/-- **The consequence of Stacks 08MQ that the proof of Stacks 08MU consumes**, carried as a
-hypothesis: granting that the square is strict and that `ℱ` is flat over `O_ℬ`, which are the
-hypotheses of 08MQ,
+/-- **The consequence of Stacks 08MQ that the proof of Stacks 08MU consumes**, as a
+proposition (proved by `Deformation.ToposThickening.isFlatLiftClassCorrespondence`): granting
+that the square is strict and that `ℱ` is flat over `O_ℬ`, which are the hypotheses of 08MQ,
 
 * a flat lift of `ℱ` forces the canonical map `f^*J ⊗ ℱ ⟶ I ⊗ ℱ` to be an isomorphism, which
   is the "moreover" clause of 08MQ, and
@@ -312,17 +322,18 @@ def IsFlatLiftClassCorrespondence (i : RingedToposHom X X') (t : RingedToposHom 
               (𝟙 (((Stacks.SheafOfModules.Tensor.sheafTensor.{u', v', w, w, w}
                 ((pushforwardCommRingFunctor i.toToposHom).obj X.O)).obj hi.I).obj F))))
 
-/-- **Stacks 08MU.** Let `(f, f')` be a strict morphism of first order thickenings of ringed
-topoi as in Situation 08M7 and let `ℱ` be an `O`-module flat over `O_ℬ`. If `ℱ` has at least
-one lift to an `O'`-module flat over `O_{ℬ'}`, then the isomorphism classes of such lifts form
-a principal homogeneous set under `Ext¹_O(ℱ, I ⊗_O ℱ)`.
+/-- **Stacks 08MU, from the dictionary of Stacks 08MQ.** Let `(f, f')` be a strict morphism of
+first order thickenings of ringed topoi as in Situation 08M7 and let `ℱ` be an `O`-module flat
+over `O_ℬ`. If `ℱ` has at least one lift to an `O'`-module flat over `O_{ℬ'}`, then the
+isomorphism classes of such lifts form a principal homogeneous set under `Ext¹_O(ℱ, I ⊗_O ℱ)`.
 
 The source proves this by applying Stacks 08MQ to see that the canonical map
 `f^*J ⊗ ℱ ⟶ I ⊗ ℱ` is an isomorphism, which identifies the lifts with the extensions of `ℱ` by
 `I ⊗_O ℱ` whose action map is the identity, and then quoting Stacks 08ME for those. Here the
-first step is the hypothesis `hMQ` and the second is
-`Deformation.ToposThickening.fixedActionExtensionClass_torsor`. -/
-@[stacks 08MU "granting Stacks 08MQ, carried as the hypothesis `IsFlatLiftClassCorrespondence`"]
+first step is the argument `hMQ`, which `Deformation.ToposThickening.isFlatLiftClassCorrespondence`
+supplies, and the second is `Deformation.ToposThickening.fixedActionExtensionClass_torsor`.
+Stacks 08MU itself, with no such argument, is
+`Deformation.ToposThickening.nonempty_addTorsor_flatLiftClass`. -/
 theorem flatLiftClass_torsor (i : RingedToposHom X X') (t : RingedToposHom S S')
     (f : RingedToposHom X S) (f' : RingedToposHom X' S') (hi : FirstOrderThickening i)
     (ht : FirstOrderThickening t) (comm : f'.comp i = t.comp f)
@@ -390,16 +401,19 @@ def IsIdealProductTensorIso (i : RingedToposHom X X') (t : RingedToposHom S S')
             (basePullbackIdeal t f ht)).obj
           ((pullbackModules i.toRingedToposModulesHom).obj G') ≅ (idealProductModule hi G').val)
 
-/-- **Stacks 08MR.** Let `(f, f')` be a strict morphism of first order thickenings of ringed
-topoi as in Situation 08M7, let `ℱ'` and `𝒢'` be `O'`-modules with `𝒢'` flat over `O_{ℬ'}`,
-and let `φ : i^*ℱ' ⟶ i^*𝒢'` be a map of `O`-modules. If `φ` has at least one lift to an
-`O'`-linear map `ℱ' ⟶ 𝒢'`, then its lifts form a principal homogeneous set under
-`Hom_O(i^*ℱ', f^*J ⊗_O i^*𝒢')`.
+/-- **Stacks 08MR, from a given identification of the coefficient module.** Let `(f, f')` be a
+strict morphism of first order thickenings of ringed topoi as in Situation 08M7, let `ℱ'` and
+`𝒢'` be `O'`-modules with `𝒢'` flat over `O_{ℬ'}`, and let `φ : i^*ℱ' ⟶ i^*𝒢'` be a map of
+`O`-modules. If `φ` has at least one lift to an `O'`-linear map `ℱ' ⟶ 𝒢'`, then its lifts form a
+principal homogeneous set under `Hom_O(i^*ℱ', f^*J ⊗_O i^*𝒢')`.
 
 The source's proof is "combine Lemmas 08MP and 08MQ": Stacks 08MP makes the lifts a principal
 homogeneous set under `Hom_O(i^*ℱ', I·𝒢')`, and Stacks 08MQ identifies `I·𝒢'` with
-`f^*J ⊗_O i^*𝒢'`. Here the second step is the hypothesis `hMQ`. -/
-@[stacks 08MR "granting Stacks 08MQ, carried as the hypothesis `IsIdealProductTensorIso`"]
+`f^*J ⊗_O i^*𝒢'`. Here the second step is taken as the argument `hMQ`, which
+`Deformation.ToposThickening.isIdealProductTensorIso` proves. Stacks 08MR itself, with no such
+argument and with the action of the source, is
+`Deformation.ToposThickening.exists_addTorsor_moduleMapLift` in
+`StacksFrontier/Deformation/ToposThickening/IdealProductTensorIso.lean`. -/
 theorem moduleMapLift_torsor_of_isFlat (i : RingedToposHom X X') (t : RingedToposHom S S')
     (f : RingedToposHom X S) (f' : RingedToposHom X' S') (hi : FirstOrderThickening i)
     (ht : FirstOrderThickening t) (comm : f'.comp i = t.comp f)

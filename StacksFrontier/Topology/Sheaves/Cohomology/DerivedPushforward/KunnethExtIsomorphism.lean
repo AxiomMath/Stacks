@@ -1,9 +1,14 @@
 module
 
+public import StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.KunnethDischarged
 public import StacksFrontier.AlgebraicGeometry.DerivedQCoh.Basic
+public import StacksFrontier.AlgebraicGeometry.Duality.DerivedTilde.SchemeSheafPerfectHomQuasicoherent
 public import StacksFrontier.AlgebraicGeometry.Perfect.TorIndependence
+public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.InternalHomPullbackPerfectAndPseudoCoherent
+public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.KunnethExtTensorComparison
 public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.KunnethMapForExt
 public import StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.BasicProperties
+public import StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.PerfectDerivedPullback
 import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -19,7 +24,7 @@ of Stacks 0FXY — Stacks 0FXZ asserts that this morphism is an isomorphism when
 quasi-compact and quasi-separated, `X` and `Y` are Tor independent over `S`, `K` and `M` are
 perfect and `K'`, `M'` have quasi-coherent cohomology.
 
-This file carries out the *shape* of the source's proof.  By construction the morphism of
+This file proves the reduction step of the source's proof.  By construction the morphism of
 Stacks 0FXY is the relative Künneth morphism of Stacks 0FLP at the pair of derived internal
 homs, followed by the direct image of the comparison
 
@@ -28,9 +33,12 @@ homs, followed by the direct image of the comparison
 so it is invertible as soon as both factors are.  The first factor is Stacks 0FLQ, the
 invertibility of the relative Künneth morphism; the second is the source's identification
 `R SheafHom(K, K') = K' ⊗^𝐋 K^∨` for perfect `K` (Cohomology, Stacks 08DQ) together with the
-compatibility the source declines to check.  Neither is available here in usable form — 0FLQ is
-carried, but only conditionally on four inputs of its own, and of 08DQ only the perfectness of
-the dual is proved — so both are carried as explicit hypotheses; see the implementation notes.
+compatibility the source declines to check.  Both factors are proved invertible at every
+cartesian square of schemes, which gives Stacks 0FXZ as
+`Stacks.Cohomology.DerivedKunnethExt.isIso_kunnethExtMap_cartesian`; its specialization to the
+chosen fibre product `X ×_S Y` is
+`Stacks.Cohomology.DerivedKunnethExt.isIso_kunnethExtMap_fibreProduct`, in
+`StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.KunnethExtFibreProduct`.
 
 ## Main results
 
@@ -45,48 +53,26 @@ the dual is proved — so both are carried as explicit hypotheses; see the imple
   internal homs and the comparison above are.
 * `Stacks.Cohomology.DerivedKunnethExt.isIso_kunnethExtMap_of_isIso_sheafHomComparisons`: the
   same with the comparison above replaced by its three constituents.
-* `Stacks.Cohomology.DerivedKunnethExt.isIso_kunnethExtMap_cartesian`: **Stacks 0FXZ** at a
-  cartesian square of schemes, on the source's own hypotheses together with the two carried
-  inputs.
+* `Stacks.Cohomology.DerivedKunnethExt.isIso_kunnethExtMap_cartesian`: **Stacks 0FXZ** at an
+  arbitrary cartesian square of schemes, under the hypotheses of the source.
 
 ## Implementation notes
 
-*What is proved and what is assumed.*  The source's proof of Stacks 0FXZ has exactly two
-steps, and this file proves neither of them; what it proves is that they suffice, which in the
-source is the word "hence".  The two steps are carried as hypotheses:
+*The two factors.*  In `isIso_kunnethExtMap_cartesian` they are proved as follows.
 
-* `hkunneth`, the invertibility of `Stacks.Cohomology.DerivedKunneth.kunnethMap` at the pair
-  `(R SheafHom(K, K'), R SheafHom(M, M'))`.  This is Stacks 0FLQ, which the repository carries
-  for this same `kunnethMap`, as
-  `Stacks.Cohomology.DerivedKunneth.isIso_kunnethMap_of_projectionFormulas_of_baseChange`,
-  but itself only conditionally: that carrier takes as hypotheses the projection formula of
-  Stacks 08EU for `a` and for `p` — of which only the case `K = 𝒪_Y[0]` is proved
-  (`Stacks.Cohomology.DerivedProjectionFormula.isIso_projectionFormulaMap_unitObject`) — the
-  Tor-independent base-change comparison of Stacks 08IB for the square, and the Stacks
-  079U/0D5S monoidality coherence.  `hkunneth` is exactly that carrier's conclusion, so it is
-  obtainable from it as soon as those four are supplied, and is taken here as a single
-  hypothesis rather than as four.  Note that perfectness of `K` and of `M` does not help to
-  discharge them: 0FLQ is applied to `R SheafHom(K, K')` and `R SheafHom(M, M')`, which for
-  `K'` and `M'` merely in `D_QCoh` are quasi-coherent and not perfect, so the dévissage from
-  finite locally free modules that proves the projection formula has nothing to run on.
-* `hbox`, the invertibility of `Stacks.Cohomology.DerivedKunnethExt.boxSheafHomMap`.  This is
-  where perfectness of `K` and of `M` is used in the source, through the identification
-  `R SheafHom(K, K') = K' ⊗^𝐋 K^∨` of Cohomology, Stacks 08DQ; of that tag the repository
-  carries only the half saying that the dual of a perfect object is perfect
-  (`Stacks.SheafOfModules.isPerfect_derivedDual`), and the identification itself — invertibility
-  of `Stacks.SheafOfModules.derivedTensorDualToSheafHom`, the canonical map of Stacks 08I1 — is
-  not available.  The parenthesis "we omit the verification that with these identifications we
-  obtain the same map" is also inside this hypothesis: `hbox` is about the canonical comparison
-  `boxSheafHomMap`, so assuming it assumes both the identification and its compatibility with
-  the Künneth morphism.
+* The invertibility of `Stacks.Cohomology.DerivedKunneth.kunnethMap` at the pair
+  `(R SheafHom(K, K'), R SheafHom(M, M'))` is Stacks 0FLQ at the given cartesian square,
+  `Stacks.Cohomology.DerivedKunneth.isIso_kunnethMapScheme_of_isPullback`, applied to the two
+  derived internal homs, which lie in `D_QCoh` by
+  `AlgebraicGeometry.derivedCategoryB_derivedSheafHom_of_isPerfect`.
+* The invertibility of `Stacks.Cohomology.DerivedKunnethExt.boxSheafHomMap`, which is where
+  perfectness of `K` and of `M` is used, follows from
+  `Stacks.Cohomology.DerivedInternalHomPullback.isIso_derivedPullbackSheafHomMap_of_isPerfect`
+  and `Stacks.Cohomology.DerivedKunnethExt.isIso_sheafHomTensorMap_of_isPerfect_space`; it holds
+  at any commuting square.
 
-Because of this the geometric hypotheses of the source — quasi-compactness and
-quasi-separatedness of `a` and `b`, Tor independence of `X` and `Y` over `S`, perfectness of
-`K` and `M`, quasi-coherence of the cohomology of `K'` and `M'` — appear in
-`isIso_kunnethExtMap_cartesian` but are not consumed by its proof.  They are the hypotheses
-under which the two carried inputs are theorems, and they are kept in the statement so that it
-is the statement of the source's lemma and not a different one.  The ringed-space results above
-it drop them, and are correspondingly more general.
+The ringed-space results drop the geometric hypotheses of the source and are correspondingly
+more general.
 
 *Invertibility is transported along the definition, not reproved.*  Each proof below rewrites
 the morphism into the composite it is by definition
@@ -120,6 +106,12 @@ universe u
 namespace Stacks.Cohomology.DerivedKunnethExt
 
 attribute [local instance] HasDerivedCategory.standard
+
+-- `KunnethDischarged` makes the abelian and Grothendieck structures of
+-- `Stacks.Cohomology.SiteModules` on module sheaves visible; the derived categories of this file
+-- are those of `SheafOfModules.instAbelian`, as in the modules it builds on.
+attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
+  Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 
 /-! ### Derived tensor products of invertible morphisms -/
 
@@ -240,61 +232,48 @@ theorem toShHom_isPullback_w (hW : IsPullback p q a b) :
     q.toLRSHom.toShHom ≫ b.toLRSHom.toShHom = (p ≫ a).toLRSHom.toShHom :=
   congrArg (fun g : W ⟶ S => g.toLRSHom.toShHom) hW.w.symm
 
-/-- **Stacks 0FXZ.**  Let `a : X ⟶ S` and `b : Y ⟶ S` be morphisms of schemes which are
-quasi-compact and quasi-separated, let `X` and `Y` be Tor independent over `S`, and let
-`W = X ×_S Y` with its two projections `p` and `q`.  If `K ∈ D(𝒪_X)` is perfect,
-`K' ∈ D_{QCoh}(𝒪_X)`, `M ∈ D(𝒪_Y)` is perfect and `M' ∈ D_{QCoh}(𝒪_Y)`, then the Künneth
-morphism for Ext of Stacks 0FXY,
+/-- Let `a : X ⟶ S` and `b : Y ⟶ S` be quasi-compact and quasi-separated morphisms of schemes,
+and let `X` and `Y` be Tor independent over `S`.  Let `p : W ⟶ X` and `q : W ⟶ Y` make `W` a
+fibre product of `a` and `b`, and let `f = p ≫ a`.  If `K ∈ D(𝒪_X)` is perfect,
+`K' ∈ D_QCoh(𝒪_X)`, `M ∈ D(𝒪_Y)` is perfect and `M' ∈ D_QCoh(𝒪_Y)`, then the Künneth morphism
+for Ext of Stacks 0FXY
 
-`Ra_*R SheafHom(K, K') ⊗^𝐋_{𝒪_S} Rb_*R SheafHom(M, M') ⟶ Rf_*(R SheafHom(K ⊠ M, K' ⊠ M'))`,
+`Ra_*R SheafHom(K, K') ⊗^𝐋_{𝒪_S} Rb_*R SheafHom(M, M') ⟶ Rf_*(R SheafHom(K ⊠ M, K' ⊠ M'))`
 
-is an isomorphism.
-
-The two steps of the source's proof are carried as the hypotheses `hkunneth` and `hbox`, and
-the geometric hypotheses are therefore not consumed; the implementation notes of this file say
-what each of the two steps is, why neither is available in the library, and where the
-verification the source omits sits.  `hkunneth` is Stacks 0FLQ at the pair of derived internal
-homs and `hbox` is the identification of Cohomology, Stacks 08DQ together with that
-verification. -/
-@[stacks 0FXZ "for a and b quasi-compact and quasi-separated, X and Y Tor independent over S, \
-K and M perfect and K', M' in D_QCoh, the Künneth morphism for Ext of Tag 0FXY at a cartesian \
-square of schemes is invertible.  Both steps of the source's two-step proof are carried as \
-explicit hypotheses and the source's geometric hypotheses are consequently not consumed: \
-hkunneth is the invertibility of the relative Künneth morphism of Tag 0FLP at the pair \
-(RSheafHom(K,K'), RSheafHom(M,M')), which is Tag 0FLQ.  That tag is carried, for this same \
-kunnethMap, by isIso_kunnethMap_of_projectionFormulas_of_baseChange, but itself only \
-conditionally, on four named inputs: the projection formula of Tag 08EU for a and for p, the \
-Tor-independent base-change comparison of Tag 08IB for the square, and the Tag 079U/0D5S \
-monoidality coherence.  So hkunneth is exactly that carrier's conclusion and is obtainable \
-from it once those four are supplied; it is carried here as one hypothesis rather than four.  \
-Perfectness of K and M does not discharge them, because 0FLQ is applied to RSheafHom(K,K') \
-and RSheafHom(M,M'), which for K' and M' merely in D_QCoh are quasi-coherent and not \
-perfect.  And hbox is the invertibility of the \
-canonical comparison Lp^*RSheafHom(K,K') (x)^L Lq^*RSheafHom(M,M') -> RSheafHom(K [x] M, K' \
-[x] M'), which is where the source uses perfectness, through the identification \
-RSheafHom(K,K') = K' (x)^L K^dual of Cohomology Tag 08DQ, of which the repository carries only \
-the statement that the dual of a perfect object is perfect, and which also absorbs the \
-parenthetical verification the source omits that the identifications give the same map.  What \
-is proved here is that the two steps suffice, which in the source is the word `hence`"]
+is an isomorphism. -/
+@[stacks 0FXZ "at an arbitrary cartesian square of schemes"]
 theorem isIso_kunnethExtMap_cartesian (hW : IsPullback p q a b)
     [QuasiCompact a] [QuasiSeparated a] [QuasiCompact b] [QuasiSeparated b]
-    (_htor : AlgebraicGeometry.TorIndependent a b)
+    (htor : AlgebraicGeometry.TorIndependent a b)
     (K K' : DerivedCategory X.Modules) (M M' : DerivedCategory Y.Modules)
-    (_hK : RingedSpace.IsPerfect (X := X.toRingedSpace) K)
-    (_hK' : IsDQCoh (R := X.ringCatSheaf) K')
-    (_hM : RingedSpace.IsPerfect (X := Y.toRingedSpace) M)
-    (_hM' : IsDQCoh (R := Y.ringCatSheaf) M')
-    (hkunneth : IsIso (Stacks.Cohomology.DerivedKunneth.kunnethMap a.toLRSHom.toShHom
-      b.toLRSHom.toShHom p.toLRSHom.toShHom q.toLRSHom.toShHom (p ≫ a).toLRSHom.toShHom rfl
-      (toShHom_isPullback_w a b p q hW)
-      (sheafHomObj X.toRingedSpace K K') (sheafHomObj Y.toRingedSpace M M')))
-    (hbox : IsIso (boxSheafHomMap p.toLRSHom.toShHom q.toLRSHom.toShHom K K' M M')) :
+    (hK : RingedSpace.IsPerfect (X := X.toRingedSpace) K)
+    (hK' : IsDQCoh (R := X.ringCatSheaf) K')
+    (hM : RingedSpace.IsPerfect (X := Y.toRingedSpace) M)
+    (hM' : IsDQCoh (R := Y.ringCatSheaf) M') :
     IsIso (kunnethExtMap a.toLRSHom.toShHom b.toLRSHom.toShHom p.toLRSHom.toShHom
       q.toLRSHom.toShHom (p ≫ a).toLRSHom.toShHom rfl (toShHom_isPullback_w a b p q hW)
       K K' M M') :=
   isIso_kunnethExtMap a.toLRSHom.toShHom b.toLRSHom.toShHom p.toLRSHom.toShHom
     q.toLRSHom.toShHom (p ≫ a).toLRSHom.toShHom rfl (toShHom_isPullback_w a b p q hW)
-    K K' M M' hkunneth hbox
+    K K' M M'
+    (Stacks.Cohomology.DerivedKunneth.isIso_kunnethMapScheme_of_isPullback a b p q hW htor
+      (sheafHomObj X.toRingedSpace K K') (sheafHomObj Y.toRingedSpace M M')
+      (AlgebraicGeometry.derivedCategoryB_derivedSheafHom_of_isPerfect X K K' hK hK')
+      (AlgebraicGeometry.derivedCategoryB_derivedSheafHom_of_isPerfect Y M M' hM hM'))
+    (isIso_boxSheafHomMap p.toLRSHom.toShHom q.toLRSHom.toShHom K K' M M'
+      (Stacks.Cohomology.DerivedInternalHomPullback.isIso_derivedPullbackSheafHomMap_of_isPerfect
+        p.toLRSHom.toShHom K hK K')
+      (Stacks.Cohomology.DerivedInternalHomPullback.isIso_derivedPullbackSheafHomMap_of_isPerfect
+        q.toLRSHom.toShHom M hM M')
+      (isIso_sheafHomTensorMap_of_isPerfect_space W.toRingedSpace
+        ((derivedPullbackFunctor p.toLRSHom.toShHom).obj K)
+        ((derivedPullbackFunctor p.toLRSHom.toShHom).obj K')
+        ((derivedPullbackFunctor q.toLRSHom.toShHom).obj M)
+        ((derivedPullbackFunctor q.toLRSHom.toShHom).obj M')
+        (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback
+          p.toLRSHom.toShHom K hK)
+        (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback
+          q.toLRSHom.toShHom M hM)))
 
 end Schemes
 

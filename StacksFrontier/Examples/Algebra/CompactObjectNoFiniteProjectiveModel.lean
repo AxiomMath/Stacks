@@ -32,8 +32,10 @@ is **a mistake in the Stacks Project, pending review**: it is **contradicted by 
 [Stacks, Tag 09R5]**, whose compact object over the bounded algebra of §09R4 has no finite
 graded-projective representative at all. No step of the refutation is left on paper.
 
-What the source's proof does establish is registered under the tag, in
-`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean`:
+What the source's proof does establish is proved in
+`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean`, where the tag is registered
+on the corrected equivalence
+`DifferentialGradedModule.isCompactObject_tfae_exists_retract`:
 `DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject` says that
 a compact object is a **direct summand** in `D(A, d)` of the image of a module which is **finite
 free** as a graded module and satisfies `Hom_{K(A, d)} = Hom_{D(A, d)}`, with no boundedness
@@ -188,16 +190,14 @@ reading of the source's index sets; see "A claim about the Stacks Project" above
 `StacksFrontier/RingTheory/DiscreteValuationRing/WeakSolutionObstruction.lean`, every registration
 form in `StacksCore/Tactic/StacksAttribute.lean` — `@[stacks]`, `@[stacks_fixed]`, `add_to_stacks` —
 ends in the same database entry, so none of them can express "this refutes the tag". The
-registrations of 09RB in this repository stay where they are, on the two implications which are
-true: `DifferentialGradedModule.isCompactObject_of_exists_finite_projective_representative` for
-(2) ⟹ (1) (`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteProjective.lean:293`), and
-`DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject` for the
-corrected (1) ⟹ (2)
-(`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean:627`). Each records in
-the note string of its attribute how the registered statement departs from the source's sentence;
-that is the house pattern for a tag registered clause by clause, used for [Stacks, Tag 0AW0] in
-Chapter 47 (`StacksFrontier/RingTheory/Dualizing/TorsionQuotient.lean:273` and the registrations
-below it).
+registration of 09RB in this repository is on the corrected equivalence
+`DifferentialGradedModule.isCompactObject_tfae_exists_retract`
+(`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteFree.lean`), whose conditions are
+being a direct summand of a finite free model, or of a finite graded-projective one; its note
+string records how it departs from the source's
+sentence. The source's own (2) ⟹ (1), which is true as printed, is
+`DifferentialGradedModule.isCompactObject_of_exists_finite_projective_representative`
+(`StacksFrontier/Algebra/DifferentialGraded/Module/CompactFiniteProjective.lean`).
 
 *Two spellings of the derived category.* `derivedCategory'` is the localization at
 `quasiIsomorphisms'` and `derivedCategory` the localization at `quasiIsomorphisms`; the two
@@ -1108,8 +1108,9 @@ not representable by a finite graded-projective differential graded module.**
 *This is a statement about the Stacks Project, not a formalization of one of its tags.* The
 implication (1) ⟹ (2) of [Stacks, Tag 09RB], read literally, is **a mistake in the Stacks
 Project, pending review**: it is **contradicted by the source's own [Stacks, Tag 09R5]**. What
-the source's proof does establish is registered under the tag, as
-`DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject`: a
+the source's proof does establish is
+`DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject`, one half
+of the corrected equivalence registered under the tag: a
 compact object is a *direct summand* of (the image of) a module which is *finite free* as a
 graded module and satisfies `Hom_{K(A, d)} = Hom_{D(A, d)}`. The witness below is consistent with
 that corrected form and contradicts only the literal one.
@@ -1172,8 +1173,9 @@ negation of the implication (1) ⟹ (2) of [Stacks, Tag 09RB], read literally an
 (1) as `CategoryTheory.IsCompactObject.{w}` for an arbitrary universe `w`, which is the shape of
 the source's own hypothesis. That implication is **a mistake in the Stacks Project, pending
 review**: it is **contradicted by the source's own [Stacks, Tag 09R5]**, and the contradiction is
-machine-checked here. What the source's proof does establish is registered under the tag, as
-`DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject`: a
+machine-checked here. What the source's proof does establish is
+`DifferentialGradedModule.exists_retract_isFiniteFreeAsGradedModule_of_isCompactObject`, one half
+of the corrected equivalence registered under the tag: a
 compact object is a *direct summand* in `D(A, d)` of (the image of) a differential graded module
 which is *finite free* as a graded module and satisfies `Hom_{K(A, d)} = Hom_{D(A, d)}`, with no
 boundedness hypothesis. The two differences from the literal statement — direct summand rather

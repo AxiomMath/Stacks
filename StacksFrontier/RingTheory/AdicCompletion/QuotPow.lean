@@ -83,17 +83,25 @@ it, which is `AdicCompletion.pow_smul_top_eq_ker_eval` and is where finite gener
 The source's `n ≥ 1` is dropped: for `n = 0` one has `I⁰M = M`, both quotients vanish and the
 assertion holds, so restricting to `1 ≤ n` would only weaken it. The source's "in particular" is
 stated for an arbitrary module `M` rather than for `M = R` alone; at `M = R` it is
-`R^∧/IⁿR^∧ ≃ R/Iⁿ` as `R`-modules, and `AdicCompletion.evalₐ` carries the ring structure that the
-source's equality of rings additionally records.
+`R^∧/IⁿR^∧ ≃ R/Iⁿ` as `R`-modules, and `AdicCompletion.quotMapPowAlgEquiv` (in
+`StacksFrontier.RingTheory.AdicCompletion.PowSMulCompletion`) records the ring structure as well, as
+an isomorphism of `R`-algebras induced by `AdicCompletion.evalₐ`.
 
 Scope of this file inside the lemma. Part (1), that `M^∧` is `I`-adically complete, is Mathlib's
 `AdicCompletion.isAdicComplete`, and the first equality of part (2), `IⁿM^∧ = Ker(M^∧ → M/IⁿM)`,
-is `AdicCompletion.pow_smul_top_eq_ker_eval`; both already carry the tag upstream. The second
-equality of part (2), `Ker(M^∧ → M/IⁿM) = (IⁿM)^∧`, is Mathlib's
-`AdicCompletion.restrictScalars_range_ofPowSMul_eq_ker_eval` together with
-`AdicCompletion.ofPowSMul_injective`, neither of which needs finite generation. So the concluding
-"in particular" is the only part of the lemma with no Mathlib name, and it is what this file
-states; the other parts are covered by tagging those declarations.
+is `AdicCompletion.pow_smul_top_eq_ker_eval`; both carry the tag upstream. The second equality of
+part (2), `Ker(M^∧ → M/IⁿM) = (IⁿM)^∧`, says that the completion `(IⁿM)^∧ → M^∧` of the inclusion
+`IⁿM ⊆ M` is injective with image the kernel: these are Mathlib's
+`AdicCompletion.ofPowSMul_injective` and
+`AdicCompletion.restrictScalars_range_ofPowSMul_eq_ker_eval`, neither of which needs finite
+generation; `StacksFrontier.RingTheory.AdicCompletion.PowSMulCompletion` registers them under the
+tag and packages them as the isomorphism `AdicCompletion.ofPowSMulEquivKerEval`. That module
+also states and registers the concluding "in particular": `R^∧` is `I`-adically complete is
+part (1) at `M = R`; `IⁿR^∧ = (Iⁿ)^∧` is
+`AdicCompletion.map_pow_eq_range_map_subtype` with `AdicCompletion.map_subtype_pow_injective`,
+the ideal `IⁿR^∧` being the ideal `(Iⁿ).map (algebraMap R R^∧)` that `Iⁿ` generates; and
+`R^∧/IⁿR^∧ = R/Iⁿ` is `AdicCompletion.quotMapPowAlgEquiv`, an isomorphism of `R`-algebras, and
+`AdicCompletion.quotPowSMulTopEquiv` of this file for an arbitrary module `M`.
 
 Faithfulness. (1) Every hypothesis is used: `I`, `M` and `n` all occur in the statement, and
 finite generation is not decoration — for `R = k[x₁, x₂, …]`, `M = R` and `I = (x₁, x₂, …)` the

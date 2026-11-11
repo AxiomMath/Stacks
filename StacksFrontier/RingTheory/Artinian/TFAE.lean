@@ -55,8 +55,10 @@ and `krullDimLE_zero_iff_forall_isPrime_le_imp_eq` — which needs no hypothesis
 commutativity — carries item (2) to item (10).
 
 The source proves item (7) from Lemma [StackProject 00KI], namely that for a Noetherian local ring
-finite length is the same as `d = 0`; the invariant `d` has no definition in this repository, so
-item (7) is stated in the finite-length form and that lemma is not needed.
+`d = 0` is the same as dimension zero; item (7) is stated here in the finite-length form, and the
+form with `d(R_i) = 0` (`Module.hilbertSamuelDegree`), together with the literal forms of items
+(5) and (6), is `isArtinianRing_tfae_hilbertSamuelDegree` in
+`StacksFrontier.RingTheory.Artinian.HilbertSamuelTFAE`, which carries the tag.
 
 ## References
 
@@ -124,7 +126,7 @@ private theorem isArtinianRing_iff_isNoetherianRing_and_isNilpotent_maximalIdeal
 /-- The items of Tag 00KJ that assert a decomposition of `R` into a finite product of local rings
 differ only in the condition imposed on the factors, so a condition-by-condition equivalence of
 two such conditions turns one item into the other. -/
-private theorem exists_pi_isLocalRing_congr {R : Type u} [CommRing R]
+theorem exists_pi_isLocalRing_congr {R : Type u} [CommRing R]
     (P Q : (S : Type u) → [CommRing S] → [IsLocalRing S] → Prop)
     (h : ∀ (S : Type u) [CommRing S] [IsLocalRing S], P S ↔ Q S) :
     (∃ (ι : Type u) (_ : Finite ι) (S : ι → Type u) (hS : ∀ i, CommRing (S i))
@@ -232,10 +234,10 @@ not automatic and is stated: `ℤ` is Noetherian with nilpotent Jacobson radical
 Item (7) asks that each factor be a local ring of finite length over itself, in place of the
 source's Noetherian local `R_i` with `d(R_i) = 0`. For a Noetherian local ring the two
 conditions agree, and that is Lemma [StackProject 00KI] — the reduction by which the source
-proves item (7). The invariant `d` of [StackProject 00KA] is the degree of the Hilbert–Samuel
-polynomial and has no definition in this repository, so it cannot be named here; when it
-acquires one, that lemma converts between the two forms. Noetherianness of the factors is
-implied by finite length and is not repeated in the item.
+proves item (7). The invariant `d` of [StackProject 00KA] is `Module.hilbertSamuelDegree`, and
+the statement with `d(R_i) = 0` in item (7) is `isArtinianRing_tfae_hilbertSamuelDegree`, which
+carries [StackProject 00KJ]. Noetherianness of the factors is implied by finite length and is not
+repeated in the item.
 
 Faithfulness. (1) The only hypothesis is `CommRing R`, and every one of the ten items is a
 condition on that `R`. (2) The base is the source's throughout: `IsFiniteLength R R` is finite
@@ -262,8 +264,7 @@ discrete prime spectrum; `R` is a finite product of Noetherian local rings of di
 Noetherian local rings with nilpotent maximal ideal; `R` is Noetherian with finitely many
 maximal ideals and nilpotent Jacobson radical; and `R` is Noetherian with no strict inclusions
 among its primes. -/
-@[stacks 00KJ "Items (1)-(10); see the module docstring for the form of (2), (5), (6) and (7).",
-  ega "0 14.1.9" "affine case: X = Spec R",
+@[ega "0 14.1.9" "affine case: X = Spec R",
   ega "0 16.1.10" "case M = A",
   ega "I 6.2.2" "affine case",
   ega "IV 10.4.3" "partial",

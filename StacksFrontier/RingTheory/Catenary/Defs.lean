@@ -14,7 +14,8 @@ have the same length.
 
 ## Main definitions
 
-* `IsUniversallyCatenary`: every finite-type algebra over the ring has catenary prime spectrum.
+* `IsUniversallyCatenary`: every finite-type algebra over the ring has catenary prime spectrum
+  (no Noetherian condition on the ring).
 * `Catenary.IsCatenaryOrder`: catenarity of a partial order.
 * `Catenary.IsCatenaryRing`: the poset of prime ideals of a ring is a catenary order.
 * `PrimeChain`: a finite strictly increasing chain of prime ideals with given endpoints.
@@ -29,9 +30,11 @@ have the same length.
 
 universe u
 
-/-- A commutative ring `R` is *universally catenary* if every finite-type `R`-algebra `C` has
-catenary prime spectrum. -/
-@[stacks 00NL, ega "IV 5.6.2"]
+/-- Every finite-type `R`-algebra `C`, in the universe of `R`, has catenary prime spectrum. This
+is the second clause of Stacks Definition 00NL only, with no Noetherian condition on `R`; the
+source's notion is `Ring.IsUniversallyCatenaryNoetherian`, and
+`Ring.isUniversallyCatenaryNoetherian_iff_isNoetherianRing_and_isUniversallyCatenary` compares
+the two. -/
 def IsUniversallyCatenary (R : Type u) [CommRing R] : Prop :=
   ∀ (C : Type u) [CommRing C] [Algebra R C],
     Algebra.FiniteType R C → IrreducibleClosedsCodim.IsCatenarySpace (PrimeSpectrum C)

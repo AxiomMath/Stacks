@@ -51,8 +51,10 @@ after composition with it.
   `AlgebraicGeometry.Space.ElementaryEtaleNeighborhood.exists_cone_maps`: the two clauses of
   **Stacks 0BGV**, common refinements and equalizing refinements, assembled in
   `AlgebraicGeometry.Space.ElementaryEtaleNeighborhood.isCofilteredOrEmpty`.
-* `AlgebraicGeometry.Space.ElementaryEtaleNeighborhood.isCofiltered_of_nonempty`: **Stacks 0BGV**
-  for a nonempty category of neighborhoods.
+* `AlgebraicGeometry.Space.ElementaryEtaleNeighborhood.isCofiltered_of_nonempty`: a nonempty
+  category of neighborhoods is cofiltered. **Stacks 0BGV** itself, for a decent space, is
+  `AlgebraicGeometry.Space.isCofiltered_elementaryEtaleNeighborhood`, which supplies nonemptiness
+  from Tag 0BBP (`AlgebraicGeometry.Space.exists_affine_elementaryEtaleNeighborhood'`).
 * `AlgebraicGeometry.Space.ElementaryEtaleNeighborhood.residueFieldMap_comp_eq`: two morphisms of
   elementary étale neighborhoods agree after composition with the residue-field point of their
   source.
@@ -63,11 +65,13 @@ Neither clause of Stacks 0BGV uses decency of `X`, or indeed any hypothesis beyo
 point of an algebraic space: the monomorphism condition carried by an elementary étale
 neighborhood is what makes the two residue-field points comparable, and that condition is part of
 the data of Tag 0BGU. Decency is used by the source only for *nonemptiness* of the category, which
-is Stacks 0BBP; nonemptiness is therefore carried here as the hypothesis of
-`isCofiltered_of_nonempty` rather than derived from decency. Tag 0BBP is not available in this
-library: its proof needs clause (1) of Tag 0BBN, which
-`StacksFrontier/AlgebraicGeometry/Spaces/OpenFiltrationSeparatedNeighbourhoods.lean` records as
-missing.
+is Stacks 0BBP; this file therefore states cofilteredness for a nonempty category in
+`isCofiltered_of_nonempty`, and the decent case,
+`AlgebraicGeometry.Space.isCofiltered_elementaryEtaleNeighborhood` in
+`StacksFrontier/AlgebraicGeometry/Spaces/HenselianCompletionBaseChange.lean`, obtains nonemptiness
+from Tag 0BBP, which is
+`AlgebraicGeometry.Space.exists_affine_elementaryEtaleNeighborhood'` in
+`StacksFrontier/AlgebraicGeometry/Spaces/Decent/AffineElementaryEtaleNeighborhood.lean`.
 
 Representability of the fibre products is taken from étaleness rather than from the diagonal of
 `X`: `AlgebraicGeometry.Space.IsEtale` of a chart is the relative morphism property of Tag 03FR,
@@ -551,10 +555,9 @@ instance isCofilteredOrEmpty : IsCofilteredOrEmpty (ElementaryEtaleNeighborhood 
   cone_objs V W := exists_cone_objs B S hS X hX x V W
   cone_maps {_V _W} f g := exists_cone_maps B S hS X hX x f g
 
-/-- **Stacks 0BGV.** The category of elementary étale neighborhoods of a point of an algebraic
-space, if nonempty, is cofiltered. -/
-@[stacks 0BGV "cofilteredness, with nonemptiness -- which is Tag 0BBP, absent from this \
-  library -- as an explicit hypothesis"]
+/-- The category of elementary étale neighborhoods of a point of an algebraic space, if
+nonempty, is cofiltered. For a decent space nonemptiness holds by Tag 0BBP, and
+`AlgebraicGeometry.Space.isCofiltered_elementaryEtaleNeighborhood` is Stacks 0BGV. -/
 theorem isCofiltered_of_nonempty
     (hne : Nonempty (ElementaryEtaleNeighborhood B S hS X hX x)) :
     IsCofiltered (ElementaryEtaleNeighborhood B S hS X hX x) :=

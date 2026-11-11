@@ -324,10 +324,11 @@ on the unbounded derived categories, with no further hypothesis. It is
 `AlgebraicGeometry.Stack.LisseEtale.qh_map_bijective_directImageCorep_restriction`. -/
 @[stacks 07AV "the module case for the lisse-étale sites, first identity: \
 g⁻¹ ∘ Rf_* = Rf'_* ∘ (g')⁻¹ on the unbounded derived categories of sheaves of modules, as an \
-isomorphism (g')^* ⋙ Rf'_* ≅ Rf_* ⋙ g^* for any total right derived functors Rf_*, Rf'_* of \
-the two direct images, with no further hypothesis: the degree-zero square of Stacks 07AT (1) on \
-modules and the fact that restricted K-injective complexes of modules compute Rf'_* (Stacks 0D6J \
-with Stacks 07AK at the 2-fibre products V ×_y 𝒳) are proved, not assumed"]
+isomorphism (g')^* ⋙ Rf'_* ≅ Rf_* ⋙ g^* for every pair of total right derived functors Rf_*, Rf'_* \
+of the two direct images, the canonical ones included, with nothing assumed: \
+the degree-zero square of Stacks 07AT (1) on modules \
+and the fact that restricted K-injective complexes of modules compute Rf'_* (Stacks 0D6J with \
+Stacks 07AK at the 2-fibre products V ×_y 𝒳) are proved, not assumed"]
 def moduleDerivedRestrictionBaseChangeIso
     (Rf : DerivedCategory (_root_.SheafOfModules.{u + 1} (ambientRingStructureSheaf B S hS 𝒳)) ⥤
       DerivedCategory (_root_.SheafOfModules.{u + 1} (ambientRingStructureSheaf B S hS 𝒴)))
@@ -508,7 +509,7 @@ is the conjugate, across the composed adjunctions, of the first identity
 @[stacks 07AV "the module case for the lisse-étale sites, second identity: \
 L(g')_! ∘ (f')⁻¹ = f⁻¹ ∘ Lg_! on the unbounded derived categories of sheaves of modules, as an \
 isomorphism Lg_! ⋙ f⁻¹ ≅ (f')⁻¹ ⋙ L(g')_! for the actual derived lower shrieks and the exact \
-inverse images, with no hypothesis: the adjunctions Lg_! ⊣ g⁻¹, f⁻¹ ⊣ Rf_* and their primed \
+inverse images, with nothing assumed: the adjunctions Lg_! ⊣ g⁻¹, f⁻¹ ⊣ Rf_* and their primed \
 versions are constructed, and the first identity is proved"]
 def moduleDerivedLowerShriekBaseChangeIso :
     derivedModuleLowerShriekSucc B S hS 𝒴 ⋙ derivedModulePullback B S hS f ≅

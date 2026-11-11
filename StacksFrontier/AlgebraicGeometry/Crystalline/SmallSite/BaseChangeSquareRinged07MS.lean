@@ -19,7 +19,9 @@ For a morphism `f : (S, I, γ) ⟶ (S', I', γ')` of divided power schemes and a
 ```
 
 of morphisms of ringed topoi 2-commutes.  This is the square whose base change map, in the sense
-of [Stacks, Tag 07A7], is the base change map of [Stacks, Tag 07MS].
+of [Stacks, Tag 07A7], is the base change map of [Stacks, Tag 07MS], and it is the square of the
+remark [Stacks, Tag 07MH], with the bottom corners corrected to the small Zariski topoi in which
+the structure morphisms of [Stacks, Tag 07IM] land.
 
 The 2-isomorphism is `structureSquarePushforwardIso` on direct images, which comes from the square
 of topoi of [Stacks, Tag 07Q9].  What has to be checked is that it carries the structure map of one
@@ -38,6 +40,7 @@ is a morphism over `S'` (`square_pullback_eq`).
 ## References
 
 * [Stacks Project, Tag 07MS](https://stacks.math.columbia.edu/tag/07MS)
+* [Stacks Project, Tag 07MH](https://stacks.math.columbia.edu/tag/07MH)
 * [Stacks Project, Tag 07MJ](https://stacks.math.columbia.edu/tag/07MJ)
 * [Stacks Project, Tag 07A7](https://stacks.math.columbia.edu/tag/07A7)
 * [Stacks Project, Tag 07Q9](https://stacks.math.columbia.edu/tag/07Q9)
@@ -300,7 +303,21 @@ theorem square_pullback_eq (V' : S'.S.scheme.Opens)
 `f_Zar ∘ τ_{X/S}` and `τ_{X'/S'} ∘ f_cris` from `((X/S)_cris, 𝒪_{X/S})` to `(S'_Zar, 𝒪_{S'})` are
 2-isomorphic, by `structureSquarePushforwardIso` on direct images, which carries the structure map
 of one to that of the other: both send a function on an open of `S'` to its pullbacks along the
-objects of `Cris(X/S)`. -/
+objects of `Cris(X/S)`.
+
+This is also the square of [Stacks, Tag 07MH]: in the situation of [Stacks, Tag 07IK] the top
+arrow is `f_cris = π_{X'} ∘ f_CRIS ∘ i_X` (`crisRingedHomComp`, whose underlying morphism of topoi
+is `crisMorphism` on the nose) and the vertical arrows are the structure morphisms `τ_{X/S}` and
+`τ_{X'/S'}` of [Stacks, Tag 07IM].  The remark displays the big Zariski topoi
+`Sh((Sch/S)_Zar)`, `Sh((Sch/S')_Zar)` as the bottom corners; that is a typo, copied from the big
+crystalline remark [Stacks, Tag 07MG], for the small Zariski topoi `Sh(S_Zar)`, `Sh(S'_Zar)` in
+which the structure morphisms of the small crystalline site land, and it is recorded in
+`errata.md`. -/
+@[stacks 07MH "the square of ringed topoi of the remark, τ_{Y/S'} ∘ f_cris ≅ f_Zar ∘ τ_{X/S} from
+  ((X/S)_cris, 𝒪_{X/S}) to (S'_Zar, 𝒪_{S'}), with f_cris = π_Y ∘ f_CRIS ∘ i_X of Tag 07IK on top
+  and the structure morphisms τ of Tag 07IM as vertical arrows, for every morphism of divided
+  power bases f and every g : X ⟶ Y over the closed fibres; the remark's printed bottom corners
+  Sh((Sch/S)_Zar) are a typo for the small Zariski topoi Sh(S_Zar) in which τ lands (errata.md)"]
 def structureSquareTwoIso :
     RingedToposHom.TwoIso (A := crisRingedTopos S) (B := zariskiRingedTopos S'.S.scheme)
       (squareLower f) (squareUpper f g h) where

@@ -30,8 +30,8 @@ and that citation itself, out of the converse of **Stacks 06PJ**.
   morphisms into a terminal object.
 * `AlgebraicGeometry.Stack.isFlat_and_isLocallyOfFinitePresentation_of_trivialActionCriterion`:
   the converse half of Stacks 06PL downstream of its citation of Stacks 06PK.
-* `isFlat_and_isLocallyOfFinitePresentation_of_isAlgebraicStack_trivialAction`: **the converse
-  half of Stacks 06PL**.
+* `isFlat_and_isLocallyOfFinitePresentation_of_isAlgebraicStack_trivialAction`: the implication
+  of Stacks 06PL from algebraicity to flatness and local finite presentation.
 * `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction_of_flat`: the
   implication from flatness and local finite presentation to algebraicity.
 * `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction_iff`: **Stacks 06PL**.
@@ -139,7 +139,7 @@ theorem isFlat_and_isLocallyOfFinitePresentation_of_trivialActionCriterion
       (Space.isLocallyOfFinitePresentation_of_comp_of_locallySurjective C S hS hP hQ hB' s pr₂
         hlfp hs)⟩
 
-/-- **Stacks 06PL, the converse implication.** Let `G` be a group algebraic space over an
+/-- **The implication of Stacks 06PL from algebraicity.** Let `G` be a group algebraic space over an
 algebraic space `B` over `S`, endow `B` with the trivial action of `G`, and suppose the quotient
 stack `[B/G]` is an algebraic stack. Then `G ⟶ B` is flat and locally of finite presentation.
 
@@ -148,8 +148,6 @@ The converse of **Stacks 06PJ**,
 **Stacks 06PK** that the source's proof makes, and
 `AlgebraicGeometry.Stack.isFlat_and_isLocallyOfFinitePresentation_of_trivialActionCriterion` is the
 rest of the argument; see the module docstring. -/
-@[stacks 06PL "the converse implication, from algebraicity to flat and locally of finite \
-presentation, with nothing carried"]
 theorem isFlat_and_isLocallyOfFinitePresentation_of_isAlgebraicStack_trivialAction
     (B : AlgebraicSpaces C S hS) (G : Over B.obj) [GrpObj G]
     (hG : IsAlgebraicSpace C S hS G.left)
@@ -192,7 +190,8 @@ theorem isFlat_and_isLocallyOfFinitePresentation_of_isAlgebraicStack_trivialActi
       (@AlgebraicGeometry.LocallyOfFinitePresentation.{u}) A.groupoid.target
       A.groupoid.target_over).1 hres.2⟩
 
-/-- **Stacks 06PL, the implication from flat and locally of finite presentation to algebraic.**
+/-- **The implication of Stacks 06PL from flat and locally of finite presentation to
+algebraic.**
 Let `G` be a group algebraic space over an algebraic space `B` over `S` and endow `B` with the
 trivial action of `G`. If `G ⟶ B` is flat and locally of finite presentation, then the quotient
 stack `[B/G]` is an algebraic stack.
@@ -213,7 +212,8 @@ theorem isAlgebraicStack_quotientStack_trivialAction_of_flat
 /-- **Stacks 06PL.** Let `G` be a group algebraic space over an algebraic space `B` over `S` and
 endow `B` with the trivial action of `G`. The quotient stack `[B/G]` is an algebraic stack if and
 only if `G ⟶ B` is flat and locally of finite presentation. -/
-@[stacks 06PL]
+@[stacks 06PL "both implications; the group algebraic space G over B is a group object of the \
+slice over B, and [B/G] is the quotient stack of the action groupoid of its trivial action on B"]
 theorem isAlgebraicStack_quotientStack_trivialAction_iff
     (B : AlgebraicSpaces C S hS) (G : Over B.obj) [GrpObj G]
     (hG : IsAlgebraicSpace C S hS G.left)

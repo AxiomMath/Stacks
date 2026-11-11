@@ -14,7 +14,8 @@ Let `f : X → S` be a family of curves (Stacks 0D4Z) such that `k = H⁰(X_k, �
 morphism `Spec k → S` from the spectrum of a field. Then the first higher direct image
 `R¹f_*𝒪_X` (`AlgebraicGeometry.CurveFamily.firstDirectImage`) is a finite locally free
 `𝒪_S`-module, and its formation commutes with arbitrary base change: for every morphism of
-families `X' → X` over `h : S' → S`, `h^*(R¹f_*𝒪_X) ≅ R¹f'_*𝒪_{X'}`. These are parts (2) and (3)
+families `X' → X` over `h : S' → S`, the base change map `h^*(R¹f_*𝒪_X) ⟶ R¹f'_*𝒪_{X'}` is an
+isomorphism. These are parts (2) and (3)
 of Stacks 0E1J.
 
 This holds in particular when `f_*𝒪_X = 𝒪_S` universally
@@ -25,6 +26,10 @@ and connected (the condition of `Curves^{grc}`, through Stacks 0E0S).
 ## Main results
 
 * `CurveFamily.isFiniteLocallyFreeOnSite_firstDirectImage_of_bijective_algebraMap_fibre`.
+* `CurveFamily.firstDirectImageBaseChangeMap`: the base change map
+  `h^*R¹f_*𝒪_X ⟶ R¹f'_*𝒪_{X'}` of a morphism of families.
+* `CurveFamily.isIso_firstDirectImageBaseChangeMap_of_bijective_algebraMap_fibre`: it is an
+  isomorphism.
 * `CurveFamily.nonempty_modulePullback_firstDirectImage_iso_of_bijective_algebraMap_fibre`.
 * the same under `HasUniversallyBijectiveGlobalFunctions`, for prestable, stable and smooth `h0`
   families, and for families with geometrically reduced and connected fibres.
@@ -120,6 +125,52 @@ theorem nonempty_modulePullback_firstDirectImage_iso_of_bijective_algebraMap_fib
   exact ⟨(Space.modulePullback B integerBase hZ (schemeSpaceMap a.baseMap)).mapIso
       X.homologyDerivedPushforwardIsoFirstHigherDirectImage.symm ≪≫ e ≪≫
     F.homologyDerivedPushforwardIsoFirstHigherDirectImage⟩
+
+/-! ### The base change map of `R¹f_*𝒪_X` -/
+
+/-- **The base change map of `R¹f_*𝒪_X`** along a morphism of families of curves `a : F ⟶ X`
+over `h : S' ⟶ S`, with `f' : X' → S'` the base change of `f : X → S`: the canonical map
+`h^*R¹f_*𝒪_X ⟶ R¹f'_*𝒪_{X'}`. It is
+`h^*R¹f_*𝒪_X = h^*H¹(Rf_*𝒪_X) ⟶ H¹(Lh^*Rf_*𝒪_X)`, then `H¹` of the base change map
+`Lh^*Rf_*𝒪_X ⟶ Rf'_*L(h')^*𝒪_X` of the cartesian square of `a` (Stacks 07A7), then
+`H¹(Rf'_*L(h')^*𝒪_X) = H¹(Rf'_*𝒪_{X'}) = R¹f'_*𝒪_{X'}`. -/
+def firstDirectImageBaseChangeMap {X F : CurveFamily B hZ} (a : F ⟶ X) :
+    (Space.modulePullback B integerBase hZ (schemeSpaceMap a.baseMap)).obj
+        (X.firstDirectImage B hZ) ⟶ F.firstDirectImage B hZ :=
+  (Space.modulePullback B integerBase hZ (schemeSpaceMap a.baseMap)).map
+      X.homologyDerivedPushforwardIsoFirstHigherDirectImage.inv ≫
+    Space.modulePullbackHomologyDerivedModulePushforwardBaseChangeMap X.toBase
+      (schemeSpaceMap a.baseMap) F.toBase a.totalMap a.cartesian.w
+      ((DerivedCategory.singleFunctor _ 0).obj (SheafOfModules.unit _)) 1 ≫
+    (DerivedCategory.homologyFunctor (SheafOfModules.{u}
+        (Space.ringedToposStructureRingSheaf B integerBase hZ (schemeSpace F.base))) 1).map
+      ((Space.derivedModulePushforward B integerBase hZ F.toBase).map
+        (Space.smallEtaleDerivedModulePullbackUnitIso a.totalMap).hom) ≫
+    F.homologyDerivedPushforwardIsoFirstHigherDirectImage.hom
+
+/-- **The base change map of `R¹f_*𝒪_X` is an isomorphism (Stacks 0E1J (3))**, for a family of
+curves with `k = H⁰(X_k, 𝒪_{X_k})` on every fibre over a field: for every morphism of families
+`a : F ⟶ X` over `h : S' ⟶ S`, the canonical map `h^*R¹f_*𝒪_X ⟶ R¹f'_*𝒪_{X'}` is an
+isomorphism. -/
+theorem isIso_firstDirectImageBaseChangeMap_of_bijective_algebraMap_fibre
+    (X : CurveFamily B hZ)
+    (h : ∀ p : Space.FieldValuedPoint B integerBase hZ (schemeSpace X.base).obj,
+      Function.Bijective (algebraMap p.carrier (Space.globalFunctions B (Spec (.of p.carrier))
+        p.contained (Space.fibreOverFieldValuedPoint B integerBase hZ X.toBase.hom p))))
+    (F : CurveFamily B hZ) (a : F ⟶ X) :
+    IsIso (firstDirectImageBaseChangeMap a) := by
+  have := Space.isIso_modulePullbackHomologyDerivedModulePushforwardBaseChangeMap_one X.toBase
+    X.proper X.flat X.finitePresentation h
+    (fun p j hj =>
+      X.isZero_rightDerived_globalSectionsFunctor_structureSheafModule_fiberProduct p j hj)
+    (schemeSpaceMap a.baseMap) F.toBase a.totalMap a.cartesian
+  rw [firstDirectImageBaseChangeMap]
+  exact IsIso.comp_isIso' inferInstance (IsIso.comp_isIso' this (IsIso.comp_isIso'
+    ((DerivedCategory.homologyFunctor (SheafOfModules.{u}
+        (Space.ringedToposStructureRingSheaf B integerBase hZ (schemeSpace F.base))) 1).mapIso
+      ((Space.derivedModulePushforward B integerBase hZ F.toBase).mapIso
+        (Space.smallEtaleDerivedModulePullbackUnitIso a.totalMap))).isIso_hom
+    (Iso.isIso_hom _)))
 
 /-! ### Families with `f_*𝒪_X = 𝒪_S` universally, and with reduced connected geometric fibres -/
 

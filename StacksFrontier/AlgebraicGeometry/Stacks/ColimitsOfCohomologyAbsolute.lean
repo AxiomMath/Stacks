@@ -231,10 +231,12 @@ quadruple classifies, and the covering assertion is
 `.isLocallySurjective_prodLift_fppfTopology_of_exists_quadruple_dominating_base`.
 Quasi-compactness of the 2-fibre product, which is what produces the quadruple, is
 `AlgebraicGeometry.Stack`
-`.isQuasiCompactStack_twoFibreProductAlgebraicStack_objectMorphism_absolute`. -/
-@[stacks 0GMS "condition (2)(c) for the fppf site of a quasi-separated algebraic stack, with the \
-collection B of Stacks 0GQV: the objects of the site lying over affine schemes; the family \
-produced has one member, as in the source"]
+`.isQuasiCompactStack_twoFibreProductAlgebraicStack_objectMorphism_absolute`.
+
+This checks hypothesis (2)(c) of Stacks 0GMS on this site: it applies the remark (whose
+cases are formalized in `StacksFrontier.CategoryTheory.Sites.QuasiCompact.CoveringSetOfObjects`
+and `…CoveringSetFromCoversTop`) and is not a statement of it, so it carries no
+`@[stacks 0GMS]` attribute. -/
 theorem exists_fin_affineObjects_isLocallySurjective_prodLift_absolute
     (hZ : B.Contains (⊤_ Scheme.{u}))
     (h𝒳 : AlgebraicStacks.IsAbsolutelyQuasiSeparated.{u, w} B S hS hZ 𝒳) :
@@ -361,10 +363,12 @@ surjective smooth 1-morphism off an *étale* covering of the base. The affine sm
 of **Stacks 04YC** is smooth and surjective, which is exactly what that tag asks for, so the
 étale case needs nothing of the presentation beyond what the fppf case needs — in particular no
 affine étale presentation of a quasi-compact algebraic stack. The family has one member, as in the
-source. -/
-@[stacks 0GMS "condition (2)(c) for the étale site of a quasi-separated algebraic stack, with \
-the collection B of Stacks 0GQV: the objects of the site lying over affine schemes; the family \
-produced has one member, as in the source"]
+source.
+
+This checks hypothesis (2)(c) of Stacks 0GMS on this site: it applies the remark (whose
+cases are formalized in `StacksFrontier.CategoryTheory.Sites.QuasiCompact.CoveringSetOfObjects`
+and `…CoveringSetFromCoversTop`) and is not a statement of it, so it carries no
+`@[stacks 0GMS]` attribute. -/
 theorem exists_fin_affineObjects_isLocallySurjective_prodLift_etale_absolute
     (hZ : B.Contains (⊤_ Scheme.{u}))
     (h𝒳 : AlgebraicStacks.IsAbsolutelyQuasiSeparated.{u, w} B S hS hZ 𝒳) :

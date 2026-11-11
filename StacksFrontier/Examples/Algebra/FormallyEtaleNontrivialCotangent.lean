@@ -17,9 +17,11 @@ public import StacksFrontier.Cotangent.TorTwoQuotientSelf
 /-!
 # A formally étale ring map with nontrivial cotangent complex
 
-There is a surjective formally étale map of commutative rings `A → B` whose second Tor module
-`Tor₂^A(B, B)` is nonzero. Equivalently, the kernel `J = Ker(A → B)` satisfies `J² = J`, so that
-`A → B` is formally étale, and yet `Ker(J ⊗_A J → J²) ≠ 0`, so `J` is not weakly regular.
+There is a surjective formally étale map of commutative rings `A → B` with nonzero cotangent
+complex `L_{B/A}` (Stacks Tag 06E6). The kernel `J = Ker(A → B)` satisfies `J² = J`, so that
+`A → B` is formally étale, and yet `Ker(J ⊗_A J → J²) ≠ 0`, so `J` is not weakly regular and
+`Tor₂^A(B, B) ≠ 0`; the five-term exact sequence of Quillen's fundamental spectral sequence then
+gives `H^{-2}(L_{B/A}) ≠ 0`.
 
 ## Main results
 
@@ -43,16 +45,11 @@ lie in `I·(t)`. This is the one-variable form of the source's two-variable exam
 localization the source performs is not needed: idempotency of `J` and nonvanishing of the
 tensor kernel are already visible before it.
 
-What is and is not delivered. The source deduces `L_{B/A} ≠ 0` from the nonvanishing of
-`Tor₂^A(B, B) = Ker(J ⊗_A J → J)` by the five-term exact sequence of Quillen's fundamental
-spectral sequence (Tags 08RF and 08RG), together with `H_0(L_{B/A}) = Ω_{B/A}` and
-`H_1(L_{B/A}) = 0` which hold because `J/J² = 0`. The spectral sequence itself — the first
-assertion of Theorem 08RF — is not in this library, and with it the edge maps and the five-term
-sequence of Remark 08RG; of 08RG's clauses that are available here, the one bearing on this
-example is `Tor₁^A(B, B) = J/J²`, which does not reach the source's deduction, so
-the attribute below is labelled with exactly the part of the source's argument that is proved
-here: the example together with the nonvanishing of `Tor₂^A(B, B)`, which is precisely the input
-the source feeds into that last step.
+The cotangent complex. The source deduces `H_2(L_{B/A}) ≠ 0` from the nonvanishing of
+`Tor₂^A(B, B)` by the five-term exact sequence of Remark 08RG. That deduction, and with it the
+lemma of Tag 06E6 itself, is
+`Stacks.Examples.exists_formallyEtale_surjective_cotangentComplex_ne_zero` in
+`StacksFrontier.Examples.Algebra.FormallyEtaleCotangentComplexNonzero`.
 
 Universes. `CategoryTheory.Tor'` requires the modules and the scalars to live in one universe, so
 `A` and `B` are both in `Type u`; the coefficient ring is `ULift.{u} ℚ`.
@@ -61,6 +58,7 @@ Universes. `CategoryTheory.Tor'` requires the modules and the scalars to live in
 
 * [Stacks Project, Tag 06E6](https://stacks.math.columbia.edu/tag/06E6)
 * [Stacks Project, Tag 09D6](https://stacks.math.columbia.edu/tag/09D6)
+* [Stacks Project, Tag 08RG](https://stacks.math.columbia.edu/tag/08RG)
 -/
 
 @[expose] public section
@@ -238,10 +236,10 @@ private theorem exists_formallyEtale_surjective_nonzero_mulKernel :
 
 end
 
-/-- **Stacks 06E6**, the example. There is a formally étale surjective map of commutative rings
+/-- The example of Stacks 06E6. There is a formally étale surjective map of commutative rings
 `A → B` whose kernel `J` has `Ker(J ⊗_A J → J²) ≠ 0`; equivalently, `J` is idempotent but not
-weakly regular. -/
-@[stacks 06E6 "the example: a formally étale surjection with Ker(J ⊗_A J → J²) ≠ 0"]
+weakly regular. This is an intermediate step of the source's argument; the lemma itself,
+`L_{B/A} ≠ 0`, is `exists_formallyEtale_surjective_cotangentComplex_ne_zero`. -/
 theorem exists_formallyEtale_surjective_mulKernel_ne_bot :
     ∃ (A : Type u) (_ : CommRing A) (B : Type u) (_ : CommRing B) (_ : Algebra A B),
       Algebra.FormallyEtale A B ∧ Function.Surjective (algebraMap A B) ∧
@@ -252,12 +250,12 @@ theorem exists_formallyEtale_surjective_mulKernel_ne_bot :
   exact ⟨A, hA, B, hB, hAlg, hAB, hsurj, fun hbot => hz (Subtype.ext
     ((Submodule.eq_bot_iff _).mp hbot z.val z.property))⟩
 
-/-- **Stacks 06E6**, the example, with the nonvanishing read on `Tor₂`. There is a formally étale
+/-- The example of Stacks 06E6, with the nonvanishing read on `Tor₂`. There is a formally étale
 surjective map of commutative rings `A → B` with `Tor₂^A(B, B) ≠ 0`. By Tag 09D6 this is the same
 statement as `exists_formallyEtale_surjective_mulKernel_ne_bot`; it is the input from which the
 source deduces, via the five-term exact sequence of Quillen's spectral sequence, that
-`L_{B/A} ≠ 0`. -/
-@[stacks 06E6 "the example: a formally étale surjection with Tor₂^A(B, B) ≠ 0"]
+`L_{B/A} ≠ 0`, which is `exists_formallyEtale_surjective_cotangentComplex_ne_zero` in
+`StacksFrontier.Examples.Algebra.FormallyEtaleCotangentComplexNonzero`. -/
 theorem exists_formallyEtale_surjective_not_isZero_torTwo :
     ∃ (A : Type u) (_ : CommRing A) (B : Type u) (_ : CommRing B) (_ : Algebra A B),
       Algebra.FormallyEtale A B ∧ Function.Surjective (algebraMap A B) ∧

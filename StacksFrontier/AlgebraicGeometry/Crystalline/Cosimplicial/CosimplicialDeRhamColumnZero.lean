@@ -88,8 +88,8 @@ cosimplicial direction, and it needs both halves of the following.
 ## What is and is not proved
 
 **No `@[stacks …]` attribute is placed.**  [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.  Towards the earlier reduction
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.  Towards the earlier reduction
 `...SmallSite.computes07LG_of_doubleComplex`, this module discharges the first half of one of its
 five hypotheses, and the other four — the acyclicity of the columns, the rowwise comparison, the
 identification of the row `b = 0`, and the kernel clause of the crystal property — are untouched.

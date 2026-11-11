@@ -914,38 +914,13 @@ end Field
 
 /-! ### Section 59.56, the Galois action on stalks
 
-Tag 03QW is the section itself and has no statement of its own: it constructs the action of
-`Aut(κ(s̄)/κ(s))` on the stalk at a geometric point `s̄` over a point `s` of a scheme, checks
-that it is a left action and functorial in the sheaf, and observes that it factors through the
-absolute Galois group `Gal_{κ(s)}`, so that the stalk functor lands in `Gal_{κ(s)}`-sets. The
-declarations above are that content for the spectrum of a field, and the tag is recorded
-against them below rather than restated. For an arbitrary scheme the action at a rational
-point is `Stacks.Frobenius.galoisStalkAction`, which carries the tag in its own file.
-
-The factoring through the absolute Galois group is definitional here, the action being
-constructed for `GeometricPoint.absoluteGaloisGroup` directly rather than for the full
-automorphism group of the extension; and the general case of a point of an arbitrary scheme
-whose residue field is not the base is not available.
+The declarations above are the Galois action of Section 03QW for the spectrum of a field, built
+from the action of the absolute Galois group on the lifts of the geometric point. Section 03QW
+itself, for a geometric point of an arbitrary scheme, is
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.GaloisActionStalks.SchemeStalkAction`, where
+`AlgebraicGeometry.etaleStalkGalSmul_eq_etaleStalkSmul` identifies its action of the absolute
+Galois group with `AlgebraicGeometry.etaleStalkSmul` over a field.
 -/
-
-add_to_stacks 03QW "the Galois action on an étale stalk, for the spectrum of a field only"
-  AlgebraicGeometry.etaleStalkSmul
-add_to_stacks 03QW "the rule 59.56.0.1 on germs, for the spectrum of a field only"
-  AlgebraicGeometry.etaleStalkSmul_germ
-add_to_stacks 03QW "the identity acts trivially, for the spectrum of a field only"
-  AlgebraicGeometry.etaleStalkSmul_one
-add_to_stacks 03QW "multiplicativity of the action, for the spectrum of a field only"
-  AlgebraicGeometry.etaleStalkSmul_mul
-add_to_stacks 03QW "the left action on the stalk, for the spectrum of a field only"
-  AlgebraicGeometry.etaleStalkMulAction
-add_to_stacks 03QW "functoriality of the action in the sheaf, for the spectrum of a field only"
-  AlgebraicGeometry.etaleStalkSmul_naturality
-add_to_stacks 03QW "continuity of the action, for the spectrum of a field only"
-  AlgebraicGeometry.continuousSMul_etaleStalk
-add_to_stacks 03QW "the stalk as a continuous Galois set, for the spectrum of a field only"
-  AlgebraicGeometry.etaleStalkContinuousGSet
-add_to_stacks 03QW "the stalk functor to continuous Galois sets, for a field only"
-  AlgebraicGeometry.etaleStalkGSetFunctor
 
 end AlgebraicGeometry
 end

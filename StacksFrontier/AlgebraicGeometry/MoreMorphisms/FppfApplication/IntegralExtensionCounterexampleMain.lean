@@ -93,6 +93,9 @@ statement.
 The source's proof uses the relative normalization of `S` in `V`, which exists only when
 `V ⟶ S` is quasi-compact and quasi-separated, i.e. when `U` is retrocompact; the second half
 shows this restriction cannot be removed. -/
+@[stacks 0CNX "the lemma as corrected in the errata: over every retrocompact open U of S a \
+surjective integral V ⟶ U is the base change along U ↪ S of a surjective integral morphism \
+over S, as schemes over U; and the statement for an arbitrary open U is false"]
 theorem exists_integral_surjective_extension_and_not_forall :
     (∀ (S : Scheme.{u}) (U : S.Opens) [QuasiCompact U.ι] (V : Scheme.{u}) (f : V ⟶ U.toScheme)
         [IsIntegralHom f] [Surjective f],

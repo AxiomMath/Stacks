@@ -31,7 +31,8 @@ theoretically supported on `Y_c`.
   canonical map is multiplication by the image of the twisting factor in `𝒪_B`.
 * `AlgebraicGeometry.schemeTheoreticSupport_iff_exceptionalTwistContraction_eq_zero` — a
   quasi-coherent module of finite type on the blowup is scheme theoretically supported on `Y_c`
-  if and only if the canonical map `𝓕(c) ⟶ 𝓕` is zero.
+  if and only if the map `𝓕 ⊗ (ℐ𝒪_B)^c ⟶ 𝓕` is zero; the form of [Stacks, Tag 0GA9] with the
+  Serre twist itself is in `StacksFrontier/AlgebraicGeometry/Blowup/TwistExceptionalIdealPow.lean`.
 
 ## Implementation notes
 
@@ -40,10 +41,11 @@ piece `Stacks.Blowup.idealPowerKernel` of the Rees algebra of the exceptional id
 twists themselves exist: the graded twists of a relative `Proj`, [Stacks, Tag 01NR], are
 `Stacks.AlgebraicGeometry.GluedTwistAlgebra.twistDataOfGradedAlgebra`, and the twist
 `𝒪_B(n)` on the blowup itself is `AlgebraicGeometry.blowUpTwist`, which is invertible in every
-degree. What is *not* proved is the identification `𝒪_B(-1) = 𝒪_B(Y)` of [Stacks, Tag 02OS]
-part (3), equivalently `𝒪_B(c) = (ℐ𝒪_B)^c`; so the twists are used here in the shape that
-identification gives them rather than through `AlgebraicGeometry.blowUpTwist`, and nothing below
-depends on the identification. In particular the map `𝓕 ⟶ 𝓕(c)` of the Stacks statement is read
+degree. The identification `𝒪_B(c) ≅ (ℐ𝒪_B)^c` is
+`AlgebraicGeometry.blowUpTwistIsoExceptionalIdealPow` in
+`StacksFrontier/AlgebraicGeometry/Blowup/TwistExceptionalIdealPow.lean`, which imports this file and
+carries the statement over to `AlgebraicGeometry.blowUpTwist`; nothing in this file depends on
+it. In particular the map `𝓕 ⟶ 𝓕(c)` of the Stacks statement is read
 in the direction in which the map exists: `(ℐ𝒪_B)^c` is an ideal sheaf, so it maps to `𝒪_B` and
 not conversely, and the Stacks proof uses exactly that map, which it describes as vanishing
 along `Y`.
@@ -219,11 +221,15 @@ private theorem le_annihilatorIdeal_of_exceptionalTwistContraction_eq_zero (F : 
   rw [← hx]
   exact hval.symm.trans hzero
 
-/-- **Stacks Project, Tag 0GA9.** A quasi-coherent module of finite type on the blowup of a
-scheme in a quasi-coherent sheaf of ideals is scheme theoretically supported on the `c`-fold
-thickening `Y_c` of the exceptional divisor if and only if the canonical map `𝓕(c) ⟶ 𝓕`
-vanishes. -/
-@[stacks 0GA9 "corrected: the canonical map runs 𝓕(c) ⟶ 𝓕, since 𝒪(1) is the ideal sheaf of Y"]
+/-- **The ideal sheaf form of [Stacks, Tag 0GA9].** A quasi-coherent module of finite type on
+the blowup of a scheme in a quasi-coherent sheaf of ideals is scheme theoretically supported on
+the `c`-fold thickening `Y_c` of the exceptional divisor if and only if the map
+`𝓕 ⊗ (ℐ𝒪_B)^c ⟶ 𝓕` induced by the inclusion of the ideal sheaf of `Y_c` vanishes.
+
+The tag itself, stated for the Serre twist `𝓕(c) = 𝓕 ⊗ 𝒪_B(c)` and the canonical map
+`𝒪_B(c) ⟶ 𝒪_B`, is `AlgebraicGeometry.schemeTheoreticSupport_iff_blowUpTwistContraction_eq_zero`
+in `StacksFrontier/AlgebraicGeometry/Blowup/TwistExceptionalIdealPow.lean`, which deduces it from
+this statement through the identification `𝒪_B(c) ≅ (ℐ𝒪_B)^c`. -/
 theorem schemeTheoreticSupport_iff_exceptionalTwistContraction_eq_zero
     (F : (blowUp ℐ).Modules) [F.IsQuasicoherent] [F.IsFiniteType] :
     exceptionalIdeal ℐ ^ c ≤ Scheme.Modules.schemeTheoreticSupport F ↔

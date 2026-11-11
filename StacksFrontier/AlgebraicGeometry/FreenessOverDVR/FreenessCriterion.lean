@@ -185,8 +185,9 @@ local base (`isIso_of_comp_adicProj`).
 The source's hypothesis that the fibres of `f` be geometrically connected is not used: the
 source needs it only to reduce to the case where `f` has a section, and the argument above does
 not pass through a section. -/
-@[stacks 0EXF "without the hypothesis that the fibres are geometrically connected, which the \
-proof does not use"]
+@[stacks 0EXF "a generalization: the source's hypothesis that the fibres of `f` are \
+geometrically connected is dropped, since it serves only to reduce to the case of a section and \
+this proof needs no section; the integer is `n = k + 1 + e`, with `0 < n`"]
 theorem exists_thickening_exponent_free (A : Type u) [CommRing A] [IsDomain A]
     [IsDiscreteValuationRing A] {X : Scheme.{u}} (f : X ⟶ Spec (.of A)) [IsProper f] :
     ∃ n : ℕ, 0 < n ∧ ∀ E : X.Modules, E.IsFiniteLocallyFree →

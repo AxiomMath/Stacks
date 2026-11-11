@@ -49,9 +49,11 @@ tag, the comment names the part, and the parts it does not cover are left unregi
 * Tag 01RW is not registered: Mathlib's `AlgebraicGeometry.Scheme.functionField` is the stalk at
   the generic point, not the ring `R(X)` of rational functions of the definition; Mathlib has no
   ring of rational functions, and the identification of the two is Tag 01RV.
-* Tag 01S3 is registered for its part (1) only: Mathlib does not define radicial morphisms; their
-  condition appears only as one of the equivalent conditions of
-  `AlgebraicGeometry.tfae_universallyInjective` (Tag 01S4).
+* Tag 01S3: part (1) is Mathlib's `AlgebraicGeometry.UniversallyInjective`, registered here;
+  Mathlib does not define radicial morphisms (part (2)), whose condition appears only as one of
+  the equivalent conditions of `AlgebraicGeometry.tfae_universallyInjective` (Tag 01S4). Part (2)
+  is `AlgebraicGeometry.IsRadicial` in `StacksFrontier.AlgebraicGeometry.Morphisms.Radicial`, which
+  also states part (1) in the source's form.
 
 The `example`s at the end of the file declare nothing; they only record, as checked statements,
 how the registered declarations combine where a tag is covered by more than one of them.
@@ -77,11 +79,11 @@ how the registered declarations combine where a tag is covered by more than one 
   finite type; by Tag 01T1 a morphism is of finite type if it is locally of finite type and
   quasi-compact. So each "finite type" clause of Tags 01T3 and 01T4 is covered by two
   registrations, one per component, and each part string names its component.
-* Tag 01T5 is registered for "an immersion is locally of finite type" and for the locally of
-  finite type component of "a closed immersion is of finite type" only: the quasi-compact
-  component of "a closed immersion is of finite type" is not stated by Mathlib (it holds only
-  through a chain of two general instances, closed immersion ⇒ affine ⇒ quasi-compact) and is
-  left unregistered.
+* Tag 01T5 is registered here for "an immersion is locally of finite type" and for the locally
+  of finite type component of "a closed immersion is of finite type". The complete statement,
+  with the quasi-compact component (closed immersion ⇒ affine ⇒ quasi-compact), is
+  `AlgebraicGeometry.isClosedImmersion_finiteType_and_isImmersion_locallyOfFiniteType` in
+  `StacksFrontier.AlgebraicGeometry.Morphisms.ImmersionsAndAffine.Immersions`.
 
 ## Not registered here
 
@@ -141,7 +143,8 @@ add_to_stacks 01RS "(3) S-rational map" AlgebraicGeometry.Scheme.RationalMap.IsO
 add_to_stacks 01RZ AlgebraicGeometry.Surjective
 add_to_stacks 01S0 AlgebraicGeometry.instSurjectiveCompScheme
 add_to_stacks 01S1 AlgebraicGeometry.Surjective.instIsStableUnderBaseChangeScheme
-add_to_stacks 01S3 "(1) universally injective" AlgebraicGeometry.UniversallyInjective
+add_to_stacks 01S3 "(1) universally injective (Mathlib's definition)"
+  AlgebraicGeometry.UniversallyInjective
 add_to_stacks 05VE "universally injective => injective" AlgebraicGeometry.Scheme.Hom.injective
 add_to_stacks 05VE "injective on points => separated" AlgebraicGeometry.isSeparated_of_injective
 

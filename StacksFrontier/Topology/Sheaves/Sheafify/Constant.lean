@@ -34,22 +34,17 @@ public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.Init
 
 /-!
-# Sheafification of a constant presheaf is the constant sheaf (Stacks tag 0081)
+# Sheafification of a constant presheaf and Mathlib's constant sheaf
 
-Let `A` be an object of a category `D` admitting (weak) sheafification on a site
-`(C, J)`. Write `A_p := (Functor.const Cᵒᵖ).obj A` for the constant presheaf with
-value `A`. By definition (`CategoryTheory.constantSheaf`), the constant sheaf
-`A^♯ := (constantSheaf J D).obj A` is the sheafification of `A_p`. Hence the
-canonical map `A_p ⟶ (constantSheaf J D).obj A` from the constant presheaf to the
-underlying presheaf of the constant sheaf, namely the unit of the sheafification
-adjunction, induces an isomorphism `sheafify J A_p ≅ ((constantSheaf J D).obj A).obj`
-on sheafifications. In words: the sheafification of the constant presheaf with
-value `A` is the constant sheaf with value `A`.
+Let `A` be an object of a category `D` admitting (weak) sheafification on a site `(C, J)`.
+Mathlib *defines* the constant sheaf `(constantSheaf J D).obj A` as the sheafification of the
+constant presheaf `(Functor.const Cᵒᵖ).obj A`, so `sheafifyConstantPresheafIso` is the identity
+isomorphism between the two. It carries no mathematical content.
 
-The Stacks tag is stated for presheaves of sets on a topological space; the
-statement and proof go through verbatim for any site, with the topological case
-recovered by taking `C := (Opens X)ᵒᵖ` with its canonical Grothendieck topology
-and `D := Type _`.
+Stacks 0081 (Example 6.17.4) compares the sheafification of the constant presheaf with the sheaf
+of locally constant maps (Stacks 006W); it is
+`TopCat.isIso_sheafifyLift_constantPresheafToLocallyConstant` in
+`StacksFrontier.Topology.Sheaves.Sheafify.LocallyConstant`.
 -/
 
 @[expose] public section
@@ -59,12 +54,11 @@ open CategoryTheory
 
 universe v₁ v₂ u₁ u₂
 
-/-- **Stacks tag 0081.** The sheafification of the constant presheaf with value
-`A` is the constant sheaf with value `A`. Concretely, the underlying presheaf of
-the constant sheaf `(constantSheaf J D).obj A` is, by definition, the
-sheafification of the constant presheaf `(Functor.const Cᵒᵖ).obj A`, so the
-canonical comparison map is the identity isomorphism. -/
-@[stacks 0081]
+/-- The sheafification of the constant presheaf `(Functor.const Cᵒᵖ).obj A` is Mathlib's
+constant sheaf `(constantSheaf J D).obj A`. Mathlib *defines* the constant sheaf as this
+sheafification, so this is the identity isomorphism. Stacks 0081, which compares the
+sheafification with the sheaf of locally constant maps, is
+`TopCat.isIso_sheafifyLift_constantPresheafToLocallyConstant`. -/
 noncomputable def sheafifyConstantPresheafIso
     {C : Type u₁} [Category.{v₁} C] (J : GrothendieckTopology C)
     {D : Type u₂} [Category.{v₂} D] [HasWeakSheafify J D] (A : D) :

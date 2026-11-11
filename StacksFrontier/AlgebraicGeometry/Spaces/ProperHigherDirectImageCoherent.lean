@@ -20,8 +20,9 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ProperModuleCohomologyFini
 Let `S` be a scheme and `f : X ⟶ Y` a proper morphism of algebraic spaces over `S` with `Y`
 locally Noetherian.  Stacks 08AR asserts that for a coherent `𝒪_X`-module `𝓕` every higher
 direct image `R^i f_*𝓕` is a coherent `𝒪_Y`-module.
-`AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_isProper` is a form of it
-with three cited results as hypotheses; this file proves it with none.
+`AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_isProper_of_devissage` is a
+reduction of it to three results of other tags, given as hypotheses; this file proves it with
+none.
 
 The proof is the source's.  Quasi-coherence of `R^i f_*𝓕` is Stacks 0720
 (`AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward'`), and on a

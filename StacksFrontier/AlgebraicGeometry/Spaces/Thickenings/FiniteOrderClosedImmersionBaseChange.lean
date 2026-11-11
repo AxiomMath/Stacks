@@ -21,12 +21,10 @@ the thickening to the ambient space
 (`AlgebraicGeometry.Space.CartesianFiniteOrderMorphismOfThickenings.isClosedImmersion_iff`), with
 the source thickening `X' ×_{Y'} Y ⊆ X'` produced by base change (Stacks 09ZX).
 
-The library's Stacks 08B2, `AlgebraicGeometry.Space.isClosedImmersion_of_infinitesimal_baseChange`,
-cannot be used in its place: it carries, as the hypothesis `h07SQ`, Stacks 07SQ for every descent
-situation over every index type of the site's universe, with no bound on the index, which the
-library's own Stacks 07SQ
-(`AlgebraicGeometry.Space.DescentSituation.exists_isAffineSpace_system_obj`) records as false in
-this size model.
+Stacks 08B2 itself,
+`AlgebraicGeometry.Space.isClosedImmersion_of_isClosedImmersion_pullback_snd_of_bijective`,
+asks in addition that `f` be of finite type or `Y ⟶ Y'` of finite presentation; for a
+finite-order thickening neither is needed.
 
 The application is to the adic fibres `X_n = X ×_S Spec(A / I^{n+1})` of an algebraic space over
 `S = Spec A`: `X_n ⊆ X_{n+1}` is a first-order thickening, so a morphism `Z_{n+1} ⟶ X_{n+1}` whose

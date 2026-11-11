@@ -51,10 +51,12 @@ Everything lives in the namespace `Crystalline.GlobalCrystallineSituation.SmallS
 
 ## What is and is not proved
 
-(07MK) is **not** proved and no `@[stacks]` attribute is placed.  What is proved is an
+No `@[stacks]` attribute is placed here; (07MK) is proved in
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Formula07MKProof.lean`
+by another route, which does not use this file.  What is proved here is an
 identification of two global sections functors; nothing here is an assertion of the source.
 
-In particular the base case of (07MK) is still **not** natural in the open `W`.  This file
+This file does not make the base case of (07MK) natural in the open `W`; it
 supplies the last *ingredient* the module documentation of `Formula07MKBaseCase.lean` names —
 the two sides of that base case at `W` are now known to be the same group — but it does not
 assemble the resulting family into a morphism of sheaves on the small Zariski site of `T'`: that

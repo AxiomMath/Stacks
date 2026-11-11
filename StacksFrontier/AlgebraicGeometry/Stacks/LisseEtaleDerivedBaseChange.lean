@@ -154,10 +154,12 @@ derived functor being determined only up to unique isomorphism). The isomorphism
 `Stacks.Cohomology.UnboundedComplexes.derivedBaseChangeIsoOfUnit` at the degree-zero
 identification `AlgebraicGeometry.Stack.LisseEtale.isIso_abelianSheafBaseChange` and at
 `AlgebraicGeometry.Stack.LisseEtale.isIso_derivedPushforwardUnit_restriction`. -/
-@[stacks 07AV "the lisse-étale case for abelian sheaves, first identity: \
+@[stacks 07AV "the lisse-étale case for abelian sheaves, first identity, for every smooth \
+1-morphism f : 𝒳 ⟶ 𝒴 of algebraic stacks (the setup of Stacks 07AT (1)): \
 g⁻¹ ∘ Rf_* = Rf'_* ∘ (g')⁻¹ on the unbounded derived categories, as an isomorphism \
-(g')⁻¹ ⋙ Rf'_* ≅ Rf_* ⋙ g⁻¹ for any total right derived functors Rf_*, Rf'_* of the two direct \
-images, with no further hypothesis. The degree-zero square of Stacks 07AT (1) and the fact that \
+(g')⁻¹ ⋙ Rf'_* ≅ Rf_* ⋙ g⁻¹ for every pair of total right derived functors Rf_*, Rf'_* \
+of the two direct images, the canonical ones included, with nothing assumed. \
+The degree-zero square of Stacks 07AT (1) and the fact that \
 restricted K-injective complexes compute Rf'_* (Stacks 07AK at the 2-fibre products V ×_y 𝒳, the \
 content of Stacks 0GR3) are proved, not assumed"]
 def derivedRestrictionBaseChangeIso
@@ -397,7 +399,7 @@ adjunctions `Lg_! ⊣ g⁻¹`, `L(g')_! ⊣ (g')⁻¹` of Stacks 07AS (1) and `f
 `AlgebraicGeometry.Stack.LisseEtale.derivedRestrictionBaseChangeIso`. -/
 @[stacks 07AV "the lisse-étale case for abelian sheaves, second identity: \
 L(g')_! ∘ (f')⁻¹ = f⁻¹ ∘ Lg_! on the unbounded derived categories, as an isomorphism \
-Lg_! ⋙ f⁻¹ ≅ (f')⁻¹ ⋙ L(g')_! of the canonical functors, with no hypothesis: the derived \
+Lg_! ⋙ f⁻¹ ≅ (f')⁻¹ ⋙ L(g')_! of the canonical functors, with nothing assumed: the derived \
 lower shrieks are those of Stacks 07AS (1), and the four derived adjunctions are constructed"]
 def derivedLowerShriekBaseChangeIso :
     derivedAbelianLowerShriek.{u, w} B S hS 𝒴 ⋙ derivedAbelianInverseImage B S hS f ≅

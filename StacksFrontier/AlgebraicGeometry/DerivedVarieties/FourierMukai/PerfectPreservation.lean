@@ -64,8 +64,13 @@ perfectness half this library does not carry. Clauses (3) and (4) are routed thr
 [Stacks, Tag 0B6F]'s reduction, the Noetherian special case of [Stacks, Tag 0B91], whose
 perfectness half this library does not carry either. Clauses (5) and (6) are
 [Stacks, Tag 0DJT] combined with [Stacks, Tag 0DI4], as the source says, with
-[Stacks, Tag 0DJT] holding here only over a Noetherian base. Each of clauses (2)-(6) therefore
-assumes `AlgebraicGeometry.IsNoetherian Y`, which [Stacks, Tag 0FYT] does not; the per-clause
+[Stacks, Tag 0DJT] applied in its Noetherian-base form
+`isPerfect_derivedPushforward_of_isPerfectRelativeTo` (in the namespace
+`Stacks.AlgebraicGeometry.RelativelyPerfectProperPushforward`), the form stated for an
+arbitrary pinned certificate family `D`; the tag over an arbitrary base,
+`isPerfect_derivedPushforward_and_isIso_derivedBaseChangeMap`, is stated at the canonical
+certificate family. Each of clauses (2)-(6) therefore assumes `AlgebraicGeometry.IsNoetherian Y`,
+which [Stacks, Tag 0FYT] does not; the per-clause
 docstrings say where that hypothesis is spent.
 
 ## Implementation notes
@@ -96,11 +101,14 @@ directly against `Φ_K`.
 ### What is carried, and why
 
 Clauses (1)-(4) carry inputs *of [Stacks, Tag 08EV]*, not of [Stacks, Tag 0FYT]; clauses (5) and
-(6) carry inputs of [Stacks, Tag 0DI4] and [Stacks, Tag 0DJT], listed in their own docstrings.
-[Stacks, Tag 08EV] is
-`Stacks.Cohomology.ProperSupportPerfection.isPerfect_derivedPushforward_of_properSupport`, and
-that theorem is proved in this library granted two residues of its own proof, both statements
-about the derived direct image and neither mentioning perfectness of the source object:
+(6) carry inputs of [Stacks, Tag 0DI4], listed in their own docstrings.
+[Stacks, Tag 08EV] is proved unconditionally as
+`Stacks.AlgebraicGeometry.ProperSupportCoherent.isPerfect_derivedPushforward_of_isProperOver_supp`;
+this file uses its conditional form
+`Stacks.Cohomology.ProperSupportPerfection.isPerfect_derivedPushforward_of_properSupport`, stated
+for an arbitrary certified derived tensor datum `D` and proved granted two residues of its own
+proof, both statements about the derived direct image and neither mentioning perfectness of the
+source object:
 
 * `hpushforwardCoherence`, the quantified form
   `Stacks.Cohomology.PerfectPushforward.PushforwardCoherenceResidue` — [Stacks, Tag 08E2] for
@@ -115,8 +123,8 @@ about the derived direct image and neither mentioning perfectness of the source 
   opposite direction.
 
 Both are quantified over the source object, so each is strictly stronger than the instance of it
-the proof consumes, and each is therefore a named citation of a missing step of
-[Stacks, Tag 08EV] rather than an assumption of the conclusion of [Stacks, Tag 0FYT].
+the proof consumes, and each is therefore a named citation of a step of [Stacks, Tag 08EV]
+at the datum `D` rather than an assumption of the conclusion of [Stacks, Tag 0FYT].
 
 `D` is a datum rather than an assumption: an arbitrary
 `AlgebraicGeometry.RingedSpace.CertifiedDerivedSheafTensoring` on the inverse-image ringed space
@@ -480,8 +488,7 @@ theorem isPerfect_fourierMukai_of_isPerfect_kernel_of_noetherianBase [IsNoetheri
 section RelativelyPerfect
 
 open Stacks.AlgebraicGeometry.RelativelyPerfectProperPushforward
-  (TensorFamily IsGenuineTensorFamily PushforwardTorDimensionResidue
-    isPerfect_derivedPushforward_of_isPerfectRelativeTo)
+  (TensorFamily IsGenuineTensorFamily isPerfect_derivedPushforward_of_isPerfectRelativeTo)
 
 /-- The inverse-image ringed space `(X ×_S Y, pr_2^{-1}𝒪_Y)`, on which relative perfectness over
 `Y` of an object of `D(𝒪_{X ×_S Y})` is measured, as [Stacks, Tag 0DI0] asks. This is
@@ -517,13 +524,14 @@ of [Stacks, Tag 0DI4] makes `T = L pr_1^* M ⊗^𝐋 K` `Y`-perfect, `pr_2 : X �
 proper, flat and locally of finite presentation by base change; and the perfectness clause of
 [Stacks, Tag 0DJT] then makes `R pr_{2,*} T` perfect.
 
-`IsNoetherian Y` is a hypothesis neither clause makes. It is what this library's
-[Stacks, Tag 0DJT] asks: the source's reduction of that tag to a Noetherian base, along a
-filtered colimit of Noetherian rings, is not assembled here, as the module documentation of
-`StacksFrontier/AlgebraicGeometry/Perfect/RelativelyPerfectProperPushforward.lean` records.
+`IsNoetherian Y` is a hypothesis neither clause makes. It is what the form of
+[Stacks, Tag 0DJT] used here asks: `isPerfect_derivedPushforward_of_isPerfectRelativeTo` is the
+Noetherian case, stated for an arbitrary pinned certificate family `D`, while the tag over an
+arbitrary base (`isPerfect_derivedPushforward_and_isIso_derivedBaseChangeMap`) is stated at the
+canonical certificate family.
 
-Everything else carried below is a hypothesis of [Stacks, Tag 0DI4] or of [Stacks, Tag 0DJT] in
-this library, passed through unchanged, and each is documented at its source:
+Everything else carried below is a hypothesis of [Stacks, Tag 0DI4] in this library, passed
+through unchanged, and each is documented at its source:
 
 * `D` is the family of certified derived tensor products on the open subspaces of
   `(X ×_S Y, pr_2^{-1}𝒪_Y)`, which is how part (3) of [Stacks, Tag 08CG] is expressed, and `hD`
@@ -537,12 +545,9 @@ this library, passed through unchanged, and each is documented at its source:
 * `hind` is `AlgebraicGeometry.Scheme.Hom.StrictlyPerfectInduction`, the generic triangulated
   induction peeling the top term off a bounded complex; it mentions neither `pr_2` nor `K`.
 * `Θ`, `ΘcommShift`, `Θtriangulated`, `Θunit` and `Θtensor` are the interaction of the derived
-  tensor product with restriction to open subspaces, as [Stacks, Tag 0DI4] asks for it here.
-* `hqc` is quasi-coherence of the cohomology sheaves of `T`, `haff` this library's named form of
-  [Stacks, Tag 02O5], and `htor` the Tor-dimension half of [Stacks, Tag 08EV] quantified over
-  the source complex — all three hypotheses of [Stacks, Tag 0DJT] in this library. -/
-@[stacks 0FYT "clause (5): K is Y-perfect; Tag 0DI4's and Tag 0DJT's own hypotheses are carried \
-and Y is assumed Noetherian, Tag 0DJT holding here only over a Noetherian base"]
+  tensor product with restriction to open subspaces, as [Stacks, Tag 0DI4] asks for it here. -/
+@[stacks 0FYT "clause (5): K is Y-perfect; Tag 0DI4's own hypotheses are carried and Y is \
+assumed Noetherian, Tag 0DJT being applied in its Noetherian-base form"]
 theorem isPerfect_fourierMukai_of_isPerfectRelativeTo_kernel [IsNoetherian Y]
     (hD : IsGenuineTensorFamily (Limits.pullback.snd f g) D)
     (hrestricts : RingedSpace.FiniteTorDimensionRestricts (fourierMukaiInverseImage f g) D)
@@ -574,25 +579,20 @@ theorem isPerfect_fourierMukai_of_isPerfectRelativeTo_kernel [IsNoetherian Y]
           ((Scheme.Hom.derivedScalarRestriction (Limits.pullback.snd f g)).obj
             (((Stacks.Cohomology.PseudoCoherentTensor.derivedTensorProduct
               (Limits.pullback f g).toRingedSpace).tensor.obj A).obj K)))
-    (hK : (Limits.pullback.snd f g).IsPerfectRelativeTo D K)
-    (hqc : ∀ j : ℤ, ((DerivedCategory.homologyFunctor (Limits.pullback f g).Modules j).obj
-      (fourierMukaiKernelTensor f g K M)).IsQuasicoherent)
-    (haff : AlgebraicGeometry.ProperCoherentImage.HigherDirectImageIsCoherentOverAffineBase.{u})
-    (htor : PushforwardTorDimensionResidue (Limits.pullback.snd f g) D) :
+    (hK : (Limits.pullback.snd f g).IsPerfectRelativeTo D K) :
     IsPerfect (X := Y.toRingedSpace) ((fourierMukai f g K).obj M) :=
   isPerfect_derivedPushforward_of_isPerfectRelativeTo (Limits.pullback.snd f g) D hD
     (fourierMukaiKernelTensor f g K M)
     (Scheme.Hom.isPerfectRelativeTo_derivedTensor (Limits.pullback.snd f g) D commShift
       triangulated hrestricts hind hcl ((fourierMukaiPullback f g).obj M) K Θ ΘcommShift
       Θtriangulated Θunit Θtensor (isPerfect_fourierMukaiPullback f g M hM) hK)
-    hqc haff htor
 
 end RelativelyPerfect
 
 section RelativelyPerfectNoetherianBase
 
 open Stacks.AlgebraicGeometry.RelativelyPerfectProperPushforward
-  (TensorFamily IsGenuineTensorFamily PushforwardTorDimensionResidue)
+  (TensorFamily IsGenuineTensorFamily)
 
 variable [IsNoetherian S] [IsProper f] [Flat f]
   (D : TensorFamily (Limits.pullback.snd f g))
@@ -626,11 +626,11 @@ the `AlgebraicGeometry.LocallyOfFinitePresentation` instance that
 `AlgebraicGeometry.isPerfect_fourierMukai_of_isPerfectRelativeTo_kernel` asks for, and no other
 hypothesis changes.
 
-`IsNoetherian Y` is carried for the same reason as in clause (5): this library's
-[Stacks, Tag 0DJT] holds only over a Noetherian base, and `S` Noetherian says nothing about
+`IsNoetherian Y` is carried for the same reason as in clause (5): the form of
+[Stacks, Tag 0DJT] used there is its Noetherian case, and `S` Noetherian says nothing about
 `Y`. -/
-@[stacks 0FYT "clause (6), reduced to clause (5) by Tag 01TX part (1); Tag 0DI4's and Tag \
-0DJT's own hypotheses are carried and Y is assumed Noetherian"]
+@[stacks 0FYT "clause (6), reduced to clause (5) by Tag 01TX part (1); Tag 0DI4's own \
+hypotheses are carried and Y is assumed Noetherian"]
 theorem isPerfect_fourierMukai_of_isPerfectRelativeTo_kernel_of_noetherianBase [IsNoetherian Y]
     (hD : IsGenuineTensorFamily (Limits.pullback.snd f g) D)
     (hrestricts : RingedSpace.FiniteTorDimensionRestricts (fourierMukaiInverseImage f g) D)
@@ -662,14 +662,10 @@ theorem isPerfect_fourierMukai_of_isPerfectRelativeTo_kernel_of_noetherianBase [
           ((Scheme.Hom.derivedScalarRestriction (Limits.pullback.snd f g)).obj
             (((Stacks.Cohomology.PseudoCoherentTensor.derivedTensorProduct
               (Limits.pullback f g).toRingedSpace).tensor.obj A).obj K)))
-    (hK : (Limits.pullback.snd f g).IsPerfectRelativeTo D K)
-    (hqc : ∀ j : ℤ, ((DerivedCategory.homologyFunctor (Limits.pullback f g).Modules j).obj
-      (fourierMukaiKernelTensor f g K M)).IsQuasicoherent)
-    (haff : AlgebraicGeometry.ProperCoherentImage.HigherDirectImageIsCoherentOverAffineBase.{u})
-    (htor : PushforwardTorDimensionResidue (Limits.pullback.snd f g) D) :
+    (hK : (Limits.pullback.snd f g).IsPerfectRelativeTo D K) :
     IsPerfect (X := Y.toRingedSpace) ((fourierMukai f g K).obj M) :=
   isPerfect_fourierMukai_of_isPerfectRelativeTo_kernel f g D commShift triangulated hD hrestricts
-    hind hcl K M hM Θ ΘcommShift Θtriangulated Θunit Θtensor hK hqc haff htor
+    hind hcl K M hM Θ ΘcommShift Θtriangulated Θunit Θtensor hK
 
 end RelativelyPerfectNoetherianBase
 

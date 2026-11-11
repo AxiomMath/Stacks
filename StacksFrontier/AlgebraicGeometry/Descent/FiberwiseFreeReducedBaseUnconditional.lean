@@ -34,7 +34,10 @@ namespace AlgebraicGeometry
 /-- **Stacks Tag 0EX7.** Let `f : X ⟶ S` be a flat, proper morphism of finite presentation such
 that `𝒪_S ⟶ f_*𝒪_X` is an isomorphism and remains so after arbitrary base change. Let `E` be a
 finite locally free `𝒪_X`-module such that (1) `E|_{X_s} ≅ 𝒪_{X_s}^{⊕ r_s}` for every `s ∈ S`,
-and (2) `S` is reduced. Then `E ≅ f^*N` for a finite locally free `𝒪_S`-module `N`. -/
+and (2) `S` is reduced. Then `E ≅ f^*N` for a finite locally free `𝒪_S`-module `N`.
+
+The descent locus of `E` exists by Stacks Tag 0BDP, `hasDescentLocus_of_flat_of_isProper`, which
+consumes the hypotheses on `f` and the finite local freeness of `E`. -/
 @[stacks 0EX7]
 theorem exists_finiteLocallyFree_iso_of_fiberwiseFree_of_isReduced {X S : Scheme.{u}}
     (f : X ⟶ S) [Flat f] [IsProper f] (hfp : FinitePresentation f)

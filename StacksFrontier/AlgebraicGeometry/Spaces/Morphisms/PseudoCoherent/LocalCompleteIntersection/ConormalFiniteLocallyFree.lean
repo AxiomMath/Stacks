@@ -103,7 +103,7 @@ spaces over `S`.  Then `f` is unramified if and only if it is formally unramifie
 case the conormal sheaf `𝒞_{X/Y}` is finite locally free on `X`: for every universal first order
 thickening `t` of `f` — which exists exactly when `f` is formally unramified, by Stacks 0606 —
 the conormal sheaf of Stacks 0607 is finite locally free on the small étale site of `X`. -/
-@[stacks 06CB]
+@[stacks 06CB "unramified iff formally unramified; then the conormal sheaf is finite locally free"]
 theorem unramified_iff_formallyUnramified_and_isFiniteLocallyFreeOnSite_conormalSheaf
     {X Y : AlgebraicSpaces B S hS} {f : X ⟶ Y}
     (hf : IsLocalCompleteIntersection B S hS f.hom) :

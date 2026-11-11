@@ -86,18 +86,15 @@ agrees with the target morphism, by
 `AlgebraicGeometry.Stack.SelfIntersection.relationSourceMap_eq_relationTargetMap`, so the same
 triangle then holds for the target morphism too; the form proved here needs no section.
 
-**What this still does not give.** This is an identification of presheaves over `Z`, not of group
-algebraic spaces: the group law that Stacks 06PP puts on `Isom_𝒳(x, x)` over an algebraic space
-base is absent from the library, as recorded in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Stacks/AutomorphismSpaceOverAlgebraicSpace.lean` and of
-`StacksFrontier/AlgebraicGeometry/Stacks/GerbeSectionQuotientPresentation.lean`. What the comparison
-built here adds to those notes is the missing link on the arrow object: `R`, the representing
-space whose two structure morphisms Stacks 04T4 (4) uses, is identified with `Isom_𝒳(x, x)`
-compatibly with the maps to `Z`, so the composition law
-`AlgebraicGeometry.Stack.SelfIntersection.compositionLaw` can be transported to a group law on
-`Isom_𝒳(x, x)` over `Z` when that is wanted. Nothing here claims that `Isom_𝒳(x, x)` is itself an
-algebraic space; what is used is that the *representing space* `R` of `ℛ` is one, which is a
-hypothesis in the shape of `eR`.
+**The group law.** This is an identification of presheaves over `Z`, not of group algebraic
+spaces. The group law that Stacks 06PP puts on `Isom_𝒳(x, x)` is
+`AlgebraicGeometry.Stack.relativeAutomorphismGroupAlgebraicSpace`, and
+`StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionAutomorphismGroup` shows that, under the
+comparison built here, the composition law `AlgebraicGeometry.Stack.SelfIntersection.compositionLaw`
+of `R` is that group law read in the opposite order
+(`AlgebraicGeometry.Stack.compositionLaw_isomSpaceToRelationSpace`). Nothing here claims that
+`Isom_𝒳(x, x)` is itself an algebraic space; what is used is that the *representing space* `R` of
+`ℛ` is one, which is the presentation `eR`.
 
 No Stacks tag is registered: this is a step inside the proof of Stacks 06QG, not the statement of
 a tag.

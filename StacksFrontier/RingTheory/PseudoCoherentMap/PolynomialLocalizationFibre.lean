@@ -31,13 +31,11 @@ localization does not raise global dimension, which is [stacks 00O8] (2).
 ## Implementation notes
 
 `StacksFrontier.Algebra.Homology.ProjectiveDimension` states [stacks 00O8] (2) as
-`globalDimension_localization_le`, in the vocabulary `RingGlobalDimensionLE`, which quantifies
-over all modules; `StacksFrontier.RingTheory.GlobalDimension.Defs` measures the global dimension as
-the supremum `ringGlobalDimension`, which is what [stacks 068X] reads. The two are the same
-statement — `CategoryTheory.projectiveDimension_le_iff` in each module — and no bridge between
-them was recorded, so the first result below makes it and carries the passage to an arbitrary
-model of the localization through `IsLocalization.algEquiv` and
-`RingHom.ringGlobalDimension_le_of_ringEquiv`.
+`ringGlobalDimension_localization_le`, for `Localization`, and also as
+`globalDimension_localization_le` in the vocabulary `RingGlobalDimensionLE`, which quantifies over
+all modules; the two are the same statement by `CategoryTheory.projectiveDimension_le_iff`. The
+first result below carries it to an arbitrary model of the localization through
+`IsLocalization.algEquiv` and `RingHom.ringGlobalDimension_le_of_ringEquiv`.
 
 `RingHom.polynomial_fibre_globalDimension_le` and
 `RingHom.ringGlobalDimension_le_of_ringEquiv` live in

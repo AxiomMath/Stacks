@@ -53,7 +53,9 @@ ring of that counterexample is one whose formal spectrum is not an affine formal
   Remark 0AIS has cardinality below the cutoff of the site.
 * `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_formalSpectrum_iff_hasLargeSite`.
 * `AlgebraicGeometry.FormalSpace.formalSpectrumMap_tfae_of_isAffineFormalAlgebraicSpace`:
-  **Stacks 0AN5**.
+  **Stacks 0AN5**. This is the one declaration registered under the tag; the one-directional
+  implications and the variants under other set-theoretic conditions on the site, which it is
+  assembled from or which it supersedes, are not registered.
 
 ## References
 

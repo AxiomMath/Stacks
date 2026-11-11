@@ -38,8 +38,10 @@ cartesian: `X^ν` is the base change `X ×_Y Y^ν`.
   flat morphism along which the base change of the normalization morphism of the target is
   normal is cartesian.
 * `AlgebraicGeometry.isPullback_normalizationSchemeMap_of_smooth`: the normalization square of a
-  smooth morphism is cartesian. Together with
-  `AlgebraicGeometry.finite_irreducibleComponents_of_smooth` this is Tag 07TD.
+  smooth morphism is cartesian.
+* `AlgebraicGeometry.existsUnique_normalizationScheme_iso_pullback_of_smooth`: Tag 07TD in full —
+  finiteness of irreducible components ascends along a smooth `φ`, and there is a unique
+  isomorphism `X^ν ≅ X ×_Y Y^ν` over `X`.
 
 ## Implementation notes
 
@@ -246,8 +248,10 @@ finitely many irreducible components. Then the square formed by the normalizatio
 `X` and `Y`, the morphism of normalizations induced by `φ` and `φ` itself is cartesian.
 
 The finiteness hypothesis on `X` is the one ascending along `φ` from `hY`, which is the other
-assertion of the tag, `AlgebraicGeometry.finite_irreducibleComponents_of_smooth`. -/
-@[stacks 07TD "the isomorphism `X^ν = X ×_Y Y^ν`", sga "3 X 8.9" "more general"]
+assertion of the tag, `AlgebraicGeometry.finite_irreducibleComponents_of_smooth`. The whole tag,
+with the uniqueness of the isomorphism over `X`, is
+`AlgebraicGeometry.existsUnique_normalizationScheme_iso_pullback_of_smooth`. -/
+@[sga "3 X 8.9" "more general"]
 theorem isPullback_normalizationSchemeMap_of_smooth {X Y : Scheme.{u}} (φ : X ⟶ Y) [Smooth φ]
     (hY : ∀ U : Y.Opens, IsCompact (U : Set Y) → (irreducibleComponents U).Finite) :
     IsPullback
@@ -258,6 +262,38 @@ theorem isPullback_normalizationSchemeMap_of_smooth {X Y : Scheme.{u}} (φ : X �
   exact isPullback_normalizationSchemeMap_of_flat φ
     (finite_irreducibleComponents_of_smooth φ hY) hY
     (isNormal_of_smooth (pullback.fst (Y.normalization hY) φ))
+
+/-- **Normalization and smooth morphisms.** Let `φ : X ⟶ Y` be a smooth morphism of schemes and
+assume every quasi-compact open of `Y` has finitely many irreducible components. Then the same is
+true for `X`, and there is a unique isomorphism `X^ν ≅ X ×_Y Y^ν` over `X`, where `X^ν` and `Y^ν`
+are the normalizations of `X` and `Y`.
+
+Existence is the cartesian square `AlgebraicGeometry.isPullback_normalizationSchemeMap_of_smooth`;
+uniqueness holds because the only endomorphism of `X^ν` over `X` is the identity, by the universal
+property `AlgebraicGeometry.Scheme.existsUnique_lift_normalization`. -/
+@[stacks 07TD]
+theorem existsUnique_normalizationScheme_iso_pullback_of_smooth {X Y : Scheme.{u}} (φ : X ⟶ Y)
+    [Smooth φ] (hY : ∀ U : Y.Opens, IsCompact (U : Set Y) → (irreducibleComponents U).Finite) :
+    ∃ hX : ∀ U : X.Opens, IsCompact (U : Set X) → (irreducibleComponents U).Finite,
+      ∃! e : X.normalizationScheme hX ≅ pullback φ (Y.normalization hY),
+        e.hom ≫ pullback.fst φ (Y.normalization hY) = X.normalization hX := by
+  set hX := finite_irreducibleComponents_of_smooth φ hY
+  refine ⟨hX, ?_⟩
+  have h := isPullback_normalizationSchemeMap_of_smooth φ hY
+  let e : X.normalizationScheme hX ≅ pullback φ (Y.normalization hY) :=
+    h.isoPullback ≪≫ pullbackSymmetry (Y.normalization hY) φ
+  have he : e.hom ≫ pullback.fst φ (Y.normalization hY) = X.normalization hX := by
+    simp [e]
+  refine ⟨e, he, fun e' he' ↦ ?_⟩
+  have : IsNormal (X.normalizationScheme hX) := Scheme.isNormal_normalizationScheme X hX
+  have hunique := Scheme.existsUnique_lift_normalization hX (X.normalization hX)
+    (fun η ↦ Scheme.normalization_mem_genericPoints X hX η.2)
+  have heinv : e.inv ≫ X.normalization hX = pullback.fst φ (Y.normalization hY) := by
+    rw [← he, Iso.inv_hom_id_assoc]
+  have hid : e'.hom ≫ e.inv = 𝟙 _ :=
+    hunique.unique (by rw [Category.assoc, heinv, he']) (Category.id_comp _)
+  refine Iso.ext ?_
+  simpa using congrArg (· ≫ e.hom) hid
 
 end AlgebraicGeometry
 

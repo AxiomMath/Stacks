@@ -31,7 +31,8 @@ are the sections of `𝒪_T` over those opens.
 * `Crystalline.GlobalCrystallineSituation.coverage` — the Zariski covering families of
   `CRIS(X/S)`, as a coverage.
 * `Crystalline.GlobalCrystallineSituation.crystallineStructureSheaf` — the structure sheaf
-  `𝒪_{X/S}` of the big crystalline site, as a sheaf of rings, [Stacks, Tag 07IX].
+  `𝒪_{X/S}` of the big crystalline site, as a sheaf of rings (the structure sheaf of [Stacks,
+  Section 07IN], used in [Stacks, Tag 07IX]).
 
 ## Main results
 
@@ -52,7 +53,7 @@ are the sections of `𝒪_T` over those opens.
 * `Crystalline.GlobalCrystallineSituation.crisRing_isSheaf` and
   `Crystalline.GlobalCrystallineSituation.structureSheaf_isSheaf` — the structure presheaf of the
   big crystalline site is a sheaf, as a presheaf of rings and as a presheaf of commutative rings,
-  [Stacks, Tag 07IX].
+  as asserted where [Stacks, Section 07IN] defines the structure sheaf.
 
 ## Implementation notes
 
@@ -79,6 +80,7 @@ structure presheaf that restriction is the structure sheaf of the ambient scheme
 
 ## References
 
+* [Stacks Project, Tag 07IN](https://stacks.math.columbia.edu/tag/07IN)
 * [Stacks Project, Tag 07IX](https://stacks.math.columbia.edu/tag/07IX)
 * [Stacks Project, Tag 07IB](https://stacks.math.columbia.edu/tag/07IB)
 * [Stacks Project, Tag 07IQ](https://stacks.math.columbia.edu/tag/07IQ)
@@ -307,11 +309,10 @@ theorem topology_eq_coverage_toGrothendieck (S : GlobalCrystallineSituation.{u})
   change (coverage S).toPrecoverage.toGrothendieck = (coverage S).toGrothendieck
   exact Coverage.toGrothendieck_toPrecoverage (coverage S)
 
-/-- **Stacks Project, Tag 07IX.**  The structure presheaf of rings of the big crystalline site is
-a sheaf for the crystalline Zariski topology.  It suffices to check the Zariski covering families,
-and for such a family the condition is Zariski descent for the structure sheaf of the ambient
-scheme of the base. -/
-@[stacks 07IX "the structure presheaf is a sheaf of rings"]
+/-- **The structure presheaf of rings of the big crystalline site is a sheaf** for the
+crystalline Zariski topology.  It suffices to check the Zariski covering families, and for such a
+family the condition is Zariski descent for the structure sheaf of the ambient scheme of the
+base. -/
 theorem crisRing_isSheaf (S : GlobalCrystallineSituation.{u}) :
     Presheaf.IsSheaf (topology S) (crisRing S) := by
   intro R₀
@@ -319,18 +320,16 @@ theorem crisRing_isSheaf (S : GlobalCrystallineSituation.{u}) :
   rintro B R ⟨E, rfl, hE⟩
   exact isSheafFor_zariskiCovering _ B E hE (isSheaf_ringRestriction B R₀)
 
-/-- **Stacks Project, Tag 07IX.**  The structure presheaf of commutative rings of the big
-crystalline site is a sheaf for the crystalline Zariski topology. -/
-@[stacks 07IX "the structure presheaf is a sheaf of commutative rings"]
+/-- **The structure presheaf of commutative rings of the big crystalline site is a sheaf** for the
+crystalline Zariski topology. -/
 theorem structureSheaf_isSheaf (S : GlobalCrystallineSituation.{u}) :
     Presheaf.IsSheaf (topology S) (structureSheaf S) :=
   Presheaf.isSheaf_of_isSheaf_comp _ _ (forget₂ CommRingCat.{u} RingCat.{u})
     (crisRing_isSheaf S)
 
-/-- **Stacks Project, Tag 07IX.**  The structure sheaf `𝒪_{X/S}` of the big crystalline site: the
-sheaf of rings on `CRIS(X/S)` sending an object `(U, T, δ)` to the ring `Γ(T, 𝒪_T)` of global
-sections of its ambient scheme. -/
-@[stacks 07IX "the structure sheaf"]
+/-- **The structure sheaf `𝒪_{X/S}` of the big crystalline site**: the sheaf of rings on
+`CRIS(X/S)` sending an object `(U, T, δ)` to the ring `Γ(T, 𝒪_T)` of global sections of its
+ambient scheme. -/
 def crystallineStructureSheaf (S : GlobalCrystallineSituation.{u}) :
     Sheaf (topology S) RingCat.{u} :=
   ⟨crisRing S, crisRing_isSheaf S⟩

@@ -19,6 +19,8 @@ map into the completed local ring of `Y_σ = Y ×_{T, σ} Spec 𝒪^∧_{S, s}`.
 ## Main results
 
 * `StacksDraft.ArtinApproximation.exists_relativeMapApproximation`: Stacks Tag 0CAW.
+* `StacksDraft.ArtinApproximation.exists_etale_relativeMapApproximation`: Stacks Tag 0CB1, the
+  same diagram with `f` étale when `φ` induces an isomorphism on completions.
 
 ## Implementation notes
 
@@ -307,39 +309,26 @@ commutes, where `θ` is the canonical isomorphism of `Y_σ` with `Y ×_{T, τ} V
 `𝒪_{V, v}/𝔪_v ^ N = 𝒪_{S, s}/𝔪_s ^ N` that clauses (2) and (3) provide.
 
 The isomorphism `θ` is exhibited, together with the compatibilities which characterise it: it
-matches the two maps from `𝒪_{Y, y}` and the two maps from `𝒪_{S, s}`. Only the `𝔪 ^ N`
-truncations are identified; the completions `𝒪^∧_{Y_σ, y_σ}` and `𝒪^∧_{Y ×_{T, τ} V, (y, v)}`
-need not be isomorphic, as the cusp-versus-node example in the module docstring of
+matches the two maps from `𝒪_{Y, y}` and the two maps from `𝒪_{S, s}`. As in the source, it is
+the `𝔪 ^ N` truncations that are identified; the completions `𝒪^∧_{Y_σ, y_σ}` and
+`𝒪^∧_{Y ×_{T, τ} V, (y, v)}` need not be isomorphic, as the cusp-versus-node example in the
+module docstring of
 `StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/FiniteTypeBaseApproximation.lean`
 shows. The correspondence of `(y, v)` with `y_σ` on the closed fibres is recorded in addition, as
 in Tag 0GDX. -/
-@[stacks 0CAW "the source's own hypotheses, with nothing beyond them: `h : T ⟶ S` locally of \
-finite type, a G-ring `𝒪_{S, s}`, a local `𝒪_{S, s}`-algebra map `σ : 𝒪_{T, t} → 𝒪^∧_{S, s}`, \
-the base change `Y_σ = Y ×_{T, σ} Spec 𝒪^∧_{S, s}`, a point `y_σ` of `Y_σ` over `y` (the \
-source's `the` point: lying over `y` forces it over the closed point, by \
-`StacksDraft.ArtinApproximation.snd_eq_closedPoint_of_fst_eq`, so no second hypothesis places \
-it there) and a local `𝒪_{S, s}`-algebra map `φ : 𝒪_{X, x} → 𝒪^∧_{Y_σ, y_σ}`. Theorem 07QZ is \
-discharged, not an input: the `LocalApproximationProperty` hypothesis of Tag 0CAU \
-behind both stages is supplied by \
-`StacksDraft.ArtinApproximation.localApproximationProperty`, which rests on the \
-unconditional Tag 07QZ `Stacks.Smoothing.exists_localEtaleSolution_of_isGRing` and hence on the \
-unconditional Popescu Theorem 07GC \
-`Stacks.Smoothing.indSmooth_of_isRegularRingMap`. The conclusion is the source's whole diagram: \
-clause (1) — `v ↦ s`, `τ(v) = t`, `f(w) = (x, v)` as the two projection identities of `f` with \
-`F w = x`, and `w ↦ (y, v)` as `W.map_point` with the point of `Y ×_{T, τ} V` lying over `y` \
-and `v`; clause (2); clause (3); clause (4); and clause (5), the commuting square, whose `=` \
-between `𝒪_{Y_σ, y_σ}/𝔪^N` and `𝒪_{Y ×_{T, τ} V, (y, v)}/𝔪^N` is exhibited as the ring \
-isomorphism `θ` together with the two compatibilities that characterise it as the source's \
-canonical identification over `𝒪_{V, v}/𝔪_v ^ N = 𝒪_{S, s}/𝔪_s ^ N`: it matches the two maps \
-from `𝒪_{Y, y}` and the two maps from `𝒪_{S, s}`. Only the truncations are identified; the \
-completions need not be isomorphic, as the cusp-versus-node example in the module docstring of \
-`StacksFrontier/AlgebraicGeometry/Morphisms/EtaleNeighbourhood/FiniteTypeBaseApproximation.lean` \
-shows. The route is the source's own: Tag 0CAU over `Spec 𝒪^∧_{S, s}` replaces `φ` by a \
-morphism to `X` out of an elementary étale neighbourhood of `(Y_σ, y_σ)`, that pointed span \
-descends to a smooth stage of Popescu's presentation of `𝒪^∧_{S, s}`, and Tag 0CAU applied one \
-more time to `Spec 𝒪_{T, t}` and `Spec 𝒪_{S, s}` over `Spec 𝒪_{S, s}` replaces the stage by \
-`(V, v)`; `θ` is the order-`N` comparison of the two base changes of the stage object, along \
-`Spec 𝒪^∧_{S, s} ⟶ D` and along `V ⟶ D`, read through the two étale legs. The identification \
+@[stacks 0CAW "the complete statement, under the source's own hypotheses: `S` locally \
+Noetherian, `p`, `q` and `h : T ⟶ S` locally of finite type, `𝒪_{S, s}` a G-ring, a local \
+`𝒪_{S, s}`-algebra map `σ : 𝒪_{T, t} → 𝒪^∧_{S, s}`, the point `y_σ` of \
+`Y_σ = Y ×_{T, σ} Spec 𝒪^∧_{S, s}` over `y` (it lies over the closed point by \
+`StacksDraft.ArtinApproximation.snd_eq_closedPoint_of_fst_eq`), and a local \
+`𝒪_{S, s}`-algebra map `φ : 𝒪_{X, x} → 𝒪^∧_{Y_σ, y_σ}`. Theorem 07QZ is proved, by \
+`StacksDraft.ArtinApproximation.localApproximationProperty` from Popescu's Theorem 07GC \
+`Stacks.Smoothing.indSmooth_of_isRegularRingMap`. The conclusion is the whole diagram with \
+clauses (1)-(5): in (1), `f(w) = (x, v)` is the two projection identities of `f` with \
+`F w = x`, and `w ↦ (y, v)` is `W.map_point`; in (5), the equality \
+`𝒪_{Y_σ, y_σ}/𝔪^N = 𝒪_{Y ×_{T, τ} V, (y, v)}/𝔪^N` is the ring isomorphism `θ`, together with \
+its compatibility with the maps from `𝒪_{Y, y}` and from `𝒪_{S, s}` which characterise it as \
+the canonical identification over `𝒪_{V, v}/𝔪_v ^ N = 𝒪_{S, s}/𝔪_s ^ N`. The identification \
 of the closed fibres `(Y_σ)_s ≅ (Y ×_T V)_v` of Tag 0GDX is recorded as well"]
 theorem exists_relativeMapApproximation
     {X S Y T : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T) (h : T ⟶ S)
@@ -579,6 +568,193 @@ theorem exists_relativeMapApproximation
       (AdicCompletion.evalₐ (maximalIdeal
         ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ)) N (φ α))
     exact hθsq α ξ z (hUsq α ξ hξ) (hξ ▸ hz)
+
+/-! ### Tag 0CB1: the approximating diagram with an étale leg -/
+
+/-- **Stacks Project, Tag 0CB1 (More on Morphisms, Lemma 37.39.7).** With the notation and
+assumptions of Tag 0CAW — a locally Noetherian `S`, morphisms `p : X ⟶ S`, `q : Y ⟶ T` and
+`h : T ⟶ S` locally of finite type, points `x ↦ s` and `y ↦ t ↦ s`, a G-ring `𝒪_{S, s}`, a
+local `𝒪_{S, s}`-algebra map `σ : 𝒪_{T, t} → 𝒪^∧_{S, s}`, the base change
+`Y_σ = Y ×_{T, σ} Spec 𝒪^∧_{S, s}`, the point `y_σ` of `Y_σ` over `y` and a local
+`𝒪_{S, s}`-algebra map `φ : 𝒪_{X, x} → 𝒪^∧_{Y_σ, y_σ}` — assume that `φ` induces an
+isomorphism on completions: there is a ring isomorphism `Φ : 𝒪^∧_{X, x} ≅ 𝒪^∧_{Y_σ, y_σ}`
+restricting to `φ` on `𝒪_{X, x}` (such a `Φ` is local, hence adically continuous, so it is
+the map induced by `φ`). Then for every `N ≥ 1` the diagram of Tag 0CAW can be chosen with
+`f : W ⟶ X ×_S V` étale.
+
+Explicitly: there are an elementary étale neighbourhood `(V, v)` of `(S, s)` and `τ : V ⟶ T`
+over `S` with `τ v = t` (clauses (1), (2)), whose square with `σ` commutes modulo `𝔪_v ^ N`
+(clause (3)); a point `(y, v)` of `Y ×_{T, τ} V` over `y` and `v` and an elementary étale
+neighbourhood `(W, w)` of it (clauses (1), (4)); a morphism `F : W ⟶ X` over `S` with
+`F w = x` and an étale `f : W ⟶ X ×_S V` with `f ≫ pr₁ = F` and
+`f ≫ pr₂ = W ⟶ Y ×_{T, τ} V ⟶ V`, so that `f w` lies over `x` and `v`, i.e. `f w = (x, v)`
+(clause (1)); and clause (5): the ring isomorphism
+`θ : 𝒪_{Y_σ, y_σ}/𝔪 ^ N ≅ 𝒪_{Y ×_{T, τ} V, (y, v)}/𝔪 ^ N`, compatible with the two maps from
+`𝒪_{Y, y}` and the two maps from `𝒪_{S, s}` (which characterise it as the source's canonical
+identification over `𝒪_{V, v}/𝔪_v ^ N = 𝒪_{S, s}/𝔪_s ^ N`), through which `φ` followed by
+`W ⟶ Y ×_{T, τ} V` agrees with `F^♯_w` modulo `𝔪_w ^ N`. The identification of the closed
+fibres `(Y_σ)_s ≅ (Y ×_T V)_v` carrying `y_σ` to `(y, v)` is recorded as well, as in Tag 0GDX. -/
+@[stacks 0CB1 "the source's own hypotheses, with nothing beyond them: those of Tag 0CAW (a \
+locally Noetherian `S`, `p`, `q`, `h : T ⟶ S` locally of finite type, a G-ring `𝒪_{S, s}`, a \
+local `𝒪_{S, s}`-algebra map `σ : 𝒪_{T, t} → 𝒪^∧_{S, s}`, the point `y_σ` of \
+`Y_σ = Y ×_{T, σ} Spec 𝒪^∧_{S, s}` over `y`, a local `𝒪_{S, s}`-algebra map \
+`φ : 𝒪_{X, x} → 𝒪^∧_{Y_σ, y_σ}`) together with 0CB1's assumption that `φ` induces an \
+isomorphism on completions, stated as a ring isomorphism `𝒪^∧_{X, x} ≅ 𝒪^∧_{Y_σ, y_σ}` \
+restricting to `φ`. The conclusion is the whole diagram of Tag 0CAW — clauses (1) to (5), with \
+`f w = (x, v)` as `f w` lying over `x` and `v` and clause (5)'s identification exhibited as a \
+ring isomorphism `θ` of the `𝔪 ^ N`-truncations with the compatibilities characterising it — \
+with `f : W ⟶ X ×_S V` étale, which is the content of 0CB1. Every input is proved in the \
+library; the route to étaleness is Tag 0CAV over `Spec 𝒪^∧_{S, s}` followed by the descent of \
+Tag 0GDX instead of the source's comparison of associated graded rings"]
+theorem exists_etale_relativeMapApproximation
+    {X S Y T : Scheme.{u}} [IsLocallyNoetherian S] (p : X ⟶ S) (q : Y ⟶ T) (h : T ⟶ S)
+    [LocallyOfFiniteType p] [LocallyOfFiniteType q] [LocallyOfFiniteType h]
+    {x : X} {s : S} {y : Y} {t : T} (hx : p x = s) (hy : q y = t) (hts : h t = s)
+    (hG : IsGRing (S.presheaf.stalk s)) (N : ℕ) (hN : 1 ≤ N)
+    (σ : T.presheaf.stalk t →+*
+      AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s))
+    (hσ : IsLocalHom σ)
+    (hσbase : σ.comp (h.stalkHomAt hts) =
+      algebraMap (S.presheaf.stalk s)
+        (AdicCompletion (maximalIdeal (S.presheaf.stalk s)) (S.presheaf.stalk s)))
+    (yσ : (pullback q (relativeBaseChangeMorphism s σ) : Scheme.{u}))
+    (hyσY : pullback.fst q (relativeBaseChangeMorphism s σ) yσ = y)
+    (φ : X.presheaf.stalk x →+*
+      AdicCompletion
+        (maximalIdeal
+          ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ))
+        ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ))
+    (hφ : IsLocalHom φ)
+    (hφbase : φ.comp (p.stalkHomAt hx) =
+      (algebraMap ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ)
+          (AdicCompletion
+            (maximalIdeal
+              ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ))
+            ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ))).comp
+        (((pullback.snd q (relativeBaseChangeMorphism s σ)).stalkHomAt
+            (snd_eq_closedPoint_of_fst_eq h q hy hts σ hσbase
+              (relativeBaseChangeMorphism s σ) rfl yσ hyσY)).comp
+          ((specCompletedStalkTo S s).stalkHomAt
+            (specCompletedStalkTo_specCompletedStalkPoint S s))))
+    (hφiso : ∃ Φ : AdicCompletion (maximalIdeal (X.presheaf.stalk x)) (X.presheaf.stalk x) ≃+*
+        AdicCompletion
+          (maximalIdeal
+            ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ))
+          ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ),
+      Φ.toRingHom.comp (algebraMap (X.presheaf.stalk x)
+        (AdicCompletion (maximalIdeal (X.presheaf.stalk x)) (X.presheaf.stalk x))) = φ) :
+    ∃ (V : EtaleNeighborhood S s) (τ : V.scheme ⟶ T) (hτ : τ V.point = t)
+      (yτ : (pullback q τ : Scheme.{u}))
+      (hyτY : pullback.fst q τ yτ = y) (hyτV : pullback.snd q τ yτ = V.point)
+      (W : EtaleNeighborhood (pullback q τ) yτ) (F : W.scheme ⟶ X) (hF : F W.point = x)
+      (f : W.scheme ⟶ pullback p V.toBase),
+      V.IsElementary ∧ W.IsElementary ∧ τ ≫ h = V.toBase ∧ Etale f ∧
+        f ≫ pullback.fst p V.toBase = F ∧
+        f ≫ pullback.snd p V.toBase = W.toBase ≫ pullback.snd q τ ∧
+        pullback.fst p V.toBase (f W.point) = x ∧
+        pullback.snd p V.toBase (f W.point) = V.point ∧
+        F ≫ p = W.toBase ≫ pullback.snd q τ ≫ V.toBase ∧
+        (∀ b : T.presheaf.stalk t,
+          V.completionMap (σ b) -
+              algebraMap (V.scheme.presheaf.stalk V.point)
+                (AdicCompletion (maximalIdeal (V.scheme.presheaf.stalk V.point))
+                  (V.scheme.presheaf.stalk V.point)) (τ.stalkHomAt hτ b) ∈
+            Ideal.map
+              (algebraMap (V.scheme.presheaf.stalk V.point)
+                (AdicCompletion (maximalIdeal (V.scheme.presheaf.stalk V.point))
+                  (V.scheme.presheaf.stalk V.point)))
+              (maximalIdeal (V.scheme.presheaf.stalk V.point) ^ N)) ∧
+        (∃ θ : ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ ⧸
+              maximalIdeal
+                ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ) ^ N) ≃+*
+            ((pullback q τ).presheaf.stalk yτ ⧸
+              maximalIdeal ((pullback q τ).presheaf.stalk yτ) ^ N),
+          (∀ b : Y.presheaf.stalk y,
+            θ (Ideal.Quotient.mk (maximalIdeal
+                ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ) ^ N)
+                ((pullback.fst q (relativeBaseChangeMorphism s σ)).stalkHomAt hyσY b)) =
+              Ideal.Quotient.mk (maximalIdeal ((pullback q τ).presheaf.stalk yτ) ^ N)
+                ((pullback.fst q τ).stalkHomAt hyτY b)) ∧
+          (∀ c : S.presheaf.stalk s,
+            θ (Ideal.Quotient.mk (maximalIdeal
+                ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ) ^ N)
+                ((pullback.snd q (relativeBaseChangeMorphism s σ)).stalkHomAt
+                  (snd_eq_closedPoint_of_fst_eq h q hy hts σ hσbase
+                    (relativeBaseChangeMorphism s σ) rfl yσ hyσY)
+                  ((specCompletedStalkTo S s).stalkHomAt
+                    (specCompletedStalkTo_specCompletedStalkPoint S s) c))) =
+              Ideal.Quotient.mk (maximalIdeal ((pullback q τ).presheaf.stalk yτ) ^ N)
+                ((pullback.snd q τ).stalkHomAt hyτV (V.stalkHom c))) ∧
+          ∀ (α : X.presheaf.stalk x) (z : (pullback q τ).presheaf.stalk yτ),
+            θ (AdicCompletion.evalₐ (maximalIdeal
+                ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ)) N
+                (φ α)) =
+              Ideal.Quotient.mk (maximalIdeal ((pullback q τ).presheaf.stalk yτ) ^ N) z →
+            Ideal.Quotient.mk (maximalIdeal (W.scheme.presheaf.stalk W.point) ^ N)
+                (W.stalkHom z) =
+              Ideal.Quotient.mk (maximalIdeal (W.scheme.presheaf.stalk W.point) ^ N)
+                (F.stalkHomAt hF α)) ∧
+        ∃ (eBase : (specCompletedStalk S s).residueField (specCompletedStalkPoint S s) ≅
+            V.scheme.residueField V.point)
+          (eFiber : (pullback.snd q (relativeBaseChangeMorphism s σ)).fiber
+              (specCompletedStalkPoint S s) ≅
+            (pullback.snd q τ).fiber V.point),
+          (Spec.map eBase.inv ≫ V.scheme.fromSpecResidueField V.point ≫ V.toBase =
+            (specCompletedStalk S s).fromSpecResidueField (specCompletedStalkPoint S s) ≫
+              specCompletedStalkTo S s) ∧
+          (Spec.map eBase.inv ≫ V.scheme.fromSpecResidueField V.point ≫ τ =
+            (specCompletedStalk S s).fromSpecResidueField (specCompletedStalkPoint S s) ≫
+              relativeBaseChangeMorphism s σ) ∧
+          (eFiber.hom ≫ (pullback.snd q τ).fiberι V.point ≫ pullback.fst q τ =
+            (pullback.snd q (relativeBaseChangeMorphism s σ)).fiberι
+                (specCompletedStalkPoint S s) ≫
+              pullback.fst q (relativeBaseChangeMorphism s σ)) ∧
+          (eFiber.hom ≫ (pullback.snd q τ).fiberToSpecResidueField V.point =
+            (pullback.snd q (relativeBaseChangeMorphism s σ)).fiberToSpecResidueField
+                (specCompletedStalkPoint S s) ≫ Spec.map eBase.inv) ∧
+          (eFiber.hom (((pullback.snd q (relativeBaseChangeMorphism s σ)).fiberHomeo
+              (specCompletedStalkPoint S s)).symm
+              ⟨yσ, snd_eq_closedPoint_of_fst_eq h q hy hts σ hσbase
+                (relativeBaseChangeMorphism s σ) rfl yσ hyσY⟩) =
+            ((pullback.snd q τ).fiberHomeo V.point).symm ⟨yτ, hyτV⟩) := by
+  have := hφ
+  obtain ⟨Φ, hΦ⟩ := hφiso
+  have hyσZ : pullback.snd q (relativeBaseChangeMorphism s σ) yσ =
+      specCompletedStalkPoint S s :=
+    snd_eq_closedPoint_of_fst_eq h q hy hts σ hσbase (relativeBaseChangeMorphism s σ) rfl
+      yσ hyσY
+  have hΦbase : Φ.toRingHom.comp ((algebraMap (X.presheaf.stalk x)
+        (AdicCompletion (maximalIdeal (X.presheaf.stalk x)) (X.presheaf.stalk x))).comp
+      (p.stalkHomAt hx)) =
+      (algebraMap ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ)
+          (AdicCompletion
+            (maximalIdeal
+              ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ))
+            ((pullback q (relativeBaseChangeMorphism s σ)).presheaf.stalk yσ))).comp
+        (((pullback.snd q (relativeBaseChangeMorphism s σ)).stalkHomAt hyσZ).comp
+          ((specCompletedStalkTo S s).stalkHomAt
+            (specCompletedStalkTo_specCompletedStalkPoint S s))) := by
+    rw [← RingHom.comp_assoc, hΦ]
+    exact hφbase
+  obtain ⟨V, τ, hτ, yτ, hyτY, hyτV, W, F, hF, f, hV, hW, hτh, hf, hf₁, hf₂, hFp, hc3,
+    ⟨θ, hθY, hθS, hθ5⟩, hfib⟩ :=
+    exists_etale_relativeIsomorphismApproximation p q h hx hts hG N hN σ hσ hσbase yσ hyσY
+      hyσZ Φ hΦbase
+  have hfx : pullback.fst p V.toBase (f W.point) = x := by
+    have h₁ : (f ≫ pullback.fst p V.toBase) W.point = F W.point := by rw [hf₁]
+    simp only [Scheme.Hom.comp_apply] at h₁
+    rw [h₁, hF]
+  have hfv : pullback.snd p V.toBase (f W.point) = V.point := by
+    have h₂ : (f ≫ pullback.snd p V.toBase) W.point =
+        (W.toBase ≫ pullback.snd q τ) W.point := by rw [hf₂]
+    simp only [Scheme.Hom.comp_apply] at h₂
+    rw [h₂, W.map_point, hyτV]
+  refine ⟨V, τ, hτ, yτ, hyτY, hyτV, W, F, hF, f, hV, hW, hτh, hf, hf₁, hf₂, hfx, hfv, hFp, hc3,
+    ⟨θ, hθY, hθS, fun α z hz => hθ5 α z ?_⟩, hfib⟩
+  rw [show Φ (algebraMap (X.presheaf.stalk x)
+      (AdicCompletion (maximalIdeal (X.presheaf.stalk x)) (X.presheaf.stalk x)) α) = φ α from
+    RingHom.congr_fun hΦ α]
+  exact hz
 
 end StacksDraft.ArtinApproximation
 

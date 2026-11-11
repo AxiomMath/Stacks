@@ -6,7 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.RelativePropertyEquivalenc
 public import StacksFrontier.AlgebraicGeometry.Stacks.SetoidRepresentability
 
 /-!
-# A relative property of a 1-morphism of fibred setoids (Stacks 04TC)
+# A relative property of a 1-morphism of fibred setoids, total objects in `Type u`
 
 Let `P` be a property of morphisms of algebraic spaces over `S` which is stable under base change
 and local on the target for the fppf precoverage, and let `f : 𝒳 ⟶ 𝒴` be a 1-morphism of
@@ -16,7 +16,8 @@ isomorphism-class presheaves. Then `a` has `P` in the sense of Stacks 03XZ exact
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isoClassMap_holdsOnEverySchemePoint_iff`: **Stacks 04TC**.
+* `AlgebraicGeometry.Stack.isoClassMap_holdsOnEverySchemePoint_iff`: the statement of Stacks 04TC
+  for categories fibred in setoids whose total objects lie in `Type u`.
 
 ## Implementation notes
 
@@ -25,6 +26,13 @@ Stacks 045A compares `a` with the 1-morphism `𝒮_F ⟶ 𝒮_G` attached to it,
 relative property across the comparison square of Stacks 04SY, whose horizontal arrows are the
 equivalences `AlgebraicGeometry.Stack.isoClassBasedFunctor` and whose 2-cell is
 `AlgebraicGeometry.Stack.isoClassComparisonIso`.
+
+Here `𝒳` and `𝒴` have total objects in `Type u`, the universe of the schemes. Over the big fppf
+site, which keeps every relabelled copy of a scheme, this is far from the categories fibred in
+setoids of interest: by `AlgebraicGeometry.Stack.small_sieve_of_isFiberedInGroupoids`, an object
+of such a category forces the schemes mapping to a fixed one to form a `u`-small collection.
+Stacks 04TC itself, at an arbitrary universe of total objects, is
+`AlgebraicGeometry.Stack.isoClassMap_holdsOnEverySchemePoint_iff_model`, which carries the tag.
 
 No hypothesis of the source is carried: representability of `a` is not assumed but derived from
 representability of `f` by Stacks 04SY, as the source says.
@@ -47,11 +55,14 @@ namespace AlgebraicGeometry.Stack
 
 universe u v
 
-/-- **Stacks 04TC.** For a 1-morphism `f` of categories fibred in setoids over the big fppf site
-of `S` whose induced map `a` of isomorphism-class presheaves is representable by algebraic
-spaces, `a` has a property `P` in the sense of Stacks 03XZ exactly when `f` has `P` in the
-relative sense of Stacks 03YK. -/
-@[stacks 04TC]
+/-- For a 1-morphism `f` of categories fibred in setoids over the big fppf site of `S` whose
+total objects lie in `Type u`, the induced map `a` of isomorphism-class presheaves has a property
+`P` in the sense of Stacks 03XZ exactly when `f` has `P` in the relative sense of Stacks 03YK.
+
+This is the statement of Stacks 04TC with the total objects pinned to `Type u`, which leaves out
+the categories fibred in setoids of interest (see the implementation notes); the tag is carried
+by `AlgebraicGeometry.Stack.isoClassMap_holdsOnEverySchemePoint_iff_model`, at an arbitrary
+universe of total objects. -/
 theorem isoClassMap_holdsOnEverySchemePoint_iff
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (P : MorphismProperty (AlgebraicSpaces B S hS))

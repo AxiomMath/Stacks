@@ -107,7 +107,11 @@ two composite functors.
 
 The proof is the source's: the completion functor `(h : Y ⟶ X) ↦ Y_{/T}` commutes with fibre
 products. -/
-@[stacks 0GDQ]
+@[stacks 0GDQ "the commutativity of the square as a natural isomorphism of the two composite \
+functors, base change being defined by a universal property; the horizontal arrows are the \
+functors of Stacks 0AR5 with the source's hypotheses, the left vertical arrow is base change \
+along g on the finite-type modifications of Stacks 0AS2 and the right vertical arrow is base \
+change along the completion of g"]
 def completionModificationFunctorBaseChangeIso {X₁ X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (g : X₁ ⟶ X) (T : Set (Space.points B S hS X)) (hT : IsClosed T)
     (hX₁sp : IsAlgebraicSpace B S hS X₁) (hXsp : IsAlgebraicSpace B S hS X)

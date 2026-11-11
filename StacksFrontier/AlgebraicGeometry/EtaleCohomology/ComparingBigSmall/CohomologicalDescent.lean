@@ -26,13 +26,16 @@ cohomology computed on the big one.
 * `AlgebraicGeometry.projectionInverseImage` — the inverse image with no adjunction assumed,
   exact by `AlgebraicGeometry.projectionInverseImage_exact`.
 * `AlgebraicGeometry.projectionDerivedUnit` — the adjunction unit on unbounded derived
-  categories.
+  categories, with target the functor induced by the composite `π_{S,*} ∘ π_S⁻¹`.
 
 ## Main results
 
 * `AlgebraicGeometry.projectionPullback_exact` and
   `AlgebraicGeometry.projectionRestriction_exact` — both functors are exact.
-* `AlgebraicGeometry.projectionDerivedUnit_isIso` — cohomological descent for the projection.
+* `AlgebraicGeometry.projectionDerivedUnit_isIso` — the derived unit into the functor induced by
+  the composite is an isomorphism. Stacks 0DDI itself, with target `Rπ_{S,*} ∘ π_S⁻¹`, is
+  `AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso` in
+  `StacksFrontier.AlgebraicGeometry.EtaleCohomology.ComparingBigSmall.ProjectionDerivedUnit`.
 
 ## Implementation notes
 
@@ -53,7 +56,7 @@ invertible because the unit itself is: the inclusion is fully faithful and cocon
 
 ## References
 
-* [Stacks Project, Lemma 59.51.1 (Tag 0DDI)](https://stacks.math.columbia.edu/tag/0DDI)
+* [Stacks Project, Lemma 59.99.4 (Tag 0DDI)](https://stacks.math.columbia.edu/tag/0DDI)
 -/
 
 @[expose] public noncomputable section
@@ -150,8 +153,8 @@ supplies the right adjoint.  It is `AlgebraicGeometry.projectionPullback` at tha
 abbrev projectionInverseImage : smallSheaves.{u, v} B S hS ⥤ bigSheaves.{u, v} B S hS :=
   projectionPullback.{u, v} B S hS
 
-/-- Extension from the small to the big étale site is exact. -/
-@[stacks 0DDI "exactness of inverse image"]
+/-- Extension from the small to the big étale site is exact. An ingredient of Stacks 0DDI, which
+is `AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`. -/
 theorem projectionPullback_exact :
     exactFunctor _ _ (projectionPullback.{u, v} B S hS) := by
   rw [exactFunctor_iff]
@@ -198,14 +201,14 @@ theorem projectionPullback_exact :
     infer_instance
 
 /-- The inverse image with no adjunction assumed, `AlgebraicGeometry.projectionInverseImage`, is
-exact. -/
-@[stacks 0DDI "exactness of inverse image, stated with no adjunction assumed"]
+exact. An ingredient of Stacks 0DDI, which is
+`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`. -/
 theorem projectionInverseImage_exact :
     exactFunctor _ _ (projectionInverseImage.{u, v} B S hS) :=
   projectionPullback_exact.{u, v} B S hS
 
-/-- Restriction from the big to the small étale site is exact. -/
-@[stacks 0DDI "exactness of direct image"]
+/-- Restriction from the big to the small étale site is exact. An ingredient of Stacks 0DDI,
+which is `AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`. -/
 theorem projectionRestriction_exact :
     exactFunctor _ _ (projectionRestriction.{u, v} B S hS) := by
   rw [exactFunctor_iff]
@@ -251,9 +254,10 @@ public def projectionDerivedUnit :
     ((SmallEtale.inclusion B S hS).sheafAdjunctionContinuous
       AddCommGrpCat.{max (u + 1) v} _ _).unit
 
-/-- The derived unit of the projection adjunction is an isomorphism:
-cohomology on the small étale site agrees with cohomology on the big one. -/
-@[stacks 0DDI "derived unit is an isomorphism"]
+/-- The unit `projectionDerivedUnit`, with target the functor induced by the composite
+`π_{S,*} ∘ π_S⁻¹`, is an isomorphism. This is the main ingredient of Stacks 0DDI, which is
+`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`, stated there with target
+`Rπ_{S,*} ∘ π_S⁻¹`. -/
 theorem projectionDerivedUnit_isIso :
     IsIso (projectionDerivedUnit.{u, v} B S hS) := by
   let i := SmallEtale.inclusion B S hS
@@ -314,8 +318,9 @@ public def projectionInverseImageDerivedUnit :
 /-- For every `K` in `D(S_étale)` the map `K ⟶ Rπ_{S,*} π_S⁻¹ K` is an isomorphism, with the
 inverse image `projectionInverseImage` taken with no adjunction assumed. Both functors are exact
 (`projectionInverseImage_exact`, `projectionRestriction_exact`), so their derived functors are the
-induced functors on derived categories. -/
-@[stacks 0DDI "derived unit is an isomorphism, stated with no adjunction assumed"]
+induced functors on derived categories. The target here is the functor induced by the composite
+`π_{S,*} ∘ π_S⁻¹`; Stacks 0DDI itself, with target `Rπ_{S,*} ∘ π_S⁻¹`, is
+`AlgebraicGeometry.projectionDerivedAdjunctionUnit_app_isIso`. -/
 theorem projectionInverseImageDerivedUnit_isIso :
     IsIso (projectionInverseImageDerivedUnit.{u, v} B S hS) :=
   projectionDerivedUnit_isIso.{u, v} B S hS

@@ -26,7 +26,9 @@ Consequently the whole equivalence of categories follows from the single stateme
 affine scheme étale over an affine scheme `X` descends along a universal homeomorphism to an
 affine base `Y`. That statement is the essential surjectivity of the correspondence displayed as
 Stacks Project, Tag 04E0, and it is carried here as the hypothesis
-`Stacks.Etale.EssSurjAffineEtalePullback`.
+`Stacks.Etale.EssSurjAffineEtalePullback`. That hypothesis is proved, unconditionally, as
+`Stacks.Etale.essSurjAffineEtalePullback`, and Tag 04E0 itself is registered in full on
+`Stacks.Etale.affineEtalePullback_isEquivalence`.
 
 The affine correspondence itself is also treated, as far as it goes unconditionally: base change
 carries an affine étale `Y`-scheme to an affine étale `X`-scheme, and the induced functor between
@@ -52,9 +54,9 @@ the affine objects is full and faithful.
 * `Stacks.Etale.etalePullback_isEquivalence_of_integral_universallyInjective_surjective` —
   Stacks Project, Tag 04DZ: base change along an integral, universally injective and surjective
   morphism is an equivalence of small étale sites, given the affine case.
-* `Stacks.Etale.affineEtalePullback_fullyFaithful` — Stacks Project, Tag 04E0 as far as it is
-  unconditional: base change preserves affineness and is full and faithful on the affine objects
-  of the two small étale sites.
+* `Stacks.Etale.affineEtalePullback_fullyFaithful` — base change preserves affineness and is
+  full and faithful on the affine objects of the two small étale sites; this is the part of
+  Stacks Project, Tag 04E0 that needs no descent.
 * `Stacks.Etale.affineEtalePullback_isEquivalence_of_essSurjAffine` — with the affine case, that
   restricted functor is an equivalence.
 * `Stacks.Etale.isAffine_of_isAffine_pullback` — a scheme over `Y` whose base change along a
@@ -212,25 +214,15 @@ theorem isAffine_pullback_of_universalHomeomorphism (f : X ⟶ Y) [UniversalHome
   have : IsAffine V := hV
   exact isAffine_of_isAffineHom (f := pullback.fst q f) (Y := V)
 
-/-- **The affine correspondence of Stacks Project, Tag 04E0: its unconditional half.** Let
+/-- **Full faithfulness of the affine correspondence of Stacks Project, Tag 04E0.** Let
 `f : X ⟶ Y` be a universal homeomorphism of affine schemes. Base change along `f` carries an
 affine scheme étale over `Y` to an affine scheme étale over `X`, and the induced functor between
-the affine objects of the two small étale sites is full and faithful. -/
-@[stacks 04E0 "Full faithfulness of the displayed correspondence and the preservation of
-affineness only, both unconditional: full faithfulness is Tag 0BTY read on the affine objects,
-and base change carries an affine etale `Y`-scheme to an affine etale `X`-scheme because a
-universal homeomorphism is an affine morphism (Tag 04DF). Essential surjectivity, which is the
-content the source proves about this correspondence, is NOT delivered here. The source obtains
-it by induction on a bound for the degree of the fibres of an etale morphism of affine schemes,
-descending at each step by effectivity of affine descent, Tag 0245; that induction is not
-formalized in this library, although Tag 0245 itself is carried, by
-`AlgebraicGeometry.DescentData.isFamilyEffective_of_isAffineHom`, as are the other tags it
-cites (04DW, 03WS, 03JA, 03WU, 02VN). The alternative route, through effectivity of etale
-descent along a surjective integral morphism (Tag 0BTP), has only its fully faithful half
-carried, by
-`AlgebraicGeometry.fullyFaithful_quasiCompactSeparatedEtaleDescentFunctor_of_isIntegralHom`.
-Given essential surjectivity, this restricted functor is an equivalence, by
-`affineEtalePullback_isEquivalence_of_essSurjAffine`."]
+the affine objects of the two small étale sites is full and faithful.
+
+Full faithfulness is Tag 0BTY read on the affine objects, and affineness is preserved because a
+universal homeomorphism is an affine morphism (Tag 04DF). This is one ingredient of Tag 04E0,
+which is registered in full on `Stacks.Etale.affineEtalePullback_isEquivalence`: there the
+essential surjectivity is supplied by `Stacks.Etale.essSurjAffineEtalePullback`. -/
 theorem affineEtalePullback_fullyFaithful (f : X ⟶ Y) [UniversalHomeomorphism f]
     [IsAffine X] [IsAffine Y] :
     letI : MorphismProperty.HasPullbacksAlong

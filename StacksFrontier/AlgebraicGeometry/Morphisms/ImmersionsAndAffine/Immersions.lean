@@ -17,9 +17,18 @@ arranged with the closed subscheme being the reduced induced structure on the cl
   reduced source cuts out the reduced induced structure on its image.
 * `AlgebraicGeometry.exists_openImmersion_closedImmersion_factorization_of_isReduced`: an immersion
   of a reduced scheme factors as an open immersion followed by a closed immersion.
+* `AlgebraicGeometry.isClosedImmersion_finiteType_and_isImmersion_locallyOfFiniteType`: a closed
+  immersion is of finite type and an immersion is locally of finite type.
+
+## Implementation notes
+
+A morphism of finite type is expressed by the conjunction of Mathlib's
+`AlgebraicGeometry.LocallyOfFiniteType` and `AlgebraicGeometry.QuasiCompact` predicates
+(Stacks, Tag 01T1).
 
 ## References
 
+* [Stacks Project, Tag 01T5](https://stacks.math.columbia.edu/tag/01T5)
 * [Stacks Project, Tag 03DQ](https://stacks.math.columbia.edu/tag/03DQ)
 -/
 
@@ -97,5 +106,13 @@ theorem exists_openImmersion_closedImmersion_factorization_of_isReduced
   refine ⟨Y, j, i, ?_, inferInstance, hjf⟩
   rw [← he₂]
   infer_instance
+
+/-- A closed immersion is of finite type, and an immersion is locally of finite type. -/
+@[stacks 01T5]
+theorem isClosedImmersion_finiteType_and_isImmersion_locallyOfFiniteType :
+    (∀ {X Y : Scheme.{u}} (f : X ⟶ Y) [IsClosedImmersion f],
+      LocallyOfFiniteType f ∧ QuasiCompact f) ∧
+    ∀ {X Y : Scheme.{u}} (f : X ⟶ Y) [IsImmersion f], LocallyOfFiniteType f :=
+  ⟨fun _ _ => ⟨inferInstance, inferInstance⟩, fun _ _ => inferInstance⟩
 
 end AlgebraicGeometry

@@ -32,8 +32,8 @@ and what remains of [Stacks, Tag 07LG] is exactly one statement about the two co
 ## What is carried, and why
 
 One hypothesis is named, and **no tag attribute is placed** here: this is a reduction, and
-[Stacks, Tag 07LG] is `...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.
+[Stacks, Tag 07LG] is `...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.
 
 * `hcomp`, the comparison of the two complexes.  This is the mathematical content of
   [Stacks, Tag 07LG] that is not [Stacks, Tag 07JN], namely the two spectral sequences of the
@@ -54,7 +54,7 @@ One hypothesis is named, and **no tag attribute is placed** here: this is a redu
   `Crystalline.envelopeStructureColumnZeroIso`.  The double complex of a *general* crystal is
   that of `...SmallSite.crystalCosimplicialPair` of `SmallSite/CrystalCosimplicialPair.lean`, and
   the proof of [Stacks, Tag 07LG] from it is
-  `...SmallSite.crystalPairDeRhamComplex_computesCohomology`; this file does not supply `hcomp`
+  `...SmallSite.crystalPairDeRhamDerivedPlusIso`; this file does not supply `hcomp`
   from it.
 
 Both hypotheses of [Stacks, Tag 07JN] on the coefficient sheaf — the source's own hypotheses at

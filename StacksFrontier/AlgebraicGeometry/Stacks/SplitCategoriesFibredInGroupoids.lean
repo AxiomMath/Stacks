@@ -22,9 +22,10 @@ over the base category, and records how `F ↦ 𝒮_F` behaves:
 * (b) a *split* category fibred in groupoids is one isomorphic to some `𝒮_F` (Tag 04TL);
 * (c) every category fibred in groupoids is equivalent to a split one (Tag 02XY);
 * (d) for a presheaf of sets `F`, `𝒮_F` is fibred in sets (Tags 0043, 04TM);
-* (e) `F ↦ 𝒮_F` is fully faithful on presheaves of sets (Tag 02Y2): 1-morphisms over the base
-  between `𝒮_F` and `𝒮_G` are exactly the maps of presheaves `F ⟶ G`, and the only 2-morphisms
-  between 1-morphisms into a category fibred in sets are identities;
+* (e) `F ↦ 𝒮_F` is "in some sense" fully faithful on presheaves of sets, in the sense of
+  Tag 02Y2: 1-morphisms over the base between `𝒮_F` and `𝒮_G` are exactly the maps of
+  presheaves `F ⟶ G`, and the only 2-morphisms between 1-morphisms into a category fibred in sets
+  are identities;
 * (f) `𝒮_{F × G} = 𝒮_F × 𝒮_G` and `𝒮_{F ×_H G} = 𝒮_F ×_{𝒮_H} 𝒮_G`, the right hand sides being
   2-fibre products over the base (Tag 0040);
 * (g) `𝒮_{h_X}` is the slice category over `X` (Tag 0044).
@@ -41,7 +42,11 @@ base category `C`, of which the big fppf site of `S` is a special case.
 * `CategoryTheory.TwoFibreProductOver.exists_elementsOp_equivalence_of_isLimit_binaryFan`: (f)
   for a product of presheaves of sets.
 
-The other assertions are recorded against Tag 04SU on the declarations that prove them.
+The other assertions are recorded against Tag 04SU, by `add_to_stacks` below, on the
+declarations that define or prove them: (a) and (b) on the definitions
+`CategoryTheory.presheafOfGroupoids` and `CategoryTheory.Functor.IsSplitFiberedInGroupoids`
+together with `CategoryTheory.isFiberedInGroupoids_presheafOfGroupoids`, and (c), (d), the
+2-morphism half of (e), and (g) on the theorems and equivalences proving them.
 
 ## Implementation notes
 

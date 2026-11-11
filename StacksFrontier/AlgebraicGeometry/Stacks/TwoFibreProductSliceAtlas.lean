@@ -1083,9 +1083,9 @@ with `hfrep`. Condition (3) enters only through the cancellation for Stacks 06CU
 The case of a 1-morphism induced by a morphism of schemes — the key ingredient, where the
 appeal to More on Morphisms is made — is
 `Deformation.Artin.smooth_of_isSmoothOnPredeformationCategories`. -/
-@[stacks 07XX "the general 1-morphism, at the source's own hypotheses: (1) hfrep, (2) hf, \
-(3) hlimX, (4) hlimY, and S locally Noetherian. The case of a 1-morphism induced by a morphism \
-of schemes is smooth_of_isSmoothOnPredeformationCategories"]
+@[stacks 07XX "f representable by algebraic spaces, satisfying 07XS, 𝒳 limit preserving on \
+objects, 𝒴 limit preserving, S locally Noetherian; then f is smooth. \
+smooth_of_isSmoothOnPredeformationCategories is the case of a morphism of schemes"]
 theorem isRelativelySmooth_of_isSmoothOnPredeformationCategories
     (hfrep : IsRepresentableByAlgebraicSpaces B S hS f.hom)
     (hlimX : BigFppfOver.IsLimitPreservingOnObjects.{u, u, u, u, u + 1} B S hS 𝒳

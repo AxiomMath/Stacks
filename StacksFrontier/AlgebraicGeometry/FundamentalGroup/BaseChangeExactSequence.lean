@@ -25,15 +25,15 @@ to `X` is a finite coproduct of copies of `X`.
 ## The hypothesis, and why no `@[stacks]` attribute appears in this file
 
 Everything below needs `FÉt` at the three geometric points to be a Galois category, which is
-Stacks Tag 0BNB; that tag is not available in this library — the colimit half of exactness of the
-geometric fibre functor is open, see
-`StacksFrontier/AlgebraicGeometry/FundamentalGroup/EtaleFundamental/GaloisCategoryAxioms.lean`.
-The declarations therefore carry
-`Stacks.FundamentalGroup.IsGaloisCategory (finiteEtaleFiberFunctor x)` as an instance
-hypothesis, exactly as the conditional declarations of
+Stacks Tag 0BNB. The declarations carry
+`CategoryTheory.IsGaloisCategory (finiteEtaleFiberFunctor x)` as an instance
+hypothesis, as the conditional declarations of
 `StacksFrontier/AlgebraicGeometry/FundamentalGroup/FiniteEtaleEquivalence.lean` and
 `StacksFrontier/AlgebraicGeometry/FundamentalGroup/EtaleFundamental/ChangeBasePoint.lean` do,
-and carry no `@[stacks]` attribute.
+and carry no `@[stacks]` attribute. For a connected scheme that hypothesis always holds: Tag 0BNB
+is proved, as the instance `Stacks.FundamentalGroup.isGaloisCategory_finiteEtaleFiberFunctor` of
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/FiniteEtaleGaloisCategory.lean`, so the instance
+hypothesis is redundant there.
 
 ## Main definitions
 

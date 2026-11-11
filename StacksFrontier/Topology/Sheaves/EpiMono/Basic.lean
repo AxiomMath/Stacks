@@ -48,18 +48,19 @@ Let `X` be a topological space.
    surjective (resp. injective) maps of sheaves, and are exactly those maps which are
    surjective (resp. injective) on all the stalks.
 
-Here a "surjective map of presheaves" means a map that is surjective on every open
-set (equivalently, the underlying natural transformation is componentwise surjective),
-and similarly for injective.  For sheaves, the canonical Stacks Project notion of a
-"surjective map of sheaves" is one whose induced maps on all stalks are surjective
-(see Stacks tag 008Q); the Stacks notion of "injective map of sheaves" is one whose
-induced maps on every open set are injective, which by part (2) below is equivalent to
-injectivity on all stalks.
+The words are those of Stacks tag 007U: a map of presheaves of sets is injective
+(resp. surjective) if it is injective (resp. surjective) on every open set (007U (2), (3));
+a map of sheaves of sets is injective if it is injective on every open set (007U (4)), and
+surjective if every section is locally in the image (007U (5)), which is
+`TopCat.Presheaf.IsLocallySurjective` (see
+`SheafInjectiveSurjective.isLocallySurjective_iff_exists_cover`).
 
 The formalization below works with sheaves and presheaves of types on a bundled
 topological space `X : TopCat.{u}`.
 
-The four iff statements are bundled at the end as `StacksDefinitionInjective`.
+The complete statement is `presheaf_sheaf_epi_mono_iff_surjective_injective`, which carries
+the tag; `StacksDefinitionInjective` is the earlier bundle without the clause "epimorphisms
+of sheaves are the surjective maps of sheaves".
 -/
 
 @[expose] public section
@@ -96,6 +97,13 @@ theorem sheaf_mono_iff_stalk_injective {F G : TopCat.Sheaf (Type u) X} (f : F �
   refine forall_congr' (fun x => ?_)
   exact CategoryTheory.mono_iff_injective _
 
+/-- **Stacks 0H7H (2), epimorphism / surjective map of sheaves.**  A morphism of sheaves of
+types is an epimorphism if and only if it is surjective in the sense of Stacks 007U (5), i.e.
+locally surjective. -/
+theorem sheaf_epi_iff_isLocallySurjective {F G : TopCat.Sheaf (Type u) X} (f : F ⟶ G) :
+    Epi f ↔ TopCat.Presheaf.IsLocallySurjective f.1 :=
+  (TopCat.Sheaf.isLocallySurjective_iff_epi f).symm
+
 /-- **Stacks 0H7H (2), epimorphism / surjective on stalks.**  A morphism of sheaves
 of types is an epimorphism if and only if it is surjective on every stalk.
 
@@ -123,14 +131,15 @@ Let `X : TopCat`.
      iff `f` is injective on every stalk;
    - `f` is an epimorphism iff `f` is surjective on every stalk.
 
-The Stacks notion of "injective map of sheaves" is "injective on every open set", and the
-Stacks notion of "surjective map of sheaves" is "surjective on every stalk"
-(cf. Stacks tag 008Q).  With those Stacks definitions, the two parts above show that
-in `Sh(X)` the epimorphisms are exactly the surjective maps of sheaves and the
-monomorphisms are exactly the injective maps of sheaves.
+The Stacks notion of "injective map of sheaves" is "injective on every open set"
+(Stacks 007U (4)), so the third conjunct says the monomorphisms of sheaves are the injective
+maps of sheaves.  The Stacks notion of "surjective map of sheaves" is "locally surjective"
+(Stacks 007U (5)), not "surjective on every stalk"; the clause that the epimorphisms of
+sheaves are the surjective maps of sheaves is not among these conjuncts.  The complete
+statement of Stacks 0H7H, with that clause, is
+`presheaf_sheaf_epi_mono_iff_surjective_injective`.
 -/
-@[stacks 0H7H,
-  sga "4 IV 6.4.3" "sheaves on a space",
+@[sga "4 IV 6.4.3" "sheaves on a space",
   sga "3 I 1.2" "special case",
   sga "4 IV 8.4.1" "fourth conjunct"]
 theorem StacksDefinitionInjective :
@@ -152,4 +161,43 @@ theorem StacksDefinitionInjective :
    @presheaf_epi_iff_surjective X,
    @sheaf_mono_iff_app_injective X,
    @sheaf_mono_iff_stalk_injective X,
+   @sheaf_epi_iff_stalk_surjective X⟩
+
+/--
+**Stacks 0H7H.** Let `X : TopCat`.
+
+1. A morphism `f : F ⟶ G` of presheaves of types on `X` is a monomorphism (resp. an
+   epimorphism) iff it is injective (resp. surjective) on every open set, i.e. iff it is an
+   injective (resp. surjective) map of presheaves (Stacks 007U (2), (3)).
+2. A morphism `f : F ⟶ G` of sheaves of types on `X`
+   - is a monomorphism iff it is injective on every open set (an injective map of sheaves,
+     Stacks 007U (4)), iff it is injective on every stalk;
+   - is an epimorphism iff it is locally surjective (a surjective map of sheaves,
+     Stacks 007U (5); `TopCat.Presheaf.IsLocallySurjective` is that notion by
+     `SheafInjectiveSurjective.isLocallySurjective_iff_exists_cover`), iff it is surjective
+     on every stalk.
+-/
+@[stacks 0H7H]
+theorem presheaf_sheaf_epi_mono_iff_surjective_injective :
+    -- Part (1): presheaves
+    (∀ {F G : TopCat.Presheaf (Type u) X} (f : F ⟶ G),
+        Mono f ↔ ∀ U : (Opens X)ᵒᵖ, Function.Injective (f.app U)) ∧
+    (∀ {F G : TopCat.Presheaf (Type u) X} (f : F ⟶ G),
+        Epi f ↔ ∀ U : (Opens X)ᵒᵖ, Function.Surjective (f.app U)) ∧
+    -- Part (2): sheaves
+    (∀ {F G : TopCat.Sheaf (Type u) X} (f : F ⟶ G),
+        Mono f ↔ ∀ U : (Opens X)ᵒᵖ, Function.Injective (f.1.app U)) ∧
+    (∀ {F G : TopCat.Sheaf (Type u) X} (f : F ⟶ G),
+        Mono f ↔ ∀ x : X,
+          Function.Injective ((TopCat.Presheaf.stalkFunctor (Type u) x).map f.1)) ∧
+    (∀ {F G : TopCat.Sheaf (Type u) X} (f : F ⟶ G),
+        Epi f ↔ TopCat.Presheaf.IsLocallySurjective f.1) ∧
+    (∀ {F G : TopCat.Sheaf (Type u) X} (f : F ⟶ G),
+        Epi f ↔ ∀ x : X,
+          Function.Surjective ((TopCat.Presheaf.stalkFunctor (Type u) x).map f.1)) :=
+  ⟨@presheaf_mono_iff_injective X,
+   @presheaf_epi_iff_surjective X,
+   @sheaf_mono_iff_app_injective X,
+   @sheaf_mono_iff_stalk_injective X,
+   @sheaf_epi_iff_isLocallySurjective X,
    @sheaf_epi_iff_stalk_surjective X⟩

@@ -152,9 +152,7 @@ theorem undeformedLiftDifferenceData_descend_eq_zero (c c' : X ⟶ W)
 /-- **The `𝒪_Z`-linear map `a^*Ω_{W/V} ⟶ 𝒞_{Z/X}` by which two lifts into an undeformed target
 differ.**  The sectionwise difference of their two comorphisms, read as a `V`-derivation of
 `𝒪_W` with values in `a_*𝒞_{Z/X}` and transposed to a map out of `a^*Ω_{W/V}`. -/
-@[stacks 0618 "the difference of two lifts of a morphism over a base along a first order \
-thickening of the source, for an UNDEFORMED target, where condition (3) of 061A is vacuous",
-  stacks 0619 "the difference read as a map out of the pulled back differentials, for an \
+@[stacks 0619 "the difference read as a map out of the pulled back differentials, for an \
 undeformed target"]
 def undeformedLiftDiff (c c' : X ⟶ W)
     (h : subspaceInclusion B S hS X Z ≫ c = a)

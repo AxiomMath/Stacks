@@ -21,14 +21,17 @@ final object of `C`, and the localized morphism of ringed topoi
 structure sheaf.
 
 Those four facts — the covering, the functor, its colimit preservation and the two
-identifications — are the whole of what Section 03DG of the source prescribes, and they mention
-no property of modules.  Its condition (3) asks that a property be preserved by pullback along a
-morphism of ringed sites given by a left exact continuous functor between sites having all
-finite limits, and the functor that verification needs is the pullback along the localized
+identifications — mention no property of modules.  Condition (3) of the method of Section 03DG
+asks that a property be preserved by pullback along a morphism of ringed sites given by a left
+exact continuous functor between sites having all finite limits, and the functor that
+verification needs, for the local properties of Stacks 03DL, is the pullback along the localized
 morphism of ringed topoi.  Once the datum is in hand, a property is carried across by whatever
 colimits express it: a global presentation of `F|_{W_i}` becomes one of `(f^*F)|_{U_i}`, so
 `f^*F` is quasi-coherent; a finite free cofan on `F|_{W_i}` becomes one on `(f^*F)|_{U_i}`, so
-`f^*F` is finite locally free.  This file supplies the datum and both consumers.
+`f^*F` is finite locally free.  This file supplies the datum and its consumers, which verify
+condition (3) for four of the local properties.  The method itself — the definition of an
+intrinsic property and the two conclusions Section 03DG draws from its conditions — is
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/IntrinsicProperty.lean`.
 
 `Stacks.SheafOfModules.QuasicoherentData.MapData` is the shape in which the quasi-coherent
 consumer is phrased, and it is the step whose absence the implementation notes of
@@ -434,9 +437,6 @@ pieces above: colimit preservation is
 `Stacks.Sheaves.LocalizedPullback.preservesColimitsOfSize_localizedPullbackTopos`, the unit
 isomorphism is `.localizedPullbackUnitIso`, and the identification of the transported module is
 `.localizedPullbackOverIso`. -/
-@[stacks 03DG "condition (3) of the method, for the quasi-coherent property: the datum needed to
-  carry a global presentation along a pullback is the pullback along the localized morphism of
-  ringed topoi of 04J0, and this constructs it"]
 def localizedPullbackMapData (q : M.QuasicoherentData.{ww}) :
     Stacks.SheafOfModules.QuasicoherentData.MapData
       f.toRingedToposSiteHom.pullbackTopos q where
@@ -461,10 +461,7 @@ This is the case to which Stacks 03DO's own proof reduces its quasi-coherent cla
 Section 03DG; the general statement, for an arbitrary morphism of ringed topoi, is
 `AlgebraicGeometry.RingedToposHom.isQuasicoherentOnSite_pullbackModules`, which transports this
 one along the two equivalences of ringed topoi that Stacks 03CR produces. -/
-@[stacks 03DG "condition (3) verified for the quasi-coherent property: the pullback of a
-  quasi-coherent module along a morphism of ringed sites presented by a left exact continuous
-  functor is quasi-coherent",
-  stacks 03DO "quasi_coherent, for a morphism of ringed *sites* presented by a left exact
+@[stacks 03DO "quasi_coherent, for a morphism of ringed *sites* presented by a left exact
   continuous functor — the case 03DO's own proof reduces its quasi-coherent clause to through
   Section 03DG. The clause for an arbitrary morphism of ringed topoi is
   `AlgebraicGeometry.RingedToposHom.isQuasicoherentOnSite_pullbackModules`, which transports this
@@ -516,10 +513,7 @@ This is the case to which Stacks 03DO's own proof reduces its quasi-coherent cla
 Section 03DG; the general statement, for an arbitrary morphism of ringed topoi, is
 `AlgebraicGeometry.RingedToposHom.isQuasicoherentOnSite_pullbackModules`, which transports this
 one along the two equivalences of ringed topoi that Stacks 03CR produces. -/
-@[stacks 03DG "condition (3) verified for the quasi-coherent property, with the hypothesis in the
-  form 03DO states it: the pullback of a quasi-coherent module along a morphism of ringed sites
-  presented by a left exact continuous functor is quasi-coherent",
-  stacks 03DO "quasi_coherent, for a morphism of ringed *sites* presented by a left exact
+@[stacks 03DO "quasi_coherent, for a morphism of ringed *sites* presented by a left exact
   continuous functor — the case 03DO's own proof reduces its quasi-coherent clause to through
   Section 03DG. The clause for an arbitrary morphism of ringed topoi is
   `AlgebraicGeometry.RingedToposHom.isQuasicoherentOnSite_pullbackModules`, which transports this
@@ -548,9 +542,7 @@ the localized morphism of ringed topoi of Stacks 04J0 preserves colimits, carrie
 modules; the property enters only through
 `Stacks.Sheaves.LocalizedPullback.isFiniteFree_map`, which is the statement that finite freeness
 is expressed by a colimit. -/
-@[stacks 03DG "condition (3) of the method, for the finite locally free property: the datum
-  needed to carry a finite free cofan along a pullback is the pullback along the localized
-  morphism of ringed topoi of 04J0, and this is that transport", ega "0 5.4.5" "partial"]
+@[ega "0 5.4.5" "partial"]
 theorem isFiniteFree_over_pullbackTopos (W : Y.C)
     (h : _root_.SheafOfModules.IsFiniteFree ((Stacks.SheafOfModules.Tensor.ringSheaf Y.O).over W)
       (M.over W)) :
@@ -579,10 +571,7 @@ This is the case to which Stacks 03DO's own proof reduces the clause through Sec
 general statement, for an arbitrary morphism of ringed topoi, is
 `AlgebraicGeometry.RingedToposHom.isFiniteLocallyFreeOnSite_pullbackModules`, which transports
 this one along the two equivalences of ringed topoi that Stacks 03CR produces. -/
-@[stacks 03DG "condition (3) verified for the finite locally free property: the pullback of a
-  finite locally free module along a morphism of ringed sites presented by a left exact
-  continuous functor is finite locally free",
-  stacks 03DO "the finite locally free property, clause 03DL (2), for a morphism of ringed
+@[stacks 03DO "the finite locally free property, clause 03DL (2), for a morphism of ringed
   *sites* presented by a left exact continuous functor — the case 03DO's own proof reduces that
   clause to through Section 03DG. The clause for an arbitrary morphism of ringed topoi is
   `AlgebraicGeometry.RingedToposHom.isFiniteLocallyFreeOnSite_pullbackModules`, which transports
@@ -612,9 +601,6 @@ a coproduct of copies of `O_{u(W)}` indexed by the same type.
 As for finite freeness, the three pieces of the localized pullback datum are what the transport
 consumes, and the property enters only through
 `Stacks.Sheaves.LocalizedPullback.isFree_map`. -/
-@[stacks 03DG "condition (3) of the method, for the locally free property: the datum needed to
-  carry a free cofan along a pullback is the pullback along the localized morphism of ringed
-  topoi of 04J0, and this is that transport"]
 theorem isFree_over_pullbackTopos (W : Y.C)
     (h : (M.over W).IsFree) :
     ((f.toRingedToposSiteHom.pullbackTopos.obj M).over (f.u.obj W)).IsFree :=
@@ -639,10 +625,7 @@ This is the case to which Stacks 03DO's own proof reduces the clause through Sec
 general statement, for an arbitrary morphism of ringed topoi, is
 `AlgebraicGeometry.RingedToposHom.isLocallyFreeOnSite_pullbackModules`, which transports this
 one along the two equivalences of ringed topoi that Stacks 03CR produces. -/
-@[stacks 03DG "condition (3) verified for the locally free property: the pullback of a locally
-  free module along a morphism of ringed sites presented by a left exact continuous functor is
-  locally free",
-  stacks 03DO "the locally free property, clause 03DL (1), for a morphism of ringed *sites*
+@[stacks 03DO "the locally free property, clause 03DL (1), for a morphism of ringed *sites*
   presented by a left exact continuous functor — the case 03DO's own proof reduces that clause
   to through Section 03DG. The clause for an arbitrary morphism of ringed topoi is
   `AlgebraicGeometry.RingedToposHom.isLocallyFreeOnSite_pullbackModules`, which transports this
@@ -669,9 +652,6 @@ The transport is Mathlib's `SheafOfModules.GeneratingSections.map`, whose two hy
 again pieces of the localized pullback datum: colimit preservation and the identification of the
 two structure sheaves.  The identification of the transported module with `(f^*M)|_{u(W)}` is
 `Stacks.Sheaves.LocalizedPullback.localizedPullbackOverIso`. -/
-@[stacks 03DG "condition (3) of the method, for the locally generated property: the datum needed
-  to carry a generating family of global sections along a pullback is the pullback along the
-  localized morphism of ringed topoi of 04J0, and this is that transport"]
 def generatingSectionsPullbackTopos (W : Y.C) (σ : (M.over W).GeneratingSections) :
     ((f.toRingedToposSiteHom.pullbackTopos.obj M).over (f.u.obj W)).GeneratingSections :=
   have : PreservesColimitsOfSize.{u, u}
@@ -702,10 +682,7 @@ transports this one along the two equivalences of ringed topoi that Stacks 03CR 
 clause for local generation by a fixed number `r` of sections, Stacks 03DL (4), is proved for an
 arbitrary morphism of ringed topoi in
 `Stacks.Sheaves.LocalGeneration.pullbackModules_isLocallyGeneratedByOnSite`. -/
-@[stacks 03DG "condition (3) verified for the locally generated property: the pullback of a
-  module locally generated by sections along a morphism of ringed sites presented by a left exact
-  continuous functor is locally generated by sections",
-  stacks 03DO "the locally generated property, clause 03DL (3), for a morphism of ringed *sites*
+@[stacks 03DO "the locally generated property, clause 03DL (3), for a morphism of ringed *sites*
   presented by a left exact continuous functor — the case 03DO's own proof reduces that clause
   to through Section 03DG. The clause for an arbitrary morphism of ringed topoi is
   `AlgebraicGeometry.RingedToposHom.isLocallyGeneratedBySectionsOnSite_pullbackModules`, which

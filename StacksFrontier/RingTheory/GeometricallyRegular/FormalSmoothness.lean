@@ -464,7 +464,7 @@ private lemma exists_section_of_surjective_of_formallySmooth.{u, v, w}
   rw [RingHom.quotientKerEquivOfSurjective_apply_mk] at h
   exact h.trans (e.apply_symm_apply b)
 
-private lemma flat_of_surjective_of_formallySmooth.{u, v, w}
+lemma flat_of_surjective_of_formallySmooth.{u, v, w}
     {A : Type v} {B : Type w} {C : Type u}
     [CommRing A] [CommRing B] [IsLocalRing B] [IsNoetherianRing B]
     [CommRing C] [IsLocalRing C] [IsAdicComplete (maximalIdeal C) C]

@@ -166,11 +166,12 @@ assume it, so it is supplied for this system and consumed by
 on `pow_smul_le_range_cohomologyProj`, which is the surjection `Iⁿ ⊗ Hᵖ(X, ℱ) → IⁿHᵖ(X, ℱ)`
 of the source's diagram read as a statement about the image of `Hᵖ(X, Iⁿℱ) → Hᵖ(X, ℱ)`.
 
-The hypothesis `h02O8` is [Stacks, Tag 02O8] -- a *different* Stacks tag, absent from this
-branch -- carried in general form: it is quantified over every Noetherian base ring, every
-ideal of it, every proper scheme over it, every coherent module and every degree, and is
-instantiated inside the proof at the data of this statement. See `IsCohomologyReesFinite` for
-why it is absent and what is new about its being statable.
+The hypothesis `h02O8` is [Stacks, Tag 02O8] carried in general form: it is quantified over
+every Noetherian base ring, every ideal of it, every proper scheme over it, every coherent
+module and every degree, and is instantiated inside the proof at the data of this statement.
+Tag 02O8 is `Stacks.Cohomology.FormalFunctions.isCohomologyReesFinite`; the hypothesis-free form
+of [Stacks, Tag 02OA] is
+`Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_of_isProper`.
 
 Cf. Stacks Tag 02OA; not registered because it carries the hypothesis `h02O8`, the Rees finiteness
 of Stacks Tag 02O8 for every coherent module on every proper scheme over a Noetherian ring. -/

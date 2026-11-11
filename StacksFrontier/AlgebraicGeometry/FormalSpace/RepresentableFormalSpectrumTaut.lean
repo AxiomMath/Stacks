@@ -74,8 +74,9 @@ formal algebraic spaces by Stacks 0AIF. They are carried in exactly the place an
 the reason that the converse implication
 `AlgebraicGeometry.FormalSpace.isRepresentableByAlgebraicSpacesULift_formalSpectrumMap_of_isTaut`
 carries `hE`, which is the second of them; the source states Stacks 0AN5 over an arbitrary
-scheme `S` and with no condition on the site, so the tag attached here names the implication and
-the two conditions. No separatedness hypothesis on `Spf A` is needed: the affine-test-scheme
+scheme `S` and with no condition on the site, so this implication is not registered under the
+tag, which is recorded at
+`AlgebraicGeometry.FormalSpace.formalSpectrumMap_tfae_of_isAffineFormalAlgebraicSpace`. No separatedness hypothesis on `Spf A` is needed: the affine-test-scheme
 case of Stacks 0AKN holds with none, by
 `AlgebraicGeometry.FormalSpace.relative_isAffineHom_of_isAffine_source`.
 
@@ -158,12 +159,9 @@ formal spectrum `Spf φ : Spf C ⟶ Spf A` is representable by algebraic spaces 
 underlying ring map of `φ` is taut.
 
 Two hypotheses beyond those of the source are carried, the set-theoretic conditions
-`D.HasLargeSite` and `E.HasLargeSite` on the site; they are named in the tag. See the
-implementation notes of this file. -/
-@[stacks 0AN5 "(1) implies (3), under the set-theoretic conditions \
-`AlgebraicGeometry.FormalSpace.QuotientSystem.HasLargeSite` on both quotient systems, which are \
-what make the two formal spectra affine formal algebraic spaces by Stacks 0AIF; the converse \
-implication (3) implies (1) carries the second of them"]
+`D.HasLargeSite` and `E.HasLargeSite` on the site. See the implementation notes of this file.
+Stacks 0AN5 itself is recorded, under exactly the source's hypotheses, at
+`AlgebraicGeometry.FormalSpace.formalSpectrumMap_tfae_of_isAffineFormalAlgebraicSpace`. -/
 theorem isTaut_of_isRepresentableByAlgebraicSpacesULift_formalSpectrumMap
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C)

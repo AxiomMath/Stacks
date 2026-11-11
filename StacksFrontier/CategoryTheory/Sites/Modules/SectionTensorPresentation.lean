@@ -42,7 +42,7 @@ diagram is invertible on a colimit the target functor preserves.
   the map of free modules above.
 * `Stacks.Cohomology.SiteModules.isQuasicoherentOnSite_sectionTensor`: `M ⊗_A 𝒪` is quasi-coherent
   on the site for every module `M` over the global functions.
-* The global-sections statement `Γ(C, M ⊗_A 𝒪) = M` of Stacks 07UZ is not proved here; it is
+* The global-sections statement `Γ(C, M ⊗_A 𝒪) = M` of Stacks 07UZ is not proved in this file; it is
   `AlgebraicGeometry.Space.CohomologyVanishingSituation.globalSectionsTensorLinearEquiv`, with the
   unit form `AlgebraicGeometry.Space.CohomologyVanishingSituation.isIso_unit_tensorSheaf`.
 
@@ -247,9 +247,10 @@ def sectionTensorPresentation (M : ModuleCat.{max u r} (GlobalFunctionRing O)) :
     (isColimitSectionTensorPresentation O M)
 
 /-- **`M ⊗_A 𝒪` is quasi-coherent on the site for every module `M` over the global functions.**
-It is the cokernel of a map of free sheaves of `O`-modules, which is a global presentation. -/
-@[stacks 07UZ "quasi-coherence of the module M ⊗_A 𝒪_X attached to a module over the global \
-functions"]
+It is the cokernel of a map of free sheaves of `O`-modules, which is a global presentation.  This is a step towards Stacks 07UZ, which is proved in full,
+and registered, as
+`AlgebraicGeometry.Space.CohomologyVanishingSituation.isIso_unit_tensorSheaf` and
+`AlgebraicGeometry.Space.CohomologyVanishingSituation.globalSectionsTensorLinearEquiv`. -/
 theorem isQuasicoherentOnSite_sectionTensor (M : ModuleCat.{max u r} (GlobalFunctionRing O)) :
     ((sectionTensorSheafFunctor.{u, v, max u r, u} O).obj M).IsQuasicoherentOnSite :=
   Stacks.SheafOfModules.isQuasicoherentOnSite_of_presentation (sectionTensorPresentation O M)

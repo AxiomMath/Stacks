@@ -32,7 +32,7 @@ over the affine components of `U`, which are quotients of the sections of `ℳ` 
 ## References
 
 * [Stacks Project, Tag 03FX](https://stacks.math.columbia.edu/tag/03FX)
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 -/
 
 @[expose] public noncomputable section

@@ -32,6 +32,11 @@ affine and `Y` is quasi-compact and quasi-separated, then `Rg_*B` has finite Tor
   the case of a morphism of affine schemes, with the same interval.
 * `AlgebraicGeometry.hasFiniteTorDimension_schemeDerivedPushforward_of_hasTorAmplitudeOver`: the
   case of a quasi-compact quasi-separated source over an affine base.
+* `AlgebraicGeometry.locallyHasFiniteTorDimension_derivedPushforward_of_isProperOver`: the
+  Tor-dimension half for a morphism locally of finite type to a locally Noetherian scheme and an
+  object whose cohomological support is proper over the base.
+* [Stacks, Tag 08EV], under exactly the source's hypotheses:
+  `Stacks.AlgebraicGeometry.ProperSupportCoherent.isPerfect_derivedPushforward_of_isProperOver_supp`
 
 ## Implementation notes
 
@@ -329,16 +334,32 @@ open _root_.AlgebraicGeometry
 
 attribute [local instance 10000] HasDerivedCategory.standard
 
-/-- Let `S` be a Noetherian scheme, `f : X ⟶ S` a morphism locally of finite type and `E` an
-object of `D(𝒪_X)` such that
+/-- **[Stacks, Tag 08EV].** Let `S` be a Noetherian scheme, `f : X ⟶ S` a morphism locally of
+finite type and `E` an object of `D(𝒪_X)` such that
 
 1. `E` is in `D^b_{Coh}(𝒪_X)`: it is bounded, `E ∈ D^{≥ a} ∩ D^{≤ b}`, and its cohomology sheaves
    are coherent;
 2. the support of `H^i(E)` is proper over `S` for every `i`;
 3. `E` has finite Tor dimension as an object of `D(f⁻¹𝒪_S)`.
 
-Then `Rf_*E` is a perfect object of `D(𝒪_S)`. -/
-@[stacks 08EV,
+Then `Rf_*E` is a perfect object of `D(𝒪_S)`.
+
+`Rf_*` is `AlgebraicGeometry.derivedPushforwardModules`, the total right derived functor of
+degreewise pushforward, and clause (3) is Tor dimension over the inverse-image ringed space
+`(X, f⁻¹𝒪_S)` for its canonical derived tensor product. As in the source, the proof splits the
+conclusion by [Stacks, Tag 08CQ]: pseudo-coherence comes from [Stacks, Tag 08E2] and
+[Stacks, Tag 08E8], and locally finite Tor dimension from
+`AlgebraicGeometry.locallyHasFiniteTorDimension_derivedPushforward_of_isProperOver`. That second
+half follows the source's reduction — one closed subset proper over `S` carrying all the
+cohomological support ([Stacks, Tag 0CYR]), and a quasi-compact open neighbourhood of it over each
+affine open of `S` — and then replaces the source's appeal to [Stacks, Tag 08EU] and
+[Stacks, Tag 08EA] by a Mayer--Vietoris induction from the affine case, where the statement is
+commutative algebra. -/
+@[stacks 08EV "the source's statement and hypotheses: S Noetherian, f locally of finite type, E \
+bounded with coherent cohomology sheaves whose supports are proper over S and of finite Tor \
+dimension over f⁻¹𝒪_S for its canonical derived tensor product; Rf_* is the total right derived \
+functor of degreewise pushforward. The Tor-dimension half is proved by a Mayer–Vietoris \
+induction from the affine case rather than through Tag 08EU and Tag 08EA",
   sga "6 0 3.1" "more general",
   sga "6 0 4.1" "more general",
   sga "6 XIV 2.2" "special case"]

@@ -19,14 +19,17 @@ with `p' ⊆ q`, then a single element of `A` outside `p` annihilates `H^i_{V(I)
 ## Main results
 
 * `Stacks.LocalCohomology.exists_notMem_and_mem_annihilator_localCohomologyWithSupportIn` —
-  Tag 0EFE.
+  the deduction of Tag 0EFE from Faltings' annihilator theorem, Tag 0EFC.
 
 ## Implementation notes
 
-Faltings' annihilator theorem, Tag 0EFC, is not available in this library and is carried as the
-hypothesis `hFaltings`, whose type is the statement of
-`Stacks.LocalCohomology.exists_ideal_le_annihilator_localCohomology_iff` quantified over the two
-supports, the degree and the dualizing complex.
+Faltings' annihilator theorem, Tag 0EFC, is
+`Stacks.LocalCohomology.exists_ideal_le_annihilator_localCohomology_iff`, proved in
+`StacksFrontier.RingTheory.LocalCohomology.FaltingsAnnihilator`; here it enters as the argument
+`hFaltings`, whose type is that statement quantified over the two supports, the degree and the
+dualizing complex. Discharging it gives
+`Stacks.LocalCohomology.exists_notMem_mem_annihilator_localCohomologyWithSupportIn_of_dualizing`,
+which carries Tag 0EFE.
 
 The set `T'` of the source, the union of the `V(f)` over `f ∉ p`, is exactly the set of primes
 not contained in `p`. An ideal whose zero locus lies in `T'` is therefore not contained in `p`,
@@ -49,11 +52,10 @@ universe u
 
 namespace Stacks.LocalCohomology
 
-/-- **Stacks 0EFE.** For `M` finite over a Noetherian ring `A` with a dualizing complex and `p`
+/-- **The deduction of Stacks 0EFE from Stacks 0EFC.** For `M` finite over a Noetherian ring `A` with a dualizing complex and `p`
 a prime outside `V(I)`, if `depth_{A_{p'}}(M_{p'}) + dim((A/p')_q) > s` for all primes `p' ⊆ p`
 and all `q ∈ V(I)` with `p' ⊆ q`, then some `f ∈ A` outside `p` annihilates `H^i_{V(I)}(M)`
 for every `i ≤ s`. -/
-@[stacks 0EFE "the lemma, on the hypothesis hFaltings carrying Tag 0EFC"]
 public theorem exists_notMem_and_mem_annihilator_localCohomologyWithSupportIn
     (A : Type u) [CommRing A] [IsNoetherianRing A]
     (M : Type u) [AddCommGroup M] [Module A M] [Module.Finite A M]

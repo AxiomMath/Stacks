@@ -18,29 +18,42 @@ between the induced morphisms of (normalized) Moore complexes.
 ## The chain homotopy induced by a simplicial homotopy
 
 Let `A` be a preadditive category, let `U`, `V` be simplicial objects of `A` and let `a, b : U ⟶ V`
-be morphisms. A simplicial homotopy from `a` to `b` is, in the form of [Stacks, Tag 019M], a family
-of morphisms `h_{n,i} : Uₙ ⟶ Vₙ` for `n ≥ 0` and `0 ≤ i ≤ n + 1` satisfying the relations of
-[Stacks, Tag 019L]; in particular `h_{n,0} = bₙ` and `h_{n,n+1} = aₙ`. Out of such a family one
+be morphisms. A homotopy from `a` to `b` is a morphism `h : U × Δ[1] ⟶ V` with `e₀ ≫ h = a` and
+`e₁ ≫ h = b` ([Stacks, Tag 019K], `CategoryTheory.SimplicialObject.IsHomotopy`), and by
+[Stacks, Tag 019L] it is the same thing as a family of morphisms `h_{n,i} : Uₙ ⟶ Vₙ`, for `n ≥ 0`
+and `0 ≤ i ≤ n + 1`, satisfying the relations `CategoryTheory.SimplicialObject.HtpyRel a b`; in
+particular `h_{n,0} = bₙ` and `h_{n,n+1} = aₙ`. Out of such a family [Stacks, Section 019Q]
 builds a homotopy of chain complexes between the two induced maps `s(a), s(b) : s(U) ⟶ s(V)` of
 Moore complexes, whose degree-`n` component `s(h)ₙ : Uₙ ⟶ V_{n+1}` is the alternating sum
 
 `s(h)ₙ = ∑_{i=0}^{n} (-1)^{i+1} h_{n+1,i+1} ∘ sⁿᵢ`
 
-of the composites of the degeneracies `sⁿᵢ : Uₙ ⟶ U_{n+1}` with the components of `h`. That the
-resulting family is a chain homotopy, i.e. satisfies `d_{n+1} ∘ s(h)ₙ + s(h)_{n-1} ∘ dₙ = aₙ - bₙ`,
-is [Stacks, Tag 019S].
+of [Stacks, Equation 019R]. That the resulting family is a chain homotopy, i.e. satisfies
+`d_{n+1} ∘ s(h)ₙ + s(h)_{n-1} ∘ dₙ = aₙ - bₙ`, is [Stacks, Tag 019S].
 
-A simplicial homotopy is `CategoryTheory.SimplicialObject.Homotopy`, which records the composites
-appearing in the displayed sum: `Homotopy.h i : Uₙ ⟶ V_{n+1}`, indexed by `i : Fin (n + 1)`, is
-`h_{n+1,i+1} ∘ sⁿᵢ`. The chain homotopy `s(h)` is `Homotopy.toChainHomotopy`; together with
-`Homotopy.ToChainHomotopy.hom_eq_zero`, which kills the components in the remaining bidegrees, the
-result below determines it completely.
+Mathlib's `CategoryTheory.SimplicialObject.Homotopy a b` records instead the composites appearing
+in the displayed sum, `Homotopy.h i : Uₙ ⟶ V_{n+1}` for `i : Fin (n + 1)`, and its
+`Homotopy.toChainHomotopy` is a chain homotopy between `s(a)` and `s(b)`. The bridge
+`HtpyRel.toHomotopy` turns a family satisfying the relations of [Stacks, Tag 019L] into the
+Mathlib homotopy whose `i`-th component in degree `n` is `h_{n+1,i+1} ∘ sⁿᵢ`, and the chain
+homotopy `s(h)` of the source is the `toChainHomotopy` of that homotopy: its degree-`n`
+component is the displayed sum, literally, and its components in the other bidegrees vanish
+(`Homotopy.ToChainHomotopy.hom_eq_zero`).
+
+### Main definitions
+
+* `CategoryTheory.SimplicialObject.HtpyRel.toHomotopy`: the Mathlib simplicial homotopy from `a`
+  to `b` with components `h_{n+1,i+1} ∘ sⁿᵢ`, out of a family `h_{n,i}` satisfying the relations
+  of [Stacks, Tag 019L].
 
 ### Main results
 
-* `CategoryTheory.SimplicialObject.Homotopy.ToChainHomotopy.hom_eq`: the degree-`n` component
-  of the chain homotopy `s(h)` induced by a simplicial homotopy `h` is the alternating sum
-  `-∑_{i=0}^{n} (-1)^i h_{n+1,i+1} ∘ sⁿᵢ`.
+* `CategoryTheory.SimplicialObject.HtpyRel.toChainHomotopy_hom_eq`: the degree-`n` component of
+  the chain homotopy `s(h)` induced by a family `h_{n,i}` satisfying the relations of
+  [Stacks, Tag 019L] is `∑_{i=0}^{n} (-1)^{i+1} h_{n+1,i+1} ∘ sⁿᵢ`.
+* `CategoryTheory.SimplicialObject.IsHomotopy.toChainHomotopy_hom_eq`: the same for a homotopy
+  `h : U × Δ[1] ⟶ V` in the sense of [Stacks, Tag 019K], with `h_{n,i}` its components
+  `homotopyComponent h n i`.
 
 ### References
 
@@ -49,16 +62,134 @@ result below determines it completely.
 
 section
 
-open CategoryTheory Opposite
+@[expose] public section
+
+open CategoryTheory CategoryTheory.Limits Opposite SSet
 
 open scoped Simplicial
 
-universe v u
+universe w v u
 
-add_to_stacks 019R "the components of the chain homotopy `s(h) = toChainHomotopy` \
-  induced by a simplicial homotopy `h`, with the sign `(-1)^{i+1}` pulled out of the \
-  sum and `h.h i` denoting the composite `h_{n+1,i+1} ∘ sⁿᵢ`"
-  CategoryTheory.SimplicialObject.Homotopy.ToChainHomotopy.hom_eq
+namespace CategoryTheory.SimplicialObject.HtpyRel
+
+variable {C : Type u} [Category.{v} C] {U V : SimplicialObject C} {a b : U ⟶ V}
+  {hc : ∀ (n : ℕ), Fin (n + 2) →
+    (U.obj (op (SimplexCategory.mk n)) ⟶ V.obj (op (SimplexCategory.mk n)))}
+
+/-- Relation 2 of [Stacks, Tag 019L], with the index of the right-hand component given by its
+value. -/
+private lemma face_gt' (hrel : HtpyRel a b hc) (n : ℕ) (j : Fin (n + 2)) (i : Fin (n + 3))
+    (k : Fin (n + 2)) (hij : j.castSucc < i) (hk : (k : ℕ) + 1 = i) :
+    hc (n + 1) i ≫ V.δ j = U.δ j ≫ hc n k :=
+  (hrel.face_gt n j i hij).trans (congrArg (U.δ j ≫ hc n ·) (Fin.ext (by simp; omega)))
+
+/-- Relation 3 of [Stacks, Tag 019L], with the index of the right-hand component given by its
+value. -/
+private lemma face_le' (hrel : HtpyRel a b hc) (n : ℕ) (j : Fin (n + 2)) (i : Fin (n + 3))
+    (k : Fin (n + 2)) (hij : i ≤ j.castSucc) (hk : (k : ℕ) = i) :
+    hc (n + 1) i ≫ V.δ j = U.δ j ≫ hc n k :=
+  (hrel.face_le n j i hij).trans (congrArg (U.δ j ≫ hc n ·) (Fin.ext (by simp; omega)))
+
+/-- Relation 4 of [Stacks, Tag 019L], with the index of the right-hand component given by its
+value. -/
+private lemma degen_gt' (hrel : HtpyRel a b hc) (n : ℕ) (j : Fin (n + 1)) (i : Fin (n + 2))
+    (k : Fin (n + 3)) (hji : j.castSucc < i) (hk : (k : ℕ) = i + 1) :
+    hc n i ≫ V.σ j = U.σ j ≫ hc (n + 1) k :=
+  (hrel.degen_gt n j i hji).trans (congrArg (U.σ j ≫ hc (n + 1) ·) (Fin.ext (by simp; omega)))
+
+/-- Relation 5 of [Stacks, Tag 019L], with the index of the right-hand component given by its
+value. -/
+private lemma degen_le' (hrel : HtpyRel a b hc) (n : ℕ) (j : Fin (n + 1)) (i : Fin (n + 2))
+    (k : Fin (n + 3)) (hij : i ≤ j.castSucc) (hk : (k : ℕ) = i) :
+    hc n i ≫ V.σ j = U.σ j ≫ hc (n + 1) k :=
+  (hrel.degen_le n j i hij).trans (congrArg (U.σ j ≫ hc (n + 1) ·) (Fin.ext (by simp; omega)))
+
+/-- The Mathlib simplicial homotopy from `a` to `b` attached to a family `h_{n,i} : Uₙ ⟶ Vₙ`
+satisfying the relations of [Stacks, Tag 019L]: its `i`-th component in degree `n`, for
+`0 ≤ i ≤ n`, is the composite `h_{n+1,i+1} ∘ sⁿᵢ : Uₙ ⟶ V_{n+1}` of the footnote to
+[Stacks, Tag 019M]. -/
+noncomputable def toHomotopy (hrel : HtpyRel a b hc) : Homotopy a b where
+  h i := U.σ i ≫ hc _ i.succ.castSucc
+  h_zero_comp_δ_zero n := by
+    rw [Category.assoc, hrel.face_gt' n 0 _ 0 (by simp) (by simp),
+      ← Category.assoc, U.δ_comp_σ_self' (by simp), Category.id_comp, hrel.bdry₀]
+  h_last_comp_δ_last n := by
+    rw [Category.assoc, hrel.face_le' n (Fin.last (n + 1)) _ (Fin.last (n + 1))
+      (by simp) (by simp), ← Category.assoc,
+      U.δ_comp_σ_succ' (Fin.succ_last n).symm, Category.id_comp, hrel.bdry₁]
+  h_succ_comp_δ_castSucc_of_lt i j hij := by
+    rw [Category.assoc, hrel.face_gt' _ i.castSucc _ j.succ.castSucc
+      (by simp only [Fin.lt_def, Fin.le_def, Fin.val_castSucc,
+        Fin.val_succ] at hij ⊢; omega) (by simp), ← Category.assoc,
+      U.δ_comp_σ_of_le hij, Category.assoc]
+  h_succ_comp_δ_castSucc_succ j := by
+    rw [Category.assoc, Category.assoc,
+      hrel.face_gt' _ j.castSucc.succ _ j.succ.castSucc (by simp [Fin.lt_def]) (by simp),
+      hrel.face_le' _ j.castSucc.succ _ j.succ.castSucc (by simp) (by simp),
+      ← Category.assoc, ← Category.assoc, U.δ_comp_σ_self' (Fin.ext (by simp)),
+      U.δ_comp_σ_succ]
+  h_castSucc_comp_δ_succ_of_lt i j hji := by
+    rw [Category.assoc, hrel.face_le' _ i.succ _ j.succ.castSucc
+      (by simp only [Fin.lt_def, Fin.le_def, Fin.val_castSucc,
+        Fin.val_succ] at hji ⊢; omega) (by simp), ← Category.assoc,
+      U.δ_comp_σ_of_gt hji, Category.assoc]
+  h_comp_σ_castSucc_of_le i j hij := by
+    rw [Category.assoc, hrel.degen_gt' _ i.castSucc _ j.succ.succ.castSucc
+      (by simp only [Fin.lt_def, Fin.le_def, Fin.val_castSucc,
+        Fin.val_succ] at hij ⊢; omega) (by simp), ← Category.assoc,
+      U.σ_comp_σ hij, Category.assoc]
+  h_comp_σ_succ_of_lt i j hji := by
+    rw [Category.assoc, hrel.degen_le' _ i.succ _ j.castSucc.succ.castSucc
+      (by simp only [Fin.le_def, Fin.val_castSucc,
+        Fin.val_succ] at hji ⊢; omega) (by simp), ← Category.assoc,
+      ← U.σ_comp_σ hji, Category.assoc]
+
+variable [Preadditive C]
+
+/-- **The chain homotopy induced by a simplicial homotopy.** Let `h_{n,i} : Uₙ ⟶ Vₙ` be a family
+satisfying the relations of [Stacks, Tag 019L] relative to `a, b : U ⟶ V`, that is, a homotopy
+from `a` to `b` in the form of [Stacks, Tag 019M]. Then the degree-`n` component
+`s(h)ₙ : Uₙ ⟶ V_{n+1}` of the induced chain homotopy between `s(a)` and `s(b)` is
+`∑_{i=0}^{n} (-1)^{i+1} h_{n+1,i+1} ∘ sⁿᵢ`. -/
+@[stacks 019R "the chain homotopy `s(h)` is `toChainHomotopy` of the bridge \
+  `HtpyRel.toHomotopy` to Mathlib's `SimplicialObject.Homotopy`, a chain homotopy between \
+  `s(a)` and `s(b)` (019S); stated is its degree-`n` component, in the source's form, for the \
+  family `h_{n,i}` of 019L; the components in the other bidegrees are zero by Mathlib's \
+  `Homotopy.ToChainHomotopy.hom_eq_zero`"]
+theorem toChainHomotopy_hom_eq (hrel : HtpyRel a b hc) (n : ℕ) :
+    hrel.toHomotopy.toChainHomotopy.hom n (n + 1) =
+      ∑ i : Fin (n + 1), ((-1 : ℤ) ^ ((i : ℕ) + 1)) • (U.σ i ≫ hc (n + 1) i.succ.castSucc) := by
+  change Homotopy.ToChainHomotopy.hom hrel.toHomotopy n (n + 1) = _
+  rw [Homotopy.ToChainHomotopy.hom_eq, ← Finset.sum_neg_distrib]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [pow_succ, mul_neg_one, neg_smul]
+  rfl
+
+end CategoryTheory.SimplicialObject.HtpyRel
+
+namespace CategoryTheory.SimplicialObject.IsHomotopy
+
+variable {C : Type u} [Category.{v} C] [Preadditive C] {U V : SimplicialObject C} {a b : U ⟶ V}
+  [∀ m, HasCoproduct fun _ : (Δ[1] : SSet.{w}).obj m => U.obj m]
+
+/-- **The chain homotopy induced by a homotopy `U × Δ[1] ⟶ V`.** Let `h : U × Δ[1] ⟶ V` be a
+homotopy from `a` to `b` in the sense of [Stacks, Tag 019K], with components
+`h_{n,i} = homotopyComponent h n i : Uₙ ⟶ Vₙ`. Then the degree-`n` component
+`s(h)ₙ : Uₙ ⟶ V_{n+1}` of the induced chain homotopy between `s(a)` and `s(b)` is
+`∑_{i=0}^{n} (-1)^{i+1} h_{n+1,i+1} ∘ sⁿᵢ`. -/
+@[stacks 019R "the homotopy is the morphism `h : U × Δ[1] ⟶ V` of 019K, as in the source's \
+  section 019Q, and `h_{n,i}` is `homotopyComponent h n i`; the chain homotopy `s(h)` is \
+  `toChainHomotopy` of the Mathlib homotopy `(htpy_forward a b h hh).toHomotopy` built from \
+  these components through 019L"]
+theorem toChainHomotopy_hom_eq {h : U.copower Δ[1] ⟶ V} (hh : IsHomotopy h a b) (n : ℕ) :
+    (htpy_forward a b h hh).toHomotopy.toChainHomotopy.hom n (n + 1) =
+      ∑ i : Fin (n + 1),
+        ((-1 : ℤ) ^ ((i : ℕ) + 1)) • (U.σ i ≫ homotopyComponent h (n + 1) i.succ.castSucc) :=
+  (htpy_forward a b h hh).toChainHomotopy_hom_eq n
+
+end CategoryTheory.SimplicialObject.IsHomotopy
+
+end
 
 end
 

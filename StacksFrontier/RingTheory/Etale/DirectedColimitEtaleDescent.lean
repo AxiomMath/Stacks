@@ -84,7 +84,8 @@ input of Stacks 07SI, and so of Stacks 07SQ and of Stacks 07SR.
 *The concluding descent.*  Given the stage this file produces, the source forms the cartesian
 square of Stacks 084U and concludes that `X_j ⟶ Spec(G j)` is affine because affineness of a
 morphism is fpqc local on the base.  Both of those are available:
-`AlgebraicGeometry.Space.MorphismDescentSystem.exists_isIso_mapAt` carries Stacks 084S,
+`AlgebraicGeometry.Space.MorphismDescentSystem.exists_isIso_mapAt` is Stacks 084S (its
+unbounded form under the convention 07SD carries the tag),
 `AlgebraicGeometry.Space.isLocalAtTarget_isAffineHom_fpqc` carries Stacks 041Z with no hypothesis
 left, and `AlgebraicGeometry.Space.IsAffineHom.isAffineSpace_source` turns affineness over the
 affine `Spec(G j)` into affineness of the stage.

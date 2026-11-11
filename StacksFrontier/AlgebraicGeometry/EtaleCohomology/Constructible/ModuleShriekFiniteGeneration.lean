@@ -665,7 +665,9 @@ Nothing is granted. The two inputs of
 constructibility of the generators is
 `AlgebraicGeometry.isConstructibleModuleSheaf_moduleShriekConstant` (Stacks 03S8 for modules) and
 the finite generation step of the proof is
-`AlgebraicGeometry.exists_finite_epi_sigma_moduleShriekConstant_of_isConstructibleModuleSheaf`. -/
+`AlgebraicGeometry.exists_finite_epi_sigma_moduleShriekConstant_of_isConstructibleModuleSheaf`.
+This theorem and the affine one below carry the registration of 095N; the assembly steps with
+those inputs as arguments carry none. -/
 @[stacks 095N "quasi-compact quasi-separated presentation",
   sga "4 IX 2.7" "special case",
   sga "4 IX 2.9" "(ii)"]

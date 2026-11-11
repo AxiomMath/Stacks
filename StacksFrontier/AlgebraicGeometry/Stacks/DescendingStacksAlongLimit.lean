@@ -41,9 +41,11 @@ are an `i` and an algebraic stack `𝒳_i` of finite presentation over `X_i` wit
 ## Main results
 
 * `AlgebraicGeometry.Stack.StackDescentSystem.exists_stage_model_of_isFinitePresentation`:
-  **Stacks 0CN4**, with six inputs of the source's proof carried as explicit hypotheses, one of
-  which is a universe-lifting datum rather than a mathematical assumption. See the implementation
-  notes for what each carries and, where an existing result falls short of discharging it, why.
+  the conclusion of Stacks 0CN4 from five inputs of the source's proof, carried as explicit
+  hypotheses, one of which is a universe-lifting datum rather than a mathematical assumption. It
+  is an intermediate reduction; Stacks 0CN4 itself, with none of these hypotheses, is
+  `StackDescentSystem.exists_stage_model_of_isFinitePresentation_unconditional`
+  in `StacksFrontier.AlgebraicGeometry.Stacks.DescendingStacksAlongLimitTheorem`.
 * `AlgebraicGeometry.Stack.StackDescentSystem.exists_stage_model_objects` and
   `…exists_stage_model_arrows`: the essential-surjectivity clause of **Stacks 07SK** for the
   object and arrow spaces of a groupoid over the limit, proved from
@@ -63,7 +65,10 @@ and quasi-separatedness bookkeeping of Stacks 050K and 050H); Stacks 07SK and 0C
 groupoid to a stage `X_i`; Stacks 04TK makes `[U_i/R_i]` an algebraic stack; and Stacks 044P,
 044R, 046Q and 04Y1 identify `[U/R]` with `[U_i/R_i] ×_{X_i} X`.
 
-The library has the ingredients of that chain but not its assembly. What is proved unconditionally
+This module does not assemble that chain; the library does, in
+`AlgebraicGeometry.Stack.AlgebraicStacks.finitePresentationStackDescendsStatement_holds`, and
+`StackDescentSystem.exists_stage_model_of_isFinitePresentation_unconditional`
+is Stacks 0CN4 in the situation of this module with no carried input. What is proved unconditionally
 below is the part of the situation that does not need them — that the limit is a quasi-compact,
 quasi-separated algebraic space (`StackDescentSystem.limit_isAlgebraicSpace`,
 `StackDescentSystem.limit_quasiCompact`, `StackDescentSystem.limit_quasiSeparated`), by Stacks 07SF
@@ -80,8 +85,7 @@ and none of them a restatement of the conclusion:
   and `AlgebraicGeometry.Stack.isQuasiCompactStack_iff_hasAffineSmoothPresentation`. The carried
   hypothesis is the `StackDescentSystem`-free
   `GroupoidPresentationOfAffineSmoothChart`, which *receives* the chart, and
-  `AlgebraicGeometry.Stack.hasSmoothPresentationOverBase` derives the presentation over the base
-  from it. What
+  `AlgebraicGeometry.Stack.hasSmoothPresentationOverBase` derives the presentation over the base from it. What
   remains carried is Stacks 04T4 (4), (5), Stacks 04T5 (2) and the Stacks 050K / 050H bookkeeping.
 
   **Why Stacks 04T4 (4), (5) does not supply it directly.** The available datum is
@@ -194,9 +198,7 @@ and none of them a restatement of the conclusion:
   `AlgebraicGeometry.Stack.quotientStackMap_commutes` is for, and then descend the comparison by
   the fullness and faithfulness of 04W9, a fully faithful functor reflecting isomorphisms.
   `AlgebraicGeometry.GroupoidInAlgebraicSpaces.Hom.id` and `…Hom.comp` are
-  available, so the composites that an isomorphism of groupoids produces can be named.
-  `StacksFrontier/CategoryTheory/Sites/Stackification/UniversalPropertyUniqueness.lean` carries a
-  `set_option`, so the
+  available, so the composites that an isomorphism of groupoids produces can be named. `StacksFrontier/CategoryTheory/Sites/Stackification/UniversalPropertyUniqueness.lean` carries a `set_option`, so the
   construction belongs beside `quotientStackMap` and not there.
 
   Concretely the chain is four steps, of which the last three are unobstructed.
@@ -225,10 +227,7 @@ and none of them a restatement of the conclusion:
     `AlgebraicGeometry.Stack.quotientStack` is a `CategoryTheory.BasedCategory.{u + 1, u + 1}`
     while `AlgebraicStacks` objects have hom universe `u`; that is why
     `AlgebraicGeometry.Stack.liftedSpaceStack` exists. The library has no reduction the other way
-    — Stacks 0457 transports representability across an equivalence but yields no small-hom model
-    — and `AlgebraicGeometry.Stack.dimension_quotientStack_le` carries the same datum for the same
-    reason, its notes recording that `AlgebraicStacks` objects "have their morphisms one universe
-    below those of `AlgebraicGeometry.Stack.quotientStack`".
+    — Stacks 0457 transports representability across an equivalence but yields no small-hom model.
   * `hModelFinitePresentation` (`StackDescentSystem.ModelIsFinitePresentation`) is **Stacks 06Q2**
     for the model. Stacks 06Q2 is formalized as
     `AlgebraicGeometry.Stack.AlgebraicStacks.IsFinitePresentation`, the universal smooth-diagram
@@ -797,10 +796,7 @@ the objects of `AlgebraicGeometry.Stack.AlgebraicStacks` have hom universe `u`, 
 why `AlgebraicGeometry.Stack.liftedSpaceStack` exists. The library has no universe reduction in
 the other direction — Stacks 0457
 (`AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_iff_of_equivalences`) transports
-representability across an equivalence but produces no small-hom model — and the same datum is
-carried for the same reason by `AlgebraicGeometry.Stack.dimension_quotientStack_le`, whose notes
-record that `AlgebraicStacks` objects "have their morphisms one universe below those of
-`AlgebraicGeometry.Stack.quotientStack`". -/
+representability across an equivalence but produces no small-hom model. -/
 abbrev StageStackModel : Prop :=
   ∀ (i : Iᵒᵖ) (Gᵢ : GroupoidInAlgebraicSpaces B S hS (C.stageSpace i)),
     IsAlgebraicStack.{u, w} B S hS (quotientStack Gᵢ) →
@@ -867,34 +863,23 @@ theorem stageModelOfSmoothGroupoid (hModel : C.StageStackModel.{u, w})
   exact ⟨M.stack, M.structureMorphism,
     hFp i Gᵢ M hGᵢsmooth hGᵢobjects hGᵢarrows, hComparison i Gᵢ M⟩
 
-/-- **Stacks 0CN4.** Let `(X_i)` be a directed inverse system of quasi-compact, quasi-separated
-algebraic spaces over `S` with affine transition morphisms, and let `X = lim X_i`. If `𝒳` is an
-algebraic stack of finite presentation over `X`, then there are a stage `i` and an algebraic
-stack `𝒳_i` of finite presentation over `X_i` with `𝒳 ≅ 𝒳_i ×_{X_i} X` as algebraic stacks
-over `X`.
+/-- **The conclusion of Stacks 0CN4 from five steps of its proof.** Let `(X_i)` be a directed
+inverse system of quasi-compact, quasi-separated algebraic spaces over `S` with affine transition
+morphisms, and let `X = lim X_i`. Granted the inputs below, if `𝒳` is an algebraic stack of finite
+presentation over `X`, then there are a stage `i` and an algebraic stack `𝒳_i` of finite
+presentation over `X_i` with `𝒳 ≅ 𝒳_i ×_{X_i} X` as algebraic stacks over `X`.
+
+Stacks 0CN4 itself, with none of these inputs, is
+`StackDescentSystem.exists_stage_model_of_isFinitePresentation_unconditional`.
 
 Five inputs are carried as explicit hypotheses — `hPresentation`, `hDescent`,
 `hStageStackModel`, `hModelFinitePresentation` and `hModelComparison`. None is a restatement of
 this conclusion, and `hStageStackModel` is a universe-lifting datum rather than a mathematical
-assumption. The module's implementation notes say what each one is, which declaration of the library
-it
-would come from, and — for Stacks 0CN2 — exactly why the existing result falls short. What is
-discharged here is Stacks 07SF for the limit with its quasi-compactness and
-quasi-separatedness, the essential-surjectivity clause of Stacks 07SK for the object and arrow
-spaces of the presenting groupoid, Stacks 04TK on the descended groupoid, and the assembly of the
-conclusion. -/
-@[stacks 0CN4 "a reduction, not a proof: inputs of the source's proof are carried as the \
-explicit hypotheses hPresentation (Stacks 04T4 (4), (5), Stacks 04T5 (2) \
-and the 050K/050H bookkeeping, with Stacks 04YC discharged), hDescent (what is left of \
-Stacks 07SK and 0CN2 on a groupoid object once the essential-surjectivity clause is \
-discharged: the descent of s, t, c, the pointwiseGroupoid field, \
-the common stage, and Stacks 046Q), hStageStackModel (a universe-lifting datum, not a \
-mathematical assumption: a quotient stack has hom universe one above that of AlgebraicStacks), \
-hModelFinitePresentation (Stacks 06Q2 evaluated on a quotient stack) and hModelComparison \
-(Stacks 044P, 044R, 046Q and 04Y1 for a base-changed groupoid); what is discharged here is \
-Stacks 07SF for the limit with its quasi-compactness and quasi-separatedness, the \
-essential-surjectivity clause of Stacks 07SK for the object and arrow spaces of the presenting \
-groupoid, Stacks 04TK on the descended groupoid, and the assembly of the conclusion"]
+assumption. The module's implementation notes say what each one is, and — for Stacks 0CN2 —
+exactly why the existing result falls short. What is discharged here is Stacks 07SF for the limit
+with its quasi-compactness and quasi-separatedness, the essential-surjectivity clause of Stacks 07SK
+for the object and arrow spaces of the presenting groupoid, Stacks 04TK on the descended groupoid,
+and the assembly of the conclusion. -/
 theorem exists_stage_model_of_isFinitePresentation
     (hPresentation : GroupoidPresentationOfAffineSmoothChart.{u, w} B S hS hZ)
     (hDescent : C.GroupoidStructureDescendsToStage)

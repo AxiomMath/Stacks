@@ -40,8 +40,11 @@ therefore finite locally free ([Stacks, Tag 02KB]).
 * `AlgebraicGeometry.isFinite_pullback_snd_of_isFinite_morphismRestrict`: finiteness of the
   restriction of a morphism to an open of the target is finiteness of the corresponding base
   change.
-* `AlgebraicGeometry.exists_isAdmissibleBlowup_isFiniteLocallyFree_strictTransform`:
-  **[Stacks, Tag 0B49]**, with the conclusion of [Stacks, Tag 081R] carried as a hypothesis.
+* `AlgebraicGeometry.exists_isAdmissibleBlowup_isFiniteLocallyFree_strictTransform`: the
+  argument of [Stacks, Tag 0B49] from a flattening centre for `f` and `U` onwards. Tag 0B49
+  itself, with the flattening centre supplied by [Stacks, Tag 081R], is
+  `AlgebraicGeometry.exists_isAdmissibleBlowup_isFiniteLocallyFree_strictTransform_of_isProper`
+  in `StacksFrontier.AlgebraicGeometry.Flatness.Applications.FiniteLocallyFreeStrictTransformOfProper`.
 
 ## Implementation notes
 
@@ -52,21 +55,18 @@ construction `Stacks.Blowup.blowUp`, in those terms. The strict transform of `X`
 the blowup is `AlgebraicGeometry.strictTransformToBlowUp`, the closed immersion of the strict
 transform into the base change followed by the projection to the blowup.
 
-**What the carried hypothesis costs.** The hypothesis `h081R` is the conclusion of
-[Stacks, Tag 081R]: a centre `I`, finitely presented and supported away from `U`, whose strict
-transform is flat and locally of finite presentation over the blowup. Of its four clauses the
-library proves the first three,
-`AlgebraicGeometry.exists_isAdmissibleBlowup_flat_strictTransform`, and that statement itself
-carries `AlgebraicGeometry.AffineChartFlatteningCentre`, the affine case of the flatness half of
-[Stacks, Tag 0815]. The fourth clause, local finite presentation of the strict transform, is not
-claimed there at all: the source recovers it from flatness by [Stacks, Tag 081N], available as
-`locallyOfFinitePresentation_of_flat_of_retrocompact_dense_open` in the namespace
-`AlgebraicGeometry.FinitePresentationFromDenseOpen`, but that needs local finite presentation
-over a retrocompact scheme-theoretically dense open of `Bl_I(S)`, which is not available for `I`.
-Nothing else in the proof below is assumed.
+**The flattening input.** The hypothesis `hcentre` is the conclusion of [Stacks, Tag 081R]: a
+centre `I`, finitely presented and supported away from `U`, whose strict transform is flat and
+locally of finite presentation over the blowup. The library proves it for proper `f` with `X_U`
+finite locally free over `U`:
+`AlgebraicGeometry.exists_isAdmissibleBlowup_flat_finitePresentation_strictTransform_of_affineCase`
+gives all four clauses under the source's hypotheses of Tag 081R, and
+`AlgebraicGeometry.exists_isAdmissibleBlowup_isFiniteLocallyFree_strictTransform_of_isProper`
+feeds it to the theorem below. The input is kept as an argument here because other callers
+supply a flattening centre of their own.
 
 Quasi-compactness and quasi-separatedness of the strict transform are not part of the hypothesis,
-because they follow from properness of `f`; so `h081R` asks only for the local condition.
+because they follow from properness of `f`; so `hcentre` asks only for the local condition.
 
 ## References
 
@@ -138,25 +138,19 @@ private theorem isFinite_pullback_snd_strictTransformToBlowUp_preimage {X S : Sc
       pullback.snd f (blowUpToBase I) from rfl, morphismRestrict_comp]
   exact MorphismProperty.comp_mem (W := @IsFinite) _ _ hc hp
 
-/-- **Stacks Project, Tag 0B49.** Let `S` be a quasi-compact and quasi-separated scheme, let
-`f : X ⟶ S` be proper and let `U ⊆ S` be a quasi-compact open over which `X` is finite locally
-free. Granted the conclusion of [Stacks, Tag 081R] for `f` and `U`, there is a `U`-admissible
-blowup of `S` along which the strict transform of `X` is finite locally free. -/
-@[stacks 0B49 "the conclusion of Tag 081R -- a `U`-admissible centre whose strict transform
-is flat and locally of finite presentation -- is carried as the hypothesis `h081R`. The
-library proves its first three clauses in
-`AlgebraicGeometry.exists_isAdmissibleBlowup_flat_strictTransform`, itself carrying the affine
-case `AffineChartFlatteningCentre` of Tag 0815, and does not claim the fourth, local finite
-presentation of the strict transform, at all. Everything else is proved here: the composite
-centre and its finite presentation, its support being exactly the complement of `U`, its
-admissibility, the two-step-blowup identification, vanishing of the second
-strict-transform ideal by flatness, density of the inverse image of `U`, and the passage to
-finite locally free"]
+/-- **The argument of Stacks Project, Tag 0B49, from a flattening centre onwards.** Let `S` be
+a quasi-compact and quasi-separated scheme, let `f : X ⟶ S` be proper and let `U ⊆ S` be a
+quasi-compact open over which `X` is finite locally free. Given a centre `I`, finitely presented
+and supported away from `U`, whose strict transform is flat and locally of finite presentation
+(the conclusion of [Stacks, Tag 081R]), there is a `U`-admissible blowup of `S` along which the
+strict transform of `X` is finite locally free. Tag 0B49 itself is
+`AlgebraicGeometry.exists_isAdmissibleBlowup_isFiniteLocallyFree_strictTransform_of_isProper`,
+which supplies the centre. -/
 theorem exists_isAdmissibleBlowup_isFiniteLocallyFree_strictTransform {X S : Scheme.{u}}
     [CompactSpace S] [QuasiSeparatedSpace S] (f : X ⟶ S) [IsProper f] (U : S.Opens)
     (hU : IsCompact (U : Set S))
     [Stacks.Morphisms.IsFiniteLocallyFree (pullback.snd f U.ι)]
-    (h081R : ∃ I : S.IdealSheafData,
+    (hcentre : ∃ I : S.IdealSheafData,
       FinitePresentation I.subschemeι ∧ Disjoint (U : Set S) (I.support : Set S) ∧
         Flat (strictTransformToBlowUp f I) ∧
           LocallyOfFinitePresentation (strictTransformToBlowUp f I)) :
@@ -167,7 +161,7 @@ theorem exists_isAdmissibleBlowup_isFiniteLocallyFree_strictTransform {X S : Sch
     (Stacks.Morphisms.isFiniteLocallyFree_iff_isFinite_flat_locallyOfFinitePresentation
       (pullback.snd f U.ι)).mp inferInstance
   have _ : IsFinite (pullback.snd f U.ι) := hflfU.1
-  obtain ⟨I, hIfp, hIdisj, hflat, hfp⟩ := h081R
+  obtain ⟨I, hIfp, hIdisj, hflat, hfp⟩ := hcentre
   have _ : Flat (strictTransformToBlowUp f I) := hflat
   have _ : LocallyOfFinitePresentation (strictTransformToBlowUp f I) := hfp
   -- the complement of `U` is the support of a centre of finite type

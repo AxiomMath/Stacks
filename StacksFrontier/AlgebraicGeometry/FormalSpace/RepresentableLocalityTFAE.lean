@@ -97,7 +97,8 @@ following are equivalent:
    representable by algebraic spaces.
 
 The source's sixth item, *add more here*, is a placeholder and not a condition. -/
-@[stacks 0AN4]
+@[stacks 0AN4 "the equivalence of conditions (1) to (5); the sixth item of the source, \
+add more here, is a placeholder"]
 theorem isRepresentable_tfae {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y) :
     List.TFAE [Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom,

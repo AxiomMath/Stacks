@@ -67,50 +67,15 @@ Neither is an existential in the module: `∃ L, IsInvertible L` is satisfied by
 sheaf and would assert nothing.  The first names the module, and the second ties it to the
 per-chart sheaves of the reconstruction.
 
-## What is still missing for [Stacks, Tag 0GPJ]
+## The rest of [Stacks, Tag 0GPJ]
 
 The tag asserts a single isomorphism of schemes `g : Y ≅ X`, a single invertible `𝒪_Y`-module
 `L`, **and** an isomorphism of functors `e(F) ≅ g^*F ⊗ L`.  The first is
-`AlgebraicGeometry.exists_schemeIso_of_quasicoherentEquivalence`, the second is here; the
-isomorphism of functors is not proved anywhere in this repository, and nothing below assumes
-it.
-
-What it needs is a *compatible* family of local isomorphisms of functors over the `V i`, and
-three of the four ingredients are now in the repository.
-
-* The **gluing**: `Stacks.AlgebraicGeometry.ModuleNatTransGlue.CompatibleFamily.glueIso` of
-  `StacksFrontier/AlgebraicGeometry/ModuleHomGlue/NatTrans.lean` glues natural transformations of
-  module-valued functors over an open cover and inverts the glued one when every member is
-  invertible, and
-  `Stacks.AlgebraicGeometry.ModuleNatTransGlue.exists_natIso_of_restrictIso` of
-  `StacksFrontier/AlgebraicGeometry/ModuleHomGlue/NatTransRestrict.lean` states it for local data
-  given as isomorphisms of the *restricted functors*, with the compatibility asked for only on
-  the affine opens.
-* The **per-chart comparison** `AlgebraicGeometry.chartComparisonIso` of
-  `StacksFrontier/AlgebraicGeometry/QuasiCoherent/ReconstructionGlobalNatIso.lean`: over a chart
-  both functors compute to `(f i ≫ (U i).ι)^*(-) ⊗ L i`.
-* The **rigidity** that makes two such comparisons over a common affine open equal:
-  `AlgebraicGeometry.natIso_eq_of_app_unit_eq_of_iso` of
-  `StacksFrontier/AlgebraicGeometry/QuasiCoherent/ReconstructionChartRigidity.lean`, resting on the
-  centre of the quasi-coherent modules on an affine scheme,
-  `AlgebraicGeometry.catCenter_eq_one_of_app_unit_eq_id`.
-
-What is **missing** is the hypothesis that rigidity consumes, namely that the two comparisons
-agree at `𝒪_X`, in the two forms the assembly needs:
-
-1. the *normalisation identity*: the comparison over a chart, read at `𝒪_X`, is the canonical
-   `AlgebraicGeometry.pullbackTensorFunctorObjUnitIso` and in particular does not depend on the
-   chart.  No unit of `Γ(V i, 𝒪)` has to be constructed for this — the identification of `M|_{V i}`
-   with `L i` that enters the comparison is
-   `AlgebraicGeometry.restrictMapUnitIsoOfChartIso`, built from the very same `α i` and `β i`,
-   so the two occurrences cancel; but the cancellation has to be carried past the unitor and the
-   tensor product, and that computation is not done;
-2. the *section-level coherence* between the comparison over a chart and its restriction to an
-   affine open of that chart, which is what turns an equality of natural isomorphisms over the
-   affine open into the equality of maps on sections that the gluing's compatibility condition
-   asks for.
-
-The Stacks source dismisses the whole passage with "We omit the details".
+`AlgebraicGeometry.exists_schemeIso_of_quasicoherentEquivalence`, the second is here, and the
+isomorphism of functors, with the whole statement, is
+`AlgebraicGeometry.exists_natIso_pullbackTensorFunctor_of_quasicoherentEquivalence` of
+`StacksFrontier/AlgebraicGeometry/QuasiCoherent/ReconstructionGlobalComparison.lean`, which imports
+this file.  Nothing below assumes it.
 
 ## References
 
@@ -216,27 +181,6 @@ Invertibility of a module on a scheme is local on the base
 (`Stacks.Modules.isInvertible_of_isInvertible_restrict_isOpenCover`), the opens `V i` of the
 reconstruction cover `Y`, and over each of them `e(𝒪_X)` is the invertible sheaf `L i` of that
 chart by `AlgebraicGeometry.restrictMapUnitIsoOfChartIso`. -/
-@[stacks 0GPJ "the MODULE half of the tag's conclusion, unconditionally: `X` and `Y` \
-quasi-compact and quasi-separated and an equivalence `e` of their categories of quasi-coherent \
-modules make `e(𝒪_X)` an invertible `𝒪_Y`-module.  No cover, no affineness and no further \
-hypothesis of any kind beyond qcqs.  This identifies WHICH module the tag's `L` is and proves \
-it invertible: were the tag's comparison `e(F) ≅ f^*F ⊗ L` available, `F = 𝒪_X` would give \
-`L ≅ f^*𝒪_X ⊗ L ≅ e(𝒪_X)`, so no other module can serve.  The statement is not an existential \
-— `∃ L, IsInvertible L` is satisfied by `𝒪_Y` and would say nothing — it names the module.  \
-The per-chart invertible sheaves `L i` of the reconstruction are its restrictions \
-(`restrictMapUnitIsoOfChartIso`), which is also what supplies the transition data the gluing of \
-`ReconstructionGluedModule.lean:197` asks for; that gluing run on the reconstruction's own \
-charts is `exists_isOpenCover_invertibleModule_restrictIso_of_isAffineOpenCover` below.  The \
-SCHEME half is `exists_schemeIso_of_quasicoherentEquivalence` \
-(`ReconstructionGlobalSchemeIso.lean:324`).  The comparison of functors — 0GPJ also asserts \
-`e(F) ≅ f^*F ⊗ L` naturally in `F` — is NOT produced here: it is \
-`exists_natIso_pullbackTensorFunctor_of_quasicoherentEquivalence` \
-(`ReconstructionGlobalComparison.lean`), glued from the per-chart `chartComparisonIso` \
-(`ReconstructionGlobalNatIso.lean`) by `exists_natIso_of_chartComparison` \
-(`ReconstructionChartGlue.lean`), the two comparisons over a common affine open being made \
-equal by the rigidity `natIso_eq_of_app_unit_eq_of_iso` \
-(`ReconstructionChartRigidity.lean`) once they are normalised at `𝒪_X` \
-(`chartComparisonIso_hom_app_quasicoherentUnit`).  Nothing below assumes any of it"]
 theorem isInvertible_map_quasicoherentUnit_of_quasicoherentEquivalence :
     Stacks.SheafOfModules.IsInvertible Y.presheaf Y.ringCatSheaf.2
       (e.functor.obj (quasicoherentUnit X)).obj := by
@@ -267,24 +211,6 @@ charts.  The three transition hypotheses of the gluing are
 `AlgebraicGeometry.transOfRestrictIso`, `AlgebraicGeometry.transOfRestrictIso_resLE` and
 `AlgebraicGeometry.transOfRestrictIso_trans` for the module `e(𝒪_X)`, which restricts to each
 `L i` by `AlgebraicGeometry.restrictMapUnitIsoOfChartIso`. -/
-@[stacks 0GPJ "the GLOBAL form with the per-chart invertible sheaves GLUED into one invertible \
-`𝒪_Y`-module: `X` and `Y` quasi-compact and quasi-separated, an affine open cover `U i` of `X`, \
-and no further hypothesis.  The chart data is \
-`exists_isOpenCover_schemeIso_invertibleSheaf_of_isAffineOpenCover` \
-(`ReconstructionGlobalForm.lean:236`) with the families pulled out of the per-index \
-existential; what is new is the last conjunct, a SINGLE invertible `𝒪_Y`-module restricting to \
-every `L i`.  It is `exists_invertibleModule_of_isOpenCover_of_overlapCompatible` \
-(`ReconstructionGluedModule.lean:197`) run on these charts, its transition data being \
-`transOfRestrictIso` for the module `e(𝒪_X)`, which restricts to each `L i` by \
-`restrictMapUnitIsoOfChartIso`.  The SCHEME half of the tag is \
-`exists_schemeIso_of_quasicoherentEquivalence` (`ReconstructionGlobalSchemeIso.lean:324`).  \
-The comparison of functors `e(F) ≅ f^*F ⊗ M`, naturally in `F`, is NOT produced here: it is \
-`exists_natIso_pullbackTensorFunctor_of_quasicoherentEquivalence` \
-(`ReconstructionGlobalComparison.lean`), and it is stated for the module `e(𝒪_X)` rather than \
-for the `M` glued here — taking `e(𝒪_X)` is what makes the per-chart comparisons agree at \
-`𝒪_X`, because then the identification of its restriction with `L i` is \
-`restrictMapUnitIsoOfChartIso`, built from the same `α i` and `β i`.  Nothing in this statement \
-assumes it"]
 theorem exists_isOpenCover_invertibleModule_restrictIso_of_isAffineOpenCover {κ : Type u}
     (U : κ → X.Opens) (hUaff : ∀ i, IsAffineOpen (U i)) (hUcover : IsOpenCover U) :
     ∃ (V : κ → Y.Opens)

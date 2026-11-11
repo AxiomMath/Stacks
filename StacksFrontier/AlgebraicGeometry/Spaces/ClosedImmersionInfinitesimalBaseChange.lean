@@ -15,7 +15,9 @@ immersion. This is Stacks 08B2, with no hypothesis beyond the source's.
 ## Main results
 
 * `AlgebraicGeometry.Space.isClosedImmersion_of_isClosedImmersion_pullback_snd_of_bijective`:
-  **Stacks 08B2**.
+  **Stacks 08B2**, the form of the tag registered in this library. The twin
+  `AlgebraicGeometry.Space.isClosedImmersion_of_infinitesimal_baseChange`, which carries the three
+  hypotheses of Stacks 07VT, is not tagged.
 
 ## Implementation notes
 
@@ -113,8 +115,13 @@ theorem isRepresentable_pullback_of_isClosedImmersion_pullback_snd
 /-- **Stacks 08B2.** Let `f : X ⟶ Y` and `i : Y' ⟶ Y` be morphisms of algebraic spaces over `S`.
 If `i` is a closed immersion, bijective on points, if the base change of `f` along `i` is a
 closed immersion, and if either `f` is of finite type or `i` is of finite presentation, then `f`
-is a closed immersion. -/
-@[stacks 08B2]
+is a closed immersion.
+
+This is the registered form of Stacks 08B2. The 07VU step of the source's proof is
+`AlgebraicGeometry.Space.isRepresentable_of_isClosedImmersion_of_bijective`. -/
+@[stacks 08B2 "the whole lemma, with hypotheses (1)-(4) as in the source: `hi` (1), `hbij` (2), \
+`hbc` (3) and `hfin` (4); the 07VU step of the proof is the proved \
+`isRepresentable_of_isClosedImmersion_of_bijective`"]
 theorem isClosedImmersion_of_isClosedImmersion_pullback_snd_of_bijective
     {X Y Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)

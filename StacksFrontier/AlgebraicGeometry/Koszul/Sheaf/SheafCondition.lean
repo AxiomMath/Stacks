@@ -183,10 +183,10 @@ noncomputable def sheafDiff (n : ℕ) : sheafPiece X r (n + 1) ⟶ sheafPiece X 
 /-- **`K_•(O_X, f₁, …, f_r)` as a chain complex of sheaves of modules.** In degree `n` it is the
 sheaf of exterior powers `U ↦ ⋀^n_{O_X(U)}(O_X(U)^r)` and the differential is contraction by
 `(f₁, …, f_r)`. This is the complex whose acyclicity in positive degrees is Koszul-regularity of
-the family, in the sense of Stacks tag 063D. -/
-@[stacks 062L "the complex `K_•(O_X, f₁, …, f_r)` itself, on a ringed space and as a chain \
-complex of sheaves of modules",
-  ega "III 1.1.1" "more general",
+the family, in the sense of Stacks tag 063D. The Koszul complex of Stacks tag 062L itself, as the
+sheaf of differential graded algebras of tag 062K, is
+`Stacks.AlgebraicGeometry.SeqKoszul.koszulDifferentialGradedAlgebra`. -/
+@[ega "III 1.1.1" "more general",
   sga "3 III 4.6.1" "more general",
   sga "6 VII 1.1" "special case"]
 noncomputable def sheafComplex : ChainComplex (SheafOfModules.{u} (ringSheaf X)) ℕ :=

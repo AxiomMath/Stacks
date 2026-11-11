@@ -2,13 +2,14 @@ module
 
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Descent.EtaleLocal.Cancellation
-public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.GroupoidPresentationQuotientAlgebraic
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.QuotientAtlasArrowSquare
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.QuotientStackAlgebraic
 public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.TrivialActionAlgebraic
+public import StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.QuotientStackSquares.RestrictionCoverings
 public import StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.IsomorphismLocusOnBase
 public import StacksFrontier.AlgebraicGeometry.Spaces.Representable.Bootstrap.Unconditional
 public import StacksFrontier.AlgebraicGeometry.Spaces.SurjectiveOnPoints
+public import StacksFrontier.AlgebraicGeometry.Stacks.AlgebraicStackEquivalence
 
 /-!
 # The bootstrap theorem discharges Stacks 04TB, and with it the 04TB half of Stacks 06FI
@@ -20,9 +21,8 @@ in, among them `AlgebraicGeometry.Stack.bootstrap04S6`, the spelling Stacks 04TB
 That makes **Stacks 04TB** unconditional, hence also **Stacks 04WZ** and the representability of
 the projection of Stacks 044R. Together with **Stacks 06FH**, which is proved with nothing carried
 in `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/Quotient/QuotientAtlasArrowSquare.lean`, it
-removes the Stacks 04TB and Stacks 06FH hypotheses from **Stacks 06FI** and from its consumers
-**Stacks 06PJ** and **Stacks 06PL**. What is left standing in those three is Artin's theorem
-**Stacks 06DC** alone.
+removes the Stacks 04TB and Stacks 06FH hypotheses from **Stacks 06FI** and from its consumer
+**Stacks 06PL**. What is left standing in those two is Artin's theorem **Stacks 06DC** alone.
 
 ## Main results
 
@@ -30,6 +30,9 @@ removes the Stacks 04TB and Stacks 06FH hypotheses from **Stacks 06FI** and from
   over every algebraic space of the site, with nothing carried.
 * `AlgebraicGeometry.Stack.lemma06FH`: **Stacks 06FH** in the form
   `AlgebraicGeometry.Stack.Lemma06FH` asks for it, with nothing carried.
+* `exists_hasRelativeProperty_flat_lfp_surjective_quotientStackProjectionHom`:
+  **Stacks 06FH**: the projection of Stacks 044R is representable by algebraic spaces, flat,
+  locally of finite presentation and surjective.
 * `AlgebraicGeometry.Stack.hasRepresentableDiagonal_quotientStack_unconditional` and
   `AlgebraicGeometry.Stack.representable_quotientStackProjectionHom_unconditional`:
   **Stacks 04WZ** and the representability of the projection of Stacks 044R, with nothing
@@ -38,11 +41,8 @@ removes the Stacks 04TB and Stacks 06FH hypotheses from **Stacks 06FI** and from
   `AlgebraicGeometry.Stack.forall_isAlgebraicStack_quotientStack_of_theorem06DC`:
   **Stacks 06FI**, for a single groupoid and quantified over the groupoids on a fixed base,
   carrying Artin's theorem Stacks 06DC alone.
-* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_restrictionAlong_of_theorem06DC`
-  and
-  `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction_of_theorem06DC`: the
-  implications towards algebraicity of **Stacks 06PJ** and **Stacks 06PL**, carrying Artin's
-  theorem alone.
+* `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_trivialAction_of_theorem06DC`: the
+  implication towards algebraicity of **Stacks 06PL**, carrying Artin's theorem alone.
 
 ## Implementation notes
 
@@ -54,15 +54,14 @@ instantiate them; the unconditional statement, with Artin's theorem proved, is
 `StacksFrontier/AlgebraicGeometry/Stacks/FlatQuotientStackAlgebraic.lean`, which carries the
 registration.
 
-The four tags whose hypotheses are narrowed here — 04TB, 04WZ, 06PJ and 06PL — are
-registered where they are stated, and the declarations narrowing them record no further part of
-any of them: each is an existing statement with one of its hypotheses supplied.
-The converse implications of Stacks 06PJ and Stacks 06PL are untouched here; they are not
-blocked by Stacks 06FI at all. As the module docstring of the module
-`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.GroupoidPresentationQuotientAlgebraic`
-records, they are proved, carrying nothing, as
-`AlgebraicGeometry.Stack.exists_restrictionAlong_of_isAlgebraicStack` and
-`AlgebraicGeometry.Stack.isFlat_and_isLocallyOfFinitePresentation_of_isAlgebraicStack_trivialAction`
+The three tags whose hypotheses are narrowed here — 04TB, 04WZ and 06PL — are registered where
+they are stated, and the declarations narrowing them record no further part of any of them: each
+is an existing statement with one of its hypotheses supplied.
+Stacks 06PJ is proved with nothing carried, both implications, as
+`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_iff_restrictionAlong`. The converse
+implication of Stacks 06PL is not blocked by Stacks 06FI at all; it is
+`isFlat_and_isLocallyOfFinitePresentation_of_isAlgebraicStack_trivialAction` in
+`StacksFrontier.AlgebraicGeometry.Spaces.Groupoids.Quotient.TrivialActionAlgebraicIff`.
 
 ## References
 
@@ -124,6 +123,33 @@ theorem representable_quotientStackProjectionHom_unconditional {A : AlgebraicSpa
     IsRepresentableByAlgebraicSpaces C S hS (quotientStackProjectionHom G).hom :=
   representable_quotientStackProjectionHom G
 
+/-- **The atlas of the quotient stack of a flat, locally finitely presented groupoid.** Let
+`G = (U, R, s, t, c)` be a groupoid in algebraic spaces over an algebraic space `A` over a scheme
+`S` of a big fppf site, and assume its source and target maps `s`, `t` are flat and locally of
+finite presentation. Then the canonical projection `π : S_U ⟶ [U/R]` of Stacks 044R is
+representable by algebraic spaces and is flat, locally of finite presentation and surjective in
+the sense of Stacks 03YK. -/
+@[stacks 06FH]
+theorem exists_hasRelativeProperty_flat_lfp_surjective_quotientStackProjectionHom
+    {A : AlgebraicSpaces C S hS} (G : GroupoidInAlgebraicSpaces C S hS A)
+    (hsflat : Space.IsFlat C S hS G.source.hom)
+    (htflat : Space.IsFlat C S hS G.target.hom)
+    (hslfp : Space.IsLocallyOfFinitePresentation C S hS G.source.hom)
+    (htlfp : Space.IsLocallyOfFinitePresentation C S hS G.target.hom) :
+    ∃ hπ : IsRepresentableByAlgebraicSpaces C S hS (quotientStackProjectionHom G).hom,
+      HasRelativeProperty.{u, u + 1, u + 1, u} C S hS
+          (fun ⦃X Y : AlgebraicSpaces C S hS⦄ (f : X ⟶ Y) => Space.IsFlat C S hS f.hom)
+          (quotientStackProjectionHom G) hπ ∧
+        HasRelativeProperty.{u, u + 1, u + 1, u} C S hS
+          (fun ⦃X Y : AlgebraicSpaces C S hS⦄ (f : X ⟶ Y) =>
+            Space.IsLocallyOfFinitePresentation C S hS f.hom)
+          (quotientStackProjectionHom G) hπ ∧
+        HasRelativeProperty.{u, u + 1, u + 1, u} C S hS
+          (Space.surjectiveMorphismProperty C S hS) (quotientStackProjectionHom G) hπ := by
+  obtain ⟨hsurj, hflat, hlfp⟩ := QuotientAtlas.surjective_flat_lfp_quotientStackProjectionHom G
+    hsflat htflat hslfp htlfp (representable_quotientStackProjectionHom G)
+  exact ⟨representable_quotientStackProjectionHom G, hflat, hlfp, hsurj⟩
+
 /-- **Stacks 06FI, carrying Artin's theorem alone.** Let `G = (U, R, s, t, c)` be a groupoid in
 algebraic spaces over an algebraic space `A` over a scheme `S` of a big fppf site. If the source
 and the target of `G` are flat and locally of finite presentation, then the quotient stack
@@ -161,35 +187,6 @@ theorem forall_isAlgebraicStack_quotientStack_of_theorem06DC (A : AlgebraicSpace
   forall_isAlgebraicStack_quotientStack A h06DC (lemma06FH C S hS) (lemma04TB C S hS)
 
 variable {B : AlgebraicSpaces C S hS}
-
-/-- **Stacks 06PJ, the implication towards algebraicity, carrying Artin's theorem alone.** Let
-`(U, R, s, t, c)` be a groupoid in algebraic spaces over `B` and let `g : U' ⟶ U` be a morphism
-of algebraic spaces such that the saturation map `U' ×_{g, U, t} R ⟶ R ⟶ U` is a surjection of
-fppf sheaves and the source and target of the restriction of `(U, R, s, t, c)` along `g` are
-flat and locally of finite presentation. Then the quotient stack `[U/R]` is an algebraic stack,
-given Artin's theorem Stacks 06DC.
-
-This is `AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack_of_restrictionAlong` with its
-Stacks 06FI hypothesis supplied by
-`AlgebraicGeometry.Stack.forall_isAlgebraicStack_quotientStack_of_theorem06DC`. -/
-theorem isAlgebraicStack_quotientStack_of_restrictionAlong_of_theorem06DC
-    (G : GroupoidInAlgebraicSpaces C S hS B)
-    {U' : AlgebraicSpaces C S hS} (g : U' ⟶ G.objects)
-    (h06DC : Theorem06DC.{u, w} C S hS)
-    (hsaturation : Presheaf.IsLocallySurjective (BigFppfOver.topology C S hS)
-      ((GroupoidInAlgebraicSpaces.fiberProductSnd g G.target ≫ G.source).hom))
-    (hsource : Space.IsFlat C S hS
-      (GroupoidInAlgebraicSpaces.restrictionSource G g).hom)
-    (htarget : Space.IsFlat C S hS
-      (GroupoidInAlgebraicSpaces.restrictionTarget G g).hom)
-    (hsourceFP : Space.IsLocallyOfFinitePresentation C S hS
-      (GroupoidInAlgebraicSpaces.restrictionSource G g).hom)
-    (htargetFP : Space.IsLocallyOfFinitePresentation C S hS
-      (GroupoidInAlgebraicSpaces.restrictionTarget G g).hom) :
-    IsAlgebraicStack.{u, w} C S hS (quotientStack G) :=
-  isAlgebraicStack_quotientStack_of_restrictionAlong G g
-    (forall_isAlgebraicStack_quotientStack_of_theorem06DC.{u, w} B h06DC)
-    hsaturation hsource htarget hsourceFP htargetFP
 
 /-- **Stacks 06PL, the implication from flatness and local finite presentation to algebraicity,
 carrying Artin's theorem alone.** Let `G` be a group algebraic space over an algebraic space `B`

@@ -23,7 +23,10 @@ dualizing complex is a pair `(K, ξ)` consisting of an object `K` of `D(𝒪_X)`
 * `AlgebraicGeometry.Scheme.Hom.DiagonalOpen.diagonalAction` is the map
   `Δ_*𝒪_X ⟶ R SheafHom_{𝒪_W}(Δ_*𝒪_X, L pr₁^*K|_W)` that `ξ` defines.
 * `AlgebraicGeometry.Scheme.Hom.IsRelativeDualizingComplex` is the property of being a relative
-  dualizing complex, Stacks 0E2T.
+  dualizing complex, with `S`-perfectness read against a family `Dten` of derived tensor
+  certificates. It is a generalisation of Stacks 0E2T, which it equals at a genuine family
+  (`AlgebraicGeometry.Scheme.Hom.isRelativeDualizingComplex_iff_isRelativeDualizingPair`);
+  Stacks 0E2T itself is `AlgebraicGeometry.Scheme.Hom.IsRelativeDualizingPair`.
 
 ## Main results
 
@@ -136,16 +139,20 @@ variable
       (OXMod.{u, u} ((RingedSpace.inverseImage S.toRingedSpace f.base).restrict
         U.isOpenEmbedding))]
 
-/-- **Stacks 0E2T.** A relative dualizing complex for a flat, locally finitely presented
-morphism `f : X ⟶ S`, relative to an open `W ⊆ X ×_S X` through which the relative diagonal
-factors as a closed immersion `Δ : X ⟶ W`: a pair `(K, ξ)` consisting of an object `K` of
-`D(𝒪_X)` and a map `ξ : Δ_*𝒪_X ⟶ L pr₁^*K|_W` in `D(𝒪_W)` such that `K` is `S`-perfect and
-`ξ` defines an isomorphism of `Δ_*𝒪_X` with
-`R SheafHom_{𝒪_W}(Δ_*𝒪_X, L pr₁^*K|_W)`.
+/-- A relative dualizing complex for a flat, locally finitely presented morphism `f : X ⟶ S`,
+relative to an open `W ⊆ X ×_S X` through which the relative diagonal factors as a closed
+immersion `Δ : X ⟶ W`, read against a family `Dten` of derived tensor certificates on
+`(X, f^{-1}𝒪_S)`: a pair `(K, ξ)` consisting of an object `K` of `D(𝒪_X)` and a map
+`ξ : Δ_*𝒪_X ⟶ L pr₁^*K|_W` in `D(𝒪_W)` such that `K` is perfect relative to `S` in the sense
+of `AlgebraicGeometry.Scheme.Hom.IsPerfectRelativeTo` at `Dten`, and `ξ` defines an isomorphism
+of `Δ_*𝒪_X` with `R SheafHom_{𝒪_W}(Δ_*𝒪_X, L pr₁^*K|_W)`.
 
-The derived tensor product over the inverse-image ringed space is the family of certificates
-`Dten`, as in the definition of relative perfectness. -/
-@[stacks 0E2T]
+This is a generalisation of Stacks 0E2T, not the definition itself: the underived tensor
+product of a certificate is free data, so at a general `Dten` the first condition is weaker
+than `S`-perfectness (Stacks 0DI0); at the zero certificate it is pseudo-coherence alone. At a
+family whose underived tensor products are those of sheaves of modules it is Stacks 0E2T, by
+`AlgebraicGeometry.Scheme.Hom.isRelativeDualizingComplex_iff_isRelativeDualizingPair`.
+Stacks 0E2T is `AlgebraicGeometry.Scheme.Hom.IsRelativeDualizingPair`. -/
 structure IsRelativeDualizingComplex [Flat f] [LocallyOfFinitePresentation f]
     (Dten : ∀ U : TopologicalSpace.Opens
         (RingedSpace.inverseImage S.toRingedSpace f.base).carrier,

@@ -14,6 +14,13 @@ Let `X` and `Y` be nonempty smooth projective varieties over `k`, equidimensiona
 integrates the first factor out of an external product: it sends `a × b = pr₁^*a ∪ pr₂^*b` to
 `(∫_X a) b`, where `∫_X`, defined on the top degree `2d` only, is read as zero elsewhere.
 
+This file works in the classical setting of
+`Stacks.WeilCohomology.PoincareDualityPushforwardSetup` (`k` algebraically closed, smooth
+projective varieties, `F` of characteristic zero). Stacks 0FHC in the generality of the source,
+over any field, for nonempty equidimensional smooth projective schemes and the data and axioms of
+Section 0FHA, is `Stacks.WeilCohomology.WeilData.pushforward_snd_externalProduct` in
+`StacksFrontier/AlgebraicGeometry/WeilCohomology/Concrete/SecondProjection.lean`.
+
 ## Main definitions
 
 * `Stacks.WeilCohomology.PoincareDualityPushforwardSetup.externalProduct`: the Künneth exterior
@@ -191,9 +198,9 @@ theorem PoincareDualityPushforwardSetup.kunnethMap_eq_zero_of_lt [HasBinaryProdu
       simp
   rw [ht, map_zero]
 
-/-- **An exterior product of top classes is nonzero**, by injectivity of the Künneth map of
-axiom `(B)(a)`: the corresponding generator `a ⊗ c` is nonzero because the trace maps separate
-it. -/
+/-- **An exterior product of top classes is nonzero**, by injectivity of the Künneth map
+of axiom `(B)(a)`: the corresponding generator `a ⊗ c` is nonzero because the trace maps
+separate it. -/
 theorem PoincareDualityPushforwardSetup.externalProduct_top_ne_zero [HasBinaryProduct X Y]
     (kunneth : ∀ m, Function.Bijective (S.kunnethMap (X := X) (Y := Y) m))
     (a : (S.H X).piece (2 * (S.dimension X : ℤ)))
@@ -222,9 +229,9 @@ theorem PoincareDualityPushforwardSetup.externalProduct_top_ne_zero [HasBinaryPr
     (fun pq => (S.H X).piece pq.1.1 ⊗[F] (S.H Y).piece pq.1.2)
     ⟨(2 * (S.dimension X : ℤ), 2 * (S.dimension Y : ℤ)), rfl⟩) hlof
 
-/-- **The product of `X` and `Y` is equidimensional of dimension `dim X + dim Y`**, derived from
-axiom `(B)(a)` and the Poincaré-duality package, rather than assumed.  This is the content of the
-source's notation `H^*(X × Y)(d + e)`, and it is what makes axiom `(B)(b)` meaningful: an
+/-- **The product of `X` and `Y` is equidimensional of dimension `dim X + dim Y`**, derived
+from axiom `(B)(a)` and the Poincaré-duality package, rather than assumed.  This is the content
+of the source's notation `H^*(X × Y)(d + e)`, and it is what makes axiom `(B)(b)` meaningful: an
 exterior product of top classes has degree `2 dim X + 2 dim Y`, while `∫_{X × Y}` is a functional
 on the degree `2 dim(X × Y)`. -/
 theorem PoincareDualityPushforwardSetup.dimension_prod_eq [HasBinaryProduct X Y]
@@ -319,19 +326,21 @@ private theorem PoincareDualityPushforwardSetup.pushforward_snd_eq_of_integratio
   simpa only [ExternallyGradedAlgebra.tracePairing, LinearMap.compr₂_apply, LinearMap.comp_apply,
     LinearEquiv.coe_coe] using h v
 
-/-- **Stacks Project, Tag 0FHC.** The Poincaré-duality pushforward along the second projection
-`pr₂ : X × Y ⟶ Y` integrates the first factor out of an exterior product: for `a` of the top
-degree `2 dim X` on `X`,
+/-- The Poincaré-duality pushforward along the second projection `pr₂ : X × Y ⟶ Y` integrates the
+first factor out of an exterior product: for `a` of the top degree `2 dim X` on `X`,
 
 `pr_{2, *}(a × b) = (∫_X a) b`.
+
+This is the formula of Stacks 0FHC in the classical setting of
+`Stacks.WeilCohomology.PoincareDualityPushforwardSetup`: `k` algebraically closed, `F` of
+characteristic zero, `X` and `Y` smooth projective varieties, and a trace map `∫_X` that is an
+isomorphism. Stacks 0FHC itself, over any field and for nonempty equidimensional, possibly
+disconnected, smooth projective schemes with the data and axioms of Section 0FHA, is
+`Stacks.WeilCohomology.WeilData.pushforward_snd_externalProduct`.
 
 Axiom `(B)` is the pair of explicit arguments `kunneth`, that the Künneth map is an isomorphism,
 and `integral_externalProduct`, the factorization `∫_{X × Y} = ∫_X ⊗ ∫_Y`; the rest is the data
 `(D1)`, `(D3)` and axiom `(A)` carried by `S`. -/
-@[stacks 0FHC "pr_{2,*}(a × b) = (∫_X a) b for a of top degree; the cup-product identity \
-  pr₂^*v ∪ (a × b) = ± a × (v ∪ b) is derived from (D1) and graded commutativity in \
-  `pullbackSnd_mul_externalProduct`, and equidimensionality of the product from (B)(a) in \
-  `dimension_prod_eq`, both of them proved here"]
 theorem PoincareDualityPushforwardSetup.pushforward_snd_externalProduct [HasBinaryProduct X Y]
     (kunneth : ∀ m, Function.Bijective (S.kunnethMap (X := X) (Y := Y) m))
     (integral_externalProduct : ∀ (c : (S.H X).piece (2 * (S.dimension X : ℤ)))
@@ -385,16 +394,16 @@ theorem PoincareDualityPushforwardSetup.pushforward_snd_externalProduct [HasBina
     exact (S.externalProduct_degreeCast_heq (2 * (S.dimension X : ℤ)) (by omega) a _).symm
   rw [hleft, integral_externalProduct]
 
-/-- **Stacks Project, Tag 0FHC.** The complementary clause of the formula
-`pr_{2, *}(a × b) = (∫_X a) b`: when `a` is not of the top degree `2 dim X` the pushforward of the
-exterior product vanishes, which is that formula read with `∫_X`, a functional on the top degree
-only, extended by zero.
+/-- The complementary clause of the formula `pr_{2, *}(a × b) = (∫_X a) b`: when `a` is not of
+the top degree `2 dim X` the pushforward of the exterior product vanishes, which is that formula
+read with `∫_X`, a functional on the top degree only, extended by zero.
+
+This is in the classical setting of `Stacks.WeilCohomology.PoincareDualityPushforwardSetup`;
+Stacks 0FHC in the generality of the source is
+`Stacks.WeilCohomology.WeilData.pushforward_snd_externalProduct`.
 
 Only Poincaré duality, axiom `(B)(a)` and the vanishing of cohomology outside `[0, 2 dim]` are
 used; axiom `(B)(b)` does not enter, since the relevant exterior product is already zero. -/
-@[stacks 0FHC "the clause of pr_{2,*}(a × b) = (∫_X a) b in the degrees where ∫_X a is read as \
-  zero, namely a not of top degree; the cup-product identity is again the derived \
-  `pullbackSnd_mul_externalProduct`"]
 theorem PoincareDualityPushforwardSetup.pushforward_snd_externalProduct_eq_zero
     [HasBinaryProduct X Y]
     (kunneth : ∀ m, Function.Bijective (S.kunnethMap (X := X) (Y := Y) m))

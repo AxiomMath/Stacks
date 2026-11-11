@@ -60,18 +60,21 @@ identification is the one the source calls immediate from the definitions.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isPullback_sheaf_relativeHomOfBaseChange_of_isAlgebraicSpace` and
+* `AlgebraicGeometry.Space.RelativeHomConstruction.isPullback_sheaf_ofBaseChange` and
   `AlgebraicGeometry.Space.isPullback_relativeHomSheafOfBaseChange`: **Stacks 05Y4**, the
-  identification in `Sh((Sch/S)_fppf)` with nothing assumed beyond the algebraicity the source
-  assumes — for arbitrary realizations of the two relative morphism functors, and for the
-  functor of Stacks 05Y2 together with the fibre products of algebraic spaces of Stacks 02X2.
+  identification in `Sh((Sch/S)_fppf)` with nothing assumed beyond the algebraicity of `Z`, `X`,
+  `Q` and `Q'` the source assumes — for arbitrary realizations of the two relative morphism
+  functors, and for the functor of Stacks 05Y2 together with the fibre products of algebraic
+  spaces of Stacks 02X2.
 * `AlgebraicGeometry.Space.RelativeHomConstruction.isSheaf_functor`: part (1) of Stacks 05Y3
   for an arbitrary realization of the relative morphism functor, which is what discharges the
   sheaf hypotheses.
+* `AlgebraicGeometry.Space.isPullback_sheaf_relativeHomOfBaseChange_of_isAlgebraicSpace`: the
+  first of these with the algebraicity of the two fibre products also taken as arguments.
 * `AlgebraicGeometry.Space.isPullback_sheaf_relativeHomOfBaseChange` and
   `AlgebraicGeometry.Space.isPullback_sheaf_relativeHomOfBaseChange_relativeHomData`: the same
-  two statements with the sheaf property of the relative morphism functors carried as an
-  explicit hypothesis rather than discharged.
+  two squares for any realizations whose functors are given to be sheaves, with no algebraicity
+  assumed; the two statements above are deduced from them.
 * `AlgebraicGeometry.Space.isPullback_relativeHomOfBaseChange` and
   `AlgebraicGeometry.Space.isPullback_relativeHomOfBaseChange_relativeHomData`: the same square,
   cartesian in presheaves on the big fppf site of `S`. This is the first step of the source's
@@ -93,9 +96,9 @@ Part (1) of Stacks 05Y3 is `AlgebraicGeometry.Space.isSheaf_relativeHom`, for th
 Stacks 05Y2; `AlgebraicGeometry.Space.RelativeHomConstruction.isSheaf_functor` transports it to
 an arbitrary realization through
 `AlgebraicGeometry.Space.RelativeHomConstruction.isoRelativeHom`. The sheaf-level statements are
-therefore available with nothing assumed; the versions that carry the sheaf property as an
-explicit hypothesis are kept because they assume nothing about the two realizations at all, not
-even that their sources are algebraic spaces.
+therefore available with nothing assumed; the versions that take the sheaf property as an
+argument are kept because they assume nothing about the two realizations at all, not even that
+their sources are algebraic spaces.
 
 Everything is stated for an arbitrary `AlgebraicGeometry.Space.RelativeHomConstruction` of either
 functor, as in the companion lemmas of this section, and the construction of Stacks 05Y2 is one.
@@ -531,8 +534,7 @@ base change is cartesian.
 This is the first step of the source's proof, the identification as functors. The identification
 in `Sh((Sch/S)_fppf)` follows from it because the inclusion of fppf sheaves into presheaves
 creates limits; that is
-`AlgebraicGeometry.Space.isPullback_sheaf_relativeHomOfBaseChange`, which carries the sheaf
-property of the two relative morphism functors — part (1) of Stacks 05Y3 — as a hypothesis. -/
+`AlgebraicGeometry.Space.RelativeHomConstruction.isPullback_sheaf_ofBaseChange`. -/
 theorem isPullback_relativeHomOfBaseChange (q : Q' ⟶ Q)
     (H : RelativeHomConstruction B S hS Z X Q z x)
     (H' : RelativeHomConstruction B S hS (pullback q z) (pullback q x) Q'
@@ -559,25 +561,23 @@ noncomputable def relativeHomBaseChangeIso (q : Q' ⟶ Q)
     H'.functor ≅ pullback q H.projection :=
   (isPullback_relativeHomOfBaseChange q H H').isoPullback
 
-/-- **Stacks 05Y4.** The identification
+/-- The square of Stacks 05Y4
 
 ```text
 Mor_{Q'}(Z', X') = Q' ×_Q Mor_Q(Z, X)
 ```
 
-**in `Sh((Sch/S)_fppf)`**: the square of fppf sheaves formed by the two projections reading off
-the first component of a pair of Stacks 05Y1, the morphism `q` and the morphism forgetting the
-base change is cartesian.
+**in `Sh((Sch/S)_fppf)`**, for realizations whose functors are given to be sheaves: the square
+of fppf sheaves formed by the two projections reading off the first component of a pair of
+Stacks 05Y1, the morphism `q` and the morphism forgetting the base change is cartesian.
 
-This is the source's statement. Its proof is the source's: the square of presheaves is
-cartesian, which is `AlgebraicGeometry.Space.isPullback_relativeHomOfBaseChange`, and the
-inclusion of fppf sheaves into presheaves creates limits, so a square of sheaves is cartesian as
-soon as the underlying square of presheaves is. The sheaf property of the two relative morphism
-functors is part (1) of Stacks 05Y3, which this library does not carry; it is taken as the
-hypotheses `hH` and `hH'`, and nothing else about the two functors is assumed. The sheaf
-property of `Q` and of `Q'` is automatic for algebraic spaces. -/
-@[stacks 05Y4 "the identification in `Sh((Sch/S)_fppf)`, with the sheaf property of the two \
-relative morphism functors — part (1) of the cited Stacks 05Y3 — carried as a hypothesis"]
+The proof is the source's: the square of presheaves is cartesian, which is
+`AlgebraicGeometry.Space.isPullback_relativeHomOfBaseChange`, and the inclusion of fppf sheaves
+into presheaves creates limits, so a square of sheaves is cartesian as soon as the underlying
+square of presheaves is. Nothing is assumed of `Z`, `X`, `Q` and `Q'` beyond the sheaf
+properties the statement needs to be phrased. For algebraic spaces these hold by part (1) of
+Stacks 05Y3, and the source's statement is
+`AlgebraicGeometry.Space.RelativeHomConstruction.isPullback_sheaf_ofBaseChange`. -/
 theorem isPullback_sheaf_relativeHomOfBaseChange (q : Q' ⟶ Q)
     (H : RelativeHomConstruction B S hS Z X Q z x)
     (H' : RelativeHomConstruction B S hS (pullback q z) (pullback q x) Q'
@@ -600,7 +600,9 @@ theorem isPullback_sheaf_relativeHomOfBaseChange (q : Q' ⟶ Q)
 
 /-- **Stacks 05Y4** read as an identification of fppf sheaves:
 `Mor_{Q'}(Z', X') = Q' ×_Q Mor_Q(Z, X)` in `Sh((Sch/S)_fppf)`. The sheaf property of the two
-relative morphism functors is part (1) of Stacks 05Y3 and is carried as a hypothesis. -/
+relative morphism functors, part (1) of Stacks 05Y3, is an argument here so that the statement
+applies to any realizations that are sheaves; for algebraic spaces it is
+`AlgebraicGeometry.Space.RelativeHomConstruction.isSheaf_functor`. -/
 noncomputable def relativeHomSheafBaseChangeIso (q : Q' ⟶ Q)
     (H : RelativeHomConstruction B S hS Z X Q z x)
     (H' : RelativeHomConstruction B S hS (pullback q z) (pullback q x) Q'
@@ -650,20 +652,18 @@ theorem isPullback_relativeHomOfBaseChange_relativeHomData {Z X Q Q' : Algebraic
         Q.property).projection :=
   isPullback_relativeHomOfBaseChange _ _ _
 
-/-- **Stacks 05Y4** for the relative morphism functor of Stacks 05Y2 and the fibre products of
-algebraic spaces of Stacks 02X2: for morphisms `z : Z ⟶ Q`, `x : X ⟶ Q` and `q : Q' ⟶ Q` of
-algebraic spaces over `S`,
+/-- The square of Stacks 05Y4 for the relative morphism functor of Stacks 05Y2 and the fibre
+products of algebraic spaces of Stacks 02X2: for morphisms `z : Z ⟶ Q`, `x : X ⟶ Q` and
+`q : Q' ⟶ Q` of algebraic spaces over `S`,
 
 ```text
 Mor_{Q'}(Q' ×_Q Z, Q' ×_Q X) = Q' ×_Q Mor_Q(Z, X)
 ```
 
-**in `Sh((Sch/S)_fppf)`**. The sheaf property of the two relative morphism functors is part (1)
-of Stacks 05Y3, which this library does not carry; it is taken as the hypotheses `hH` and `hH'`.
-That `Q` and `Q'` are sheaves is part of being an algebraic space, so nothing else is assumed. -/
-@[stacks 05Y4 "the identification in `Sh((Sch/S)_fppf)` for the functor of Stacks 05Y2 and the \
-fibre products of Stacks 02X2, with the sheaf property of the two relative morphism functors — \
-part (1) of the cited Stacks 05Y3 — carried as a hypothesis"]
+**in `Sh((Sch/S)_fppf)`**, with the sheaf structures on the two relative morphism functors
+given as the arguments `hH` and `hH'`. Their sheaf property is part (1) of Stacks 05Y3,
+`AlgebraicGeometry.Space.isSheaf_relativeHom`, and the form with it discharged, which is the
+source's statement, is `AlgebraicGeometry.Space.isPullback_relativeHomSheafOfBaseChange`. -/
 theorem isPullback_sheaf_relativeHomOfBaseChange_relativeHomData
     {Z X Q Q' : AlgebraicSpaces B S hS} (z : Z ⟶ Q) (x : X ⟶ Q) (q : Q' ⟶ Q)
     (hH : Presheaf.IsSheaf (BigFppfOver.topology B S hS)
@@ -735,7 +735,7 @@ noncomputable def RelativeHomConstruction.isoRelativeHom
 /-- **Part (1) of Stacks 05Y3 for an arbitrary realization of the relative morphism
 functor**: it is a sheaf on the big fppf site of `S`, because it is isomorphic to the functor
 of Stacks 05Y2, which is a sheaf by
-`AlgebraicGeometry.Space.isSheaf_relativeHom`. This is what discharges the hypotheses `hH` and
+`AlgebraicGeometry.Space.isSheaf_relativeHom`. This is what discharges the arguments `hH` and
 `hH'` of `AlgebraicGeometry.Space.isPullback_sheaf_relativeHomOfBaseChange`. -/
 theorem RelativeHomConstruction.isSheaf_functor
     {Z X Q : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {z : Z ⟶ Q} {x : X ⟶ Q}
@@ -749,18 +749,12 @@ section Unconditional
 
 variable {Z X Q Q' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {z : Z ⟶ Q} {x : X ⟶ Q}
 
-/-- **Stacks 05Y4**, unconditionally. The identification
-
-```text
-Mor_{Q'}(Z', X') = Q' ×_Q Mor_Q(Z, X)
-```
-
-**in `Sh((Sch/S)_fppf)`**, for arbitrary realizations of the two relative morphism functors.
-This is `AlgebraicGeometry.Space.isPullback_sheaf_relativeHomOfBaseChange` with its two sheaf
-hypotheses discharged by part (1) of Stacks 05Y3, in the form
-`AlgebraicGeometry.Space.RelativeHomConstruction.isSheaf_functor`; the algebraicity of the
-sources and of the two bases is all that remains. -/
-@[stacks 05Y4 "the identification in `Sh((Sch/S)_fppf)`"]
+/-- The square of Stacks 05Y4 `Mor_{Q'}(Z', X') = Q' ×_Q Mor_Q(Z, X)` in `Sh((Sch/S)_fppf)`, for
+arbitrary realizations of the two relative morphism functors, with the algebraicity of the fibre
+products `Z' = Q' ×_Q Z` and `X' = Q' ×_Q X` taken as the arguments `hZ'` and `hX'`. Those follow
+from the algebraicity of `Z`, `X`, `Q` and `Q'` by `AlgebraicGeometry.isAlgebraicSpace_pullback`,
+and the form with only the source's hypotheses is
+`AlgebraicGeometry.Space.RelativeHomConstruction.isPullback_sheaf_ofBaseChange`. -/
 theorem isPullback_sheaf_relativeHomOfBaseChange_of_isAlgebraicSpace (q : Q' ⟶ Q)
     (H : RelativeHomConstruction B S hS Z X Q z x)
     (H' : RelativeHomConstruction B S hS (pullback q z) (pullback q x) Q'
@@ -785,10 +779,52 @@ theorem isPullback_sheaf_relativeHomOfBaseChange_of_isAlgebraicSpace (q : Q' ⟶
   isPullback_sheaf_relativeHomOfBaseChange q H H' hQ.isSheaf hQ'.isSheaf
     (H.isSheaf_functor hZ hX hQ) (H'.isSheaf_functor hZ' hX' hQ')
 
+/-- **Stacks 05Y4.** Let `z : Z ⟶ Q`, `x : X ⟶ Q` and `q : Q' ⟶ Q` be morphisms of algebraic
+spaces over `S`, and set `Z' = Q' ×_Q Z` and `X' = Q' ×_Q X`. Then
+
+```text
+Mor_{Q'}(Z', X') = Q' ×_Q Mor_Q(Z, X)
+```
+
+**in `Sh((Sch/S)_fppf)`**, for arbitrary realizations `H` of `Mor_Q(Z, X)` and `H'` of
+`Mor_{Q'}(Z', X')`: the square of fppf sheaves formed by the two projections reading off the first
+component of a pair of Stacks 05Y1, the morphism `q` and the morphism forgetting the base change
+is cartesian.
+
+Only `Z`, `X`, `Q` and `Q'` are assumed to be algebraic spaces, as in the source. The fibre
+products `Z'` and `X'` are algebraic spaces by
+`AlgebraicGeometry.isAlgebraicSpace_pullback`, the two relative morphism functors are
+sheaves by part (1) of Stacks 05Y3
+(`AlgebraicGeometry.Space.RelativeHomConstruction.isSheaf_functor`), and the square is cartesian
+by `AlgebraicGeometry.Space.isPullback_sheaf_relativeHomOfBaseChange`. -/
+@[stacks 05Y4 "the identification in `Sh((Sch/S)_fppf)`"]
+theorem RelativeHomConstruction.isPullback_sheaf_ofBaseChange (q : Q' ⟶ Q)
+    (H : RelativeHomConstruction B S hS Z X Q z x)
+    (H' : RelativeHomConstruction B S hS (pullback q z) (pullback q x) Q'
+      (pullback.fst q z) (pullback.fst q x))
+    (hZ : IsAlgebraicSpace B S hS Z) (hX : IsAlgebraicSpace B S hS X)
+    (hQ : IsAlgebraicSpace B S hS Q) (hQ' : IsAlgebraicSpace B S hS Q') :
+    IsPullback
+      (ObjectProperty.homMk H'.projection :
+        (⟨H'.functor, H'.isSheaf_functor (isAlgebraicSpace_pullback B S hS q z hQ' hZ hQ)
+            (isAlgebraicSpace_pullback B S hS q x hQ' hX hQ) hQ'⟩ :
+          Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶ ⟨Q', hQ'.isSheaf⟩)
+      (ObjectProperty.homMk (relativeHomOfBaseChange q H H') :
+        (⟨H'.functor, H'.isSheaf_functor (isAlgebraicSpace_pullback B S hS q z hQ' hZ hQ)
+            (isAlgebraicSpace_pullback B S hS q x hQ' hX hQ) hQ'⟩ :
+            Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶
+          ⟨H.functor, H.isSheaf_functor hZ hX hQ⟩)
+      (ObjectProperty.homMk q :
+        (⟨Q', hQ'.isSheaf⟩ : Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶ ⟨Q, hQ.isSheaf⟩)
+      (ObjectProperty.homMk H.projection :
+        (⟨H.functor, H.isSheaf_functor hZ hX hQ⟩ :
+          Sheaf (BigFppfOver.topology B S hS) (Type u)) ⟶ ⟨Q, hQ.isSheaf⟩) :=
+  isPullback_sheaf_relativeHomOfBaseChange q H H' hQ.isSheaf hQ'.isSheaf _ _
+
 end Unconditional
 
 variable (B S hS) in
-/-- **Stacks 05Y4**, unconditionally, for the relative morphism functor of Stacks 05Y2 and the
+/-- **Stacks 05Y4** for the relative morphism functor of Stacks 05Y2 and the
 fibre products of algebraic spaces of Stacks 02X2: for morphisms `z : Z ⟶ Q`, `x : X ⟶ Q` and
 `q : Q' ⟶ Q` of algebraic spaces over `S`,
 

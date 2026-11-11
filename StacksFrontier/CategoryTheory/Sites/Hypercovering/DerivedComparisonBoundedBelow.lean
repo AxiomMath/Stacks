@@ -542,7 +542,6 @@ It is `s(F(K)) ≅ Θ(F[0]) ⟶ RΘ(F[0]) ≅ RΓ(X, F)`: the identification of 
 hypercover total complex of `F[0]`, the unit of the right derived functor of `Θ`, and the inverse
 of the comparison `RΓ(X, -) ⟶ RΘ` induced by the augmentation. It is pinned down by
 `hypercoverAugDerivedSections_comp_hypercoverComparisonMap`. -/
-@[stacks 01GY "comparison_map"]
 def hypercoverComparisonMap (hK : IsHypercovering J K) :
     hypercoverDerivedFunctor J U K ⟶ derivedSectionsFunctor J U :=
   (hypercoverDerivedSingleIso J U K).hom ≫
@@ -581,7 +580,6 @@ theorem hypercoverAugDerivedSections_comp_hypercoverComparisonMap (hK : IsHyperc
 
 /-- The natural map from the Čech cohomology of a hypercovering `K` of `X` to sheaf cohomology in
 degree `i`, induced by the comparison map `hypercoverComparisonMap`. -/
-@[stacks 01GY "cohomology_comparison"]
 def hypercoverCohomologyComparison (hK : IsHypercovering J K) (i : ℤ) :
     (hypercoverDerivedFunctor J U K ⋙ homologyFunctor AddCommGrpCat.{max u v w} i) ⟶
       (derivedSectionsFunctor J U ⋙ homologyFunctor AddCommGrpCat.{max u v w} i) :=

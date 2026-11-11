@@ -5,9 +5,9 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.CohomologicalDescen
 /-!
 # The unbounded equivalence for an abstract adjunction of derived categories of modules
 
-Stacks 0D6U and 0D7V are stated in this library for a morphism of ringed topoi presented by a
-continuous functor between the underlying sites (`AlgebraicGeometry.RingedToposSiteHom`). Their
-proofs use nothing of that presentation beyond four properties of the derived direct image `R`:
+Stacks 0D6U, and the form of 0D7V in `UnboundedEquivalence`, are stated in this library for a
+morphism of ringed topoi presented by a continuous functor between the underlying sites
+(`AlgebraicGeometry.RingedToposSiteHom`). Their proofs use nothing of that presentation beyond four properties of the derived direct image `R`:
 it is a right adjoint, it commutes with the shift, it is triangulated, and it preserves
 boundedness below. This file isolates that argument for an arbitrary adjunction `L ⊣ R` between
 derived categories of sheaves of modules on the sites of two Olsson--Laszlo situations, so that

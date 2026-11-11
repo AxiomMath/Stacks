@@ -981,6 +981,15 @@ private lemma groth_op_fiber_groupoid3 {C : Type u} [Category.{v} C]
     simp only [op_obj, IsIso.inv_hom_id, map_id, φ0]
     rfl
 
+/-- The projection of the Grothendieck construction of a functor `F : C ⥤ Cat` all of whose values
+are groupoids is cofibered in groupoids (Stacks 06GK (9)). -/
+public theorem isCofiberedInGroupoids_grothendieckForget {C : Type u} [Category.{v} C]
+    (F : C ⥤ Cat.{w, w}) (hF : ∀ T, IsGroupoid (F.obj T)) :
+    IsCofiberedInGroupoids (Grothendieck.forget F) := by
+  change (Grothendieck.forget F).op.IsFiberedInGroupoids
+  let : (Grothendieck.forget F).op.IsFibered := grothendieck_forget_op_fibered2 F
+  exact Functor.IsFiberedInGroupoids.mk' (fun S ↦ groth_op_fiber_groupoid3 S hF)
+
 /-- The projection of the Grothendieck construction of a groupoid in functors
 is cofibered in groupoids. -/
 @[stacks 06KB "cofibered property", sga "7 VI 1.1(a)" "groupoid in functors"]

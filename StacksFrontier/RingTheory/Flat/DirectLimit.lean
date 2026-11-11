@@ -24,13 +24,16 @@ colimit of faithfully flat algebras is faithfully flat.
 ## Main definitions
 
 * `StacksColimitRingsFlat.ColimitRing`: the colimit ring `colim_i R_i`.
-* `StacksColimitRingsFlat.ColimitModule`: the colimit `colim_i M_i` of a semilinear system of
-  modules, as the `R`-module `colim_i (R ⊗_{R_i} M_i)`.
+* `StacksColimitRingsFlat.ColimitModule`: the `R`-module `colim_i (R ⊗_{R_i} M_i)`; it is
+  identified with the colimit `colim_i M_i` of the abelian groups `M_i` in
+  `StacksFrontier.RingTheory.Flat.DirectLimitColimitModule`.
 
 ## Main results
 
 * `StacksColimitRingsFlat.flat_of_forall_flat`: part (1).
-* `StacksColimitRingsFlat.colimitModule_flat`: part (2).
+* `StacksColimitRingsFlat.colimitModule_flat`: part (2) for `ColimitModule M f`; part (2) for
+  `colim_i M_i` itself, and the registration of both parts, are in
+  `StacksFrontier.RingTheory.Flat.DirectLimitColimitModule`.
 * `StacksColimitRingsFlat.flat_directLimit`, `directLimit_flat` and `colimit_flat_of_flat`:
   over a fixed commutative ring, a directed colimit of flat modules is flat.
 * `StacksColimitRingsFlat.colimitStructMap_comp`: the cocone maps into `ColimitModule` are
@@ -190,8 +193,9 @@ theorem algebraMap_structHom_comp (i j : ι) (h : i ≤ j) (a : G i) :
 /-! ### Flatness over every `R_i` implies flatness over the colimit ring -/
 
 /-- If `M` is an `R`-module that is flat as an `R_i`-module for every
-`i` (via the structure map `R_i → R`), then `M` is flat as an `R`-module. -/
-@[stacks 05UU "(1)", ega "0 6.2.3" "special case"]
+`i` (via the structure map `R_i → R`), then `M` is flat as an `R`-module. This is part (1) of
+Stacks 05UU, which is registered on `StacksColimitRingsFlat.flat_colimit`. -/
+@[ega "0 6.2.3" "special case"]
 theorem flat_of_forall_flat
     [Nonempty ι] [IsDirected ι (· ≤ ·)] [DirectedSystem G (fun i j h => (φ i j h : G i → G j))]
     (M : Type*) [AddCommGroup M] [Module (ColimitRing G φ) M]
@@ -364,8 +368,9 @@ noncomputable def baseChangeMap (i j : ι) (h : i ≤ j) :
 abbrev baseChangedModule (i : ι) : Type _ :=
   TensorProduct (G i) (ColimitRing G φ) (M i)
 
-/-- The colimit `R`-module `M = colim_i M_i`, realized as the direct limit
-(Stacks 00D6) of the base-changed system `R ⊗_{R_i} M_i`. -/
+/-- The `R`-module direct limit (Stacks 00D6) of the base-changed system `R ⊗_{R_i} M_i`.
+It is the colimit `colim_i M_i` of the abelian groups `M_i`: see
+`StacksColimitRingsFlat.directLimitEquivColimitModule`. -/
 @[ega "0 6.2.3"]
 noncomputable abbrev ColimitModule [DecidableEq ι] : Type _ :=
   Module.DirectLimit (R := ColimitRing G φ) (baseChangedModule M) (baseChangeMap M f)
@@ -463,9 +468,12 @@ theorem baseChangeMap_directedSystem
 end ColimitModule
 
 /-- If each `M_i` is a flat `R_i`-module and the `f_{ii'}` are a
-compatible system of `φ_{ii'}`-semilinear maps, then the colimit
-`M = colim_i M_i` is a flat `R`-module. -/
-@[stacks 05UU "(2)", ega "0 6.1.2" "more general", ega "0 6.2.3", sga "4 VI 8.6.4" "special case"]
+compatible system of `φ_{ii'}`-semilinear maps, then the auxiliary `R`-module
+`ColimitModule M f = colim_i (R ⊗_{R_i} M_i)` is flat over `R`. It is identified with the
+colimit `colim_i M_i` of the abelian groups `M_i` by
+`StacksColimitRingsFlat.directLimitEquivColimitModule`; Stacks 05UU (2) for `colim_i M_i`
+itself is `StacksColimitRingsFlat.flat_directLimit_of_flat`. -/
+@[ega "0 6.1.2" "more general", ega "0 6.2.3", sga "4 VI 8.6.4" "special case"]
 theorem colimitModule_flat
     [Nonempty ι] [IsDirected ι (· ≤ ·)] [DecidableEq ι]
     [DirectedSystem G (fun i j h => (φ i j h : G i → G j))]

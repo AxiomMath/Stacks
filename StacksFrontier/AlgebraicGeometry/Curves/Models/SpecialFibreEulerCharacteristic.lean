@@ -74,11 +74,12 @@ All in the namespace `Stacks.Models`:
 
 **Why this is not [Stacks, Tag 0B9T].** The source deduces the statement from the perfection of
 `Rf_*ℱ` ([Stacks, Tag 0B91] clause 2) together with the comparison of `Hⁱ(Rf_*ℱ ⊗^L κ(s))` with
-`Hⁱ(X_s, ℱ_s)`; neither is carried in this library, and the tag is therefore available here only
-with those two as hypotheses (see
-`StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatFibreEulerCharacteristic.lean`). Over a discrete
-valuation ring the statement is instead provable from unconditional results of the library, and that
-is the route taken: no tag attribute is attached to anything in this file.
+`Hⁱ(X_s, ℱ_s)`. Both are now proved in this library, and the tag is registered unconditionally in
+`StacksFrontier/AlgebraicGeometry/Perfect/ProperFlatFibreEulerCharacteristicUnconditional.lean`
+(`AlgebraicGeometry.ProperFlatFibreEulerCharacteristic.isLocallyConstant_fibreEulerCharacteristic`).
+Over a discrete valuation ring the statement is also provable directly from unconditional results
+of the library, and that is the route taken here: no tag attribute is attached to anything in
+this file.
 
 **The proof.** Write `Mⁿ = Hⁿ(X, 𝒪_X)`, a finite `R`-module by [Stacks, Tag 02O6]
 (`AlgebraicGeometry.ProperCoherenceWitness.moduleFinite_cohomology`, unconditional) which
@@ -410,10 +411,9 @@ theorem finrank_tensor_cyclic_eq (hsurj : Function.Surjective (algebraMap R k)) 
         rw [map_mul, hπ0, zero_mul])]
 
 /-- A finite product of cyclic modules `R ⧸ (q i)` with every `q i` nonzero is torsion. -/
-theorem isTorsion_pi_quot {ι : Type u} [Finite ι] (q : ι → R) (hq : ∀ i, q i ≠ 0) :
+theorem isTorsion_pi_quot {ι : Type u} [Fintype ι] (q : ι → R) (hq : ∀ i, q i ≠ 0) :
     Module.IsTorsion R (∀ i, R ⧸ Ideal.span ({q i} : Set R)) := by
   classical
-  have := Fintype.ofFinite ι
   intro x
   refine ⟨⟨∏ i, q i, mem_nonZeroDivisors_of_ne_zero
     (Finset.prod_ne_zero_iff.mpr fun i _ => hq i)⟩, ?_⟩
@@ -580,7 +580,7 @@ theorem finrank_tensor_eq_finrank_rangeSubmodule
   have hex := _root_.lTensor_exact (R := R) k h1' hsurj'
   have hzero : LinearMap.lTensor k (π • (LinearMap.id : M →ₗ[R] M)) = 0 := by
     refine TensorProduct.ext' fun c m => ?_
-    change c ⊗ₜ[R] (π • m) = 0
+    show c ⊗ₜ[R] (π • m) = 0
     rw [TensorProduct.tmul_smul]
     exact smul_eq_zero_of_algebraMap_eq_zero hπ0 _
   have hinj : Function.Injective (LinearMap.lTensor k φ') := by
@@ -695,7 +695,7 @@ private theorem isFractionRing_of_ringEquivs {R K A B : Type u} [CommRing R] [Co
   · rintro ⟨y, hy⟩
     rw [← hR] at hy
     obtain ⟨x, hx, rfl⟩ := hy
-    change IsUnit (algebraMap A B (eR x))
+    show IsUnit (algebraMap A B (eR x))
     rw [hmap, h x]
     exact (IsLocalization.map_units (M := nonZeroDivisors R) K ⟨x, hx⟩).map eK
   · intro z
@@ -837,7 +837,7 @@ theorem exact_postcomp_injective {α β γ δ : Type*} [Zero γ] [Zero δ] {f : 
     Function.Exact f (v ∘ g) := fun b => by
   refine Iff.trans ?_ (h b)
   exact ⟨fun hb => hv (by rw [hv0]; exact hb), fun hb => by
-    change v (g b) = 0
+    show v (g b) = 0
     rw [hb, hv0]⟩
 
 /-- Exactness survives precomposition with a surjection. -/
@@ -923,17 +923,17 @@ theorem appTop_modelBaseMap (x : S.R) :
     (S.specialFiberIdeal.subschemeι.appTop).hom (modelBaseMap S x) =
       specialFibreResidueMap S (algebraMap S.R S.k x) := by
   have hres : specialFibreResidueMap S = S.fibreSubschemeResidueMap S.specialFiberIdeal le_rfl := by
-    change ((Scheme.ΓSpecIso (.of S.k)).inv ≫
+    show ((Scheme.ΓSpecIso (.of S.k)).inv ≫
       (S.fibreSubschemeToSpec S.specialFiberIdeal le_rfl).appLE ⊤ ⊤ (by simp)).hom = _
     rw [AlgebraicGeometry.appLE_top_top_eq_appTop
       (S.fibreSubschemeToSpec S.specialFiberIdeal le_rfl) (by simp)]
     rfl
   have hbase : (S.specialFiberIdeal.subschemeι.appTop).hom (modelBaseMap S x) =
       S.fibreSubschemeBaseMap S.specialFiberIdeal x := by
-    change _ = ((Scheme.ΓSpecIso (.of S.R)).inv ≫
+    show _ = ((Scheme.ΓSpecIso (.of S.R)).inv ≫
       (S.specialFiberIdeal.subschemeι ≫ S.X_to_R).appTop).hom x
     rw [Scheme.Hom.comp_appTop]
-    change (S.specialFiberIdeal.subschemeι.appTop).hom
+    show (S.specialFiberIdeal.subschemeι.appTop).hom
       (((Scheme.ΓSpecIso (.of S.R)).inv ≫ S.X_to_R.appLE ⊤ ⊤ (by simp)).hom x) = _
     rw [AlgebraicGeometry.appLE_top_top_eq_appTop S.X_to_R (by simp)]
     rfl
@@ -1222,7 +1222,7 @@ theorem moduleFinite_modelCohomology (n : ℕ) : Module.Finite S.R ↥(modelCoho
     ((ModuleCat.restrictScalars (Scheme.Hom.appTop S.X_to_R).hom).obj
       (((AlgebraicGeometry.moduleGlobalSections S.X).rightDerived n).obj
         (SheafOfModules.unit S.X.ringCatSheaf)))
-  change Module.Finite S.R
+  show Module.Finite S.R
     ((ModuleCat.restrictScalars ((Scheme.ΓSpecIso (CommRingCat.of S.R)).inv ≫
         S.X_to_R.appLE ⊤ ⊤ (by simp)).hom).obj
       (((AlgebraicGeometry.moduleGlobalSections S.X).rightDerived n).obj

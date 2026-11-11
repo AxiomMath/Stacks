@@ -65,19 +65,24 @@ image perfect:
   tags that this file does not derive; each field says so in its own docstring.
 
 The derived direct image itself is `Stacks.Cohomology.ProperSupportPerfection.derivedPushforwardOX`
-of `StacksFrontier/AlgebraicGeometry/Perfect/ProperSupportPerfection.lean`, where [Stacks, Tag 08EV]
-already concludes about it.
+of `StacksFrontier/AlgebraicGeometry/Perfect/ProperSupportPerfection.lean`, where the conditional
+form of [Stacks, Tag 08EV] that this file consumes concludes about it.
 
 ## Main results
 
 * `Stacks.Cohomology.PerfectPushforward.pushforwardPerfectionCriterion_of_residues` derives the
-  criterion from [Stacks, Tag 08EV] as proved in
-  `StacksFrontier/AlgebraicGeometry/Perfect/ProperSupportPerfection.lean`, leaving that proof's two
+  criterion from the conditional form of [Stacks, Tag 08EV] in
+  `StacksFrontier/AlgebraicGeometry/Perfect/ProperSupportPerfection.lean`, leaving that form's two
   residues as the hypotheses.
-* `Stacks.Cohomology.PerfectPushforward.isPerfect_derivedPushforward_derivedTensor` is
-  [Stacks, Tag 0DJQ]; the two residues above and one of the four clauses of
-  [Stacks, Tag 08EV]'s hypothesis for `E ⊗^L_{𝒪_X} 𝒢` are what it assumes.  See the
-  implementation notes.
+* `Stacks.Cohomology.PerfectPushforward.isPerfect_derivedPushforward_derivedTensor` is a
+  conditional form of [Stacks, Tag 0DJQ]; the two residues above and one of the four clauses of
+  [Stacks, Tag 08EV]'s hypothesis for `E ⊗^L_{𝒪_X} 𝒢` are what it assumes.  It is not the
+  registration of that tag: [Stacks, Tag 0DJQ] is proved with none of these inputs, as
+  `Stacks.Cohomology.PerfectPushforward.isPerfect_derivedPushforward_derivedTensor_of_isPerfect`
+  (`StacksFrontier/AlgebraicGeometry/Perfect/PerfectPushforwardDerivedTensor.lean`) and, at the
+  canonical derived tensor product, as the registered
+  `Stacks.Cohomology.PerfectPushforward.isPerfect_derivedPushforward_derivedTensorProductFunctor`
+  (`StacksFrontier/AlgebraicGeometry/Perfect/PerfectPushforwardCanonicalTensor.lean`).
 * `Stacks.Cohomology.PerfectPushforward.exists_local_tensorComplex_models` is the geometric step
   of [Stacks, Tag 0DJQ], and is proved: `E ⊗^L_{𝒪_X} 𝒢` is represented by `Tot(A ⊗_{𝒪_X} 𝒢)`
   for a K-flat `A`, and on a covering of `X` that complex is, in the derived category, the total
@@ -137,19 +142,26 @@ space uses — [Stacks, Tag 08DP] and [Stacks, Tag 09J5] among others — and `D
 
 **What is carried.**  Both source proofs run through [Stacks, Tag 08EV]: the statement that a
 bounded object with coherent cohomology, proper cohomological support and finite Tor dimension
-over `f⁻¹𝒪_S` has perfect derived direct image.  That tag is proved in
-`StacksFrontier/AlgebraicGeometry/Perfect/ProperSupportPerfection.lean`, as
+over `f⁻¹𝒪_S` has perfect derived direct image.  That tag is proved unconditionally as
+`Stacks.AlgebraicGeometry.ProperSupportCoherent.isPerfect_derivedPushforward_of_isProperOver_supp`,
+at the `AlgebraicGeometry.Scheme.Modules` spelling and for the canonical derived tensor product
+on `(X, f⁻¹𝒪_S)`.  This file is stated instead at the `StrictlyPerfect.OXMod` spelling with an
+arbitrary certified derived tensor datum `D`, for which the tag is available only in the
+conditional form
 `Stacks.Cohomology.ProperSupportPerfection.isPerfect_derivedPushforward_of_properSupport`, under
-two named residues of its own, and
+two named residues, and
 `Stacks.Cohomology.PerfectPushforward.pushforwardPerfectionCriterion_of_residues` carries that
 theorem to the criterion `PushforwardPerfectionCriterion` of this file with no comparison needed:
 the four clauses of `PushforwardPerfectionInput` are literally that theorem's four hypotheses,
 and its `AlgebraicGeometry.IsLocallyNoetherian` assumption on `S` is weaker than the
 `AlgebraicGeometry.IsNoetherian` the two results below already make.  So the two results carry
 `PushforwardCoherenceResidue` and `PushforwardTorDimensionResidue` instead of the criterion
-itself; those are [Stacks, Tag 08E2] for the direct-image functor, whose own obstruction is
-[Stacks, Tag 02O5], and the source's closing Tor-dimension estimate, whose obstructions are
-[Stacks, Tag 08EU] beyond its base case and one direction of [Stacks, Tag 08EA].
+itself; those are [Stacks, Tag 08E2] for the direct-image functor and the source's closing
+Tor-dimension estimate.  Both are proved inside the proof of the complete theorem above; what
+stands between them and this file is the spelling, and above all the datum `D`, whose underived
+tensor product is a field rather than the tensor product of modules, so that Tor dimension for
+`D` does not give Tor dimension for the canonical derived tensor product.  Restating the two
+results below at the canonical derived tensor product would let them apply the complete theorem.
 
 The clauses of the criterion are `PushforwardPerfectionInput`, written in the vocabulary of the
 repository:
@@ -279,13 +291,15 @@ compactness of `X` itself in place of compactness of the support, and with the l
 
 The Tor-dimension clause needs the same local description transported through
 `AlgebraicGeometry.Scheme.Hom.derivedScalarRestriction`, and then flatness of the `𝒢^q` over `S`
-converted into a Tor-amplitude interval.  Of those the second is the obstruction, twice over: no
-statement in the tree derives a Tor-amplitude bound from flatness over the *base* rather than
-over `𝒪_X` (the latter is [Stacks, Tag 08CI], in the namespace
-`Stacks.Cohomology.TorAmplitude.BoundedFlatRepresentative`), and
+converted into a Tor-amplitude interval.  At the `Stacks.Cohomology.TorAmplitude` predicate both
+are done elsewhere in the tree: `AlgebraicGeometry.exists_hasTorAmplitudeOver_derivedTensor`
+bounds the Tor amplitude of `E ⊗^L 𝒢` over the base from flatness of the `𝒢^q` over `S`, and
+`Stacks.Cohomology.PerfectPushforward.hasFiniteTorDimension_derivedTensor`
+(`StacksFrontier/AlgebraicGeometry/Perfect/PerfectPushforwardDerivedTensor.lean`) is the clause
+there.  What keeps it carried in this file is only the spelling:
 `AlgebraicGeometry.RingedSpace.CertifiedDerivedSheafTensoring.HasFiniteTorDimension` — which
-is what the clause is written with, at an arbitrary certified tensoring `D` — has no comparison
-with the `Stacks.Cohomology.TorAmplitude` predicate that [Stacks, Tag 08CI] is stated at.
+is what the clause is written with here, at an arbitrary certified tensoring `D` — has no
+comparison with the `Stacks.Cohomology.TorAmplitude` predicate.
 
 **What is proved.**  The reduction of [Stacks, Tag 0B6F] to [Stacks, Tag 0DJQ].  A flat proper
 morphism to a Noetherian scheme is locally of finite type, so `X` is locally Noetherian and
@@ -389,7 +403,7 @@ structure PushforwardPerfectionInput [LocallyOfFiniteType f]
 
 This property is *not* carried as a hypothesis by the results below:
 `Stacks.Cohomology.ProperSupportPerfection.isPerfect_derivedPushforward_of_properSupport` proves
-[Stacks, Tag 08EV], and
+the conditional form of [Stacks, Tag 08EV] at this spelling, and
 `Stacks.Cohomology.PerfectPushforward.pushforwardPerfectionCriterion_of_residues` turns it into
 this property.  What the results below carry instead are that theorem's own two residues,
 `Stacks.Cohomology.PerfectPushforward.PushforwardCoherenceResidue` and
@@ -409,11 +423,11 @@ sheaves, `Rf_*K` is pseudo-coherent.
 
 This is `hpushforwardCoherence` of
 `Stacks.Cohomology.ProperSupportPerfection.isPerfect_derivedPushforward_of_properSupport`,
-quantified over `K`.  [Stacks, Tag 08E2] is not formalized in either tree; the obstruction is
-coherence of the direct image along a proper morphism, [Stacks, Tag 02O5], which this repository
-proves only conditionally (`AlgebraicGeometry.isCoherent_pushforward_of_isProper` takes the
-affine-base form of that tag as a hypothesis) or for a morphism which is in addition affine,
-finite, mono or locally quasi-finite. -/
+quantified over `K`.  At the `AlgebraicGeometry.Scheme.Modules` spelling, for
+`AlgebraicGeometry.derivedPushforwardModules` and a Noetherian base, the statement is proved, as
+`isPseudoCoherent_derivedPushforward_of_isProperOver_supp_unconditional` in the namespace
+`Stacks.AlgebraicGeometry.ProperSupportCoherent`; it is not transported here to an arbitrary
+functor `Rf`. -/
 def PushforwardCoherenceResidue [LocallyOfFiniteType f]
     (Rf : DerivedCategory (OXMod.{u, u} X.toRingedSpace) ⥤
       DerivedCategory (OXMod.{u, u} S.toRingedSpace)) : Prop :=
@@ -430,12 +444,11 @@ finite Tor dimension over `𝒪_S`.
 
 This is `hpushforwardTorDimension` of
 `Stacks.Cohomology.ProperSupportPerfection.isPerfect_derivedPushforward_of_properSupport`,
-quantified over `K`.  The source obtains it from the projection formula of [Stacks, Tag 08EU]
-and the test-module reduction of [Stacks, Tag 08EA]; of those, [Stacks, Tag 08EU] is available
-only in its base case
-(`Stacks.Cohomology.DerivedProjectionFormula.isIso_projectionFormulaMap_unitObject`), and the
-direction of [Stacks, Tag 08EA] the argument needs is recorded as missing in
-`StacksFrontier/AlgebraicGeometry/Perfect/TorAmplitudeQuasiCoherentTests.lean`. -/
+quantified over `K`.  For the canonical derived tensor product on `(X, f⁻¹𝒪_S)` and
+`AlgebraicGeometry.derivedPushforwardModules` the corresponding statement is proved, as
+`AlgebraicGeometry.locallyHasFiniteTorDimension_derivedPushforward_of_isProperOver`; for an
+arbitrary certified datum `D` the hypothesis `D.HasFiniteTorDimension` is about the underived
+tensor product carried by `D`, not about the tensor product of modules, and does not give it. -/
 def PushforwardTorDimensionResidue [LocallyOfFiniteType f]
     (D : RingedSpace.CertifiedDerivedSheafTensoring
       (RingedSpace.inverseImage S.toRingedSpace f.base))
@@ -446,7 +459,7 @@ def PushforwardTorDimensionResidue [LocallyOfFiniteType f]
     D.HasFiniteTorDimension ((Scheme.Hom.derivedScalarRestriction f).obj K) →
     Stacks.Cohomology.TorAmplitude.HasFiniteTorDimension S.toRingedSpace (Rf.obj K)
 
-/-- **[Stacks, Tag 08EV] discharges the criterion.**  The four clauses of
+/-- **The conditional form of [Stacks, Tag 08EV] discharges the criterion.**  The four clauses of
 `Stacks.Cohomology.PerfectPushforward.PushforwardPerfectionInput` are, field for field, the four
 hypotheses of
 `Stacks.Cohomology.ProperSupportPerfection.isPerfect_derivedPushforward_of_properSupport`, so
@@ -459,7 +472,7 @@ that theorem quantified over `K`.
 free.
 
 The functor is `Stacks.Cohomology.ProperSupportPerfection.derivedPushforwardOX f`, since that is
-what [Stacks, Tag 08EV] concludes about.  Only the two residues are quantified over a functor,
+what that conditional form concludes about.  Only the two residues are quantified over a functor,
 which is right: each is a property *of* a functor, and the theorem applies both to this one. -/
 theorem pushforwardPerfectionCriterion_of_residues [IsLocallyNoetherian S] [LocallyOfFiniteType f]
     (D : RingedSpace.CertifiedDerivedSheafTensoring
@@ -1528,15 +1541,15 @@ theorem TensorPushforwardData.input [IsNoetherian S] [LocallyOfFiniteType f]
     exact ⟨Z, hZ, supp_homology_derivedTensor_subset X T E G h.isPerfect _ hsub i⟩
   hasFiniteTorDimension := h.hasFiniteTorDimension
 
-/-- **[Stacks, Tag 0DJQ].**  Let `S` be a Noetherian scheme, `f : X ⟶ S` a morphism locally of
-finite type, `E` a perfect object of `D(𝒪_X)` and `𝒢` a bounded complex of coherent
+/-- **[Stacks, Tag 0DJQ], conditional form (not the registration of the tag).**  Let `S` be a
+Noetherian scheme, `f : X ⟶ S` a morphism locally of finite type, `E` a perfect object of `D(𝒪_X)` and `𝒢` a bounded complex of coherent
 `𝒪_X`-modules, flat over `S`, whose support is proper over `S`.  Then
 `Rf_*(E ⊗^L_{𝒪_X} 𝒢)` is a perfect object of `D(𝒪_S)`, with `Rf_*` the derived direct image
 `Stacks.Cohomology.ProperSupportPerfection.derivedPushforwardOX f` — the total right derived
 functor of degreewise pushforward — and not a functor left unspecified.
 
-[Stacks, Tag 08EV] itself is *not* a hypothesis: it is proved in
-`StacksFrontier/AlgebraicGeometry/Perfect/ProperSupportPerfection.lean`, and
+[Stacks, Tag 08EV] itself is *not* a hypothesis: its conditional form at this spelling is proved
+in `StacksFrontier/AlgebraicGeometry/Perfect/ProperSupportPerfection.lean`, and
 `Stacks.Cohomology.PerfectPushforward.pushforwardPerfectionCriterion_of_residues` turns it into
 the criterion this proof consumes.  What is carried in its place are that theorem's own two
 residues, `hcoh` and `htor` — [Stacks, Tag 08E2] for `Rf_*` and the source's closing
@@ -1555,14 +1568,13 @@ clause: see
 remaining clause runs on — that `E ⊗^L_{𝒪_X} 𝒢` is, locally on a covering of `X`, the total tensor
 complex of a strictly perfect complex with the restriction of `𝒢` — is proved above, as
 `Stacks.Cohomology.PerfectPushforward.exists_local_tensorComplex_models`; what reading it off that
-still needs is listed in the implementation notes of this file. -/
-@[stacks 0DJQ "the direct image is the derived pushforward, not an arbitrary functor; Tag 08EV is \
-  proved in ProperSupportPerfection and applied here, so what stands in its place are its own two \
-  residues about that same functor, Tag 08E2 for it and the source's closing Tor-dimension \
-  estimate; of Tag 08EV's four clauses for the derived tensor product three are proved here and \
-  the fourth, finiteness of the Tor dimension over the inverse image of the structure sheaf of \
-  the base, is carried, with the geometric step it runs on proved as \
-  exists_local_tensorComplex_models"]
+still needs is listed in the implementation notes of this file.
+
+The tag itself is proved with none of these inputs, as
+`Stacks.Cohomology.PerfectPushforward.isPerfect_derivedPushforward_derivedTensor_of_isPerfect`,
+and registered at the canonical derived tensor product as
+`Stacks.Cohomology.PerfectPushforward.isPerfect_derivedPushforward_derivedTensorProductFunctor`;
+this conditional form is kept because the reduction of [Stacks, Tag 0B6F] below runs through it. -/
 theorem isPerfect_derivedPushforward_derivedTensor [IsNoetherian S] [LocallyOfFiniteType f]
     (D : RingedSpace.CertifiedDerivedSheafTensoring
       (RingedSpace.inverseImage S.toRingedSpace f.base))
@@ -1954,7 +1966,7 @@ of `X` (`Stacks.Cohomology.PerfectPushforward.exists_isZero_homology_of_isProper
 coherence clause from [Stacks, Tag 0FEP]
 (`Stacks.Cohomology.PerfectPushforward.FlatProperPushforwardData.isCoherent`).
 [Stacks, Tag 08EV] itself is not a
-hypothesis: it is proved in
+hypothesis: its conditional form at this spelling is proved in
 `StacksFrontier/AlgebraicGeometry/Perfect/ProperSupportPerfection.lean` and reaches this proof
 through `Stacks.Cohomology.PerfectPushforward.pushforwardPerfectionCriterion_of_residues`, so
 `hcoh` and `htor` — its two residues, [Stacks, Tag 08E2] for `Rf_*` and the source's closing

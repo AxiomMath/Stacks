@@ -136,7 +136,7 @@ theorem isZero_rightDerived_smallBaseChangeModulePushforward_of_isAffineHom (f :
 big fppf site `B`, and let `𝓕` be a quasi-coherent `𝒪_X`-module. Then the higher direct images
 `R^p f_* 𝓕` vanish for `p > 0`, the direct image being
 `AlgebraicGeometry.Space.modulePushforward`. -/
-@[stacks 073H]
+@[stacks 073H "the full statement, for the direct image `Space.modulePushforward`"]
 theorem isZero_rightDerived_modulePushforward_isAffineHom (f : X ⟶ Y)
     (haff : IsAffineHom B S hS f.hom) (F : Modules.{u, u} B S hS X.1 X.2)
     (hF : F.IsQuasicoherentOnSite) (p : ℕ) (hp : 0 < p) :

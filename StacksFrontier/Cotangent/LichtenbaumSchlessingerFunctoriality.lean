@@ -74,9 +74,10 @@ images of the old ones, and those indexed by `S` are the extra ones needed becau
 the defining ideal of `P → B` need not generate that of `P' → B'`.
 
 The second diagram displayed in the source, which compares the above with the canonical maps
-`L_{B/A} → L` and `L_{B'/A'} → L'` of Tag 09CG, is not carried here: those maps are available
-only relative to a chain-level comparison datum, which the present construction does not
-produce.
+`L_{B/A} → L` and `L_{B'/A'} → L'` of Tag 09CG, is
+`LichtenbaumSchlessingerHom.canonicalCotangentToLichtenbaumSchlessinger_naturality` in
+the namespace `Algebra.Presentation`, in the module
+`StacksFrontier.Cotangent.LichtenbaumSchlessingerComparisonNatural`.
 
 ## References
 

@@ -702,6 +702,92 @@ private lemma isKInjective_filtration_obj_of_injective {A : Type*} [Category* A]
   have (m : ℤ) := hIstepInj p m
   exact CochainComplex.isKInjective_of_injective _ a
 
+/-- **The replacement of Remark [Stacks, Tag 0BKL] is a filtered K-injective resolution.** A
+bounded below filtered complex of module sheaves whose filtration is finite in every degree has a
+filtered K-injective resolution, in the sense of
+`Stacks.Cohomology.FilteredComplex.FilteredKInjectiveResolution`, which is moreover bounded below
+in the same degree, has a filtration finite in every degree and is filtered injective in every
+degree. So the spectral sequence of [Stacks, Tag 0BKK] may be computed from such a replacement,
+which is the content of the first assertion of Remark 0BKL. -/
+theorem exists_boundedBelow_filteredKInjectiveResolution (X : RingedSpace.{u, u})
+    (K : CochainComplex.Filtered (SheafOfModules.{u} (structureSheafRing X))) (a : ℤ)
+    (hK : K.X.IsStrictlyGE a) (hKfin : K.filtration.IsDegreewiseFinite) :
+    ∃ R : FilteredKInjectiveResolution X K,
+      R.obj.X.IsStrictlyGE a ∧ R.obj.filtration.IsDegreewiseFinite ∧
+      ∀ n : ℤ, (CochainComplex.evalFil R.obj n).IsFilteredInjective := by
+  have := hK
+  have : IsGrothendieckAbelian.{u} (SheafOfModules.{u} (structureSheafRing X)) := inferInstance
+  have : EnoughInjectives (SheafOfModules.{u} (structureSheafRing X)) := inferInstance
+  obtain ⟨I, i, hqi, -, -, hIge, hIfilInj⟩ :=
+    CochainComplex.exists_mono_isStrictHom_filteredQuasiIso_isStrictlyGE_injective_gradedPiece
+      K a hKfin
+  have hIfin : I.filtration.IsDegreewiseFinite := fun n =>
+    ((CochainComplex.isFilteredInjective_evalFil_iff I n).1 (hIfilInj n)).1
+  have hIgrInj : ∀ p n : ℤ, Injective (((FilteredObject.gr p).obj I).X n) :=
+    fun p n => ((CochainComplex.isFilteredInjective_evalFil_iff I n).1 (hIfilInj n)).2 p
+  have hIgrKinj (p : ℤ) : ((FilteredObject.gr p).obj I).IsKInjective := by
+    have := hIge
+    have := CochainComplex.isStrictlyGE_gr I a p
+    have (n : ℤ) := hIgrInj p n
+    exact CochainComplex.isKInjective_of_injective _ a
+  have hIstepInj (p n : ℤ) : Injective ((I.filtration.obj (op p)).X n) :=
+    CochainComplex.injective_filtration_obj_X_of_isFilteredInjective I hIfilInj (op p) n
+  have hIinj := injective_X_of_isDegreewiseFinite I hIfin hIstepInj
+  have hstep (p : ℤ) : QuasiIso (i.natTrans.app (op p)) :=
+    CochainComplex.quasiIso_natTrans_app_of_filteredQuasiIso i hqi hKfin hIfin (op p)
+  have hhom : QuasiIso i.hom :=
+    (DerivedCategory.isIso_Q_map_iff_quasiIso _ _).1
+      ((CochainComplex.isIso_Q_map_gradedPiece_and_forget_of_filteredQuasiIso i hqi).2
+        hKfin hIfin)
+  have hIK : I.X.IsKInjective := by
+    have := hIge
+    have (m : ℤ) := hIinj m
+    exact CochainComplex.isKInjective_of_injective I.X a
+  have := hIge
+  exact ⟨⟨I, i, hhom, hstep, fun p => hqi p, hIstepInj, hIK,
+      isKInjective_filtration_obj_of_injective I a hIstepInj, hIgrKinj⟩, hIge, hIfin, hIfilInj⟩
+
+/-- **The hypotheses of the convergence clause of [Stacks, Tag 0BKK] from a degreewise finite
+resolution.** If a filtered complex `K` has a filtered K-injective resolution whose filtration is
+finite in every degree, then in every degree the hypercohomology of the filtration steps of `K`
+vanishes for `p ≫ 0` and maps isomorphically to the hypercohomology of `K` for `p ≪ 0`. -/
+lemma FilteredKInjectiveResolution.hypercohomology_bounds_of_isDegreewiseFinite
+    {X : RingedSpace.{u, u}}
+    (RΓ : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)) ⥤
+      DerivedCategory (ModuleCat.{u} ((structureSheafRing X).obj.obj (op ⊤))))
+    (α : homotopySections (structureSheafRing X) (⊤ : Opens X.carrier) ⟶ DerivedCategory.Qh ⋙ RΓ)
+    [RΓ.IsRightDerivedFunctor α
+      (HomotopyCategory.quasiIso (SheafOfModules.{u} (structureSheafRing X)) (ComplexShape.up ℤ))]
+    {K : CochainComplex.Filtered (SheafOfModules.{u} (structureSheafRing X))}
+    (R : FilteredKInjectiveResolution X K) (hfin : R.obj.filtration.IsDegreewiseFinite) :
+    (∀ n : ℤ, ∃ p₀ : ℤ, ∀ p : ℤ, p₀ ≤ p →
+      IsZero (hypercohomology X RΓ (K.filtration.obj (op p)) n)) ∧
+    ∀ n : ℤ, ∃ p₁ : ℤ, ∀ p : ℤ, p ≤ p₁ →
+      IsIso (hypercohomologyMap X RΓ (K.filtration.ι.app (op p)) n) := by
+  have hMfin : (globalSectionsFilteredComplex X R.obj).filtration.IsDegreewiseFinite := by
+    intro n
+    obtain ⟨b, c, hb, hc⟩ := hfin n
+    refine ⟨b, c, ?_, ?_⟩
+    · have : IsIso ((R.obj.filtration.ι.app (op b)).f n) := hb
+      exact inferInstanceAs (IsIso ((SheafOfModules.evaluation (structureSheafRing X) (op ⊤)).map
+        ((R.obj.filtration.ι.app (op b)).f n)))
+    · exact Functor.map_isZero (SheafOfModules.evaluation (structureSheafRing X) (op ⊤)) hc
+  obtain ⟨hzeroM, hisoM⟩ := finiteFilteredComplex_homology_bounds _ hMfin
+  refine ⟨fun n => ?_, fun n => ?_⟩
+  · obtain ⟨b, hb⟩ := hzeroM n
+    exact ⟨b, fun p hp => (hb p hp).of_iso (R.cmpStep RΓ α p n)⟩
+  · obtain ⟨c, hc⟩ := hisoM n
+    refine ⟨c, fun p hp => ?_⟩
+    have := hc p hp
+    have h : hypercohomologyMap X RΓ (K.filtration.ι.app (op p)) n =
+        (R.cmpStep RΓ α p n).hom ≫ HomologicalComplex.homologyMap
+          ((globalSectionsFilteredComplex X R.obj).filtration.ι.app (op p)) n ≫
+            (R.cmpTotal RΓ α n).inv := by
+      rw [← Category.assoc, R.cmp_square RΓ α p n, Category.assoc, Iso.hom_inv_id,
+        Category.comp_id]
+    rw [h]
+    infer_instance
+
 /-- **Stacks 0BKL.** Let `(X, O_X)` be a ringed space and let `K^•` be a filtered complex of
 `O_X`-modules which is bounded below and whose filtration is finite in each degree. Then the
 spectral sequence of [Stacks, Tag 0BKK] can be built without a filtered K-injective resolution:

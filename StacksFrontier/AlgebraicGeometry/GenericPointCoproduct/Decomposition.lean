@@ -8,9 +8,9 @@ public import StacksFrontier.AlgebraicGeometry.GenericPointProduct.Decomposition
 
 The displayed formula of the source gives the sheaf of meromorphic functions both as a direct sum
 and as a product over the generic points of the irreducible components. The product half is
-in the library; this file supplies the direct-sum half, which the source's own proof obtains from it
-by the single observation that *"a locally finite direct sum of sheaves of modules is equal to the
-product"*.
+in the library; this file supplies the direct-sum half, which the source's own proof obtains from
+it by the single observation that *"a locally finite direct sum of sheaves of modules is equal
+to the product"*.
 
 ## Main results
 
@@ -26,21 +26,20 @@ All three are in the namespace `Stacks.AlgebraicGeometry.GenericPointCoproduct`.
 
 ## Implementation notes
 
-Neither hypothesis of the tagged statements is used for the coproduct-to-product comparison itself:
-reducedness, and
-the absence of embedded points, enter only through the product decomposition they already
-support. The comparison needs just the local finiteness of the irreducible components, which on a
-locally Noetherian scheme is automatic.
+Neither hypothesis of the two decompositions is used for the coproduct-to-product comparison
+itself: reducedness, and the absence of embedded points, enter only through the product
+decomposition they already support. The comparison needs just the local finiteness of the
+irreducible components, which on a locally Noetherian scheme is automatic.
 
-The two examples at the end of this file restate the two tagged results with every auxiliary
-constant of
-the statements replaced by its own defining expression, in the binder order of the statements.
+The two examples at the end of this file restate the two decompositions with every auxiliary
+constant of the statements replaced by its own defining expression, in the binder order of the
+statements. The first carries Tag 02OW; the second is one clause of Tag 0EMH, whose complete
+statement is `AlgebraicGeometry.genericPointDecomposition_of_hasNoEmbeddedPoints`.
 The embedded-point predicate is inlined down to `Stacks.Divisors.IsAssociatedPoint`, which is
 the associated-point predicate of the statement of Tag 02OJ, with the same module structure on
-the stalk; the
-statement supplies that structure by a `letI` because, as
-`StacksFrontier/AlgebraicGeometry/Divisors/AssociatedPoints.lean`
-records, typeclass resolution does not find it for an `X.Modules` without the restatement
+the stalk; the statement supplies that structure by a `letI` because, as
+`StacksFrontier/AlgebraicGeometry/Divisors/AssociatedPoints.lean` records, typeclass resolution
+does not find it for an `X.Modules` without the restatement
 `AlgebraicGeometry.Scheme.Modules.moduleStalk`.
 
 ## References
@@ -114,8 +113,9 @@ theorem meromorphicFunctions_iso_coproduct_genericPointStalks (X : Scheme.{u}) [
 /-- **Stacks Project, Tag 0EMH.** On a locally Noetherian scheme without embedded points, the
 `𝒪_X`-module of meromorphic functions is the direct sum, over the generic points of the
 irreducible components, of the structure sheaves of the local schemes there, pushed forward to
-`X`. -/
-@[stacks 0EMH "meromorphic functions as a direct sum"]
+`X`.
+One clause of [Stacks, Tag 0EMH]; the complete statement is
+`AlgebraicGeometry.genericPointDecomposition_of_hasNoEmbeddedPoints`. -/
 theorem meromorphicFunctions_iso_coproduct_of_noEmbeddedPoints (X : Scheme.{u})
     [IsLocallyNoetherian X] (hX : AlgebraicGeometry.HasNoEmbeddedPoints X) :
     Nonempty (meromorphicFunctions X ≅
@@ -148,7 +148,7 @@ example (X : Scheme.{u}) [IsReduced X]
           (SheafOfModules.unit (Spec (X.presheaf.stalk η.1)).ringCatSheaf)) :=
   meromorphicFunctions_iso_coproduct_genericPointStalks X hfinite
 
-/-- Stacks Tag 0EMH, label `meromorphic functions as a direct sum`, in the binder order of the
+/-- The direct-sum clause of Stacks Tag 0EMH as stated above, in the binder order of the
 statement and with every auxiliary constant replaced by its own defining expression. -/
 example (X : Scheme.{u}) [IsLocallyNoetherian X]
     (hX : ∀ x : X, ¬ (Stacks.Divisors.IsAssociatedPoint

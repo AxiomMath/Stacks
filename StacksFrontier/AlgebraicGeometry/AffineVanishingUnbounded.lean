@@ -92,9 +92,11 @@ and `AlgebraicGeometry.isGE_rightDerivedFunctor_obj` in
 is a *reduction* of the affine case to an elementary condition on the complexes `M̃^•`, which is
 not one of the tag's clauses. Nor is `@[stacks 015E]` placed on the bounded
 below case: Leray's acyclicity lemma is already carried by
+`CategoryTheory.Functor.isIso_ι_app_of_computesRightDerived_single_of_isRightDerivedValueAt`,
+whose enough injectives case is
 `CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic`, and the statement below
-is its instance for the *unbounded* derived global sections of a scheme, which the tag does not
-mention. Likewise `@[stacks 08U1]` stays on
+is an instance of the latter for the *unbounded* derived global sections of a scheme, which the
+tag does not mention. Likewise `@[stacks 08U1]` stays on
 `Stacks.Injectives.isDerivedLimit_map_rightDerivedFunctor`.
 
 ## References

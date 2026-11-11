@@ -36,6 +36,8 @@ hypotheses of `Stacks.Chow.flatPullback_properPushforward` and
 
 ## Main results
 
+* `Stacks.Chow.isProper_and_relativeDimension_and_flatPullback_properPushforward`: Stacks 02RG,
+  all three assertions.
 * `Stacks.Chow.flatPullback_properPushforward_unconditional`: the third assertion of Stacks 02RG on
   cycles, for an arbitrary cycle and an arbitrary cartesian square.
 * `Stacks.Chow.flatPullbackChow_properChowPushforward_unconditional`: Stacks 02RG on Chow groups,
@@ -108,11 +110,6 @@ private theorem coherence_and_base_change_of_unit_pushforward
 
 of schemes locally of finite type over the base of chapter 42, with `f` proper and `g` flat of
 relative dimension `r`, `g^* f_* α = f'_* (g')^* α` in `Z_{k+r}(Y')` for every `α ∈ Z_k(X)`. -/
-@[stacks 02RG "the third assertion, g^* f_* alpha = f'_* (g')^* alpha in Z_{k+r}(Y'), ON CYCLES \
-for an ARBITRARY k-cycle alpha and an arbitrary cartesian square, with NOTHING ASSUMED: \
-coherence of the two direct images is the proper mapping theorem Stacks 02O5 and the flat base \
-change isomorphism is part (1) of Stacks 02KH at i = 0, both theorems of this repository; the \
-first two assertions are registered on the base-change stability declarations"]
 theorem flatPullback_properPushforward_unconditional
     (C : ChowSituation.{u}) {X Y X' Y' : Scheme.{u}}
     (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sY : Y ⟶ C.S) [LocallyOfFiniteType sY]
@@ -137,6 +134,54 @@ theorem flatPullback_properPushforward_unconditional
   · exact (this x).1
   · exact (this x).2.1
   · exact (this x).2.2
+
+/-- **Proper pushforward and flat pullback across a fibre product square.** Let
+
+      X' --g'--> X
+      |          |
+      f'         f
+      v          v
+      Y' --g-->  Y
+
+be a fibre product diagram of schemes locally of finite type over the base of chapter 42, with
+`f` proper and `g` flat of relative dimension `r`. Then `f'` is proper, `g'` is flat of relative
+dimension `r` (flat, locally of finite type, and of relative dimension `r` in the sense of
+Stacks 02NJ), and for every `k` and every `α ∈ Z_k(X)`,
+
+`g^* f_* α = f'_* (g')^* α`  in  `Z_{k+r}(Y')`.
+
+The first assertion is stability of properness under base change, the second is Stacks 02NK and
+stability of flatness and of local finite type under base change, and the third is
+`Stacks.Chow.flatPullback_properPushforward_unconditional`. -/
+@[stacks 02RG "all three assertions, under the source's hypotheses: f' is proper, g' is flat of \
+relative dimension r, and g^* f_* alpha = f'_* (g')^* alpha in Z_{k+r}(Y') for every k and every \
+k-cycle alpha on X"]
+theorem isProper_and_relativeDimension_and_flatPullback_properPushforward
+    (C : ChowSituation.{u}) {X Y X' Y' : Scheme.{u}}
+    (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sY : Y ⟶ C.S) [LocallyOfFiniteType sY]
+    (sX' : X' ⟶ C.S) [LocallyOfFiniteType sX'] (sY' : Y' ⟶ C.S) [LocallyOfFiniteType sY']
+    (f : X ⟶ Y) [IsProper f] (g : Y' ⟶ Y) [LocallyOfFiniteType g] [Flat g]
+    (g' : X' ⟶ X) (f' : X' ⟶ Y') (hsq : IsPullback g' f' f g)
+    (hf : f ≫ sY = sX) (hg : g ≫ sY = sY') (hg' : g' ≫ sX = sX')
+    (r : ℕ) (hgr : AlgebraicGeometry.RelativeDimension g r) :
+    IsProper f' ∧ Flat g' ∧ LocallyOfFiniteType g' ∧
+      @AlgebraicGeometry.RelativeDimension _ _ g'
+        (MorphismProperty.of_isPullback hsq.flip inferInstance) r ∧
+      ∀ (k : ℤ) (α : CycleGroup C sX k),
+        letI : IsProper f' := MorphismProperty.of_isPullback hsq inferInstance
+        letI : LocallyOfFiniteType g' := MorphismProperty.of_isPullback hsq.flip inferInstance
+        letI : Flat g' := MorphismProperty.of_isPullback hsq.flip inferInstance
+        flatPullback C sY' sY g hg r hgr k (properPushforward C sX sY f hf k α) =
+          properPushforward C sX' sY' f'
+            (comp_structureMorphism_of_isPullback sX sY sX' sY' f g g' f' hsq hf hg hg')
+            (k + (r : ℤ))
+            (flatPullback C sX' sX g' hg' r
+              (AlgebraicGeometry.RelativeDimension.of_isPullback hsq.flip hgr) k α) :=
+  ⟨MorphismProperty.of_isPullback hsq inferInstance,
+    MorphismProperty.of_isPullback hsq.flip inferInstance,
+    MorphismProperty.of_isPullback hsq.flip inferInstance,
+    AlgebraicGeometry.RelativeDimension.of_isPullback hsq.flip hgr,
+    flatPullback_properPushforward_unconditional C sX sY sX' sY' f g g' f' hsq hf hg hg' r hgr⟩
 
 /-- **Stacks 02RG on Chow groups.** For a cartesian square with `f` proper and `g` flat of relative
 dimension `r`, `g^* f_* c = f'_* (g')^* c` in `A_{k+r}(Y')` for every `c ∈ A_k(X)`. -/

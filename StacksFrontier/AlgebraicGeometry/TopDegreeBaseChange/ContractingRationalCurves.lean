@@ -18,8 +18,14 @@ clauses about `R¹ f_* 𝒪_X`: that it is quasi-coherent **of finite type** ([S
 that **its formation commutes with arbitrary base change** ([Stacks, Tag 0E7D], through
 [Stacks, Tag 0EX3] (b)).
 
-Those two clauses are the hypotheses `hft` and `hbc` of the statements below; neither is proved
-in this development for fibre dimension one. Everything else in the two arguments is proved here.
+Both clauses are proved in this development for fibre dimension one: the finite-type clause is
+`firstDirectImageFiniteTypeOfFibreDimensionOne` (`FirstDirectImageFiniteType.lean`), and the
+base-change clause, in the vanishing form the two arguments use, is
+`isZero_pullback_firstDirectImage_iff_of_isPullback` (`FirstDirectImageBaseChangeVanishing.lean`).
+Those files import this one, so the argument below takes the two clauses as arguments `hft` and
+`hbc`; [Stacks, Tag 0E7G] itself, with no further argument, is
+`exists_isOpen_isZero_restrict_firstDirectImage_of_isPullback_of_isZero_cohomologyOne_fiber` and
+`exists_isOpen_firstDirectImage_vanishes_universally` in `VanishingNeighbourhood.lean`.
 The connecting device is the support of a module of finite type: it is closed
 (`SheafOfModules.isClosed_supp`) and its formation commutes with pullback
 (`SheafOfModules.supp_pullback`), which is exactly what replaces the source's passage through the
@@ -29,8 +35,8 @@ finite module `M` over an affine base, Nakayama's lemma and the localisation `M_
 
 All in the namespace `Stacks.AlgebraicGeometry.TopDegreeBaseChange`.
 
-* `exists_isOpen_isZero_restrict_firstDirectImage_of_isZero_cohomologyOne_fiber`:
-  [Stacks, Tag 0E7G].
+* `exists_isOpen_isZero_restrict_firstDirectImage_of_isZero_cohomologyOne_fiber`: the argument
+  of [Stacks, Tag 0E7G] from the finite-type clause `hft` and the base-change isomorphisms `hbc`.
 
 [Stacks, Tag 0E7F] itself is
 `isZero_firstCohomologyStructureSheaf_fiber_of_isZero_firstDirectImage` and its `_baseChange`
@@ -63,7 +69,7 @@ instances, the same wall `TopDegreeBaseChange/FinitePresentationSuffices.lean` d
 
 The fibre dimension bound is carried because the tags state it, but it is not used: the two
 arguments use it only to make the two quoted clauses available, and here those clauses are
-hypotheses.
+arguments.
 
 ## References
 
@@ -103,8 +109,10 @@ abbrev firstCohomologyStructureSheaf (Z : Scheme.{u}) : ModuleCat.{u} Γ(Z, ⊤)
 `R¹ f_* 𝒪_X` along `g` is the first higher direct image of the structure sheaf of `X ×_Y Y'`.
 
 This is [Stacks, Tag 0EX3] (b) for the structure sheaf in degree one, which [Stacks, Tag 0E7D]
-makes available once the fibres of `f` are bounded by one. It is not proved in this development
-at fibre dimension one, and the statements below carry it as a hypothesis. -/
+makes available once the fibres of `f` are bounded by one. Its vanishing form, which is what the
+proofs of [Stacks, Tags 0E7F] and [0E7G] use, is proved at fibre dimension one as
+`isZero_pullback_firstDirectImage_iff_of_isPullback` in `FirstDirectImageBaseChangeVanishing.lean`;
+the statements below take the isomorphisms themselves as an argument. -/
 abbrev FirstDirectImageCommutesBaseChange (f : X ⟶ Y) : Type (u + 1) :=
   ∀ ⦃Y' : Scheme.{u}⦄ (g : Y' ⟶ Y),
     (Scheme.Modules.pullback g).obj (firstDirectImageStructureSheaf f) ≅
@@ -202,16 +210,19 @@ theorem exists_isOpen_isZero_restrict_of_isZero_stalk {Z : Scheme.{u}} (M : Z.Mo
   exact IsZero.of_iso ((notMem_supp_iff_isZero_stalk M _).mp w.2)
     ((Scheme.Modules.restrictStalkNatIso _ w).app M)
 
-/-- **[Stacks, Tag 0E7G].** Let `f : X ⟶ Y` be proper and let `y ∈ Y` be a point whose fibre has
-dimension at most one and satisfies `H¹(X_y, 𝒪_{X_y}) = 0`. Then there is an open `V ∋ y` with
-`R¹ f_* 𝒪_X|_V = 0`, and `R¹ f'_* 𝒪_{X'} = 0` for the base change along every `g : Y' ⟶ V`.
+/-- **The argument of [Stacks, Tag 0E7G] from the finite-type and base-change clauses.** Let
+`f : X ⟶ Y` be proper, let `R¹ f_* 𝒪_X` be of finite type (`hft`) with formation commuting with
+base change (`hbc`), and let `y ∈ Y` be a point with `H¹(X_y, 𝒪_{X_y}) = 0`. Then there is an
+open `V ∋ y` with `R¹ f_* 𝒪_X|_V = 0`, and `R¹ f'_* 𝒪_{X'} = 0` for the base change along every
+`g : Y' ⟶ V`. The tag itself, where both clauses are proved from the fibre dimension bound, is
+`exists_isOpen_isZero_restrict_firstDirectImage_of_isPullback_of_isZero_cohomologyOne_fiber` and
+`exists_isOpen_firstDirectImage_vanishes_universally`.
 
 The hypothesis on the fibre makes `R¹ (f_y)_* 𝒪_{X_y}` vanish over the affine base `Spec κ(y)`,
 hence by `hbc` the pullback of `R¹ f_* 𝒪_X` along `Spec κ(y) ⟶ Y`; so `y` misses the support of
 `R¹ f_* 𝒪_X` by [Stacks, Tag 056J]. The support is closed because of the finite-type clause
 `hft`, which gives the neighbourhood `V`. Universality after base change is `hbc` again, applied
 to `g ≫ V.ι` and read through the compatibility of pullback with composition. -/
-@[stacks 0E7G "the clauses of Tags 0EX4 and 0EX3 (b) are the hypotheses `hft`, `hbc`"]
 theorem exists_isOpen_isZero_restrict_firstDirectImage_of_isZero_cohomologyOne_fiber
     (f : X ⟶ Y) [IsProper f] (y : Y)
     (_hdim : topologicalKrullDim (f.fiber y) ≤ ((1 : ℕ) : WithBot ℕ∞))

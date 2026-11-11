@@ -25,11 +25,11 @@ objects are exactly those pairs.
 
 ## Main results
 
+* `Stacks.EtaleCohomology.inverseImageIsoSheafifyColimitPresheaf` — for any left adjoint `f⁻¹`
+  of `f_*`, `f⁻¹ G` is the sheaf associated to the presheaf
+  `U ↦ colim_{(V, φ : U ⟶ X ×_Y V)} G(V)` (Stacks 04I3).
 * `Stacks.EtaleCohomology.smallEtaleInverseImagePresheafObjIsoColimit` — the sections over `U` of
-  the presheaf whose sheafification is `f⁻¹ G` are the colimit of `G(V)` over the pairs
-  `(V, φ : U ⟶ X ×_Y V)`.
-* `Stacks.EtaleCohomology.smallEtaleInverseImage_obj` — `f⁻¹ G` is the sheaf associated to that
-  presheaf.
+  the left Kan extension of `G` along the opposite of base change are that colimit.
 
 ## References
 
@@ -67,29 +67,68 @@ add_to_stacks 03Q0 "`f⁻¹` on sheaves of abelian groups is characterised by it
 
 variable {X Y : Scheme.{u}} (f : X ⟶ Y)
 
-/-- The sections over an étale `X`-scheme `U` of the presheaf whose sheafification is `f⁻¹ G`:
-the colimit of the sets `G(V)` over the category of pairs `(V, φ : U ⟶ X ×_Y V)` with `V` étale
-over `Y`, which is the comma category `CostructuredArrow (smallEtaleBaseChange f).op (op U)`.
-The presheaf is the left Kan extension of `G` along the opposite of base change, and a left Kan
-extension along a functor between small categories is computed pointwise by this colimit. -/
-@[stacks 04I3 "the displayed presheaf: its sections over `U` are the colimit of `G(V)` over the
-  pairs `(V, φ : U ⟶ X ×_Y V)`"]
+/-- The sections over an étale `X`-scheme `U` of the left Kan extension of `G` along the opposite
+of base change, `(smallEtaleBaseChange f).op.lan.obj G.obj`, are the colimit of the sets `G(V)`
+over the category of pairs `(V, φ : U ⟶ X ×_Y V)` with `V` étale over `Y`, which is the comma
+category `CostructuredArrow (smallEtaleBaseChange f).op (op U)`: a left Kan extension along a
+functor between small categories is computed pointwise by this colimit. This is only the
+presheaf-level half of Stacks 04I3; the statement about `f⁻¹` is
+`Stacks.EtaleCohomology.inverseImageIsoSheafifyColimitPresheaf`. -/
 def smallEtaleInverseImagePresheafObjIsoColimit
     (G : Sheaf (smallEtaleTopology Y) (Type (max (u + 1) v))) (U : X.Etale) :
     ((smallEtaleBaseChange f).op.lan.obj G.obj).obj (op U) ≅
       colimit (CostructuredArrow.proj (smallEtaleBaseChange f).op (op U) ⋙ G.obj) :=
   Functor.leftKanExtensionObjIsoColimit _ _ _
 
-/-- The inverse image `f⁻¹ G` of a sheaf of sets on the small étale site of `Y` is the sheaf
-associated to the presheaf of `smallEtaleInverseImagePresheafObjIsoColimit`, that is, to the
-left Kan extension of `G` along the opposite of base change. -/
-@[stacks 04I3 "`f⁻¹ G` is the sheaf associated to the displayed presheaf"]
+/-- The library's inverse image `smallEtaleInverseImage f` is, by construction, the
+sheafification of the left Kan extension of `G` along the opposite of base change. This is a
+definitional unfolding; the statement of Stacks 04I3, for any left adjoint of `f_*`, is
+`Stacks.EtaleCohomology.inverseImageIsoSheafifyColimitPresheaf`. -/
 theorem smallEtaleInverseImage_obj
     (G : Sheaf (smallEtaleTopology Y) (Type (max (u + 1) v))) :
     (smallEtaleInverseImage.{u, v} f).obj G =
       (presheafToSheaf (smallEtaleTopology X) (Type (max (u + 1) v))).obj
         ((smallEtaleBaseChange f).op.lan.obj G.obj) :=
   rfl
+
+/-- The presheaf on `X_étale` of Stacks 04I3: its sections over an étale `X`-scheme `U` are, by
+definition, the colimit `colim G(V)` over the category of pairs `(V, φ : U ⟶ X ×_Y V)` with `V`
+étale over `Y` (the comma category `CostructuredArrow (smallEtaleBaseChange f).op (op U)`), and
+its restriction maps are induced by composing `φ`. It is Mathlib's pointwise left Kan extension
+of `G` along the opposite of base change. -/
+abbrev smallEtaleColimitPresheaf (G : Sheaf (smallEtaleTopology Y) (Type (max (u + 1) v))) :
+    X.Etaleᵒᵖ ⥤ Type (max (u + 1) v) :=
+  (smallEtaleBaseChange f).op.pointwiseLeftKanExtension G.obj
+
+/-- The sections of `smallEtaleColimitPresheaf f G` over `U` are the colimit of `G(V)` over the
+pairs `(V, φ : U ⟶ X ×_Y V)`. -/
+theorem smallEtaleColimitPresheaf_obj
+    (G : Sheaf (smallEtaleTopology Y) (Type (max (u + 1) v))) (U : X.Etale) :
+    (smallEtaleColimitPresheaf.{u, v} f G).obj (op U) =
+      colimit (CostructuredArrow.proj (smallEtaleBaseChange f).op (op U) ⋙ G.obj) :=
+  rfl
+
+/-- **Stacks 04I3.** Let `f : X ⟶ Y` be a morphism of schemes and let `f⁻¹` be any left adjoint
+of the direct image `f_*` on sheaves of sets of the small étale sites (Stacks 03Q0). Then for
+every sheaf `G` on `Y_étale`, `f⁻¹ G` is the sheaf associated to the presheaf
+`U ↦ colim_{(V, φ : U ⟶ X ×_Y V)} G(V)`, namely `smallEtaleColimitPresheaf f G`. The isomorphism
+is natural, being the composite of the uniqueness of left adjoints with the uniqueness of left
+Kan extensions. -/
+@[stacks 04I3 "for any left adjoint `f⁻¹` of `f_*` on sheaves of sets of the small étale sites,
+  `f⁻¹ G` is the sheafification of `U ↦ colim G(V)` over the pairs `(V, U ⟶ X ×_Y V)`"]
+def inverseImageIsoSheafifyColimitPresheaf
+    {L : Sheaf (smallEtaleTopology Y) (Type (max (u + 1) v)) ⥤
+      Sheaf (smallEtaleTopology X) (Type (max (u + 1) v))}
+    (adj : L ⊣ (smallEtaleBaseChange f).sheafPushforwardContinuous
+      (Type (max (u + 1) v)) (smallEtaleTopology Y) (smallEtaleTopology X))
+    (G : Sheaf (smallEtaleTopology Y) (Type (max (u + 1) v))) :
+    L.obj G ≅
+      (presheafToSheaf (smallEtaleTopology X) (Type (max (u + 1) v))).obj
+        (smallEtaleColimitPresheaf.{u, v} f G) :=
+  (adj.leftAdjointUniq (smallEtaleInverseImageAdjunction.{u, v} f)).app G ≪≫
+    (presheafToSheaf (smallEtaleTopology X) (Type (max (u + 1) v))).mapIso
+      (Functor.leftKanExtensionUnique _ ((smallEtaleBaseChange f).op.lanUnit.app G.obj) _
+        ((smallEtaleBaseChange f).op.pointwiseLeftKanExtensionUnit G.obj))
 
 /-! ### The construction for an arbitrary site
 

@@ -330,7 +330,7 @@ attached to a commutative diagram of morphisms of ringed spaces
 It is the morphism adjoint to `pushforwardDifferentialMap`, and
 `differentialMap_isDifferentialMap` together with `differentialMap_unique` say that it is
 the unique morphism carrying the pullback of `d a` to `d (f^♯ a)` on local sections. -/
-@[stacks 08RU]
+@[stacks 08RU "the canonical map c_f : f^*Omega_{X/S} -> Omega_{X'/S'}"]
 noncomputable def differentialMap :
     (RingedSpaceModuleAdjunction.modulePullback f).obj (moduleOfDifferentials h) ⟶
       moduleOfDifferentials h' :=

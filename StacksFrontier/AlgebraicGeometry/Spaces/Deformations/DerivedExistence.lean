@@ -57,8 +57,10 @@ structural morphisms between those bases are imported from that module rather th
   theorem live; `AlgebraicGeometry.Space.IsPseudoCoherentOn` is pseudo-coherence there and
   `AlgebraicGeometry.Space.DerivedPullbackAt` is the derived pullback along the transition
   morphism.
-* `AlgebraicGeometry.Space.DerivedExistenceSituation`: **Stacks 0DIK**, the rings, the algebraic
-  space and the compatible family of pseudo-coherent derived objects.
+* `AlgebraicGeometry.Space.DerivedExistenceSituation`: the rings, the algebraic space and the
+  compatible family of pseudo-coherent derived objects of Stacks 0DIK, compared through a derived
+  pullback carried as a field; Situation 0DIK itself, with the derived pullback constructed, is
+  `AlgebraicGeometry.Space.DerivedExistenceSystem`, which maps to it.
 * `AlgebraicGeometry.Space.DerivedExistenceSituation.stageProjection`: the structure morphism
   `Xₙ → Spec Aₙ` of the base change at level `n`, the morphism over which the objects `Kₙ` of
   the situation are studied.
@@ -188,10 +190,12 @@ situation of Tag 0DIK the morphism `X → Spec A` is proper, hence separated, an
 presentation, so the two conditions the generalization places on `X` hold, and each
 `Xₙ → Spec Aₙ` is proper, flat and of finite presentation by the base-change results above, so
 every closed subset of `Xₙ` is proper over `Aₙ` and the support condition the generalization
-places on `Kₙ` holds for every `Kₙ`. The rest of the comparison is out of reach: relative
-pseudo-coherence for a morphism of algebraic spaces (Tag 0CSY) is not available, and the
-identification of pseudo-coherence on `Xₙ` with pseudo-coherence relative to `Aₙ` for a flat
-morphism of finite presentation (Tag 0DII) is available only in the case of schemes.
+places on `Kₙ` holds for every `Kₙ`. The comparison of the pseudo-coherence conditions is not
+carried out here; its two ingredients are in the library: relative pseudo-coherence for a
+morphism of algebraic spaces (Tag 0CSY) is `AlgebraicGeometry.Space.IsRelativelyPseudoCoherent`,
+and its identification with pseudo-coherence on the source for a flat morphism locally of finite
+presentation (Tag 0DII) is
+`AlgebraicGeometry.Space.isRelativelyPseudoCoherent_iff_isPseudoCoherent`.
 
 ## References
 
@@ -470,11 +474,15 @@ abbrev DerivedPullbackAt (n : ℕ) :=
 
 /-! ### The standing situation -/
 
-/-- **Stacks 0DIK.** The standing data of Grothendieck's existence theorem for algebraic spaces
-in its derived form: an inverse system of rings with surjective, locally nilpotent transitions,
-a proper flat algebraic space of finite presentation over the inverse-limit ring, and a
-compatible system of pseudo-coherent objects on its infinitesimal base changes. -/
-@[stacks 0DIK]
+/-- The standing data of Grothendieck's existence theorem for algebraic spaces in its derived
+form: an inverse system of rings with surjective, locally nilpotent transitions, a proper flat
+algebraic space of finite presentation over the inverse-limit ring, and a compatible system of
+pseudo-coherent objects on its infinitesimal base changes, compared through a total left derived
+pullback `derivedPullback n` along each transition morphism carried as a field. Situation 0DIK of
+the Stacks project, in which that derived pullback is the one constructed by Stacks 06YY, is
+`AlgebraicGeometry.Space.DerivedExistenceSystem`; its
+`AlgebraicGeometry.Space.DerivedExistenceSystem.toDerivedExistenceSituation` gives an object of
+this structure. -/
 structure DerivedExistenceSituation where
   /-- The inverse system of rings. -/
   system : ℕᵒᵖ ⥤ CommRingCat.{u}

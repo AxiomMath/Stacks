@@ -297,15 +297,21 @@ def affineCoordinate (S : Scheme.{u}) : Γ(affineLineOver S, ⊤) :=
 
 /-! ### The two distinguished divisors of `ℙ¹_S` -/
 
-/-- The zero divisor `D₀ ⊆ ℙ¹_S`: the closed subscheme cut out by the kernel ideal sheaf of
-the zero section, equivalently the scheme-theoretic image of that section. -/
-@[stacks 0F93 "the divisor D₀ ⊆ ℙ¹_S"]
+/-- The zero divisor `D₀ ⊆ ℙ¹_S`, which Stacks 0F93 defines as the closed subscheme cut out by
+the section `T₁` of `𝒪(1)`. It is constructed here as the kernel ideal sheaf of the zero section
+`T₁/T₀ = 0`, equivalently the scheme-theoretic image of that section. That this is the closed
+subscheme cut out by `T₁` is `Stacks.Chow.eq_lineZeroDivisor_iff`, and that it is an effective
+Cartier divisor is `Stacks.Chow.lineZeroDivisor_isEffectiveCartierDivisor`. -/
+@[stacks 0F93 "the divisor D₀ = V(T₁) ⊆ ℙ¹_S, as the image of the zero section"]
 def lineZeroDivisor (S : Scheme.{u}) : (relativeProjectiveLine S).IdealSheafData :=
   (lineZeroSection S).ker
 
-/-- The infinity divisor `D_∞ ⊆ ℙ¹_S`: the closed subscheme cut out by the kernel ideal sheaf
-of the infinity section. -/
-@[stacks 0F93 "the divisor D₀ ⊆ ℙ¹_S"]
+/-- The infinity divisor `D_∞ ⊆ ℙ¹_S`, which Stacks 0F93 defines as the closed subscheme cut
+out by the section `T₀` of `𝒪(1)`. It is constructed here as the kernel ideal sheaf of the
+infinity section `T₀/T₁ = 0`. That this is the closed subscheme cut out by `T₀` is
+`Stacks.Chow.eq_lineInfinityDivisor_iff`, and that it is an effective Cartier divisor is
+`Stacks.Chow.lineInfinityDivisor_isEffectiveCartierDivisor`. -/
+@[stacks 0F93 "the divisor D_∞ = V(T₀) ⊆ ℙ¹_S, as the image of the infinity section"]
 def lineInfinityDivisor (S : Scheme.{u}) : (relativeProjectiveLine S).IdealSheafData :=
   (lineInfinitySection S).ker
 

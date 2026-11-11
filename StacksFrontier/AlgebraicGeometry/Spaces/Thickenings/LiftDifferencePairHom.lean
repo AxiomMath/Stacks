@@ -92,9 +92,7 @@ is `AlgebraicGeometry.Space.liftDifferenceDifferentialsHom`; its two hypotheses 
 own `hker` and
 `AlgebraicGeometry.Space.descend_restrictedLiftDifferenceData_structureSharpInverseImage_eq_zero`.
 -/
-@[stacks 0618 "the difference of two morphisms agreeing on the thickening and over the base, \
-as a linear map out of the pulled back differentials",
-  stacks 0619 "the linear map attached to the derivation by which the two comorphisms differ"]
+@[stacks 0619 "the linear map attached to the derivation by which the two comorphisms differ"]
 abbrev restrictedLiftDifferenceHom (c c' : X ⟶ W)
     (h : subspaceInclusion B S hS X Z ≫ c = e₀ ≫ subspaceInclusion B S hS W W₀)
     (h' : subspaceInclusion B S hS X Z ≫ c' = e₀ ≫ subspaceInclusion B S hS W W₀)
@@ -181,7 +179,6 @@ applies.
 
 This is the field `equiv_self` of `AlgebraicGeometry.Space.LiftDerivationAction` read at this
 difference. -/
-@[stacks 0618 "a morphism does not differ from itself: the linear map of the pair (c, c) is zero"]
 theorem restrictedLiftDifferenceHom_self (c : X ⟶ W)
     (h : subspaceInclusion B S hS X Z ≫ c = e₀ ≫ subspaceInclusion B S hS W W₀)
     (hker : ∀ (V : (SmallEtale B S hS
@@ -214,8 +211,6 @@ index equations holding by `AlgebraicGeometry.Space.restrictedLiftDifferenceData
 
 This is the field `equiv_add_equiv` of `AlgebraicGeometry.Space.LiftDerivationAction` read at
 this difference. -/
-@[stacks 0618 "the cocycle identity: the linear maps of three morphisms agreeing on the \
-thickening and over the base add along the chain"]
 theorem restrictedLiftDifferenceHom_add (c₁ c₂ c₃ : X ⟶ W)
     (h₁ : subspaceInclusion B S hS X Z ≫ c₁ = e₀ ≫ subspaceInclusion B S hS W W₀)
     (h₂ : subspaceInclusion B S hS X Z ≫ c₂ = e₀ ≫ subspaceInclusion B S hS W W₀)

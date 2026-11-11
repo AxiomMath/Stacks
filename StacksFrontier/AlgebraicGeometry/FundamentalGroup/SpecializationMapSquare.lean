@@ -54,7 +54,7 @@ proper with geometrically connected fibres. Let `t'` and `t` be geometric points
 `sp' : π₁(X_{s'}) → π₁(X_s)`, where `s'` and `s` are the images of `t'` and `t` in `S`, such that
 the square formed by `sp`, `sp'` and the maps induced by the morphisms `Y_{t'} ⟶ X_{s'}` and
 `Y_t ⟶ X_s` of geometric fibres commutes. -/
-@[stacks 0C0K "The whole statement, under the source's hypotheses only."]
+@[stacks 0C0K "The whole statement, under exactly the source's hypotheses."]
 theorem exists_isSpecializationMap_comm_square (a : Y ⟶ X) (g : Y ⟶ T) (f : X ⟶ S)
     (b : T ⟶ S) (hab : a ≫ f = g ≫ b) [IsProper f] [GeometricallyConnected f] [IsProper g]
     [GeometricallyConnected g] (t' t : GeometricPoint T)

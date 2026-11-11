@@ -92,7 +92,7 @@ variable {X S : Scheme.{u}} [IsAffine S] [IsLocallyNoetherian S] [IsNoetherianRi
 `ω_A^•`, `f : X ⟶ S` proper and `ω_X^• = f^!ω_S^• = a(ω_S^•)`. Then `ω_X = H^{-dim X}(ω_X^•)` is a
 coherent sheaf, and, `X` being nonempty, a dualizing module: `ω_X^•` is a dualizing complex and
 `-dim X` is the least degree in which it has nonzero cohomology. -/
-@[stacks 0AWI]
+@[stacks 0AWI "the whole example"]
 theorem isDualizingModuleOf_relativeDualizingModule
     (f : X ⟶ S) [IsProper f] (ωS : quasiCoherentDerivedCategory S)
     (ω : DerivedCategory (ModuleCat.{u} Γ(S, ⊤)))

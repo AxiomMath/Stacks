@@ -11,18 +11,20 @@ public import StacksFrontier.AlgebraicGeometry.RelativeProj.Twist.Multiplication
 public import StacksFrontier.RingTheory.GradedAlgebra.VeroneseGrading
 
 /-!
-# The graded ring map `ψ^d : S^(d) ⟶ Γ_*(U_d, 𝒪_{U_d}(d))`
+# The twist form of the graded ring map `ψ^d : S^(d) ⟶ Γ_*(U_d, 𝒪_{U_d}(d))`
 
 Let `S = ⨁_{k ≥ 0} 𝒮 k` be a graded ring, `X = Proj 𝒮`, and `d ≥ 1`. On the degree `d` open
 `U_d = ⋃_{f ∈ 𝒮 d} D₊(f)` the sections of the twists `𝒪(k)` form a graded ring under pointwise
 multiplication of local fractions, and its `d`-th Veronese part
 
-  `Γ_*(U_d, 𝒪_{U_d}(d)) = ⨁_{n ≥ 0} Γ(U_d, 𝒪_{U_d}(nd))`
+  `⨁_{n ≥ 0} Γ(U_d, 𝒪_{U_d}(nd))`
 
 receives the `d`-th Veronese subring `S^(d) = ⨁_{n ≥ 0} 𝒮 (nd)` by restricting to `U_d` the
 graded ring map `S ⟶ ⨁_k Γ(X, 𝒪_X(k))` on global sections: a homogeneous element of degree `nd`
 gives a global section of `𝒪_X(nd)`, which restricts to a section over `U_d`. That restriction is
-the map `ψ^d`.
+the twist form of the map `ψ^d`. Stacks Equation 01N6 has as target the graded ring
+`Γ_*(U_d, 𝒪_{U_d}(d)) = ⨁_{n ≥ 0} Γ(U_d, 𝒪_{U_d}(d)^{⊗ n})` of [Stacks, Tag 01CV]; that map is
+`Stacks.AlgebraicGeometry.ProjDegreeOpenPsiTensor.psiTensor`.
 
 The `d`-th twist is invertible on `U_d`, with no quasi-compactness hypothesis: `U_d` is contained
 in the locus where the ratios of homogeneous elements whose degrees differ by `d` trivialize every
@@ -45,8 +47,10 @@ the graded section ring of an invertible sheaf; see the implementation notes.
   the section of `𝒪(nd)` over `Y` attached to a homogeneous element of degree `nd`.
 * `Stacks.AlgebraicGeometry.ProjDegreeOpenSections.veroneseSumHom` — the ring map
   `⨁_n 𝒮 (nd) ⟶ Γ_*(Y, 𝒪_Y(d))` assembled from those degreewise maps.
-* `Stacks.AlgebraicGeometry.ProjDegreeOpenSections.psi` — **the graded ring homomorphism
-  `ψ^d : S^(d) ⟶ Γ_*(U_d, 𝒪_{U_d}(d))`.**
+* `Stacks.AlgebraicGeometry.ProjDegreeOpenSections.psi` — the graded ring homomorphism
+  `S^(d) ⟶ ⨁_n Γ(Y, 𝒪(nd))`, the twist form of `ψ^d`. The map `ψ^d` of Equation 01N6, into the
+  section ring of the tensor powers of `𝒪_{U_d}(d)`, is
+  `Stacks.AlgebraicGeometry.ProjDegreeOpenPsiTensor.psiTensor`.
 
 ## Main results
 
@@ -477,10 +481,14 @@ public theorem veroneseSumHom_of (n : ℕ) (a : veroneseGrading 𝒮 d n) :
     (fun n => (DirectSum.of (veroneseTwistSections 𝒮 Y d) n).comp (veroneseSectionHom 𝒮 Y d n))
     n a
 
-/-- The graded ring homomorphism `ψ^d : S^(d) ⟶ Γ_*(Y, 𝒪_Y(d))`, sending a homogeneous element
-of degree `nd` to the restriction to `Y` of the global section of `𝒪(nd)` it determines. Taken at
-`Y = U_d` this is `ψ^d : S^(d) ⟶ Γ_*(U_d, 𝒪_{U_d}(d))`. -/
-@[stacks 01N6]
+/-- The graded ring homomorphism `S^(d) ⟶ ⨁_{n ≥ 0} Γ(Y, 𝒪(nd))`, sending a homogeneous
+element of degree `nd` to the restriction to `Y` of the global section of `𝒪(nd)` it determines.
+
+This is the twist form of the map `ψ^d` of Stacks Equation 01N6: its degree `n` target is the
+group of sections of the twist `𝒪(nd)` itself, not of the `n`-th tensor power of `𝒪_{U_d}(d)`,
+so its target is not the graded ring `Γ_*(U_d, 𝒪_{U_d}(d))` of [Stacks, Tag 01CV]. The map of
+Equation 01N6, into that ring, is
+`Stacks.AlgebraicGeometry.ProjDegreeOpenPsiTensor.psiTensor`. -/
 public def psi (hd : 0 < d) :
     letI := veroneseGradingGradedRing 𝒮 d hd
     letI := veroneseGradedRing 𝒮 Y d

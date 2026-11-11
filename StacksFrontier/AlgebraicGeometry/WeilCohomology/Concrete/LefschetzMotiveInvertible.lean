@@ -62,21 +62,21 @@ symmetric monoidal category `M_k`, with inverse the Tate motive `1(1) = (Spec k,
 two-sided tensor inverse `L ⊗ 1(1) ≅ 1`, `1(1) ⊗ L ≅ 1`, obtained by carrying the inverse
 `1(1)` of `1(-1)` along the isomorphism `L ≅ 1(-1)` of Lemma 0FGD. -/
 @[stacks 0FGE "the Lefschetz motive (P^1_k, c_2, 0) is invertible in M_k, with inverse the Tate
-motive 1(1)"]
+motive 1(1), via the isomorphism with 1(-1) of 0FGD; unconditional"]
 def lefschetzMotiveHasInverse : HasInverse (lefschetzMotive x hx) :=
   hasInverse_of_iso (projectiveLineFibrePointMotiveIso x hx).symm
     (GradedCategory.TwistedKaroubi.unitTwistHasInverse (-1) 1 (by norm_num) :
       HasInverse (tate k (-1)))
 
 /-- **Stacks Project, Tag 0FGE.** The inverse of the Lefschetz motive is the Tate motive
-`1(1) = (Spec k, 1, 1)`. -/
-@[stacks 0FGE "the inverse of the Lefschetz motive is the Tate motive 1(1)"]
+`1(1) = (Spec k, 1, 1)`, also written `L⁻¹`, `𝐋⁻¹`, `𝐓` or `𝐐(1)`. -/
+@[stacks 0FGE "the inverse of the Lefschetz motive is the Tate motive 1(1) = (Spec k, 1, 1)"]
 theorem lefschetzMotiveHasInverse_inv : (lefschetzMotiveHasInverse x hx).inv = tate k 1 :=
   rfl
 
-/-- **Stacks Project, Tag 0FGE.** The Lefschetz motive is invertible in `M_k` (Categories,
-Definition 0FFN). -/
-@[stacks 0FGE "the Lefschetz motive is invertible (Definition 0FFN)"]
+/-- **Stacks Project, Tag 0FGE.** The Lefschetz motive is invertible in `M_k` in the sense of
+Categories, Definition 0FFN, for every field `k` and `k`-rational point `x` of `P¹_k`. -/
+@[stacks 0FGE "the Lefschetz motive is invertible in M_k (Categories, Definition 0FFN)"]
 theorem isInvertible_lefschetzMotive : IsInvertible (lefschetzMotive x hx) :=
   ⟨lefschetzMotiveHasInverse x hx⟩
 

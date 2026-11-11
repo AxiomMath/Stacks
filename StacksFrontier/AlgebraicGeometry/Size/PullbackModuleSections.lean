@@ -29,7 +29,7 @@ of its restrictions.
 
 ## References
 
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 * [Stacks Project, Tag 01I9](https://stacks.math.columbia.edu/tag/01I9)
 -/
 

@@ -21,10 +21,14 @@ three consequences of the lemmas already available:
 * **(c)** in that case `f^!(c_i(ℰ) ∩ [Y]) = c_i(f^*ℰ) ∩ [X]`, and likewise for the Chern
   character.
 
-This file delivers (b) in full, in the shape in which this repository has Stacks 0FF7, and (a)
-and (c) for the flat — in particular the smooth — factor of the factorization `f = i ≫ g`, which
-is the only factor for which this repository has Stacks 0FF6. See the implementation notes for
-what blocks the remaining factor; it is a single named tag, **Stacks 0FBP**.
+This file delivers special cases only: (b) with the excess vanishing assumed, and (a) and (c)
+for the flat — in particular the smooth — factor of the factorization `f = i ≫ g`. The full
+remark, for the Gysin map of Stacks 0FF3, is proved elsewhere and carries the tag:
+(a) is `Stacks.Chow.lciGysinClass_comp_chernClassOfModule` and
+`Stacks.Chow.lciGysinClass_comp_chernCharacterOfModule`, (b) is
+`Stacks.Chow.lciGysinClass_completedCapDegreeZero_fundamentalClass`, and (c) is
+`Stacks.Chow.lciGysinClass_completedCap_chernClassOfModule_cap` and
+`Stacks.Chow.lciGysinClass_completedCap_chernCharacterOfModule_cap`.
 
 ## Main results
 
@@ -160,15 +164,17 @@ treating the two factors of the factorization separately, and its carrier in thi
 carrier instantiated at the bivariant Chern class, which is the assembly Stacks 0FF8 performs.
 The `i^!` factor is Stacks 0FBP and has no carrier here; see the implementation notes.
 
+This is a special case of the factor, not Stacks 0FF8 (a) itself, which is
+`Stacks.Chow.lciGysinClass_comp_chernClassOfModule` (and, for the Chern character,
+`Stacks.Chow.lciGysinClass_comp_chernCharacterOfModule`), stated for the Gysin map of
+Stacks 0FF3; the tag sits there.
+
 Two further caveats on what this is. First, the statement is the commuting form of Stacks 0FA2
 rather than the displayed composition `f^! ∘ c_j(ℰ) = c_j(f^*ℰ) ∘ f^!`; the two are equivalent by
 `Stacks.Chow.bivariantCommute_iff_cap_eq_of_isBivariantClassComposition`, but rewriting
 `res(c_j(ℰ))` as the bivariant Chern class of `g^*ℰ` is a separate identification, which needs
 the pseudofunctoriality of pullback of modules against `Stacks.Chow.HigherChernCapRule` and is
 not carried out here. Second, the Chern character is not stated. -/
-@[stacks 0FF8 "part (a), the flat `g^*` factor only, in the commuting form of 0FA2: `g^*` \
-commutes with the bivariant Chern class of 0B7H. `res(c_j(E)) = c_j(g^*E)` is NOT identified, \
-the `i^!` factor is 0FBP (absent here), and the Chern character is not stated"]
 theorem bivariantCommute_flatPullbackBivariantClass_chernClassBivariant :
     BivariantCommute C G sY g (𝟙 Y) (-(d : ℤ)) (j : ℤ)
       (flatPullbackBivariantClass C G (g ≫ sY) sY g rfl d hgd hdesc hRG h71)
@@ -212,10 +218,11 @@ over the base carries a fundamental class to a fundamental class by
 
 The hypotheses are those of `Stacks.Chow.lciGysinCap_fundamentalChowClass`, whose implementation
 notes say what each one is and why none of them is the conclusion; see also the implementation
-notes above for how the Cohen-Macaulay hypothesis and the conditions of Stacks 0FE3 enter. -/
-@[stacks 0FF8 "part (b): `f^![Y]_n = [X]_{n-(r-d)}` on `X` itself, from 0FF7 at `Y' = Y`. The \
-0FE3 conditions enter as the two δ-dimension bounds and the Cohen-Macaulay hypothesis as the \
-vanishing excess `hcone`, exactly as in 0FF7's carrier; no clopen reduction"]
+notes above for how the Cohen-Macaulay hypothesis and the conditions of Stacks 0FE3 enter.
+
+This is a special case, with the excess vanishing `hcone` assumed; Stacks 0FF8 (b) itself, for the
+Gysin map of Stacks 0FF3 under the conditions of Stacks 0FE3 only, is
+`Stacks.Chow.lciGysinClass_completedCapDegreeZero_fundamentalClass`, which carries the tag. -/
 theorem lciGysinCap_fundamentalChowClass_id
     (hinj : ∀ {T : Scheme.{u}} (t : T ⟶ P) [LocallyOfFiniteType t] (k : ℤ),
       Function.Injective
@@ -276,17 +283,13 @@ groups, `Stacks.Chow.flatPullbackChow_fundamentalChowClass`; and part (a) for th
 commutation of the Chern class operations with flat pullback, Stacks 02U8, which is the
 hypothesis `hflat` carried here, exactly as `Stacks.Chow.chernClassBivariant` carries it. The lci
 case needs Stacks 0FBP; see the implementation notes. The Chern character is not stated.
+Stacks 0FF8 (c) itself, for the Gysin map of Stacks 0FF3, is
+`Stacks.Chow.lciGysinClass_completedCap_chernClassOfModule_cap` (and
+`Stacks.Chow.lciGysinClass_completedCap_chernCharacterOfModule_cap`), which carry the tag.
 
 `Stacks.Chow.chernIdentityCapRule C sY E r cap hrank j` is the rule `α ↦ c_j(u^*ℰ) ∩ α` on the
 Chow groups of each test scheme `u : U ⟶ Y`; it unfolds to
 `cap (u ≫ sY) ((Scheme.Modules.pullback u).obj E) k j`. -/
-@[stacks 0FF8 "part (c), the flat `g^*` factor only: `h^*(c_j(t^*E) ∩ [T]_n) = c_j((h ≫ t)^*E) \
-∩ [T']_{n+m}` for `h` flat of relative dimension `m` — the Gysin map of a smooth `h` — from \
-02U8 (carried, as `hflat`) and 02RB. The lci `f^!` needs 0FBP, which is proved only with its \
-own hypotheses carried — `Stacks.Chow.virtualNormalGysinClass_bivariantCommute` of \
-Chow/Bivariant/VirtualNormalCommuting.lean assumes the 0FBL/0FBN factorization, the centrality \
-of Stacks 02UA and the commutation of the second factor, and the reduction of 02UC and 02OS to \
-a divisor is not carried out — so it is not usable here; no Chern character"]
 theorem flatPullbackChow_chernCap_fundamentalChowClass
     (hflat : IdentityCapRule.FlatNaturality C sY (j : ℤ)
       (chernIdentityCapRule C sY E r cap hrank j))

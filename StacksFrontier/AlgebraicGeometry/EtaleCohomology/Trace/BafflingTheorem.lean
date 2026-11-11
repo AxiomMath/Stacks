@@ -44,8 +44,11 @@ over `X`. This is the baffling theorem.
 
 ## Main results
 
-* `Stacks.EtaleCohomology.etaleCohomologyPullbackMap_comp_comparison` — the map induced by `g`
-  on cohomology is the identity, in every degree and for every sheaf.
+* `Stacks.EtaleCohomology.etaleCohomologyPullbackMap_comp_comparison` — the map induced by the
+  unit `F ⟶ g^{-1}F` on cohomology, followed by the comparison, is the identity, in every degree
+  and for every sheaf. The statement of [Stacks, Tag 03SP] itself, with the canonical pullback
+  map `Stacks.EtaleCohomology.etaleCohomologyRestrictionMap`, is
+  `Stacks.EtaleCohomology.etaleCohomologyRestrictionMap_comparison_eq_self`.
 * `Stacks.EtaleCohomology.etaleCohomologyFunctorIsoOfBaseChangeIso` — the induced
   identification of the cohomology of the pullback with the cohomology of the sheaf, naturally
   in the sheaf.
@@ -196,14 +199,16 @@ public def etaleCohomologyPullbackMap (X : Scheme.{u}) (g : X ⟶ X)
         AddCommGrpCat.{max (u + 1) v} (smallEtaleTopology X) (smallEtaleTopology X)).obj F) n :=
   Sheaf.H.map ((etaleSheafPullbackUnit.{u, v} X g e).app F) n
 
-/-- **Stacks Project, Tag 03SP.** Let `X` be a scheme and `g : X ⟶ X` a morphism such that every
-étale `X`-scheme `U` is isomorphic over `X` to its base change `U ×_{g} X`, functorially in `U`.
-Then `g` induces the identity on cohomology, for any abelian sheaf `F` and in every degree `n`:
-the map `H^n(X, F) ⟶ H^n(X, g^{-1}F)` induced by `g`, followed by the canonical comparison
-`H^n(X, g^{-1}F) ≅ H^n(X, F)`, is the identity of `H^n(X, F)`.
+/-- The map `H^n(X, F) ⟶ H^n(X, g^{-1}F)` induced by the unit `F ⟶ g^{-1}F` read through the
+identification `e` of base change by `g` with the identity functor, followed by the comparison
+`H^n(X, g^{-1}F) ≅ H^n(X, F)`, is the identity of `H^n(X, F)`. Both maps are built from `e`, and
+the comparison is the mate of the identification the unit is read through, so this is formal.
 
-See [Stacks Project, Tag 03SP](https://stacks.math.columbia.edu/tag/03SP). -/
-@[stacks 03SP "g induces the identity on cohomology, for any sheaf"]
+The content of [Stacks, Tag 03SP] is the same statement for the canonical pullback map
+`Stacks.EtaleCohomology.etaleCohomologyRestrictionMap g`, which does not depend on `e`: it is
+`Stacks.EtaleCohomology.etaleCohomologyRestrictionMap_comparison_eq_self`, and
+`Stacks.EtaleCohomology.etaleCohomologyPullbackMap_eq_etaleCohomologyRestrictionMap` identifies
+the map here with the canonical one. -/
 public theorem etaleCohomologyPullbackMap_comp_comparison (X : Scheme.{u}) (g : X ⟶ X)
     (e : 𝟭 X.Etale ≅ smallEtaleBaseChange g)
     [HasWeakSheafify (smallEtaleTopology X) AddCommGrpCat.{max (u + 1) v}]

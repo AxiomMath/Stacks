@@ -45,7 +45,8 @@ variable {A : Type u} [Category.{v} A] [Abelian A]
 
 /-- **Stacks 03T6, part (2).** A bounded above complex of projective objects computes
 morphisms from it in the derived category already in the homotopy category. -/
-@[stacks 03T6 "projective_hom", sga "4½ Etat_0 3.2.3" "(4) proj. analogue"]
+@[stacks 03T6 "(2): Hom_D(P, K) = Hom_K(P, K) for P bounded above with projective terms",
+  sga "4½ Etat_0 3.2.3" "(4) proj. analogue"]
 theorem Qh_map_bijective_of_projective_of_minus [HasDerivedCategory.{w} A]
     (P : CochainComplex A ℤ) (K : HomotopyCategory A (ComplexShape.up ℤ))
     (hP : CochainComplex.minus A P) [∀ n, Projective (P.X n)] :

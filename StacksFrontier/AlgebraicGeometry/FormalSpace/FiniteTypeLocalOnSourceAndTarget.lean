@@ -64,24 +64,24 @@ condition (3) to condition (2) recorded in the source, and it is free: instantia
 from condition (3) to condition (2) is then that implication followed by the implication from
 condition (1) to condition (2).
 
-The two implications of the source which are not proved here are the two whose Stacks proofs
-need the relative diagonal of a morphism of formal algebraic spaces to be locally of finite
-type, Stacks 0AN2: the implication from condition (1) to condition (3), and the implication
-from condition (2) to condition (1). That assertion of Stacks 0AN2 is available for an
-arbitrary formal algebraic space source, in
-`StacksFrontier.AlgebraicGeometry.FormalSpace.DiagonalRepresentable`; the two implications have
-simply not been carried out here. Each tag attribute below names the implication it carries.
+The remaining implications of the source, and the equivalence of all five conditions, are in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.FiniteTypeLocalOnSourceAndTargetRefined` and
+`StacksFrontier.AlgebraicGeometry.FormalSpace.FiniteTypeLocalTfae`: condition (1) implies
+condition (3) is `isLocallyOfFiniteTypeOnEverySquare_of_isLocallyOfFiniteType`, through the
+locally of finite type diagonal of Stacks 0AN2; condition (2) implies condition (1) is
+`isLocallyOfFiniteType_of_onSomeSquare`; and the equivalence is
+`AlgebraicGeometry.FormalSpace.isLocallyOfFiniteType_tfae`.
 
-Two inputs of the source are explicit hypotheses because the library does not carry them. The
-step from condition (3) to condition (4) needs the fibre products `Vⱼ ×_Y X` to be formal
-algebraic spaces, which is Stacks 0AJ3; it is `h0AJ3`, exactly as in the corresponding step of
-Stacks 0AN4 and of Stacks 0ANG. The step from condition (4) to condition (5) needs that the
-composite of a covering as in Definition 0AIM of the target with coverings of the fibre products
-of its members is again a covering of the source; it is `h0AIM`. Of the three clauses of that
-conclusion only the joint surjectivity of the composite family is genuinely missing from the
-library: affineness is inherited from the given coverings, and representable étaleness of a
-composite `Uⱼᵢ ⟶ Vⱼ ×_Y X ⟶ X` follows from `IsRepresentableEtale.comp` together with
-`isRepresentableEtale_pullback_snd`, the second projection being a base change of `Vⱼ ⟶ Y`.
+The two implications below from condition (3) to condition (4) and from condition (4) to
+condition (5) take as explicit hypotheses two inputs of the source, `h0AJ3` (Stacks 0AJ3, that
+the fibre products `Vⱼ ×_Y X` are formal algebraic spaces) and `h0AIM` (that the composite of a
+covering of the target with coverings of the fibre products of its members is a covering of the
+source). Both inputs are proved in the library:
+`isFormalAlgebraicSpace_pullback_chart_of_isFormalAlgebraicSpace` is the first, and the second
+follows from `IsRepresentableEtale.comp`, `isRepresentableEtale_pullback_snd` and
+`isLocallySurjective_sigmaDesc_comp'`. The unconditional forms of the two implications are
+`isLocallyOfFiniteTypeAfterTargetCover_of_onEverySquare'` and
+`isLocallyOfFiniteTypeOnFactoredAtlas_of_afterTargetCover'`.
 
 ## References
 
@@ -146,8 +146,6 @@ abbrev IsLocallyOfFiniteTypeOnFactoredAtlas {X Y : FppfSheaf B S hS} (f : X ⟶ 
 /-- **Stacks 0ANL, condition (1) implies condition (2).** The square formed by the identities
 of `X` and of `Y` witnesses condition (2): both columns are identities, hence representable
 étale and surjective, and the upper horizontal map is `f` itself. -/
-@[stacks 0ANL "condition (1) implies condition (2), reading surjectivity of the source column \
-as surjectivity of the morphism of sheaves"]
 theorem isLocallyOfFiniteTypeOnSomeSquare_of_isLocallyOfFiniteType {X Y : FppfSheaf B S hS}
     (f : X ⟶ Y) (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hf : IsLocallyOfFiniteType B S hS f) :
@@ -159,8 +157,6 @@ theorem isLocallyOfFiniteTypeOnSomeSquare_of_isLocallyOfFiniteType {X Y : FppfSh
 /-- **Stacks 0ANL, condition (3) implies condition (1).** Condition (3), instantiated at the
 square formed by the identities of `X` and of `Y`, asserts that `f` itself is locally of finite
 type. -/
-@[stacks 0ANL "condition (3) implies condition (1), by instantiating condition (3) at the \
-square formed by the identities"]
 theorem isLocallyOfFiniteType_of_onEverySquare {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hf : IsLocallyOfFiniteTypeOnEverySquare B S hS f) :
@@ -170,7 +166,6 @@ theorem isLocallyOfFiniteType_of_onEverySquare {X Y : FppfSheaf B S hS} (f : X �
 
 /-- **Stacks 0ANL, condition (3) implies condition (2).** Condition (3) gives that `f` is
 locally of finite type, and the identity square then witnesses condition (2). -/
-@[stacks 0ANL "condition (3) implies condition (2)"]
 theorem isLocallyOfFiniteTypeOnSomeSquare_of_onEverySquare {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsFormalAlgebraicSpace B S hS X) (hY : IsFormalAlgebraicSpace B S hS Y)
     (hf : IsLocallyOfFiniteTypeOnEverySquare B S hS f) :
@@ -185,10 +180,8 @@ projection is a base change of `Vⱼ ⟶ Y`, and the square it forms with `f` an
 commutes by the universal property of the fibre product.
 
 The hypothesis `h0AJ3` is the assertion of Stacks 0AJ3 that `Vⱼ ×_Y X` is a formal algebraic
-space, which this library does not carry. -/
-@[stacks 0ANL "condition (3) implies condition (4), with Stacks 0AJ3 — that the fibre product \
-of a chart of the target with the morphism is a formal algebraic space — carried as the \
-hypothesis h0AJ3, since this library does not have it"]
+space; the library proves it, and the form of this implication without it is
+`isLocallyOfFiniteTypeAfterTargetCover_of_onEverySquare'`. -/
 theorem isLocallyOfFiniteTypeAfterTargetCover_of_onEverySquare {X Y : FppfSheaf B S hS}
     (f : X ⟶ Y) (hY : IsFormalAlgebraicSpace B S hS Y)
     (h0AJ3 : ∀ (V : FppfSheaf B S hS) (v : V ⟶ Y), IsAffineFormalAlgebraicSpace B S hS V →
@@ -215,11 +208,9 @@ projection, which condition (4) asserts to be locally of finite type.
 The hypothesis `h0AIM` is that the composite family is again a covering as in Definition 0AIM.
 Its affineness clause is inherited from the given coverings and its representable étaleness
 clause follows from `AlgebraicGeometry.FormalSpace.IsRepresentableEtale.comp` together with
-`AlgebraicGeometry.FormalSpace.isRepresentableEtale_pullback_snd`; what the library does not
-carry is the joint surjectivity of the composite family. -/
-@[stacks 0ANL "condition (4) implies condition (5), with the assertion that the composite of \
-a covering of the target with coverings of the fibre products is again a covering as in \
-Definition 0AIM carried as the hypothesis h0AIM"]
+`AlgebraicGeometry.FormalSpace.isRepresentableEtale_pullback_snd`, and its joint surjectivity
+from `isLocallySurjective_sigmaDesc_comp'`; the form of this implication without the
+hypothesis is `isLocallyOfFiniteTypeOnFactoredAtlas_of_afterTargetCover'`. -/
 theorem isLocallyOfFiniteTypeOnFactoredAtlas_of_afterTargetCover {X Y : FppfSheaf B S hS}
     (f : X ⟶ Y)
     (h0AIM : ∀ (J : Type (u + 1)) (V : J → FppfSheaf B S hS) (v : ∀ j, V j ⟶ Y),

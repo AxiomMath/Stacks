@@ -192,7 +192,7 @@ The proof is the source's: composing the adjunction `(-)^~ ⋙ ι ⊣ Γ(X, -)` 
 Stacks 01BH (4) with the adjunction `((-)^~)^{-1} ⊣ (-)^~` of the associated-module equivalence
 gives `((-)^~)^{-1} ⋙ (-)^~ ⋙ ι ⊣ Γ(X, -) ⋙ (-)^~`, and the left-hand side is `ι` by the counit
 of the equivalence. -/
-@[stacks 08H0 "part (1)"]
+@[stacks 08H0 "part (1): for affine X, F ↦ Γ(X, F)^~ is right adjoint to QCoh(O_X) ⊆ Mod(O_X)"]
 def inclusionAdjunctionGlobalSectionsAssociated_of_isAffineSpace :
     (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
       ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS F hF).O))).ι ⊣
@@ -221,7 +221,8 @@ Both are right adjoints of the inclusion `QCoh(𝒪_X) ⥤ Mod(𝒪_X)` — the 
 `AlgebraicGeometry.Space.coheratorAdjunction` and the other by
 `AlgebraicGeometry.Space.inclusionAdjunctionGlobalSectionsAssociated_of_isAffineSpace` — and a
 right adjoint is unique up to a unique natural isomorphism. -/
-@[stacks 08H0 "part (1)"]
+@[stacks 08H0 "part (1): for affine X, the coherator Q_X is naturally isomorphic to \
+F ↦ Γ(X, F)^~"]
 def coheratorIsoGlobalSectionsAssociated_of_isAffineSpace :
     coherator B S hS F hF ≅
       affineSpaceGlobalSections B S hS F hF hAffine ⋙

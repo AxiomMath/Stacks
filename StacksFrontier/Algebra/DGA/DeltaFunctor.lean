@@ -38,8 +38,12 @@ underlying map, by `coneForgetIso` below, and under that identification the cone
 becomes Mathlib's `CochainComplex.mappingCone.descShortComplex`, whose quasi-isomorphy for a
 short exact sequence is `CochainComplex.mappingCone.quasiIso_descShortComplex`.
 
-The sign convention is the library's.  The differential graded theory carries two triangles on a
-mapping cone, differing by a sign in the third arrow — see `StacksFrontier.Algebra.DGA.ConeTriangle`
+The sign convention is the library's, not the Stacks project's; the statement of Tag 09L0 in
+the Stacks convention, `δ = -p ∘ q⁻¹` against the triangulation of Tag 09KH, is
+`DifferentialGradedModule.exists_deltaFunctorStructure_δ_eq_neg`
+(`StacksFrontier.Algebra.DifferentialGraded.Module.CanonicalDeltaFunctor`).  The differential
+graded theory carries two triangles on a mapping cone, differing by a sign in the third arrow —
+see `StacksFrontier.Algebra.DGA.ConeTriangle`
 — and the `Pretriangulated` instance on the homotopy category that this library ships,
 `DifferentialGradedModule.instPretriangulatedHomotopyCategory`, declares the unsigned family
 `DifferentialGradedModule.coneTriangle` distinguished.  The connecting morphism is therefore
@@ -499,10 +503,17 @@ private noncomputable def canonicalDeltaFunctor :
     rw [Category.assoc, ← hξ, ← Category.assoc, ← hp, ← hq]
     simp only [Functor.comp_obj, Category.assoc, IsIso.hom_inv_id, Category.comp_id]
 
-/-- **Stacks Project, Tag 09L0.** The canonical functor from differential graded modules to
-their derived category is a `δ`-functor, with connecting arrow the third arrow of the cone
-triangle read after inverting the cone-to-quotient quasi-isomorphism. -/
-@[stacks 09L0]
+/-- The canonical functor from differential graded modules to their derived category is a
+`δ`-functor, with connecting arrow the third arrow of the cone triangle read after inverting the
+cone-to-quotient quasi-isomorphism.
+
+This is the content of Tag 09L0 in the library's default sign convention, not in that of the
+Stacks project: the triangulation of `derivedCategory A` used here is localized from
+`DifferentialGradedModule.instPretriangulatedHomotopyCategory`, which declares the unsigned cone
+triangle `(K, L, C(f), f, i, p)` distinguished, so the connecting morphism is `p ∘ q⁻¹`.  The
+Stacks project declares `(K, L, C(f), f, i, -p)` distinguished (Tag 09KF) and obtains
+`δ = -p ∘ q⁻¹`; that statement, against the triangulation of Tag 09KH, is
+`DifferentialGradedModule.exists_deltaFunctorStructure_δ_eq_neg`, which carries the tag. -/
 theorem exists_deltaFunctorStructure_δ_eq :
     ∃ h : (canonicalFunctor.{u, v, w} A).DeltaFunctorStructure
         (DifferentialGradedModule.{u, v, w} A) (derivedCategory.{u, v, w} A),

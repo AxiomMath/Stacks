@@ -57,30 +57,19 @@ by the supremum of the corresponding ideal sheaves; the factorization property c
 universal property of a closed immersion, `AlgebraicGeometry.IsClosedImmersion.lift`, and
 uniqueness from the fact that a closed immersion is a monomorphism.
 
-### No `@[stacks 078F]`
+### Tag 078F
 
-Tag 078F asserts the existence of a functor `Sch^{opp} ⥤ Sets` which satisfies the sheaf
-condition for the fpqc topology, has representable diagonal, receives a surjective flat
-universally open quasi-compact morphism from a scheme, and is *not* an algebraic space. Only
-the first two properties of the witness `(ℙ¹)^∞` are proved here, so the tag appears only in
-scoped form. Missing are:
-
-* the morphism `(SL₂)^∞ ⟶ (ℙ¹)^∞` induced by the smooth surjective affine morphism
-  `SL₂ ⟶ ℙ¹`, together with the facts that `(SL₂)^∞` is an affine scheme and that the morphism
-  is surjective, flat, universally open and quasi-compact. The infinite product is not the
-  obstruction: a small diagram of affine schemes has a limit in schemes and that limit is
-  affine, by `AlgebraicGeometry.Scheme.affineLimitCone`, so an arbitrary product of copies of
-  an affine scheme is available. What is missing is the morphism `SL₂ ⟶ ℙ¹`, and, for
-  surjectivity, flatness and universal openness of the induced morphism, the behaviour of
-  faithful flatness under infinite fibre products over an arbitrary base scheme. The
-  construction of the induced morphism out of a product of copies of an affine scheme, and its
-  quasi-compactness, are in
-  `StacksFrontier/Examples/Spaces/ProductOfProjectiveLinesCover.lean`;
-* the failure of `(ℙ¹)^∞` to be an algebraic space. That argument needs the vanishing of
-  cohomology of quasi-coherent sheaves above a cutoff on a quasi-compact separated algebraic
-  space (Stacks 072B), together with a quasi-coherent sheaf on `(ℙ¹)^∞` whose cohomology is
-  nonzero in degree `n`, for every `n`: the pullback of `𝒪(-2, …, -2)` along the projection
-  `(ℙ¹)^∞ ⟶ (ℙ¹)ⁿ`.
+Stacks 078F asserts that there is a functor `Sch^{opp} ⥤ Sets` which satisfies the sheaf
+condition for the fpqc topology, has representable diagonal, receives a surjective, flat,
+universally open, quasi-compact morphism from a scheme, and is not an algebraic space. The
+witness is `(ℙ¹)^∞`, and its sheaf property and representable diagonal are the two theorems
+`AlgebraicGeometry.isSheaf_fpqc_projectiveLinePow` and
+`AlgebraicGeometry.relativelyRepresentable_diag_projectiveLinePow` of this file. The covering
+morphism is constructed in `StacksFrontier/Examples/Spaces/ProductOfProjectiveLinesFlatCover.lean`,
+the failure to be an algebraic space is proved in
+`StacksFrontier/Examples/Spaces/ProductOfProjectiveLinesNotAlgebraic.lean`, and the four clauses are
+assembled there into `AlgebraicGeometry.ProjectiveLinePow.exists_fpqc_sheaf_not_isAlgebraicSpace`,
+which carries the tag.
 
 ## References
 
@@ -377,14 +366,16 @@ instance isSeparated_projectiveSpaceAtUniverse (n : ℕ) :
 def projectiveLinePow : Scheme.{u}ᵒᵖ ⥤ Type u :=
   powPresheaf (ULift.{u} ℕ) (projectiveSpaceAtUniverse.{u} 1)
 
-/-- `(ℙ¹)^∞` satisfies the sheaf condition for the fpqc topology. -/
-@[stacks 078F "the witness (P^1)^∞ is a sheaf for the fpqc topology"]
+/-- `(ℙ¹)^∞` satisfies the sheaf condition for the fpqc topology, being a product of copies of
+the functor of points of `ℙ¹`. This is the sheaf clause of Stacks 078F, assembled into the full
+statement in `AlgebraicGeometry.ProjectiveLinePow.exists_fpqc_sheaf_not_isAlgebraicSpace`. -/
 theorem isSheaf_fpqc_projectiveLinePow :
     Presheaf.IsSheaf Scheme.fpqcTopology.{u} projectiveLinePow.{u} :=
   isSheaf_powPresheaf _
 
-/-- The diagonal of `(ℙ¹)^∞` is representable. -/
-@[stacks 078F "the witness (P^1)^∞ has representable diagonal"]
+/-- The diagonal of `(ℙ¹)^∞` is representable. This is the diagonal clause of Stacks 078F,
+assembled into the full statement in
+`AlgebraicGeometry.ProjectiveLinePow.exists_fpqc_sheaf_not_isAlgebraicSpace`. -/
 theorem relativelyRepresentable_diag_projectiveLinePow :
     yoneda.relativelyRepresentable (diag projectiveLinePow.{u}) :=
   relativelyRepresentable_diag_powPresheaf

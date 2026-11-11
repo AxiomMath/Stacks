@@ -334,10 +334,7 @@ public theorem isIso_localCohomologyToAdicQuotientLimit_and_exists_pow_le_annihi
 /-- In the bootstrap situation of Stacks 0EFU with `A` local, `I`-adically complete and
 `T = {𝔪}`, the map `Hⁱ_𝔪(M) ⟶ lim Hⁱ_𝔪(M/IⁿM)` is an isomorphism for `i ≤ s` and a single
 power of `I` annihilates these modules. -/
-@[stacks 0EFR "both assertions, with no carried hypothesis, for I-adically complete A",
-  stacks 0EFY "part (4) at T = {𝔪} over an I-adically complete Noetherian local ring in
-Situation 0EFU: Hⁱ_𝔪(M) ⟶ lim Hⁱ_𝔪(M/IⁿM) is an isomorphism, in the range i ≤ s, which contains
-the range i < s of that part"]
+@[stacks 0EFR "both assertions, with no carried hypothesis, for I-adically complete A"]
 public theorem isIso_localCohomologyToAdicQuotientLimit_of_isAdicComplete
     [IsLocalRing S.A] [IsAdicComplete S.I S.A] (hT : S.T = {closedPoint S.A}) :
     (∀ i : ℤ, i ≤ S.s →

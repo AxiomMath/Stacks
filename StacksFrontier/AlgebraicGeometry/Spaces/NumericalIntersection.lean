@@ -57,14 +57,19 @@ morphism, and the coherence of the twists of that direct image are in
   Euler characteristics of the twists as its values at integral tuples, the intersection number
   is its coefficient of `n₁ ⋯ n_d`.  There is no hypothesis beyond those two, and in particular
   the existence of such a polynomial — which is Stacks 0DN4 — is not assumed.
-* `AlgebraicGeometry.Space.exists_intCast_eq_coeff_one`: **Stacks 0EDG**, the intersection
-  number is an integer.  The content is the integrality of the a priori rational coefficient of
-  `n₁ ⋯ n_d` in a representing polynomial, the integer being `intersectionNumber` itself.
+* `AlgebraicGeometry.Space.exists_intCast_eq_coeff_one`: the coefficient of `n₁ ⋯ n_d` in any
+  representing polynomial of total degree at most `d` is an integer, namely `intersectionNumber`
+  itself.  Stacks 0EDG, with the representing polynomial supplied by Stacks 0DN4, is
+  `AlgebraicGeometry.Space.exists_eval_eq_eulerCharacteristic_and_exists_intCast_eq_coeff_one`
+  of `StacksFrontier/AlgebraicGeometry/Spaces/IntersectionNumberAdditivity.lean`.
 * `MvPolynomial.sum_neg_one_pow_mul_sub_eval_cons_eq_zero`: for a polynomial in `d + 1`
   variables of total degree at most `d`, the `d`-fold mixed finite difference of its first
   difference in the remaining variable vanishes.  This is the degree count behind additivity.
-* `AlgebraicGeometry.Space.intersectionNumber_eq_add_of_iso_tensorSheaf`: **Stacks 0EDH**, the
-  intersection number is additive in each of its invertible modules.
+* `AlgebraicGeometry.Space.intersectionNumber_eq_add_of_iso_tensorSheaf`: the intersection
+  number is additive in each of its invertible modules, given a numerical polynomial for the
+  split family.  Stacks 0EDH itself, with that polynomial supplied by Stacks 0DN4, is
+  `AlgebraicGeometry.Space.intersectionNumber_eq_add_intersectionNumber_of_iso_tensorSheaf` of
+  `StacksFrontier/AlgebraicGeometry/Spaces/IntersectionNumberAdditivity.lean`.
 
 ## Implementation notes
 
@@ -83,10 +88,13 @@ Stacks 0BEP reads it as well.
 **What additivity carries, and why.**  The source proves Stacks 0EDH by applying Stacks 0DN4 to
 the `d + 1` invertible modules obtained from `L₁, …, L_d` by replacing `L_{i₀}` by the pair
 `L_{i₀}'', L_{i₀}'`, and reading the three intersection numbers off the resulting numerical
-polynomial.  One input of that argument is not available here and is the hypothesis `Q` of
-`AlgebraicGeometry.Space.intersectionNumber_eq_add_of_iso_tensorSheaf`: the numerical polynomial
-of **Stacks 0DN4** for the split family, of total degree at most `d` in `d + 1` variables.  This
-is the hypothesis `P` of the neighbouring `intersectionNumber_eq_coeff` and of
+polynomial.  That polynomial — the numerical polynomial of **Stacks 0DN4** for the split family,
+of total degree at most `d` in `d + 1` variables — is proved in
+`StacksFrontier/AlgebraicGeometry/Spaces/IntersectionNumberPolynomial.lean`, which imports this
+file, so here it is the hypothesis `Q` of
+`AlgebraicGeometry.Space.intersectionNumber_eq_add_of_iso_tensorSheaf`, discharged in
+`StacksFrontier/AlgebraicGeometry/Spaces/IntersectionNumberAdditivity.lean`.  This is the
+hypothesis `P` of the neighbouring `intersectionNumber_eq_coeff` and of
 `AlgebraicGeometry.Space.intersectionNumber_eq_intersectionNumber_of_isEffectiveCartierDivisor`
 one family larger, and it is used here exactly as it is used there.
 
@@ -859,7 +867,7 @@ theorem intersectionNumber_eq_coeff (d : ℕ) (f : X.1 ⟶ yoneda.obj (baseObjec
   push_cast
   exact Finset.sum_congr rfl fun T _ => by rw [hval T]
 
-/-- **Stacks 0EDG.**  The intersection number `(L₁ ⋯ L_d · Z)` is an integer: the coefficient of
+/-- **Integrality of the coefficient of `n₁ ⋯ n_d`.**  The coefficient of
 `n₁ ⋯ n_d` in a rational polynomial of total degree at most `d` taking the Euler characteristics
 `χ(X, i_*𝒪_Z ⊗ L₁^{⊗ n₁} ⊗ ⋯ ⊗ L_d^{⊗ n_d})` as its values at the integral tuples is the cast of
 an integer, namely of `AlgebraicGeometry.Space.intersectionNumber`.
@@ -867,8 +875,10 @@ an integer, namely of `AlgebraicGeometry.Space.intersectionNumber`.
 That coefficient is a priori only rational, and integrality is special to it: a numerical
 polynomial such as `n (n - 1) / 2` has coefficients which are not integers, and it is the degree
 bound that makes the coefficient of the squarefree monomial a mixed finite difference of
-finitely many integer values. -/
-@[stacks 0EDG "granted a representing numerical polynomial, whose existence is Tag 0DN4"]
+finitely many integer values.
+
+Stacks 0EDG, where the representing polynomial is supplied by Stacks 0DN4, is
+`AlgebraicGeometry.Space.exists_eval_eq_eulerCharacteristic_and_exists_intCast_eq_coeff_one`. -/
 theorem exists_intCast_eq_coeff_one (d : ℕ) (f : X.1 ⟶ yoneda.obj (baseObject k B hk))
     (hf : IsProper B (Spec (.of k)) hk f) (i : Z ⟶ X)
     (hi : IsClosedImmersion B (Spec (.of k)) hk i.hom)
@@ -904,7 +914,8 @@ def selfIntersectionNumber (d : ℕ) (f : X.1 ⟶ yoneda.obj (baseObject k B hk)
     ℤ :=
   intersectionNumber.{u, w} k B hk X Z d f hf i hi hd fun _ => L
 
-/-- **Stacks 0EDH.**  Additivity of the intersection number in each of its invertible modules.
+/-- **Additivity of the intersection number, given the numerical polynomial of the split
+family.**
 Let `k` be a field, let `X` be a proper algebraic space over `k`, let `i : Z ⟶ X` be a closed
 subspace of dimension `d` and let `L₁, …, L_d` be invertible `𝒪_X`-modules.  Let `L'` and `L''`
 be two families agreeing with `L` away from one index `i₀` and satisfying
@@ -914,8 +925,10 @@ be two families agreeing with `L` away from one index `i₀` and satisfying
 
 The mechanism is the source's.  The Euler characteristics of the twists of `i_*𝒪_Z` by the
 `d + 1` invertible modules `L_{i₀}'', L_1', …, L_d'` are the values of a rational polynomial `Q`
-of total degree at most `d` in `d + 1` variables, which is Stacks 0DN4 and is the one thing
-carried, as the hypotheses `Q`, `hQ` and `hQdeg`; the three intersection numbers are then the
+of total degree at most `d` in `d + 1` variables, the hypotheses `Q`, `hQ` and `hQdeg`, which
+Stacks 0DN4 supplies in
+`AlgebraicGeometry.Space.intersectionNumber_eq_add_intersectionNumber_of_iso_tensorSheaf`
+(Stacks 0EDH); the three intersection numbers are then the
 three mixed finite differences of `Q` obtained by tying the two new variables together, by
 setting the second to zero, and by setting the first to zero.  Their alternating combination is
 the `(d + 1)`-fold mixed finite difference of `Q`, which vanishes because the squarefree monomial
@@ -926,8 +939,6 @@ The three comparisons of the twists by the split family with the twists by `L`, 
 are proved: at the indicator tuples only the exponents `0` and `1` occur, where the constraints
 of the sheaf tensor product suffice and no multiplication of tensor powers is needed.  See the
 implementation notes. -/
-@[stacks 0EDH "with the numerical polynomial of Stacks 0DN4 for the split family of d + 1 \
-invertible modules carried as a hypothesis"]
 theorem intersectionNumber_eq_add_of_iso_tensorSheaf (d : ℕ)
     (f : X.1 ⟶ yoneda.obj (baseObject k B hk)) (hf : IsProper B (Spec (.of k)) hk f)
     (i : Z ⟶ X) (hi : IsClosedImmersion B (Spec (.of k)) hk i.hom)

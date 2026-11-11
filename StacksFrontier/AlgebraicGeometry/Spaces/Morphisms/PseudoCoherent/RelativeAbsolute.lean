@@ -74,11 +74,7 @@ one affine chart `U`: it is the identification of
   `rfl`; and the target `AlgebraicGeometry.Space.representedSchemeRingedSite` is
   `AlgebraicGeometry.smallEtaleRingedSite` of the chart's scheme over
   `AlgebraicGeometry.associatedBigEtaleSite B`, which is the site Stacks 08HE and Stacks 071Q
-  are stated on.  The implementation notes of
-  `StacksFrontier/AlgebraicGeometry/Spaces/Perfect/ApproximationAffine.lean` record this crossing
-  as absent; for pseudo-coherence it is not.  (For
-  `AlgebraicGeometry.RingedSite.IsPerfect` and for `AlgebraicGeometry.Space.supportOfSheaf` it
-  is.);
+  are stated on;
 * from the small étale site of the scheme `U` to its small Zariski site, **Stacks 08HE is closed
   in both directions and unconditionally**:
   `AlgebraicGeometry.SmallEtale.pseudoCoherentToAssociatedModule_of_slice_exact` is clause
@@ -903,7 +899,7 @@ Both sides quantify over the same squares, so everything happens on one square, 
 *affine* charts `AlgebraicGeometry.HasRingHomProperty.appTop` turns flatness and local finite
 presentation of the scheme morphism into `Module.Flat` and `Algebra.FinitePresentation` of the
 map of section rings, after which Stacks 067J,
-`RingHom.isPerfectRingMap_of_flat_of_finitePresentation`, concludes.  This is the same device by
+`Algebra.PseudoCoherent.of_flat_of_finitePresentation`, concludes.  This is the same device by
 which the definition of relative pseudo-coherence gets its `Algebra.FiniteType` instance from
 "`f` is locally of finite type", so no finiteness hypothesis is imposed beyond the source's own
 "`f` is flat and locally of finite presentation".
@@ -1028,7 +1024,7 @@ theorem relativePseudoCoherence_chart_iff
     HasRingHomProperty.appTop (@LocallyOfFinitePresentation)
       ((BigFppfOver.toScheme B S hS).map g) inferInstance
   exact PseudoCoherence.relativelyPseudoCoherent_iff_pseudoCoherent
-    (RingHom.isPerfectRingMap_of_flat_of_finitePresentation _ _).1
+    (Algebra.PseudoCoherent.of_flat_of_finitePresentation _ _)
     (chartDerivedSections B S hS X hX U E) m
 
 /-! ### Stacks 0DII by étale localization -/

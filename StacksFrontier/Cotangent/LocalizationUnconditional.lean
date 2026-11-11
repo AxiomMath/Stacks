@@ -23,6 +23,25 @@ writes.
   it. The two readings agree because `L_{B/A}` is a complex of free `B`-modules vanishing in
   positive degrees, so it computes its own derived base change.
 
+## The proof
+
+The source proves the lemma in two steps, both of which are taken here.
+
+* `L_{T⁻¹B/A} = L_{B/A} ⊗^𝐋_B T⁻¹B`, which is [Stacks, Tag 08R3] for the tower
+  `A → B → T⁻¹B`. The distinguished triangle of that tower is
+  `CommAlgCat.exists_distTriang_fundamentalVertex`, the existential form of Proposition 08QX.
+  Its third vertex `L_{T⁻¹B/B}` vanishes by
+  `CommAlgCat.isZero_cotangentComplexDerived_localization`, because a localization is flat and
+  an epimorphism of rings, which is item (2) of [Stacks, Tag 08R2].
+* `L_{T⁻¹B/A} = L_{T⁻¹B/S⁻¹A}`, which the source takes from [Stacks, Tag 08QZ] and which is
+  `CommAlgCat.nonempty_cotangentComplexDerived_iso_localizationBase`, obtained from
+  [Stacks, Tag 08QQ] applied to the pushout square `A → S⁻¹A`, `T⁻¹B → T⁻¹B`.
+
+These two steps are combined by
+`CommAlgCat.nonempty_cotangentComplexDerivedBaseChange_iso_localization` of
+`StacksFrontier.Cotangent.Localization`, which takes the triangle as an argument because that file
+is upstream of Proposition 08QX. The main theorems of this file pass it that triangle.
+
 ## References
 
 * [Stacks Project, Tag 08SF](https://stacks.math.columbia.edu/tag/08SF)
@@ -57,8 +76,12 @@ multiplicative subsets such that `S` maps into `T`. Then
 
 in `D(T⁻¹B)`.
 
-This is `CommAlgCat.nonempty_cotangentComplexDerivedBaseChange_iso_localization` at the
-distinguished triangle of the tower `A → B → T⁻¹B` that Proposition 08QX provides. -/
+This is `CommAlgCat.nonempty_cotangentComplexDerivedBaseChange_iso_localization` applied to the
+distinguished triangle of the tower `A → B → T⁻¹B` from Proposition 08QX,
+`CommAlgCat.exists_distTriang_fundamentalVertex`. Every other input is proved as well:
+`L_{T⁻¹B/B} = 0` is `CommAlgCat.isZero_cotangentComplexDerived_localization`, and
+`L_{T⁻¹B/A} ≅ L_{T⁻¹B/S⁻¹A}` is
+`CommAlgCat.nonempty_cotangentComplexDerived_iso_localizationBase`. -/
 @[stacks 08SF "the lemma in full, with NOTHING carried. The distinguished fundamental triangle \
 of the tower `A → B → T⁻¹B` is Proposition 08QX, \
 `CommAlgCat.productFundamentalTriangle_distinguished`. Everything else is proved outright too: \

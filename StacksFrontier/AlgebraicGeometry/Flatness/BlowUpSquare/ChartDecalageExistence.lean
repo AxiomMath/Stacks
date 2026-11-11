@@ -406,7 +406,11 @@ divisor are
 `ComplexAndDivisorSituation.exists_chart_isPrincipal_determinantalIdeal_of_notMem_supportSet`.
 The derived décalage is any `Stacks.Divisors.Eta.DerivedEta` of the divisor at the model of
 `D(𝒪_X)` the triple carries; for a triple at the standard model it may be taken to be
-`Stacks.Divisors.Eta.derivedEtaData`. -/
+`Stacks.Divisors.Eta.derivedEtaData`, the functor of tag 0F8Q, and for that functor applied to
+the object carried to the standard model this is
+`AlgebraicGeometry.ComplexAndDivisorSituation.isPerfect_derivedEtaData_obj`.  The untagged
+`AlgebraicGeometry.ComplexAndDivisorSituation.isPerfect_derivedEta_obj_of_isGoodTriple` is the
+same statement with the affine-chart comparison as a hypothesis. -/
 @[stacks 0GTW]
 theorem IsGoodTriple.isPerfect_derivedEta_obj (S : ComplexAndDivisorSituation.{u, d})
     (E : Stacks.Divisors.Eta.DerivedEta S.D) (hS : IsGoodTriple S) :

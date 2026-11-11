@@ -3,7 +3,6 @@ module
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.SheafOfModules
 public import StacksFrontier.Algebra.Homology.DerivedCategory.TwoTermExtZero
 public import StacksFrontier.CategoryTheory.Sites.Modules.InternalHomAndFlatness.NaiveCotangent
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # `Ext⁰` out of the naive cotangent complex of a polynomial presentation
@@ -109,14 +108,13 @@ noncomputable def presentationNaiveCotangentExtZeroAddEquivCokernel :
     (presentationConormalSequence.{v, u, w, z} J A B a E α).f G
 
 /-- The identification of `Ext⁰_B(NL(α), 𝒢)` with `Hom_B(Ω_{B/A}, 𝒢)`, for `NL(α)` the naive
-cotangent complex of a polynomial presentation of `B` over `A`. -/
-@[stacks 08U8 "clause (2): the identification of the acting group Hom(H^0(NL(α)), G) = \
-Hom(Omega_{B/A}, G) with Ext^0(NL(α), G), for NL(α) the naive cotangent complex of a polynomial \
-presentation of a homomorphism of sheaves of rings on a site — the form the source's diagram \
-takes after its own reduction to sheaves on one space. No hypothesis beyond the source. The \
-remaining two links of the source's display, the adjunction Hom(Omega_{X_1/S_1}, g_* G_2) = \
-Hom(g^* Omega_{X_1/S_1}, G_2) and the passage from NL(α) to Lg^* NL_{X_1/S_1}, are not proved \
-here; clause (1) and the principal homogeneous space structure itself are elsewhere"]
+cotangent complex of a polynomial presentation of `B` over `A`. This is the form the acting group
+of clause (2) of **Stacks 08U8** takes after the source's reduction to one space; the source's
+own spelling `Ext⁰_{𝒪_{X₂}}(Lg^*NL_{X₁/S₁}, 𝒢₂)` is
+`AlgebraicGeometry.RingedSpaceThickening.extZeroDerivedPullbackNaiveCotangentAddEquiv`, and the
+complete lemma is
+`AlgebraicGeometry.RingedSpaceThickening.DeformationIdealDiagram.lifting_obstruction_and_torsor`.
+-/
 noncomputable def presentationNaiveCotangentExtZeroAddEquiv :
     presentationNaiveCotangentExt.{v, u, w, z, t} J A B a E α G 0 ≃+
       (moduleOfDifferentialsOfSite.{v, u, w, z} A B a ⟶ G) :=

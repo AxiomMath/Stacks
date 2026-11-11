@@ -58,8 +58,8 @@ strict henselization.
 * `AlgebraicGeometry.etaleStalkToSectionsAb_comp_sectionsRestrictionAb` — **the transitivity in
   the scheme over the strict henselization**: for `T' ⟶ T ⟶ Spec 𝒪^{sh}_{X,x}` the map
   `F_x ⟶ Γ(T', ·)` is the map `F_x ⟶ Γ(T, ·)` followed by restriction along `T' ⟶ T`.
-* `AlgebraicGeometry.etaleStalkToSectionsAb_id_comp_sectionsRestrictionAb` — **[Stacks, Tag
-  0GJ3]** the displayed composite of the source: the identification
+* `AlgebraicGeometry.etaleStalkToSectionsAb_id_comp_sectionsRestrictionAb` — the displayed
+  composite of [Stacks, Tag 0GJ3]: the identification
   `F_s = Γ(Spec 𝒪^{sh}_{S,s}, p⁻¹F)`, followed by pullback by the geometric point `t` of
   `Spec 𝒪^{sh}_{S,s}`, is the specialization map followed by the identification
   `F_{t ≫ p} = Γ(t, (t ≫ p)⁻¹F)`.
@@ -491,18 +491,13 @@ geometric point of `Spec(𝒪^{sh}_{S,s})`. Then the identification
 the specialization map `sp : F_s ⟶ F_{t ≫ p}` followed by the identification
 `F_{t ≫ p} = Γ(t, (t ≫ p)⁻¹F)` of Stacks 03Q1.
 
-This is the source's displayed description of `sp` as pullback by `t`. The two identifications
-are `AlgebraicGeometry.etaleStalkToSectionsAb` at the identity of the strict henselization and
-`AlgebraicGeometry.geometricStalkToPullbackSectionsAb`; they are the canonical maps, which Stacks
-03Q9 and 03Q1 assert are isomorphisms. -/
-@[stacks 0GJ3 "the displayed composite: the identification of the stalk at `s` with sections over
-the strict henselization, followed by pullback by `t`, is the specialization map followed by the
-identification of the stalk at the specialized point with sections on that point. The two
-identifications are the canonical maps; this statement compares them and does not assert that
-either is invertible. Invertibility is Stacks 03Q1 and Stacks 03Q9. Of these the library carries
-03Q1 for `Type`-valued sheaves, as `AlgebraicGeometry.smallEtalePullbackStalkIso`, and 03Q9 only
-conditionally on the base being the spectrum of a strictly henselian local ring; neither is in
-the abelian form and at the generality used here, so neither is applied."]
+This is the source's displayed description of `sp` as pullback by `t`, before inverting the
+second identification. The two identifications are `AlgebraicGeometry.etaleStalkToSectionsAb` at
+the identity of the strict henselization and `AlgebraicGeometry.geometricStalkToPullbackSectionsAb`;
+both are isomorphisms (`AlgebraicGeometry.isIso_etaleStalkToSectionsAb_id` and
+`AlgebraicGeometry.isIso_geometricStalkToPullbackSectionsAb`), and the remark in the form
+`sp = (first identification) ≫ (pullback by t) ≫ (second identification)⁻¹` is
+`AlgebraicGeometry.smallEtaleSpecializationStalkAb_eq_sectionsRestrictionAb`. -/
 theorem etaleStalkToSectionsAb_id_comp_sectionsRestrictionAb :
     etaleStalkToSectionsAb B S hS s (𝟙 (strictHenselization B S hS s)) ≫
         smallEtaleSectionsRestrictionAb

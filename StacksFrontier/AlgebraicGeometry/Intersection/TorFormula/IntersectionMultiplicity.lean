@@ -55,18 +55,17 @@ sum is formed with `tsum`, which needs a topological target. Its values are inte
 the alternating sum is finite, but no integrality statement is proved here and none is needed
 for the results below, whose right-hand sides are casts of natural numbers.
 
-### No unrestricted `@[stacks 0AZR]`
+### The intersection product
 
 Section 43.14 introduces two things: the multiplicity `e(X, V · W, Z)` displayed above, which is
-what is carried here, and the intersection product itself,
-`W · V = ∑ᵢ (-1)ⁱ [Torᵢ^{𝒪_X}(𝒪_W, 𝒪_V)]_{r + s - dim X}`, which is **not** carried. The cycle
-needs three inputs the library does not have: the comparison `Torᵢ^{𝒪_X}(ℱ, 𝒢)_x ≅
-Torᵢ^{𝒪_{X, x}}(ℱ_x, 𝒢_x)` between the stalks of the Tor sheaves and the Tor modules of the
-stalks, which is the unnumbered "basic fact" opening Section 43.14; the vanishing of
-`Torᵢ^{𝒪_X}(ℱ, 𝒢)` for `i > dim X`, which is the third clause of Lemma 43.14.2 (Tag 0AZT, whose
-other two clauses the library does carry); and the local finiteness of the resulting family of
-coefficients. Without the first of these the sheaf-level alternating sum cannot be compared with
-the multiplicity defined here at all.
+defined here, and the intersection product itself,
+`W · V = ∑ᵢ (-1)ⁱ [Torᵢ^{𝒪_X}(𝒪_W, 𝒪_V)]_{r + s - dim X}`, which is
+`AlgebraicGeometry.TorFormula.subvarietyIntersectionProduct`. That the coefficient of the
+product at the generic point of an irreducible component `Z` of `V ∩ W` is the multiplicity
+defined here, applied to the reduced ideal sheaves of `V` and `W`, is
+`AlgebraicGeometry.TorFormula.subvarietyIntersectionProduct_apply`; it rests on the stalk clause of
+Tag 0AZT, `Torᵢ^{𝒪_X}(ℱ, 𝒢)_x ≅ Torᵢ^{𝒪_{X, x}}(ℱ_x, 𝒢_x)`, which is
+`AlgebraicGeometry.TorFormula.torSheafStalkIso`.
 
 ## References
 
@@ -103,10 +102,11 @@ scheme at a point: the alternating sum `∑ᵢ (-1)ⁱ length Torᵢ(𝒪_W, �
 `Tor` modules of their local rings over the local ring of the ambient scheme. For `V` and `W`
 closed subvarieties of a nonsingular variety which intersect properly and `x` the generic point
 of an irreducible component `Z` of `V ∩ W`, this is the coefficient of `Z` in `V · W`. -/
-@[stacks 0AZR "the intersection multiplicity `e(X, V · W, Z)`, the displayed alternating sum of \
-lengths of local `Tor` modules at the generic point of a component of `V ∩ W`, for two \
-quasi-coherent sheaves of ideals at a point of any scheme. The intersection product `V · W` \
-itself, the cycle whose coefficients these are, is NOT carried; see the module docstring.",
+@[stacks 0AZR "the definition of the intersection multiplicity `e(X, V · W, Z)`, the displayed \
+alternating sum of lengths of the local `Tor` modules `Torᵢ^{𝒪_{X, Z}}(𝒪_{V, Z}, 𝒪_{W, Z})` over \
+the local ring at the generic point of `Z`, formed for two quasi-coherent sheaves of ideals at a \
+point of any scheme. Its agreement with the coefficient of `Z` in the intersection product is \
+`AlgebraicGeometry.TorFormula.subvarietyIntersectionProduct_apply`.",
   sga "4½ Cycle 2.3.9",
   sga "4½ Cycle 3.5"]
 def intersectionMultiplicity {X : Scheme.{u}} (V W : X.IdealSheafData) (x : X) : ℚ :=

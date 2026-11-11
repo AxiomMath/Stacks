@@ -55,9 +55,9 @@ live; the infinite values are retained, and the source's inequality holds rather
 truncated when either is infinite.
 
 The statements below are for an inverse system of coherent `𝒪_U`-modules, which is the shape in
-which `ImprovingFormalModulesDepthTwo.lean` (in this directory) carries Tag 0EJF; an object of
-`Coh(U, I𝒪_U)` has such an underlying system, so this covers the source's hypothesis on
-`(ℱₙ)`.
+which `Stacks.Algebraization.depth_stalk_depthTwoImprovedSystem` states conclusions (1) and (2)
+of Tag 0EJF; an object of `Coh(U, I𝒪_U)` has such an underlying system, so this covers the
+source's hypothesis on `(ℱₙ)`.
 
 [Stacks, Tag 0EJG] itself, with all four of its conclusions, is
 `Stacks.Algebraization.exists_proIso_coherentAdicSystem_depthThreeImprovedSystem` in

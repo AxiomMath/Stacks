@@ -210,8 +210,8 @@ topology which is quasi-coherent on `(𝒳_fppf, O_𝒳)`. The conclusion is thi
 underlying presheaf of modules of the sheaf `g_!H` on `𝒳_étale`, in the form of
 `AlgebraicGeometry.FibredSite.IsQuasicoherentClause` at `.fppf` (**Stacks 0EM8**). -/
 @[stacks 07B0 "part (1): for every quasi-coherent module `H` on the lisse-étale site of an \
-algebraic stack `𝒳`, `g_!H` is a quasi-coherent module on `𝒳` — an fppf sheaf, quasi-coherent \
-on `(𝒳_fppf, O_𝒳)` (the 06WG notion, read through the fppf clause of 0EM8)"]
+algebraic stack `𝒳`, `g_!H` is a quasi-coherent module on `𝒳`: an fppf sheaf which is \
+quasi-coherent on `(𝒳_fppf, O_𝒳)`, the 06WG notion, stated as the fppf clause of 0EM8"]
 theorem isQuasicoherentClause_fppf_moduleLowerShriek
     (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (ringedTopos.{u, t} B S hS 𝒳
       (closedUnderSmoothMorphisms.{u, t} B S hS 𝒳)).O))
@@ -304,8 +304,8 @@ on `𝒳`, where `g_!` is the lower shriek on sheaves of modules of **Stacks 078
 quasi-coherent on `(𝒳_fppf, O_𝒳)`, the ambient site being `𝒳_fppf` itself, which is
 quasi-coherence of a module on `𝒳` in the sense of **Stacks 06WG**. -/
 @[stacks 07B0 "part (2): for every quasi-coherent module `H` on the flat-fppf site of an \
-algebraic stack `𝒳`, `g_!H` is a quasi-coherent module on `𝒳`, i.e. quasi-coherent on \
-`(𝒳_fppf, O_𝒳)` (06WG)"]
+algebraic stack `𝒳`, `g_!H` is a quasi-coherent module on `𝒳`, that is, quasi-coherent on \
+`(𝒳_fppf, O_𝒳)` in the sense of 06WG"]
 theorem isQuasicoherentOnSite_moduleLowerShriek_of_isQuasicoherentOnSite
     (H : SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf (subsiteRingedTopos B S hS
       𝒳.val.val.p 𝒳.val.isFiberedInGroupoids B.topology le_rfl (objectProperty B S hS 𝒳)).O))

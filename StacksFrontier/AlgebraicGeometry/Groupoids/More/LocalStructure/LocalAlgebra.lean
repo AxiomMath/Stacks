@@ -34,6 +34,12 @@ negates the first-order direction: these are `mapCotangent_comp` and `mapCotange
   the diagonal followed by the two maps induced by `first` and `second`.
 * `Stacks.Groupoids.LocalGroupoidAlgebra.mapCotangent_inverse`: inversion acts by `-1` on
   `I/I²`.
+* `Stacks.Groupoids.LocalGroupoidAlgebra.mapCotangent_comp_eq`,
+  `Stacks.Groupoids.LocalGroupoidAlgebra.mapCotangent_inverse_eq` and
+  `Stacks.Groupoids.LocalGroupoidAlgebra.bijective_coprod_mapCotangent`: the same two statements
+  for the induced `ℤ`-linear maps `Ideal.mapCotangent`, with the target taken to be any ideal
+  `J` equal to the ideal of the pair of identities, and the bijectivity of
+  `I/I² ⊕ I/I² → J/J²`.
 
 ## Implementation notes
 
@@ -298,6 +304,128 @@ theorem mapCotangent_inverse (x : G.identityIdeal) :
   rw [← map_neg, Ideal.toCotangent_eq]
   change G.inverse x - -(x : B) ∈ G.identityIdeal ^ 2
   simpa only [sub_neg_eq_add, add_comm, neg_neg] using (G.identityIdeal ^ 2).neg_mem hm'
+
+/-! ### The maps of conormal modules -/
+
+/-- The first projection carries the ideal of the identity into an ideal `J` equal to the ideal
+of the pair of identities. -/
+theorem identityIdeal_le_comap_first (J : Ideal C) (hJ : J = G.pairIdeal) :
+    G.identityIdeal ≤ J.comap G.first.toIntAlgHom := by
+  subst hJ
+  intro x hx
+  rw [Ideal.mem_comap, G.pairIdeal_eq_sup]
+  exact Ideal.mem_sup_left (Ideal.mem_map_of_mem G.first hx)
+
+/-- The second projection carries the ideal of the identity into an ideal `J` equal to the
+ideal of the pair of identities. -/
+theorem identityIdeal_le_comap_second (J : Ideal C) (hJ : J = G.pairIdeal) :
+    G.identityIdeal ≤ J.comap G.second.toIntAlgHom := by
+  subst hJ
+  intro x hx
+  rw [Ideal.mem_comap, G.pairIdeal_eq_sup]
+  exact Ideal.mem_sup_right (Ideal.mem_map_of_mem G.second hx)
+
+/-- Composition carries the ideal of the identity into an ideal `J` equal to the ideal of the
+pair of identities. -/
+theorem identityIdeal_le_comap_comp (J : Ideal C) (hJ : J = G.pairIdeal) :
+    G.identityIdeal ≤ J.comap G.comp.toIntAlgHom := by
+  subst hJ
+  intro x hx
+  rw [Ideal.mem_comap, G.pairIdeal_eq_sup]
+  exact G.comp_mem ⟨x, hx⟩
+
+/-- Inversion carries the ideal of the identity into itself. -/
+theorem identityIdeal_le_comap_inverse :
+    G.identityIdeal ≤ G.identityIdeal.comap G.inverse.toIntAlgHom := by
+  intro x hx
+  rw [Ideal.mem_comap, RingHom.mem_ker]
+  change G.identity (G.inverse x) = 0
+  rw [← RingHom.comp_apply, G.identity_inverse]
+  exact hx
+
+/-- On `I/I² → J/J²`, the map induced by composition is the diagonal followed by the sum of the
+maps induced by the two projections, for any ideal `J` equal to the ideal of the pair of
+identities. -/
+theorem mapCotangent_comp_eq (J : Ideal C) (hJ : J = G.pairIdeal) :
+    Ideal.mapCotangent G.identityIdeal J G.comp.toIntAlgHom (G.identityIdeal_le_comap_comp J hJ) =
+      ((Ideal.mapCotangent G.identityIdeal J G.first.toIntAlgHom
+          (G.identityIdeal_le_comap_first J hJ)).coprod
+        (Ideal.mapCotangent G.identityIdeal J G.second.toIntAlgHom
+          (G.identityIdeal_le_comap_second J hJ))).comp (LinearMap.id.prod LinearMap.id) := by
+  subst hJ
+  refine LinearMap.ext fun w ↦ ?_
+  obtain ⟨x, rfl⟩ := Ideal.toCotangent_surjective G.identityIdeal w
+  simp only [LinearMap.comp_apply, LinearMap.prod_apply, LinearMap.coprod_apply]
+  exact G.mapCotangent_comp x
+
+/-- Inversion acts as `-1` on `I/I²`, stated for the induced linear map. -/
+theorem mapCotangent_inverse_eq :
+    Ideal.mapCotangent G.identityIdeal G.identityIdeal G.inverse.toIntAlgHom
+      G.identityIdeal_le_comap_inverse = -LinearMap.id := by
+  refine LinearMap.ext fun w ↦ ?_
+  obtain ⟨x, rfl⟩ := Ideal.toCotangent_surjective G.identityIdeal w
+  simp only [Ideal.mapCotangent_toCotangent, LinearMap.neg_apply, LinearMap.id_apply]
+  exact G.mapCotangent_inverse x
+
+/-- Two classes in a conormal module agree when their representatives do. -/
+private theorem toCotangent_congr {R : Type*} [CommRing R] (K : Ideal R) {a b : R}
+    (ha : a ∈ K) (hb : b ∈ K) (h : a = b) : K.toCotangent ⟨a, ha⟩ = K.toCotangent ⟨b, hb⟩ := by
+  subst h
+  rfl
+
+/-- **The arrow `I/I² ⊕ I/I² → J/J²` coming from `J = I·C + C·I` is an isomorphism**, for any
+ideal `J` equal to the ideal of the pair of identities.  Its inverse is induced by the two
+retractions `rightUnit` and `leftUnit`. -/
+theorem bijective_coprod_mapCotangent (J : Ideal C) (hJ : J = G.pairIdeal) :
+    Function.Bijective
+      ((Ideal.mapCotangent G.identityIdeal J G.first.toIntAlgHom
+          (G.identityIdeal_le_comap_first J hJ)).coprod
+        (Ideal.mapCotangent G.identityIdeal J G.second.toIntAlgHom
+          (G.identityIdeal_le_comap_second J hJ))) := by
+  subst hJ
+  have hr : G.pairIdeal ≤ G.identityIdeal.comap G.rightUnit.toIntAlgHom := fun c hc ↦
+    Ideal.mem_comap.mpr (RingHom.mem_ker.mpr (RingHom.mem_ker.mp hc))
+  have hl : G.pairIdeal ≤ G.identityIdeal.comap G.leftUnit.toIntAlgHom := fun c hc ↦
+    Ideal.mem_comap.mpr (G.leftUnit_mem_identityIdeal hc)
+  have h₁ := RingHom.congr_fun G.rightUnit_first
+  have h₂ := RingHom.congr_fun G.rightUnit_second
+  have h₃ := RingHom.congr_fun G.leftUnit_first
+  have h₄ := RingHom.congr_fun G.leftUnit_second
+  simp only [RingHom.comp_apply, RingHom.id_apply] at h₁ h₂ h₃ h₄
+  set f := Ideal.mapCotangent G.identityIdeal G.pairIdeal G.first.toIntAlgHom
+    (G.identityIdeal_le_comap_first _ rfl)
+  set g := Ideal.mapCotangent G.identityIdeal G.pairIdeal G.second.toIntAlgHom
+    (G.identityIdeal_le_comap_second _ rfl)
+  set r := Ideal.mapCotangent G.pairIdeal G.identityIdeal G.rightUnit.toIntAlgHom hr
+  set l := Ideal.mapCotangent G.pairIdeal G.identityIdeal G.leftUnit.toIntAlgHom hl
+  have hinv : Function.LeftInverse (r.prod l) (f.coprod g) := by
+    rintro ⟨u, v⟩
+    obtain ⟨x, rfl⟩ := Ideal.toCotangent_surjective G.identityIdeal u
+    obtain ⟨y, rfl⟩ := Ideal.toCotangent_surjective G.identityIdeal v
+    have hx : G.identity x = 0 := x.property
+    have hy : G.identity y = 0 := y.property
+    have e₁ : r (f (G.identityIdeal.toCotangent x)) = G.identityIdeal.toCotangent x :=
+      toCotangent_congr G.identityIdeal _ x.property (h₁ x)
+    have e₂ : r (g (G.identityIdeal.toCotangent y)) = 0 :=
+      (Ideal.toCotangent_eq_zero _ _).mpr (by
+        change G.rightUnit (G.second y) ∈ _
+        rw [h₂, hy, map_zero]
+        exact zero_mem _)
+    have e₃ : l (f (G.identityIdeal.toCotangent x)) = 0 :=
+      (Ideal.toCotangent_eq_zero _ _).mpr (by
+        change G.leftUnit (G.first x) ∈ _
+        rw [h₃, hx, map_zero]
+        exact zero_mem _)
+    have e₄ : l (g (G.identityIdeal.toCotangent y)) = G.identityIdeal.toCotangent y :=
+      toCotangent_congr G.identityIdeal _ y.property (h₄ y)
+    rw [LinearMap.coprod_apply, map_add]
+    exact Prod.ext (by simp [e₁, e₂]) (by simp [e₃, e₄])
+  refine ⟨hinv.injective, fun w ↦ ⟨(r.prod l) w, ?_⟩⟩
+  obtain ⟨c, rfl⟩ := Ideal.toCotangent_surjective G.pairIdeal w
+  simp only [f, g, r, l, LinearMap.coprod_apply, LinearMap.prod_apply]
+  refine G.pairIdeal.cotangentToQuotientSquare_injective ?_
+  simp only [map_add, Ideal.toCotangent_to_quotient_square]
+  exact (G.mk_pairIdeal_sq_eq_add c c.property).symm
 
 end LocalGroupoidAlgebra
 

@@ -255,7 +255,7 @@ private theorem isLocallySurjective_of_covering_family
     _ = Q.map g.op ((q i).app _ t) := (q i).naturality_apply g.op t
     _ = _ := by rw [ht]; simp only [op_comp, Functor.map_comp, ConcreteCategory.comp_apply]
 
-private theorem isIso_of_covering_pullbacks
+theorem isIso_of_covering_pullbacks
     {C : Type u₁} [Category.{v₁} C] (J : GrothendieckTopology C)
     {P Q R : Cᵒᵖ ⥤ Type u₂} (hP : Presheaf.IsSheaf J P)
     (hQ : Presheaf.IsSheaf J Q) (p : P ⟶ R) (q : Q ⟶ R)

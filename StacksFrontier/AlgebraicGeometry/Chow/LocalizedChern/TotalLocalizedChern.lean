@@ -26,8 +26,9 @@ that do not depend on the deformation argument of its proof: the identity in the
 
 * `Stacks.Chow.LocalizedChernData.localizedChernOfLe` — `c_i(Z ⟶ X, E)` in an integer degree
   `i ≥ p`.
-* `Stacks.Chow.LocalizedChernData.totalLocalizedChern` — the class `c⁽ᵖ⁾(Z ⟶ X, E)`, the class
-  `Stacks.Chow.LocalizedChernData.totalLocalizedChernClass` of Remark 0FBC at these families.
+* `Stacks.Chow.LocalizedChernData.totalLocalizedChern` — the class `c⁽ᵖ⁾(Z ⟶ X, E)` of
+  Remark 0FBC, built with the generic packager
+  `Stacks.Chow.LocalizedChernData.totalLocalizedChernClass` from these families.
 * `Stacks.Chow.LocalizedChernData.withObject` — the data of a localized Chern class with the
   closed immersion of given data and another object.
 
@@ -93,7 +94,12 @@ def localizedChernOfLe (i : {i : ℤ // (D.p : ℤ) ≤ i}) :
 /-- **Stacks 0FBC for a perfect object: the total localized Chern class**
 `c⁽ᵖ⁾(Z ⟶ X, E) ∈ A⁽ᵖ⁾(Z ⟶ X)`. Its component in a degree `0 ≤ i < p` is the Chern class
 `c_i(E) ∈ Aⁱ(X)`, in a negative degree it is `0`, and in a degree `i ≥ p` it is the localized Chern
-class `c_i(Z ⟶ X, E) ∈ Aⁱ(Z ⟶ X)` of Remark 0GUK (of Stacks 0FB2 in Situation 0GUJ). -/
+class `c_i(Z ⟶ X, E) ∈ Aⁱ(Z ⟶ X)` of Remark 0GUK. In Situation 0GUJ it is the class of
+Remark 0FBC, built from the classes of Stacks 0FB2
+(`Stacks.Chow.LocalizedSituation.totalLocalizedChern_toLocalizedChernData`). -/
+@[stacks 0FBC "c^(p)(Z → X, E) for E whose Chern classes are defined, with the localized Chern \
+classes of 0GUK; in Situation 0GUJ it is the class of the remark \
+(LocalizedSituation.totalLocalizedChern_toLocalizedChernData)"]
 def totalLocalizedChern :
     localizedBivariantGrading D.base (gysinSystemOfInvertible D.base) (D.i ≫ D.a) D.a D.i rfl D.p :=
   LocalizedChernData.totalLocalizedChernClass D (gysinSystemOfInvertible D.base)
@@ -102,6 +108,7 @@ def totalLocalizedChern :
 
 /-- The components of `c⁽ᵖ⁾(Z ⟶ X, E)` below the cutoff are the Chern classes of `E` (zero in the
 negative degrees). -/
+@[stacks 0FBC "the components c_i(E) in the degrees i < p, for E whose Chern classes are defined"]
 theorem totalLocalizedChern_fst (i : {i : ℤ // i < (D.p : ℤ)}) :
     (totalLocalizedChern hE h).1 i =
       (perfectChernClass D.base D.a hE).intComponent D.base D.a i.1 := by
@@ -111,6 +118,8 @@ theorem totalLocalizedChern_fst (i : {i : ℤ // i < (D.p : ℤ)}) :
     exact LocalizedChernData.totalLocalizedChernClass_fst_of_neg D _ _ _ i.2 (not_le.mp h0)
 
 /-- The components of `c⁽ᵖ⁾(Z ⟶ X, E)` from the cutoff on are the localized Chern classes. -/
+@[stacks 0FBC "the components c_i(Z → X, E) of 0GUK in the degrees i ≥ p, for E whose Chern \
+classes are defined"]
 theorem totalLocalizedChern_snd (i : {i : ℤ // (D.p : ℤ) ≤ i}) :
     (totalLocalizedChern hE h).2 i = localizedChernOfLe hE h i :=
   rfl

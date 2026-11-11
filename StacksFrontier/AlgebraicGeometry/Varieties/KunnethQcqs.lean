@@ -476,8 +476,11 @@ and quasi-separated, the canonical map
 
 `⨁_{p + q = n} Hᵖ(X, F) ⊗_k Hᑫ(Y, G) ⟶ Hⁿ(X ×_{Spec k} Y, pr₁^*F ⊗_{𝒪_{X ×_k Y}} pr₂^*G)`
 
-of `AlgebraicGeometry.KunnethQcqs.kunnethMap` is an isomorphism for every `n`. -/
-@[stacks 0BEF]
+of `AlgebraicGeometry.KunnethQcqs.kunnethMap` is an isomorphism for every `n`; its inverse is
+`AlgebraicGeometry.KunnethQcqs.kunnethIso`. This is the library's registration of the tag: the
+untagged `AlgebraicGeometry.nonempty_kunnethIso` reaches an abstract isomorphism from a datum of
+derived global sections instead. -/
+@[stacks 0BEF "the canonical Künneth map, an isomorphism in every degree n"]
 theorem isIso_kunnethMap [CompactSpace Y] [QuasiSeparatedSpace Y] :
     IsIso (kunnethMap f g F G n) :=
   @isIso_derivedKunnethMap k _ X Y f g _ _ F hF G hG n _ _

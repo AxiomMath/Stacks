@@ -12,7 +12,9 @@ graded `R`-algebra structure with divided powers, and
 `DividedPowers.TateResolution.torDirectSumEquivHomology` identifies `⨁ n, Tor_n^R(S, T)` with
 that homology, degreewise. This file transports the structure along that identification, so that
 the direct sum of the `Tor_n^R(S, T)` itself becomes a strictly graded-commutative graded
-`R`-algebra with divided powers, which is the assertion of Tag 09PQ.
+`R`-algebra with divided powers. This is the existence half of Tag 09PQ; the independence of the
+Tate resolution, and the tag, are in
+`StacksFrontier.RingTheory.DividedPowers.TateResolution.TorIndependence`.
 
 ## Main definitions
 
@@ -43,8 +45,10 @@ the direct sum of the `Tor_n^R(S, T)` itself becomes a strictly graded-commutati
 * `DividedPowers.TateResolution.exists_dividedPowerStructure_directSum` — the induced divided
   power structure of Tag 09PK, transported to a direct sum identified degreewise with the
   homology.
-* `DividedPowers.TateResolution.exists_dividedPowerStructure_torDirectSum` — Tag 09PQ: the
-  divided power algebra structure on `⨁ n, Tor_n^R(S, T)`.
+* `DividedPowers.TateResolution.exists_dividedPowerStructure_torDirectSum` — the divided power
+  algebra structure on `⨁ n, Tor_n^R(S, T)`, transported from one Tate resolution (the existence
+  half of Tag 09PQ, which is
+  `DividedPowers.TateResolution.exists_dividedPowerStructure_torDirectSum_forall_resolution`).
 
 ## Implementation notes
 
@@ -1051,8 +1055,13 @@ the class map `κ` of that identification, which sends a cycle of `T ⊗[R] A` t
 direct sum corresponding to its homology class, is unital and multiplicative, takes a cycle of
 degree `n` into the degree-`n` piece, and takes the divided powers of `T ⊗[R] A` to those of the
 direct sum. Those divided powers are in turn the base change of the divided powers of the Tate
-resolution. -/
-@[stacks 09PQ]
+resolution.
+
+This is the existence half of Tag 09PQ, through one choice of Tate resolution. The complete
+statement, which adds that the class map of every Tate resolution is a map of divided power
+algebras onto this structure, so that the structure does not depend on the resolution, is
+`DividedPowers.TateResolution.exists_dividedPowerStructure_torDirectSum_forall_resolution`, which
+carries the tag. -/
 public theorem exists_dividedPowerStructure_torDirectSum
     (R S T : Type u) [CommRing R] [CommRing S] [CommRing T] [Algebra R S] [Algebra R T] :
     ∃ Res : Resolution R S S (tautologicalPresentation R S),

@@ -5,6 +5,7 @@ import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Central Algebras
--/
 
-add_to_stacks 0740 Algebra.IsCentral
+Mathlib's `Algebra.IsCentral` is the Stacks notion of a central algebra (tag 0742), registered in
+`StacksFrontier/MathlibRegistrations/Ch11.lean`. Tag 0740 (skew field) is `DivisionRing`.
+-/

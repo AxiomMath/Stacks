@@ -32,7 +32,9 @@ algebraic spaces.
   representable presheaf is an `n`th-order thickening.
 * `AlgebraicGeometry.Space.completionSubspaceSubfunctor` is the subfunctor of the universe
   lift of `X` whose sections are those whose inverse image of `Z` is universally a
-  finite-order thickening, that is, the union of the infinitesimal neighbourhoods `Z_n`.
+  finite-order thickening; for a closed subspace `Z` it is the union of the infinitesimal
+  neighbourhoods `Z_n`, by
+  `AlgebraicGeometry.Space.mem_completionSubspaceSubfunctor_iff`.
 * `AlgebraicGeometry.Space.completionSubspace` is **Stacks 0GXU**, the completion `X^∧_Z`:
   the fppf sheafification of that subfunctor. Its canonical morphism to the ambient sheaf of
   `X` is `AlgebraicGeometry.Space.completionSubspaceToAmbient`, and the morphism of
@@ -51,34 +53,33 @@ algebraic spaces.
 
 ## Implementation notes
 
-The `n`th infinitesimal neighbourhood `Z_n ⊂ X` is the closed subspace cut out by the
-`(n+1)`st power of the ideal of `Z`; a scheme-valued point `g : T ⟶ X` therefore factors
-through `Z_n` exactly when the `(n+1)`st power of the ideal of `g⁻¹(Z) ⊂ T` vanishes, that is
-exactly when `g⁻¹(Z) ⊂ T` is an `n`th-order thickening in the sense of Stacks 05ZK part (4),
-namely `AlgebraicGeometry.Space.IsNthOrderThickening`. Note that the power condition forces
-the inverse image to be a thickening, so nothing is lost by using the bundled notion. The
-neighbourhoods are therefore *defined* here by that functor of points, which avoids
-constructing powers of the quasi-coherent ideal sheaf of a closed subspace of an algebraic
-space — machinery this library does not have, see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/ClosedSubspaceIdealBijection.lean`.
+The `n`th infinitesimal neighbourhood `Z_n ⊂ X` of Stacks 05ZV is the closed subspace cut out
+by the `(n+1)`st power of the ideal sheaf of `Z`, which this library constructs as
+`AlgebraicGeometry.Space.nthOrderNeighbourhood`. The completion subfunctor is not built from that
+construction but from a functor-of-points condition: a scheme-valued point `g : T ⟶ X` is
+admitted at level `n` when the inverse image `g⁻¹(Z) ⊂ T`, and each of its base changes, is an
+`n`th-order thickening in the sense of Stacks 05ZK part (4),
+`AlgebraicGeometry.Space.IsNthOrderThickening`. The two descriptions agree:
+`AlgebraicGeometry.Space.mem_nthOrderNeighbourhood_iff_isUniversalNthOrderThickening`
+(in `StacksFrontier/AlgebraicGeometry/FormalSpace/CompletionSubspaceNeighbourhoods.lean`) proves
+that, for a closed subspace `Z`, a section satisfies the level `n` condition exactly when it
+factors through `Z_n`. One direction is the base change of the order of `Z ⊂ Z_n`
+(Stacks 09ZX); the other is the algebraic-spaces form of Stacks 01HP, using that the ideal sheaf
+of `Z_n` is the `(n+1)`st power of that of `Z` on every étale chart.
 
-The one place where that absence is felt is restriction-stability: `Z_n` is a subfunctor of
-`X`, so the condition cutting it out must be inherited by restrictions of a section, which is
-base change of an `n`th-order thickening, Stacks 09ZX parts (2) to (4). That statement is not
-available here either (see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/BaseChange.lean`), so the condition is
-quantified over all base changes from the outset: `IsUniversalNthOrderThickening` asks every
-base change of the inverse image to be an `n`th-order thickening. Taking the identity base
-change recovers the unquantified condition
-(`AlgebraicGeometry.Space.IsUniversalNthOrderThickening.isNthOrderThickening`), and conversely
-a section factoring through the subfunctor `Z_n` has all of its restrictions factoring through
-`Z_n` as well, so the two conditions cut out the same subfunctor of `X`; the quantified one is
-manifestly stable under restriction
-(`AlgebraicGeometry.Space.IsUniversalNthOrderThickening.preimage`).
+The condition is quantified over all base changes so that it is manifestly stable under
+restriction of a section (`AlgebraicGeometry.Space.IsUniversalNthOrderThickening.preimage`);
+taking the identity base change recovers the unquantified condition
+(`AlgebraicGeometry.Space.IsUniversalNthOrderThickening.isNthOrderThickening`), and by the
+identification with `Z_n` the two conditions cut out the same subfunctor of `X`
+(`AlgebraicGeometry.Space.mem_nthOrderNeighbourhood_iff_isNthOrderThickening`).
 
 The colimit over `n` of the `Z_n` is an increasing union of subfunctors of `X`, so it is taken
-here as the single condition that *some* `n` works, uniformly in the base change. Sheafifying
-that union is the colimit in sheaves, since sheafification is a left adjoint.
+here as the single condition that *some* `n` works, uniformly in the base change. That this
+union is `colim Z_n` in presheaves, and that its sheafification `completionSubspace` is
+`colim Z_n` in fppf sheaves as Stacks 0GXU defines it, is
+`AlgebraicGeometry.Space.isColimitNeighbourhoodCocone` and
+`AlgebraicGeometry.Space.isColimitCompletionSubspaceCocone`.
 
 The completion square is cartesian already before sheafifying. Indeed the inverse image of `Z`
 along a section `g` of `X'` and the inverse image of `Z' = f⁻¹(Z)` along the corresponding
@@ -160,8 +161,10 @@ theorem preimage_yonedaEquiv_symm {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
 /-- The subfunctor of the universe lift of an algebraic space `X` whose sections over an
 object of the big fppf site of `S` are those sections whose inverse image of `Z` is a
-universal `n`th-order thickening for some `n`; that is, the union of the infinitesimal
-neighbourhoods of `Z` in `X`.
+universal `n`th-order thickening for some `n`. For a closed subspace `Z` this is the union of
+the infinitesimal neighbourhoods `Z_n` of `Z` in `X`: the level `n` condition holds exactly for
+the sections factoring through `Z_n`
+(`AlgebraicGeometry.Space.mem_nthOrderNeighbourhood_iff_isUniversalNthOrderThickening`).
 
 Restriction preserves the condition because a base change of a universal `n`th-order
 thickening is one, with the same `n`. -/
@@ -180,7 +183,8 @@ def completionSubspaceSubfunctor (X : AlgebraicSpaces B S hS) (Z : Subfunctor X.
 
 /-- **Stacks 0GXU.** The completion `X^∧_Z` of an algebraic space `X` over `S` along a closed
 subspace `Z`: the fppf sheafification of the union of the infinitesimal neighbourhoods of `Z`
-in `X`, which is their colimit in fppf sheaves. -/
+in `X`, which is their colimit `colim Z_n` in fppf sheaves
+(`AlgebraicGeometry.Space.isColimitCompletionSubspaceCocone`). -/
 @[stacks 0GXU "the completion along a closed subspace"]
 def completionSubspace (X : AlgebraicSpaces B S hS) (Z : Subfunctor X.1) :
     Sheaf (BigFppfOver.topology B S hS) (Type (u + 1)) :=

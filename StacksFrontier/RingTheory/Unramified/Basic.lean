@@ -54,14 +54,14 @@ add_to_ega "IV 17.1.1" "special case" Algebra.FormallyUnramified.iff_comp_inject
 add_to_sga "3 XI 1.6" "affine case, unramified" Algebra.FormallyUnramified.iff_comp_injective
 add_to_ega "0 19.10.2" "discrete, unramified" Algebra.FormallyUnramified.iff_comp_injective
 
--- The former @[stacks 00UO] declaration is now the Mathlib theorem.
-add_to_stacks 00UO "formally unramified iff the module of differentials vanishes"
-  Algebra.formallyUnramified_iff
-add_to_ega "IV 17.2.1" "affine/ring case" Algebra.formallyUnramified_iff
+-- The vanishing of the differentials as Mathlib's class (definitional unfolding).
+add_to_ega "IV 17.2.1" "affine case" Algebra.formallyUnramified_iff
 add_to_ega "0 21.7.4" "b) ⇔ d)" Algebra.formallyUnramified_iff
 add_to_ega "IV 17.4.1" "(c) <=> (e)" Algebra.formallyUnramified_iff
 add_to_ega "0 20.7.4" "discrete case"
   Algebra.formallyUnramified_iff
+add_to_ega "0 21.7.4" "b) <=> d)" Algebra.formallyUnramified_iff
+add_to_ega "IV 17.2.1" "affine/ring case" Algebra.formallyUnramified_iff
 
 -- The former @[stacks 04E9] declarations are now the Mathlib theorems.
 add_to_stacks 04E9 "(1)" Algebra.FormallyUnramified.localization_map
@@ -174,6 +174,42 @@ public theorem solution (R S : Type*) [CommRing R] [CommRing S] [Algebra R S] :
   tfae_finish
 
 end Stacks.Unramified.EtaleFlatCriterion
+
+end
+
+/-!
+# Formal unramifiedness and the module of differentials
+
+Stacks 00UO: a ring map `R → S` is formally unramified in the sense of Definition 00UN — for every
+`R`-algebra `A` and every ideal `I ⊆ A` with `I² = 0`, an `R`-algebra map `S → A/I` has at most
+one lift to an `R`-algebra map `S → A` — if and only if `Ω_{S/R} = 0`.
+
+Mathlib's `Algebra.FormallyUnramified` is defined as `Subsingleton Ω[S⁄R]`, so the content of the
+lemma is Mathlib's `Algebra.FormallyUnramified.iff_comp_injective`, which identifies that class
+with the lifting property. The statement below writes both sides as in the source, with no
+reference to the class: the lifting property of Definition 00UN on the left, as injectivity of
+post-composition `Hom_R(S, A) → Hom_R(S, A/I)` with the quotient map, and the vanishing of the
+module of differentials on the right. The test algebras `A` range over the universe of `S`.
+-/
+
+universe u
+
+@[expose] public section
+
+/-- **Stacks 00UO.** Let `R → S` be a ring map. Then `R → S` is formally unramified in the sense
+of Definition 00UN — for every `R`-algebra `A` and every ideal `I` of `A` with `I² = 0`, the map
+`Hom_R(S, A) → Hom_R(S, A/I)` given by composition with the quotient map is injective — if and
+only if the module of differentials `Ω_{S/R}` is zero. -/
+@[stacks 00UO "(1) is the lifting property of Definition 00UN, stated as injectivity of
+`Hom_R(S, A) → Hom_R(S, A/I)` for every `R`-algebra `A` in the universe of `S` and every ideal `I`
+with `I ^ 2 = ⊥`; (2) is `Subsingleton Ω[S⁄R]`. Proved from Mathlib's
+`Algebra.FormallyUnramified.iff_comp_injective`."]
+theorem Algebra.forall_comp_injective_iff_subsingleton_kaehlerDifferential
+    (R : Type*) (S : Type u) [CommRing R] [CommRing S] [Algebra R S] :
+    (∀ ⦃A : Type u⦄ [CommRing A] [Algebra R A] (I : Ideal A), I ^ 2 = ⊥ →
+      Function.Injective ((Ideal.Quotient.mkₐ R I).comp : (S →ₐ[R] A) → S →ₐ[R] A ⧸ I)) ↔
+      Subsingleton Ω[S⁄R] :=
+  Algebra.FormallyUnramified.iff_comp_injective.symm.trans (Algebra.formallyUnramified_iff R S)
 
 end
 

@@ -35,10 +35,14 @@ one late stage of that limit is still affine and surjective onto the target.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`: **Stacks 07VS**, the
-  target of a finite surjection with affine source is affine.
-* `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`: **Stacks
-  07VT**, the target of a surjective universally closed morphism with affine source is affine.
+* `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`: the target of a finite
+  surjection with affine source is affine, under the hypotheses described below; Stacks 07VS
+  itself is `AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`, in
+  `StacksFrontier.AlgebraicGeometry.Spaces.AffineOfFiniteSurjection`.
+* `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`: the target of a
+  surjective universally closed morphism with affine source is affine, under the hypotheses
+  described below; Stacks 07VT itself is
+  `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`.
 
 ## Implementation notes
 
@@ -223,15 +227,11 @@ private theorem isAffineSpace_of_integralFiniteSystem (f : X ⟶ Y)
 A finite morphism is affine and universally closed by Stacks 0414 and Stacks 0415, so the
 target is separated by Stacks 05Z2 and quasi-compact by Stacks 040W. Writing `f` as a directed
 limit of finite morphisms of finite presentation, a late stage is affine and is surjective onto
-`Y`, which reduces the claim to the case of a morphism of finite presentation. -/
-@[stacks 07VS "granted `h07VR`, the conclusion of Stacks 07VR that a finite morphism over a \
-quasi-compact quasi-separated algebraic space is a directed limit of finite morphisms of \
-finite presentation; `h07SQ`, the conclusion of Stacks 07SQ that a directed system with \
-affine transition morphisms whose limit is affine has an affine stage; and \
-`hFinitePresentation`, the strict special case of this statement in which the morphism is \
-also of finite presentation — the third paragraph of the source proof, which runs through \
-Stacks 07SU, 07SK, 084Z, 07SN and 07VP. The first two conclude about inverse systems and the \
-third adds a hypothesis, so none is the universally quantified form of this conclusion"]
+`Y`, which reduces the claim to the case of a morphism of finite presentation.
+
+This form carries `h07VR`, `h07SQ` and `hFinitePresentation` as hypotheses; the Stacks 07VS tag
+is carried by `AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`, which
+proves the statement with none of them. -/
 theorem isAffineSpace_of_isSurjective_of_isFinite (f : X ⟶ Y)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
     (hsurj : IsSurjective B S hS f) (hfin : IsFinite B S hS f)
@@ -256,22 +256,15 @@ theorem isAffineSpace_of_isSurjective_of_isFinite (f : X ⟶ Y)
   exact isAffineSpace_of_integralFiniteSystem B S hS f hX hY hsurj haff
     (h07VR f hX hY hfin hYqc hYqs) hYqc hYqs h07SQ hFinitePresentation
 
-/-- **Stacks 07VT.** Let `f : X ⟶ Y` be a surjective universally closed morphism of algebraic
-spaces over `S`. If `X` is affine, then so is `Y`.
+/-- A surjective universally closed morphism `f : X ⟶ Y` of algebraic spaces over `S` with `X`
+affine has affine target, granted the conclusions of Stacks 09YA and Stacks 07SQ and the case of
+a finite morphism of finite presentation. Stacks 07VT itself, with none of these hypotheses, is
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`.
 
 The target is separated by Stacks 05Z2 and quasi-compact by Stacks 040W, so `f` is affine by
 Stacks 08GB and hence integral by Stacks 0415. Writing `f` as a directed limit of finite
 morphisms of finite presentation, a late stage is affine and is surjective onto `Y`, which
 reduces the claim to the case of a morphism which is finite and of finite presentation. -/
-@[stacks 07VT "granted `h09YA`, the conclusion of Stacks 09YA that an integral morphism over \
-a quasi-compact quasi-separated algebraic space is a directed limit of finite morphisms of \
-finite presentation; `h07SQ`, the conclusion of Stacks 07SQ that a directed system with \
-affine transition morphisms whose limit is affine has an affine stage; and \
-`hFinitePresentation`, the strict special case of this statement in which the morphism is \
-also finite and of finite presentation — the third paragraph of the proof of Stacks 07VS, \
-which runs through Stacks 07SU, 07SK, 084Z, 07SN and 07VP. The first two conclude about \
-inverse systems and the third adds two hypotheses, so none is the universally quantified \
-form of this conclusion"]
 theorem isAffineSpace_of_isSurjective_of_universallyClosed (f : X ⟶ Y)
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
     (hsurj : IsSurjective B S hS f) (hclosed : UniversallyClosed B S hS f)

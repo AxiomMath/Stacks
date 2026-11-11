@@ -28,7 +28,8 @@ the exact adjunctions `Ljₙ^* ⊣ Rjₙ,*`.
   of `RingTheory.TorIndependence.mapDerivedCategoryCompNatIso` over the homotopy category.
 * `AlgebraicGeometry.Space.mapHomotopyCategory_counit_mates`,
   `AlgebraicGeometry.Space.comparison_leftAdjointUniq`: the degreewise mates identities.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.stageAdjunction_counit_fac`: the counit of
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.stageAdjunction_counit_fac`: the counit
+  of
   `Ljₙ^* ⊣ Rjₙ,*` is induced by the degreewise counit (Stacks 0FPI).
 
 ## References
@@ -402,12 +403,12 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
 open Stacks.Cohomology.DerivedPushforward (pullbackMapHomotopy pushforwardMapHomotopy
   pullbackAdjPushforwardMapHomotopy)
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- The counit of `Ljₙ^* ⊣ Rjₙ,*` (exact form) is induced by the degreewise counit. -/
 theorem stageAdjunction_counit_fac (n : ℕ)
@@ -432,7 +433,7 @@ theorem stageAdjunction_counit_fac (n : ℕ)
       (smallEtaleRingedToposHom D.B (limitBase D.system) D.containsLimitBase
         (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n))) K
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 
 end AlgebraicGeometry.Space

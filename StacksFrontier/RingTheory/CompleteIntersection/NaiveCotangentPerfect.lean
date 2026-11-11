@@ -20,6 +20,7 @@ public import StacksFrontier.RingTheory.Syntomic.Defs
 import all StacksFrontier.RingTheory.NaiveCotangent.Cocartesian
 import all StacksFrontier.RingTheory.NaiveCotangent.DerivedBaseChange
 import StacksCore.Tactic.EgaSgaAttribute
+import StacksFrontier.Algebra.Homology.Resolution.ProjectiveDimensionTruncation
 
 /-!
 # The naive cotangent complex of a local complete intersection
@@ -651,21 +652,6 @@ private theorem cotangent_flat_of_hasTorAmplitude
   exact Module.Flat.of_linearEquiv
     (ULift.moduleEquiv : ULift.{u} P.toExtension.Cotangent ≃ₗ[B] P.toExtension.Cotangent).symm
 
-/-- A finite resolution by projective modules bounds the projective dimension. -/
-private lemma hasProjectiveDimensionLE_of_moduleResolution
-    {R : Type u} [Ring R] {M : Type u} [AddCommGroup M] [Module R M]
-    (F : ModuleResolution R M) (d : ℕ)
-    (hproj : ∀ i, Projective (F.complex.X i))
-    (hzero : ∀ i, d < i → IsZero (F.complex.X i)) :
-    HasProjectiveDimensionLE (ModuleCat.of R M) d := by
-  have hres : ∃ G : CategoryTheory.ObjectProperty.LeftResolution
-      (CategoryTheory.isProjective (ModuleCat.{u} R)) (ModuleCat.of R M),
-      ∀ i, d < i → IsZero (G.complex.X i) :=
-    ⟨{ complex := F.complex, property := hproj, hasHomology := F.hasHomology,
-       π := F.π, quasiIso := F.quasiIso }, hzero⟩
-  exact ((CategoryTheory.hasProjectiveDimensionLE_tfae_leftResolution
-    (ModuleCat.of R M) d).out 2 1).mp hres
-
 /-- The conormal module of a presentation and the conormal module of its kernel ideal correspond
 along the ring isomorphism `P.Ring / P.ker ≅ S`: finiteness transfers from the latter to the
 former, and projectivity from the former to the latter. -/
@@ -700,10 +686,7 @@ intersection. -/
 @[stacks 0FJT]
 public theorem hasTorAmplitude_tfae_isLocalCompleteIntersection
     (A B : Type u) [CommRing A] [CommRing B] [Algebra A B]
-    [IsNoetherianRing A] [IsNoetherianRing B]
-    (hperfect : RingHom.IsPerfectRingMap A B
-      (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct A).tensor
-      (canonicalTensorComparison A) (canonicalTensorIsLeftDerived A)) :
+    [IsNoetherianRing A] [IsNoetherianRing B] [Algebra.Perfect A B] :
     List.TFAE
       [HasTorAmplitude
           (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct B).tensor
@@ -731,9 +714,7 @@ public theorem hasTorAmplitude_tfae_isLocalCompleteIntersection
   tfae_have 1 → 3 := by
     intro h
     obtain ⟨n, α, hα, d, F, hterms, hvanish⟩ :=
-      (RingHom.isPerfectRingMap_iff_exists_finite_projective_resolution
-        A B (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct A).tensor
-        (canonicalTensorComparison A) (canonicalTensorIsLeftDerived A)).mp hperfect
+      Algebra.perfect_iff_exists_finite_projective_resolution.mp ‹Algebra.Perfect A B›
     let R := MvPolynomial (Fin n) A
     let : Module R B := Module.compHom B α.toRingHom
     have heval : MvPolynomial.aeval (fun i : Fin n => α (MvPolynomial.X i)) = α := by
@@ -751,10 +732,7 @@ public theorem hasTorAmplitude_tfae_isLocalCompleteIntersection
     have hS : g.shortComplexKer.ShortExact :=
       LinearMap.shortExact_shortComplexKer (by simpa [g] using hα)
     have hpdB : HasProjectiveDimensionLE (ModuleCat.of R B) d :=
-      hasProjectiveDimensionLE_of_moduleResolution F d
-        (fun i => by
-          let : Module.Projective R (F.complex.X i) := (hterms i).2
-          infer_instance) hvanish
+      F.hasProjectiveDimensionLE (fun i => (hterms i).2) hvanish
     have h₂ : HasProjectiveDimensionLT g.shortComplexKer.X₂ (d + 1) :=
       hasProjectiveDimensionLT_of_ge _ 1 (d + 1) (by omega)
     have h₃ : HasProjectiveDimensionLT g.shortComplexKer.X₃ (d + 1 + 1) :=
@@ -971,14 +949,10 @@ public theorem hasTorAmplitude_tfae_syntomic
       hasTorAmplitude_of_flat_cotangent _ _ _ (P.baseChange p.ResidueField) hflatk
     have hNoeth : IsNoetherianRing (p.Fiber B) :=
       Algebra.FiniteType.isNoetherianRing p.ResidueField _
-    have hperf : RingHom.IsPerfectRingMap p.ResidueField (p.Fiber B)
-        (CochainComplex.DerivedTensor.canonicalDerivedTensorProduct p.ResidueField).tensor
-        (canonicalTensorComparison p.ResidueField)
-        (canonicalTensorIsLeftDerived p.ResidueField) :=
-      (RingHom.isPerfectRingMap_of_flat_of_finitePresentation p.ResidueField (p.Fiber B)).2 _ _ _
+    have : Algebra.Perfect p.ResidueField (p.Fiber B) := .of_flat_of_finitePresentation _ _
     have hlcik : RingHom.IsLocalCompleteIntersection (algebraMap p.ResidueField (p.Fiber B)) :=
-      ((hasTorAmplitude_tfae_isLocalCompleteIntersection p.ResidueField (p.Fiber B)
-        hperf).out 1 3).mp hampk
+      ((hasTorAmplitude_tfae_isLocalCompleteIntersection p.ResidueField (p.Fiber B)).out 1 3).mp
+        hampk
     have hsynk : Algebra.Syntomic p.ResidueField (p.Fiber B) := by
       have hx := RingHom.syntomic_iff_flat_and_isLocalCompleteIntersection
         (algebraMap p.ResidueField (p.Fiber B))

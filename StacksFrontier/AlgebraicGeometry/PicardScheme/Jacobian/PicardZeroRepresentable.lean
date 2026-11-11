@@ -25,9 +25,11 @@ same argument with the chart translated). Every property of the chart which is l
 source — smoothness in particular — passes to the group scheme
 (`AlgebraicGeometry.of_chart_of_isZariskiLocalAtSource`).
 
-The inputs not yet available unconditionally in this library are hypotheses here: the two halves
-of [Stacks, Tag 0B91] (`h0B91`, `hbc`), the claim in the proof of [Stacks, Tag 0B9X] (`hexists`,
-`huniq`), and [Stacks, Tag 0B9Y] in the form needed (`hfield`). No Stacks attribute is attached.
+The inputs are hypotheses here: the two halves of [Stacks, Tag 0B91] (`h0B91`, `hbc`), which the
+library proves as `ProperFlatFibreEulerCharacteristic.perfectDerivedPushforward` and
+`ProperFlatFibreEulerCharacteristic.baseChangeDerivedPushforward`; the claim in the proof of
+[Stacks, Tag 0B9X] (`hexists`, `huniq`); and [Stacks, Tag 0B9Y] in the form needed (`hfield`).
+No Stacks attribute is attached.
 
 ## Main results
 

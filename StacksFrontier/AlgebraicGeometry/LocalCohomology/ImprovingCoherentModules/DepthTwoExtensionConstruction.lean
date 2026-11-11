@@ -472,11 +472,6 @@ dualizing complex, let `T ⊆ X` be stable under specialization and let `F` be c
 `depth(F_x) ≥ 1` at every immediate specialization `x ⤳ x'` with `x' ∈ T` and `x ∉ T`.  Then `F`
 admits a map to a coherent module which is an isomorphism on the stalks off `T` and whose stalks
 on `T` have depth at least two. -/
-@[stacks 0EI3 "existence, at the source's hypotheses: X Noetherian with a dualizing complex on \
-an affine open cover, T stable under specialization, F coherent, and depth at least one at the \
-immediate specializations into T from outside T; the witness is the single direct image \
-j_*(F|_{X ∖ Z}) across the closure Z of the low-depth locus, not the source's colimit of \
-pushforwards, and its coherence is proved here from Faltings through Tag 0BJY"]
 public theorem exists_isDepthTwoExtension_of_hasDualizingComplex
     (X : Scheme.{u}) [IsNoetherian X] (hdual : HasDualizingComplexOnAffineCover X)
     (T : Set X) (hT : StableUnderSpecialization T) (F : X.Modules) [F.IsCoherent]
@@ -494,8 +489,6 @@ public theorem exists_isDepthTwoExtension_of_hasDualizingComplex
 of coherent modules which is an isomorphism on the stalks off `T` and whose stalks on `T` have
 depth at least two, and it is unique: any other such map is carried to it by a unique
 isomorphism under `F`. -/
-@[stacks 0EI3 "the source's unique map, as existence together with uniqueness up to a unique \
-isomorphism under F, at the source's hypotheses"]
 public theorem existsUnique_isDepthTwoExtension_of_hasDualizingComplex
     (X : Scheme.{u}) [IsNoetherian X] (hdual : HasDualizingComplexOnAffineCover X)
     (T : Set X) (hT : StableUnderSpecialization T) (F : X.Modules) [F.IsCoherent]

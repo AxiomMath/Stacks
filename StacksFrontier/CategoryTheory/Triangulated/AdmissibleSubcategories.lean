@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.CategoryTheory.ObjectProperty.Orthogonal
-import Mathlib.CategoryTheory.Triangulated.Orthogonal
+public import Mathlib.CategoryTheory.Triangulated.Orthogonal
 public import Mathlib.CategoryTheory.Triangulated.Pretriangulated
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Tactic.Ring
@@ -53,6 +53,9 @@ adjoint of `A.ι` factors as `L ⋙ G`.
 
 * `CategoryTheory.ObjectProperty.isStableUnderRetracts_rightOrthogonal_and_leftOrthogonal`: the
   two orthogonals of a property of objects are stable under retracts, hence saturated.
+* `isClosedUnderIsomorphisms_isSaturated_isTriangulated_rightOrthogonal_and_leftOrthogonal`, in
+  the same namespace: the two orthogonals of a shift-invariant subcategory of a triangulated
+  category are strictly full, saturated, triangulated subcategories.
 * `CategoryTheory.ObjectProperty.isTriangulated_extensionProduct_of_le_rightOrthogonal`: for
   triangulated `A`, `B` with `B ≤ A.rightOrthogonal`, the extension product `A ⋆ B` is a
   triangulated subcategory.
@@ -89,10 +92,13 @@ which `ObjectProperty.isoClosure_eq_self` turns into the source's own equalities
 full `A`. `ObjectProperty.IsSaturated` is itself a condition on `A.isoClosure`, so it needs no
 strictification either.
 
-Two other assertions of the source cost nothing and are therefore not restated. The strict
-fullness of an orthogonal, `ObjectProperty.IsClosedUnderIsomorphisms`, and the triangulated
-structure of an orthogonal of a shift-invariant property, `ObjectProperty.IsTriangulated`, are
-Mathlib instances. And the closure of a triangulated subcategory under direct sums follows from
+The strict fullness of an orthogonal, `ObjectProperty.IsClosedUnderIsomorphisms`, and the
+triangulated structure of an orthogonal of a shift-invariant property,
+`ObjectProperty.IsTriangulated`, are Mathlib instances; the full statement of [Stacks, Tag 0FXC],
+strict fullness, saturation and triangulatedness of both orthogonals, is assembled from them and
+the retract stability above in
+`isClosedUnderIsomorphisms_isSaturated_isTriangulated_rightOrthogonal_and_leftOrthogonal`.
+The closure of a triangulated subcategory under direct sums follows from
 `ObjectProperty.IsClosedUnderBinaryProducts`, available by instance resolution for any
 triangulated property closed under isomorphisms, together with `X₁ ⊞ X₂ ≅ X₁ ⨯ X₂`.
 
@@ -153,8 +159,9 @@ private lemma leftOrthogonal_of_epi (P : ObjectProperty C) {X Y : C} (g : Y ⟶ 
 /-- Let `C` be a category with zero morphisms and `P : ObjectProperty C` a property of its
 objects. Then both the right orthogonal `P.rightOrthogonal` and the left orthogonal
 `P.leftOrthogonal` are stable under retracts; in particular they are saturated, i.e. thick, and
-strictly full subcategories of `C`. -/
-@[stacks 0FXC, sga "4½ Etat_0 2.6.2" "thickness"]
+strictly full subcategories of `C`. This is the saturation step of [Stacks, Tag 0FXC], whose full
+statement is
+`isClosedUnderIsomorphisms_isSaturated_isTriangulated_rightOrthogonal_and_leftOrthogonal`. -/
 theorem isStableUnderRetracts_rightOrthogonal_and_leftOrthogonal (P : ObjectProperty C) :
     P.rightOrthogonal.IsStableUnderRetracts ∧ P.leftOrthogonal.IsStableUnderRetracts :=
   ⟨⟨fun h hY ↦ rightOrthogonal_of_mono P h.i hY⟩, ⟨fun h hY ↦ leftOrthogonal_of_epi P h.r hY⟩⟩
@@ -846,6 +853,37 @@ theorem tfae_isRightAdmissible_isLeftAdmissible_extensionProduct_and_isEquivalen
     exact ⟨isEquivalence_ι_comp A B hAB hext L, exists_adjunction_ι A B hAB L⟩
   · intro Q _ L _
     exact ⟨isEquivalence_ι_comp' A B hBA hext L, exists_adjunction_ι' A B hBA L⟩
+
+/-! ### The orthogonals of a shift-invariant subcategory -/
+
+/-- Let `C` be a triangulated category and let `A` be a full subcategory of `C` invariant under
+all shifts. Then both the right orthogonal `A.rightOrthogonal` and the left orthogonal
+`A.leftOrthogonal` of `A` are strictly full (`ObjectProperty.IsClosedUnderIsomorphisms`),
+saturated (`ObjectProperty.IsSaturated`, [Stacks, Tag 05RB]), triangulated subcategories of `C`:
+each is a pre-triangulated subcategory (`ObjectProperty.IsTriangulated`) whose full subcategory is
+a triangulated category.
+
+Closure under isomorphisms and the triangulated structure are Mathlib's instances on the
+orthogonals of a shift-invariant property; saturation follows from the stability of the
+orthogonals under retracts, `isStableUnderRetracts_rightOrthogonal_and_leftOrthogonal`, a direct
+summand being a retract. -/
+@[stacks 0FXC, sga "4½ Etat_0 2.6.2" "thickness"]
+theorem isClosedUnderIsomorphisms_isSaturated_isTriangulated_rightOrthogonal_and_leftOrthogonal
+    (A : ObjectProperty C) [A.IsStableUnderShift ℤ] :
+    (A.rightOrthogonal.IsClosedUnderIsomorphisms ∧ A.rightOrthogonal.IsSaturated ∧
+        A.rightOrthogonal.IsTriangulated ∧
+        CategoryTheory.IsTriangulated A.rightOrthogonal.FullSubcategory) ∧
+      (A.leftOrthogonal.IsClosedUnderIsomorphisms ∧ A.leftOrthogonal.IsSaturated ∧
+        A.leftOrthogonal.IsTriangulated ∧
+        CategoryTheory.IsTriangulated A.leftOrthogonal.FullSubcategory) := by
+  obtain ⟨hr, hl⟩ := isStableUnderRetracts_rightOrthogonal_and_leftOrthogonal A
+  have : A.rightOrthogonal.isoClosure.IsStableUnderRetracts := by
+    rw [isoClosure_eq_self]; exact hr
+  have : A.leftOrthogonal.isoClosure.IsStableUnderRetracts := by
+    rw [isoClosure_eq_self]; exact hl
+  exact ⟨⟨inferInstance, isSaturated_of_isStableUnderRetracts_isoClosure _, inferInstance,
+    inferInstance⟩, ⟨inferInstance, isSaturated_of_isStableUnderRetracts_isoClosure _,
+    inferInstance, inferInstance⟩⟩
 
 end Admissible
 

@@ -19,9 +19,12 @@ for a 1-morphism `f : 𝒳 ⟶ 𝒴` of algebraic stacks representable by algebr
 * (B) for `𝒵 ⟶ 𝒴` representable by algebraic spaces with `R`, the base change
   `𝒵 ×_𝒴 𝒳'` is the largest open substack of `𝒵 ×_𝒴 𝒳` on which `id_𝒵 × f` has `P`.
 
-This file carries assertion (A) — the property of being such a largest open substack, its
-uniqueness and its existence — and the containment of assertion (B) that holds for an arbitrary
-base change.
+This file carries the property of being such a largest open substack, its uniqueness, an
+existence statement from locality of `P` along unions of open substacks, and the containment of
+assertion (B) that holds for an arbitrary base change. The complete statement of Stacks 06M3,
+from its four hypotheses on `P`, `Q` and `R`, is
+`AlgebraicGeometry.Stack.exists_isRelativePropertyLocus_and_isRelativePropertyLocus_baseChange`
+in `StacksFrontier/AlgebraicGeometry/Stacks/RelativePropertyLocusOnSpaces.lean`.
 
 ## Main definitions
 
@@ -36,8 +39,7 @@ base change.
 
 * `AlgebraicGeometry.Stack.eq_of_isRelativePropertyLocus`: the `P`-locus is unique, which is
   what makes the definite article of the source legitimate. This needs no input at all.
-* `AlgebraicGeometry.Stack.exists_isRelativePropertyLocus`: the existence statement of
-  assertion (A), under the carried
+* `AlgebraicGeometry.Stack.exists_isRelativePropertyLocus`: the existence of the `P`-locus from
   `AlgebraicGeometry.Stack.IsRelativePropertyLocalOnOpenSubstackUnions`.
 * `AlgebraicGeometry.Stack.isRelativePropertyLocus_baseChange_apply`: the containment
   `𝒵 ×_𝒴 𝒳' ⊆ W(P, f')` of assertion (B), unconditionally and for an arbitrary base change.
@@ -51,41 +53,17 @@ base change.
 * `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_fullSubcategoryInclusion_comp`: the
   restriction of a representable 1-morphism to an open substack is representable.
 
-## What is proved, and what is not
+## Relation to the complete statement
 
 Hypothesis (1) of the source — `P` fppf local on the target and stable under arbitrary base
 change — is used throughout, as the two instance hypotheses on `P` that **Stacks 03YK** carries.
-Hypotheses (2), (3) and (4) are *not* used, and the property `Q` does not appear: what the
-source's proof extracts from them is the passage from the largest open subspace of a smooth
-chart to an open substack of `𝒳`, and that passage is replaced here by the two carried
-hypotheses of `AlgebraicGeometry.Stack.exists_isRelativePropertyLocus`. The statements below are
-therefore those of **Stacks 06M3** with `Q` dropped, which only strengthens them.
-
-The reason for the replacement is a universe pin. The source's route runs through a smooth chart
-`V ⟶ 𝒴`, the base change `U = V ×_𝒴 𝒳`, the largest open `W(P, f') ⊆ U` of hypothesis (3), its
-`R`-invariance from hypotheses (2) and (4), and then **Stacks 0505** to read it as an open
-substack. The invariance step is available —
-`AlgebraicGeometry.Stack.isInvariantOpen_range_of_isOpenImmersion_essImage` — and so is its
-converse
-`AlgebraicGeometry.Stack.isOpenImmersion_quotientStackMap_of_invariantRestrictionBaseChange`
-(**Stacks 04YN**), but the open immersion it produces has target a quotient stack, which is a
-`CategoryTheory.BasedCategory.{u + 1, u + 1}` and so not an object of
-`AlgebraicGeometry.Stack.AlgebraicStacks` at all; the one unconditional way to turn an open
-immersion into an `AlgebraicGeometry.Stack.OpenSubstack`,
-`AlgebraicGeometry.Stack.AlgebraicStacks.exists_openSubstack_essImage`, does not reach it. The
-same pin is recorded in the module documentation of
-`StacksFrontier.AlgebraicGeometry.Stacks.QuotientStackRestrictionImmersion` and of
-`StacksFrontier.AlgebraicGeometry.Stacks.ImmersionIntoQuotientStackSubspace`.
-
-The maximality half of assertion (B) is **not** proved and nothing is tagged for it. The
-containment it needs is the reverse of the one below, and the source gets it from hypothesis (4)
-applied on a chart; at the level of stacks it asks for the image of an open substack under a
-representable flat 1-morphism locally of finite presentation to be an open substack, which is
-the surjectivity half of the bijection of **Stacks 06FJ**.
-That bijection is proved in
-`StacksFrontier/AlgebraicGeometry/Stacks/OpenSubstackPoints.lean`, and
-`StacksFrontier/AlgebraicGeometry/Stacks/OpenImageSubstack.lean` applies its surjective half to the
-image of a smooth 1-morphism.
+Hypotheses (2), (3) and (4) and the property `Q` do not appear in this file. The source's route
+from them — a smooth chart `V ⟶ 𝒴`, the base change `U = V ×_𝒴 𝒳`, the largest open
+`W(P, f') ⊆ U` of hypothesis (3) and its `R`-invariance from hypotheses (2) and (4) — is carried
+out in `StacksFrontier/AlgebraicGeometry/Stacks/RelativePropertyLocusOnSpaces.lean`, which proves
+assertion (A) from those hypotheses, the reverse containment of assertion (B), and the complete
+statement
+`AlgebraicGeometry.Stack.exists_isRelativePropertyLocus_and_isRelativePropertyLocus_baseChange`.
 
 ## Implementation notes
 
@@ -161,8 +139,6 @@ in the other, and an open substack is determined by its object property.
 
 This is what makes the definite article in *the* maximal open substack of the source legitimate,
 and it needs no input beyond those of the ambient site. -/
-@[stacks 06M3 "assertion (A), uniqueness of the maximal open substack on which f has P; \
-unconditional"]
 theorem eq_of_isRelativePropertyLocus (P : MorphismProperty (AlgebraicSpaces B S hS))
     [P.IsStableUnderBaseChange]
     [P.IsLocalAtTarget (Space.Topology.fppf.precoverage B S hS)]
@@ -206,9 +182,6 @@ It is the union `AlgebraicGeometry.Stack.OpenSubstack.iUnion` (**Stacks 05UQ**) 
 all open substacks on which `f` has `P`: that `f` has `P` on it is the carried `hLocal`, and
 maximality is the first clause of `AlgebraicGeometry.Stack.OpenSubstack.IsUnion` and does not
 need it. -/
-@[stacks 06M3 "assertion (A), existence of the maximal open substack on which f has P, with \
-the locality of P along a union of open substacks carried as `hLocal`; the property Q of the \
-source is not needed"]
 theorem exists_isRelativePropertyLocus (P : MorphismProperty (AlgebraicSpaces B S hS))
     [P.IsStableUnderBaseChange]
     [P.IsLocalAtTarget (Space.Topology.fppf.precoverage B S hS)]
@@ -251,6 +224,26 @@ theorem hasRelativeProperty_baseChange_algebraicStacks
         g.hom f.hom)
   exact hasRelativeProperty_baseChange.{u, u, u + 1} B S hS P 𝒳.val 𝒴.val 𝒵.val f.hom g.hom
     (Bicategory.TwoCommSq.underlying Q) hQc hf hPf
+
+/-- **Stacks 0302 for a 2-fibre product square of algebraic stacks.** In a 2-fibre product square
+over a cospan `g : 𝒵 ⟶ 𝒴`, `f : 𝒳 ⟶ 𝒴` of algebraic stacks over `S`, the projection to `𝒵` is
+representable by algebraic spaces as soon as `f` is.
+
+This is `AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpaces_baseChange` read through the
+underlying square, exactly as in
+`AlgebraicGeometry.Stack.hasRelativeProperty_baseChange_algebraicStacks`. -/
+theorem isRepresentableByAlgebraicSpaces_baseChange_algebraicStacks
+    {𝒳 𝒴 𝒵 : AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (g : 𝒵 ⟶ 𝒴)
+    (Q : Bicategory.TwoCommSq g f) (hQ : Bicategory.IsTwoFibreProduct Q)
+    (hf : IsRepresentableByAlgebraicSpaces B S hS f.hom.hom) :
+    IsRepresentableByAlgebraicSpaces B S hS Q.fst.hom.hom := by
+  have hQc : Bicategory.IsTwoFibreProduct (Bicategory.TwoCommSq.underlying Q) :=
+    Bicategory.isTwoFibreProduct_underlying
+      (twoFibreProductSquareAlgebraicStacks B S hS g f) hQ
+      (CatFiberedInGroupoids.isTwoFibreProduct_twoFibreProductSquare.{u, u, u + 1, u + 1}
+        g.hom f.hom)
+  exact isRepresentableByAlgebraicSpaces_baseChange.{u, u, u + 1} B S hS 𝒳.val 𝒴.val 𝒵.val
+    f.hom g.hom (Bicategory.TwoCommSq.underlying Q) hQc hf
 
 /-- The base change of the inclusion of an open substack along `g` is representable by algebraic
 spaces and is an open immersion. -/
@@ -328,12 +321,11 @@ change: the property `R` of the source is not used, nor is `Q`. The inverse imag
 `W ×_𝒴 𝒵`, so its projection to `𝒵` is a base change of `f|_W` and has `P` by **Stacks 045C**;
 maximality of `W'` finishes.
 
-The reverse containment, which is where the hypotheses on `R` enter, is not proved; see the
-module documentation. -/
-@[stacks 06M3 "assertion (B), the containment 𝒵 ×_𝒴 𝒳' ⊆ W(P, f') of the base change of the \
-maximal open substack in the maximal open substack of the base change, for an arbitrary base \
-change and with neither the property R nor the property Q used; the reverse containment, which \
-is where R enters, is not proved"]
+The reverse containment, which is where the hypotheses on `R` enter, is
+`AlgebraicGeometry.Stack.isRelativePropertyLocus_baseChange_apply_symm`, and the two together are
+assertion (B) of
+`AlgebraicGeometry.Stack.exists_isRelativePropertyLocus_and_isRelativePropertyLocus_baseChange`,
+both in `StacksFrontier/AlgebraicGeometry/Stacks/RelativePropertyLocusOnSpaces.lean`. -/
 theorem isRelativePropertyLocus_baseChange_apply
     (P : MorphismProperty (AlgebraicSpaces B S hS))
     [P.IsStableUnderBaseChange]

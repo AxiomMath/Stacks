@@ -4,11 +4,17 @@ public import Mathlib.CategoryTheory.ObjectProperty.Kernels
 public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.KernelIdealSheaf
 public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.ULiftUnit
+public import StacksFrontier.AlgebraicGeometry.Spaces.ClosedImmersionStructureSheafCoherent
 public import StacksFrontier.AlgebraicGeometry.Spaces.ModuleDirectImage
 public import StacksFrontier.AlgebraicGeometry.Spaces.ModulesAbelian
 public import StacksFrontier.AlgebraicGeometry.Spaces.ModulesMonoidal
+public import StacksFrontier.AlgebraicGeometry.Spaces.ModulesTensorQuasicoherent
 public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentPushforwardExactSequence
+public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentPushforwardQcqs
 public import StacksFrontier.AlgebraicGeometry.Spaces.RelativeProj
+public import StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjPoint.Separated
+public import StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjPoint.Space
+public import StacksFrontier.AlgebraicGeometry.Spaces.SeparatedVariants
 
 /-!
 # The graded ideal cut out by a closed subspace of a relative Proj
@@ -22,13 +28,19 @@ Proj of `𝒜` and let `i : Z ⟶ P` be a closed subspace.  Stacks 085L defines 
 
 and asserts, for `π` quasi-compact, that `Z = Proj_X(𝒜/ℐ)`.
 
-This file writes that ideal down.  The Serre twists `(·)(d)` on the relative Proj of an
-algebraic space are not constructed in this repository, so they are carried as an explicit
-datum, `AlgebraicGeometry.Space.ClosedSubspaceTwistSections`; everything else is a definition
-with a real body.  In particular the canonical map is the composite the source names and not a
-parameter: the twisted module `(i_*𝒪_Z)(d)` is `i_*𝒪_Z ⊗_{𝒪_P} 𝒪_P(d)` for the tensor product
-of Stacks 01CA, the map `𝒪_P(d) ⟶ (i_*𝒪_Z)(d)` is the twist of the structure map
-`𝒪_P ⟶ i_*𝒪_Z` of the closed immersion, and `ℐ_d` is the sectionwise kernel of the result.
+The complete statement of Stacks 085L, with the twists `𝒪_P(d)` and the maps
+`ψ_d : π^*𝒜_d ⟶ 𝒪_P(d)` of Stacks 084D constructed on `P = Proj_X(𝒜)`, the ideal `ℐ` proved
+quasi-coherent and `Z ≅ Proj_X(𝒜/ℐ)` over `P`, is
+`AlgebraicGeometry.Space.C1359Bridge.exists_iso_quotientProjHom_psiKernelGradedIdeal`
+(`StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjClosedSubspaceKernelProj`).
+
+This file writes the ideal down for an arbitrary morphism `π : P ⟶ X` equipped with a datum of
+twists and homogeneous section maps, `AlgebraicGeometry.Space.ClosedSubspaceTwistSections`;
+everything else is a definition with a real body.  In particular the canonical map is the
+composite the source names and not a parameter: the twisted module `(i_*𝒪_Z)(d)` is
+`i_*𝒪_Z ⊗_{𝒪_P} 𝒪_P(d)` for the tensor product of Stacks 01CA, the map
+`𝒪_P(d) ⟶ (i_*𝒪_Z)(d)` is the twist of the structure map `𝒪_P ⟶ i_*𝒪_Z` of the closed
+immersion, and `ℐ_d` is the sectionwise kernel of the result.
 
 The direct sum over `d ≥ 0` is not formed.  The canonical map is graded, so its kernel is the
 degreewise kernel, and `ℐ` is therefore given degree by degree; this is the same object, and it
@@ -51,13 +63,16 @@ avoids a coproduct of sheaves of modules that would have to be compared with the
   Stacks 085L**, as a submodule of the degree-`d` piece, and
   `AlgebraicGeometry.Space.closedSubspaceGradedIdealObj`: the same kernel as an object of the
   category of `𝒪_X`-modules.
-* `AlgebraicGeometry.Space.ClosedSubspaceQuotientPresentation`: the remaining assertion of
-  Stacks 085L, `Z = Proj_X(𝒜/ℐ)`, as hypothesis data.
+* `AlgebraicGeometry.Space.ClosedSubspaceQuotientPresentation`: the shape of the assertion
+  `Z = Proj_X(𝒜/ℐ)` of Stacks 085L for such a datum, as a structure.
 
 ## Main results
 
 * `AlgebraicGeometry.Space.isQuasicoherentOnSite_closedSubspaceGradedIdealObj`: **`ℐ_d` is
-  quasi-coherent**, which is the third step of the source's proof.
+  quasi-coherent** for `P = Proj_X(𝒜)` with quasi-coherent twists, `π` quasi-compact and `i` a
+  closed immersion, which is the third step of the source's proof.  At the twists of Stacks 084D,
+  `AlgebraicGeometry.Space.C1359Bridge.psiTwistSections`, it is
+  `AlgebraicGeometry.Space.C1359Bridge.isQuasicoherentOnSite_psiClosedSubspaceIdeal`.
 * `AlgebraicGeometry.Space.closedSubspaceGradedIdeal_eq_ker` and
   `AlgebraicGeometry.Space.mem_closedSubspaceGradedIdeal`: the sections of `ℐ_d` over an object
   of the small étale site are exactly the sections of `𝒜_d` killed by the canonical map, so the
@@ -65,20 +80,16 @@ avoids a coproduct of sheaves of modules that would have to be compared with the
 
 ## Implementation notes
 
-**Why the twists are carried, and what exactly is carried.**  `(i_*𝒪_Z)(d)` cannot be written
-without the twists `𝒪_P(d)` on the relative Proj.  Those are the subject of Stacks 01NR, which
-this repository states but does not prove: `Stacks.AlgebraicGeometry.RelativeProjTwists.
-TwistData` is a structure with no inhabitant, and Stacks 01NR is carried only in its uniqueness
-clauses.  That statement is moreover for the relative Proj of a *scheme*, so even an inhabitant
-of it would not twist modules on the relative Proj of an algebraic space.  Accordingly
-`ClosedSubspaceTwistSections` carries, on the algebraic space `P`, exactly the two pieces of
-data the canonical map consumes: the modules `𝒪_P(d)` with their quasi-coherence, and the
-section maps `𝒜_d ⟶ π_*(𝒪_P(d))` of Stacks 01MP.  It carries no identification of those
-modules with the twists on an étale chart, because the restriction of a module on `P` to the
-chart-level relative Proj, matched against
-`Stacks.AlgebraicGeometry.RelativeProjTwists.TwistData.chartData`, is not available here; so
-the datum constrains the twists only through its own fields, and the two statements that use it
-below are statements about that datum.  This is recorded again under *What is not proved*.
+**What the datum is.**  `ClosedSubspaceTwistSections` carries, on an algebraic space `P` over
+`X`, exactly the two pieces of data the canonical map consumes: modules `𝒪_P(d)` with their
+quasi-coherence, and section maps `𝒜_d ⟶ π_*(𝒪_P(d))` of Stacks 01MP.  It carries no
+identification of those modules with the twists on an étale chart, so the statements of this
+file are statements about that datum.  For the relative Proj `P = Proj_X(𝒜)` itself the twists
+are constructed — `AlgebraicGeometry.Space.RelativeProjSituation.twistModule`, descended from
+the twists of Stacks 01NR on the charts — together with `ψ_d`,
+`AlgebraicGeometry.Space.RelativeProjSituation.psiTwistHom`; the datum they form is
+`AlgebraicGeometry.Space.C1359Bridge.psiTwistSections`, and the ideal they cut out is
+`AlgebraicGeometry.Space.C1359Bridge.psiKernelGradedIdeal`.
 
 **The tensor unit is the structure sheaf on the nose.**  `(i_*𝒪_Z)(d)` is formed with the
 monoidal structure `AlgebraicGeometry.Space.modulesMonoidalCategory` rather than with
@@ -108,36 +119,24 @@ sum is a separate piece of work (`Stacks.sheafifyDirectSumIso`).  Since a graded
 computed degreewise, nothing is lost by indexing the canonical map and the ideal by the degree,
 and the degreewise form is what every consumer of `ℐ` uses.
 
-## What is not proved
+## Relation to the complete statement
 
-**The isomorphism `Z = Proj_X(𝒜/ℐ)` is not proved, and no part of it is.**  It is written down
-as the hypothesis structure `ClosedSubspaceQuotientPresentation`, mirroring
-`Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.GradedQuotientPresentation`, which carries the
-scheme-level assertion of Stacks 0801 in exactly the same way and for the same reason.  Three
-things block it.  The quotient `𝒜/ℐ` of a graded algebra of sheaves by a graded ideal is
-constructed at the level of a scheme —
-`Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.quotAlgebra`, for a graded ideal with
-quasi-coherent pieces — but not at the level of an algebraic space.  The relative
-Proj of an algebraic space is glued from *chart-level* graded algebras — the fields of
-`AlgebraicGeometry.Space.RelativeProjGlueingData` are `Stacks.RelativeProj.Situation`s on the
-presenting and relation schemes — so there is no operation taking a graded algebra on `X` to its
-relative Proj, and `Proj_X(𝒜/ℐ)` cannot be formed even once the quotient exists; the
-presentation structure therefore carries the space and its morphism to `P`.  And the final step
-of the source's proof descends an isomorphism of closed subspaces from the étale charts, for
-which the space-level counterpart of `AlgebraicGeometry.IsClosedImmersion.lift` — the lifting
-property that drives the scheme case `Stacks.ClosedSubschemeProjQuotient.projQuotientIso` — does
-not exist.
+The isomorphism `Z = Proj_X(𝒜/ℐ)` of Stacks 085L, for `π` quasi-compact, is proved for the
+relative Proj of Stacks 084C with its constructed twists, as
+`AlgebraicGeometry.Space.C1359Bridge.exists_iso_quotientProjHom_psiKernelGradedIdeal`: the
+quotient `𝒜/ℐ` is `AlgebraicGeometry.Space.RelativeProjSituation.GradedIdeal.quotientSituation`,
+its relative Proj and the closed immersion into `P` of Stacks 085H are
+`AlgebraicGeometry.Space.RelativeProjSituation.GradedIdeal.quotientProjHom`, and the isomorphism
+is descended from the atlas.  `ClosedSubspaceQuotientPresentation` below only records the shape
+of that assertion for an arbitrary datum of twists.
 
-**Stacks 03M9 and Stacks 03M1(3) are hypotheses, not theorems.**  Quasi-coherence of `ℐ_d` needs
-quasi-coherence of the target of the canonical map, which the source gets from Stacks 03M9 for
-the quasi-compact separated morphism `π`, and closure of quasi-coherence under kernels, which is
-Stacks 03M1(3).  Stacks 03M9 is carried in this repository only conditionally, and
-`SheafOfModules.isClosedUnderKernels_isQuasicoherentOnSite` derives kernel closure from
-cokernel closure, which is itself a hypothesis there.  Both are therefore arguments of
-`isQuasicoherentOnSite_closedSubspaceGradedIdealObj`, and the `stacks` attribute on it names
-them.  Separatedness of `π` — Stacks 084E,
-`AlgebraicGeometry.Space.isSeparated_relativeProj` — is the input to Stacks 03M9 and so is
-subsumed by carrying the latter; no quasi-compactness hypothesis appears for the same reason.
+**Quasi-coherence.**  `isQuasicoherentOnSite_closedSubspaceGradedIdealObj` follows the source:
+`π` is separated (Stacks 084E,
+`AlgebraicGeometry.Space.RelativeProjSituation.isSeparated_relativeProjπ`), so for `π`
+quasi-compact the direct images `π_*((i_*𝒪_Z)(d))` are quasi-coherent by Stacks 03M9,
+`AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePushforward_of_qcqs`, and the kernel is
+quasi-coherent by Stacks 03M1(3),
+`AlgebraicGeometry.Space.isClosedUnderKernels_quasicoherentSheaves_smallEtale`.
 
 ## References
 
@@ -166,9 +165,10 @@ attribute [local instance] modulesMonoidalCategory
 Stacks 085L consumes them: the modules `𝒪_P(d)` for `d ≥ 0`, their quasi-coherence, and the
 homogeneous section maps `𝒜_d ⟶ π_*(𝒪_P(d))` of Stacks 01MP.
 
-This is the datum Stacks 01NR would supply.  No `TwistData` is constructed in this repository,
-and the one that is stated is for the relative Proj of a scheme; see the implementation notes
-for what this carries and what it does not. -/
+This is the part of the datum of Stacks 01NR that the canonical map consumes, for an arbitrary
+morphism `π : P ⟶ X`.  On the relative Proj itself the twists are constructed, as
+`AlgebraicGeometry.Space.C1359Bridge.psiTwistSections` from
+`AlgebraicGeometry.Space.RelativeProjSituation.twistModule`; see the implementation notes. -/
 structure ClosedSubspaceTwistSections (s : RelativeProjSituation.{u, u})
     (P : AlgebraicSpaces s.site s.base s.containsBase) (π : P ⟶ s.space) where
   /-- The degree-`d` twist `𝒪_P(d)` on the relative Proj. -/
@@ -242,10 +242,11 @@ homogeneous section map `𝒜_d ⟶ π_*(𝒪_P(d))` of Stacks 01MP followed by 
 twist `𝒪_P(d) ⟶ (i_*𝒪_Z)(d)` of the structure map of the closed subspace.
 
 The source states the map into the direct sum over `d ≥ 0`; it is graded, and this is its
-degree-`d` component.  Only the twists are carried: the composite itself is the one the source
-names. -/
-@[stacks 085L "the canonical map 𝒜 ⟶ ⨁ π_*((i_*𝒪_Z)(d)), degreewise, built from the carried \
-twists 𝒪_P(d) and homogeneous section maps of Tag 01NR"]
+degree-`d` component.  The composite is the one the source names, for any datum of twists; at the
+twists of Stacks 084D on `P = Proj_X(𝒜)`, `AlgebraicGeometry.Space.C1359Bridge.psiTwistSections`,
+it is the canonical map of the source. -/
+@[stacks 085L "the canonical map 𝒜 ⟶ ⨁ π_*((i_*𝒪_Z)(d)), degreewise; at the twists of \
+Tag 084D it is the source's map"]
 def closedSubspaceSectionMap (T : ClosedSubspaceTwistSections s P π) (i : Z ⟶ P) (d : ℕ) :
     s.algebra.piece (d : ℤ) ⟶ twistedStructureDirectImage T i d :=
   T.sectionMap d ≫ (modulePushforward s.site s.base s.containsBase π).map
@@ -255,7 +256,8 @@ def closedSubspaceSectionMap (T : ClosedSubspaceTwistSections s P π) (i : Z ⟶
 canonical map, as a submodule of the degree-`d` piece of `𝒜`.
 
 This is the kernel of the map the source writes down, not a choice of ideal with the right
-properties; the only carried ingredient is the twists. -/
+properties; at the twists `AlgebraicGeometry.Space.C1359Bridge.psiTwistSections` it is the ideal
+`ℐ` of the source. -/
 @[stacks 085L "the graded ideal ℐ ⊆ 𝒜, degreewise, as the kernel of that canonical map"]
 def closedSubspaceGradedIdeal (T : ClosedSubspaceTwistSections s P π) (i : Z ⟶ P) (d : ℕ) :
     (s.algebra.piece (d : ℤ)).Submodule :=
@@ -286,53 +288,57 @@ theorem closedSubspaceGradedIdeal_eq_ker (T : ClosedSubspaceTwistSections s P π
       Stacks.SheafOfModules.kerSubmodule (closedSubspaceSectionMap T i d) :=
   rfl
 
-/-- **Stacks 085L, the quasi-coherence of `ℐ`.**  The degree-`d` piece of the graded ideal cut
-out by a closed subspace of the relative Proj is a quasi-coherent `𝒪_X`-module.
+end Ideal
 
-There is exactly one carried input, and it is one the source cites.  `hpush` is Stacks 03M9 for
-`π`, in the form in which the source uses it: the direct image along `π` of the quasi-coherent
-module `(i_*𝒪_Z)(d)` is quasi-coherent — this is where quasi-compactness of `π` and its
-separatedness (Stacks 084E) enter.  It is carried because the library's Stacks 03M9,
-`AlgebraicGeometry.Space.pushforward_isQuasicoherentOnSite_of_chartwiseKernel`, is itself
-conditional on the exact sequence of Stacks 03M8.
+/-- **Stacks 085L, the quasi-coherence of `ℐ`.**  Let `π : P = Proj_X(𝒜) ⟶ X` be quasi-compact
+and `i : Z ⟶ P` a closed immersion.  Then for any quasi-coherent twists `𝒪_P(d)` with homogeneous
+section maps, in particular those of Stacks 084D
+(`AlgebraicGeometry.Space.C1359Bridge.psiTwistSections`), the degree-`d` piece of the graded
+ideal `ℐ`, the kernel of the canonical map `𝒜_d ⟶ π_*((i_*𝒪_Z)(d))`, is a quasi-coherent
+`𝒪_X`-module.
 
-The kernel clause of Stacks 03M1(3) is **not** carried: it is discharged from
-`AlgebraicGeometry.Space.isClosedUnderKernels_quasicoherentSheaves_smallEtale`, whose own
-Stacks 03DX(2) input is already proved for the small étale site.  The `letI` ascribes it at this
-module's spelling of the structure ring sheaf, which instance resolution does not identify with
-the `RingedSite.ringSheaf` spelling of that lemma on its own.  Quasi-coherence of `𝒜_d` is a
-field of the relative Proj situation of Stacks 0849. -/
-@[stacks 085L "ℐ is a quasi-coherent 𝒪_X-module, degreewise; granted only Tag 03M9 for π as \
-quasi-coherence of the direct images π_*((i_*𝒪_Z)(d)), the kernel clause of Tag 03M1(3) being \
-discharged from the closure lemma, and built from the carried twists of Tag 01NR"]
-theorem isQuasicoherentOnSite_closedSubspaceGradedIdealObj
-    (T : ClosedSubspaceTwistSections s P π) (i : Z ⟶ P)
-    (hpush : ∀ d : ℕ, (twistedStructureDirectImage T i d).IsQuasicoherentOnSite) (d : ℕ) :
+The proof is the source's.  `π` is separated (Stacks 084E), hence quasi-separated; `i_*𝒪_Z` is
+quasi-coherent as `i` is a closed immersion, and so is its tensor product with the quasi-coherent
+`𝒪_P(d)`; the direct image along the quasi-compact quasi-separated `π` is quasi-coherent by
+Stacks 03M9, `AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePushforward_of_qcqs`; and the
+kernel of a map of quasi-coherent modules is quasi-coherent (Stacks 03M1(3),
+`AlgebraicGeometry.Space.isClosedUnderKernels_quasicoherentSheaves_smallEtale`).  The `let`
+ascribes the last at this module's spelling of the structure ring sheaf, which instance
+resolution does not identify with the `RingedSite.ringSheaf` spelling of that lemma on its own. -/
+@[stacks 085L "ℐ is a quasi-coherent 𝒪_X-module, degreewise, for π quasi-compact and i a closed \
+immersion, for any quasi-coherent twists on Proj_X(𝒜), those of Tag 084D included"]
+theorem isQuasicoherentOnSite_closedSubspaceGradedIdealObj {s : RelativeProjSituation.{u, u}}
+    (T : ClosedSubspaceTwistSections s s.Proj s.π)
+    {Z : AlgebraicSpaces s.site s.base s.containsBase} (i : Z ⟶ s.Proj)
+    (hπ : IsQuasiCompact s.site s.base s.containsBase s.π.hom)
+    (hi : IsClosedImmersion s.site s.base s.containsBase i.hom) (d : ℕ) :
     (closedSubspaceGradedIdealObj T i d).IsQuasicoherentOnSite :=
   let : CategoryTheory.ObjectProperty.IsClosedUnderKernels
       (SheafOfModules.isQuasicoherentOnSite.{u + 1, u, u, u}
         (structureRingSheaf s.site s.base s.containsBase s.space)) :=
     AlgebraicGeometry.Space.isClosedUnderKernels_quasicoherentSheaves_smallEtale
       s.site s.base s.containsBase s.space.1 s.space.2
-  CategoryTheory.ObjectProperty.prop_kernel _ (closedSubspaceSectionMap T i d)
-    (s.isQuasicoherent (d : ℤ)) (hpush d)
+  have : (closedSubspacePushforwardStructure i).IsQuasicoherentOnSite :=
+    isQuasicoherentOnSite_structureSheafPushforward s.site s.base s.containsBase i hi
+  CategoryTheory.ObjectProperty.prop_kernel _
+    (closedSubspaceSectionMap T i d) (s.isQuasicoherent (d : ℤ))
+    (isQuasicoherentOnSite_modulePushforward_of_qcqs s.site s.base s.containsBase s.π hπ
+      (isQuasiSeparated_of_isSeparated s.site s.base s.containsBase s.isSeparated_relativeProjπ)
+      _ (isQuasicoherentOnSite_tensorObj s.site s.base s.containsBase s.Proj.1 s.Proj.2 _ _))
 
-end Ideal
-
-/-! ### The remaining assertion, as hypothesis data -/
+/-! ### The shape of the assertion `Z = Proj_X(𝒜/ℐ)`, for a datum of twists -/
 
 /-- The assertion `Z = Proj_X(𝒜/ℐ)` of Stacks 085L, as data: a graded algebra `ℬ` on `X`, a
 degreewise surjection `𝒜 ⟶ ℬ` whose kernel is the graded ideal `ℐ` cut out by `Z`, an algebraic
 space over `X` playing the part of `Proj_X(ℬ)` together with a closed immersion of it into `P`,
 and an identification of `Z` with that space over `P`.
 
-Nothing here is proved.  This mirrors
-`Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.GradedQuotientPresentation`, which carries the
-scheme-level assertion of Stacks 0801 in the same shape; see *What is not proved* in the module
-docstring for the three constructions that are missing, and note in particular that the field
-`space` is tied to `quotient` only through `ker_eq` and `isClosedImmersion`, because this
-repository has no operation taking a graded algebra on an algebraic space to its relative
-Proj. -/
+This mirrors `Stacks.AlgebraicGeometry.RelativeProjGradedIdeal.GradedQuotientPresentation`,
+the same shape at the level of schemes.  The field `space` is tied to `quotient` only through
+`ker_eq` and `isClosedImmersion`.  For the relative Proj of Stacks 084C with its constructed
+twists the assertion is proved, with `Proj_X(𝒜/ℐ)` the relative Proj of
+`AlgebraicGeometry.Space.RelativeProjSituation.GradedIdeal.quotientSituation`, as
+`AlgebraicGeometry.Space.C1359Bridge.exists_iso_quotientProjHom_psiKernelGradedIdeal`. -/
 structure ClosedSubspaceQuotientPresentation {s : RelativeProjSituation.{u, u}}
     {P : AlgebraicSpaces s.site s.base s.containsBase} {π : P ⟶ s.space}
     {Z : AlgebraicSpaces s.site s.base s.containsBase}

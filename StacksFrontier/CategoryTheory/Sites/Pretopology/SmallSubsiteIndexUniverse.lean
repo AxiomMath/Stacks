@@ -6,9 +6,11 @@ import all StacksFrontier.CategoryTheory.Sites.Pretopology.SmallSubsite
 /-!
 # Small subsites with index sets in a larger universe
 
-Stacks 000X for coverings whose index sets lie in any universe `Type (max u v w)` at least as
-large as that of the objects and morphisms of `C`:
-`exists_covBounded_isSite_of_univ`. The case `w = 0` is `exists_covBounded_isSite`.
+The cardinality half of Stacks 000X for coverings whose index sets lie in any universe
+`Type (max u v w)` at least as large as that of the objects and morphisms of `C`:
+`exists_covBounded_isSite_of_univ`. The case `w = 0` is `exists_covBounded_isSite`. As there, the
+class `CovBounded IsCov κ` is not shown to be a set; Stacks 000X with the `V_α` truncation is
+`exists_covTrunc_isSite`.
 
 ## References
 
@@ -99,15 +101,18 @@ private lemma exists_rep_bound_univ (IsCov : Covering C → Prop) :
 
 /-! ### The main theorem -/
 
-/-- **Stacks 000X**. Let `IsCov` be a site on `C` and let `Cov₀` be a set-sized family of
-coverings in it. Then there are a cardinal `κ` and a limit ordinal `α` such that the coverings
+/-- The cardinality half of Stacks 000X. Let `IsCov` be a site on `C` and let `Cov₀` be a
+set-sized family of coverings in it. Then there are a cardinal `κ` and a limit ordinal `α` such
+that the coverings
 in `IsCov` whose index set has cardinality at most `κ` again form a site, contain `Cov₀`, and
 every covering in `IsCov` is combinatorially equivalent to one of them. One may take
 `κ = ℵ₀ ⊔ κ₀ ⊔ κ_rep`, with `κ₀` bounding the index sets of `Cov₀` and `κ_rep` bounding those
 of a system of combinatorial representatives, and `α = ω`.
 
 This is the form with index sets in any universe `Type (max u v w)` at least as large as the
-universe of the objects and morphisms of `C`; `exists_covBounded_isSite` is its case `w = 0`. -/
+universe of the objects and morphisms of `C`; `exists_covBounded_isSite` is its case `w = 0`.
+The ordinal `α` is unconstrained and the class is not shown to be a set; the truncated form is
+`exists_covTrunc_isSite`. -/
 theorem exists_covBounded_isSite_of_univ
     {C : Type u} [Category.{v} C]
     (IsCov : Covering.{u, v, max u v w} C → Prop)

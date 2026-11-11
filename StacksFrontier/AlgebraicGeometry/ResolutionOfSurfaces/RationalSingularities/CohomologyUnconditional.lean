@@ -27,10 +27,11 @@ with its affine-base half
   `d` has vanishing cohomology of *quasi-coherent* modules above `d`. This is the affine-base
   half of [Stacks, Tag 02V7] carried from coherent to quasi-coherent coefficients and read in
   the `rightDerivedPlus` indexing.
-* The two clauses of [Stacks, Tag 0B4X] themselves are proved, and registered, as
+* The two clauses of [Stacks, Tag 0B4X] themselves are proved as
   `…RationalSingularitySituation.isZero_cohomology_of_notMem_zero_one_unconditional` and
   `…RationalSingularitySituation.isZero_cohomology_one_of_globallyGenerated_unconditional` of
-  `QuasicoherentCohomologyExtra.lean` in this directory.
+  `QuasicoherentCohomologyExtra.lean` in this directory, and the tag is registered on their
+  conjunction `…RationalSingularitySituation.isZero_cohomology_of_isQuasicoherent` there.
 * `AlgebraicGeometry.SemistableReduction.TwoModifications.isZero_cohomology_one_lt` and
   `…TwoModifications.isZero_cohomology_one_lt'`: the sentence *"Using the morphism `f : X → S`
   and the references above we find that `Hᵖ(X, ℱ) = 0` for `p > 1` for any coherent

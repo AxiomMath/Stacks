@@ -16,7 +16,10 @@ For a Noetherian local ring `(A, 𝔪)` of dimension one, the symbol of Stacks 0
 
 `∂_A : Q(A)^* × Q(A)^* → κ(𝔪)^*`
 
-in the sense of Stacks 0EAH. No assumption beyond "Noetherian local of dimension one" is made;
+satisfying the properties listed in Stacks 0EAH. (The section itself defines `∂_A` by the recipe
+Stacks 0EAQ; that this symbol is that recipe is
+`Stacks.Chow.tameSymbolOfKrullDimOne_eq_formulaTameSymbol`, and Stacks 0EAH is
+`Stacks.Chow.formulaTameSymbol_isTameSymbol`.) No assumption beyond "Noetherian local of dimension one" is made;
 in particular `A` need not be a domain or reduced.
 
 ## Main definitions
@@ -206,10 +209,12 @@ theorem regularModuleSymbol_steinberg (a b c : nonZeroDivisors A)
   exact AlgebraicGeometry.moduleSymbol_steinberg_prepare (a : A) (b : A)
     (isSMulRegular_of_mem_nonZeroDivisors a) (isSMulRegular_of_mem_nonZeroDivisors b) hba hd
 
-/-- The tame symbol of a one-dimensional Noetherian local ring `A` on pairs of nonzerodivisors:
+/-- A tame symbol of a one-dimensional Noetherian local ring `A` on pairs of nonzerodivisors:
 the symbol of Stacks 02PZ on the module `A` itself, which satisfies Stacks 0EAL, 0EAM, 0EAN and
-0EAP. -/
-@[stacks 0EAH "on nonzerodivisors, for every one-dimensional Noetherian local ring"]
+0EAP. Section 0EAH defines `∂_A` by the recipe Stacks 0EAQ instead; that recipe is
+`Stacks.Chow.formulaRegularTameSymbol`, the two agree by
+`Stacks.Chow.regularTameSymbolOfKrullDimOne_eq_formulaRegularTameSymbol`, and Stacks 0EAH itself
+is `Stacks.Chow.formulaTameSymbol_isTameSymbol`. -/
 noncomputable def regularTameSymbolOfKrullDimOne : RegularTameSymbol A where
   toFun := regularModuleSymbol hdim
   map_mul_left := regularModuleSymbol_mul_left hdim
@@ -231,11 +236,12 @@ theorem krullDimLE_one_of_ringKrullDim_eq_one (hdim' : ringKrullDim A = 1) :
     Ring.KrullDimLE 1 A :=
   Ring.krullDimLE_iff.mpr (by rw [hdim']; exact_mod_cast le_rfl)
 
-/-- The tame symbol `∂_A : Q(A)^* × Q(A)^* → κ(𝔪)^*` of a one-dimensional Noetherian local
+/-- A tame symbol `∂_A : Q(A)^* × Q(A)^* → κ(𝔪)^*` of a one-dimensional Noetherian local
 ring `A`, satisfying Stacks 0EAI, 0EAJ and 0EAK: the extension
 (`Stacks.Chow.RegularTameSymbol.extend`) of the symbol of Stacks 02PZ on pairs of
-nonzerodivisors. -/
-@[stacks 0EAH "on Q(A)^*, for every one-dimensional Noetherian local ring"]
+nonzerodivisors. It is the map `Stacks.Chow.formulaTameSymbol` that the recipe Stacks 0EAQ
+defines, by `Stacks.Chow.tameSymbolOfKrullDimOne_eq_formulaTameSymbol`; Stacks 0EAH (the seven
+properties of that map) is `Stacks.Chow.formulaTameSymbol_isTameSymbol`. -/
 noncomputable def tameSymbolOfKrullDimOne (Q : Type v) [CommRing Q] [Algebra A Q]
     [IsFractionRing A Q] : TameSymbol A Q :=
   haveI := krullDimLE_one_of_ringKrullDim_eq_one hdim

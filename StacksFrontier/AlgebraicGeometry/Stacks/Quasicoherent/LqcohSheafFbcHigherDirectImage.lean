@@ -54,8 +54,9 @@ direct image `Rⁱf_*F`, computed in the étale topology, is an object of `LQCoh
 Modules have sections in the universe `u` of the schemes, local quasi-coherence is read against an
 auxiliary big étale site `E` with `E.cutoff = B.cutoff`, and the flat base change property is the
 sheaf-level one of **Stacks 0762** (`AlgebraicGeometry.Stack.HasSheafFlatBaseChangeProperty`). -/
-@[stacks 0771 "part (4)(b), with the higher direct images computed in the étale topology, \
-  modules at the module universe u of the schemes"]
+@[stacks 0771 "part (4)(b), étale topology: for f quasi-compact and quasi-separated, each \
+  R^i f_*F computed in the étale topology lies in LQCoh^fbc(𝒪_𝒴), with the flat base change \
+  property of 0762 read on sheaves; modules at the module universe u of the schemes"]
 theorem lqcohSheafFbcModuleRule_stackModuleHigherDirectImage
     {𝒳 𝒴 : AlgebraicStacks.{u, t} B S hS} (f : 𝒳 ⟶ 𝒴)
     (hqc : IsQuasiCompactMorphism B S hS f) (hqs : AlgebraicStacks.IsQuasiSeparated B S hS f)

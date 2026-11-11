@@ -80,11 +80,12 @@ category of elements of a presheaf of sets determines the presheaf
 
 The group law is not here: this is an identification of objects over the site, not of group
 algebraic spaces. The group structure on `Isom_𝒳(x, x)` over an algebraic space base is the one
-**Stacks 0447** puts on the stabilizer of the self-intersection groupoid of Stacks 04T4 (4),
-which is all of its arrow space because the source and the target of that groupoid agree for a
-section; that is how `GerbeSectionClassifyingStack` supplies the group algebraic space of
-**Stacks 06QG** part (1), with `AlgebraicGeometry.Stack.isomSpaceOverGrpObj` of Stacks 04YP — the
-group law over a *scheme* of the site — playing no part in it.
+of **Stacks 06PP**, `AlgebraicGeometry.Stack.relativeAutomorphismGroupAlgebraicSpace`, and
+`StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionAutomorphismGroup` identifies it, as a group
+algebraic space over `Z`, with the group law **Stacks 0447** puts on the stabilizer of the
+self-intersection groupoid of Stacks 04T4 (4), which is all of its arrow space because the source
+and the target of that groupoid agree for a section. `AlgebraicGeometry.Stack.isomSpaceOverGrpObj`
+of Stacks 04YP — the group law over a *scheme* of the site — plays no part in it.
 
 No Stacks tag is registered here: the identification is the first step of the proof of
 Stacks 06QG, not the statement of a tag.

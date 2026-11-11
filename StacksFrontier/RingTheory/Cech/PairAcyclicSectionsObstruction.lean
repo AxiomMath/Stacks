@@ -95,6 +95,7 @@ tag's statement.
 
 * [The Stacks Project, Tag 099D](https://stacks.math.columbia.edu/tag/099D)
 * [The Stacks Project, Tag 0952](https://stacks.math.columbia.edu/tag/0952)
+* [The Stacks Project, Tag 0BJA](https://stacks.math.columbia.edu/tag/0BJA)
 -/
 
 @[expose] public noncomputable section
@@ -296,8 +297,9 @@ theorem not_exists_mono_surjective_value :
 the refuted step of [Stacks, Tag 099D] in the shape in which it would have been used: the rest of
 Step 3 needs only that `𝒥•(U)` be a bounded below `Γ_I`-acyclic resolution of `A` rather than an
 injective one, and the Cartan–Eilenberg comparison would then put `ℱ•(U) = Γ_I(𝒥•(U))` in the
-place that [Stacks, Tag 0952] gives to the torsion subcomplex of an injective resolution. It is
-unavailable.
+place that the termwise torsion subcomplex of an injective resolution occupies in the computation
+of derived `I`-power torsion `RΓ_I` of [Stacks, Tag 0BJA]
+(`Stacks.LocalCohomology.powerTorsionComplexInjectiveResolutionIso`). It is unavailable.
 
 The quasi-isomorphism and the strict bound force `𝒪 ⟶ 𝒥⁰` to be a monomorphism, and
 `Stacks.PairSite.not_exists_mono_surjective_value` applies. -/
@@ -346,8 +348,8 @@ cohomology spelling: the refuted repair of Step 3 of [Stacks, Tag 099D] as the s
 would have used it, with "resolution of `A` by injective `A`-modules" weakened all the way to
 "`Γ_I`-acyclic resolution of `A`".
 
-The rings of pairs are Noetherian, so the support flavour `RΓ_{V(I)}` used here and the
-power-torsion flavour `RΓ_I` of [Stacks, Tag 0952] agree
+The rings of pairs are Noetherian, so the support flavour `RΓ_{V(I)}` of [Stacks, Tag 0952] used
+here and the power-torsion flavour `RΓ_I` of [Stacks, Tag 0BJA] agree
 (`Dualizing.derivedPowerTorsionObjIsoLocalCohomologyObj`); the hypothesis is used only in
 degree `1` and only at the pair `(ℤ, 2ℤ)`. -/
 theorem not_exists_resolution_isZero_localCohomology :

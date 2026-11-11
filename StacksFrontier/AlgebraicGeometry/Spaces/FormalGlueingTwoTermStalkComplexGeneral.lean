@@ -192,7 +192,7 @@ the map of two-term complexes
 ((f_*G)_x̄ ⟶ (f_*(j'_*(G|_V)))_x̄) ⟶ (G_ȳ ⟶ (j'_*(G|_V))_ȳ)
 ```
 given by the canonical comparison of
-`AlgebraicGeometry.Space.smallEtaleAbelianPushforwardStalkMap` induces an isomorphism on
+`AlgebraicGeometry.Space.smallEtaleAbelianDirectImageStalkMap` induces an isomorphism on
 kernels and an injection on cokernels. -/
 @[stacks 0AER "isomorphism on kernels and injection on cokernels of the two-term stalk
   complexes, for an arbitrary morphism of algebraic spaces"]

@@ -3,7 +3,7 @@ module
 public import StacksFrontier.AlgebraicGeometry.SectionRingProjQuasicoherent.TwistCompatibility
 
 /-!
-# Assertion (ii) of Stacks Tag 01QK: the twist square commutes
+# Stacks Tag 01QK's twist square, at a binder family satisfying a compatibility hypothesis
 
 In the situation of Stacks Tag 01QH — `X` a scheme, `𝓛` an ample invertible `𝒪_X`-module,
 `S = Γ_*(X, 𝓛)`, `Y = Proj S` and `f : X ⟶ Y` the canonical morphism of Stacks Tag 01PZ —
@@ -21,7 +21,14 @@ Stacks Tag 01QJ produces for each `𝓕` a comparison `θ_𝓕 : f^* M̃ ⟶ �
 commutes, the top arrow being the pullback of the multiplication map `M̃ ⊗ 𝒪_Y(n) → M(n)~` of
 Constructions Equation 01MQ. The source says "Proof omitted."
 
-**This file proves that square.** The sibling
+**This file proves that square for the binder form of Tag 01QJ, under a compatibility
+hypothesis on the binder.** The complete, unconditional statements of Tag 01QK, for the
+constructed comparison `Stacks.SectionRingProjQuasicoherent.pullbackTildeComparison`, are
+`Stacks.SectionRingProjTheta.twistSquareInt` (assertion (ii), in
+`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistRemarkSquareInt.lean`) and
+`Stacks.SectionRingProjTheta.projTheta_app_eq_twistThetaInt` (assertion (i), in
+`StacksFrontier/AlgebraicGeometry/SectionRingProjTheta/TwistRemarkNormalization.lean`); those two
+carry the `@[stacks 01QK]` attribute, and nothing in this file does. The sibling
 `StacksFrontier/AlgebraicGeometry/SectionRingProjQuasicoherent/TwistCompatibility.lean` proves that
 it is *not* a consequence of Tag 01QJ as stated: with Tag 0B5I's family `c` unconstrained, the
 Remark's equation is quadratic in `θ` on the left and linear on the right, so negating `θ`
@@ -78,10 +85,10 @@ the two sides.
 * `Stacks.SectionRingProjTheta.restrictComparison_tensorHom`: the square at
   `Stacks.SectionRingProjQuasicoherent.restrictComparison`, the family that the Tag 01QJ
   declaration `pullbackComparison` is *defined* from. This is the engine.
-* `Stacks.SectionRingProjTheta.pullbackComparison_tensorHom`: **assertion (ii) of Tag 01QK**, at
-  the Tag 01QJ declaration
-  `Stacks.SectionRingProjQuasicoherent.pullbackComparison`. This is the declaration that carries
-  the `@[stacks 01QK]` attribute.
+* `Stacks.SectionRingProjTheta.pullbackComparison_tensorHom`: the square of Tag 01QK's
+  assertion (ii) at the binder form `Stacks.SectionRingProjQuasicoherent.pullbackComparison` of
+  Tag 01QJ, derived from the compatibility hypothesis `hmul`. The tag itself is registered on
+  `twistSquareInt`, for the constructed comparison, with no such hypothesis.
 * `Stacks.SectionRingProjTheta.pullbackComparison_tensorHom_natTensorPow`: the same read at
   `𝓖 = 𝓛^{⊗ n}`, which is the Remark's own instance of the square.
 
@@ -132,13 +139,11 @@ the one `rw` elaborates the class fields with.
 
 ## What is not done here
 
-**Assertion (i) of Tag 01QK is not proved**, and the `@[stacks 01QK]` facet string below says
-so. That assertion is that Tag 01QI's isomorphism `f^*𝒪_Y(n) → 𝓛^{⊗ n}` "is just
-`θ_{𝓛^{⊗ n}}`", and Tag 01QI's *second* claim — the map itself — does not exist in this
-repository: `StacksFrontier/AlgebraicGeometry/SectionRingProjGoodOpen/Basic.lean` carries
-`@[stacks 01QI]` scoped by its clause string to the first claim alone. So assertion (i) has no
-left-hand side to be about, and defining the map *as* `θ_{𝓛^{⊗ n}}` would make the assertion a
-tautology.
+**Assertion (i) of Tag 01QK is not proved in this file.** It is proved, for the constructed
+comparison, as `Stacks.SectionRingProjTheta.projTheta_app_eq_twistThetaInt`: Tag 01QI's maps
+`f^*𝒪_Y(n) → 𝓛^{⊗ n}` are `Stacks.SectionRingProjMorphism.Theta.projTheta` (shown to be
+isomorphisms in every integer degree by `Stacks.SectionRingProjTwistIso.isIso_projTheta_app`),
+and that declaration identifies them with `θ_{𝓛^{⊗ n}}`.
 
 **Equation 01MQ's multiplication map is a binder, not
 `Stacks.AlgebraicGeometry.ProjShifted.moduleTwistMap`.** That declaration is stated for
@@ -162,8 +167,10 @@ constructed.** The ringed-space level has four
 to `AlgebraicGeometry.Scheme.Modules`, and the transport is blocked on the tensor-sheaf
 comparison named above. Supplying it would discharge the one instance binder here.
 
-**Nothing is claimed about `θ` being an isomorphism.** Tag 01QJ's main assertion is not
-proved — only clause (b), the functoriality — and the square proved here does not need it.
+**Nothing is claimed about `θ` being an isomorphism.** Tag 01QJ's assertion that the comparison
+is an isomorphism is `Stacks.SectionRingProjQuasicoherent.pullbackTildeComparison_spec`, at the
+constructed family `Stacks.SectionRingProjQuasicoherent.tildeToPushforward`; the square proved
+here does not need it.
 -/
 
 @[expose] public noncomputable section
@@ -443,10 +450,14 @@ theorem pullbackTwistTop_eq (F G : X.Modules)
           (pullbackTildeCrossIso L hL (F ⊗ G)).inv :=
   rfl
 
-/-- **Assertion (ii) of Stacks Tag 01QK, at the Tag 01QJ comparison.**
+/-- **The square of Stacks Tag 01QK's assertion (ii), at the binder form of Tag 01QJ.**
+
+The tag itself is registered on `Stacks.SectionRingProjTheta.twistSquareInt`, which proves the
+square for the constructed comparison `pullbackTildeComparison` with no hypothesis; this
+declaration is the version for an arbitrary family `c` satisfying `hmul`.
 
 With `θ = Stacks.SectionRingProjQuasicoherent.pullbackComparison L hL c`, the natural
-transformation `f^* M̃ ⟶ 𝓕` that carries `@[stacks 01QJ]`, and with the top arrow
+transformation `f^* M̃ ⟶ 𝓕` transposed from `c`, and with the top arrow
 `Stacks.SectionRingProjTheta.pullbackTwistTop` *built* from Equation 01MQ's multiplication map
 `mult`, Stacks Tag 01QK's square commutes:
 
@@ -463,19 +474,6 @@ The hypothesis `hmul` is the compatibility of Tag 0B5I's family `c` with `mult`,
 necessary; `mulComm_of_tensorHom_eq` shows it is equivalent to the conclusion across the
 adjunction, so nothing weaker would do, and `add_self_eq_zero_of_mulComm_neg` shows it is
 destroyed by the negation of `c` that defeats an unconstrained binder. -/
-@[stacks 01QK "assertion (ii): the Remark's square commutes, at the Tag 01QJ comparison
-`pullbackComparison`, with the top arrow CONSTRUCTED as `pullbackTwistTop` — the tensorator of
-restriction along `f` composed with `f^*` of Equation 01MQ's multiplication map — rather than
-left arbitrary, which is what distinguishes this from the sibling file `TwistCompatibility`'s
-`not_forall_twistSquare`. Three things are granted as named binders: (a) `hmul`, the
-compatibility of Tag 0B5I's family `c` with that multiplication map on `Proj Γ_*(X, L)`, which
-is the characterisation of `c` that `not_forall_twistSquare` proves to be necessary and
-`add_self_eq_zero_of_mulComm_neg` proves is not stable under its perturbation; (b) the
-multiplication map itself as the binder `mult`, Equation 01MQ's `moduleTwistMap` being stated
-for the other of this repository's two tensor-product sheaves; (c) a monoidal structure on
-restriction along `f` as an instance binder, which Mathlib does not provide for
-`Scheme.Modules.restrictFunctor`. Assertion (i), that Tag 01QI's map `f^*𝒪_Y(n) → 𝓛^{⊗n}` is
-`θ_{𝓛^{⊗n}}`, is NOT covered: that map does not exist in this repository"]
 theorem pullbackComparison_tensorHom
     (c : tildeFunctor L ⟶ Scheme.Modules.pushforward (projHomOfIsAmple L hL))
     (F G : X.Modules)

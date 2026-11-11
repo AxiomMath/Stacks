@@ -717,8 +717,11 @@ decomposition.
 ## Main results
 
 * `PrimeSpectrum.isLocallyConstant_localKrullDim_and_equidimensional_fiber_and_finite_range`:
-  the local dimension of `Spec S` is a locally constant function with finitely many values, and
-  each of its level sets is equidimensional of the corresponding dimension.
+  the decomposition of `Spec S`: the local dimension of `Spec S` is a locally constant function
+  with finitely many values, and each of its level sets is equidimensional of the corresponding
+  dimension. Stacks 00OV in full, with the product form, is
+  `PrimeSpectrum.isLocallyConstant_localKrullDim_and_equidimensional_fiber_and_exists_algEquiv_pi`
+  in `StacksFrontier.RingTheory.CohenMacaulay.EquidimensionalProduct`.
 
 ## Implementation notes
 
@@ -737,14 +740,20 @@ from the conclusion: `T_d` is empty unless `d` is a natural number at most `dim 
 nonempty `T_d` has dimension `d` and sits inside `Spec S`. For the same reason the dimension of a
 fiber is asserted only when the fiber is nonempty — `topologicalKrullDim ∅ = ⊥`, not `d`.
 
-*The equivalent product decomposition is not restated.* "`S` is a product of rings `S_d` such
-that every maximal ideal of `S_d` has height `d`" is the image of the clopen decomposition under
-Lemma 00EM, which matches decompositions of `Spec S` into open and closed pieces with
-decompositions of `S` into products; the source itself derives the second form from the first
-that way. Restating it would add an existential over rings and no mathematics. Its condition on
-maximal ideals is also already available: for a maximal ideal `𝔪` the local dimension at `𝔪` is
-`𝔪.height`, because `𝔪` is the only maximal ideal above itself, so by Lemma 00OT the maximal
-ideals lying in `T_d` are exactly those of height `d`.
+*The equivalent product decomposition.* "`S` is a product of rings `S_d`, `d = 0, …, dim S`,
+such that every maximal ideal of `S_d` has height `d`" is the last conjunct of the tagged
+statement in `StacksFrontier.RingTheory.CohenMacaulay.EquidimensionalProduct`:
+an isomorphism of `k`-algebras from `S` onto a product of rings indexed by the natural numbers
+`d ≤ dim S`, every maximal ideal of the factor indexed by `d` having height `d`. As in the source
+it comes from the clopen decomposition through Lemma 00EM: Mathlib's
+`PrimeSpectrum.exists_idempotent_basicOpen_eq_of_isClopen` gives an idempotent `e_d` with
+`T_d = D(e_d)`, disjointness and covering of the `T_d` make the `e_d` a complete family of
+orthogonal idempotents, and Mathlib's `CompleteOrthogonalIdempotents.bijective_pi` identifies `S`
+with `∏_d S ⧸ (1 - e_d)`. The factor `S ⧸ (1 - e_d)` is the localization `S_{e_d}`
+(`IsLocalization.Away.quotient_of_isIdempotentElem`), so its maximal ideals have the heights of
+the maximal ideals of `S` in `T_d` (`IsLocalization.height_under`), and for a maximal ideal `𝔪`
+the local dimension at `𝔪` is `𝔪.height`, because `𝔪` is the only maximal ideal above itself
+(Lemma 00OT). A factor may be the zero ring, when `T_d` is empty, exactly as in the source.
 
 *Cohen-Macaulayness of `S`.* Definition 00NC asks that all local rings of the Noetherian ring `S`
 be Cohen-Macaulay, and Cohen-Macaulayness of a Noetherian local ring is
@@ -791,18 +800,12 @@ namespace PrimeSpectrum
 
 open TopologicalSpace
 
-/-- **Stacks 00OV.** Let `k` be a field and let `S` be a Cohen-Macaulay finite type `k`-algebra.
-Then `Spec S` is the disjoint union of the level sets `T_d` of its local dimension; these are
-open and closed, there are finitely many nonempty ones, and `T_d` is equidimensional of
-dimension `d`. -/
-@[stacks 00OV "The source's family `T_d` is pinned as the fibers of
-`TopologicalSpace.localKrullDim` (Topology Definition 0055 (4)), so that disjointness and
-covering are definitional, `T_d` open and closed is `IsLocallyConstant.isClopen_fiber`, and
-finiteness of the union is finiteness of the range; the index runs over `WithBot ℕ∞`.
-Cohen-Macaulayness of the Noetherian ring `S` (Definition 00NC) is spelled out over its
-localizations at primes, as in tags 00ND and 00R9. The equivalent decomposition of `S` as a
-product of rings is the image of this one under Lemma 00EM and is not restated. See the module
-docstring."]
+/-- **The decomposition half of Stacks 00OV.** Let `k` be a field and let `S` be a
+Cohen-Macaulay finite type `k`-algebra. Then `Spec S` is the disjoint union of the level sets
+`T_d` of its local dimension; these are open and closed, there are finitely many nonempty ones,
+and `T_d` is equidimensional of dimension `d`. The equivalent product form of the lemma is added
+in `isLocallyConstant_localKrullDim_and_equidimensional_fiber_and_exists_algEquiv_pi`
+(`StacksFrontier.RingTheory.CohenMacaulay.EquidimensionalProduct`), which carries the tag. -/
 public theorem
     isLocallyConstant_localKrullDim_and_equidimensional_fiber_and_finite_range
     {k S : Type*} [Field k] [CommRing S] [Algebra k S] [Algebra.FiniteType k S]

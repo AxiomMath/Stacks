@@ -29,7 +29,9 @@ import StacksCore.Tactic.StacksAttribute
 
 Let `(A, 𝔪, κ)` be a two-dimensional Noetherian local domain, let `X` be the blowup of `Spec(A)`
 in `𝔪` and let `E ⊆ X` be the exceptional divisor. Then `E` is a proper curve over `κ`, and it is
-Cohen–Macaulay as soon as `X` is normal. This is clause (1) of [Stacks, Tag 0B63].
+Cohen–Macaulay as soon as `X` is normal. In Situation [Stacks, Tag 0B4W] the blowup is normal
+([Stacks, Tag 0B4Z]), and clause (1) of [Stacks, Tag 0B63] is assembled from these results in
+`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/RationalSingularities/ExceptionalCurveCohenMacaulay.lean`.
 
 ## Main definitions
 
@@ -68,14 +70,14 @@ a point of `E` lying over the closed point has codimension two in `X`, whereas t
 of its irreducible component in `E` has codimension one by [Stacks, Tag 0BCN]; the two are
 therefore distinct and give a chain of length one.
 
-**One hypothesis is carried: `hnormal`.** It is the conclusion of [Stacks, Tag 0B4Z] — the blowup
-of a rational surface singularity in its maximal ideal is normal — which this development does
-not have. `StacksFrontier/AlgebraicGeometry/Surfaces/BlowUpNormality.lean` reduces it to integral
-closedness of each affine blowup algebra `A[𝔪/a]` but does not discharge that, and the source's
-proof of Tag 0B4Z runs through [Stacks, Tag 0B4Y], which is absent as well. Normality is the only
-input to Cohen–Macaulayness beyond the dimension: Serre's criterion [Stacks, Tag 0B3S] gives
-`(S₁)` for an effective Cartier divisor on a normal scheme, and in dimension at most one `(S₁)`
-is Cohen–Macaulayness.
+`AlgebraicGeometry.isCohenMacaulay_exceptionalDivisor_residuePoint` takes the normality of the
+blowup as the hypothesis `hnormal`, because it is stated for any two-dimensional Noetherian local
+domain. In Situation [Stacks, Tag 0B4W] that normality is [Stacks, Tag 0B4Z],
+`AlgebraicGeometry.isNormal_blowUp_maximalIdeal_rationalSingularitySituation` in
+`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/RationalSingularities/BlowUpNormal.lean`.
+Normality is the only input to Cohen–Macaulayness beyond the dimension: Serre's criterion
+[Stacks, Tag 0B3S] gives `(S₁)` for an effective Cartier divisor on a normal scheme, and in
+dimension at most one `(S₁)` is Cohen–Macaulayness.
 
 ## References
 
@@ -517,11 +519,14 @@ private theorem sheafHasPropertySk_one_of_hasPropertySk_one (X : Scheme.{u})
   exact hx
 
 open Stacks.Blowup in
-/-- **[Stacks, Tag 0B63] clause (1), Cohen–Macaulayness.** The exceptional divisor of the blowup
-of the spectrum of a two-dimensional Noetherian local domain in its maximal ideal is
-Cohen–Macaulay, provided the blowup is normal. -/
-@[stacks 0B63 "clause (1): the exceptional curve is Cohen–Macaulay; its normality input, \
-Tag 0B4Z, is the hypothesis hnormal"]
+/-- The exceptional divisor of the blowup of the spectrum of a two-dimensional Noetherian local
+domain in its maximal ideal is Cohen–Macaulay whenever the blowup is normal.
+
+In Situation [Stacks, Tag 0B4W] the blowup is normal by [Stacks, Tag 0B4Z]
+(`AlgebraicGeometry.isNormal_blowUp_maximalIdeal_rationalSingularitySituation`), and clause (1)
+of [Stacks, Tag 0B63] in full is
+`AlgebraicGeometry.isProper_and_topologicalKrullDim_eq_one_and_isCohenMacaulay_exceptionalDivisor`.
+-/
 theorem isCohenMacaulay_exceptionalDivisor_residuePoint (A : Type u) [CommRing A]
     [IsLocalRing A] [IsDomain A] [IsNoetherianRing A] (hdim : ringKrullDim A = 2)
     (hnormal : IsNormal (blowUp (residuePoint A).ker)) :

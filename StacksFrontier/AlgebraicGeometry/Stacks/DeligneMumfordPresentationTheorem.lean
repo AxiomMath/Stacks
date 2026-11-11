@@ -25,28 +25,25 @@ and étale. So **Stacks 06N3** is the single equivalence
 `AlgebraicGeometry.Stack.AlgebraicStacks.IsAbsolutelyDM ↔
 AlgebraicGeometry.Stack.IsDeligneMumfordStack`.
 
-## What is proved and what is carried
+## The implications
 
-Both theorems are stated here in full, and **both implications of each are carried as explicit
-named hypotheses**. These are genuine structure theorems — the hard direction builds étale,
-resp. flat locally quasi-finite, charts near every finite type point and takes their disjoint
-union, through a chain of two dozen cited lemmas of which **Stacks 06MD, 06ME, 06G2, 06G3,
-06N0, 06N2** are carried nowhere in this library.
+This file names the implications of both theorems as propositions. Those of **Stacks 06N3** are
+proved downstream: (2) ⟹ (1) as
+`AlgebraicGeometry.Stack.isAbsolutelyDMOfExistsEtalePresentation` and
+`AlgebraicGeometry.Stack.isAbsolutelyDM_of_isDeligneMumfordStack`, off **Stacks 06MB**, part (1),
+and (1) ⟹ (2) as `AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM`, by the
+étale chart construction near every finite type point; the equivalence itself is
+`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional` in
+`StacksFrontier.AlgebraicGeometry.Stacks.AbsolutelyDMEtaleChartAssembly`. That construction uses
+this file, so the equivalence is proved there and not here. Those of **Stacks 06MF** are proved in
+`StacksFrontier.AlgebraicGeometry.Stacks.DeligneMumfordPresentationUnconditional`, where the
+equivalence is
+`AlgebraicGeometry.Stack.isAbsolutelyQuasiDM_iff_hasQuasiDMPresentation_unconditional`.
 
-The easy direction is **Stacks 06MB**, which *is* carried, as
-`AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_of_isUnramified_flatCover` and
-`AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyQuasiDM_of_isLocallyQuasiFinite_flatCover`.
-It is nevertheless not applied here, and the reason is a shape mismatch rather than missing
-mathematics: those two take flatness and local finite presentation as the *stack-level*
-properties `AlgebraicGeometry.Stack.AlgebraicStacks.IsFlat` (**Stacks 06PW**) and
-`...IsLocallyOfFinitePresentation` (**Stacks 06Q2**, part (1)), which are tests over smooth
-diagrams, whereas **Stacks 03YO** records surjectivity and étaleness of its chart in the
-longhand relative form of Properties of Stacks, Section 04XB. The bridge between the two
-formulations — that an étale chart is flat and locally of finite presentation in the
-smooth-diagram sense — is not in the library. Condition (2) of **Stacks 06MF** is therefore
-spelled here with the stack-level properties, which is the form **Stacks 06MB**, part (2),
-consumes, and the hypothesis `hBackward` of each theorem is exactly that missing bridge composed
-with **Stacks 06MB**.
+Condition (2) of **Stacks 06MF** is spelled here with the stack-level properties
+`AlgebraicGeometry.Stack.AlgebraicStacks.IsFlat` (**Stacks 06PW**) and
+`...IsLocallyOfFinitePresentation` (**Stacks 06Q2**, part (1)), which is the form
+**Stacks 06MB**, part (2), consumes.
 
 ## Main definitions
 
@@ -54,13 +51,13 @@ with **Stacks 06MB**.
 * `AlgebraicGeometry.Stack.ExistsEtalePresentationOfIsAbsolutelyDM`,
   `AlgebraicGeometry.Stack.IsAbsolutelyDMOfExistsEtalePresentation`,
   `AlgebraicGeometry.Stack.ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM`,
-  `AlgebraicGeometry.Stack.IsAbsolutelyQuasiDMOfHasQuasiDMPresentation`: the four carried
-  implications.
+  `AlgebraicGeometry.Stack.IsAbsolutelyQuasiDMOfHasQuasiDMPresentation`: the four
+  implications, as propositions.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack`: **Stacks 06N3**.
-* `AlgebraicGeometry.Stack.isAbsolutelyQuasiDM_iff_hasQuasiDMPresentation`: **Stacks 06MF**.
+* `AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack`: **Stacks 06N3**, from its
+  two implications.
 
 ## Implementation notes
 
@@ -114,66 +111,33 @@ abbrev HasQuasiDMPresentation (𝒳 : AlgebraicStacks.{u, w} B S hS) : Prop :=
 
 variable (hZ : B.Contains (⊤_ Scheme.{u}))
 
-/-- **The substantial direction of Stacks 06N3, carried.** That a DM algebraic stack is
+/-- **The implication (1) ⟹ (2) of Stacks 06N3, as a statement.** That a DM algebraic stack is
 Deligne–Mumford, i.e. admits a surjective étale presentation by a scheme.
 
 The source's proof builds an étale chart near each finite type point and takes the disjoint
-union, through **Stacks 06MD**, **06N0**, **06N2**, **06G2** and **06G3**, none of which is in
-this library. -/
+union, through **Stacks 06MD**, **06N0**, **06N2**, **06G2** and **06G3**. It is proved as
+`AlgebraicGeometry.Stack.existsEtalePresentationOfIsAbsolutelyDM`. -/
 abbrev ExistsEtalePresentationOfIsAbsolutelyDM : Prop :=
   ∀ 𝒳 : AlgebraicStacks.{u, w} B S hS, AlgebraicStacks.IsAbsolutelyDM B S hS hZ 𝒳 →
     IsDeligneMumfordStack.{u, w} B S hS 𝒳.val.val
 
-/-- **The easy direction of Stacks 06N3, carried.** That a Deligne–Mumford algebraic stack is
-DM.
+/-- **The implication (2) ⟹ (1) of Stacks 06N3, as a statement.** That a Deligne–Mumford
+algebraic stack is DM.
 
-The mathematics is **Stacks 06MB**, part (1), which the library has as
-`AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_of_isUnramified_flatCover`. What is
-missing, and what this hypothesis therefore stands for, is the bridge between the two ways the
-library records a chart: **Stacks 03YO** gives surjectivity and étaleness in the longhand
-relative form of Section 04XB, while **Stacks 06MB** asks for flatness and local finite
-presentation as the smooth-diagram properties of **Stacks 06PW** and **06Q2**, part (1). -/
+The mathematics is **Stacks 06MB**, part (1),
+`AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyDM_of_isUnramified_flatCover`, together with
+the bridge from the relative form of Section 04XB in which **Stacks 03YO** records its chart to
+the smooth-diagram flatness and local finite presentation of **Stacks 06PW** and **06Q2**,
+part (1), that **Stacks 06MB** asks for. It is proved as
+`AlgebraicGeometry.Stack.isAbsolutelyDMOfExistsEtalePresentation`. -/
 abbrev IsAbsolutelyDMOfExistsEtalePresentation : Prop :=
   ∀ 𝒳 : AlgebraicStacks.{u, w} B S hS, IsDeligneMumfordStack.{u, w} B S hS 𝒳.val.val →
     AlgebraicStacks.IsAbsolutelyDM B S hS hZ 𝒳
 
-/-- **The substantial direction of Stacks 06MF, carried.** That a quasi-DM algebraic stack
-admits a surjective, flat, locally finitely presented, locally quasi-finite presentation by a
-scheme.
-
-The source cuts out such a chart by a regular sequence in a smooth affine chart, using
-**Stacks 06MD**, **06ME**, **06FX**, **06G2** and **06G3**; the first two and the last two are
-not in this library. -/
-abbrev ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM : Prop :=
-  ∀ 𝒳 : AlgebraicStacks.{u, w} B S hS, AlgebraicStacks.IsAbsolutelyQuasiDM B S hS hZ 𝒳 →
-    HasQuasiDMPresentation.{u, w} B S hS 𝒳
-
-/-- **The easy direction of Stacks 06MF, carried.** That an algebraic stack with a surjective,
-flat, locally finitely presented, locally quasi-finite presentation by a scheme is quasi-DM.
-
-This is **Stacks 06MB**, part (2), which the library has as
-`AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyQuasiDM_of_isLocallyQuasiFinite_flatCover`;
-what this hypothesis stands for is the one step still missing, repackaging the Section 04XB
-local quasi-finiteness of the chart as the `AlgebraicGeometry.Stack.HasRelativeProperty` form
-that lemma takes. -/
-abbrev IsAbsolutelyQuasiDMOfHasQuasiDMPresentation : Prop :=
-  ∀ 𝒳 : AlgebraicStacks.{u, w} B S hS, HasQuasiDMPresentation.{u, w} B S hS 𝒳 →
-    AlgebraicStacks.IsAbsolutelyQuasiDM B S hS hZ 𝒳
-
-/-- **Stacks 06N3.** An algebraic stack is DM exactly when it is Deligne–Mumford — equivalently,
-by **Stacks 03YO**, exactly when there is a scheme of the site with a representable, surjective,
-étale 1-morphism to it.
-
-Both implications are carried; see
-`AlgebraicGeometry.Stack.ExistsEtalePresentationOfIsAbsolutelyDM` and
-`AlgebraicGeometry.Stack.IsAbsolutelyDMOfExistsEtalePresentation` for what each one stands for
-and why. -/
-@[stacks 06N3 "the equivalence of (1) DM with (2) Deligne-Mumford and (3) the existence of a
-  surjective etale presentation by a scheme; (2) and (3) are the same condition here, since
-  Stacks 03YO defines Deligne-Mumford that way. Both implications are carried, as the
-  hypotheses `hForward` (the structure theorem: Stacks 06MD, 06N0, 06N2, 06G2, 06G3 are absent)
-  and `hBackward` (Stacks 06MB part (1) is present but the bridge from the Section 04XB form of
-  an etale chart to the smooth-diagram flatness of Stacks 06PW is absent)"]
+/-- **Stacks 06N3, from its two implications.** An algebraic stack is DM exactly when it is
+Deligne–Mumford, given the two implications as arguments. Both are proved downstream, and the
+equivalence with no argument is
+`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional`. -/
 theorem isAbsolutelyDM_iff_isDeligneMumfordStack
     (hForward : ExistsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS hZ)
     (hBackward : IsAbsolutelyDMOfExistsEtalePresentation.{u, w} B S hS hZ)
@@ -182,25 +146,27 @@ theorem isAbsolutelyDM_iff_isDeligneMumfordStack
       IsDeligneMumfordStack.{u, w} B S hS 𝒳.val.val :=
   ⟨hForward 𝒳, hBackward 𝒳⟩
 
-/-- **Stacks 06MF.** An algebraic stack is quasi-DM exactly when there is a scheme of the site
-with a surjective, flat, locally finitely presented, locally quasi-finite 1-morphism to it.
+/-- **The implication (1) ⟹ (2) of Stacks 06MF, as a statement.** That a quasi-DM algebraic
+stack admits a surjective, flat, locally finitely presented, locally quasi-finite presentation by
+a scheme.
 
-Both implications are carried; see
-`AlgebraicGeometry.Stack.ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM` and
-`AlgebraicGeometry.Stack.IsAbsolutelyQuasiDMOfHasQuasiDMPresentation`. -/
-@[stacks 06MF "the equivalence of (1) quasi-DM with (2) the existence of a surjective, flat,
-  locally finitely presented, locally quasi-finite presentation by a scheme. Both implications
-  are carried, as the hypotheses `hForward` (the structure theorem: Stacks 06MD, 06ME, 06G2,
-  06G3 are absent) and `hBackward` (Stacks 06MB part (2) is present but the repackaging of the
-  Section 04XB local quasi-finiteness of the chart into its HasRelativeProperty form is
-  absent)"]
-theorem isAbsolutelyQuasiDM_iff_hasQuasiDMPresentation
-    (hForward : ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM.{u, w} B S hS hZ)
-    (hBackward : IsAbsolutelyQuasiDMOfHasQuasiDMPresentation.{u, w} B S hS hZ)
-    (𝒳 : AlgebraicStacks.{u, w} B S hS) :
-    AlgebraicStacks.IsAbsolutelyQuasiDM B S hS hZ 𝒳 ↔
-      HasQuasiDMPresentation.{u, w} B S hS 𝒳 :=
-  ⟨hForward 𝒳, hBackward 𝒳⟩
+The source cuts out such a chart by a regular sequence in a smooth affine chart, using
+**Stacks 06MD**, **06ME**, **06FX**, **06G2** and **06G3**. It is proved, pointwise in the
+stack, as `AlgebraicGeometry.Stack.hasQuasiDMPresentation_of_isAbsolutelyQuasiDM`. -/
+abbrev ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM : Prop :=
+  ∀ 𝒳 : AlgebraicStacks.{u, w} B S hS, AlgebraicStacks.IsAbsolutelyQuasiDM B S hS hZ 𝒳 →
+    HasQuasiDMPresentation.{u, w} B S hS 𝒳
+
+/-- **The implication (2) ⟹ (1) of Stacks 06MF, as a statement.** That an algebraic stack with a
+surjective, flat, locally finitely presented, locally quasi-finite presentation by a scheme is
+quasi-DM.
+
+This is **Stacks 06MB**, part (2),
+`AlgebraicGeometry.Stack.AlgebraicStacks.isAbsolutelyQuasiDM_of_isLocallyQuasiFinite_flatCover`,
+and it is proved as `AlgebraicGeometry.Stack.isAbsolutelyQuasiDMOfHasQuasiDMPresentation`. -/
+abbrev IsAbsolutelyQuasiDMOfHasQuasiDMPresentation : Prop :=
+  ∀ 𝒳 : AlgebraicStacks.{u, w} B S hS, HasQuasiDMPresentation.{u, w} B S hS 𝒳 →
+    AlgebraicStacks.IsAbsolutelyQuasiDM B S hS hZ 𝒳
 
 end AlgebraicGeometry.Stack
 

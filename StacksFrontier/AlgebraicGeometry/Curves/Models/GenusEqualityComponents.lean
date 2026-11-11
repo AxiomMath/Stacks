@@ -22,8 +22,8 @@ general.
 ## Main results
 
 * `Stacks.Models.RegularProperModelSituation.smooth_and_not_forall_isSeparable_of_genus_equality`
-  — the corrected form of [Stacks, Tag 0CEE] together with the refutation of its separability
-  clause.
+  — **[Stacks, Tag 0CEE]**: the corrected form together with the refutation of its separability
+  clause as printed. This declaration carries the tag.
 
 ## References
 
@@ -64,7 +64,11 @@ Where the source's argument breaks: equality in `[κ_i : k] g_i ≥ [κ_i : k]_s
 gives `[κ_i : k] = [κ_i : k]_s` only when `g_i > 0`; for `g_i = 0`, as for `E`, it says nothing
 about `κ_i/k`. Every other assertion of the tag survives, with the proof recorded at
 `smooth_of_topologicalGenus_add_geometricGenus_eq_finrank_reduction`, which is the statement
-registered as [Stacks, Tag 0CEE]. -/
+proved first and then paired here with the refutation. -/
+@[stacks 0CEE "Corrected form, with a counterexample to the statement as printed: (1) in full; \
+(2) with kappa/k separable whenever H^1(C, O_C) is nonzero; the last conjunct shows that \
+separability fails in general (a model over F_2(t)[[pi]] with a component P^1_kappa, \
+kappa = k(sqrt t))."]
 theorem smooth_and_not_forall_isSeparable_of_genus_equality
     (x : S.specialFiber) (hx : IsRationalPoint S.specialFiberToSpec x)
     (hsm : InfinitesimalLifting.SmoothAt S.specialFiberToSpec x)

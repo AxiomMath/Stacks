@@ -125,6 +125,7 @@ def fiberProperPushforward (s : S) (r : ℕ) :
 /-- **The pushforward `f_*α` of a family of cycles on fibres.** The member over `s` is the proper
 pushforward of the member of `α` over `s` along the morphism `f_s : X_s ⟶ Y_s` induced on the
 fibres. -/
+@[stacks 0H4N "proper pushforward of a family of cycles on fibres"]
 def properPushforwardFamily (r : ℕ) (α : FamilyOfCycles sX r) : FamilyOfCycles sY r :=
   fun s ↦ fiberProperPushforward sX sY f hf s r (α s)
 

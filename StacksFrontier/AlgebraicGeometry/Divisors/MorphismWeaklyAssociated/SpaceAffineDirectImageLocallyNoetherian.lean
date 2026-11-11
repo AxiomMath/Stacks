@@ -55,7 +55,7 @@ local instance (priority := high) hasPullback_presheaf_SpaceAffineDirectImageLoc
 /-- Let `f : X ⟶ Y` be an affine morphism of algebraic spaces over `S` and let `F` be a
 quasi-coherent `𝒪_X`-module. If `X` is locally Noetherian, then the weakly associated points of
 `f_*F` are exactly the images of the weakly associated points of `F`. -/
-@[stacks 0CU8]
+@[stacks 0CU8 "WeakAss(f_*F) = f(WeakAss F) for f affine, X locally Noetherian, F quasi-coherent"]
 theorem weaklyAssociatedPoints_modulePushforward_eq_image_of_isAffineHom_locallyNoetherian
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (hf : IsAffineHom B S hS f.hom)
     (hX : HasEtaleLocalProperty B S hS X.1

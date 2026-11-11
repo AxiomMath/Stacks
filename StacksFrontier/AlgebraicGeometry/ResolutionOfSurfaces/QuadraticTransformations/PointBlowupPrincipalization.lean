@@ -55,7 +55,18 @@ sheaf of ideals such that `𝒪_X / 𝓘` is supported on `T`. Then there is a s
 `Xₙ → Xₙ₋₁ → ⋯ → X₁ → X₀ = X` in which each `Xᵢ₊₁ → Xᵢ` is the blowing up of `Xᵢ` at a closed
 point lying over a point of `T`, such that `𝓘𝒪_{Xₙ}` is an invertible ideal sheaf.
 
-The source assumes `X` Noetherian; the statement holds without it. -/
+The source assumes `X` Noetherian; the statement holds without it, since the finiteness the
+argument uses is that of the local rings at the points of `T`, which regularity provides.
+
+The proof is the source's induction on the total colength `Σ length(𝒪_{X,x} / 𝓘_x)`
+(`Stacks.ResolutionOfSurfaces.totalColength`), run by
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_isEffectiveCartierDivisor`. Its inductive
+step is `Stacks.ResolutionOfSurfaces.pointBlowupDescent`: blowing up a point of the support writes
+the pulled-back ideal as `𝒪(-dE) · 𝓘'` with `𝓘'` of strictly smaller total colength, by
+[Stacks, Tag 0AGT] and flat base change ([Stacks, Tag 0805]). The resulting ideal is invertible
+as a product of the pulled-back exceptional divisor
+(`PointBlowupChain.isEffectiveCartierDivisor_comap`, [Stacks, Tag 0809]) and an invertible ideal
+([Stacks, Tag 01WU]). -/
 @[stacks 0AHH "a quasi-coherent ideal sheaf whose quotient is supported on a finite set of \
 closed points with regular two-dimensional local rings becomes invertible after a finite \
 sequence of blowups at closed points lying over that set; stated for an arbitrary scheme"]

@@ -43,9 +43,13 @@ compatibility is
 `StacksFrontier/Topology/Sheaves/Cohomology/DerivedPushforward/
 RelativeCupProductCommutativity.lean`.
 
-**What is left.**  Exactly the two propositions the source cites, Tag 08EU and Tag 08IB.  The
-final statements below rest on those two and on nothing else beyond the tag's own hypotheses,
-and no declaration in this module carries the tag `0FLQ`.
+**What is left.**  Exactly the two propositions the source cites, Tag 08EU and Tag 08IB, which
+the final statements below take as the arguments `h08EU` and `h08IB`; no declaration in this
+module carries the tag `0FLQ`.  Both are proved elsewhere in the library, by
+`AlgebraicGeometry.projectionFormulaIsIsoOnQuasicoherent` and
+`AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent`, and the tag's two conclusions with
+nothing carried are `Stacks.Cohomology.DerivedKunneth.isIso_kunnethMapScheme` and
+`Stacks.Cohomology.DerivedKunneth.isIso_kunnethGlobalMapScheme`.
 
 ## Main results
 

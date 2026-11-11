@@ -38,12 +38,16 @@ applied to the factorization through the essential image; it is therefore an alg
 below for each of its three clauses. The cover of the first step is condition (3) of
 **Stacks 06MN**, which the library proves from condition (1) in
 `AlgebraicGeometry.Stack.tfae_isReducedWithUniquePoint`. The steps from the cover to the quotient
-stack are *not* proved: they are carried as the universally quantified hypothesis described next.
+stack are packaged as the universally quantified proposition described next, which the theorems
+here take as a hypothesis; it is proved as
+`AlgebraicGeometry.Stack.hasFullyFaithfulFinitePresentationPresentations` in
+`StacksFrontier.AlgebraicGeometry.Stacks.ReducedUniquePointSubstackLocalImage`, where the
+unconditional statements are assembled.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Stack.HasFullyFaithfulFinitePresentationPresentations`: the source's steps
-  from the cover to the quotient stack, carried as a hypothesis — an algebraic stack receiving a
+  from the cover to the quotient stack, as a proposition — an algebraic stack receiving a
   surjective flat 1-morphism, locally of finite type, from the algebraic stack of the spectrum of a
   field receives a *fully faithful* 1-morphism from an algebraic stack satisfying condition (2) of
   **Stacks 06MP**.
@@ -60,28 +64,18 @@ stack are *not* proved: they are carried as the universally quantified hypothesi
   a fully faithful 1-morphism of algebraic stacks through the full subcategory cut out by its
   essential image has underlying functor an equivalence of categories.
 * `AlgebraicGeometry.Stack.exists_isReducedLocallyNoetherianUniquePointSubstack`: the existence
-  assertion of **Stacks 06MR**.
+  assertion of **Stacks 06MR**, from `HasFullyFaithfulFinitePresentationPresentations`.
 * `AlgebraicGeometry.Stack.existsUnique_isReducedLocallyNoetherianUniquePointSubstack`: existence
-  and uniqueness together, the first assertion of **Stacks 06MR**.
+  and uniqueness together, from the same proposition.
 
 ## Implementation notes
 
-The carried hypothesis is quantified over *every* algebraic stack over `S`, every field
-spectrum and every 1-morphism, so it does not restrict which objects the tagged statements cover;
-what
-they restrict is nothing, and the objects quantified over in the conclusions are exactly the
-objects Stacks 06MR speaks about. `HasFullyFaithfulFinitePresentationPresentations` is the
-conjunction of **Stacks 04T4 (1)**, **(4)**, **(5)** and **(6)** with **Stacks 06FI**. That
-conjunction is not available in this library even in principle:
-`AlgebraicGeometry.Stack.isAlgebraicStack_quotientStack` — the library's Stacks 06FI — itself
-carries Artin's representability theorem **Stacks 06DC** as the hypothesis
-`AlgebraicGeometry.Stack.Theorem06DC`, together with `AlgebraicGeometry.Stack.Lemma06FH` and
-`AlgebraicGeometry.Stack.Lemma04TB`, none of which anything in the library discharges; and the
-flatness and local finite presentation of the two projections of the self-intersection, which
-`AlgebraicGeometry.Stack.SelfIntersection.isFlat_selfIntersectionPresentation_source` and its three
-companions reduce to the corresponding relative property of the cover, rest for a cover of finite
-type on Morphisms of Spaces, Lemma 67.28.7, which the library has only as the two private
-theorems `isFlat_to_fieldSpace` and `isFlat_target_of_objects_eq_spec_field`.
+The proposition `HasFullyFaithfulFinitePresentationPresentations` is quantified over *every*
+algebraic stack over `S`, every field spectrum and every 1-morphism; it is the conjunction of
+**Stacks 04T4 (1)**, **(4)**, **(5)** and **(6)** with **Stacks 06FI**, and is proved, from
+`AlgebraicGeometry.Stack.hasFullyFaithfulFiniteTypeFieldPointPresentations`, as
+`AlgebraicGeometry.Stack.hasFullyFaithfulFinitePresentationPresentations` in
+`StacksFrontier.AlgebraicGeometry.Stacks.ReducedUniquePointSubstackLocalImage`.
 
 Condition (2) of Stacks 06MP is a conjunction of three clauses about a 1-morphism out of the
 algebraic stack of a field spectrum, and each travels along the equivalence by a different route.
@@ -144,20 +138,18 @@ universe u w
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-! ### The carried ingredient -/
+/-! ### The presentation ingredient -/
 
-/-- **Stacks 04T4 (1), (4), (5) and (6) together with Stacks 06FI, as a hypothesis.** An algebraic
+/-- **Stacks 04T4 (1), (4), (5) and (6) together with Stacks 06FI, as a proposition.** An algebraic
 stack over `S` receiving a 1-morphism from the algebraic stack of the spectrum of a field which is
 locally of finite type, surjective and flat receives a fully faithful 1-morphism from an algebraic
 stack satisfying condition (2) of **Stacks 06MP**.
 
 In the source this is the quotient stack `[U/R]` of the self-intersection groupoid of the cover,
 algebraic by Stacks 06FI, covered by `U` by Stacks 06FH, and mapping fully faithfully to the target
-by Stacks 04T4 (6). The library's Stacks 06FI, `AlgebraicGeometry.Stack`
-`.isAlgebraicStack_quotientStack`, itself carries Artin's representability theorem Stacks 06DC as
-an open hypothesis, so this composite is not available; see the implementation notes. It is a
-statement about every algebraic stack over `S`, every field spectrum and every such 1-morphism, so
-granting it restricts nothing. -/
+by Stacks 04T4 (6). It is proved as
+`AlgebraicGeometry.Stack.hasFullyFaithfulFinitePresentationPresentations` in
+`StacksFrontier.AlgebraicGeometry.Stacks.ReducedUniquePointSubstackLocalImage`. -/
 abbrev HasFullyFaithfulFinitePresentationPresentations : Prop :=
   ∀ (𝒳 : AlgebraicStacks.{u, w} B S hS) (F : FieldSpectrum B S hS)
     (f : schemeStack.{u, w} B S hS F.base ⟶ 𝒳),
@@ -254,7 +246,7 @@ theorem hasLocallyOfFinitePresentationFlatFieldSpectrumCover_of_isEquivalenceFun
       (Space.isSmoothLocalOnSourceAndTarget_locallyOfFinitePresentation B S hS)
       (schemeStack.{u, w} B S hS F.base).property 𝒲.property (g ≫ e).hom).2
       (key _ hlfpRel)
-  · change Function.Surjective (AlgebraicStacks.pointsMap B S hS (g ≫ e))
+  · show Function.Surjective (AlgebraicStacks.pointsMap B S hS (g ≫ e))
     rw [AlgebraicStacks.pointsMap_comp B S hS g e]
     exact Function.Surjective.comp (isSurjective_of_isEquivalenceFunctor B S hS e he) hsurj
   · exact (AlgebraicStacks.isFlat_iff_hasPropertyOnSomeSmoothDiagram B S hS (g ≫ e)).2
@@ -273,7 +265,7 @@ theorem isEquivalence_toEssImageBased_of_full_of_faithful
     (hfull : (CatFiberedInGroupoids.homFunctor i.hom).Full)
     (hfaithful : (CatFiberedInGroupoids.homFunctor i.hom).Faithful) :
     Functor.IsEquivalence (AlgebraicStacks.toEssImageBased i).toFunctor := by
-  change Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor i.hom).toEssImage
+  show Functor.IsEquivalence (CatFiberedInGroupoids.homFunctor i.hom).toEssImage
   have _hfull : (CatFiberedInGroupoids.homFunctor i.hom).Full := hfull
   have _hfaithful : (CatFiberedInGroupoids.homFunctor i.hom).Faithful := hfaithful
   have : (CatFiberedInGroupoids.homFunctor i.hom).toEssImage.Full :=
@@ -286,29 +278,21 @@ theorem isEquivalence_toEssImageBased_of_full_of_faithful
 
 /-! ### Existence -/
 
-/-- **Stacks 06MR, the existence assertion.** Let `𝒵` be an algebraic stack over `S` which is
-reduced with a singleton space of points, that is, which satisfies condition (1) of
+/-- **Stacks 06MR, the existence assertion, from the presentation proposition.** Let
+`HasFullyFaithfulFinitePresentationPresentations` hold and let `𝒵` be an algebraic stack over `S`
+which is reduced with a singleton space of points, that is, which satisfies condition (1) of
 **Stacks 06MN**. Then some strictly full subcategory of `𝒵` is an algebraic stack satisfying
 condition (2) of **Stacks 06MP**.
 
-The subcategory is the essential image of the fully faithful 1-morphism supplied by the carried
-`AlgebraicGeometry.Stack.HasFullyFaithfulFinitePresentationPresentations` out of the surjective flat
-cover,
-locally of finite type, by the spectrum of a field that condition (3) of **Stacks 06MN** supplies
+The subcategory is the essential image of the fully faithful 1-morphism supplied by
+`AlgebraicGeometry.Stack.HasFullyFaithfulFinitePresentationPresentations` out of the surjective
+flat cover, locally of finite type, by the spectrum of a field that condition (3) of
+**Stacks 06MN** supplies
 (`AlgebraicGeometry.Stack.tfae_isReducedWithUniquePoint`). It is closed under
 isomorphism; the source factors through it by an equivalence of categories, hence by an equivalence
 over the big fppf site by **Stacks 003Z**; so it is an algebraic stack by **Stacks 03YQ** and
 inherits condition (2) of Stacks 06MP by `AlgebraicGeometry.Stack`
 `.hasLocallyOfFinitePresentationFlatFieldSpectrumCover_of_isEquivalenceFunctor`. -/
-@[stacks 06MR "the existence of the substack, with the equivalent conditions of Stacks 06MP \
-read as its condition (2), granting the implication (1) ⟹ (3) of Stacks 06MN, which is the \
-hypothesis h06MN, and granting Stacks 04T4 (1), (4), (5) and (6) together with Stacks 06FI, \
-which is the hypothesis hpres; both are quantified over every algebraic stack over S and so \
-restrict no object, and the library discharges neither, its own Stacks 06FI carrying Artin's \
-representability theorem, Stacks 06DC, as an open hypothesis; what is proved is the \
-replacement of the quotient \
-stack by its essential image in Z, with the invariance of condition (2) of Stacks 06MP under \
-an equivalence over the site"]
 theorem exists_isReducedLocallyNoetherianUniquePointSubstack
     (hpres : HasFullyFaithfulFinitePresentationPresentations.{u, w} B S hS)
     (𝒵 : AlgebraicStacks.{u, w} B S hS) (h𝒵 : IsReducedWithUniquePoint B S hS 𝒵) :
@@ -331,18 +315,13 @@ theorem exists_isReducedLocallyNoetherianUniquePointSubstack
     (Bicategory.InducedBicategory.mkHom
       (Bicategory.InducedBicategory.mkHom (AlgebraicStacks.toEssImageBased i))) hequiv hcov
 
-/-- **Stacks 06MR, the first assertion.** Let `𝒵` be an algebraic stack over `S` which is reduced
-with a singleton space of points. Then exactly one strictly full subcategory of `𝒵` is an algebraic
-stack satisfying condition (2) of **Stacks 06MP**.
+/-- **Stacks 06MR, the first assertion, from the presentation proposition.** Let
+`HasFullyFaithfulFinitePresentationPresentations` hold and let `𝒵` be an algebraic stack over `S`
+which is reduced with a singleton space of points. Then exactly one strictly full subcategory of
+`𝒵` is an algebraic stack satisfying condition (2) of **Stacks 06MP**.
 
 Existence is `AlgebraicGeometry.Stack.exists_isReducedLocallyNoetherianUniquePointSubstack` and
 uniqueness is `AlgebraicGeometry.Stack.eq_of_isReducedLocallyNoetherianUniquePointSubstack`. -/
-@[stacks 06MR "existence and uniqueness of the substack assembled, with the equivalent \
-conditions of Stacks 06MP read as its condition (2), granting the implication (1) ⟹ (3) of \
-Stacks 06MN (h06MN), Stacks 04T4 (1), (4), (5) and (6) together with Stacks 06FI (hpres), and \
-the implication (2) ⟹ (3) of Stacks 04Y5 for the inclusion of a strictly full algebraic \
-subcategory (hrep); all three are quantified over every algebraic stack over S and so restrict \
-no object, and the library discharges none of them"]
 theorem existsUnique_isReducedLocallyNoetherianUniquePointSubstack
     (hpres : HasFullyFaithfulFinitePresentationPresentations.{u, w} B S hS)
     (𝒵 : AlgebraicStacks.{u, w} B S hS) (h𝒵 : IsReducedWithUniquePoint B S hS 𝒵) :

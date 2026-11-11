@@ -37,15 +37,18 @@ degrees, and whose homogeneous multiplication is commutative. Those are the four
 * `Stacks.Conormal.isSeparated_projectivizedNormalConeToBase` — `P_ZX ⟶ Z` is separated, by
   [Stacks, Tag 01O2] for a relative `Proj`.
 
-## What is not proved here
+## Where the assertions of Stacks 0FBG about it are
 
-This file supplies the *scheme* `Proj_Z(𝒞_{Z/X,*})`, which is the object appearing in clause (6)
-of [Stacks, Tag 0FBG]; it does not prove that clause, which identifies `P_ZX` with the
-intersection `X' ∩ E` inside the blowup at infinity, nor clause (5), whose object is the relative
-`Proj` of `𝒞_{Z/X,*}[S]` — the conormal algebra with a degree-one variable adjoined, which the
-library does not form. The affine case of the identification, for the exceptional divisor of the
-blowup of an affine scheme, is
-`StacksFrontier/AlgebraicGeometry/Blowup/ProjectivizedNormalConeClosedImmersion.lean`.
+This file supplies the *scheme* `Proj_Z(𝒞_{Z/X,*})`, the object of clause (6) of
+[Stacks, Tag 0FBG]. That the exceptional divisor of the blowup of `X` in `Z` is this scheme is
+`Stacks.AlgebraicGeometry.exceptionalDivisorIsoProjectivizedNormalCone`
+(`StacksFrontier/AlgebraicGeometry/Blowup/ExceptionalProjectivizedNormalCone.lean`), and clause (6)
+itself, `X' ∩ E = Proj_Z(𝒞_{Z/X,*})` inside the blowup at infinity, is
+`Stacks.Chow.strictTransformOnExceptionalIsoProjectivizedNormalCone`
+(`StacksFrontier/AlgebraicGeometry/Chow/InfinityCentreProjectivizedNormalCone.lean`). Clause (5),
+whose object is the relative `Proj` of `𝒞_{Z/X,*}[S]`, is
+`Stacks.Chow.exceptionalDivisorIsoConormalPolynomialProj`
+(`StacksFrontier/AlgebraicGeometry/Chow/InfinityCentreExceptionalPolynomial.lean`).
 
 ## References
 

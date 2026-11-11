@@ -44,16 +44,17 @@ exactly as in Stacks 095H.
   `p⁻¹p_*ℱ ⟶ ℱ` is an isomorphism.
 * `AlgebraicGeometry.isConstructibleSetSheaf_pushforward_of_universalHomeomorphism_of_compactSpace`
   — the tag over a quasi-compact and quasi-separated base.
-* `AlgebraicGeometry.isConstructibleSetSheaf_pushforward_of_universalHomeomorphism` —
-  **Stacks 095R for sheaves of sets and `p` a finite universal homeomorphism**, with no
-  hypothesis on `S` or `T`.
+* `AlgebraicGeometry.isConstructibleSetSheaf_pushforward_of_universalHomeomorphism` — the
+  special case of Stacks 095R for sheaves of sets and `p` a finite universal homeomorphism, with
+  no hypothesis on `S` or `T`. The general case of the tag is
+  `AlgebraicGeometry.isConstructibleSetSheaf_pushforward_of_isFinite`.
 
 ## What is granted, and what is not
 
 One hypothesis is carried, `AlgebraicGeometry.SetConstructibilityDescendsAlongSurjective`: the
 converse half of Stacks 095Q (1). It is the same hypothesis that the library's Stacks 095H for
-sheaves of sets carries, and is discharged there by
-`AlgebraicGeometry.isConstructibleSetSheaf_of_isConstructibleSetSheaf_pullback`. It quantifies
+sheaves of sets carries, and is discharged unconditionally by
+`AlgebraicGeometry.setConstructibilityDescendsAlongSurjective`. It quantifies
 over the surjective morphisms of quasi-compact quasi-separated schemes of `B` and over sheaves on
 their targets, and mentions neither `p` nor `ℱ`, so it cannot supply the content below, which is
 the computation of the counit of `p⁻¹ ⊣ p_*`. The finiteness of `p` and its being a universal
@@ -61,21 +62,14 @@ homeomorphism are assumed in full and never dropped.
 
 ## Implementation notes
 
-The tag's own statement is about an arbitrary finite morphism of finite presentation, and this
-file does **not** prove that. The source reduces the general case to the finite étale case of
-Stacks 095H by base changing to an affine scheme surjective over the target and replacing the
-pullback by a finite étale thickening of it (Stacks 095K, which this library does have, as
-`AlgebraicGeometry.exists_surjective_affine_baseChange_thickening_finiteEtale`); the replacement
-is harmless because a thickening induces an equivalence of small étale sites, Stacks 04DZ. That
-last input is what is missing on the size-bounded étale site of a big étale site. The equivalence
-is available for the *étale categories* of a surjective closed immersion
-(`Stacks.Etale.etalePullback_isEquivalence_of_surjective_isClosedImmersion`) and, on Mathlib's
-small étale site, for the *topoi* of a universal homeomorphism
-(`Stacks.EtaleCohomology.smallEtaleInverseImage_isEquivalence_of_universalHomeomorphism`), but
-for neither on `AlgebraicGeometry.smallEtaleBaseChange`; and the étale base change of a finite
-direct image, Stacks 0959, is carried here only for sheaves of sets. The universal homeomorphism
-case needs none of that: it replaces the equivalence of topoi by the one instance of it the
-argument uses, namely that the counit is an isomorphism, and reads that off the stalk formula.
+The tag's own statement is about an arbitrary finite morphism of finite presentation; that is
+`AlgebraicGeometry.isConstructibleSetSheaf_pushforward_of_isFinite`, which follows the source's
+reduction to the finite étale case of Stacks 095H through Stacks 095K and uses, in place of
+Stacks 04DZ, that the unit of the adjunction along a finite universal homeomorphism is an
+isomorphism (`AlgebraicGeometry.isIso_unit_smallPullbackAdjunction_of_universalHomeomorphism`).
+The universal homeomorphism case treated here needs no base change: it replaces the equivalence
+of topoi by the one instance of it the argument uses, namely that the counit is an isomorphism,
+and reads that off the stalk formula.
 
 The coefficient category is `Type (u + 1)`, which is the universe at which Stacks 03QP, Stacks
 03PU and Stacks 095Q (1) are available on the size-bounded site, so the statements are about
@@ -259,13 +253,10 @@ and quasi-separated and
 applies.
 
 Stacks 095Q (1) is carried as the hypothesis `h095Q`, exactly as in that theorem; it quantifies
-over all morphisms of the site, so the Zariski reduction does not add to what is granted. -/
-@[stacks 095R "sheaves of sets, and only the case of a finite universal homeomorphism — \
-equivalently of a finite, surjective and universally injective morphism; the finite presentation \
-of the tag's hypothesis is not needed and is dropped. The general finite, finitely presented case \
-is NOT proved: it needs the thickening reduction of Stacks 095K together with the equivalence of \
-small étale topoi of Stacks 04DZ on the size-bounded site, which this library does not carry. \
-Stacks 095Q (1)'s descent is granted as the only hypothesis, and nothing is assumed of S or T."]
+over all morphisms of the site, so the Zariski reduction does not add to it. The hypothesis is
+discharged by `AlgebraicGeometry.setConstructibilityDescendsAlongSurjective`, and the full Stacks
+095R for sheaves of sets (any finite morphism of finite presentation) is
+`AlgebraicGeometry.isConstructibleSetSheaf_pushforward_of_isFinite`. -/
 public theorem isConstructibleSetSheaf_pushforward_of_universalHomeomorphism
     [IsFinite (B.inclusion.map p)] [UniversalHomeomorphism (B.inclusion.map p)]
     (h095Q : SetConstructibilityDescendsAlongSurjective B)

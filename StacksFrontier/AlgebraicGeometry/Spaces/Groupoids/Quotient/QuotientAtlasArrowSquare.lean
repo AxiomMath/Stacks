@@ -221,7 +221,6 @@ spaces over a scheme `S` of a big fppf site and assume its source and target map
 and locally of finite presentation. Then the canonical projection `π : S_U ⟶ [U/R]` of Stacks 044R
 is flat in the sense of Stacks 03YK: every algebraic space representing a base change of `π` along
 a scheme-valued point of `[U/R]` has flat structural morphism. -/
-@[stacks 06FH "flatness"]
 theorem isFlat_relativeProperty (G : GroupoidInAlgebraicSpaces C S hS B)
     (hsflat : Space.IsFlat C S hS G.source.hom)
     (_htflat : Space.IsFlat C S hS G.target.hom)
@@ -238,7 +237,6 @@ target maps `s`, `t` are flat and locally of finite presentation. Then the canon
 `π : S_U ⟶ [U/R]` of Stacks 044R is locally of finite presentation in the sense of Stacks 03YK:
 every algebraic space representing a base change of `π` along a scheme-valued point of `[U/R]` has
 structural morphism locally of finite presentation. -/
-@[stacks 06FH "locally of finite presentation"]
 theorem isLocallyOfFinitePresentation_relativeProperty (G : GroupoidInAlgebraicSpaces C S hS B)
     (_hsflat : Space.IsFlat C S hS G.source.hom)
     (_htflat : Space.IsFlat C S hS G.target.hom)
@@ -255,7 +253,6 @@ algebraic spaces over a scheme `S` of a big fppf site and assume its source and 
 `t` are flat and locally of finite presentation. Then the canonical projection `π : S_U ⟶ [U/R]` of
 Stacks 044R is surjective in the sense of Stacks 03YK: every algebraic space representing a base
 change of `π` along a scheme-valued point of `[U/R]` has surjective structural morphism. -/
-@[stacks 06FH "surjectivity"]
 theorem isSurjective_relativeProperty (G : GroupoidInAlgebraicSpaces C S hS B)
     (_hsflat : Space.IsFlat C S hS G.source.hom)
     (_htflat : Space.IsFlat C S hS G.target.hom)

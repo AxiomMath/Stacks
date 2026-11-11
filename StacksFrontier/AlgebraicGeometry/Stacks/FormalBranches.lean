@@ -24,9 +24,12 @@ primes of `A`, and the *multiplicity* of such a branch is the multiplicity of th
 
 ## Main definitions
 
-* `AlgebraicGeometry.Stack.formalBranches`: **Stacks 0DRA**, relative to a chosen versal ring.
-* `AlgebraicGeometry.Stack.formalBranchMultiplicity`: **Stacks 0DRC**, relative to a chosen versal
-  ring.
+* `AlgebraicGeometry.Stack.formalBranches`: **Stacks 0DRA**, the formal branches read off a versal
+  ring; their identification across versal rings is `AlgebraicGeometry.Stack.formalBranchesEquiv`.
+* `AlgebraicGeometry.Stack.formalBranchMultiplicity`: **Stacks 0DRC**, computed on a versal ring;
+  that the value does not depend on the versal ring is
+  `AlgebraicGeometry.Stack.formalBranchMultiplicity_independent` (in
+  `StacksFrontier.AlgebraicGeometry.Stacks.FormalBranchMultiplicityIndependence`).
 
 ## Main results
 
@@ -40,14 +43,21 @@ primes of `A`, and the *multiplicity* of such a branch is the multiplicity of th
 
 ## Implementation notes
 
-Both definitions are stated relative to a chosen versal ring `A`, which the versality hypothesis
+Both definitions are stated for a given versal ring `A`, which the versality hypothesis
 `AlgebraicGeometry.Stack.IsVersalRingAt` records as an argument. The source makes them absolute by
 identifying the branches read off two versal rings `A` and `A'` along a formally smooth comparison
-map `A → A'`; that identification depends on the existence of such a map (**Stacks 0DQX** together
-with **Stacks 0DR1**) and on its uniqueness up to formal homotopy (**Stacks 0DQD**), neither of
-which is available here. Only the last step of the identification is, namely that formally
-homotopic maps extend a minimal prime to the same ideal
-(`Deformation.Ideal.map_eq_of_formallyHomotopic_of_mem_minimalPrimes`, **Stacks 0DQE**).
+map `A → A'` (**Stacks 0DQX** together with **Stacks 0DR1**), well defined up to formal homotopy
+(**Stacks 0DQD**), and formally homotopic maps extend a minimal prime to the same ideal
+(`Deformation.Ideal.map_eq_of_formallyHomotopic_of_mem_minimalPrimes`, **Stacks 0DQE**). That
+identification is `AlgebraicGeometry.Stack.formalBranchesEquiv` in
+`StacksFrontier.AlgebraicGeometry.Stacks.FormalBranchIdentification`, with its independence of the
+comparison map and its compatibility with identities and composition. That multiplicities agree
+along a comparison `A' → A'[[t₁, …, t_r]] ≅ A` compatible with the versal formal objects
+(`AlgebraicGeometry.Stack.exists_powerSeries_comparison_realization`, well defined up to formal
+homotopy by `AlgebraicGeometry.Stack.formallyHomotopic_of_realization_compatible`), so that
+`formalBranchMultiplicity` is the source's notion, is
+`AlgebraicGeometry.Stack.formalBranchMultiplicity_independent` and
+`AlgebraicGeometry.Stack.formalBranchMultiplicity_independent_of_realization`.
 
 A branch is recorded as a minimal prime of `A` rather than as a closed subset of `Spec A`: a
 minimal prime is at the same time the generic point of the component it cuts out, which is the
@@ -89,8 +99,11 @@ variable (D : VersalSituation.{u, w})
 
 /-- **Stacks 0DRA.** The formal branches of `𝒳` through `x₀`, read off a versal ring `A` to `𝒳`
 at `x₀`: the irreducible components of `Spec A`, each recorded by its generic point, that is, the
-set of minimal primes of `A`. -/
-@[stacks 0DRA "relative to a chosen versal ring"]
+set of minimal primes of `A`. The identification of these sets for different versal rings, which
+the source uses to make the definition independent of `A`, is
+`AlgebraicGeometry.Stack.formalBranchesEquiv`. -/
+@[stacks 0DRA "the irreducible components of Spec A for a versal ring A, recorded by their \
+generic points"]
 def formalBranches
     (_hA : IsVersalRingAt D iΛ hiΛ x₀ hx₀ hfinite A) : Set (Ideal A) :=
   minimalPrimes A
@@ -135,8 +148,11 @@ theorem formalBranches_finite :
 
 /-- **Stacks 0DRC.** The multiplicity of a formal branch of `𝒳` through `x₀`: the multiplicity of
 the corresponding irreducible component of `Spec A`, that is, the length over itself of the local
-ring of `Spec A` at the generic point of that component. -/
-@[stacks 0DRC "relative to a chosen versal ring"]
+ring of `Spec A` at the generic point of that component. The source takes `A` to be any versal
+ring; the value does not depend on that choice along the identification of branches
+(`AlgebraicGeometry.Stack.formalBranchMultiplicity_independent`). -/
+@[stacks 0DRC "the multiplicity of a formal branch, computed on a versal ring A; its \
+independence of A is formalBranchMultiplicity_independent"]
 def formalBranchMultiplicity {p : Ideal A}
     (hp : p ∈ formalBranches D iΛ hiΛ x₀ hx₀ hfinite A hA) : ℕ∞ :=
   letI : p.IsPrime := hp.1.1

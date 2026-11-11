@@ -51,10 +51,10 @@ of schemes along thickenings, then there exists a fundamental system of weak ide
 for `𝔛`: a family of ideal sheaves each of which is a weak ideal of definition over every affine
 formal open, whose ideals of sections form a neighbourhood basis of zero over every affine formal
 open. -/
-@[stacks 0AIV "the only if direction of the last sentence, as printed and unconditional: if h_𝔛 \
-is a colimit of schemes along thickenings as in Lemma 0AIU (colimit in fppf sheaves), then there \
-exists a fundamental system of weak ideals of definition for 𝔛, in the sectionwise sense the \
-source defines, with no condition on its members. The converse fails as printed \
+@[stacks 0AIV "the forward direction of the last sentence, as printed, with no extra hypothesis: \
+if h_𝔛 is a colimit of schemes along thickenings as in Lemma 0AIU (colimit in fppf sheaves), then \
+there exists a fundamental system of weak ideals of definition for 𝔛, in the sectionwise sense \
+the source defines, with no condition on its members. The converse fails as printed \
 (not_forall_isFppfColimitOfThickenings_of_exists) and needs the members to be cut out by their \
 sections (isFppfColimitOfThickenings_iff_exists_isFundamentalSystem)"]
 theorem exists_isFundamentalSystemOfWeakIdealsOfDefinitionOn_of_isFppfColimitOfThickenings

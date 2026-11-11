@@ -26,8 +26,12 @@ situation of a family of curves in the proof of Stacks 0E1J. Then:
   (`AlgebraicGeometry.Space.isLE_derivedModulePushforward_structureModule_one`);
 * `R¹f_*𝒪_X = H¹(Rf_*𝒪_X)` is finite locally free
   (`AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_homology_one_derivedModulePushforward`);
-* its formation commutes with arbitrary base change
-  (`AlgebraicGeometry.Space.nonempty_modulePullback_homology_one_derivedModulePushforward_iso`).
+* its formation commutes with arbitrary base change: the base change map
+  `g^*H¹(Rf_*𝒪_X) ⟶ H¹(Rf'_*L(g')^*𝒪_X)`
+  (`AlgebraicGeometry.Space.modulePullbackHomologyDerivedModulePushforwardBaseChangeMap`) is an
+  isomorphism
+  (`AlgebraicGeometry.Space.isIso_modulePullbackHomologyDerivedModulePushforwardBaseChangeMap_one`,
+  and `AlgebraicGeometry.Space.nonempty_modulePullback_homology_one_derivedModulePushforward_iso`).
 
 This is the argument of the source's proof of Stacks 0E1J: by Stacks 0E6B (b) we have
 `Rf_*𝒪_X = 𝒪_Y ⊕ P` étale locally with `P` perfect, represented by a strictly perfect complex in
@@ -470,6 +474,50 @@ theorem nonempty_modulePullback_homology_one_derivedModulePushforward_iso
       f hf hfl hfp _ (isPerfect_unit X)).2 g f' g' sq) ≪≫
     (derivedModulePushforward B S hS f').mapIso (smallEtaleDerivedModulePullbackUnitIso g')
   exact ⟨e₁.symm ≪≫ (DerivedCategory.homologyFunctor _ 1).mapIso e₂⟩
+
+/-! ### The canonical base change map on cohomology sheaves -/
+
+/-- **The base change map on `H^n`** of a commutative square `g' ≫ f = f' ≫ g` of algebraic
+spaces: the canonical map `g^*H^n(Rf_*E) ⟶ H^n(Lg^*Rf_*E)`
+(`AlgebraicGeometry.Space.modulePullbackHomologyToHomologySmallEtaleDerivedModulePullback`)
+followed by `H^n` of the base change map `Lg^*Rf_*E ⟶ Rf'_*L(g')^*E` of Stacks 07A7
+(`AlgebraicGeometry.Space.smallEtaleDerivedModuleBaseChangeMap`). -/
+def modulePullbackHomologyDerivedModulePushforwardBaseChangeMap {X' Y' : AlgebraicSpaces B S hS}
+    (g : Y' ⟶ Y) (f' : X' ⟶ Y') (g' : X' ⟶ X) (w : g' ≫ f = f' ≫ g)
+    (E : DerivedCategory (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS X))) (n : ℤ) :
+    (modulePullback B S hS g).obj ((DerivedCategory.homologyFunctor
+        (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS Y)) n).obj
+          ((derivedModulePushforward B S hS f).obj E)) ⟶
+      (DerivedCategory.homologyFunctor
+        (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS Y')) n).obj
+          ((derivedModulePushforward B S hS f').obj
+            ((smallEtaleDerivedModulePullback B S hS g').obj E)) :=
+  modulePullbackHomologyToHomologySmallEtaleDerivedModulePullback g _ n ≫
+    (DerivedCategory.homologyFunctor
+      (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS Y')) n).map
+      (smallEtaleDerivedModuleBaseChangeMap B S hS f g f' g' w E)
+
+include hf hfl hfp h hvan in
+/-- **The formation of `R¹f_*𝒪_X` commutes with arbitrary base change, through the base change
+map.** For every cartesian square of algebraic spaces with `f' : X' ⟶ Y'` the base change of `f`
+along `g : Y' ⟶ Y`, the canonical base change map
+`g^*H¹(Rf_*𝒪_X) ⟶ H¹(Rf'_*L(g')^*𝒪_X)` is an isomorphism: the base change map of Stacks 07A7
+is one by Stacks 0CTM, and `g^*H¹(Rf_*𝒪_X) ⟶ H¹(Lg^*Rf_*𝒪_X)` is one because `Rf_*𝒪_X` has no
+cohomology above degree `1`. -/
+theorem isIso_modulePullbackHomologyDerivedModulePushforwardBaseChangeMap_one
+    {X' Y' : AlgebraicSpaces B S hS} (g : Y' ⟶ Y) (f' : X' ⟶ Y') (g' : X' ⟶ X)
+    (sq : IsPullback g' f' f g) :
+    IsIso (modulePullbackHomologyDerivedModulePushforwardBaseChangeMap f g f' g' sq.w
+      ((DerivedCategory.singleFunctor _ 0).obj (SheafOfModules.unit _)) 1) := by
+  have h₁ := isIso_modulePullbackHomologyToHomologySmallEtaleDerivedModulePullback g _ 1
+    (isLE_derivedModulePushforward_structureModule_one f hf hfl hfp h hvan)
+  have := (isPerfect_derivedModulePushforward_and_isIso_baseChange_of_isFlat f hf hfl hfp _
+    (isPerfect_unit X)).2 g f' g' sq
+  rw [modulePullbackHomologyDerivedModulePushforwardBaseChangeMap]
+  exact IsIso.comp_isIso' h₁ ((DerivedCategory.homologyFunctor
+    (SheafOfModules.{u} (ringedToposStructureRingSheaf B S hS Y')) 1).mapIso
+    (asIso (smallEtaleDerivedModuleBaseChangeMap B S hS f g f' g' sq.w
+      ((DerivedCategory.singleFunctor _ 0).obj (SheafOfModules.unit _))))).isIso_hom
 
 end AlgebraicGeometry.Space
 

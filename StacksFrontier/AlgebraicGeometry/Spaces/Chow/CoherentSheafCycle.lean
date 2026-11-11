@@ -69,9 +69,12 @@ Stacks 00IV, at the generic point of each integral closed subspace of δ-dimensi
 * `AlgebraicGeometry.Space.locallyFinite_cycleCoeffOfModule` and
   `AlgebraicGeometry.Space.cycleCoeffOfModule_mem_cyclesOfDimension`: the coefficient family is a
   `k`-cycle.
-* `AlgebraicGeometry.Space.associatedCycle_apply_eq_geometricLength`: **Stacks 0EEC**, the
-  coefficient of an integral closed subspace of δ-dimension `k` in `[F]_k` is the length of `F` at
-  its generic point.
+* `AlgebraicGeometry.Space.associatedCycle_apply_eq_geometricLength`: the coefficient of an
+  integral closed subspace of δ-dimension `k` in `[F]_k` is the length of `F` at the chosen
+  geometric point above its generic point. Stacks 0EEC itself, the length at the generic point in
+  the sense of Stacks 0EE2, is
+  `AlgebraicGeometry.Space.exists_associatedCycle_apply_eq_and_hasLengthAt` in
+  `StacksFrontier.AlgebraicGeometry.Spaces.Chow.CoherentSheafCycleLength`.
 * `AlgebraicGeometry.Space.associatedCycle_eq_zero_of_moduleSupport_eq_empty`: a module with empty
   support has associated cycle `0`.
 * `AlgebraicGeometry.Space.geometricLength_add_of_shortExact`: the length at a geometric point is
@@ -714,9 +717,12 @@ theorem associatedCycle_apply_eq_zero_of_deltaDimension_ne (sX : X ⟶ D.space) 
     (associatedCycle D sX hX F k γ hγ hdim).1 Z = 0 := by
   rw [associatedCycle_apply, ite_eq_right hZ]
 
-/-- **Stacks 0EEC.** In Situation 0EDT let `X/B` be good, let `F` be a coherent `𝒪_X`-module with
-`dim_δ(Supp(F)) ≤ k`, and let `Z` be an integral closed subspace of `X` with `dim_δ(Z) = k` and
-generic point `ξ`. Then the coefficient of `Z` in `[F]_k` is the length of `F` at `ξ`.
+/-- **The coefficient of `Z` in `[F]_k` at the chosen geometric point.** In Situation 0EDT let
+`X/B` be good, let `F` be a coherent `𝒪_X`-module with `dim_δ(Supp(F)) ≤ k`, and let `Z` be an
+integral closed subspace of `X` with `dim_δ(Z) = k` and generic point `ξ`. Then the coefficient of
+`Z` in `[F]_k` is the length of `F` at the geometric point `γ ξ`, read in `ℤ` through
+`ENat.toNat`. Stacks 0EEC itself, at every geometric point above `ξ` and with the length at `ξ`
+shown finite, is `AlgebraicGeometry.Space.exists_associatedCycle_apply_eq_and_hasLengthAt`.
 
 The generic point is `AlgebraicGeometry.Space.IntegralClosedSubspace.ambientGenericPoint`, which is
 a generic point of `|Z|` by
@@ -727,9 +733,6 @@ from the dichotomy that `|Z|` is such a component exactly when `ξ` lies in `Sup
 length vanishes, and both halves of it are already recorded here, as
 `AlgebraicGeometry.Space.exists_irreducibleComponents_of_cycleCoeffOfModule_ne_zero` and
 `AlgebraicGeometry.Space.moduleMultiplicity_eq_zero_of_notMem_moduleSupport`. -/
-@[stacks 0EEC "the coefficient at a chosen geometric representative of the generic point, valued in
-  ℤ through ENat.toNat as cycle coefficients are; the reading at a point of |X| additionally needs
-  the equivalence of Lemma 0EE1, which is not proved in this library"]
 theorem associatedCycle_apply_eq_geometricLength (sX : X ⟶ D.space) (hX : D.IsGood sX)
     (F : Modules.{u, u} D.site D.base D.base_mem X hX.1)
     [IsCoherent D.site D.base D.base_mem X hX.1 F] (k : ℤ)

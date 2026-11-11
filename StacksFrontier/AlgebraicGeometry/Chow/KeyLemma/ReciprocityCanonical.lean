@@ -17,9 +17,9 @@ Three pieces of this were already in place and did not meet.
   Stacks 0EAX to Stacks 0EAW — the same sum for a pair of nonzerodivisors of `A` — for *any*
   family of tame symbols `∂_{A_𝔮}` in the sense of Stacks 0EAH, supplied as a family of terms
   of `Stacks.Chow.RegularTameSymbol`.
-* `AlgebraicGeometry.sum_ord_heightOneSymbol_eq_zero` is Stacks 0EAW, proved unconditionally,
-  but for *one specific* symbol: `AlgebraicGeometry.heightOneSymbol`, the symbol of Stacks 02PZ
-  on the localization `A_𝔮`.
+* `AlgebraicGeometry.sum_ord_heightOneSymbol_eq_zero` is the vanishing of Stacks 0EAW, proved
+  unconditionally, but for *one specific* symbol: `AlgebraicGeometry.heightOneSymbol`, the
+  symbol of Stacks 02PZ on the localization `A_𝔮`.
 * `Stacks.Chow.regularTameSymbolOfKrullDimOne` exhibits that specific symbol as a term of
   `Stacks.Chow.RegularTameSymbol`, which is what the reduction consumes.
 
@@ -104,8 +104,8 @@ theorem finsum_tameSymbolOrderAt_canonical_eq_zero [IsLocalRing A]
   rw [← finsum_comp_equiv (heightOnePrimeEquivIdeal (A := A))] at hsum
   exact (finsum_congr fun p => rfl).trans hsum
 
-/-- **Stacks Project, Tag 0EAX: the Key Lemma.** Let `A` be a two-dimensional Noetherian local
-domain with fraction field `K` and let `f, g ∈ K^*`. Then
+/-- **Stacks Project, Tag 02QJ: the Key Lemma for `d`.** Let `A` be a two-dimensional Noetherian
+local domain with fraction field `K` and let `f, g ∈ K^*`. Then
 
 `∑_{height(𝔮) = 1} ord_{A/𝔮}(∂_{A_𝔮}(f, g)) = 0`,
 
@@ -119,7 +119,7 @@ The proof is the source's:
 `Stacks.Chow.fracTameSymbolOrderAt_finsum_eq_zero_of_forall_nonZeroDivisors` expands a pair of
 fractions into four pairs of nonzerodivisors of `A`, and Stacks 0EAW
 (`Stacks.Chow.finsum_tameSymbolOrderAt_canonical_eq_zero`) kills each of the four. -/
-@[stacks 0EAX]
+@[stacks 02QJ "the second displayed form, the sum over all height-one primes"]
 theorem finsum_fracTameSymbolOrderAt_canonical_eq_zero [IsDomain A] [IsLocalRing A]
     (hdim : ringKrullDim A = 2) (f g : (FractionRing A)ˣ) :
     ∑ᶠ p : HeightOnePrime A,

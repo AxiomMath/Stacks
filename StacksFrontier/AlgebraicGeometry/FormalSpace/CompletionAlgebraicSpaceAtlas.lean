@@ -41,6 +41,8 @@ two statements hold under the source's hypotheses alone.
   **Stacks 0AIZ**.
 * `AlgebraicGeometry.FormalSpace.isLocallyNoetherian_completionSheaf_of_isLocallyNoetherian`:
   **Stacks 0AQ1 (2)**.
+* `AlgebraicGeometry.FormalSpace.completionAlongClosedSubset`: **Stacks 0AMC**, the completion
+  of `X` along `T` as an object of the full subcategory of formal algebraic spaces.
 * `AlgebraicGeometry.FormalSpace.isLocallyNoetherian_of_isLocallyOfFiniteType`: an algebraic
   space locally of finite type over a locally Noetherian one is locally Noetherian.
 * `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpaceCompletionSheaf` and
@@ -77,6 +79,7 @@ site because the diagonal of `X` is representable. No cofinality bound on the cu
 ## References
 
 * [Stacks Project, Tag 0AIZ](https://stacks.math.columbia.edu/tag/0AIZ)
+* [Stacks Project, Tag 0AMC](https://stacks.math.columbia.edu/tag/0AMC)
 * [Stacks Project, Tag 0AQ1](https://stacks.math.columbia.edu/tag/0AQ1)
 * [Stacks Project, Tag 0AIS](https://stacks.math.columbia.edu/tag/0AIS)
 * [Stacks Project, Tag 0AIY](https://stacks.math.columbia.edu/tag/0AIY)
@@ -552,6 +555,30 @@ theorem isLocallyNoetherian_completionSheaf_of_isLocallyNoetherian
     (fun i ↦ exists_hasPropertyULift_sheafifiedULiftMap_of_isEtale B S hS
       (isAlgebraicSpace_yoneda B S hS _) hX (a i.down) (het i.down))
     hcov (satisfiesSetTheoreticCondition_completionSheaf hX T hT)
+
+/-! ### The completion as a formal algebraic space -/
+
+/-- **Stacks 0AMC.** Let `S` be a scheme, let `X` be an algebraic space over `S` and let
+`T ⊆ |X|` be a closed subset. The *completion of `X` along `T`* is the formal algebraic space
+`X_{/T}` of Stacks 0AIZ: the fppf sheaf `AlgebraicGeometry.Space.completionSheaf` attached to the
+functor sending `U` to the morphisms `f : U ⟶ X` with `f(|U|) ⊆ T`, as an object of the full
+subcategory of formal algebraic spaces over `S`, the membership being
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionSheaf_of_isClosed`. -/
+@[stacks 0AMC]
+def completionAlongClosedSubset {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (hX : IsAlgebraicSpace B S hS X) (T : Set (Space.points B S hS X))
+    (hT : @IsClosed _ (Space.pointTopology B S hS X) T) :
+    ObjectProperty.FullSubcategory (IsFormalAlgebraicSpace B S hS) :=
+  ⟨Space.completionSheaf B S hS X T, isFormalAlgebraicSpace_completionSheaf_of_isClosed hX T hT⟩
+
+/-- The underlying fppf sheaf of the completion of `X` along a closed subset `T` is
+`AlgebraicGeometry.Space.completionSheaf`. -/
+@[simp]
+theorem completionAlongClosedSubset_obj {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
+    (hX : IsAlgebraicSpace B S hS X) (T : Set (Space.points B S hS X))
+    (hT : @IsClosed _ (Space.pointTopology B S hS X) T) :
+    (completionAlongClosedSubset hX T hT).obj = Space.completionSheaf B S hS X T :=
+  rfl
 
 /-! ### The two completion hypotheses of Stacks 0AR5 -/
 

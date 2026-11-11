@@ -208,11 +208,13 @@ variable {S}
 
 /-- The global cup product `μ : RΓ(S, K) ⊗^𝐋_A RΓ(S, M) ⟶ RΓ(S, K ⊗^𝐋_{𝒪_S} M)` in `D(A)` for
 `A = Γ(S, 𝒪_S)`, as a morphism of bifunctors on `D(𝒪_S) × D(𝒪_S)`: the relative cup product
-construction for the adjunction `L ⊣ RΓ(S, -)` and the tensor comparison of `c`. -/
-@[stacks 0FKU "the global cup product μ : RΓ(X, K) ⊗^L_A RΓ(X, M) ⟶ RΓ(X, K ⊗^L M) in D(A), the
-  first display of the section, built as the relative cup product of Tag 0B68 for the morphism to
-  the one-point space with ring A; the one-point comparison itself (a left adjoint of RΓ(X, -)
-  together with its tensor comparison) is the parameter `OnePointComparison`"]
+construction for the adjunction `L ⊣ RΓ(S, -)` and the tensor comparison of `c`.
+
+The tensor comparison of an arbitrary `c` is unconstrained (it may be zero, and then so is the
+result), so this is the recipe of Cohomology, Section 0FKU for an arbitrary datum, not the cup
+product of the source. The source's `μ` is
+`globalCupProduct (canonicalOnePointComparison S)`, for which Section 0FKU is stated in
+`Stacks.Cohomology.DerivedGlobalCupProduct.section_cupProduct_canonical`. -/
 def globalCupProduct (c : OnePointComparison S) : GlobalCupProduct S where
   app KM :=
     adjunctionBitensorMap c.adjunction (Functor.uncurry.obj (tensorBase S))
@@ -267,11 +269,11 @@ abbrev cohomologyModule (K : DerivedCategory (SheafOfModules.{u} (structureSheaf
 
 /-- The pairings `∪ : Hⁱ(S, K) ⊗_A Hʲ(S, M) ⟶ Hⁱ⁺ʲ(S, K ⊗^𝐋_{𝒪_S} M)` induced by a global cup
 product `κ`: a class `ξ ∈ Hⁱ(S, K)` and a class `η ∈ Hʲ(S, M)` are tensored to a class `ξ ⊗ η` in
-`Hⁱ⁺ʲ(RΓ(S, K) ⊗^𝐋_A RΓ(S, M))`, and `ξ ∪ η = κ(ξ ⊗ η)`. -/
-@[stacks 0FKU "the induced pairings ∪ : H^i(X, K) × H^j(X, M) ⟶ H^{i+j}(X, K ⊗^L M), the second
-  display of the section: the tensoring of classes of More on Algebra, Section 15.64 followed by
-  H^{i+j}(μ); the global cup product μ is the parameter κ, which `globalCupProduct` produces from
-  an `OnePointComparison`"]
+`Hⁱ⁺ʲ(RΓ(S, K) ⊗^𝐋_A RΓ(S, M))`, and `ξ ∪ η = κ(ξ ⊗ η)`.
+
+For an arbitrary `κ` this is the second display of Cohomology, Section 0FKU applied to that
+morphism; the source's pairings are `cupPairing (globalCupProduct (canonicalOnePointComparison S))`,
+stated in `Stacks.Cohomology.DerivedGlobalCupProduct.section_cupProduct_canonical`. -/
 def cupPairing (κ : GlobalCupProduct S)
     (K M : DerivedCategory (SheafOfModules.{u} (structureSheafRing S))) (i j : ℤ) :
     cohomologyModule K i ⊗ cohomologyModule M j ⟶

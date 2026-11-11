@@ -299,12 +299,12 @@ and `L_{B/A}` is isomorphic to it in `D(B)`
 (`CommAlgCat.cotangentComplexDerivedIsoNaiveComplexOfIsLocalCompleteIntersection`): by Tag 08RB
 `NL(P → B) ≅ τ_{≥ -1} L_{B/A}`, and by the fundamental triangle 08QS of `A → P → B` together with
 Tags 08QH and 08SK, `H^i(L_{B/A}) = 0` for `i ≤ -2`. -/
-@[stacks 08SL "the proposition, under the source's single hypothesis that A → B is a local \
-  complete intersection (RingHom.IsLocalCompleteIntersection, Tag 07D0). Perfect is Tag 0657 (1) \
-  and Tor amplitude is Tag 0652 (1) at the canonical derived tensor product. The isomorphism of \
-  L_{B/A} with the naive complex of a finite polynomial presentation is constructed here from \
-  Tag 08RB (Stacks.Cotangent.naiveComparisonIso), the fundamental triangle of A → P → B \
-  (Proposition 08QX), Tag 08QH and Tag 08SK",
+@[stacks 08SL "the full proposition: if A → B is a local complete intersection \
+  (RingHom.IsLocalCompleteIntersection, Tag 07D0), then L_{B/A} is a perfect object of D(B) \
+  (Tag 0657 (1)) with Tor amplitude in [-1, 0] (Tag 0652 (1), canonical derived tensor product). \
+  The isomorphism of L_{B/A} with the naive complex of a finite polynomial presentation is \
+  constructed here from Tag 08RB (Stacks.Cotangent.naiveComparisonIso), the fundamental \
+  triangle of A → P → B (Proposition 08QX), Tag 08QH and Tag 08SK",
   sga "6 0 4.3" "special case",
   sga "6 VIII 2.4" "special case",
   sga "6 XIV 2.1" "special case"]

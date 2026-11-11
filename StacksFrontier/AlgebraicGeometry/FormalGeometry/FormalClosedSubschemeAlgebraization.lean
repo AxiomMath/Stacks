@@ -28,19 +28,25 @@ is a closed immersion `Z ⟶ X` with `Zₙ = Z ×_S Sₙ`; moreover `Z` is prope
 Note the asymmetry: `f` itself is only separated of finite type, and it is the *closed member*
 `Z₁ ⟶ S₁` of the system that is assumed proper.
 
-## Two inputs that this library does not carry
+## The two inputs of the proof
 
-The source deduces 0899 from Grothendieck's existence theorem, which this library has only
-conditionally (`Stacks.Algebraization.isEquivalence_completionFunctorProperOver_of_isProper`, tag
-088E, is itself conditional on 088C). Accordingly the two consequences of it that the proof needs
-enter as explicit named hypotheses, and the tag attribute records that:
+The source deduces 0899 from Grothendieck's existence theorem. The theorem of this file names the
+two consequences of it that the proof needs as predicates, and both are proved downstream over a
+complete Noetherian base:
 
 * `AlgebraicGeometry.AdicFiniteSystemAlgebraization` is **Stacks 09ZT** for the morphism `f`: a
   cartesian system of *finite* morphisms over the `Xₙ` whose closed member is proper over `S₁` is
-  the system of adic base changes of a single scheme `Z` over `X` proper over `S`.
+  the system of adic base changes of a single scheme `Z` over `X` proper over `S`. It is proved by
+  `AlgebraicGeometry.adicFiniteSystemAlgebraization_of_adicFiniteAlgebraAlgebraization` applied to
+  `AlgebraicGeometry.adicFiniteAlgebraAlgebraization_holds`.
 * `AlgebraicGeometry.AdicMorphismRigidity` is the uniqueness clause of **Stacks 0A42**: two
   morphisms over `S` from a proper scheme to a separated scheme of finite type with the same adic
-  base changes are equal.
+  base changes are equal. It is proved by `AlgebraicGeometry.adicMorphismRigidity`.
+
+Stacks 0899 with both inputs discharged is
+`AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback_holds`, in
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AdicFiniteAlgebraizationTags.lean`,
+which carries the tag.
 
 Everything else is proved: that *every* member of the system is a closed immersion (hence finite,
 which is what feeds 09ZT), that the algebraizing morphism `Z ⟶ X` is a monomorphism and hence a
@@ -50,7 +56,7 @@ recovered by base change.
 ## Main definitions
 
 * `AlgebraicGeometry.AdicFiniteSystemAlgebraization`,
-  `AlgebraicGeometry.AdicMorphismRigidity` — the two hypotheses described above.
+  `AlgebraicGeometry.AdicMorphismRigidity` — the two predicates described above.
 
 ## Main results
 
@@ -64,7 +70,8 @@ recovered by base change.
 * `AlgebraicGeometry.hom_ext_adicThickening_of_isPullback`,
   `AlgebraicGeometry.mono_of_adicBaseChange_isClosedImmersion` — the algebraizing morphism is a
   monomorphism.
-* `AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback` — Stacks 0899.
+* `AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback` — Stacks 0899 from the
+  two predicates above.
 
 ## Implementation notes
 
@@ -221,7 +228,7 @@ public lemma isClosedImmersion_of_isPullback_adicBaseChangeSucc [IsNoetherianRin
       (adicBaseChangeSucc A I f n) (bijective_base_adicBaseChangeSucc A I f n)
       (Or.inr (finitePresentation_adicBaseChangeSucc A I f n))
 
-/-! ### The two inputs that this library does not carry -/
+/-! ### The two inputs of the proof -/
 
 /-- **Stacks 09ZT for the morphism `f`.** Let `f : X ⟶ Spec A` be separated of finite type and let
 `(Zₙ)` be a system of schemes finite over the adic base changes `Xₙ = X ×_{Spec A} Sₙ`, cartesian
@@ -230,8 +237,10 @@ is the system of adic base changes of a single scheme `Z` finite over `X` and pr
 `Spec A`: there are maps `kₙ : Zₙ ⟶ Z` exhibiting each `Zₙ` as `Z ×_{Spec A} Sₙ` compatibly with
 the morphisms to `X`.
 
-Nothing in this library carries Stacks 09ZT, which is why this is a hypothesis. It is the only
-place where Grothendieck's existence theorem enters the existence half of Stacks 0899. -/
+This is where Grothendieck's existence theorem enters the existence half of Stacks 0899. Over a
+complete Noetherian base it is proved by
+`AlgebraicGeometry.adicFiniteSystemAlgebraization_of_adicFiniteAlgebraAlgebraization` applied to
+`AlgebraicGeometry.adicFiniteAlgebraAlgebraization_holds`. -/
 public def AdicFiniteSystemAlgebraization : Prop :=
   ∀ (Z : ℕ → Scheme.{u}) (j : ∀ n, Z n ⟶ adicBaseChange A I f n) (t : ∀ n, Z n ⟶ Z (n + 1)),
     (∀ n, IsPullback (t n) (j n) (j (n + 1)) (adicBaseChangeSucc A I f n)) →
@@ -246,10 +255,9 @@ public def AdicFiniteSystemAlgebraization : Prop :=
 over `Spec A` to a scheme separated of finite type over `Spec A` whose base changes to every adic
 thickening agree are equal.
 
-This is the consequence of Grothendieck's existence theorem (Stacks 088C, through the full
-faithfulness of completion, Stacks 0883) that the proof of Stacks 0899 needs in order to know that
-the algebraized morphism is a monomorphism. The library's 0883 is itself conditional on the
-theorem on formal functions (Stacks 087U), so this cannot be discharged here. -/
+This is what the proof of Stacks 0899 needs in order to know that the algebraized morphism is a
+monomorphism. Over a complete Noetherian base it is proved by
+`AlgebraicGeometry.adicMorphismRigidity`. -/
 public def AdicMorphismRigidity : Prop :=
   ∀ {P W : Scheme.{u}} (fP : P ⟶ Spec (.of A)) (fW : W ⟶ Spec (.of A)),
     IsProper fP → IsSeparated fW → LocallyOfFiniteType fW → QuasiCompact fW →
@@ -340,17 +348,15 @@ projection `Xₙ ⟶ X`, and the transition maps `tₙ` are compatible with the 
 The hypotheses are the source's: `f` is only separated of finite type, and it is the closed member
 `Z₀ ⟶ S₀` of the system, not `f`, that is proper.
 
-The proof is the source's, in the form in which it is available here. Stacks 0896 upgrades the
-closed immersion `j 0` to a closed immersion `jₙ` for every `n`
-(`isClosedImmersion_of_isPullback_adicBaseChangeSucc`); each `jₙ` is therefore finite, so Stacks
-09ZT — the hypothesis `halg` — algebraizes the system to a finite `g : Z ⟶ X` with `Z` proper over
-`S`; and `g` is a monomorphism, hence a closed immersion, by rigidity — the hypothesis `hrig`,
-the uniqueness clause of Stacks 0A42. Neither `halg` nor `hrig` is carried by this library; see
-the module documentation. The Noetherian and completeness hypotheses on `A` are the ones under
-which `halg` and `hrig` hold, and `IsNoetherianRing A` is moreover used directly, to see that the
-transition maps of the adic system are of finite presentation. -/
-@[stacks 0899 "with Stacks 09ZT as the hypothesis halg and the uniqueness clause of Stacks 0A42 \
-as the hypothesis hrig"]
+The proof is the source's. Stacks 0896 upgrades the closed immersion `j 0` to a closed immersion
+`jₙ` for every `n` (`isClosedImmersion_of_isPullback_adicBaseChangeSucc`); each `jₙ` is therefore
+finite, so Stacks 09ZT, in the form `halg`, algebraizes the system to a finite `g : Z ⟶ X` with
+`Z` proper over `S`; and `g` is a monomorphism, hence a closed immersion, by rigidity, in the form
+`hrig`, the uniqueness clause of Stacks 0A42. Both `halg` and `hrig` are proved over a complete
+Noetherian base, and the statement with them discharged is
+`AlgebraicGeometry.exists_closedImmersion_algebraization_of_isPullback_holds`, which carries the
+tag. `IsNoetherianRing A` is moreover used directly, to see that the transition maps of the adic
+system are of finite presentation. -/
 public theorem exists_closedImmersion_algebraization_of_isPullback [IsNoetherianRing A]
     (hcomplete : IsAdicComplete I A) (halg : AdicFiniteSystemAlgebraization A I f)
     (hrig : AdicMorphismRigidity A I) [IsSeparated f] [LocallyOfFiniteType f] [QuasiCompact f]

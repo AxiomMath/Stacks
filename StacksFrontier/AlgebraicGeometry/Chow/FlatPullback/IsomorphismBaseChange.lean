@@ -212,7 +212,6 @@ square
 
 over the base, with `u₀` and `u₁` isomorphisms and `d`, `v` flat of relative dimension `r`, flat
 pullback commutes with pushforward along the isomorphisms. -/
-@[stacks 02RG "the case of two isomorphism legs, on cycles"]
 theorem flatPullback_properPushforward_of_isIso (C : ChowSituation.{u})
     {A₀ A₁ B₀ B₁ : Scheme.{u}} (sA₀ : A₀ ⟶ C.S) [LocallyOfFiniteType sA₀]
     (sA₁ : A₁ ⟶ C.S) [LocallyOfFiniteType sA₁] (sB₀ : B₀ ⟶ C.S) [LocallyOfFiniteType sB₀]
@@ -238,7 +237,6 @@ theorem flatPullback_properPushforward_of_isIso (C : ChowSituation.{u})
 /-- **Flat pullback commutes with pushforward along two isomorphism legs, on Chow groups.** In a
 square over the base whose two horizontal legs are isomorphisms — hence automatically cartesian —
 flat pullback commutes with pushforward along the isomorphisms, on Chow groups. -/
-@[stacks 02RG "the case of two isomorphism legs"]
 theorem flatPullbackChow_chowPushforwardOfIso (C : ChowSituation.{u})
     {A₀ A₁ B₀ B₁ : Scheme.{u}} (sA₀ : A₀ ⟶ C.S) [LocallyOfFiniteType sA₀]
     (sA₁ : A₁ ⟶ C.S) [LocallyOfFiniteType sA₁] (sB₀ : B₀ ⟶ C.S) [LocallyOfFiniteType sB₀]

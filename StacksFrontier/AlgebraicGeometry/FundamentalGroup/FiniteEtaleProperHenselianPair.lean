@@ -460,8 +460,8 @@ Essential surjectivity is `essSurj_finiteEtaleBaseChange_of_isProper_of_henselia
 every scheme finite étale over `X` (each again proper over `A`); full faithfulness follows from it
 by `isEquivalence_finiteEtaleBaseChange_of_isProper_of_henselianPair_of_essSurj`, as in the
 source. -/
-@[stacks 0GS2 "the full statement: any henselian pair `(A, I)` and any proper `X` over `Spec A`, \
-with nothing granted or assumed", sga "4 XII 6.13" "more general"]
+@[stacks 0GS2 "any henselian pair `(A, I)` and any proper `X` over `Spec A`, exactly as in the \
+source; no Noetherian or G-ring hypothesis on `A`", sga "4 XII 6.13" "more general"]
 theorem isEquivalence_finiteEtaleBaseChange_of_isProper_of_henselianPair (A : Type u)
     [CommRing A] (I : Ideal A) (hI : HenselianPair A I) {X : Scheme.{u}}
     (f : X ⟶ Spec (.of A)) [IsProper f] :

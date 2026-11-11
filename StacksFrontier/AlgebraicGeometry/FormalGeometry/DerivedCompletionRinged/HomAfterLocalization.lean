@@ -21,9 +21,9 @@ localization at a global section.
 
 ## Main results
 
-* `AlgebraicGeometry.RingedSite.restrictScalars_fullyFaithful_of_epi` is [Stacks, Tag 0930] for
-  commutative coefficients: restriction of scalars along an epimorphism of sheaves of
-  commutative rings is fully faithful.
+* `AlgebraicGeometry.RingedSite.restrictScalars_fullyFaithful_of_epi` is [Stacks, Tag 0930]:
+  restriction of scalars along an epimorphism of sheaves of commutative rings is fully
+  faithful.
 * `AlgebraicGeometry.RingedSite.derivedSheafHom_restrictScalarsIso` compares the two derived
   internal Hom complexes after restriction of scalars.
 * `AlgebraicGeometry.RingedSite.derivedSheafHom_restrictScalarsIso_canonical` characterizes the
@@ -213,15 +213,19 @@ private noncomputable def restrictScalars_fullyFaithful [Epi f] :
   map_preimage g := by ext; rfl
   preimage_map g := by ext; rfl
 
-/-- **Stacks Tag 0930 for commutative coefficients.** Restriction of scalars along an
-epimorphism `f : 𝒪 ⟶ 𝒪'` of sheaves of *commutative* rings on a site is fully faithful.
+/-- **Stacks Tag 0930.** Restriction of scalars along an epimorphism `f : 𝒪 ⟶ 𝒪'` of sheaves
+of commutative rings on a site is fully faithful: for `𝒪'`-modules `𝒢₁, 𝒢₂`,
+`Hom_𝒪'(𝒢₁, 𝒢₂) = Hom_𝒪(𝒢₁, 𝒢₂)`.
 
-Unlike `Stacks.NoncommChangeOfRings.Silver.restrictScalars_fullyFaithful_of_epi`, which proves
-the same for sheaves of not necessarily commutative rings, the epimorphism is asked for in the
+Unlike `Stacks.NoncommChangeOfRings.Silver.restrictScalars_fullyFaithful_of_epi`, the
+noncommutative variant, which proves the same for an epimorphism of sheaves of not necessarily
+commutative rings, the epimorphism is asked for in the
 category of sheaves of commutative rings — which is the category [Stacks, Tag 0996] localizes in
 — and no smallness hypothesis on the site is needed. The argument is that a local section `r` of
 `𝒪'` satisfies `r ⊗ 1 = 1 ⊗ r` locally, which says exactly that an additive map of the
 restrictions is already `𝒪'`-linear. -/
+@[stacks 0930 "rings commutative as in Stacks: the epimorphism is one of sheaves of commutative \
+rings, `Sheaf J CommRingCat`"]
 theorem restrictScalars_fullyFaithful_of_epi [Epi f] :
     Nonempty (SheafOfModules.restrictScalars.{u} (R := Stacks.SheafOfModules.Tensor.ringSheaf O)
       (R' := Stacks.SheafOfModules.Tensor.ringSheaf S)

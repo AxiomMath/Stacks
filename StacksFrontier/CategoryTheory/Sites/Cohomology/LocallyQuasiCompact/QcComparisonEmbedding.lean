@@ -45,9 +45,9 @@ Stacks 0DCU) and `ε_{X,*}` is faithful, being a full subcategory inclusion, ful
 
 Both statements are for sheaves of sets, at coefficients in any universe containing the universe
 of the spaces, which is the generality of `isSheaf_qc_comparisonInverseImage`. The abelian
-counterpart is not available here: the abelian form of that sheaf condition is a clause of
-Stacks 0EZI which this development does not prove, and is carried as the hypothesis `h0EZI` of
-`qcAbelianDirectImageTopologicalInverseImageIso`.
+form of that sheaf condition, a clause of Stacks 0EZI, is `zariskiPullbackClass_isSheaf_qc`, and
+the abelian counterpart of these statements is `qcAbelianDirectImageTopologicalInverseImageNatIso`
+and `qcTopologicalAbelianInverseImage_fullyFaithful` (in `QcAbelianComparisonEmbedding.lean`).
 
 Full faithfulness is returned as a conjunction of `Full` and `Faithful`, matching
 `comparisonInverseImage_fullyFaithful`, rather than as instances.

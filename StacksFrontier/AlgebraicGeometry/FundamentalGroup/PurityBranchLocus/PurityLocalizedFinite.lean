@@ -56,9 +56,10 @@ and none of them is claimed anywhere in this file.
 * Tag 0BMA clause (2) beyond dimension two, which is the hypothesis `PurityFiniteNormal`. The
   library has that clause only for `d = 2`, as
   `Stacks.PurityDimensionTwo.etale_of_isNormalRing_of_ringKrullDim_eq_two`; the source's
-  induction on `d` passes through [Stacks, Tag 0BLM] and hence [Stacks, Tag 0BLS], which this
-  library carries only for an `f`-adically complete ring with three further general hypotheses
-  granted.
+  induction on `d` passes through [Stacks, Tag 0BLM] and hence [Stacks, Tag 0BLS]; both are
+  formalized, in
+  `StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityLocalCase.ExtensionFromHypersurface`, but
+  the induction itself is not run in this file.
 * The passage from a quasi-finite morphism of schemes to the finite situation treated here. The
   source works étale locally on the base ([Stacks, Tags 02VN, 036W]) and makes the morphism
   finite near the point by [Stacks, Tag 02LK], whose carrier in this library is

@@ -114,7 +114,7 @@ namespace Stacks.Algebraization
 
 attribute [local instance 10000] Stacks.Algebraization.modulesHasDerivedCategory
 
-/-- **Stacks Project, Tag 0A0M** for a principal ideal.
+/-- **The short exact sequence of [Stacks, Tag 0A0M] for a principal ideal.**
 
 Let `A` be a Noetherian ring, `a ∈ A`, `f : X ⟶ Spec A` a Noetherian scheme over `A` and `ℱ` a
 coherent `𝒪_X`-module whose cohomology modules `H^p(X, ℱ)` are finite over `A` — the hypotheses
@@ -137,25 +137,7 @@ This is the source's sequence at a principal ideal, by a route that goes through
 Tag 0BLD]. At an arbitrary ideal the same sequence, together with the properness clause, is
 `Stacks.Algebraization.exists_shortExact_adicCompletion_cohomology_whole` of
 `Completion/GeneralCohomologyAdicCompletion.lean`, which discharges `hBLX` from the Koszul
-identity of [Stacks, Tag 0BLX] and part (3) of [Stacks, Tag 0A0K] instead. -/
-@[stacks 0A0M "the source's full conclusion for a principal ideal I = (a): for every p the short \
-exact sequence of A-modules `0 → R¹lim H^{p-1}(X, ℱ/𝓘ⁿℱ) → H^p(X,ℱ)^∧ → lim H^p(X, ℱ/𝓘ⁿℱ) → 0` \
-whose middle term is the I-adic completion of the A-module H^p(X,ℱ), proved under the source's \
-own hypotheses on A, X and ℱ, the reflector onto the derived-complete objects of D(A) being \
-produced in the proof out of [Stacks, Tag 0920]. The middle term is identified by the comparison \
-of the two adic towers of ℱ at a principal ideal — the tower `n ↦ ℱ/((a)𝒪_X)ⁿℱ` of quotients by \
-the ideal-power subsheaves and the tower `n ↦ ℱ/aⁿ⁺¹ℱ` of cokernels of the iterates of \
-multiplication by a, shown to have the same inverse limit in \
-`Stacks.Algebraization.PrincipalAdicTower.limitTowerIso` — together with [Stacks, Tag 0BLD], \
-whose stabilization of the a-power torsion of ℱ is supplied by \
-`Stacks.Algebraization.stabilizes_mulF_of_isCoherent` for a coherent sheaf on a Noetherian \
-scheme and whose countable-product side conditions are supplied by \
-`Stacks.Algebraization.hasProductsOfShape_nat_derivedCategory_modules`. The same sequence at an \
-arbitrary ideal, together with the properness clause, is \
-`Stacks.Algebraization.exists_shortExact_adicCompletion_cohomology_whole` of \
-`Completion/GeneralCohomologyAdicCompletion.lean`; what this registration adds is the principal \
-case by the independent route through [Stacks, Tag 0BLD], which needs neither quasi-compactness \
-nor the Koszul machinery of the ringed site"]
+identity of [Stacks, Tag 0BLX] and part (3) of [Stacks, Tag 0A0K] instead, and carries the tag. -/
 public theorem exists_shortExact_adicCompletion_cohomology_principal
     (A : Type u) [CommRing A] [IsNoetherianRing A] (a : A)
     {X : Scheme.{u}} [IsNoetherian X] (f : X ⟶ Spec (.of A))

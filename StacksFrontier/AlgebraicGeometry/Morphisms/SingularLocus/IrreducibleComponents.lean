@@ -23,7 +23,7 @@ No new definitions are introduced.
   every quasi-compact open of the target has finitely many irreducible components, then so does
   every quasi-compact open of the source of a flat morphism locally of finite type.
 * `AlgebraicGeometry.finite_irreducibleComponents_of_smooth` is its instance at a smooth
-  morphism, which is Tag 07TD.
+  morphism, the first assertion of Tag 07TD.
 
 ## Implementation notes
 
@@ -54,9 +54,9 @@ universe u
 
 namespace AlgebraicGeometry
 
-/-- **Stacks Project, Tag 07TD.** Local finiteness of irreducible components ascends along a
-smooth morphism. -/
-@[stacks 07TD "finiteness of irreducible components"]
+/-- Local finiteness of irreducible components ascends along a smooth morphism. This is the first
+assertion of [Stacks, Tag 07TD]; the whole tag is
+`AlgebraicGeometry.existsUnique_normalizationScheme_iso_pullback_of_smooth`. -/
 public theorem finite_irreducibleComponents_of_smooth {X Y : Scheme.{u}} (f : X ⟶ Y)
     [Smooth f]
     (hY : ∀ U : Y.Opens, IsCompact (U : Set Y) → (irreducibleComponents U).Finite) :

@@ -1346,9 +1346,11 @@ Three remarks on the shape of this step.
   value at `B`, so its restriction along the inclusion `D.u : D.C j ⥤ D.C i` has the sheaf property
   for `{h₁, h₂}`, i.e. `D.u` is continuous in the sense of `Functor.IsContinuous`; but `D.u` does
   not preserve `A`, the fibre product of the covering `{h₁, h₂}`.
-* `Functor.isContinuous_toGrothendieck_of_pullbacksPreservedBy`, which is Stacks 00WW itself and
-  whose hypotheses `Precoverage.HasPullbacks` and `Precoverage.PullbacksPreservedBy` are Stacks
-  00VH (3) and 00WV (2), is nevertheless **not** applicable here: it also asks both precoverages to
+* `Functor.isContinuous_toGrothendieck_of_pullbacksPreservedBy`, Stacks 00WW for the generated
+  Grothendieck topologies (registered as
+  `Functor.isContinuous_toGrothendieck_of_preservesLimit_cospan`), whose hypotheses
+  `Precoverage.HasPullbacks` and `Precoverage.PullbacksPreservedBy` follow from Stacks 00VH (3)
+  and 00WV (2), is nevertheless **not** applicable here: it also asks both precoverages to
   be `Precoverage.IsStableUnderBaseChange`, and that class is stated for `Presieve.pullback`, the
   presieve of *all* `g` with `g ≫ f` in the covering, not for the finite family
   `Presieve.pullbackArrows` of Stacks 00VH (3). Neither `K` nor

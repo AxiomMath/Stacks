@@ -53,7 +53,8 @@ theorem affineSpaceRepresentability : AffineSpaceRepresentability.{u} := fun S _
 
 /-- Let `X ⟶ S` be a morphism of affine schemes and let `d` be a natural number. Then the
 degree-`d` Hilbert functor of points of `X` over `S` is representable by a scheme over `S`. -/
-@[stacks 0B99]
+@[stacks 0B99 "the degree-`d` Hilbert functor of an affine scheme over an affine base is \
+representable by a scheme over `S`"]
 theorem exists_representsHilbertFunctorOfRank_of_isAffine_of_isAffine {S : Scheme.{u}}
     [IsAffine S] (X : Over S) [IsAffine X.left] (d : ℕ) :
     Nonempty (Σ H : Over S, RepresentsHilbertFunctorOfRank X H d) :=

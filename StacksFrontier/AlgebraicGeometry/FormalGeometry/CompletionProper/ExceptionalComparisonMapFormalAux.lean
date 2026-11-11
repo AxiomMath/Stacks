@@ -469,7 +469,7 @@ public lemma exists_cohomologyTowerEquiv
   rw [show J.comap f = Stacks.Cohomology.FormalFunctions.baseIdealSheaf (Γ(Y, ⊤) : Type u)
       (J.ideal ⟨⊤, isAffineOpen_top Y⟩) (toSpecGlobalSections f) from
     (baseIdealSheaf_toSpecGlobalSections f J).symm]
-  obtain ⟨e, he⟩ := Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8
+  obtain ⟨-, e, he⟩ := Stacks.Cohomology.FormalFunctions.exists_formalFunctionsEquiv_of_02O8
     (Γ(Y, ⊤) : Type u) (toSpecGlobalSections f) (isProper_toSpecGlobalSections f)
     (J.ideal ⟨⊤, isAffineOpen_top Y⟩) F
     (AlgebraicGeometry.CoherentAbelian.stacksIsCoherent_of_isCoherent ‹F.IsCoherent›) 0

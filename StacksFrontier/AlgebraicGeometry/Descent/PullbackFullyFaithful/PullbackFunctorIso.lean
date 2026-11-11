@@ -18,6 +18,8 @@ of `D`.
 * `AlgebraicGeometry.DescentData.pullbackFunctorIsoOfSpec` constructs it for any two
   specified pullback functors, and
   `AlgebraicGeometry.DescentData.pullbackFunctorIso` for the canonical ones.
+* `AlgebraicGeometry.DescentData.pullbackFunctors` bundles the pullback functors along all
+  morphisms completing the square with the canonical isomorphisms between them.
 
 ## References
 
@@ -244,11 +246,30 @@ end Comparison
 /-- The canonical natural isomorphism between the pullback functors associated to two morphisms
 which complete the same commutative square. Its components are the pullbacks of the original
 gluing isomorphisms along the maps induced by `(f₀, f₁)`. -/
-@[stacks 023Y "part (2)"]
 def pullbackFunctorIso {S S' X X' : Scheme.{u}} (a : X ⟶ S) (a' : X' ⟶ S') (h : S' ⟶ S)
     (f₀ f₁ : X' ⟶ X) (comm₀ : f₀ ≫ a = a' ≫ h) (comm₁ : f₁ ≫ a = a' ≫ h) :
     PullbackFunctorIso a a' h f₀ f₁ comm₀ comm₁
       (pullbackFunctor a a' h f₀ comm₀) (pullbackFunctor a a' h f₁ comm₁) :=
   pullbackFunctorIsoOfSpec _ _
+
+/-- Pullback of descent data for schemes over schemes, relative to the base map `h : S' ⟶ S`:
+every `f : X' ⟶ X` completing the commutative square gives a pullback functor from descent
+data relative to `a` to descent data relative to `a'`, and any two such morphisms `f₀, f₁` give
+canonically isomorphic functors. -/
+structure PullbackFunctors {S S' X X' : Scheme.{u}} (a : X ⟶ S) (a' : X' ⟶ S')
+    (h : S' ⟶ S) where
+  /-- The pullback functor along a morphism completing the square. -/
+  functor (f : X' ⟶ X) (comm : f ≫ a = a' ≫ h) : PullbackFunctor a a' h f comm
+  /-- The canonical isomorphism between the pullback functors along two such morphisms. -/
+  iso (f₀ f₁ : X' ⟶ X) (comm₀ : f₀ ≫ a = a' ≫ h) (comm₁ : f₁ ≫ a = a' ≫ h) :
+    PullbackFunctorIso a a' h f₀ f₁ comm₀ comm₁ (functor f₀ comm₀) (functor f₁ comm₁)
+
+/-- The pullback functors on descent data along the morphisms completing a commutative square
+over `h`, together with the canonical isomorphisms between any two of them. -/
+@[stacks 023Y]
+def pullbackFunctors {S S' X X' : Scheme.{u}} (a : X ⟶ S) (a' : X' ⟶ S') (h : S' ⟶ S) :
+    PullbackFunctors a a' h where
+  functor f comm := pullbackFunctor a a' h f comm
+  iso f₀ f₁ comm₀ comm₁ := pullbackFunctorIso a a' h f₀ f₁ comm₀ comm₁
 
 end AlgebraicGeometry.DescentData

@@ -76,8 +76,10 @@ about pullback preserving kernels needed.
 [Stacks Project, Tag 04F7], is therefore stated in terms of
 `Stacks.Thickenings.schemeConormalSheaf` only because it is defined before
 `Stacks.Immersion.conormalSheafSelfIso` is available, not because the two cannot be connected;
-composing with that isomorphism moves it to `Stacks.Thickenings.universalConormalSheaf`. Whether
-anything else of that tag is still owed is not decided here.
+composing with that isomorphism moves it to `Stacks.Thickenings.universalConormalSheaf`. That
+composite, for formally unramified morphisms and the chosen thickenings, is
+`Stacks.Thickenings.universalConormalSheafPullbackMap` of
+`StacksFrontier.AlgebraicGeometry.Thickenings.UniversalConormalGenerators`, which carries the tag.
 
 [Stacks Project, Tag 04F6] is proved for an arbitrary universal first-order thickening rather
 than only for the chosen one. The gluing construction of [Stacks Project, Tag 04F3] produces a

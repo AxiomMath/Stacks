@@ -22,35 +22,37 @@ then holds as sheaves of `O`-modules: `f^*G` is the extension of scalars of `f�
 (`Stacks.MixedTensor.sheafMixedBaseChangeIso`).  This is where the present statement departs
 from `underivedTensorInverseImageLinearIso`, which is the same identity read in `f⁻¹O'`-modules.
 
-In the derived category the identity is read off the factorization `X --h--> (C, f⁻¹O') --g--> Y`
-of `f`: the derived mixed tensor product `F ⊗^L_{f⁻¹O'} N` is `F ⊗^L_O Lh^*N`, which is the
-derived functor of the mixed tensor product because `- ⊗_O h^*N` and `- ⊗_{f⁻¹O'} N` are
-isomorphic as underived functors, and `Lf^* ≅ Lg^* ⋙ Lh^*` is Stacks 0G6R.
+In the derived category this file reads off the factorization `X --h--> (C, f⁻¹O') --g--> Y`
+of `f` the comparison `F ⊗^L_O Lf^*G ≅ F ⊗^L_O Lh^*(f⁻¹G)`, the whiskering of Stacks 0G6R,
+`Lf^* ≅ Lg^* ⋙ Lh^*`.  Its right-hand side is written with `Lh^*`, not as the derived mixed
+tensor product over `f⁻¹O'`; the latter, and the isomorphism of the tag in `D(O)` with it, are in
+`MixedDerivedTensor.LinearDerivedMixedTensor`.
 
 ## Main definitions
 
 * `Stacks.Cohomology.MixedDerivedTensor.linearMixedTensorRight`: the endofunctor
   `F ↦ F ⊗_{f⁻¹O'} N` of sheaves of `O`-modules.
 * `Stacks.Cohomology.MixedDerivedTensor.linearDerivedTensorPullback` and
-  `linearDerivedMixedTensor`: the two bifunctors `D(O) × D(O') ⥤ D(O)` of the tag.
+  `linearDerivedMixedTensor`: the bifunctors `(F, G) ↦ F ⊗^L_O Lf^*G` and
+  `(F, G) ↦ F ⊗^L_O Lh^*(f⁻¹G)` from `D(O) × D(O')` to `D(O)`.
 
 ## Main results
 
 * `Stacks.Cohomology.MixedDerivedTensor.underivedLinearTensorInverseImageIso`: **the underived
   identity of Stacks 08I6 as sheaves of `O`-modules.**
 * `Stacks.Cohomology.MixedDerivedTensor.linearMixedTensorRight_iso_extendScalars`: tensoring
-  over `f⁻¹O'` with `N` is tensoring over `O` with the extension of scalars `h^*N`.  This is
-  what makes the second bifunctor below the derived mixed tensor product.
-* `Stacks.Cohomology.MixedDerivedTensor.derivedLinearMixedTensorIso`: **Stacks 08I6,
-  `O`-linearly.**
+  over `f⁻¹O'` with `N` is tensoring over `O` with the extension of scalars `h^*N`, as
+  underived functors.
+* `Stacks.Cohomology.MixedDerivedTensor.derivedLinearMixedTensorIso`:
+  `F ⊗^L_O Lf^*G ≅ F ⊗^L_O Lh^*(f⁻¹G)` in `D(O)`.
 
 ## Implementation notes
 
 *What the derived statement rests on.*  `linearDerivedMixedTensor` is written with `Lh^*`, and
-the content that makes it the derived mixed tensor product is
-`linearMixedTensorRight_iso_extendScalars`: an isomorphism of the two *underived* endofunctors
-of sheaves of `O`-modules, so their derived functors agree.  The statement of the tag is then
-the whiskering of Stacks 0G6R into the second variable.  Nothing here is a restatement of the
+`derivedLinearMixedTensorIso` is the whiskering of Stacks 0G6R into the second variable.  No
+identification of `linearDerivedMixedTensor` with a derived functor of the mixed tensor product
+is proved in this file: `linearMixedTensorRight_iso_extendScalars` is only the underived
+isomorphism.  Nothing here is a restatement of the
 `f⁻¹O'`-linear form: that form is an isomorphism in `D(f⁻¹O')`, and restriction of scalars on
 derived categories is not faithful, so neither of the two statements follows from the other.
 
@@ -167,10 +169,11 @@ abbrev linearDerivedTensorPullback
   (𝟭 _).prod (derivedPullback f) ⋙
     Functor.uncurry.obj (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.O)
 
-/-- **The right-hand bifunctor of Stacks 08I6, `O`-linearly**:
-`(F, G) ↦ F ⊗^L_{f⁻¹O'} f⁻¹G`, read in `D(O)`.  The mixed derived tensor product is written as
-`F ⊗^L_O Lh^*(f⁻¹G)`, which is the derived functor of the mixed tensor product by
-`linearMixedTensorRight_iso_extendScalars`. -/
+/-- **The bifunctor `(F, G) ↦ F ⊗^L_O Lh^*(f⁻¹G)`** into `D(O)`, where `f⁻¹G` is the derived
+inverse image of `G` as a complex of `f⁻¹O'`-modules and `Lh^*` is the derived extension of
+scalars along `f⁻¹O' ⟶ O`.  No identification of this bifunctor with the derived mixed tensor
+product `F ⊗^L_{f⁻¹O'} f⁻¹G` is proved here; that derived mixed tensor product is
+`linearMixedDerivedTensorInverseImage` in `MixedDerivedTensor.LinearDerivedMixedTensor`. -/
 abbrev linearDerivedMixedTensor
     [(pullbackOnHomotopy (auxHomH f)).HasLeftDerivedFunctor
       (HomotopyCategory.quasiIso
@@ -187,14 +190,11 @@ abbrev linearDerivedMixedTensor
   (𝟭 _).prod (derivedPullback (auxHomG f) ⋙ derivedPullback (auxHomH f)) ⋙
     Functor.uncurry.obj (Stacks.DerivedTensor.RingedSite.derivedTensorProductFunctor X.O)
 
-/-- **Stacks 08I6, `O`-linearly.**  The canonical bifunctorial isomorphism
-
-`F ⊗^L_O Lf^*G ≅ F ⊗^L_{f⁻¹O'} f⁻¹G`
-
-in `D(O)`, for `F` in `D(O)` and `G` in `D(O')`.  Both sides are objects of `D(O)`: the mixed
-tensor product on the right inherits the `O`-action from `F`, and
-`linearMixedTensorRight_iso_extendScalars` is the identification of the underived mixed tensor
-product with the `Lh^*` form in which the right-hand side is written. -/
+/-- **`F ⊗^L_O Lf^*G ≅ F ⊗^L_O Lh^*(f⁻¹G)`** in `D(O)`, bifunctorially in `F` in `D(O)` and `G`
+in `D(O')`: the whiskering of Stacks 0G6R, `Lf^* ≅ Lg^* ⋙ Lh^*`, into the second variable.  The
+right-hand side is not the derived mixed tensor product over `f⁻¹O'`; the isomorphism of
+Stacks 08I6 in `D(O)` with that derived mixed tensor product is `linearDerivedMixedTensorIso` in
+`MixedDerivedTensor.LinearDerivedMixedTensor`. -/
 def derivedLinearMixedTensorIso (hmos : f.u.IsMorphismOfSites Y.J X.J) :
     haveI := Stacks.Cohomology.DerivedPullbackOnRingedTopoi.hasLeftDerivedFunctor_pullbackOnHomotopy
       (auxHomH f) (isMorphismOfSites_auxHomH f)

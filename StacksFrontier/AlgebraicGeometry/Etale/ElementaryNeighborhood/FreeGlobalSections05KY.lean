@@ -42,6 +42,8 @@ Stacks 05KY's conclusion except the projectivity of the global sections is deriv
 * `AlgebraicGeometry.exists_etale_neighborhood_with_free_globalSections`: the conclusion of
   Stacks 05KY, from the single hypothesis `hID` recording the output of Stacks 05ID for a module
   of finite type, after base change to the local ring of the base neighbourhood.
+  The unconditional Stacks 05KY is
+  `AlgebraicGeometry.exists_etale_neighborhood_with_free_globalSections_of_isFiniteType`.
 
 ## Implementation notes
 
@@ -177,14 +179,16 @@ private theorem isFinitePresentation_schemePullback {A B : Scheme.{u}} (c : A �
     ((Scheme.Modules.pullback c).obj M).IsFinitePresentation :=
   @Stacks.SheafOfModules.modulePullback_isFinitePresentation _ _ c.toLRSHom.toShHom M hM
 
-/-- **Stacks Project, Tag 05KY.** A finite type quasi-coherent module which is flat at a point
-over the base becomes a finitely presented module with free global sections on a pointed affine
-étale neighbourhood after an elementary étale localization of the base.
+/-- The conclusion of Stacks Tag 05KY, conditional on the hypothesis `hID`: a pointed affine
+étale neighbourhood over the local ring of an elementary étale neighbourhood of the base, on which
+the pullback of `F` is finitely presented with free global sections.
 
-The hypothesis `hID` is the conclusion of Stacks 05ID for a module of finite type — which Stacks
-obtains by combining Stacks 05ID with Stacks 05I5 — with its projectivity clause transported
-along the base change to the local ring of the base neighbourhood. Everything else in the
-conclusion is derived. -/
+This is not Tag 05KY itself. The hypothesis `hID` is the conclusion of Stacks 05ID for a module of
+finite type — which Stacks obtains by combining Stacks 05ID with Stacks 05I5 — with its
+projectivity clause transported along the base change to the local ring of the base
+neighbourhood, and the flatness hypothesis is not used. Everything else in the conclusion is
+derived. The unconditional statement, Tag 05KY, is
+`AlgebraicGeometry.exists_etale_neighborhood_with_free_globalSections_of_isFiniteType`. -/
 theorem exists_etale_neighborhood_with_free_globalSections
     {X S : Scheme.{u}} (f : X ⟶ S) [LocallyOfFinitePresentation f]
     (F : X.Modules) [F.IsQuasicoherent] [F.IsFiniteType]

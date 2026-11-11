@@ -40,10 +40,51 @@ public import Mathlib.RingTheory.Valuation.ValuationSubring
 
 @[expose] public section
 
--- The former @[stacks 052L] declaration is now the Mathlib construction.
-add_to_stacks 052L "`K ∩ B` as a valuation subring of `K`, pulled back along `K → L`"
-  ValuationSubring.comap
-add_to_stacks 052L "membership in `K ∩ B`" ValuationSubring.mem_comap
+/-!
+# Restricting a valuation ring to a subfield
+
+Let `L / K` be an extension of fields and let `B ⊆ L` be a valuation ring, with no
+assumption on its fraction field. Then `A = K ∩ B` is a valuation ring
+(`Subring.valuationRing_comap`, Stacks tag 052L).
+
+The proof is the divisibility criterion: for `a, b ∈ A` some `c ∈ B` has `a c = b` or
+`b c = a` in `B`; when `a ≠ 0` the element `c = b / a` already lies in `K`, hence in `A`.
+-/
+
+namespace Subring
+
+variable {K L : Type*} [Field K] [Field L]
+
+/-- Divisibility in `B` between elements of `A = B.comap f`, with the quotient taken in
+`B`, descends to divisibility in `A`. -/
+private lemma exists_mul_eq_or_of_mul_eq (B : Subring L) (f : K →+* L)
+    (a b : B.comap f) (c : B) (hc : f a * c = f b) :
+    ∃ c' : B.comap f, a * c' = b ∨ b * c' = a := by
+  by_cases ha : (a : K) = 0
+  · exact ⟨0, Or.inr (Subtype.ext (by simp [ha]))⟩
+  · have hfa : f a ≠ 0 := (map_ne_zero f).mpr ha
+    have hcK : f ((b : K) / a) = c := by
+      rw [map_div₀]
+      exact (eq_div_of_mul_eq hfa (by rw [mul_comm]; exact hc)).symm
+    refine ⟨⟨(b : K) / a, ?_⟩, Or.inl (Subtype.ext ?_)⟩
+    · rw [Subring.mem_comap, hcK]
+      exact c.2
+    · simp [mul_div_cancel₀ _ ha]
+
+/-- **Stacks Tag 052L.** Let `f : K → L` be a homomorphism of fields (so `L / K` is a
+field extension, `K` identified with its image) and let `B ⊆ L` be a subring which is a
+valuation ring. Then `A = K ∩ B`, realized as `B.comap f`, is a valuation ring. No
+assumption is made on the fraction field of `B`. -/
+@[stacks 052L]
+theorem valuationRing_comap (B : Subring L) [ValuationRing B] (f : K →+* L) :
+    ValuationRing (B.comap f) where
+  cond' a b := by
+    obtain ⟨c, hc | hc⟩ := ValuationRing.cond (⟨f a, a.2⟩ : B) ⟨f b, b.2⟩
+    · exact exists_mul_eq_or_of_mul_eq B f a b c (congrArg Subtype.val hc)
+    · exact (exists_mul_eq_or_of_mul_eq B f b a c (congrArg Subtype.val hc)).imp
+        fun _ h => h.symm
+
+end Subring
 
 -- ===== merged from StacksDraft.Ch10.Sec50.Tag0AAV =====
 
@@ -76,7 +117,8 @@ element of `K`, so both `v c_d ≤ 1` and `v c_d⁻¹ ≤ 1`, forcing `v c_d = 1
 In Mathlib a `ValuationSubring L` is by construction a subring of `L` that is a valuation
 ring with fraction field `L`, so writing `B : ValuationSubring L` already encodes both
 properties, and the type of `A = B.comap (algebraMap K L)` already delivers the first
-conclusion (this is Stacks tag 052L). "Not a field" is `≠ ⊤`, equivalently a nonzero
+conclusion (in this case `Frac B = L`; the general Stacks tag 052L, for any valuation
+ring `B ⊆ L`, is `Subring.valuationRing_comap`). "Not a field" is `≠ ⊤`, equivalently a nonzero
 maximal ideal, equivalently a nontrivial valuation. What remains, and what genuinely
 consumes the algebraicity hypothesis, is that `A ≠ ⊤`: over a transcendental extension
 the restricted valuation can be trivial.

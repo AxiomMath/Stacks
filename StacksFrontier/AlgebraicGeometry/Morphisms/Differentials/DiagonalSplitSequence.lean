@@ -52,7 +52,7 @@ pr_2^* d_{X/S} b - pr_1^* d_{X/S} b`.
   `Ω_{X/S} ⊕ Ω_{X/S} ≅ Δ^* Ω_{W/S}`.
 * `Stacks.DiagonalSplitSequence.leftArrow`: the map `(-1, 1)` into `Δ^* Ω_{W/S}`.
 * `Stacks.DiagonalSplitSequence.shortComplex` and
-  `Stacks.DiagonalSplitSequence.splitting`: the three-term complex
+  `Stacks.DiagonalSplitSequence.splitting`: the model complex
   `Ω_{X/S} → Ω_{X/S} ⊕ Ω_{X/S} → Ω_{X/S}` with arrows `(-1, 1)` and `(1, 1)`, and its splitting.
 
 ## Main results
@@ -63,12 +63,15 @@ pr_2^* d_{X/S} b - pr_1^* d_{X/S} b`.
   **[Stacks, Tag 060N]**, the right arrow is `(1, 1)`.
 * `Stacks.DiagonalSplitSequence.isSplitEpi_diagonalDifferentialsMap`: **[Stacks, Tag 060N]**, the
   right arrow is a split surjection.
-* `Stacks.DiagonalSplitSequence.leftArrow_eq`: **[Stacks, Tag 060N]**, the left arrow is the
-  difference `sndInclusion - fstInclusion` of the two projection inclusions, which is `(-1, 1)`.
+* `Stacks.DiagonalSplitSequence.leftArrow_eq`: the map `(-1, 1)` is the difference
+  `sndInclusion - fstInclusion` of the two projection inclusions.
 * `Stacks.DiagonalSplitSequence.pullbackSection_d_diffSection`: **[Stacks, Tag 060N]**, the
   footnote, on sections.
-* `Stacks.DiagonalSplitSequence.shortComplex_shortExact`: **[Stacks, Tag 060N]**, the canonical
-  short exact sequence.
+* `Stacks.DiagonalSplitSequence.shortComplex_shortExact`: the model complex is short exact.
+
+The canonical sequence itself — the conormal sequence of `Δ`, its short exactness, and the
+identification of its left arrow with `(-1, 1)` under [Stacks, Tag 08S2] — is in
+`StacksFrontier.AlgebraicGeometry.Morphisms.Differentials.DiagonalConormalSequence`.
 
 ## Implementation notes
 
@@ -84,21 +87,6 @@ comparison isomorphism `(𝟙 X)^* Ω_{X/S} ≅ Ω_{X/S}`.  This is the argument
 `Stacks.ConormalSequenceSplit.isSplitEpi_relativeDifferentialsMap_of_retraction` runs for a
 general left inverse; recorded here as the explicit equation, which is what identifies the right
 arrow with `(1, 1)` rather than merely exhibiting it as split.
-
-The left-hand term of the source's sequence is the conormal sheaf `𝒞_{X/W}`, and the source
-states the left arrow after identifying it with `Ω_{X/S}` by [Stacks, Tag 08S2]; that is how the
-sequence is written here.  Composites mixing the conormal sheaf, which the repository builds in
-`SheafOfModules (ringSheaf X.toRingedSpace)`, with `biprod` in `X.Modules` are not formed: the
-two spellings of that category are definitionally but not syntactically equal, and
-instance search for `HasBinaryBiproduct` and for the zero morphism does not see through the
-difference.
-
-The first arrow `𝒞_{Z/X} ⟶ i^* Ω_{X/S}` of the conormal sequence of [Stacks, Tag 01UZ] is not
-available in this repository for a general immersion, so the left arrow is given through the
-direct sum decomposition rather than as that map specialized to `Δ`.  What ties the two together
-is the footnote `Stacks.DiagonalSplitSequence.pullbackSection_d_diffSection`, which computes
-`Δ^* d_{W/S}` on the generator `p_2^♯ b - p_1^♯ b` of the ideal sheaf of the diagonal and finds
-exactly `(-1, 1)` applied to `d_{X/S} b`.
 
 ## References
 
@@ -391,10 +379,12 @@ noncomputable def middleToDiff :
         (relativeDifferentials (pullback.fst f f ≫ f)) ⟶ relativeDifferentials f :=
   (diagonalBiprodIso f).inv ≫ biprod.snd
 
-/-- **[Stacks, Tag 060N]: the left arrow is `(-1, 1)`.**  Written through the identification
-`Δ^* Ω_{X ×_S X/S} = Ω_{X/S} ⊕ Ω_{X/S}` it is the difference of the two projection
-inclusions. -/
-@[stacks 060N "the left arrow is (-1,1)"]
+/-- **The map `(-1, 1)` is the difference of the two projection inclusions.**  Written through
+the identification `Δ^* Ω_{X ×_S X/S} = Ω_{X/S} ⊕ Ω_{X/S}`, the map
+`Stacks.DiagonalSplitSequence.leftArrow` is `sndInclusion - fstInclusion`.  This is a statement
+about the map `(-1, 1)` itself; that the first arrow of the conormal sequence of the diagonal is
+this map under [Stacks, Tag 08S2] is
+`relativeDifferentialsIsoDiagonalConormal_hom_comp_conormalDifferential`. -/
 theorem leftArrow_eq : leftArrow f = sndInclusion f - fstInclusion f := by
   rw [leftArrow, diagonalBiprodIso, asIso_hom, biprod.lift_desc, Preadditive.neg_comp,
     Category.id_comp, Category.id_comp]
@@ -501,19 +491,17 @@ theorem biprod_snd_lift_add_desc_inl (M : X.Modules) :
       𝟙 (M ⊞ M) := by
   refine biprod.hom_ext' _ _ ?_ ?_ <;> refine biprod.hom_ext _ _ ?_ ?_ <;> simp
 
-/-- **[Stacks, Tag 060N]: the canonical short exact sequence**
-`0 → Ω_{X/S} → Ω_{X/S} ⊕ Ω_{X/S} → Ω_{X/S} → 0`, with left arrow `(-1, 1)` and right arrow
-`(1, 1)`.  The left-hand term is the conormal sheaf `𝒞_{X/X ×_S X}` of the diagonal through the
-identification of [Stacks, Tag 08S2]
-(`Stacks.Tag08S2Assembly.relativeDifferentialsIsoDiagonalConormal`); the middle term is
-`Δ^* Ω_{X ×_S X/S}` through `Stacks.DiagonalSplitSequence.diagonalBiprodIso`, under which the
-right arrow is the canonical map of `Δ`. -/
+/-- **The model sequence** `Ω_{X/S} → Ω_{X/S} ⊕ Ω_{X/S} → Ω_{X/S}`, with left arrow `(-1, 1)`
+and right arrow `(1, 1)`.  As an abstract complex `M → M ⊕ M → M` this mentions neither the
+conormal sheaf nor the canonical maps; the canonical sequence of [Stacks, Tag 060N] is the
+conormal sequence `Stacks.ConormalSequenceRight.conormalShortComplex` of the diagonal, and
+`Stacks.DiagonalSplitSequence.diagonalShortComplexIso` identifies the two. -/
 noncomputable def shortComplex : ShortComplex X.Modules :=
   ShortComplex.mk (biprod.lift (-𝟙 (relativeDifferentials f)) (𝟙 (relativeDifferentials f)))
     (biprod.desc (𝟙 (relativeDifferentials f)) (𝟙 (relativeDifferentials f)))
     (by rw [biprod.lift_desc, Preadditive.neg_comp, Category.id_comp, neg_add_cancel])
 
-/-- **[Stacks, Tag 060N]: the sequence is split.**  The retraction of the left arrow is the
+/-- **The model sequence is split.**  The retraction of the left arrow is the
 second projection of the direct sum and the section of the right arrow is the first
 inclusion. -/
 noncomputable def splitting : (shortComplex f).Splitting where
@@ -523,8 +511,10 @@ noncomputable def splitting : (shortComplex f).Splitting where
   s_g := by simp [shortComplex]
   id := biprod_snd_lift_add_desc_inl (relativeDifferentials f)
 
-/-- **[Stacks, Tag 060N]: the canonical short exact sequence.** -/
-@[stacks 060N "the canonical short exact sequence"]
+/-- The model sequence `Ω_{X/S} → Ω_{X/S} ⊕ Ω_{X/S} → Ω_{X/S}` is short exact.  This holds for
+any object of an additive category in place of `Ω_{X/S}`; the short exactness of the canonical
+sequence of [Stacks, Tag 060N] is
+`Stacks.DiagonalSplitSequence.conormalShortComplex_diagonal_shortExact`. -/
 theorem shortComplex_shortExact : (shortComplex f).ShortExact := (splitting f).shortExact
 
 

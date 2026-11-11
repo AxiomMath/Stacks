@@ -18,7 +18,11 @@ is an isomorphism for every `i < s`.
 Cohomology on `U` is the cohomology of derived sections on `U`, modelled by the cone of the Čech
 augmentation of a finite family of generators of `𝔞`; this is the functor
 `Stacks.Algebraization.complementCohomologyFunctor`, whose degree-`i` value on `M` is `H^{i+1}_𝔞(M)`
-for `i ≥ 1` and `Γ(U, M̃)` for `i = 0`.
+for `i ≥ 1` and `Γ(U, M̃)` for `i = 0`. That model is identified with the sheaf cohomology of
+`M̃|U` on the open subscheme `U`, naturally in `M`, in
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/ComplementSheafCohomologyComparison.lean`, and the
+statement for sheaf cohomology is deduced in
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/ComplementFormalFunctionsSheaf.lean`.
 
 ## The argument
 
@@ -56,8 +60,11 @@ of `H¹_𝔞(M)` by `M / H⁰_𝔞(M)`, and its completeness is
 * `Stacks.Algebraization.HigherComplementTower.bijective_toTowerSections_of_isAdicComplete` — the
   comparison map in degree `i` is a bijection as soon as `H^i(U, M̃)` is `f`-adically complete and
   `H^{i+1}(U, M̃)` is annihilated by a power of `f`.
-* `Stacks.Algebraization.HigherComplementTower.bijective_toTowerSections` — **Stacks 0EKM**: the
-  comparison map is a bijection for every `i < s`.
+* `Stacks.Algebraization.HigherComplementTower.bijective_toTowerSections`: the comparison map is
+  a bijection for every `i < s`, in the Čech cone model of `H^i(U, -)`. Its transport to sheaf
+  cohomology on `U`, which is Stacks 0EKM, is
+  `Stacks.Algebraization.HigherComplementTower.bijective_sheafCohomologyToTowerSections` in
+  `StacksFrontier/AlgebraicGeometry/FormalGeometry/ComplementFormalFunctionsSheaf.lean`.
 
 ## References
 
@@ -388,13 +395,18 @@ let `M` be a finite `A`-module and let `s ≥ 0`. Assume `A` is `f`-adically com
 is annihilated by a power of `f` for `k ≤ s + 1`. Then with `U = Spec(A) ∖ V(𝔞)` the canonical map
 `H^i(U, M̃) ⟶ lim_n H^i(U, (M/fⁿM)̃)` is a bijection for every `i < s`.
 
+Here `H^i(U, -)` is the Čech cone model `Stacks.Algebraization.complementCohomologyFunctor` of a
+finite family generating `𝔞`. It is identified with the sheaf cohomology of [Stacks, Tag 01E3] on
+`U`, naturally in the module, by
+`Stacks.Algebraization.ComplementSheafComparison.hfunctorComplementTildeIso`, and the statement of
+Stacks 0EKM for sheaf cohomology is
+`Stacks.Algebraization.HigherComplementTower.bijective_sheafCohomologyToTowerSections`, which is
+deduced from this one.
+
 In degree zero the source is complete by the extension argument of Stacks 0EII; in a positive
 degree `i < s` it equals `H^{i+1}_𝔞(M)`, which is killed by a power of `f` because `i + 1 ≤ s + 1`,
 and a module killed by a power of `f` is complete. In both cases `H^{i+1}(U, M̃) = H^{i+2}_𝔞(M)` is
 killed by a power of `f` because `i + 2 ≤ s + 1`. -/
-@[stacks 0EKM "with H^i(U, -) the cohomology of derived sections on U = Spec(A) ∖ V(𝔞) in the \
-Čech model of a finite generating family of 𝔞, and the inverse limit taken as the compatible \
-sequences of the tower of the H^i(U, (M/fⁿM)~)"]
 theorem bijective_toTowerSections {A : Type u} [CommRing A] [IsNoetherianRing A]
     {I : Ideal A} (hI : I.FG) {r : ℕ} (fam : Fin r → A)
     (hfam : Ideal.span (Set.range fam) = I) (f : A) (hf : f ∈ I) (M : ModuleCat.{u} A)

@@ -88,10 +88,10 @@ the fourth, is used for real.
   change, and its backward direction is **Stacks 0AQV**, that rig-surjectivity is étale local
   on the target. The library has both —
   `AlgebraicGeometry.FormalSpace.IsRigSurjective.of_isPullback` and
-  `AlgebraicGeometry.FormalSpace.isRigSurjective_iff_forall_pullback_snd` — but neither in
-  the chart shape used here: the first needs the chart map presented as a projection of a fibre
-  product rather than as `Spf` of `g`, and the second is stated for a jointly surjective family
-  and carries two hypotheses of its own.
+  `AlgebraicGeometry.FormalSpace.isRigSurjective_iff_forall_pullback_snd_of_isRepresentableEtale`
+  — but neither in the chart shape used here: the first needs the chart map presented as a
+  projection of a fibre product rather than as `Spf` of `g`, and the second is stated for a
+  jointly surjective family of representable étale morphisms rather than for charts.
 * `hAR0` is **Stacks 0AR0** applied to the chart maps, read through the full faithfulness of
   `Spf` (**Stacks 0AN0**): rig-surjectivity of `Spf C ⟶ Spf A` is the assertion that every adic
   morphism from the formal spectrum of a complete discrete valuation ring to `Spf A` factors

@@ -48,8 +48,11 @@ two-term product presentation of `R¹lim`.
 * `Rlim.Hom.hom_into_isDerivedLimit_shortExact`: the Milnor short exact sequence for maps into a
   derived inverse limit, natural for morphisms of defining triangles (Tag 0919), with the bare
   short exact sequence extracted as `Rlim.Hom.hom_into_isDerivedLimit_shortExact_basic`.
-* `Rlim.Hom.exists_shortExact_map_from_isHomotopyColimit`: the Milnor short exact sequence for
-  maps out of a derived colimit (Tag 0CQX).
+* `Rlim.Hom.shortExact_map_from_isHomotopyColimit`: the Milnor short exact sequence for maps out
+  of a derived colimit, with its arrows identified through a defining triangle: restriction along
+  the coprojections and the connecting morphism (Tag 0CQX). The version for a chosen defining
+  triangle is `Rlim.Hom.shortExact_map_from_homotopyColimit_triangle`, and the bare short exact
+  sequence is `Rlim.Hom.exists_shortExact_map_from_isHomotopyColimit`.
 
 ## Implementation notes
 
@@ -522,11 +525,12 @@ private lemma exists_shortExact_of_iso
     {S : ShortComplex C} (hS : S.ShortExact) {X₁ X₂ X₃ : C}
     (e₁ : S.X₁ ≅ X₁) (e₂ : S.X₂ ≅ X₂) (e₃ : S.X₃ ≅ X₃) :
     ∃ (i : X₁ ⟶ X₂) (p : X₂ ⟶ X₃) (z : i ≫ p = 0),
-      (ShortComplex.mk i p z).ShortExact := by
+      (ShortComplex.mk i p z).ShortExact ∧ i = e₁.inv ≫ S.f ≫ e₂.hom ∧
+        p = e₂.inv ≫ S.g ≫ e₃.hom := by
   let i := e₁.inv ≫ S.f ≫ e₂.hom
   let p := e₂.inv ≫ S.g ≫ e₃.hom
   have z : i ≫ p = 0 := by simp [i, p, S.zero_assoc]
-  refine ⟨i, p, z, ShortComplex.shortExact_of_iso ?_ hS⟩
+  refine ⟨i, p, z, ShortComplex.shortExact_of_iso ?_ hS, rfl, rfl⟩
   exact ShortComplex.isoMk e₁ e₂ e₃ (by simp [i]) (by simp [p])
 
 universe v u
@@ -571,17 +575,28 @@ private lemma yonedaCoproductIsoProduct_map_difference
   simp only [← Category.assoc, yonedaCoproductIsoProduct_hom_π]
 
 set_option backward.isDefEq.respectTransparency false in
-/-- Let `F : ℕ ⥤ D` be a system in a pretriangulated category and let `K` be a derived colimit
-of `F`. For every `L`, there is a short exact sequence
-`0 → R¹ lim Hom(F n, L[-1]) → Hom(K, L) → lim Hom(F n, L) → 0`.
+/-- **Stacks 0CQX**, for a chosen defining triangle. Let `F : ℕ ⥤ D` be a system in a
+pretriangulated category and let `∐ Fₙ ⟶ ∐ Fₙ ⟶ K ⟶ (∐ Fₙ)[1]` be a distinguished triangle whose
+first map is `1 - fₙ`, the defining triangle of a derived colimit `K` (Derived Categories,
+Definition 090Z), with second map `j` and third map `c`. For every `L` there is a short exact
+sequence `0 → R¹ lim Hom(Fₙ, L[-1]) → Hom(K, L) → lim Hom(Fₙ, L) → 0` whose arrows are the ones
+of the long exact `Hom(-, L)` sequence of the triangle:
+
+* the second arrow sends `f : K ⟶ L` to the compatible family `(ιₙ ≫ j ≫ f)ₙ` of its
+  restrictions along the coprojections `ιₙ ≫ j : Fₙ ⟶ K`;
+* the first arrow sends the class of the family `(ιₙ ≫ g)ₙ` of a map `g : ∐ Fₙ ⟶ L[-1]` to
+  `c ≫ g[1] : K ⟶ L`, through the connecting morphism `c` of the triangle and the identification
+  `L[-1][1] ≅ L`.
 
 Here `R¹ lim` is written as the cokernel of `1 - shift` on the product of the inverse system
-`Hom(F n, L[-1])`, using the explicit description of derived inverse limits from Tag 07KW. -/
-@[stacks 0CQX]
-public theorem exists_shortExact_map_from_isHomotopyColimit
+`Hom(Fₙ, L[-1])`, using the description of derived inverse limits from Tag 07KW. -/
+public theorem shortExact_map_from_homotopyColimit_triangle
     {D : Type u} [Category.{v} D] [Preadditive D] [HasZeroObject D] [HasShift D ℤ]
     [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulated D]
-    (F : ℕ ⥤ D) [HasCoproduct F.obj] (K L : D) (hK : IsHomotopyColimit F K) :
+    (F : ℕ ⥤ D) [HasCoproduct F.obj] (K L : D) (j : ∐ F.obj ⟶ K)
+    (c : K ⟶ (∐ F.obj)⟦(1 : ℤ)⟧)
+    (hT : Triangle.mk (Sigma.desc fun n ↦ Sigma.ι F.obj n -
+      F.map (homOfLE (Nat.le_succ n)) ≫ Sigma.ι F.obj (n + 1)) j c ∈ distTriang D) :
     let A₀ : ℕᵒᵖ ⥤ AddCommGrpCat.{v} := F.op ⋙ preadditiveYoneda.obj L
     let A₁ : ℕᵒᵖ ⥤ AddCommGrpCat.{v} := F.op ⋙ preadditiveYoneda.obj (L⟦(-1 : ℤ)⟧)
     let P₁ : AddCommGrpCat.{v} := ∏ᶜ fun n : ℕ ↦ A₁.obj (Opposite.op n)
@@ -590,14 +605,19 @@ public theorem exists_shortExact_map_from_isHomotopyColimit
         A₁.map (homOfLE (Nat.le_succ n)).op
     let δ₁ : P₁ ⟶ P₁ := 𝟙 P₁ - shift₁
     let H : AddCommGrpCat.{v} := (preadditiveYoneda.obj L).obj (Opposite.op K)
-    ∃ (i : cokernel δ₁ ⟶ H) (p : H ⟶ limit A₀) (z : i ≫ p = 0),
-      (ShortComplex.mk i p z).ShortExact := by
+    ∃ (i : cokernel δ₁ ⟶ H) (r : H ⟶ limit A₀) (z : i ≫ r = 0),
+      (ShortComplex.mk i r z).ShortExact ∧
+      (∀ (f : K ⟶ L) (n : ℕ),
+        limit.π A₀ (Opposite.op n) (r f) = Sigma.ι F.obj n ≫ j ≫ f) ∧
+      ∀ (g : ∐ F.obj ⟶ L⟦(-1 : ℤ)⟧) (x : P₁),
+        (∀ n : ℕ, Pi.π (fun n : ℕ ↦ A₁.obj (Opposite.op n)) n x = Sigma.ι F.obj n ≫ g) →
+          i (cokernel.π δ₁ x) =
+            c ≫ g⟦(1 : ℤ)⟧' ≫ (shiftFunctorCompIsoId D (-1 : ℤ) 1 (by norm_num)).hom.app L := by
   classical
   dsimp only
-  obtain ⟨p, q, hT⟩ := hK
   let a : ∐ F.obj ⟶ ∐ F.obj := Sigma.desc fun n ↦ Sigma.ι F.obj n -
     F.map (homOfLE (Nat.le_succ n)) ≫ Sigma.ι F.obj (n + 1)
-  let T := (triangleOpEquivalence D).functor.obj (Opposite.op (Triangle.mk a p q))
+  let T := (triangleOpEquivalence D).functor.obj (Opposite.op (Triangle.mk a j c))
   have hT' : T ∈ distTriang Dᵒᵖ := op_distinguished _ hT
   let Y := preadditiveYoneda.obj L
   obtain ⟨z, hS⟩ := shortExact_of_exact_four
@@ -623,11 +643,100 @@ public theorem exists_shortExact_map_from_isHomotopyColimit
     rw [← Category.assoc, (Y.isoShiftZero ℤ).hom.naturality a.op, Category.assoc,
       yonedaCoproductIsoProduct_map_difference F L]
     simp only [A₀, Category.assoc]
-  obtain ⟨eLim, _⟩ := Rlim.limit_kernel_iso A₀
-  exact exists_shortExact_of_iso hS
-    (cokernel.mapIso _ (Rlim.delta A₁) e₁ e₁ w₁)
-    ((Y.isoShiftZero ℤ).app (Opposite.op K))
-    (kernel.mapIso _ (Rlim.delta A₀) e₀ e₀ w₀ ≪≫ eLim.symm)
+  obtain ⟨eLim, heLim⟩ := Rlim.limit_kernel_iso A₀
+  let E₁ := cokernel.mapIso _ (Rlim.delta A₁) e₁ e₁ w₁
+  let E₂ := (Y.isoShiftZero ℤ).app (Opposite.op K)
+  let E₃ := kernel.mapIso _ (Rlim.delta A₀) e₀ e₀ w₀ ≪≫ eLim.symm
+  obtain ⟨i, r, zir, hir, hi, hr⟩ := exists_shortExact_of_iso hS E₁ E₂ E₃
+  refine ⟨i, r, zir, hir, fun f n ↦ ?_, fun g x hx ↦ ?_⟩
+  · have hπ : r ≫ limit.π A₀ (Opposite.op n) = Y.map (Sigma.ι F.obj n ≫ j).op := by
+      rw [hr, ← heLim n]
+      simp only [E₂, E₃, e₀, Iso.trans_hom, Iso.symm_hom, Category.assoc, Iso.inv_hom_id_assoc,
+        kernel.mapIso, kernel.lift_ι_assoc, Iso.app_hom, Iso.app_inv]
+      rw [show (yonedaCoproductIsoProduct F.obj L).hom ≫
+          Pi.π (fun n ↦ A₀.obj (Opposite.op n)) n = Y.map (Sigma.ι F.obj n).op from
+        yonedaCoproductIsoProduct_hom_π F.obj L n]
+      have hnat := (Y.isoShiftZero ℤ).hom.naturality j.op
+      change (Y.isoShiftZero ℤ).inv.app (Opposite.op K) ≫ (Y.shift 0).map j.op ≫
+        (Y.isoShiftZero ℤ).hom.app (Opposite.op (∐ F.obj)) ≫ Y.map (Sigma.ι F.obj n).op = _
+      rw [reassoc_of% hnat, Iso.inv_hom_id_app_assoc, ← Functor.map_comp]
+      rfl
+    exact (ConcreteCategory.congr_hom hπ f).trans (Category.assoc _ _ _)
+  · have hx' : x = e₁.hom g := by
+      refine Concrete.limit_ext _ _ _ fun ⟨n⟩ ↦ (hx n).trans ?_
+      exact (ConcreteCategory.congr_hom
+        (yonedaCoproductIsoProduct_hom_π F.obj (L⟦(-1 : ℤ)⟧) n) g).symm
+    have hπ : e₁.hom ≫ cokernel.π (Rlim.delta A₁) ≫ i =
+        Y.homologySequenceδ T (-1) 0 (by decide) ≫ E₂.hom := by
+      rw [hi]
+      simp only [E₁, cokernel.mapIso, cokernel.map, cokernel.π_desc_assoc, Category.assoc,
+        Iso.hom_inv_id_assoc]
+    rw [hx']
+    refine (ConcreteCategory.congr_hom hπ g).trans ?_
+    have hδ := preadditiveYoneda_homologySequenceδ_apply (Triangle.mk a j c) (-1) 0
+      (by decide) g
+    refine (congrArg (fun y : K ⟶ L⟦(0 : ℤ)⟧ ↦ y ≫ (shiftFunctorZero D ℤ).hom.app L) hδ).trans ?_
+    simp [shiftFunctorCompIsoId]
+
+/-- **Stacks 0CQX.** Let `F : ℕ ⥤ D` be a system in a pretriangulated category and let `K` be a
+derived colimit of `F`. For every `L` there is a short exact sequence
+`0 → R¹ lim Hom(Fₙ, L[-1]) → Hom(K, L) → lim Hom(Fₙ, L) → 0` coming from a defining triangle
+`∐ Fₙ ⟶ ∐ Fₙ ⟶ K ⟶ (∐ Fₙ)[1]` of `K`, with second map `j` and third map `c`: the second arrow is
+restriction along the coprojections `ιₙ ≫ j : Fₙ ⟶ K`, and the first arrow sends the class of
+the family `(ιₙ ≫ g)ₙ` of a map `g : ∐ Fₙ ⟶ L[-1]` to `c ≫ g[1]`, the image of `g` under the
+connecting morphism of the triangle. See `shortExact_map_from_homotopyColimit_triangle` for the
+same statement for any chosen defining triangle.
+
+Here `R¹ lim` is written as the cokernel of `1 - shift` on the product of the inverse system
+`Hom(Fₙ, L[-1])`, using the description of derived inverse limits from Tag 07KW. -/
+@[stacks 0CQX]
+public theorem shortExact_map_from_isHomotopyColimit
+    {D : Type u} [Category.{v} D] [Preadditive D] [HasZeroObject D] [HasShift D ℤ]
+    [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulated D]
+    (F : ℕ ⥤ D) [HasCoproduct F.obj] (K L : D) (hK : IsHomotopyColimit F K) :
+    let A₀ : ℕᵒᵖ ⥤ AddCommGrpCat.{v} := F.op ⋙ preadditiveYoneda.obj L
+    let A₁ : ℕᵒᵖ ⥤ AddCommGrpCat.{v} := F.op ⋙ preadditiveYoneda.obj (L⟦(-1 : ℤ)⟧)
+    let P₁ : AddCommGrpCat.{v} := ∏ᶜ fun n : ℕ ↦ A₁.obj (Opposite.op n)
+    let shift₁ : P₁ ⟶ P₁ := Pi.lift fun n ↦
+      Pi.π (fun n : ℕ ↦ A₁.obj (Opposite.op n)) (n + 1) ≫
+        A₁.map (homOfLE (Nat.le_succ n)).op
+    let δ₁ : P₁ ⟶ P₁ := 𝟙 P₁ - shift₁
+    let H : AddCommGrpCat.{v} := (preadditiveYoneda.obj L).obj (Opposite.op K)
+    ∃ (j : ∐ F.obj ⟶ K) (c : K ⟶ (∐ F.obj)⟦(1 : ℤ)⟧),
+      Triangle.mk (Sigma.desc fun n ↦ Sigma.ι F.obj n -
+        F.map (homOfLE (Nat.le_succ n)) ≫ Sigma.ι F.obj (n + 1)) j c ∈ distTriang D ∧
+      ∃ (i : cokernel δ₁ ⟶ H) (r : H ⟶ limit A₀) (z : i ≫ r = 0),
+        (ShortComplex.mk i r z).ShortExact ∧
+        (∀ (f : K ⟶ L) (n : ℕ),
+          limit.π A₀ (Opposite.op n) (r f) = Sigma.ι F.obj n ≫ j ≫ f) ∧
+        ∀ (g : ∐ F.obj ⟶ L⟦(-1 : ℤ)⟧) (x : P₁),
+          (∀ n : ℕ, Pi.π (fun n : ℕ ↦ A₁.obj (Opposite.op n)) n x = Sigma.ι F.obj n ≫ g) →
+            i (cokernel.π δ₁ x) =
+              c ≫ g⟦(1 : ℤ)⟧' ≫
+                (shiftFunctorCompIsoId D (-1 : ℤ) 1 (by norm_num)).hom.app L := by
+  obtain ⟨j, c, hT⟩ := hK
+  exact ⟨j, c, hT, shortExact_map_from_homotopyColimit_triangle F K L j c hT⟩
+
+/-- The bare short exact sequence `0 → R¹ lim Hom(Fₙ, L[-1]) → Hom(K, L) → lim Hom(Fₙ, L) → 0`
+for a derived colimit `K` of a system `F`, forgetting which maps realize it. The statement with
+the maps identified through a defining triangle is `shortExact_map_from_isHomotopyColimit`
+(Tag 0CQX). -/
+public theorem exists_shortExact_map_from_isHomotopyColimit
+    {D : Type u} [Category.{v} D] [Preadditive D] [HasZeroObject D] [HasShift D ℤ]
+    [∀ n : ℤ, (shiftFunctor D n).Additive] [Pretriangulated D]
+    (F : ℕ ⥤ D) [HasCoproduct F.obj] (K L : D) (hK : IsHomotopyColimit F K) :
+    let A₀ : ℕᵒᵖ ⥤ AddCommGrpCat.{v} := F.op ⋙ preadditiveYoneda.obj L
+    let A₁ : ℕᵒᵖ ⥤ AddCommGrpCat.{v} := F.op ⋙ preadditiveYoneda.obj (L⟦(-1 : ℤ)⟧)
+    let P₁ : AddCommGrpCat.{v} := ∏ᶜ fun n : ℕ ↦ A₁.obj (Opposite.op n)
+    let shift₁ : P₁ ⟶ P₁ := Pi.lift fun n ↦
+      Pi.π (fun n : ℕ ↦ A₁.obj (Opposite.op n)) (n + 1) ≫
+        A₁.map (homOfLE (Nat.le_succ n)).op
+    let δ₁ : P₁ ⟶ P₁ := 𝟙 P₁ - shift₁
+    let H : AddCommGrpCat.{v} := (preadditiveYoneda.obj L).obj (Opposite.op K)
+    ∃ (i : cokernel δ₁ ⟶ H) (p : H ⟶ limit A₀) (z : i ≫ p = 0),
+      (ShortComplex.mk i p z).ShortExact := by
+  obtain ⟨_, _, _, i, r, z, h, _⟩ := shortExact_map_from_isHomotopyColimit F K L hK
+  exact ⟨i, r, z, h⟩
 
 end Rlim.Hom
 

@@ -68,11 +68,15 @@ chart presentation and the two properties it yields, Stacks 084F and 084G.
   with every hypothesis discharged against that witness.
 * `AlgebraicGeometry.Space.RelativeProjPoints.homEquivF1`,
   `AlgebraicGeometry.Space.RelativeProjPoints.pointEquivF1` and
-  `AlgebraicGeometry.Space.RelativeProjPoints.pointEquivF1_natural` are **Stacks 085D,
-  part (1)**: for a graded algebra generated as an `𝒜₀`-algebra by `𝒜₁`, the relative Proj
-  represents the functor `F₁` whose value at `T` is the set of isomorphism classes of triples
-  `(f : T ⟶ X, ℒ, ψ)` with `ℒ` invertible on `T` and `ψ : f^*𝒜 ⟶ ⨁_{n ≥ 0} ℒ^{⊗ n}` a graded
-  algebra map surjective in degree one.  The bijection is natural in the test object.
+  `AlgebraicGeometry.Space.RelativeProjPoints.pointEquivF1_natural` give the shape of
+  Stacks 085D, part (1), from scheme-level representing bijections of Stacks 01O4 at each point of
+  the base: the relative Proj represents the functor `F₁` whose value at `T` is the set of
+  isomorphism classes of triples `(f : T ⟶ X, ℒ, ψ)` with `ℒ` invertible on `T` and
+  `ψ : f^*𝒜 ⟶ ⨁_{n ≥ 0} ℒ^{⊗ n}` a graded algebra map surjective in degree one.  The bijection
+  is natural in the test object.  Stacks 085D itself, on the constructed relative Proj and
+  under degree-one generation of `𝒜` alone, is
+  `AlgebraicGeometry.Space.RelativeProjSituation.relativeProjIsoF1OfGenerated` (part (1)) and
+  `StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjTwistsGenerated.lean` (parts (2) and (3)).
 
 ## Implementation notes
 
@@ -135,8 +139,8 @@ point `f` of the base and is natural in the test object above `f`, where the one
 representation at `f` governs all of them; summing over the points of the base recovers the
 bijection `Mor(T, P) = F₁(T)` as
 `AlgebraicGeometry.Space.RelativeProjPoints.homEquivF1`.  Parts (2) and (3) of Stacks 085D, on
-the twists `𝒪_P(n)`, are not stated: they are assertions about sheaves of modules on the
-relative Proj itself, which no declaration in this library produces.
+the twists `𝒪_P(n)`, are proved on the constructed relative Proj in
+`StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjTwistsGenerated.lean`.
 
 ## References
 
@@ -729,7 +733,8 @@ variable (TA : TensorAlgebras.{u}) (i : TensorAlgebraPullbackIsos.{u} TA)
     (rep : ∀ (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X),
       F1Representation (d.algebra T f) TA i (D T f))
 
-/-- **Stacks 085D, part (1), fibred over a point of the base.**
+/-- **The relative Proj represents the functor of triples over a point of the base, given the
+scheme-level representing bijections** (the shape of Stacks 085D, part (1)).
 
 For a quasi-coherent graded `𝒪_X`-algebra `𝒜` generated as an `𝒜₀`-algebra by `𝒜₁`, and
 `P = Proj_X(𝒜)`, the `T'`-points of `P` lying over a point `f` of `X` at `T` are the
@@ -740,8 +745,6 @@ triples `(f ∘ r, ℒ, ψ)` of the functor `F₁`.
 The relative Proj enters through its base changes to schemes, as Stacks 084B presents them, and
 the scheme-level representing bijections of Stacks 01O4 are the hypothesis `rep`; the degree-one
 generation hypothesis of the source is `hgen`. -/
-@[stacks 085D "part (1): the relative Proj represents the functor of triples, over a point of \
-the base"]
 noncomputable def pointEquivF1 (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X)
     {T' : BigFppfOver B S hS} (r : T' ⟶ T) :
     {u : yoneda.obj T' ⟶ P // u ≫ π = yoneda.map r ≫ f} ≃
@@ -758,11 +761,10 @@ theorem pointEquivF1_apply (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X)
       (rep T f).homEquiv ((BigFppfOver.toScheme B S hS).map r)
         (d.pointEquivProjOver T f r u) := rfl
 
-/-- **Stacks 085D, part (1): the representing bijection is natural in the test object.**
+/-- **The bijection of `pointEquivF1` is natural in the test object.**
 
 Restricting a `T'`-point of `P` along `r' : T'' ⟶ T'` pulls back the class of triples it
 represents. -/
-@[stacks 085D "part (1): naturality of the representing bijection in the test object"]
 theorem pointEquivF1_natural (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X)
     {T' T'' : BigFppfOver B S hS} (r : T' ⟶ T) (r' : T'' ⟶ T')
     (u : {u : yoneda.obj T' ⟶ P // u ≫ π = yoneda.map r ≫ f}) :
@@ -775,14 +777,14 @@ theorem pointEquivF1_natural (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X)
       (d.pointEquivProjOver T f r u)]
   exact congrArg _ (Subtype.ext (pointEquivProjOver_natural d T f r r' u))
 
-/-- **Stacks 085D, part (1).** The `T`-points of `P = Proj_X(𝒜)` are the isomorphism classes of
+/-- **The `T`-points of `P = Proj_X(𝒜)`, given the scheme-level representing bijections** (the
+shape of Stacks 085D, part (1)).  They are the isomorphism classes of
 triples `(f, ℒ, ψ)` of the functor `F₁`: a point `f` of `X` at `T`, an invertible module `ℒ` on
 the scheme of `T`, and a graded algebra map `f^*𝒜 ⟶ ⨁_{n ≥ 0} ℒ^{⊗ n}` surjective in degree one.
 
 The decomposition of a point of `P` by its image in `X` matches the decomposition of a triple by
 its first component, and over each point of `X` the two fibres agree by
 `AlgebraicGeometry.Space.RelativeProjPoints.pointEquivF1`. -/
-@[stacks 085D "part (1): the relative Proj represents the functor of triples"]
 noncomputable def homEquivF1 (T : BigFppfOver B S hS) :
     (yoneda.obj T ⟶ P) ≃ Σ f : yoneda.obj T ⟶ X, F1 (d.algebra T f) TA (𝟙 _) :=
   (Equiv.sigmaFiberEquiv (fun u : yoneda.obj T ⟶ P => u ≫ π)).symm.trans

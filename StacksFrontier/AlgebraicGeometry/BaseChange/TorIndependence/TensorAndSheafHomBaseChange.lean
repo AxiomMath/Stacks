@@ -90,12 +90,10 @@ variable {X X' S S' : Scheme.{u}} (f : X ⟶ S) (g : S' ⟶ S) (f' : X' ⟶ S') 
 /-- **The base-change map on the comparison for a derived tensor product.** The map of
 Stacks 0DJ7 at `L(g')^*(E ⊗^L_{𝒪_X} K) ⟶ L(g')^*E ⊗^L_{𝒪_{X'}} K'` is the map of Stacks 0DJ7 at
 the monoidality isomorphism of Tag 079U, followed by the stalkwise cohomology of
-`L(g')^*E ⊗^L_{𝒪_{X'}} φ`. -/
-@[stacks 0DJA "the factorization the proof of conclusion (1) computes with, and not that \
-conclusion: the map of Stacks 0DJ7 at the comparison `L(g')^*(E ⊗^L K) ⟶ L(g')^*E ⊗^L K'` is \
-the map of Stacks 0DJ7 at the monoidality isomorphism of Tag 079U, followed by the stalkwise \
-cohomology of the map induced by `φ`. Conclusion (1) itself is \
-isIso_baseChangeCohomologyMap_baseChangeTensorComparison_of_isPullback"]
+`L(g')^*E ⊗^L_{𝒪_{X'}} φ`.
+
+This is the factorization the proof of Stacks 0DJA (1) computes with. Conclusion (1) itself is
+`AlgebraicGeometry.isIso_baseChangeCohomologyMap_baseChangeTensorComparison_of_isPullback`. -/
 theorem baseChangeCohomologyMap_baseChangeTensorComparison (x' : X') (n : ℤ) :
     baseChangeCohomologyMap f g f' g' w
         (((derivedTensorProductFunctor X.sheaf).obj E).obj K)
@@ -118,12 +116,12 @@ theorem baseChangeCohomologyMap_baseChangeTensorComparison (x' : X') (n : ℤ) :
 /-- **The base-change map on the comparison for a derived internal hom.** The map of
 Stacks 0DJ7 at `L(g')^*R𝓗om_{𝒪_X}(E, K) ⟶ R𝓗om_{𝒪_{X'}}(L(g')^*E, K')` is the map of
 Stacks 0DJ7 at the map of Tag 08I3, followed by the stalkwise cohomology of
-`R𝓗om_{𝒪_{X'}}(L(g')^*E, φ)`. -/
-@[stacks 0DJA "the factorization through `R𝓗om(L(g')^*E, L(g')^*K)` that the proof of \
-conclusions (2) and (3) performs, and not either conclusion: the map of Stacks 0DJ7 at the \
-comparison `L(g')^*R𝓗om(E, K) ⟶ R𝓗om(L(g')^*E, K')` is the map of Stacks 0DJ7 at the map of \
-Tag 08I3, followed by the stalkwise cohomology of the map induced by `φ`. Conclusion (2) itself \
-is isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison_of_isPerfect"]
+`R𝓗om_{𝒪_{X'}}(L(g')^*E, φ)`.
+
+This is the factorization through `R𝓗om(L(g')^*E, L(g')^*K)` that the proof of Stacks 0DJA (2)
+and (3) performs. Conclusions (2) and (3) themselves are
+`isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison_of_isPerfect` and
+`isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison_of_hasTorAmplitude`. -/
 theorem baseChangeCohomologyMap_baseChangeSheafHomComparison (x' : X') (n : ℤ) :
     baseChangeCohomologyMap f g f' g' w
         (((derivedSheafHom X.sheaf).obj (op E)).obj K)
@@ -146,9 +144,9 @@ theorem baseChangeCohomologyMap_baseChangeSheafHomComparison (x' : X') (n : ℤ)
 /-- **Transport of the pointwise condition along an invertible `φ`, for a derived tensor
 product.** For an invertible `φ` the pointwise base-change map of Stacks 0DJ7 at
 `L(g')^*(E ⊗^L_{𝒪_X} K) ⟶ L(g')^*E ⊗^L_{𝒪_{X'}} K'` is invertible exactly when the one at the
-monoidality isomorphism of Tag 079U is, the two differing by an isomorphism; only that
-implication is recorded. This is not conclusion (1) of Stacks 0DJA, whose hypothesis is the
-pointwise condition for `(K, K', φ)` itself. -/
+monoidality isomorphism of Tag 079U is, the two differing by an isomorphism; the implication
+from the latter to the former is the statement below. Conclusion (1) of Stacks 0DJA has a
+different hypothesis, the pointwise condition for `(K, K', φ)` itself. -/
 theorem isIso_baseChangeCohomologyMap_baseChangeTensorComparison (hφ : IsIso φ)
     (hE : ∀ (x' : X') (n : ℤ), IsIso (baseChangeCohomologyMap f g f' g' w
       (((derivedTensorProductFunctor X.sheaf).obj E).obj K)
@@ -170,9 +168,9 @@ theorem isIso_baseChangeCohomologyMap_baseChangeTensorComparison (hφ : IsIso φ
 /-- **Transport of the pointwise condition along an invertible `φ`, for a derived internal
 hom.** For an invertible `φ` the pointwise base-change map of Stacks 0DJ7 at
 `L(g')^*R𝓗om_{𝒪_X}(E, K) ⟶ R𝓗om_{𝒪_{X'}}(L(g')^*E, K')` is invertible exactly when the one at
-the map of Tag 08I3 is, the two differing by an isomorphism; only that implication is recorded.
-This is neither conclusion (2) nor conclusion (3) of Stacks 0DJA, whose hypothesis is the
-pointwise condition for `(K, K', φ)` itself. -/
+the map of Tag 08I3 is, the two differing by an isomorphism; the implication from the latter to
+the former is the statement below. Conclusions (2) and (3) of Stacks 0DJA have a different
+hypothesis, the pointwise condition for `(K, K', φ)` itself. -/
 theorem isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison (hφ : IsIso φ)
     (hE : ∀ (x' : X') (n : ℤ), IsIso (baseChangeCohomologyMap f g f' g' w
       (((derivedSheafHom X.sheaf).obj (op E)).obj K)

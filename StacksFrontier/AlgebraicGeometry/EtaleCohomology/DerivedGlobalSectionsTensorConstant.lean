@@ -470,7 +470,9 @@ of complexes (`totalTensorIso`), and `Γ(X, I ⊗ P̲) ⟶ RΓ(X, I ⊗ P̲)` is
 `X` is quasi-compact and quasi-separated, through the commutation of étale cohomology with
 filtered colimits (Stacks 03Q5): a flat module is the filtered colimit of free modules of finite
 rank (Stacks 058G), for which `Hᵖ(X, F ⊗ M̲) = Hᵖ(X, F) ⊗ M` is additivity. -/
-@[stacks 0F0E]
+@[stacks 0F0E "abelian sheaves on `X_étale` are sheaves of `ULift ℤ`-modules, `RΓ(X, -)` is any
+right derived functor of global sections on the unbounded derived category, and the identification
+is stated as the existence of an isomorphism in `D(ℤ)`"]
 theorem nonempty_derivedSections_tensor_derivedConstantSheaf_iso
     (RΓ : DerivedCategory (Sh X) ⥤ DerivedCategory (ModuleCat.{u + 1} (ULift.{u + 1} ℤ)))
     (α : (Γm X).mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh ⟶

@@ -8,10 +8,10 @@ public import StacksFrontier.AlgebraicGeometry.QuasiCoherent.ReconstructionChart
 # The comparison of functors of [Stacks, Tag 0GPJ]
 
 Let `X` and `Y` be quasi-compact and quasi-separated schemes and let
-`e : QCoh(𝒪_X) ≌ QCoh(𝒪_Y)` be an equivalence.  This file produces the last conjunct of
-[Stacks, Tag 0GPJ]: a single isomorphism of schemes `g : Y ≅ X`, a single invertible
-`𝒪_Y`-module `M`, and a natural isomorphism `e(𝓕) ≅ g^*𝓕 ⊗ M`.  This is the step the source
-dismisses with "We omit the details".
+`e : QCoh(𝒪_X) ≌ QCoh(𝒪_Y)` be an equivalence.  This file proves [Stacks, Tag 0GPJ] in full:
+a single isomorphism of schemes `g : Y ≅ X`, a single invertible `𝒪_Y`-module `M`, and a natural
+isomorphism `e(𝓕) ≅ g^*𝓕 ⊗ M`.  What is new here is the last conjunct, the comparison of
+functors, which is the step the source dismisses with "We omit the details".
 
 ## How the three pieces fit
 
@@ -35,6 +35,30 @@ dismisses with "We omit the details".
 
 * `AlgebraicGeometry.exists_natIso_pullbackTensorFunctor_of_quasicoherentEquivalence` —
   **[Stacks, Tag 0GPJ] in full**, for quasi-compact quasi-separated schemes.
+
+## Implementation notes
+
+This is the complete statement of [Stacks, Tag 0GPJ] under exactly the source's hypotheses, and
+the only declaration registered for the tag.  It supersedes the partial forms of the
+reconstruction, none of which carries the tag any longer:
+
+* the affine case, `AlgebraicGeometry.exists_schemeIso_invertible_of_quasicoherentEquivalence`
+  and `AlgebraicGeometry.exists_schemeIso_invertibleSheaf_of_quasicoherentEquivalence`
+  (`QuasiCoherent/AffineReconstruction.lean`), which assume `X` and `Y` affine;
+* the local form,
+  `AlgebraicGeometry.exists_isAffineOpen_schemeIso_invertibleSheaf_of_isFinitePresentation`
+  (`QuasiCoherent/ReconstructionLocalForm.lean`), which concludes over one affine open of `X`
+  and takes the finitely presented module of step 2 as a hypothesis;
+* the per-chart global forms,
+  `AlgebraicGeometry.exists_isOpenCover_schemeIso_invertibleSheaf_of_isFinitePresentation`
+  (with that module given for each member of the cover) and
+  `AlgebraicGeometry.exists_isOpenCover_schemeIso_invertibleSheaf_of_isAffineOpenCover`
+  (`QuasiCoherent/ReconstructionGlobalForm.lean`), which conclude chart by chart;
+* the scheme half, `AlgebraicGeometry.exists_schemeIso_of_quasicoherentEquivalence`
+  (`QuasiCoherent/ReconstructionGlobalSchemeIso.lean`), and the module half,
+  `AlgebraicGeometry.isInvertible_map_quasicoherentUnit_of_quasicoherentEquivalence` and
+  `AlgebraicGeometry.exists_isOpenCover_invertibleModule_restrictIso_of_isAffineOpenCover`
+  (`QuasiCoherent/ReconstructionGlobalModule.lean`), which give only part of the conclusion.
 
 ## References
 

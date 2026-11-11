@@ -21,15 +21,12 @@ sense of Definition 0AM4, part (2), exactly when it is of finite type in the boo
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.isQuasiCompactULift_of_forall_compact`: a morphism of
-  presheaves is quasi-compact in the sense of Stacks 03HE as soon as its fibre product with
-  every scheme-valued point of its target whose underlying scheme is quasi-compact is a
-  quasi-compact algebraic space.
-* `AlgebraicGeometry.FormalSpace.isQuasiCompactSpace_iff_isQuasiCompactSpaceULift`: for a
+* `AlgebraicGeometry.FormalSpace.isQuasiCompactSpace_iff_isQuasiCompactSpaceULift'`: for a
   morphism representable by algebraic spaces, a fibre product of it with a scheme-valued point
   of its target is a quasi-compact formal algebraic space exactly when the fibre product of the
   underlying presheaves is a quasi-compact algebraic space.
-* `AlgebraicGeometry.FormalSpace.isQuasiCompact_iff_hasPropertyULift`: **Stacks 0AM2**.
+* `AlgebraicGeometry.FormalSpace.isQuasiCompact_iff_hasPropertyULift'`: **Stacks 0AM2**,
+  with no hypothesis beyond representability by algebraic spaces.
 * `AlgebraicGeometry.FormalSpace.isFiniteType_iff_isBootstrapFiniteType`: **Stacks 0AJJ**.
 
 ## What is assumed
@@ -44,6 +41,10 @@ over the affine schemes of the site implies the same condition over the quasi-co
 `StacksFrontier.AlgebraicGeometry.FormalSpace.QuasiCompactMorphismDecomposition`.
 
 ## Implementation notes
+
+The proof of Stacks 0AM2 uses, as a local step, that a morphism of presheaves is quasi-compact
+in the sense of Stacks 03HE as soon as its fibre product with every scheme-valued point of its
+target whose underlying scheme is quasi-compact is a quasi-compact algebraic space.
 
 Both results live here rather than beside the notions they compare — Definition 0AJC in
 `StacksFrontier.AlgebraicGeometry.FormalSpace.QuasiCompactMorphism` and Definition 0AM4, part (2),

@@ -27,9 +27,12 @@ running the chain
   `i_*(i^!(c ∩ [X]_d)) = i_*(c ∩ i^![X]_d) = i_*(c ∩ [Y]_e) = c ∩ i_*[Y]_e = α · [Y]_e`,
 
 whose four steps are Stacks 0FF6, Stacks 0FF7, the proper-pushforward law of a bivariant class
-(Stacks 0B76 (1)) and Stacks 0FC2 again. The second and third steps are proved here; the first
-and fourth are carried as hypotheses, in the shape the chain uses, because neither is available
-in this repository. See the implementation notes.
+(Stacks 0B76 (1)) and Stacks 0FC2 again. This file runs that chain for a Gysin class `ci`
+characterized by Stacks 0FBK over a general base, proving the second and third steps and taking the
+first and fourth as hypotheses in the shape the chain uses there. The complete statement of Stacks
+0FFE, for the Gysin map of Stacks 0FF3 of a regular closed immersion into a scheme smooth over a
+field, with every step proved, is
+`Stacks.Chow.intersectionProduct_fundamentalChowClass_eq_pushforward_regularImmersionGysin`.
 
 ## Main definitions
 
@@ -60,7 +63,8 @@ in this repository. See the implementation notes.
 * `Stacks.Chow.chowCohomologyCap_properChowPushforward` — **Stacks 0B76 (1)** at the test scheme
   `𝟙 X`: `c ∩ i_*β = i_*(c ∩ β)` in `CH_*(X)`.
 * `Stacks.Chow.intersectionProduct_fundamentalChowClass_eq_pushforward_gysin` —
-  **Stacks 0FFE**: `α · i_*[Y]_e = i_*(i^!(α))`.
+  the chain of the proof of Stacks 0FFE for a Gysin class characterized by Stacks 0FBK, given
+  its first and fourth steps: `α · i_*[Y]_e = i_*(i^!(α))`.
 
 ## Implementation notes
 
@@ -87,9 +91,10 @@ a field, which is the source's base.
 The Gysin map `i^!` is the cap operation of a bivariant class `ci ∈ A^r(Y ⟶ X)` satisfying the
 characterizing relation `Stacks.Chow.IsVirtualNormalGysinClass` of **Stacks 0FBK** for the
 virtual normal bundle `NP` of `i`, which is how section 42.54 of the source defines `i^!` for a
-regular closed immersion and is the only form of it this repository has; the lci Gysin map
-itself is not constructed here, as the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection` record. Regularity of `i`
+regular closed immersion. The lci Gysin map of Stacks 0FF3 itself is
+`Stacks.Chow.lciGysinMap`, and the complete statement for it is
+`Stacks.Chow.intersectionProduct_fundamentalChowClass_eq_pushforward_regularImmersionGysin`.
+Regularity of `i`
 enters through that datum and through the degree `r` in which the conclusion of Stacks 0FBM is
 read, which is the vanishing-excess case; the hypothesis `_hreg` recording it separately is
 therefore unused.
@@ -106,32 +111,34 @@ the dimension of `Y`, which is the source's hypothesis.
 
 Equidimensionality of `X` is *not* assumed: `d` is only the degree of the carried diagonal
 class, so the statement below is the one the source obtains after its first reduction, for an
-arbitrary such degree. What is not carried out is that reduction itself — the source splits a
-smooth `X` into its clopen pieces of constant dimension and adds the resulting identities up.
-That sum is a statement about `CH_*(X)` as a graded object and has no form in a single Chow
-degree, which is the same limitation the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Chow.GysinLocalCompleteIntersection.LciGysinFundamentalClass`
-record for Stacks 0FF7.
+arbitrary such degree. The reduction itself — splitting a smooth `X` into its clopen pieces of
+constant dimension — is carried out in the proof of
+`Stacks.Chow.intersectionProduct_fundamentalChowClass_eq_pushforward_regularImmersionGysin`,
+with the classes graded by codimension.
 
-### The two carried inputs, and that neither of them is the conclusion
+### The two inputs taken here, and that neither of them is the conclusion
 
-`h0FBP` is the step `i^!(c ∩ x) = c ∩ i^!(x)`, read on `Y`. This is the `i^!` half of
-**Stacks 0FF6**, which the source discharges by **Stacks 0FBP** (Lemma 42.54.8 of the source).
-What this repository has of Stacks 0FF6 is only its other half, the flat-pullback one:
-`Stacks.Chow.bivariantCommute_flatPullbackBivariantClass` of
-`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullbackCommuting`, whose own implementation
-notes state that Stacks 0FBP "has no carrier in this repository". The general form of the
-assertion is `Stacks.Chow.BivariantCommute` of **Stacks 0FA2**, of which `h0FBP` is the instance
+`h0FBP` is the step `i^!(c ∩ x) = c ∩ i^!(x)`, read on `Y`, for the class `ci` of this file. This
+is the `i^!` half of **Stacks 0FF6**, which the source discharges by **Stacks 0FBP** (Lemma
+42.54.8 of the source). Both are proved in the library — Stacks 0FBP as
+`Stacks.Chow.VirtualNormalBundle.completedClass_bivariantCommute` and Stacks 0FF6 for the lci
+Gysin map as `Stacks.Chow.completedCommutesAfterBaseChange_lciGysinMap` — but for the classes
+built there, not for an arbitrary class `ci` satisfying the relation of Stacks 0FBK, which is why
+the step is a hypothesis of this form of the chain. The general form of the assertion is
+`Stacks.Chow.BivariantCommute` of **Stacks 0FA2**, of which `h0FBP` is the instance
 at the test scheme `𝟙 X` read through the two collapses above. It is a statement about `ci` and
 `c` alone: it mentions neither the intersection product nor proper pushforward, so it is not the
 conclusion.
 
 `h0FC2` is the step `α · β = c ∩ β` for the class `c` representing `α`, which is clause (1) of
 **Stacks 0FC2** — the surjectivity of `c ↦ c ∩ [X]_d` — together with clause (2), that the
-isomorphism carries composition of bivariant classes to the intersection product. Neither
-clause is available: `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.SmoothCapFundamentalIso`
-proves only a reduction of injectivity, against Stacks 02UC, and states clause (2) not at all.
-The representability half appears separately as `hα`, which fixes `α` to be `c ∩ [X]_d`. Both
+isomorphism carries composition of bivariant classes to the intersection product. Both clauses
+are proved in the library over a field
+(`Stacks.Chow.chowCohomologyCapFundamentalClass_bijective_of_smooth_field` and
+`Stacks.Chow.chowCohomologyCapFundamentalClass_mulId_of_smooth_field`), for the product formed with
+the canonical diagonal class; here `cd` is an arbitrary diagonal class over a general base, so the
+step is a hypothesis of this form of the chain. The representability half appears separately as
+`hα`, which fixes `α` to be `c ∩ [X]_d`. Both
 are statements about `c`, `α` and the product; neither mentions `i`, `i^!` or proper
 pushforward, so neither is the conclusion.
 
@@ -390,7 +397,10 @@ variable (C : ChowSituation.{u}) [Subsingleton C.S] [IsIntegral C.S] [JacobsonSp
   (cd : BivariantClass C G sX (selfProductStructure C sX) (pullback.diagonal sX)
     (diagonal_comp_selfProductStructure C sX) d)
 
-/-- **Stacks 0FFE.** Let `i : Y ⟶ X` be a closed immersion of schemes locally of finite type over
+/-- **The chain of the proof of Stacks 0FFE, for a Gysin class characterized by Stacks 0FBK.**
+The complete statement of Stacks 0FFE is
+`Stacks.Chow.intersectionProduct_fundamentalChowClass_eq_pushforward_regularImmersionGysin`.
+Let `i : Y ⟶ X` be a closed immersion of schemes locally of finite type over
 the base, carrying a virtual normal bundle of constant rank `r`, let `cd` be a Gysin class of the
 diagonal of `X` of degree `d` — the class `Δ^!` through which Stacks 0FC0 defines the
 intersection product, of degree `d` for `X` smooth and equidimensional of dimension `d` — and let
@@ -407,23 +417,6 @@ The proof is the source's: `h0FC2` replaces the product by `c ∩ -`,
 `Stacks.Chow.closedImmersionBivariantCap_fundamentalChowClass` identifies `i^![X]_d` with
 `[Y]_e`, and `h0FBP` moves `i^!` across `c ∩ -`. See the implementation notes for what each
 hypothesis is, and why neither carried hypothesis is the conclusion. -/
-@[stacks 0FFE "alpha . i_*[Y]_e = i_*(i^!(alpha)), with the product of Tag 0FC0 at
-a = b = identity and i^! the Gysin class CHARACTERIZED by Tag 0FBK for a virtual normal bundle
-of rank r, the lci Gysin map not being constructed in this repository. e = d - r is FORCED by
-the degrees of the two sides, so nothing is lost by not binding e separately; equidimensionality
-of Y is the delta-dimension bound dim_delta(Y) <= e, which is WEAKER than a generic-point
-equality, and equidimensionality of X is not assumed, entering only through the degree of the
-carried diagonal class. CARRIED: the i^! half of Tag 0FF6, which is Tag 0FBP, as h0FBP; and
-clauses (1) and (2) of Tag 0FC2 as hA and h0FC2, neither being formalized -- 0FC2 is formalized \
-only as
-the map c |-> c cap [X]_d plus injectivity reductions. PROVED here: i^![X]_d = [Y]_e (Tag 0FBM
-at vanishing excess, g = identity) and c cap i_*beta = i_*(c cap beta) (Tag 0B76 clause (1) at
-the test scheme identity), and the chain combining them with the three carried clauses. Also
-carried: 0FBM's hinj (Tag 02TY) and hcone, Tags 02S1 and 02S2, and the side conditions Tag 0FBV
-and 0FC0 already carry. THE TAG'S REGULARITY HYPOTHESIS IS PRESENT AS `_hreg` BUT UNUSED, being
-encoded in the virtual normal projection together with vanishing excess. The source's reduction
-of a non-equidimensional smooth X to its clopen constant-dimension pieces is NOT carried out,
-that sum being a statement about graded CH_*(X); the same limitation the tree records for 0FF7"]
 theorem intersectionProduct_fundamentalChowClass_eq_pushforward_gysin
     (c : chowCohomologyComponent C G sX p)
     (hinj : ∀ {T : Scheme.{u}} (g : T ⟶ X) [LocallyOfFiniteType g] (k : ℤ),

@@ -665,7 +665,12 @@ private theorem absoluteGaloisToFundamentalGroup_eq_one_iff_fixes_maximal
     absoluteGaloisToFundamentalGroup_eq_one_of_fixes_maximal X sbar hgeneric σ⟩
 
 /-- The étale fundamental group is the Galois group of the maximal extension
-unramified over the scheme, with canonicality specified below. -/
+unramified over the scheme, with canonicality specified below.
+
+This is Stacks Tag 03VG under its own hypotheses: `sbar` is an *algebraic* geometric point
+(`GeometricPoint.IsAlgebraic`, Stacks Tag 03QX (2): `κ(sbar)` is an algebraic closure of
+`κ(η)`) lying over the generic point `η`, exactly as the tag requires. The Noetherian hypothesis
+of the tag is not needed. -/
 @[stacks 03VG "fundamental group", no_expose]
 public noncomputable def fundamentalGroupIsoGalMaximalEtaleExtension
     [IsIntegral X] [IsNormal X]

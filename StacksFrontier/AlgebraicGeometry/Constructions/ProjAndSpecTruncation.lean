@@ -360,7 +360,9 @@ theorem exists_sigma_pow_mul_psi (d e : ℕ) (he : 0 < e) (f g : A) (hf : f ∈ 
 /-- The truncation algebra `B = ⨁_{d ≥ 0} A_{≥ d}` is cone data over `A`: the maps `ψ`,
 `τ` and `σ` satisfy `τ ∘ ψ = id`, the two formulas tying `σ` to `ψ` and `τ`, and the three
 divisibility conditions. -/
-@[stacks 0EKG "the truncation algebra B = ⨁_{d ≥ 0} A_{≥ d} is cone data over A"]
+@[stacks 0EKG "the truncation algebra B = ⨁_{d ≥ 0} A_{≥ d} is cone data over A",
+  stacks 0EKF "the graded ring B = ⨁_{d ≥ 0} A_{≥ d} with σ : A → B₀, the graded ring maps \
+ψ : A → B and τ : B → A, and τ ∘ ψ = id_A"]
 def truncationConeData : ProjAndSpec.ConeData 𝒜 (grading 𝒜) where
   psi := psi 𝒜
   tau := tau 𝒜
@@ -401,11 +403,13 @@ abbrev openUInL : (AlgebraicGeometry.Proj (grading 𝒜)).Opens :=
 
 /-- The inverse image under `π` of a standard open of `P` is the standard open of the image
 element: `π⁻¹(D₊(f)) = D₊(ψ f)`. -/
+@[stacks 0EKF "ψ defines π : L → P, and π⁻¹(D₊(f)) = D₊(ψ(f)) for f ∈ A_d, d > 0"]
 theorem pi_preimage_basicOpen (f : A) (d : ℕ) (hf : f ∈ 𝒜 d) (hd : 0 < d) :
     pi 𝒜 ⁻¹ᵁ Proj.basicOpen 𝒜 f = Proj.basicOpen (grading 𝒜) (psi 𝒜 f) :=
   ProjAndSpec.pi_preimage_basicOpen (truncationConeData 𝒜) f d hf hd
 
 /-- The cone projection of the truncation algebra is affine. -/
+@[stacks 0EKF "π : L → P is an affine morphism"]
 theorem isAffineHom_pi : IsAffineHom (pi 𝒜) :=
   ProjAndSpec.isAffineHom_pi (truncationConeData 𝒜)
 
@@ -415,6 +419,7 @@ theorem zeroSection_comp_pi :
   ProjAndSpec.zeroSection_comp_pi (truncationConeData 𝒜)
 
 /-- The zero section of the truncation algebra is a closed immersion. -/
+@[stacks 0EKF "the surjection τ defines a closed immersion 0 : P → L"]
 theorem isClosedImmersion_zeroSection : IsClosedImmersion (zeroSection 𝒜) :=
   ProjAndSpec.isClosedImmersion_zeroSection (truncationConeData 𝒜)
 

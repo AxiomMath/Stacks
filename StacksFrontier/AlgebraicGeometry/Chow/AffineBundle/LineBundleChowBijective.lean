@@ -55,7 +55,7 @@ bundle. Then
   `p^* : A_k(X) ⟶ A_{k+1}(L)`
 
 is an isomorphism for every `k`. -/
-@[stacks 0B74]
+@[stacks 0B74 "p^* : A_k(X) → A_{k+1}(L) is bijective for all k, p : L → X a line bundle"]
 theorem flatPullbackChow_totalSpaceToBase_bijective (k : ℤ) :
     Function.Bijective
       (flatPullbackChowOfRelativeDimension C (D.totalSpaceToBase ≫ sX) sX D.totalSpaceToBase

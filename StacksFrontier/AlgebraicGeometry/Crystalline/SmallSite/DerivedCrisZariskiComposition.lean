@@ -58,7 +58,7 @@ builds with `Stacks.EtaleCohomology.rightDerivedFunctorPlusCompIsoOfIso` are the
 is `...SmallSite.annihilation07Q9_of_isIteratedAlphaPCover` of
 `SmallSite/AlphaPCover07Q9Main.lean`.  Its *local* step — over an open where `f` is a chain of
 `α_p`-extensions the cone is annihilated by the degree — comes from [Stacks, Proposition 07LG]
-(`...SmallSite.crystalPairDeRhamComplex_computesCohomology`) and [Stacks, Tag 07N1].  The tower
+(`...SmallSite.crystalPairDeRhamDerivedPlusIso`) and [Stacks, Tag 07N1].  The tower
 propagation is `...SmallSite.annihilation07Q9_chainComp`.
 
 ## References
@@ -382,7 +382,7 @@ single composition — gives the exponent `p ^ n = q` of the source.
 
 The per-stage hypotheses are where the mathematics of [Stacks, Tag 07Q9] lives: for an
 `α_p`-cover they come from [Stacks, Proposition 60.21.3, Tag 07LG]
-(`...SmallSite.crystalPairDeRhamComplex_computesCohomology`) together with
+(`...SmallSite.crystalPairDeRhamDerivedPlusIso`) together with
 [Stacks, Lemma 60.25.1, Tag 07Q7] at `a = p` for the extension of [Stacks, Lemma 60.25.3,
 Tag 07N1].  **No `@[stacks]` attribute is placed here**: this is an assembly step, not the tag,
 which is `...SmallSite.annihilation07Q9_of_isIteratedAlphaPCover` of

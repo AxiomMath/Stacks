@@ -113,7 +113,12 @@ condition, so the two together are MS1, MS2 and MS3 — and a *saturated* multip
 is `MorphismProperty.IsSaturated`, which bundles the two calculi with the cancellation axiom
 MS4. Compatibility with the triangulated structure is
 `MorphismProperty.IsCompatibleWithTriangulation`, which extends
-`MorphismProperty.IsCompatibleWithShift ℤ` and so carries MS5 as well as MS6. "Exact functor"
+`MorphismProperty.IsCompatibleWithShift ℤ` and so carries MS5 as well as MS6. Mathlib's MS5 asks
+for stability under every shift `[n]`, `n : ℤ`, where Stacks asks only `f ∈ S ⇔ f[1] ∈ S`; for a
+class with MS1 and MS6 the two agree (Remark 0H30,
+`MorphismProperty.isCompatibleWithShift_iff_of_hasMS6`), and
+`MorphismProperty.isCompatibleWithTriangulation_iff_shift_one_and_hasMS6` restates the definition
+with Stacks' form of MS5. "Exact functor"
 is `CategoryTheory.Functor.IsTriangulated`.
 
 The ambient categories are only pre-triangulated wherever that suffices: none of the
@@ -148,7 +153,9 @@ universe v₁ v₂ v₃ v u₁ u₂ u₃ u
 
 add_to_stacks 05R2 "a multiplicative system compatible with the triangulated structure"
   CategoryTheory.MorphismProperty.IsCompatibleWithTriangulation
-add_to_stacks 05R2 "MS5"
+add_to_stacks 05R2 "MS5, as stability under every shift `[n]`, `n : ℤ`; for a class with MS1 \
+    and MS6 this is equivalent to Stacks' form `f ∈ S ⇔ f[1] ∈ S` by Remark 0H30, \
+    `MorphismProperty.isCompatibleWithShift_iff_of_hasMS6`"
   CategoryTheory.MorphismProperty.IsCompatibleWithTriangulation.toIsCompatibleWithShift
 add_to_stacks 05R2 "MS6"
   CategoryTheory.MorphismProperty.IsCompatibleWithTriangulation.compatible_with_triangulation

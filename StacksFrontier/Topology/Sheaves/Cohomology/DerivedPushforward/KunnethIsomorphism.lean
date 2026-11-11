@@ -42,17 +42,26 @@ adjunctions turns the two-sided counit map into exactly that chain.
   coherence, is invertible as soon as the three comparisons in the chain are.
 * `Stacks.Cohomology.DerivedKunneth.isIso_kunnethMap_of_projectionFormulas_of_baseChange` and
   `Stacks.Cohomology.DerivedKunneth.isIso_kunnethGlobalMap_of_projectionFormulas_of_baseChange`:
-  the two conclusions of Tag 0FLQ at `f = p ≫ a`.
+  for an arbitrary commuting square of ringed spaces, the relative and global Künneth maps at
+  `f = p ≫ a` are invertible whenever the three comparisons of the chain are.  These are the
+  reduction steps of the first proof of Tag 0FLQ; the tag itself, at a cartesian square of
+  schemes under its own hypotheses, is
+  `Stacks.Cohomology.DerivedKunneth.isIso_kunnethMapScheme` and
+  `Stacks.Cohomology.DerivedKunneth.isIso_kunnethGlobalMapScheme`.
 
 ## Implementation notes
 
-*What is proved and what is assumed.*  The quasi-compactness, quasi-separatedness,
+*Why the comparisons are hypotheses here.*  The quasi-compactness, quasi-separatedness,
 Tor-independence and quasi-coherence hypotheses of the source enter its first proof only through
-Lemma 36.22.1 (Tag 08EU) and Lemma 36.22.5 (Tag 08IB), neither of which is available in this
-development.  Their conclusions are therefore carried as the explicit hypotheses `hproj₁`,
-`hproj₂` and `hbase`, and the monoidality coherence `hcoh`, which no declaration here proves
-either, as a fourth.  What is proved is the step the source states and omits: that the composite
-of those three comparisons is the Künneth map of Tag 0FLP.
+Lemma 36.22.1 (Tag 08EU) and Lemma 36.22.5 (Tag 08IB).  At the generality of this file, an
+arbitrary commuting square of ringed spaces, those lemmas do not apply (for a square that is not
+cartesian the base change of Tag 08IB is false), so the three comparisons are explicit
+hypotheses `hproj₁`, `hproj₂` and `hbase`, alongside the monoidality coherence `hcoh`.  What is
+proved is the step the source states and omits: that the composite of those three comparisons is
+the Künneth map of Tag 0FLP.  The coherence `hcoh` is proved in general by
+`Stacks.Cohomology.DerivedKunneth.pullbackTensorComparisonComp`, and the three comparisons are
+discharged at a cartesian square of schemes from the proved Tags 08EU and 08IB in
+`StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/`.
 
 *Where the content lives.*  That identification is a fact about a composite of two adjunctions
 and two monoidality comparisons, with no sheaf or derived-category input, so it is proved at that
@@ -232,8 +241,8 @@ variable {S X Y W : RingedSpace.{u, u}} (a : X ⟶ S) (b : Y ⟶ S) (p : W ⟶ X
 derived modules on the base.  The monoidality isomorphism of Stacks 079U for `L(p ≫ a)^*`, read
 through the composition isomorphism of Stacks 0D5S for derived pullback, is the monoidality
 isomorphism for `La^*` pulled back along `p` followed by the one for `Lp^*`.  This is a coherence
-between Stacks 079U and Stacks 0D5S; no declaration in this repository proves it, so it is
-carried as an explicit hypothesis wherever it is used. -/
+between Stacks 079U and Stacks 0D5S; it holds for all `P` and `Q`, by
+`Stacks.Cohomology.DerivedKunneth.pullbackTensorComparisonComp`. -/
 def PullbackTensorComparisonComp
     (P Q : DerivedCategory (SheafOfModules.{u} (structureSheafRing S))) : Prop :=
   ((derivedPullbackCompIsoCanonical p a).hom.app
@@ -256,7 +265,7 @@ abbrev kunnethBaseChangeLeg (M : DerivedCategory (SheafOfModules.{u} (structureS
     ((derivedPullbackCompIsoCanonical p a).hom.app ((derivedPushforward b).obj M) ≫
       (pullbackCounitLeg b q (p ≫ a) hq).app M)
 
-/-- **The first conclusion of Tag 0FLQ, granted its three cited inputs.**
+/-- **The relative Künneth map of a composite is invertible when the three comparisons are.**
 
 For `a : X ⟶ S`, `b : Y ⟶ S`, `p : W ⟶ X` and `q : W ⟶ Y` with `q ≫ b = p ≫ a`, the relative
 Künneth morphism of Tag 0FLP at `f = p ≫ a`,
@@ -268,12 +277,11 @@ In order they are: the projection formula of Tag 08EU for `a` at `(K, Rb_*M)`; t
 comparison `La^*Rb_*M ⟶ Rp_*Lq^*M` of Tag 08IB for the square; and the projection formula of
 Tag 08EU for `p` at `(K, Lq^*M)`, read with the two tensor factors interchanged.  What the proof
 supplies is the identification of the composite of those three with the Künneth map, which the
-source states and omits. -/
-@[stacks 0FLQ "the relative isomorphism, granted the projection formula of Tag 08EU for \
-a and for p and the base-change comparison of Tag 08IB for the square, carried as the \
-explicit hypotheses hproj₁, hproj₂ and hbase, together with the Stacks 079U/0D5S \
-monoidality coherence hcoh; what is proved is that the Künneth map of Tag 0FLP is the \
-composite of those three, the verification the source omits"]
+source states and omits.
+
+This is the reduction step of the first proof of Tag 0FLQ, for an arbitrary commuting square of
+ringed spaces.  The tag's relative conclusion, at a cartesian square of schemes and under the
+tag's own hypotheses, is `Stacks.Cohomology.DerivedKunneth.isIso_kunnethMapScheme`. -/
 theorem isIso_kunnethMap_of_projectionFormulas_of_baseChange
     (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))
     (M : DerivedCategory (SheafOfModules.{u} (structureSheafRing Y)))
@@ -300,17 +308,19 @@ theorem isIso_kunnethMap_of_projectionFormulas_of_baseChange
     ((pullbackCounitLeg a p (p ≫ a) rfl).app K)
     (by simp [pullbackCounitLeg, pullbackCounitLegComp]) hcoh hproj₁ hbase hproj₂
 
-/-- **The second conclusion of Tag 0FLQ, granted the same three inputs.**  Over a base whose
-`A`-linear global cup product is invertible at `(Ra_*K, Rb_*M)`, which is what affineness of the
-base supplies, the global Künneth morphism of Tag 0G7V
+/-- **The global Künneth map of a composite is invertible when the three comparisons and the
+global cup product are.**  Under the hypotheses of
+`isIso_kunnethMap_of_projectionFormulas_of_baseChange`, over a base whose `A`-linear global cup
+product `κ` is invertible at `(Ra_*K, Rb_*M)`, the global Künneth morphism of Tag 0G7V
 
 `RΓ(X, K) ⊗^𝐋_A RΓ(Y, M) ⟶ RΓ(W, Lp^*K ⊗^𝐋_{𝒪_W} Lq^*M)`
 
 is an isomorphism.  The source deduces this from the relative statement by applying `RΓ(S, -)` to
-its source and target. -/
-@[stacks 0FLQ "the global isomorphism over an affine base, granted the same three inputs as the \
-relative one together with the invertibility of the A-linear global cup product on the base, \
-carried as the explicit hypotheses hproj₁, hproj₂, hbase and hκ"]
+its source and target.
+
+The tag's global conclusion, over an affine base, at a cartesian square of schemes, for the
+canonical global cup product of Section 0FKU and under the tag's own hypotheses, is
+`Stacks.Cohomology.DerivedKunneth.isIso_kunnethGlobalMapScheme`. -/
 theorem isIso_kunnethGlobalMap_of_projectionFormulas_of_baseChange
     (κ : Stacks.Cohomology.GlobalKunneth.GlobalCupProduct S)
     (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing X)))

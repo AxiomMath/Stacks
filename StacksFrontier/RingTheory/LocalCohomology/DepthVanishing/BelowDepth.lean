@@ -62,13 +62,14 @@ hypersurface section already extends — reduces to [Stacks, Lemma 0BLS], the sa
 the depth hypothesis replaced by: some power of the hypersurface equation `f` kills `H^1_𝔪(A)` and
 some power kills `H^2_𝔪(A)`. The reduction is exactly
 `subsingleton_localCohomology_closedPoint_of_lt_depth A 3 hdepth i hi` for `i = 1, 2`, which this
-file supplies: a subsingleton is killed by `f ^ 0`. So of the three inputs that reduction needs —
+file supplies: a subsingleton is killed by `f ^ 0`. The other two inputs of that reduction are
 the local cohomology functor (tag 0EF4, formalized as
-`Stacks.LocalCohomology.localCohomologyWithSupportIn`), the depth-vanishing statement (here), and
-0BLS — only 0BLS remains, and it is the whole mathematical content: it is proved from the
-fully-faithfulness of base change of finite étale covers along a henselian pair
-([Stacks, Lemma 0BM6]), which in turn rests on the completion functor being fully faithful on
-finite locally free modules ([Stacks, Lemma 0EKS]). Neither is formalized here.
+`Stacks.LocalCohomology.localCohomologyWithSupportIn`) and 0BLS itself, which carries the
+mathematical content: it is proved from the full faithfulness of restriction of finite étale
+covers to the hypersurface section ([Stacks, Lemma 0BM6]). Tag 0BLS is formalized, in the
+coreflection model of local cohomology, as
+`…LocalLefschetzSituation.exists_finiteEtale_extension_of_localCohomology_annihilated`
+in `StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityLocalCase.ExtensionFromHypersurface`.
 
 ## References
 

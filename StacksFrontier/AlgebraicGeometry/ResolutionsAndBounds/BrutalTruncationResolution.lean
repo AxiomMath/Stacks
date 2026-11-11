@@ -1,5 +1,6 @@
 module
 
+public import StacksFrontier.Algebra.Homology.Resolution.ProjectiveDimensionTruncation
 public import StacksFrontier.AlgebraicGeometry.ResolutionsAndBounds.DiagonalBoxGenerator
 
 /-!
@@ -13,8 +14,9 @@ resolution of [Stacks, Tag 0FZ2] down to a bounded complex.
 
 ## Main definitions
 
-* `ComplexShape.finDown N`: the chain-complex shape on `Fin (N + 1)`, with differentials
-  `i + 1 ⟶ i`.
+* `ComplexShape.finDown.embeddingSucc N`, `ComplexShape.finDown.embeddingNeg N`: the embeddings
+  `j ↦ j + 1` and `j ↦ -j` of the chain-complex shape `ComplexShape.finDown N` on `Fin (N + 1)`
+  (defined in `StacksFrontier.Algebra.Homology.Resolution.ProjectiveDimensionTruncation`).
 * `HomologicalComplex.brutalTruncationSucc C N`: the complex `C_{N + 1} → ⋯ → C_1` in degrees
   `[-N, 0]`, the term `C_{j + 1}` sitting in degree `-j`.
 
@@ -43,13 +45,6 @@ closed under kernels and cokernels ([Stacks, Tag 01BY]).
 @[expose] public noncomputable section
 
 open CategoryTheory CategoryTheory.Limits
-
-/-- The chain-complex shape on `Fin (N + 1)`: there is a differential `i ⟶ j` exactly when
-`i = j + 1`. -/
-def ComplexShape.finDown (N : ℕ) : ComplexShape (Fin (N + 1)) where
-  Rel i j := (j : ℕ) + 1 = i
-  next_eq h h' := Fin.ext (by omega)
-  prev_eq h h' := Fin.ext (by omega)
 
 namespace ComplexShape.finDown
 

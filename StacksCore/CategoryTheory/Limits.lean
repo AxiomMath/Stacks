@@ -17,8 +17,8 @@ add_to_stacks 002E "Structure for bundled limiting cones" LimitCone
 add_to_stacks 002E "uniqueness" IsLimit.uniqueUpToIso
 add_to_stacks 002E "an arbitrary choice of limit, when one exists" limit
 
-add_to_stacks 002E "Structure for bundled limiting cocones" ColimitCocone
-add_to_stacks 002F "an arbitrary choice of limit, when one exists" limit
+add_to_stacks 002F "Structure for bundled colimiting cocones" ColimitCocone
+add_to_stacks 002F "an arbitrary choice of colimit, when one exists" colimit
 add_to_stacks 002F "uniqueness" IsColimit.uniqueUpToIso
 
 add_to_stacks 002H "part 1" coyoneda_preservesLimits

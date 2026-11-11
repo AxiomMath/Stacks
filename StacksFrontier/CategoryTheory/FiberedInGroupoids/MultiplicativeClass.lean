@@ -87,12 +87,11 @@ lemma stronglyCartesianOver_comp
   have := hg
   infer_instance
 
-/-- **Stacks tag 03WQ** (auxiliary multiplicativity).
-The morphism property `stronglyCartesianOver p` (strongly cartesian morphisms over
-their image) contains identities and is closed under composition — this is the
-content of the first sentence of the Stacks proof, namely that the subcategory
-`𝒮'` of strongly cartesian morphisms is well-defined as a subcategory. -/
-@[stacks 03WQ, sga "1 VI 6.13", sga "1 VI 6.8" "Well-definedness of F̃", sga "4 VI 6.4" "Fr1"]
+/-- The subcategory `𝒮'` of Stacks 03WQ is well defined: the morphism property
+`stronglyCartesianOver p` (strongly cartesian morphisms over their image) contains identities and
+is closed under composition. That `p' : 𝒮' ⥤ 𝒞` is fibred in groupoids is
+`CategoryTheory.Functor.isFiberedInGroupoids_stronglyCartesianOver`. -/
+@[sga "1 VI 6.13", sga "1 VI 6.8" "Well-definedness of F̃", sga "4 VI 6.4" "Fr1"]
 theorem stronglyCartesianOver_isMultiplicative
     {𝒞 : Type*} [Category 𝒞] {𝒮 : Type*} [Category 𝒮]
     (p : 𝒮 ⥤ 𝒞) [p.IsFibered] :

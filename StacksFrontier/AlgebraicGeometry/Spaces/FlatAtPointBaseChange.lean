@@ -34,11 +34,13 @@ the ideal of supported sections that **Stacks 0865, part (1)** needs, and it is 
 `AlgebraicGeometry.Space.strictTransformSubfunctor_eq_top_of_isFlatAt` carry the source's
 hypotheses and nothing else.
 
-This is the structure-sheaf case of Stacks 05VW, the only case of that tag this development
-proves; the module case, about the flat locus of a quasi-coherent module, is an acknowledged
-debt carried as the hypothesis
+This is the structure-sheaf case of Stacks 05VW.  The module case, for a module quasi-coherent
+on the small étale site, is proved at a geometric point in
+`StacksFrontier/AlgebraicGeometry/Spaces/FlatModuleBaseChange.lean` and at a point of the point
+space in `StacksFrontier/AlgebraicGeometry/Spaces/FlatModuleBaseChangePoint.lean`; only its reading
+for a module quasi-coherent on the étale scheme charts,
 `AlgebraicGeometry.Space.IsFlatAtPointStableUnderBaseChange` of
-`StacksFrontier/AlgebraicGeometry/Spaces/FlatModuleLocusBaseChange.lean`.  No finiteness
+`StacksFrontier/AlgebraicGeometry/Spaces/FlatModuleLocusBaseChange.lean`, is not proved.  No finiteness
 hypothesis enters: in particular this is *not*
 `AlgebraicGeometry.Space.isFlatAt_baseChangeOverBase_iff` of
 `StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/FlatLocusBaseChange.lean`, which is the

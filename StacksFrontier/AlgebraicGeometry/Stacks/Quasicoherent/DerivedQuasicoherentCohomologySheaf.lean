@@ -6,7 +6,7 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatBaseChan
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatGroupoidPresentationCoherator
 
 /-!
-# The cohomology functors of Stacks 07B7 on the faithful `D_QCoh(𝒪_𝒳)`
+# `D_QCoh(𝒪_𝒳)` of Stacks 07B6 and its cohomology functors (Stacks 07B7)
 
 This file first proves the formal part of **Stacks 07B7** for an arbitrary Verdier quotient of
 the shape of **Stacks 07B6**: for a weak Serre subcategory `L` of an abelian category `𝒜` whose
@@ -38,15 +38,28 @@ Stacks 0771), `P` the parasitic modules and `Q` the coherator of Stacks 0778
 `Parasitic ∩ LQCoh^fbc` by Stacks 0779), this gives:
 
 * `AlgebraicGeometry.Stack.derivedCategoryQuasicoherentSheaf`: **Stacks 07B6**,
-  `D_QCoh(𝒪_𝒳) = D_{LQCoh^fbc}(𝒪_𝒳) / D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`.
+  `D_QCoh(𝒪_𝒳) = D_{LQCoh^fbc}(𝒪_𝒳) / D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`, the localization of
+  `D_{LQCoh^fbc}(𝒪_𝒳)` at `DerivedCategoryB.quotientW`, which is the Verdier quotient by
+  `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)` by `DerivedCategoryB.quotientW_eq_trW`, and
+  `AlgebraicGeometry.Stack.toDerivedCategoryQuasicoherentSheaf`, its quotient functor.
 * `AlgebraicGeometry.Stack.cohomologyDerivedCategoryQuasicoherentSheaf`,
   `…Fac`, `AlgebraicGeometry.Stack.isHomological_cohomologyDerivedCategoryQuasicoherentSheaf` and
   `AlgebraicGeometry.Stack.isZero_iff_forall_isZero_cohomologyDerivedCategoryQuasicoherentSheaf`:
   **Stacks 07B7**, the cohomological functor `H^i : D_QCoh(𝒪_𝒳) ⟶ QCoh(𝒪_𝒳)` and the vanishing
-  criterion `E = 0 ↔ ∀ i, H^i(E) = 0`.
+  criterion `E = 0 ↔ ∀ i, H^i(E) = 0`.  These four declarations are the registration of
+  **Stacks 07B7**: together they state the whole of the source's equation (07B7) and the remark
+  following it, for every algebraic stack `𝒳`.
 
-The only binder is `HasDerivedCategory.{t} Mod(𝒪_𝒳)`, the choice of a universe for the
+The one binder is `HasDerivedCategory.{t} Mod(𝒪_𝒳)`, the choice of a universe for the
 derived category, as for the other derived categories of the library.
+
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/DerivedQuasicoherent.lean` forms a quotient
+of the same shape, `AlgebraicGeometry.Stack.derivedCategoryQuasicoherent`, from a different
+`LQCoh^fbc(𝒪_𝒳)`: its flat base change property
+(`AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`) uses the pullback of presheaves of modules.
+The flat base change property of **Stacks 0762** is about the pullback of sheaves of modules
+(`AlgebraicGeometry.Stack.HasFlatBaseChangePropertySheaf`), which is the one
+`AlgebraicGeometry.Stack.lqcFbcFppf` and hence this file use.
 
 ## References
 
@@ -254,21 +267,27 @@ attribute [local instance] FlatFppf.hasSheafify_fppf_addCommGrpCat
 
 variable [HasDerivedCategory.{t} (fppfModules B S hS 𝒳)]
 
-/-- **Stacks 07B6**, at the source's `LQCoh^fbc(𝒪_𝒳)`: the derived category with
-quasi-coherent cohomology `D_QCoh(𝒪_𝒳) = D_{LQCoh^fbc}(𝒪_𝒳) / D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`,
-the Verdier quotient of the triangulated subcategory of complexes of `𝒪_𝒳`-modules with
-cohomology in `LQCoh^fbc(𝒪_𝒳)` (a weak Serre subcategory, Stacks 0771) by the one with
-cohomology in the parasitic modules of `LQCoh^fbc(𝒪_𝒳)`. -/
+/-- **Stacks 07B6**: the *derived category of `𝒪_𝒳`-modules with quasi-coherent cohomology
+sheaves* `D_QCoh(𝒪_𝒳) = D_{LQCoh^fbc}(𝒪_𝒳) / D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)` of an algebraic
+stack `𝒳`, the Verdier quotient of the triangulated subcategory of `D(𝒪_𝒳)` of complexes with
+cohomology in `LQCoh^fbc(𝒪_𝒳)` (a weak Serre subcategory of `Mod(𝒪_𝒳)`, Stacks 0771) by the one
+of complexes with cohomology in `Parasitic(𝒪_𝒳) ∩ LQCoh^fbc(𝒪_𝒳)`.
+
+It is the localization at the morphisms whose cone, in `D(𝒪_𝒳)`, lies in
+`D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`; `DerivedCategoryB.quotientW_eq_trW` identifies this class with
+the one attached to that triangulated subcategory of `D_{LQCoh^fbc}(𝒪_𝒳)`.  The flat base change
+property is that of Stacks 0762, on sheaves of modules. -/
 @[stacks 07B6 "the Verdier quotient D_QCoh(𝒪_𝒳) = D_LQCoh^fbc(𝒪_𝒳) / D_(Parasitic ∩ \
-  LQCoh^fbc)(𝒪_𝒳), with the flat base change property of LQCoh^fbc read on sheaves of modules \
-  as in the source"]
+  LQCoh^fbc)(𝒪_𝒳) of an algebraic stack, with LQCoh^fbc the locally quasi-coherent fppf modules \
+  with the flat base change property of 0762 on sheaves of modules"]
 abbrev derivedCategoryQuasicoherentSheaf :=
   (DerivedCategoryB.quotientW (lqcFbcFppf B S hS 𝒳)
     (parasiticModules.{u, w, u} B S hS 𝒳 .fppf)).Localization
 
-/-- **Stacks 07B6**, at the source's `LQCoh^fbc(𝒪_𝒳)`: the quotient functor. -/
-@[stacks 07B6 "the quotient functor D_LQCoh^fbc(𝒪_𝒳) ⟶ D_QCoh(𝒪_𝒳), with the flat base change \
-  property read on sheaves of modules as in the source"]
+/-- **Stacks 07B6**: the quotient functor `D_{LQCoh^fbc}(𝒪_𝒳) ⟶ D_QCoh(𝒪_𝒳)` of the Verdier
+quotient `AlgebraicGeometry.Stack.derivedCategoryQuasicoherentSheaf`. -/
+@[stacks 07B6 "the quotient functor D_LQCoh^fbc(𝒪_𝒳) ⟶ D_QCoh(𝒪_𝒳) of the Verdier quotient, \
+  with LQCoh^fbc defined by the flat base change property of 0762 on sheaves of modules"]
 abbrev toDerivedCategoryQuasicoherentSheaf :
     (DerivedCategoryB.derivedCategoryB (lqcFbcFppf B S hS 𝒳)).FullSubcategory ⥤
       derivedCategoryQuasicoherentSheaf B S hS 𝒳 :=
@@ -328,7 +347,7 @@ theorem isHomological_cohomologyDerivedCategoryQuasicoherentSheaf (i : ℤ) :
 
 /-- **Stacks 07B7**: an object `E` of `D_QCoh(𝒪_𝒳)` is zero exactly when `H^i(E) = 0` for all
 `i`, the kernel of `Q` being exactly `Parasitic(𝒪_𝒳) ∩ LQCoh^fbc(𝒪_𝒳)` (Stacks 0779 (1)). -/
-@[stacks 07B7 "E is zero in D_QCoh(𝒪_𝒳) if and only if H^i(E) = 0 for every i"]
+@[stacks 07B7 "E is zero in D_QCoh(𝒪_𝒳) iff H^i(E) = 0 for every i"]
 theorem isZero_iff_forall_isZero_cohomologyDerivedCategoryQuasicoherentSheaf
     (X : derivedCategoryQuasicoherentSheaf B S hS 𝒳) :
     IsZero X ↔ ∀ i : ℤ,

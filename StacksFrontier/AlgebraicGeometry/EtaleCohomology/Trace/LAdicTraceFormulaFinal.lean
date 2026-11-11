@@ -29,7 +29,9 @@ side of the trace formula is `0` while the left hand side is `#𝔸¹(k) = p ^ q
 
 * `Stacks.EtaleCohomology.LAdicSheaf.traceFormula`: [Stacks, Tag 03V2].
 * [Stacks, Tag 03V0]:
-  `Stacks.EtaleCohomology.LAdicSheaf.rationalLFunction_eq_gradedCharSeries_compactSupportFrobenius`
+  `LAdicSheaf.nonempty_compactificationOf_and_rationalLFunction_eq_gradedCharSeries`,
+  from the identity for a given compactification,
+  `LAdicSheaf.rationalLFunction_eq_gradedCharSeries_compactSupportFrobenius`.
 
 ## References
 
@@ -130,8 +132,11 @@ and `F` a `ℚ_ℓ`-sheaf on `X`. Then
 
 `X` is separated because `Hⁱ_c` is defined for separated schemes only (Definition 03UT).
 `ℓ ≠ p` is the chapter's standing convention; the statement is false for `ℓ = p`
-(`L(𝔸¹_k, ℚ_p) = 1/(1 - p ^ q T)` while the alternating product is `1`). -/
-@[stacks 03V0 "the determinant identity for a Q_l-sheaf, l invertible in k"]
+(`L(𝔸¹_k, ℚ_p) = 1/(1 - p ^ q T)` while the alternating product is `1`).
+
+This is the identity for a given compactification `j`; that one exists is Nagata's theorem, and
+[Stacks, Tag 03V0] with it is
+`LAdicSheaf.nonempty_compactificationOf_and_rationalLFunction_eq_gradedCharSeries`. -/
 theorem LAdicSheaf.rationalLFunction_eq_gradedCharSeries_compactSupportFrobenius (hℓp : ℓ ≠ p)
     (F : LAdicSheaf.{u, u + 1} B X ℓ) :
     LAdicSheaf.rationalLFunction B X ℓ F f =
@@ -144,6 +149,60 @@ theorem LAdicSheaf.rationalLFunction_eq_gradedCharSeries_compactSupportFrobenius
     kbar p q hcard hℓp (fun _ => properDirectImageCtfInput B _) F
 
 end LFunction
+
+section LFunctionNagata
+
+variable (B : BigEtaleSite.{u}) (X : B.Scheme) (ℓ : ℕ) [Fact ℓ.Prime]
+  [∀ (n : ℕ) (S T : B.Scheme) (f : T ⟶ S),
+    ((AlgebraicGeometry.smallEtaleBaseChange B f).sheafPushforwardContinuous
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))
+      (SmallEtale.topology B S.obj S.property)
+      (SmallEtale.topology B T.obj T.property)).IsRightAdjoint]
+  [∀ (n : ℕ) (T : B.Scheme) (V : SmallEtale B T.obj T.property),
+    HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V)
+      (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  [∀ (n : ℕ) (T : B.Scheme), HasWeakSheafify (SmallEtale.topology B T.obj T.property)
+    (ModuleCat.{u + 1} (ZMod (ℓ ^ (n + 1))))]
+  {k : Type u} [Field k] [Fintype k] (f : X.1 ⟶ Spec (.of k)) [LocallyOfFiniteType f]
+  [QuasiCompact f] [IsSeparated f]
+  (kbar : Type u) [Field kbar] [Algebra k kbar] [IsAlgClosure k kbar]
+  (p q : ℕ) [Fact p.Prime] [CharP k p] (hcard : Fintype.card k = p ^ q)
+  [IsNoetherian X.1]
+
+/-- **[Stacks, Tag 03V0]: the L-function of a `ℚ_ℓ`-sheaf.** Let `X` be a separated scheme of
+finite type over a finite field `k` with `p ^ q` elements, `k̄` an algebraic closure of `k`, `ℓ` a
+prime with `ℓ ≠ p` and `F` a `ℚ_ℓ`-sheaf on `X`. Then `X` has a compactification over `k`, and
+for every compactification `j : X ⟶ X̄`, through which `Hⁱ_c(X_k̄, F)` is defined,
+`L(X, F) = ∏ᵢ det(1 - π_X^* T | Hⁱ_c(X_k̄, F))^{(-1)^{i+1}}` in `ℚ_ℓ[[T]]`.
+
+A compactification exists by Nagata's theorem
+(`AlgebraicGeometry.hasCompactification_of_compactSpace_quasiSeparatedSpace`, Tag 0F41), since
+`Spec k` is quasi-compact and quasi-separated. The library compares compactly supported
+cohomology computed through two compactifications at a finite level
+(`Stacks.EtaleCohomology.compactSupportSheafCohomologyCompactificationIso`); the identity here
+is proved for every compactification, so it does not depend on that comparison.
+
+`X` is separated because `Hⁱ_c` is defined for separated schemes only (Definition 03UT).
+`ℓ ≠ p` is the chapter's standing convention; the statement is false for `ℓ = p`
+(`L(𝔸¹_k, ℚ_p) = 1/(1 - p ^ q T)` while the alternating product is `1`). -/
+@[stacks 03V0 "for a Q_l-sheaf with l invertible in k, X separated (where H^i_c is defined); \
+H^i_c through any compactification of X over k (one exists by 0F41)"]
+theorem LAdicSheaf.nonempty_compactificationOf_and_rationalLFunction_eq_gradedCharSeries
+    (hℓp : ℓ ≠ p) (F : LAdicSheaf.{u, u + 1} B X ℓ) :
+    Nonempty (CompactificationOf (Over.mk f)) ∧
+      ∀ j : CompactificationOf (Over.mk f),
+        LAdicSheaf.rationalLFunction B X ℓ F f =
+          gradedCharSeries
+            (fun i => LAdicSheaf.rationalGeometricCompactlySupportedCohomology B X ℓ f j kbar F i)
+            (fun i => (LAdicSheaf.rationalGeometricCompactlySupportedFrobenius B X ℓ f j kbar p q
+              hcard F i).hom) := by
+  refine ⟨?_, fun j => ?_⟩
+  · obtain ⟨j, -⟩ := hasCompactification_of_compactSpace_quasiSeparatedSpace f
+    exact ⟨j⟩
+  · exact LAdicSheaf.rationalLFunction_eq_gradedCharSeries_compactSupportFrobenius B X ℓ f j kbar
+      p q hcard hℓp F
+
+end LFunctionNagata
 
 end Stacks.EtaleCohomology
 

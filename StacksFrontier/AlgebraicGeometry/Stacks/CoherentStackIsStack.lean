@@ -32,8 +32,10 @@ implementation notes.
 
 **What is proved, and what is granted.**  The projection of `Coh_{X/Y}` to the schemes of the
 site is fibred in groupoids by Stacks 08W5
-(`AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids`, itself conditional on the
-three base-change stability results carried by `hst`), and that is clause (1) of Stacks 02ZI.
+(here in the form `AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids` over the
+parameter `hst`; Stacks 08W5 itself is proved with no hypothesis as
+`AlgebraicGeometry.Space.CoherentSituation.projection_isFiberedInGroupoids`), and that is
+clause (1) of Stacks 02ZI.
 Clause (2) is obtained from the conclusion of Stacks 08W6 by
 `AlgebraicGeometry.Stack.isSheaf_isomPresheaf_of_hasRepresentableDiagonal`.  Clause (3),
 effectivity of descent data, is granted: it is the bulk of the proof of Stacks 08KC in the

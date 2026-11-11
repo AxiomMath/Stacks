@@ -62,7 +62,7 @@ of `H¹(X, ℱ)` for every coherent `ℱ`, obtained by dévissage [Stacks, Tag 0
 [Stacks, Tag 01YO], [Stacks, Tag 01YP], [Stacks, Tag 089W] and [Stacks, Tag 01XB], and then
 Serre's criterion [Stacks, Tag 01XF], [Stacks, Tag 01XG]. Of those, only Tag 01YP exists in
 this repository
-(`Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`);
+(`Stacks.AlgebraicGeometry.PushforwardIdealSubsheaf.idealPowSmul_pushforward_eq`);
 Serre's criterion, the coherent dévissage principle, Tag 01YO, Tag 089W and Tag 01XB are all
 absent from both Mathlib and this repository, so the source's route is not available.
 

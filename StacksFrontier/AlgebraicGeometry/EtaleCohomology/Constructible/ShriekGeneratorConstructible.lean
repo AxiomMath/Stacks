@@ -41,8 +41,9 @@ implementation notes.
   `AlgebraicGeometry.isConstructibleModuleSheaf_iff_affineShriekPresentation` and of its
   quasi-compact quasi-separated companion.
 * `AlgebraicGeometry.isConstructibleModuleSheaf_iff_affineShriekPresentation_of_gen` — Stacks 095N
-  at the affine presentation with `hshriek` discharged, so that only the finite generation step
-  remains as a hypothesis.
+  at the affine presentation with `hshriek` discharged, the finite generation step taken as an
+  argument; it is discharged in
+  `AlgebraicGeometry.isConstructibleModuleSheaf_iff_hasFiniteAffineShriekPresentation`.
 
 ## Implementation notes
 
@@ -247,11 +248,12 @@ quasi-compact and quasi-separated scheme and `Λ` a Noetherian ring. A sheaf of 
 `X_étale` is constructible exactly when it is the cokernel of a map between finite direct sums of
 extensions by zero of constant free rank-one module sheaves at affine objects of `X_étale`.
 
-Only the finite generation step `hgen` of the proof remains as a hypothesis; constructibility of
-the generators is `AlgebraicGeometry.isConstructibleModuleSheaf_moduleShriekConstant`. -/
-@[stacks 095N "affine presentation, carrying as the only explicit hypothesis the finite \
-generation step of the proof (hgen), that a constructible sheaf of modules is a quotient of a \
-finite direct sum of extensions by zero of constant free rank-one module sheaves"]
+Constructibility of the generators is
+`AlgebraicGeometry.isConstructibleModuleSheaf_moduleShriekConstant`; the finite generation step
+`hgen` is an argument here; it is proved as
+`exists_finite_epi_sigma_moduleShriekConstant_affine_of_isConstructibleModuleSheaf`
+and that gives the statement with nothing granted,
+`AlgebraicGeometry.isConstructibleModuleSheaf_iff_hasFiniteAffineShriekPresentation`. -/
 public theorem isConstructibleModuleSheaf_iff_affineShriekPresentation_of_gen
     [CompactSpace X.obj] [QuasiSeparatedSpace X.obj]
     (hgen : ∀ G : Sheaf (SmallEtale.topology B X.obj X.property) (ModuleCat.{u + 1} R),

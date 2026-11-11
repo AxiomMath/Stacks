@@ -166,6 +166,33 @@ public def reducedForms : Submodule Λ (GL (Fin 2) (AdeleRing K) → Λ) where
       rw [mul_left_comm, hf.2.2.1 v a ha x],
     fun α δ β h => by simp [hf.2.2.2 α δ β h]⟩
 
+variable (K) in
+/-- The `Λ`-module of functions on `GL₂(A)` that are left `GL₂(O)`-invariant, right
+`GL₂(K)`-invariant, satisfy `φ_v · f(a x) = f(x)` for the central data `a` of `U_v`, and vanish at
+the upper triangular `(α, β; 0, δ)` with `A = K + A(div α - div δ)`. For `φ_v = q_v` this is
+`reducedForms`. -/
+public def reducedFormsWithChar (φ : Place K → Λ) :
+    Submodule Λ (GL (Fin 2) (AdeleRing K) → Λ) where
+  carrier := {f | (∀ κ x, f (mapO κ * x) = f x) ∧ (∀ γ x, f (x * mapK γ) = f x) ∧
+    (∀ v a, IsCentralDataAt v a → ∀ x, φ v * f (a * x) = f x) ∧
+    (∀ α δ β, principal k K ⊔ adeleLattice K (idelDiv k K α - idelDiv k K δ) = ⊤ →
+      f (upperGL α δ β) = 0)}
+  zero_mem' := ⟨fun _ _ => rfl, fun _ _ => rfl, fun _ _ _ _ => mul_zero _, fun _ _ _ _ => rfl⟩
+  add_mem' {f g} hf hg := ⟨fun κ x => by simp [hf.1 κ x, hg.1 κ x],
+    fun γ x => by simp [hf.2.1 γ x, hg.2.1 γ x],
+    fun v a ha x => by simp [mul_add, hf.2.2.1 v a ha x, hg.2.2.1 v a ha x],
+    fun α δ β h => by simp [hf.2.2.2 α δ β h, hg.2.2.2 α δ β h]⟩
+  smul_mem' c f hf := ⟨fun κ x => by simp [hf.1 κ x], fun γ x => by simp [hf.2.1 γ x],
+    fun v a ha x => by
+      simp only [Pi.smul_apply, smul_eq_mul]
+      rw [mul_left_comm, hf.2.2.1 v a ha x],
+    fun α δ β h => by simp [hf.2.2.2 α δ β h]⟩
+
+/-- `reducedForms` is the instance `φ_v = q_v` of `reducedFormsWithChar`. -/
+public theorem reducedForms_eq_reducedFormsWithChar :
+    reducedForms k K Λ = reducedFormsWithChar k K Λ (fun v => (Place.residueCard v : Λ)) :=
+  rfl
+
 /-- `A(0) = O`. -/
 public theorem mem_adeleLattice_zero_iff {y : AdeleRing K} :
     y ∈ adeleLattice K 0 ↔ y ∈ integralAdeles K := by
@@ -236,12 +263,18 @@ public theorem IsUnramifiedCuspForm.eq_zero_of_sup_eq_top {f : GL (Fin 2) (Adele
   have := hf.vanishing_constant_term (upperGL α δ β) U hU hinv {0} hs
   rwa [Finset.sum_singleton, AddChar.map_zero_eq_one, mul_one] at this
 
-/-- `C(Λ)` satisfies the four conditions of `reducedForms`. -/
-public theorem cuspFormsCentralChar_le_reducedForms :
-    cuspFormsCentralChar K Λ ≤ reducedForms k K Λ := by
+/-- `C(Λ)` with central character `φ` satisfies the four conditions of
+`reducedFormsWithChar`. -/
+public theorem cuspFormsWithChar_le_reducedFormsWithChar (φ : Place K → Λ) :
+    cuspFormsWithChar K Λ φ ≤ reducedFormsWithChar k K Λ φ := by
   refine Submodule.span_le.2 fun f hf => ?_
   exact ⟨fun κ x => hf.1.left_invariant x κ, fun γ x => hf.1.right_invariant x γ, hf.2,
     fun α δ β h => IsUnramifiedCuspForm.eq_zero_of_sup_eq_top k Λ hf.1 α δ β h⟩
+
+/-- `C(Λ)` satisfies the four conditions of `reducedForms`. -/
+public theorem cuspFormsCentralChar_le_reducedForms :
+    cuspFormsCentralChar K Λ ≤ reducedForms k K Λ :=
+  cuspFormsWithChar_le_reducedFormsWithChar k Λ _
 
 variable {Λ}
 
@@ -275,12 +308,15 @@ public theorem mapO_scalar (o : (integralAdeles K)ˣ) :
     Matrix.scalar_apply, Matrix.diagonal_apply]
   split_ifs <;> simp
 
-/-- **Central character**: every idele acts on `reducedForms` through a unit of `Λ`. -/
-public theorem exists_unit_scalarGL (hp : IsUnit (ringChar k : Λ)) (c : (AdeleRing K)ˣ) :
-    ∃ u : Λˣ, ∀ f ∈ reducedForms k K Λ, ∀ x, f (scalarGL c * x) = u * f x := by
+/-- **Central character**: when every `φ_v` is a unit, every idele acts on
+`reducedFormsWithChar k K Λ φ` through a unit of `Λ`. -/
+public theorem exists_unit_scalarGL_withChar {φ : Place K → Λ} (hφ : ∀ v, IsUnit (φ v))
+    (c : (AdeleRing K)ˣ) :
+    ∃ u : Λˣ, ∀ f ∈ reducedFormsWithChar k K Λ φ, ∀ x, f (scalarGL c * x) = u * f x := by
   classical
   let Z : Subgroup (AdeleRing K)ˣ :=
-    { carrier := {c | ∃ u : Λˣ, ∀ f ∈ reducedForms k K Λ, ∀ x, f (scalarGL c * x) = u * f x}
+    { carrier :=
+        {c | ∃ u : Λˣ, ∀ f ∈ reducedFormsWithChar k K Λ φ, ∀ x, f (scalarGL c * x) = u * f x}
       one_mem' := ⟨1, fun f _ x => by simp⟩
       mul_mem' := by
         rintro a b ⟨u, hu⟩ ⟨u', hu'⟩
@@ -300,7 +336,7 @@ public theorem exists_unit_scalarGL (hp : IsUnit (ringChar k : Λ)) (c : (AdeleR
   -- local uniformizers
   have hU : ∀ v, unifInvIdele k v ∈ Z := by
     intro v
-    refine ⟨(isUnit_residueCard k hp v).unit⁻¹, fun f hf x => ?_⟩
+    refine ⟨(hφ v).unit⁻¹, fun f hf x => ?_⟩
     have h := hf.2.2.1 v _ (isCentralDataAt_scalarGL_unifInvIdele k v) x
     rw [← h, ← mul_assoc]
     simp
@@ -334,6 +370,11 @@ public theorem exists_unit_scalarGL (hp : IsUnit (ringChar k : Λ)) (c : (AdeleR
     exact hO o
   have := Z.mul_mem hce (Z.inv_mem he)
   rwa [mul_inv_cancel_right] at this
+
+/-- **Central character**: every idele acts on `reducedForms` through a unit of `Λ`. -/
+public theorem exists_unit_scalarGL (hp : IsUnit (ringChar k : Λ)) (c : (AdeleRing K)ˣ) :
+    ∃ u : Λˣ, ∀ f ∈ reducedForms k K Λ, ∀ x, f (scalarGL c * x) = u * f x :=
+  exists_unit_scalarGL_withChar k Λ (isUnit_residueCard k hp) c
 
 section ReductionLemmas
 
@@ -704,9 +745,11 @@ public theorem diagUnit_inv {κ : K} (hκ : κ ≠ 0) :
   ext1
   simp [diagUnit]
 
+variable {φ : Place K → Λ}
+
 /-- Invariance under `n(w)`, `w ∈ O`, on the left. -/
-public theorem reducedForms_upperRight_left {f : GL (Fin 2) (AdeleRing K) → Λ}
-    (hf : f ∈ reducedForms k K Λ) {w : AdeleRing K} (hw : w ∈ integralAdeles K)
+public theorem reducedFormsWithChar_upperRight_left {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : f ∈ reducedFormsWithChar k K Λ φ) {w : AdeleRing K} (hw : w ∈ integralAdeles K)
     (z : GL (Fin 2) (AdeleRing K)) : f (upperGL 1 1 w * z) = f z := by
   have := hf.1 (GeneralLinearGroup.upperRightHom ⟨w, hw⟩) z
   change f (GeneralLinearGroup.map (integralAdeles K).subtype
@@ -714,8 +757,8 @@ public theorem reducedForms_upperRight_left {f : GL (Fin 2) (AdeleRing K) → Λ
   rwa [mapO_upperRightHom, upperRightHom_eq_upperGL] at this
 
 /-- Invariance under `n(t)`, `t ∈ K`, on the right. -/
-public theorem reducedForms_upperRight_right {f : GL (Fin 2) (AdeleRing K) → Λ}
-    (hf : f ∈ reducedForms k K Λ) (t : K) (z : GL (Fin 2) (AdeleRing K)) :
+public theorem reducedFormsWithChar_upperRight_right {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : f ∈ reducedFormsWithChar k K Λ φ) (t : K) (z : GL (Fin 2) (AdeleRing K)) :
     f (z * upperGL 1 1 (diag k K t)) = f z := by
   have := hf.2.1 (GeneralLinearGroup.upperRightHom (diagP k K t)) z
   change f (z * GeneralLinearGroup.map (principalAdeles K).subtype
@@ -723,16 +766,18 @@ public theorem reducedForms_upperRight_right {f : GL (Fin 2) (AdeleRing K) → �
   rwa [mapK_upperRightHom, upperRightHom_eq_upperGL] at this
 
 /-- Invariance under `(o, 0; 0, 1)`, `o ∈ Oˣ`, on the left. -/
-public theorem reducedForms_diag_left {f : GL (Fin 2) (AdeleRing K) → Λ}
-    (hf : f ∈ reducedForms k K Λ) (o : (integralAdeles K)ˣ) (z : GL (Fin 2) (AdeleRing K)) :
+public theorem reducedFormsWithChar_diag_left {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : f ∈ reducedFormsWithChar k K Λ φ) (o : (integralAdeles K)ˣ)
+    (z : GL (Fin 2) (AdeleRing K)) :
     f (upperGL (Units.map (integralAdeles K).subtype.toMonoidHom o) 1 0 * z) = f z := by
   have := hf.1 (diagGL o) z
   change f (GeneralLinearGroup.map (integralAdeles K).subtype (diagGL o) * z) = f z at this
   rwa [map_diagGL, diagGL_eq_upperGL] at this
 
 /-- Invariance under `(κ, 0; 0, 1)`, `κ ∈ Kˣ`, on the right. -/
-public theorem reducedForms_diag_right {f : GL (Fin 2) (AdeleRing K) → Λ}
-    (hf : f ∈ reducedForms k K Λ) {κ : K} (hκ : κ ≠ 0) (z : GL (Fin 2) (AdeleRing K)) :
+public theorem reducedFormsWithChar_diag_right {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : f ∈ reducedFormsWithChar k K Λ φ) {κ : K} (hκ : κ ≠ 0)
+    (z : GL (Fin 2) (AdeleRing K)) :
     f (z * upperGL (diagUnit k hκ) 1 0) = f z := by
   have := hf.2.1 (GeneralLinearGroup.map (diagP k K) (diagGL (Units.mk0 κ hκ))) z
   change f (z * GeneralLinearGroup.map (principalAdeles K).subtype
@@ -743,9 +788,9 @@ public theorem reducedForms_diag_right {f : GL (Fin 2) (AdeleRing K) → Λ}
   rfl
 
 /-- Moving `(c, b; 0, 1)` to a representative with `c` the idele of a fixed divisor `D'`. -/
-public theorem exists_rep_eval {c : (AdeleRing K)ˣ} {D' : Place K →₀ ℤ} {κ : K} (hκ : κ ≠ 0)
-    (hc : idelDiv k K c = D' - principalDivisor k K κ) (b : AdeleRing K) :
-    ∃ b' : AdeleRing K, ∀ f ∈ reducedForms k K Λ,
+public theorem exists_rep_eval_withChar {c : (AdeleRing K)ˣ} {D' : Place K →₀ ℤ} {κ : K}
+    (hκ : κ ≠ 0) (hc : idelDiv k K c = D' - principalDivisor k K κ) (b : AdeleRing K) :
+    ∃ b' : AdeleRing K, ∀ f ∈ reducedFormsWithChar k K Λ φ,
       f (upperGL c 1 b) = f (upperGL (idelOfDiv k K D') 1 b') := by
   set c' := idelOfDiv k K D'
   set o := c * c'⁻¹ * diagUnit k hκ
@@ -765,12 +810,13 @@ public theorem exists_rep_eval {c : (AdeleRing K)ˣ} {D' : Place K →₀ ℤ} {
     · simp
     · simp only [mul_zero, zero_add, Units.val_one, mul_one, ← mul_assoc, Units.mul_inv, one_mul,
         add_zero]
-  rw [hid, ← ho'', reducedForms_diag_left k hf, diagUnit_inv, reducedForms_diag_right k hf]
+  rw [hid, ← ho'', reducedFormsWithChar_diag_left k hf, diagUnit_inv,
+    reducedFormsWithChar_diag_right k hf]
 
 /-- Moving `(c', b; 0, 1)` to `(c', c' r; 0, 1)` with `r` in a finite set of representatives. -/
-public theorem eval_eq_of_rep {D' : Place K →₀ ℤ} (b r : AdeleRing K)
+public theorem eval_eq_of_rep_withChar {D' : Place K →₀ ℤ} (b r : AdeleRing K)
     (hr : -r + ((idelOfDiv k K D')⁻¹ : (AdeleRing K)ˣ) * b ∈ principal k K ⊔ adeleLattice K D')
-    {f : GL (Fin 2) (AdeleRing K) → Λ} (hf : f ∈ reducedForms k K Λ) :
+    {f : GL (Fin 2) (AdeleRing K) → Λ} (hf : f ∈ reducedFormsWithChar k K Λ φ) :
     f (upperGL (idelOfDiv k K D') 1 b) =
       f (upperGL (idelOfDiv k K D') 1 ((idelOfDiv k K D' : AdeleRing K) * r)) := by
   set c' := idelOfDiv k K D'
@@ -792,15 +838,17 @@ public theorem eval_eq_of_rep {D' : Place K →₀ ℤ} (b r : AdeleRing K)
     · simp
     · simp
     · rw [hb]; simp only [Units.val_one, one_mul, mul_one]; ring
-  rw [hid, reducedForms_upperRight_right k hf, reducedForms_upperRight_left k hf hcy]
+  rw [hid, reducedFormsWithChar_upperRight_right k hf,
+    reducedFormsWithChar_upperRight_left k hf hcy]
 
 variable (Λ)
 
-/-- **Support**: there is a finite set `P ⊆ GL₂(A)` such that every value of an element of
-`reducedForms` is a multiple, independent of the form, of its value at a point of `P`. -/
-public theorem exists_finset_eval_eq (hp : IsUnit (ringChar k : Λ)) :
+/-- **Support**: when every `φ_v` is a unit, there is a finite set `P ⊆ GL₂(A)` such that every
+value of an element of `reducedFormsWithChar k K Λ φ` is a multiple, independent of the form, of
+its value at a point of `P`. -/
+public theorem exists_finset_eval_eq_withChar (hφ : ∀ v, IsUnit (φ v)) :
     ∃ P : Finset (GL (Fin 2) (AdeleRing K)), ∀ x, ∃ p ∈ P, ∃ u : Λ,
-      ∀ f ∈ reducedForms k K Λ, f x = u * f p := by
+      ∀ f ∈ reducedFormsWithChar k K Λ φ, f x = u * f p := by
   classical
   obtain ⟨M₀, hM₀⟩ := exists_sup_adeleLattice_eq_top k (K := K)
   have hc₀ := redConst_pos k (K := K)
@@ -821,7 +869,7 @@ public theorem exists_finset_eval_eq (hp : IsUnit (ringChar k : Λ)) :
   refine ⟨insert 1 (F.biUnion fun D' => (R D').image fun r =>
     upperGL (idelOfDiv k K D') 1 ((idelOfDiv k K D' : AdeleRing K) * r)), fun x => ?_⟩
   obtain ⟨κ, γ, α, δ, β, hx, hbound⟩ := exists_reduction k x
-  have hfx : ∀ f ∈ reducedForms k K Λ, f x = f (upperGL α δ β) := fun f hf => by
+  have hfx : ∀ f ∈ reducedFormsWithChar k K Λ φ, f x = f (upperGL α δ β) := fun f hf => by
     rw [hx, hf.2.1, hf.1]
   by_cases hD : M₀ ≤ divNorm K (idelDiv k K α - idelDiv k K δ)
   · refine ⟨1, Finset.mem_insert_self _ _, 0, fun f hf => ?_⟩
@@ -831,11 +879,12 @@ public theorem exists_finset_eval_eq (hp : IsUnit (ringChar k : Λ)) :
     ((inv_le_comm₀ (lt_of_lt_of_le (inv_pos.2 hc₀) (le_max_right _ _)) hc₀).2
       (le_max_right _ _)).trans hbound
   obtain ⟨D', hD'F, κ', hκ', hDeq⟩ := hF _ hlow (hD.le.trans (le_max_left _ _))
-  obtain ⟨u, hu⟩ := exists_unit_scalarGL k Λ hp δ
+  obtain ⟨u, hu⟩ := exists_unit_scalarGL_withChar k Λ hφ δ
   have hcdiv : idelDiv k K (α * δ⁻¹) = D' - principalDivisor k K κ' := by
     rw [idelDiv_mul, idelDiv_inv, ← sub_eq_add_neg, hDeq]
   obtain ⟨b', hb'⟩ :=
-    exists_rep_eval k (Λ := Λ) hκ' hcdiv (((δ⁻¹ : (AdeleRing K)ˣ) : AdeleRing K) * β)
+    exists_rep_eval_withChar k (Λ := Λ) (φ := φ) hκ' hcdiv
+      (((δ⁻¹ : (AdeleRing K)ˣ) : AdeleRing K) * β)
   obtain ⟨r, hrR, hr⟩ := hR D' (((idelOfDiv k K D')⁻¹ : (AdeleRing K)ˣ) * b')
   refine ⟨upperGL (idelOfDiv k K D') 1 ((idelOfDiv k K D' : AdeleRing K) * r),
     Finset.mem_insert_of_mem (Finset.mem_biUnion.2 ⟨D', hD'F, Finset.mem_image_of_mem _ hrR⟩),
@@ -847,22 +896,74 @@ public theorem exists_finset_eval_eq (hp : IsUnit (ringChar k : Λ)) :
     · rw [mul_left_comm, mul_inv_cancel, mul_one]
     · rw [mul_one]
     · rw [zero_mul, add_zero, ← mul_assoc, Units.mul_inv, one_mul]
-  rw [hfx f hf, h1, hu f hf, hb' f hf, eval_eq_of_rep k b' r hr hf]
+  rw [hfx f hf, h1, hu f hf, hb' f hf, eval_eq_of_rep_withChar k b' r hr hf]
+
+variable {Λ}
+
+/-- Invariance under `n(w)`, `w ∈ O`, on the left. -/
+public theorem reducedForms_upperRight_left {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : f ∈ reducedForms k K Λ) {w : AdeleRing K} (hw : w ∈ integralAdeles K)
+    (z : GL (Fin 2) (AdeleRing K)) : f (upperGL 1 1 w * z) = f z :=
+  reducedFormsWithChar_upperRight_left k (φ := fun v => (Place.residueCard v : Λ)) hf hw z
+
+/-- Invariance under `n(t)`, `t ∈ K`, on the right. -/
+public theorem reducedForms_upperRight_right {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : f ∈ reducedForms k K Λ) (t : K) (z : GL (Fin 2) (AdeleRing K)) :
+    f (z * upperGL 1 1 (diag k K t)) = f z :=
+  reducedFormsWithChar_upperRight_right k (φ := fun v => (Place.residueCard v : Λ)) hf t z
+
+/-- Invariance under `(o, 0; 0, 1)`, `o ∈ Oˣ`, on the left. -/
+public theorem reducedForms_diag_left {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : f ∈ reducedForms k K Λ) (o : (integralAdeles K)ˣ) (z : GL (Fin 2) (AdeleRing K)) :
+    f (upperGL (Units.map (integralAdeles K).subtype.toMonoidHom o) 1 0 * z) = f z :=
+  reducedFormsWithChar_diag_left k (φ := fun v => (Place.residueCard v : Λ)) hf o z
+
+/-- Invariance under `(κ, 0; 0, 1)`, `κ ∈ Kˣ`, on the right. -/
+public theorem reducedForms_diag_right {f : GL (Fin 2) (AdeleRing K) → Λ}
+    (hf : f ∈ reducedForms k K Λ) {κ : K} (hκ : κ ≠ 0) (z : GL (Fin 2) (AdeleRing K)) :
+    f (z * upperGL (diagUnit k hκ) 1 0) = f z :=
+  reducedFormsWithChar_diag_right k (φ := fun v => (Place.residueCard v : Λ)) hf hκ z
+
+/-- Moving `(c, b; 0, 1)` to a representative with `c` the idele of a fixed divisor `D'`. -/
+public theorem exists_rep_eval {c : (AdeleRing K)ˣ} {D' : Place K →₀ ℤ} {κ : K} (hκ : κ ≠ 0)
+    (hc : idelDiv k K c = D' - principalDivisor k K κ) (b : AdeleRing K) :
+    ∃ b' : AdeleRing K, ∀ f ∈ reducedForms k K Λ,
+      f (upperGL c 1 b) = f (upperGL (idelOfDiv k K D') 1 b') :=
+  exists_rep_eval_withChar k (φ := fun v => (Place.residueCard v : Λ)) hκ hc b
+
+/-- Moving `(c', b; 0, 1)` to `(c', c' r; 0, 1)` with `r` in a finite set of representatives. -/
+public theorem eval_eq_of_rep {D' : Place K →₀ ℤ} (b r : AdeleRing K)
+    (hr : -r + ((idelOfDiv k K D')⁻¹ : (AdeleRing K)ˣ) * b ∈ principal k K ⊔ adeleLattice K D')
+    {f : GL (Fin 2) (AdeleRing K) → Λ} (hf : f ∈ reducedForms k K Λ) :
+    f (upperGL (idelOfDiv k K D') 1 b) =
+      f (upperGL (idelOfDiv k K D') 1 ((idelOfDiv k K D' : AdeleRing K) * r)) :=
+  eval_eq_of_rep_withChar k (φ := fun v => (Place.residueCard v : Λ)) b r hr hf
+
+variable (Λ)
+
+/-- **Support**: there is a finite set `P ⊆ GL₂(A)` such that every value of an element of
+`reducedForms` is a multiple, independent of the form, of its value at a point of `P`. -/
+public theorem exists_finset_eval_eq (hp : IsUnit (ringChar k : Λ)) :
+    ∃ P : Finset (GL (Fin 2) (AdeleRing K)), ∀ x, ∃ p ∈ P, ∃ u : Λ,
+      ∀ f ∈ reducedForms k K Λ, f x = u * f p :=
+  exists_finset_eval_eq_withChar k Λ (isUnit_residueCard k hp)
 
 end Support
 
-/-- **Finite generation** (the first clause of Stacks 03VW): when the characteristic of `k` is
-invertible in the Noetherian ring `Λ`, the module `C(Λ)` is finitely generated. -/
-public theorem cuspFormsCentralChar_fg [IsNoetherianRing Λ] (hp : IsUnit (ringChar k : Λ)) :
-    (cuspFormsCentralChar K Λ).FG := by
+include k in
+/-- **Finite generation** (the first clause of Stacks 03VW): when every `φ_v` is a unit of the
+Noetherian ring `Λ`, the module `C(Λ)` of cusp forms with central character `φ` is finitely
+generated. -/
+public theorem cuspFormsWithChar_fg [IsNoetherianRing Λ] {φ : Place K → Λ}
+    (hφ : ∀ v, IsUnit (φ v)) : (cuspFormsWithChar K Λ φ).FG := by
   classical
-  obtain ⟨P, hP⟩ := exists_finset_eval_eq k Λ hp (K := K)
+  obtain ⟨P, hP⟩ := exists_finset_eval_eq_withChar k Λ hφ (K := K)
   let ψ : (GL (Fin 2) (AdeleRing K) → Λ) →ₗ[Λ] (P → Λ) :=
     LinearMap.pi fun p => LinearMap.proj (p : GL (Fin 2) (AdeleRing K))
-  have hker : cuspFormsCentralChar K Λ ⊓ LinearMap.ker ψ = ⊥ := by
+  have hker : cuspFormsWithChar K Λ φ ⊓ LinearMap.ker ψ = ⊥ := by
     rw [eq_bot_iff]
     rintro f ⟨hfC, hfk⟩
-    have hfW := cuspFormsCentralChar_le_reducedForms k Λ hfC
+    have hfW := cuspFormsWithChar_le_reducedFormsWithChar k Λ φ hfC
     rw [Submodule.mem_bot]
     funext x
     obtain ⟨p, hpP, u, hu⟩ := hP x
@@ -871,6 +972,13 @@ public theorem cuspFormsCentralChar_fg [IsNoetherianRing Λ] (hp : IsUnit (ringC
   refine Submodule.fg_of_fg_map_of_fg_inf_ker ψ (IsNoetherian.noetherian _) ?_
   rw [hker]
   exact Submodule.fg_bot
+
+/-- **Finite generation** (the first clause of Stacks 03VW for `φ_v = q_v`): when the
+characteristic of `k` is invertible in the Noetherian ring `Λ`, the module `C(Λ)` is finitely
+generated. -/
+public theorem cuspFormsCentralChar_fg [IsNoetherianRing Λ] (hp : IsUnit (ringChar k : Λ)) :
+    (cuspFormsCentralChar K Λ).FG :=
+  cuspFormsWithChar_fg k Λ (isUnit_residueCard k hp)
 
 end Stacks.Adeles.GlobalFunctionField
 

@@ -338,8 +338,8 @@ theorem moduleFinite_gradedCohomologySum_of_iso
     (tag02O6 B hBN (baseChangeScheme A B f) (baseChangeToSpec A B f) inferInstance F'
       inferInstance p)
 
-/-- **[Stacks, Tag 0897] part (1), with `𝓑 = f^* B̃` and over the base change the proof
-constructs.** Let `A` be a Noetherian ring, `B` a finitely generated graded `A`-algebra,
+/-- **Part (1) of [Stacks, Tag 0897], with `𝓑 = f^* B̃` and over the base change the proof
+constructs, for the `B`-action carried across [Stacks, Tag 089W].** Let `A` be a Noetherian ring, `B` a finitely generated graded `A`-algebra,
 `f : X ⟶ Spec A` proper, `𝓑 = f^* B̃`, and `F` a quasi-coherent graded `𝓑`-module of finite
 type. Then the graded `B`-module `⨁ₙ H^p(X, Fₙ)` is a finite `B`-module, for every `p`.
 
@@ -356,7 +356,7 @@ reason, which is what makes [Stacks, Tag 089W] applicable to it.
 
 **Nothing is carried.** The coherent `F'` on `X'` and the identification `e : π_* F' ≅ ∐ₙ Fₙ`
 of its direct image, which the source's statement does not mention, are produced by
-`exists_isCoherent_pushforward_baseChange_iso_intCoprod` above, so the registration is
+`exists_isCoherent_pushforward_baseChange_iso_intCoprod` above, so the statement is
 unconditional; the graded `B`-action on `⨁ₙ H^p(X, Fₙ)` and a `B`-linear comparison with
 `H^p(X', F')` are produced from `e`, by `gradedCohomologySumModule`.
 
@@ -378,6 +378,10 @@ restricted to the Rees algebra `⨁ₙ ℐⁿ` of an ideal sheaf. The note on
 `gradedCohomologySumModuleOfFiniteType` records what the comparison
 of the two still needs, and `moduleFinite_gradedTildeCohomologyModule` is the finiteness it
 would yield. `F'` is chosen, so the action depends on that choice.
+
+Because of that `B`-action this is not the registration of the tag: [Stacks, Tag 0897], with the
+`B`-action the source defines degreewise, is
+`moduleFinite_gradedCohomologySum_and_exists_isZero_pieceTwistCohomology`.
 
 **How `F'` and `e` are produced.** The quasi-coherent half is already available:
 `Stacks.AffineGradedAlgebra.exists_isQuasicoherent_pushforward_baseChange_iso_intCoprod`
@@ -408,11 +412,6 @@ The finiteness itself: `B` is Noetherian because it is a finitely generated alge
 Noetherian ring `A`, and `F'` is coherent, so `tag02O6` — [Stacks, Tag 02O6] over a ring — makes
 `H^p(X', F')` a finite `B`-module, and the comparison carries that finiteness back to
 `⨁ₙ H^p(X, Fₙ)`. -/
-@[stacks 0897 "part (1), with the graded algebra read as the source defines it, B = f^* Btilde \
-for Btilde the graded algebra sheaf of B on Spec(A), and over the base change \
-X' = Spec(B) ×_Spec(A) X that the proof builds: the graded B-module ⨁_n H^p(X, F_n) is a finite \
-B-module, for the B-action carried across the comparison of Tag 089W rather than the one the \
-source defines degreewise"]
 theorem moduleFinite_gradedCohomologySum_gradedPullback
     (A : Type u) [CommRing A] [IsNoetherianRing A] {B : Type u} [CommRing B] [Algebra A B]
     (𝒜 : ℕ → Submodule A B) [_root_.GradedAlgebra 𝒜] [Algebra.FiniteType A B]

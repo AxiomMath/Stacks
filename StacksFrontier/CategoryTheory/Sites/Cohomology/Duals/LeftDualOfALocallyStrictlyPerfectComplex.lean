@@ -26,9 +26,13 @@ prescribed by its components, and is determined by them. Those are the two input
 
 * `Stacks.SheafOfModules.Strict.isLocallyFinitelySupported_tensorSummands`: the summands of a
   fixed degree of `ℱ^• ⊗ 𝒢^•` are locally finitely many, for `ℱ^•` locally strictly perfect.
-* `Stacks.SheafOfModules.Strict.exactPairingDualComplexOfLocallyStrictlyPerfect`: **[Stacks,
-  Tag 0FPR]** — `𝒢^•` with `η = ∑ ηₙ` and `ε = ∑ εₙ` is a left dual of `ℱ^•`, under the tag's
-  own hypothesis.
+* `Stacks.SheafOfModules.Strict.exactPairingDualComplexOfLocallyStrictlyPerfect`: the left dual
+  structure on `𝒢^•`, with
+  `coevaluation_comp_πTensorObj_exactPairingDualComplexOfLocallyStrictlyPerfect` and
+  `ιTensorObj_comp_evaluation_exactPairingDualComplexOfLocallyStrictlyPerfect` identifying its
+  coevaluation and evaluation with `∑ ηₙ` and `∑ εₙ`.
+* `Stacks.SheafOfModules.Strict.isLeftDual_dualComplexOfLocallyStrictlyPerfect`: **[Stacks,
+  Tag 0FPR]** — `𝒢^•` with `η = ∑ ηₙ` and `ε = ∑ εₙ` is a left dual of `ℱ^•`.
 
 ## Implementation notes
 
@@ -67,6 +71,56 @@ open CategoryTheory Limits MonoidalCategory GradedObject
 noncomputable section
 
 universe v u
+
+namespace CochainComplex
+
+section Components
+
+variable {D : Type*} [Category D] [MonoidalCategory D] [Preadditive D]
+  [MonoidalPreadditive D] [HasZeroObject D]
+  [∀ (X₁ X₂ : GradedObject ℤ D), GradedObject.HasTensor X₁ X₂]
+  [∀ (X₁ X₂ X₃ : GradedObject ℤ D), GradedObject.HasGoodTensor₁₂Tensor X₁ X₂ X₃]
+  [∀ (X₁ X₂ X₃ : GradedObject ℤ D), GradedObject.HasGoodTensorTensor₂₃ X₁ X₂ X₃]
+  [∀ X₁ : D, PreservesColimit (Functor.empty.{0} D) ((curriedTensor D).obj X₁)]
+  [∀ X₂ : D, PreservesColimit (Functor.empty.{0} D) ((curriedTensor D).flip.obj X₂)]
+  [∀ (X₁ X₂ X₃ X₄ : GradedObject ℤ D), GradedObject.HasTensor₄ObjExt X₁ X₂ X₃ X₄]
+  (K : CochainComplex D ℤ) (E : ℤ → D) (q : ∀ i j : ℤ, i + j = 0 → ExactPairing (K.X i) (E j))
+  (coev : 𝟙_ D ⟶ GradedObject.Monoidal.tensorObj K.X E 0)
+  (hc : GradedObject.Monoidal.IsAssembledCoev K.X E (dualPairing K E q) coev)
+  (hsep : IsSeparatedDegOne K (dualComplex K E q))
+
+/-- **The coevaluation of `exactPairingDualComplexOfComponents` has the prescribed components**:
+in degree zero, on the summand `K^n ⊗ E^{-n}`, it is the degreewise coevaluation `ηₙ`. -/
+theorem coevaluation_comp_πTensorObj_exactPairingDualComplexOfComponents (n : ℤ) :
+    (@ExactPairing.coevaluation' _ _ _ K (dualComplex K E q)
+        (exactPairingDualComplexOfComponents K E q coev hc hsep)).f 0 ≫
+        GradedObject.Monoidal.πTensorObj K.X E n (-n) 0 (add_neg_cancel n) =
+      ((HomologicalComplex.tensorUnitIso D (ComplexShape.up ℤ)).inv 0 ≫
+        GradedObject.Monoidal.tensorUnit₀.hom) ≫ (dualPairing K E q n).coevaluation' := by
+  have h0 : (@ExactPairing.coevaluation' _ _ _ K (dualComplex K E q)
+      (exactPairingDualComplexOfComponents K E q coev hc hsep)).f 0 =
+        (HomologicalComplex.tensorUnitIso D (ComplexShape.up ℤ)).inv 0 ≫
+          GradedObject.Monoidal.tensorUnit₀.hom ≫ coev := by
+    change (HomologicalComplex.tensorUnitIso D (ComplexShape.up ℤ)).inv 0 ≫
+        GradedObject.Monoidal.gradedCoevOf K.X E coev 0 = _
+    exact whisker_eq _ (GradedObject.Monoidal.gradedCoevOf_zero K.X E coev)
+  rw [h0]
+  exact (Category.assoc _ _ _).trans ((whisker_eq _ ((Category.assoc _ _ _).trans
+    (whisker_eq _ (hc n)))).trans (Category.assoc _ _ _).symm)
+
+/-- **The evaluation of `exactPairingDualComplexOfComponents` is `ε = ∑ εₙ`**: in degree zero,
+on the summand `E^{-n} ⊗ K^n`, it is the degreewise evaluation `εₙ`. -/
+theorem ιTensorObj_comp_evaluation_exactPairingDualComplexOfComponents (n : ℤ) :
+    HomologicalComplex.ιTensorObj (dualComplex K E q) K (-n) n 0 (neg_add_cancel n) ≫
+        (@ExactPairing.evaluation' _ _ _ K (dualComplex K E q)
+          (exactPairingDualComplexOfComponents K E q coev hc hsep)).f 0 =
+      (dualPairing K E q n).evaluation' ≫ GradedObject.Monoidal.tensorUnit₀.inv ≫
+        (HomologicalComplex.tensorUnitIso D (ComplexShape.up ℤ)).hom 0 :=
+  ι_evaluationHom_f_zero K (dualComplex K E q) (dualPairing K E q) _ n
+
+end Components
+
+end CochainComplex
 
 namespace Stacks.SheafOfModules.Strict
 
@@ -220,34 +274,21 @@ theorem isSeparatedDegOne_dualComplex (hK : IsLocallyStrictlyPerfect R K) :
 
 variable {R K}
 
-/-- **[Stacks, Tag 0FPR].** Let `(C, 𝒪)` be a ringed site and let `ℱ^•` be a complex of
-`𝒪`-modules such that for every object `U` of `C` there exists a covering `{U_i → U}` with
-`ℱ^•|_{U_i}` strictly perfect. Then the complex `𝒢^• = SheafHom^•(ℱ^•, 𝒪)`, together with
-`η = ∑ ηₙ` and `ε = ∑ εₙ` assembled from the coevaluations and evaluations of
+/-- **The left dual structure of [Stacks, Tag 0FPR].** Let `(C, 𝒪)` be a ringed site and let
+`ℱ^•` be a complex of `𝒪`-modules such that for every object `U` of `C` there exists a covering
+`{U_i → U}` with `ℱ^•|_{U_i}` strictly perfect. Then the complex `𝒢^• = SheafHom^•(ℱ^•, 𝒪)`,
+together with `η = ∑ ηₙ` and `ε = ∑ εₙ` assembled from the coevaluations and evaluations of
 [Stacks, Tag 0FNY] at the terms, is a **left dual** of `ℱ^•` in the monoidal category of
 complexes of `𝒪`-modules of [Stacks, Tag 0FPQ]: both triangle identities hold.
 
-The hypothesis is the tag's own and nothing else is assumed: in particular `ℱ^•` is bounded only
-locally, so `η` is only a locally finite sum. It exists because the degree-zero part of
-`ℱ^• ⊗ 𝒢^•` is a coproduct whose summands locally all but finitely many vanish, hence is also
-the product, and a morphism into it is given by — and determined by — its components. -/
-@[stacks 0FPR "the WHOLE assertion of the tag under the tag's OWN hypothesis: for a complex \
-`ℱ^•` of 𝒪-modules such that every object of the site has a covering on whose members `ℱ^•` is \
-strictly perfect (Tag 08FL), the complex `𝒢^• = SheafHom^•(ℱ^•, 𝒪)` together with η = ∑ ηₙ and \
-ε = ∑ εₙ — the coevaluations and evaluations of Tag 0FNY at the terms — is a left dual of `ℱ^•` \
-in the monoidal category of complexes of Tag 0FPQ, i.e. both triangle identities of Tag 0FFP \
-hold. No boundedness is assumed: \
-`Stacks.SheafOfModules.Strict.exactPairingDualComplex` proves the same conclusion only for a \
-complex vanishing outside one global finite set of degrees, and the hypothesis here bounds \
-`ℱ^•` only locally, so that η = ∑ ηₙ is a locally finite sum. It is produced from its \
-components, the degree-zero part of `ℱ^• ⊗ 𝒢^•` being a coproduct of locally finitely many \
-nonzero summands and therefore also their product \
-(`Stacks.SheafOfModules.CoproductSheafification.isIso_coprodToProd`). The complex `𝒢^•` is \
-`Stacks.SheafOfModules.Strict.dualComplexOfLocallyStrictlyPerfect`, with terms and \
-signed-transpose differential `dualComplexOfLocallyStrictlyPerfect_X` and `dualComplex_d`. The \
-converse, that a complex with a left dual is locally strictly perfect and has this very complex \
-with these very pairings as its left dual, is Tag 0FPS, \
-`Stacks.SheafOfModules.Strict.exists_dualComplexIso_of_exactPairing`", instance_reducible]
+No global bound on the degrees of `ℱ^•` is assumed, so `η` is a locally finite sum. It exists
+because the degree-zero part of `ℱ^• ⊗ 𝒢^•` is a coproduct whose summands locally all but
+finitely many vanish, hence is also the product, and a morphism into it is given by — and
+determined by — its components. That its coevaluation and evaluation are `∑ ηₙ` and `∑ εₙ` is
+`coevaluation_comp_πTensorObj_exactPairingDualComplexOfLocallyStrictlyPerfect` and
+`ιTensorObj_comp_evaluation_exactPairingDualComplexOfLocallyStrictlyPerfect`; the tag is
+`isLeftDual_dualComplexOfLocallyStrictlyPerfect`. -/
+@[instance_reducible]
 def exactPairingDualComplexOfLocallyStrictlyPerfect (hK : IsLocallyStrictlyPerfect R K) :
     @ExactPairing _ _ (monoidalCategoryCochainComplex R) K
       (dualComplexOfLocallyStrictlyPerfect R K hK) :=
@@ -275,6 +316,181 @@ def exactPairingDualComplexOfLocallyStrictlyPerfect (hK : IsLocallyStrictlyPerfe
       (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) hK).choose_spec
     (isSeparatedDegOne_dualComplex R K
       (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) hK)
+
+/-- **The coevaluation of `exactPairingDualComplexOfLocallyStrictlyPerfect` is `η = ∑ ηₙ`**: its
+degree-zero component on the summand `ℱ^n ⊗ 𝒢^{-n}` of `(ℱ^• ⊗ 𝒢^•)^0` is the coevaluation
+`ηₙ` of [Stacks, Tag 0FNY] at the term `ℱ^n`, read through the identification of the unit of
+complexes in degree zero with `𝒪`. -/
+theorem coevaluation_comp_πTensorObj_exactPairingDualComplexOfLocallyStrictlyPerfect
+    (hK : IsLocallyStrictlyPerfect R K) (n : ℤ) :
+    letI : MonoidalCategory (_root_.SheafOfModules.{max u v}
+        (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
+      Stacks.SheafOfModules.Strict.monoidalCategory R.obj
+        (Stacks.SheafOfModules.Tensor.ringSheaf R).property
+    letI : MonoidalPreadditive (Mod R) := monoidalPreadditiveRingSheaf R
+    letI : ∀ X₁ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+        ((curriedTensor (Mod R)).obj X₁) := fun X₁ => preservesColimit_tensorLeft R _ X₁
+    letI : ∀ X₂ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+        ((curriedTensor (Mod R)).flip.obj X₂) := fun X₂ => preservesColimit_tensorRight R _ X₂
+    letI : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+        GradedObject.HasGoodTensor₁₂Tensor X₁ X₂ X₃ := hasGoodTensor₁₂Tensor R
+    letI : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+        GradedObject.HasGoodTensorTensor₂₃ X₁ X₂ X₃ := hasGoodTensorTensor₂₃ R
+    letI : ∀ X₁ X₂ X₃ X₄ : GradedObject ℤ (Mod R),
+        GradedObject.HasTensor₄ObjExt X₁ X₂ X₃ X₄ := hasTensor₄ObjExt R
+    (@ExactPairing.coevaluation' _ _ inferInstance K
+        (dualComplexOfLocallyStrictlyPerfect R K hK)
+        (exactPairingDualComplexOfLocallyStrictlyPerfect hK)).f 0 ≫
+        GradedObject.Monoidal.πTensorObj K.X (dualComplexX R K) n (-n) 0 (add_neg_cancel n) =
+      ((HomologicalComplex.tensorUnitIso (Mod R) (ComplexShape.up ℤ)).inv 0 ≫
+        GradedObject.Monoidal.tensorUnit₀.hom) ≫
+        (dualComplexPairing R K
+          (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) n (-n)
+          (add_neg_cancel n)).coevaluation' := by
+  let : MonoidalCategory (_root_.SheafOfModules.{max u v}
+      (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
+    Stacks.SheafOfModules.Strict.monoidalCategory R.obj
+      (Stacks.SheafOfModules.Tensor.ringSheaf R).property
+  let : MonoidalPreadditive (Mod R) := monoidalPreadditiveRingSheaf R
+  let : ∀ X₁ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+      ((curriedTensor (Mod R)).obj X₁) := fun X₁ => preservesColimit_tensorLeft R _ X₁
+  let : ∀ X₂ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+      ((curriedTensor (Mod R)).flip.obj X₂) := fun X₂ => preservesColimit_tensorRight R _ X₂
+  let : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+      GradedObject.HasGoodTensor₁₂Tensor X₁ X₂ X₃ := hasGoodTensor₁₂Tensor R
+  let : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+      GradedObject.HasGoodTensorTensor₂₃ X₁ X₂ X₃ := hasGoodTensorTensor₂₃ R
+  let : ∀ X₁ X₂ X₃ X₄ : GradedObject ℤ (Mod R),
+      GradedObject.HasTensor₄ObjExt X₁ X₂ X₃ X₄ := hasTensor₄ObjExt R
+  have h := CochainComplex.coevaluation_comp_πTensorObj_exactPairingDualComplexOfComponents K
+      (dualComplexX R K) (dualComplexPairing R K
+        (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK))
+      (exists_isAssembledCoev R K
+        (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) hK).choose
+      (exists_isAssembledCoev R K
+        (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) hK).choose_spec
+      (isSeparatedDegOne_dualComplex R K
+        (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) hK) n
+  exact h
+
+/-- **The evaluation of `exactPairingDualComplexOfLocallyStrictlyPerfect` is `ε = ∑ εₙ`**: its
+degree-zero component on the summand `𝒢^{-n} ⊗ ℱ^n` of `(𝒢^• ⊗ ℱ^•)^0` is the evaluation `εₙ`
+of [Stacks, Tag 0FNY] at the term `ℱ^n`, read through the identification of `𝒪` with the unit
+of complexes in degree zero. -/
+theorem ιTensorObj_comp_evaluation_exactPairingDualComplexOfLocallyStrictlyPerfect
+    (hK : IsLocallyStrictlyPerfect R K) (n : ℤ) :
+    letI : MonoidalCategory (_root_.SheafOfModules.{max u v}
+        (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
+      Stacks.SheafOfModules.Strict.monoidalCategory R.obj
+        (Stacks.SheafOfModules.Tensor.ringSheaf R).property
+    letI : MonoidalPreadditive (Mod R) := monoidalPreadditiveRingSheaf R
+    letI : ∀ X₁ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+        ((curriedTensor (Mod R)).obj X₁) := fun X₁ => preservesColimit_tensorLeft R _ X₁
+    letI : ∀ X₂ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+        ((curriedTensor (Mod R)).flip.obj X₂) := fun X₂ => preservesColimit_tensorRight R _ X₂
+    letI : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+        GradedObject.HasGoodTensor₁₂Tensor X₁ X₂ X₃ := hasGoodTensor₁₂Tensor R
+    letI : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+        GradedObject.HasGoodTensorTensor₂₃ X₁ X₂ X₃ := hasGoodTensorTensor₂₃ R
+    letI : ∀ X₁ X₂ X₃ X₄ : GradedObject ℤ (Mod R),
+        GradedObject.HasTensor₄ObjExt X₁ X₂ X₃ X₄ := hasTensor₄ObjExt R
+    HomologicalComplex.ιTensorObj (dualComplexOfLocallyStrictlyPerfect R K hK) K (-n) n 0
+        (neg_add_cancel n) ≫
+        (@ExactPairing.evaluation' _ _ inferInstance K
+          (dualComplexOfLocallyStrictlyPerfect R K hK)
+          (exactPairingDualComplexOfLocallyStrictlyPerfect hK)).f 0 =
+      (dualComplexPairing R K
+          (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) n (-n)
+          (add_neg_cancel n)).evaluation' ≫ GradedObject.Monoidal.tensorUnit₀.inv ≫
+        (HomologicalComplex.tensorUnitIso (Mod R) (ComplexShape.up ℤ)).hom 0 := by
+  let : MonoidalCategory (_root_.SheafOfModules.{max u v}
+      (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
+    Stacks.SheafOfModules.Strict.monoidalCategory R.obj
+      (Stacks.SheafOfModules.Tensor.ringSheaf R).property
+  let : MonoidalPreadditive (Mod R) := monoidalPreadditiveRingSheaf R
+  let : ∀ X₁ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+      ((curriedTensor (Mod R)).obj X₁) := fun X₁ => preservesColimit_tensorLeft R _ X₁
+  let : ∀ X₂ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+      ((curriedTensor (Mod R)).flip.obj X₂) := fun X₂ => preservesColimit_tensorRight R _ X₂
+  let : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+      GradedObject.HasGoodTensor₁₂Tensor X₁ X₂ X₃ := hasGoodTensor₁₂Tensor R
+  let : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+      GradedObject.HasGoodTensorTensor₂₃ X₁ X₂ X₃ := hasGoodTensorTensor₂₃ R
+  let : ∀ X₁ X₂ X₃ X₄ : GradedObject ℤ (Mod R),
+      GradedObject.HasTensor₄ObjExt X₁ X₂ X₃ X₄ := hasTensor₄ObjExt R
+  have h := CochainComplex.ιTensorObj_comp_evaluation_exactPairingDualComplexOfComponents K
+      (dualComplexX R K) (dualComplexPairing R K
+        (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK))
+      (exists_isAssembledCoev R K
+        (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) hK).choose
+      (exists_isAssembledCoev R K
+        (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) hK).choose_spec
+      (isSeparatedDegOne_dualComplex R K
+        (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) hK) n
+  exact h
+
+
+/-- **[Stacks, Tag 0FPR].** Let `(C, 𝒪)` be a ringed site and let `ℱ^•` be a complex of
+`𝒪`-modules such that for every object `U` of `C` there exists a covering `{U_i → U}` with
+`ℱ^•|_{U_i}` strictly perfect. Let `𝒢^• = SheafHom^•(ℱ^•, 𝒪)`, with degree-`j` term
+`SheafHom(ℱ^{-j}, 𝒪)`. Then there is a left dual structure `(𝒢^•, η, ε)` on `ℱ^•` in the
+monoidal category of complexes of `𝒪`-modules of [Stacks, Tag 0FPQ] — both triangle identities
+of [Stacks, Tag 0FFP] hold — whose coevaluation is `η = ∑ ηₙ` and whose evaluation is
+`ε = ∑ εₙ`: the degree-zero component of `η` on the summand `ℱ^n ⊗ 𝒢^{-n}` is the coevaluation
+`ηₙ`, and the degree-zero component of `ε` on the summand `𝒢^{-n} ⊗ ℱ^n` is the evaluation `εₙ`,
+of [Stacks, Tag 0FNY] at the term `ℱ^n`. Both `η` and `ε` are concentrated in degree zero, and
+the degree-zero parts of `ℱ^• ⊗ 𝒢^•` and `𝒢^• ⊗ ℱ^•` are the coproducts of these summands, so
+these components determine them.
+
+The structure is `exactPairingDualComplexOfLocallyStrictlyPerfect`. -/
+@[stacks 0FPR "for a complex `ℱ^•` of 𝒪-modules such that every object of the site has a covering \
+sieve on whose members `ℱ^•` is strictly perfect (Tag 08FL), the complex \
+`𝒢^• = SheafHom^•(ℱ^•, 𝒪)` with \
+η = ∑ ηₙ and ε = ∑ εₙ is a left dual of `ℱ^•` (Tag 0FFP) in the monoidal category of complexes \
+of Tag 0FPQ. The left dual is an `ExactPairing`, so both triangle identities hold; η and ε are \
+pinned down by their degree-zero components on the summands `ℱ^n ⊗ 𝒢^{-n}` and `𝒢^{-n} ⊗ ℱ^n`, \
+which are the coevaluation ηₙ and the evaluation εₙ of Tag 0FNY at `ℱ^n`. The complex is \
+`dualComplexOfLocallyStrictlyPerfect`, with terms `SheafHom(ℱ^{-j}, 𝒪)` \
+(`dualComplexOfLocallyStrictlyPerfect_X`) and the signed-transpose differential of Tag 0FNK \
+(`dualComplex_d`); the pairing itself is `exactPairingDualComplexOfLocallyStrictlyPerfect`. The \
+converse is Tag 0FPS"]
+theorem isLeftDual_dualComplexOfLocallyStrictlyPerfect (hK : IsLocallyStrictlyPerfect R K) :
+    letI : MonoidalCategory (_root_.SheafOfModules.{max u v}
+        (Stacks.SheafOfModules.Tensor.ringSheaf R)) :=
+      Stacks.SheafOfModules.Strict.monoidalCategory R.obj
+        (Stacks.SheafOfModules.Tensor.ringSheaf R).property
+    letI : MonoidalPreadditive (Mod R) := monoidalPreadditiveRingSheaf R
+    letI : ∀ X₁ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+        ((curriedTensor (Mod R)).obj X₁) := fun X₁ => preservesColimit_tensorLeft R _ X₁
+    letI : ∀ X₂ : Mod R, PreservesColimit (Functor.empty.{0} (Mod R))
+        ((curriedTensor (Mod R)).flip.obj X₂) := fun X₂ => preservesColimit_tensorRight R _ X₂
+    letI : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+        GradedObject.HasGoodTensor₁₂Tensor X₁ X₂ X₃ := hasGoodTensor₁₂Tensor R
+    letI : ∀ X₁ X₂ X₃ : GradedObject ℤ (Mod R),
+        GradedObject.HasGoodTensorTensor₂₃ X₁ X₂ X₃ := hasGoodTensorTensor₂₃ R
+    letI : ∀ X₁ X₂ X₃ X₄ : GradedObject ℤ (Mod R),
+        GradedObject.HasTensor₄ObjExt X₁ X₂ X₃ X₄ := hasTensor₄ObjExt R
+    ∃ P : @ExactPairing _ _ (monoidalCategoryCochainComplex R) K
+        (dualComplexOfLocallyStrictlyPerfect R K hK),
+      (∀ n : ℤ, (@ExactPairing.coevaluation' _ _ inferInstance K
+          (dualComplexOfLocallyStrictlyPerfect R K hK) P).f 0 ≫
+          GradedObject.Monoidal.πTensorObj K.X (dualComplexX R K) n (-n) 0 (add_neg_cancel n) =
+        ((HomologicalComplex.tensorUnitIso (Mod R) (ComplexShape.up ℤ)).inv 0 ≫
+          GradedObject.Monoidal.tensorUnit₀.hom) ≫
+          (dualComplexPairing R K
+            (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) n (-n)
+            (add_neg_cancel n)).coevaluation') ∧
+      (∀ n : ℤ, HomologicalComplex.ιTensorObj (dualComplexOfLocallyStrictlyPerfect R K hK) K
+          (-n) n 0 (neg_add_cancel n) ≫
+          (@ExactPairing.evaluation' _ _ inferInstance K
+            (dualComplexOfLocallyStrictlyPerfect R K hK) P).f 0 =
+        (dualComplexPairing R K
+            (isLocallyDirectSummandOfFiniteFree_X_of_isLocallyStrictlyPerfect hK) n (-n)
+            (add_neg_cancel n)).evaluation' ≫ GradedObject.Monoidal.tensorUnit₀.inv ≫
+          (HomologicalComplex.tensorUnitIso (Mod R) (ComplexShape.up ℤ)).hom 0) :=
+  ⟨exactPairingDualComplexOfLocallyStrictlyPerfect hK,
+    coevaluation_comp_πTensorObj_exactPairingDualComplexOfLocallyStrictlyPerfect hK,
+    ιTensorObj_comp_evaluation_exactPairingDualComplexOfLocallyStrictlyPerfect hK⟩
 
 end Stacks.SheafOfModules.Strict
 

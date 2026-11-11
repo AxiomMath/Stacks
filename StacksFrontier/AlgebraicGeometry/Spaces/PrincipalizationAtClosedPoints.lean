@@ -25,9 +25,15 @@ point of `T`, such that `ℐ𝒪_{X_m}` is an invertible ideal sheaf.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.exists_blowupFactorization_isPullbackDefined` is **Stacks 0BHG**:
-  the induction on the colength of the ideal which produces the sequence, granted the three
-  inputs listed below.
+* `AlgebraicGeometry.Space.exists_blowupFactorization_isPullbackDefined`: the induction on the
+  colength of the ideal which produces the sequence of Stacks 0BHG, for every algebraic space for
+  which the three inputs listed below are supplied.
+
+Stacks 0BHG itself, with exactly the source's hypotheses, is
+`AlgebraicGeometry.Space.exists_blowupFactorization_isPullbackDefined_of_isNoetherian` in
+`StacksFrontier/AlgebraicGeometry/Spaces/PrincipalizationAtClosedPointsUnconditional.lean`, proved
+by the source's route through the étale neighbourhoods of Section 0BH9 and the scheme case
+Stacks 0AHH; it does not use the theorem here.
 
 ## How the statement is said here
 
@@ -55,21 +61,18 @@ the empty sequence, and that case does occur: it is the one in which `ℐ = 𝒪
 make the statement trivial, since for `m = 0` the conclusion reads that `Z` is itself an
 effective Cartier divisor, which it is not in general.
 
-## What is granted
+## The three inputs
 
-Three inputs are carried as explicit hypotheses because the library does not have them for
-algebraic spaces.  None of them mentions a sequence of blowings up of length greater than one,
-and none of them mentions the finite set `T` of the conclusion for the space `X`; the content
-proved here is the induction that assembles them.
+Three inputs are taken as explicit hypotheses, each quantified over *every* algebraic space
+rather than over the Noetherian ones.  None of them mentions a sequence of blowings up of length
+greater than one, and none of them mentions the finite set `T` of the conclusion for the space
+`X`; the content proved here is the induction that assembles them.
 
 * `blowupExists` is the existence of the blowing up of an algebraic space at a closed point,
-  Stacks 0BHE.  The library has no construction of the blowing up of an algebraic space: Stacks
-  085Q defines it as a relative `Proj`, and relative `Proj` for algebraic spaces — Stacks 084A
-  and 084B — is not formalized, as
-  `StacksFrontier/AlgebraicGeometry/Spaces/AdmissibleBlowup.lean` records at length.  So
-  `AlgebraicGeometry.Space.IsBlowupAtClosedPoint` is available as a predicate, with no theorem
-  asserting that it is ever satisfied, and an existence statement about blowings up has to be
-  given the blowings up.
+  Stacks 0BHE, for every algebraic space.  The library constructs the blowing up of a locally
+  Noetherian algebraic space in a closed subspace
+  (`AlgebraicGeometry.Space.exists_isBlowupAlong_of_isLocallyNoetherian`), which is the case
+  Stacks 0BHG needs; the hypothesis here asks for more.
 * `pullbackOfEffectiveCartier` is the algebraic-space analogue of Stacks 0809, that an
   effective Cartier divisor has a defined pullback along a blowing up.  The scheme case is
   `AlgebraicGeometry.isPullbackDefined_blowUpToBase` in
@@ -81,15 +84,13 @@ proved here is the induction that assembles them.
   support, the inverse image of the ideal splits as the sum of an effective Cartier divisor —
   the multiple of the exceptional divisor — and an ideal again supported on finitely many
   closed points, lying over the old ones, which are regular of dimension two and whose
-  colength is strictly smaller.  The scheme-level `Stacks.ResolutionOfSurfaces` form of Stacks
-  0AHH, in `PointBlowupChain.lean` under
-  `StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/`,
-  carries exactly this hypothesis, there with the concrete colength
-  `Stacks.ResolutionOfSurfaces.totalColength`.  Here the colength is a parameter `colength` of
-  the theorem, universally quantified, because the library has no length of the stalk of a
-  quasi-coherent module at a point of `|X|` for an algebraic space — only
-  `AlgebraicGeometry.Space.geometricLength`, at a geometric point.  Quantifying over the
-  measure strengthens the statement rather than weakening it.
+  colength is strictly smaller.  The induction of the scheme case of Stacks 0AHH,
+  `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_isEffectiveCartierDivisor` in
+  `StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/QuadraticTransformations/`, takes exactly
+  this hypothesis, there with the concrete colength `Stacks.ResolutionOfSurfaces.totalColength`;
+  `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_principalizing` discharges it.  Here the
+  colength is a parameter `colength` of the theorem, universally quantified; quantifying over
+  the measure strengthens the statement rather than weakening it.
 
 The source's hypothesis that `X` is Noetherian is carried, as `_hX`, and is not used again —
 its name is underscored for that reason.  The induction runs on the colength, and the
@@ -131,11 +132,11 @@ private theorem isPullbackDefined_comp_iff {X Y W : AlgebraicSpaces B S hS}
   Iff.of_eq (congrArg (IsEffectiveCartierDivisor B S hS W)
     (Subtype.ext (Subfunctor.preimage_comp D.1 g.hom f.hom)))
 
-/-- **Stacks 0BHG.** Let `S` be a scheme, let `X` be a Noetherian algebraic space over `S` and
-let `T ⊆ |X|` be a finite set of closed points `x` such that `X` is regular at `x` and the local
-ring of `X` at `x` has dimension `2`.  Let `ℐ ⊆ 𝒪_X` be a quasi-coherent sheaf of ideals, given
-by the closed subspace `Z ⊆ X` it cuts out, such that `𝒪_X/ℐ` is supported on `T`, that is,
-`|Z| ⊆ T`.  **Then there is a sequence**
+/-- **The induction of Stacks 0BHG.** Let `S` be a scheme, let `X` be a Noetherian algebraic
+space over `S` and let `T ⊆ |X|` be a finite set of closed points `x` such that `X` is regular at
+`x` and the local ring of `X` at `x` has dimension `2`.  Let `ℐ ⊆ 𝒪_X` be a quasi-coherent
+sheaf of ideals, given by the closed subspace `Z ⊆ X` it cuts out, such that `𝒪_X/ℐ` is supported
+on `T`, that is, `|Z| ⊆ T`.  **Then there is a sequence**
 
 `X_m ⟶ X_{m-1} ⟶ … ⟶ X_1 ⟶ X_0 = X`
 
@@ -147,15 +148,11 @@ Along the sequence produced, every effective Cartier divisor on `X` also has a d
 pullback; that is the form in which the induction uses its own output and it is recorded in the
 conclusion.
 
-Three inputs are granted, since the library has them for schemes only: the existence of the
-blowing up of an algebraic space at a closed point (Stacks 0BHE, whose construction needs the
-relative `Proj` of Stacks 084A and 084B), the algebraic-space analogue of Stacks 0809, and the
-local splitting of Stacks 0AGT with respect to a colength function given as a parameter — the
-hypothesis which the scheme case, Stacks 0AHH, carries as well.  See the module
-documentation. -/
-@[stacks 0BHG "the induction producing the sequence of blowings up, granted the existence of
-the blowing up of an algebraic space at a closed point (0BHE, hence 084A/084B/085Q), the
-algebraic-space analogue of 0809, and the local splitting of 0AGT"]
+Three inputs are taken as hypotheses over every algebraic space: the existence of the blowing
+up of an algebraic space at a closed point (Stacks 0BHE), the algebraic-space analogue of Stacks
+0809, and the local splitting of Stacks 0AGT with respect to a colength function given as a
+parameter.  See the module documentation.  Stacks 0BHG with the source's hypotheses only is
+`AlgebraicGeometry.Space.exists_blowupFactorization_isPullbackDefined_of_isNoetherian`. -/
 theorem exists_blowupFactorization_isPullbackDefined
     (colength : ∀ Y : AlgebraicSpaces B S hS,
       ClosedSubspaces B S hS Y.1 → Set (points B S hS Y.1) → ℕ∞)

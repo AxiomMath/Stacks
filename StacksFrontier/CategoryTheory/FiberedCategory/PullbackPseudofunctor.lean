@@ -25,10 +25,12 @@ structures. The three pseudofunctor coherences follow from the same uniqueness.
 
 Mathlib has the converse construction, recovering a fibred category from a pseudofunctor
 (`Pseudofunctor.CoGrothendieck`), but not this direction. The pullbacks used here are the
-specific choice supplied by `IsPreFibered`, rather than an arbitrary choice of pullbacks as in
-the source; `pbMapComp_uniq` records that the compositor is nevertheless the unique natural
-isomorphism compatible with the chosen cartesian lifts, which is the uniqueness clause of the
-source statement.
+specific choice supplied by `IsPreFibered`; Stacks 02XO itself, for an arbitrary choice of
+pullbacks, is `CategoryTheory.Functor.ChoiceOfPullbacks.pseudofunctor` and
+`CategoryTheory.Functor.ChoiceOfPullbacks.existsUnique_compIso`
+(`StacksFrontier/CategoryTheory/FiberedCategory/FiberedInGroupoidsPseudofunctor.lean`).
+`pbMapComp_uniq` records that the compositor here is the unique natural isomorphism compatible
+with the chosen cartesian lifts.
 -/
 
 @[expose] public section
@@ -346,17 +348,17 @@ theorem pbMap_map (p : 𝒳 ⥤ 𝒮) [p.IsFibered] {U V : LocallyDiscrete 𝒮�
     {a b : ↑(pbObj p U)} (ψ : a ⟶ b) :
     (pbMap p φ).toFunctor.map ψ = fiberPullbackMap φ.as.unop ψ := rfl
 
-/-- **Stacks 02XO**, clause (2). The unitor `(𝟙 U)* ≅ 𝟭 (p.Fiber U)`, the canonical
-isomorphism coming from the uniqueness of strongly cartesian factorisations. -/
-@[stacks 02XO]
+/-- The unitor `(𝟙 U)* ≅ 𝟭 (p.Fiber U)`, the canonical isomorphism coming from the uniqueness of
+strongly cartesian factorisations (Stacks 02XO (2) for the choice of pullbacks of `IsPreFibered`).
+-/
 noncomputable def pbMapId (p : 𝒳 ⥤ 𝒮) [p.IsFibered] (U : LocallyDiscrete 𝒮ᵒᵖ) :
     pbMap p (𝟙 U) ≅ 𝟙 (pbObj p U) :=
   Cat.Hom.isoMk (cmpIso (cartPullback (𝟙 U.as.unop)) (cartId U.as.unop))
 
-/-- **Stacks 02XO**, clause (1). The compositor `(g ≫ f)* ≅ f* ⋙ g*`, the canonical
-isomorphism compatible with the chosen cartesian lifts; `pbMapComp_uniq` shows it is the only
-such isomorphism. -/
-@[stacks 02XO, sga "4 VI 6.1.2" "(6.1.2.1)"]
+/-- The compositor `(g ≫ f)* ≅ f* ⋙ g*`, the canonical isomorphism compatible with the chosen
+cartesian lifts; `pbMapComp_uniq` shows it is the only such isomorphism (Stacks 02XO (1) for the
+choice of pullbacks of `IsPreFibered`). -/
+@[sga "4 VI 6.1.2" "(6.1.2.1)"]
 noncomputable def pbMapComp (p : 𝒳 ⥤ 𝒮) [p.IsFibered]
     {U V W : LocallyDiscrete 𝒮ᵒᵖ} (φ : U ⟶ V) (γ : V ⟶ W) :
     pbMap p (φ ≫ γ) ≅ pbMap p φ ≫ pbMap p γ :=
@@ -518,10 +520,12 @@ theorem pbMapComp_right_unitor (p : 𝒳 ⥤ 𝒮) [p.IsFibered]
   change IsPreFibered.pullbackMap X.2 (f ≫ 𝟙 b₁).as.unop = _
   rw [pullbackMap_congr X (show ((f ≫ 𝟙 b₁).as.unop) = f.as.unop by simp)]
 
-/-- Statement 1 (Stacks 02XO).  The pullback pseudofunctor associated to a fibred category
-`p`.  Its object part is `U ↦ Cat.of (p.Fiber U)`, its 1-cell part is `f ↦ f*`, its unitor
-is `(𝟙 U)* ≅ 𝟭 (p.Fiber U)` and its compositor is `(g ≫ f)* ≅ f* ⋙ g*`. -/
-@[stacks 02XO, sga "4 VI 7.1.4" "partial", sga "4 XVII 3.3.3" "Forward direction"]
+/-- The pullback pseudofunctor associated to a fibred category `p`, for the choice of pullbacks
+of `IsPreFibered` (Stacks 02XO for an arbitrary choice is
+`CategoryTheory.Functor.ChoiceOfPullbacks.pseudofunctor`). Its object part is
+`U ↦ Cat.of (p.Fiber U)`, its 1-cell part is `f ↦ f*`, its unitor is `(𝟙 U)* ≅ 𝟭 (p.Fiber U)`
+and its compositor is `(g ≫ f)* ≅ f* ⋙ g*`. -/
+@[sga "4 VI 7.1.4" "partial", sga "4 XVII 3.3.3" "Forward direction"]
 noncomputable def pullbackPseudofunctor (p : 𝒳 ⥤ 𝒮) [p.IsFibered] :
     Pseudofunctor (LocallyDiscrete 𝒮ᵒᵖ) Cat :=
   pseudofunctorOfIsLocallyDiscrete
@@ -555,11 +559,11 @@ theorem pullbackPseudofunctor_mapComp (p : 𝒳 ⥤ 𝒮) [p.IsFibered]
     (pullbackPseudofunctor p).mapComp φ γ = pbMapComp p φ γ :=
   pseudofunctorOfIsLocallyDiscrete_mapComp _ _ _ _ _ _ _ φ γ
 
-/-- **Stacks 02XO**, clause (1). The compositor of the pullback pseudofunctor is compatible
-with the chosen strongly cartesian lifts: on each object `X`, its underlying comparison
-morphism, followed by the composite of the chosen cartesian projections over `γ` and over `φ`,
-is the chosen cartesian projection over `φ ≫ γ`. -/
-@[stacks 02XO, sga "1 VI 7.2" "partial"]
+/-- The compositor of the pullback pseudofunctor is compatible with the chosen strongly
+cartesian lifts: on each object `X`, its underlying comparison morphism, followed by the
+composite of the chosen cartesian projections over `γ` and over `φ`, is the chosen cartesian
+projection over `φ ≫ γ`. -/
+@[sga "1 VI 7.2" "partial"]
 theorem pullbackPseudofunctor_mapComp_compatible (p : 𝒳 ⥤ 𝒮) [p.IsFibered]
     {U V W : LocallyDiscrete 𝒮ᵒᵖ} (φ : U ⟶ V) (γ : V ⟶ W) (X : ↑(pbObj p U)) :
     Fiber.fiberInclusion.map (((pullbackPseudofunctor p).mapComp φ γ).hom.toNatTrans.app X)
@@ -568,11 +572,10 @@ theorem pullbackPseudofunctor_mapComp_compatible (p : 𝒳 ⥤ 𝒮) [p.IsFibere
   rw [pullbackPseudofunctor_mapComp, pbMapComp_hom_app]
   exact cmpUnderlying_fac _ _ _
 
-/-- **Stacks 02XO**, clause (1), uniqueness. The compositor is the *unique* isomorphism
-`(g ≫ f)* ≅ f* ⋙ g*` compatible with the chosen cartesian lifts: any isomorphism whose
-components satisfy the compatibility triangle of
+/-- The compositor is the *unique* isomorphism `(g ≫ f)* ≅ f* ⋙ g*` compatible with the chosen
+cartesian lifts: any isomorphism whose components satisfy the compatibility triangle of
 `pullbackPseudofunctor_mapComp_compatible` equals `pbMapComp`. -/
-@[stacks 02XO, sga "4 VI 6.1.2" "(6.1.2.1)"]
+@[sga "4 VI 6.1.2" "(6.1.2.1)"]
 theorem pbMapComp_uniq (p : 𝒳 ⥤ 𝒮) [p.IsFibered]
     {U V W : LocallyDiscrete 𝒮ᵒᵖ} (φ : U ⟶ V) (γ : V ⟶ W)
     (θ : pbMap p (φ ≫ γ) ≅ pbMap p φ ≫ pbMap p γ)

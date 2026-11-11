@@ -35,11 +35,10 @@ therefore sit downstream of the proof rather than beside the statement.
 
 * **Grothendieck existence for coherent modules** —
   `(adicThickeningCompletionFunctor A I f).IsEquivalence`. This is Stacks 088F read through the
-  unwinding of `StacksFrontier/AlgebraicGeometry/FormalGeometry/AdicThickeningUnwinding.lean`; the
-  module docstring of `AdicThickeningCoherentSystem` records that the one missing input for it is
-  Stacks 088E itself, whose carrier
-  `Stacks.Algebraization.isEquivalence_completionFunctorProperOver` still takes two named inputs.
-  This is the hypothesis the reduction is *for*.
+  unwinding of `StacksFrontier/AlgebraicGeometry/FormalGeometry/AdicThickeningUnwinding.lean`. It is
+  proved, unconditionally, as `AlgebraicGeometry.isEquivalence_adicThickeningCompletionFunctor`
+  (`FormalGeometry/CompletionProper/AdicThickeningEssSurj.lean`), not among this file's imports,
+  so it enters here as a hypothesis. This is the hypothesis the reduction is *for*.
 
 * **The module underlying an algebra pullback.** For `g : T ⟶ S` and a **quasi-coherent** algebra
   sheaf `E` on `S`, `underlyingModule ((algebraPullback g).obj E) ≅

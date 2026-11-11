@@ -84,7 +84,6 @@ lemma pullback_ι_ι_comp_eq_of_homOfLE_comp_eq_flip {S T : Scheme.{u}} {U V : S
 
 /-- A scheme covered by two opens is glued from them: the square formed by the two inclusions of
 the intersection and the two inclusions into the ambient scheme is a pushout square. -/
-@[stacks 01JA "the two-chart glueing as a pushout square of schemes"]
 theorem isPushout_opens_ι_of_sup_eq_top {S : Scheme.{u}} {U V : S.Opens} (h : U ⊔ V = ⊤) :
     IsPushout (S.homOfLE inf_le_left) (S.homOfLE inf_le_right) U.ι V.ι := by
   have hsq : S.homOfLE (inf_le_left (a := U) (b := V)) ≫ U.ι
@@ -115,7 +114,6 @@ theorem isPushout_opens_ι_of_sup_eq_top {S : Scheme.{u}} {U V : S.Opens} (h : U
 /-- The mapping property for morphisms out of a glueing with two charts: if the opens `U, V` of a
 scheme `S` satisfy `U ⊔ V = ⊤`, then a morphism out of `S` is the same thing as a pair of
 morphisms out of `U` and out of `V` agreeing on `U ⊓ V`. -/
-@[stacks 01JA "the two-chart case of the mapping property for morphisms out of a glueing"]
 theorem existsUnique_comp_ι_eq_of_sup_eq_top {S T : Scheme.{u}} {U V : S.Opens}
     (h : U ⊔ V = ⊤) {a : U.toScheme ⟶ T} {b : V.toScheme ⟶ T}
     (w : S.homOfLE inf_le_left ≫ a = S.homOfLE inf_le_right ≫ b) :
@@ -132,7 +130,6 @@ variable {W X Y : Scheme.{u}} (f : W ⟶ X) (g : W ⟶ Y)
 
 /-- The two charts of the scheme obtained by glueing `X` and `Y` along a span of open immersions
 cover it. -/
-@[stacks 01JA "the two-chart case of part (1): the charts cover the glued scheme"]
 theorem opensRange_pushout_inl_sup_opensRange_pushout_inr :
     (pushout.inl f g).opensRange ⊔ (pushout.inr f g).opensRange = ⊤ := by
   rw [eq_top_iff]
@@ -148,7 +145,6 @@ theorem opensRange_pushout_inl_sup_opensRange_pushout_inr :
 
 /-- Inside the second chart of the scheme obtained by glueing `X` and `Y` along a span of open
 immersions, the overlap with the first chart is exactly the image of the span's vertex. -/
-@[stacks 01JA "the two-chart case of part (2): the overlap of the two charts"]
 theorem preimage_opensRange_pushout_inl :
     (pushout.inr f g) ⁻¹ᵁ (pushout.inl f g).opensRange = g.opensRange := by
   ext y
@@ -165,7 +161,6 @@ theorem preimage_opensRange_pushout_inl :
 
 /-- The pushout square of a span of open immersions of schemes is also cartesian: the span's
 vertex is the intersection of the two charts of the glued scheme. -/
-@[stacks 01JA "the two-chart case of part (2), as a cartesian square"]
 theorem isPullback_pushout_inl_inr :
     IsPullback f g (pushout.inl f g) (pushout.inr f g) :=
   IsOpenImmersion.isPullback f g (pushout.inl f g) (pushout.inr f g)

@@ -13,7 +13,9 @@ Let `S` be a scheme, let `X` be an algebraic space over `S` and let `z ∈ |X|` 
 point.  The *normalized blowing up of `X` at `z`* is the composite `X'' ⟶ X' ⟶ X` in which
 `X' ⟶ X` is the blowing up of `X` at `z` and `X'' ⟶ X'` is the normalization of `X'`; this is
 **Stacks 0BHJ**.  When `X` is Nagata the normalized blowing up is a normal Nagata algebraic
-space proper over `X`, which is **Stacks 0BHK**.
+space proper over `X`, which is **Stacks 0BHK**; this file proves it given properness of the
+blowing up, and `StacksFrontier/AlgebraicGeometry/Spaces/NormalizedBlowupAtClosedPointProper.lean`
+supplies that properness.
 
 ## Main definitions
 
@@ -34,27 +36,21 @@ space proper over `X`, which is **Stacks 0BHK**.
 * `AlgebraicGeometry.Space.NormalizedBlowupAtClosedPoint.isProper_hom` is properness of
   `X'' ⟶ X`.
 * `AlgebraicGeometry.Space.NormalizedBlowupAtClosedPoint.isNormal_and_isNagata_and_isProper`
-  is **Stacks 0BHK**: all four assertions of the source, namely that `X''` is an algebraic
-  space, that it is normal, that it is Nagata and that `X'' ⟶ X` is proper.
+  collects all four assertions of Stacks 0BHK, namely that `X''` is an algebraic space, that it
+  is normal, that it is Nagata and that `X'' ⟶ X` is proper, given that the blowing up
+  `X' ⟶ X` is proper.
 
-## What is assumed
+## Properness of the blowing up
 
-Stacks 0BHK is **not** proved outright: properness of the blowing up `X' ⟶ X` itself is carried
-as the named hypothesis `hproperBlowup` of every statement that needs it.  That properness is
-**Stacks 085Z**, a different tag, and it is logically prior to — and strictly weaker than — any
-conclusion drawn from it here; the clause string of the `@[stacks 0BHK]` attribute says so.  The
-library's Stacks 085Z, `AlgebraicGeometry.Space.isProper_of_isBlowupAlong`, is itself available
-only given the existence of a proper blowing up, which is the relative `Proj` construction of
-Stacks 085Q together with Stacks 085R; that construction is absent, as the prose of
-`StacksFrontier/AlgebraicGeometry/Spaces/BlowupPropernessAndStrictTransformImage.lean` records.
-Once it lands, `hproperBlowup` is discharged by that lemma and nothing else here changes.
-
-In the source properness of `X' ⟶ X` comes from `X` being locally Noetherian, which it is
-because a Nagata ring is Noetherian; the hypothesis is therefore implied by the Nagata
-hypothesis that is already present, and carrying it assumes no more than Stacks 085Z gives.
-
-Nothing is weakened in exchange: each of the four conclusions below is what Stacks 0BHK
-asserts, and normality is proved with no hypothesis at all.
+The statements here which need it take properness of the blowing up `X' ⟶ X` as the
+argument `hproperBlowup`.  That properness is Stacks 085Z for a centre of finite presentation,
+and it is proved for a Nagata `X` in
+`StacksFrontier/AlgebraicGeometry/Spaces/NormalizedBlowupAtClosedPointProper.lean`
+(`AlgebraicGeometry.Space.NormalizedBlowupAtClosedPoint.isProper_proj`): a Nagata scheme is
+locally Noetherian, so the centre is of finite presentation.  Stacks 0BHK itself, with the
+Nagata hypothesis alone, is `isNormal_and_isNagata_and_isProper_of_isNagata` in the namespace
+`AlgebraicGeometry.Space.NormalizedBlowupAtClosedPoint`, in that file.
+Normality is proved here with no hypothesis at all.
 
 ## Implementation notes
 
@@ -151,8 +147,8 @@ theorem hasEtaleLocalProperty_isNormal_space :
 /-- **The blowing up of a Nagata algebraic space at a closed point is Nagata.**  A proper
 morphism is locally of finite type, so this is Stacks 0BAU applied to `X' ⟶ X`.
 
-The hypothesis `hproperBlowup` is properness of the blowing up, which is Stacks 085Z; see the
-"what is assumed" section of the module documentation. -/
+The hypothesis `hproperBlowup` is properness of the blowing up, which is Stacks 085Z and holds
+for a Nagata `X` by `AlgebraicGeometry.Space.NormalizedBlowupAtClosedPoint.isProper_proj`. -/
 theorem hasEtaleLocalProperty_isNagataScheme_blowup
     (hNagata : HasEtaleLocalProperty B S hS X.obj (fun T : Scheme.{u} => IsNagataScheme T))
     (hproperBlowup : IsProper B S hS N.proj.hom) :
@@ -207,17 +203,15 @@ theorem isProper_hom
     N.normalization.hom N.proj.hom (N.isProper_normalizationHom hNagata hproperBlowup)
     hproperBlowup
 
-/-- **Stacks 0BHK.**  If `X` is Nagata, then the normalized blowing up of `X` at a closed point
-`z` is a normal Nagata algebraic space proper over `X`.
+/-- **The four assertions of Stacks 0BHK, given properness of the blowing up.**  If `X` is
+Nagata and the blowing up `X' ⟶ X` is proper, then the normalized blowing up `X''` of `X` at a
+closed point is an algebraic space over `S`, it is normal, it is Nagata, and `X'' ⟶ X` is
+proper.
 
-All four assertions of the source are listed: `X''` is an algebraic space over `S`, it is
-normal, it is Nagata, and the normalized blowing up `X'' ⟶ X` is proper.
-
-The hypothesis `hproperBlowup` is properness of the blowing up `X' ⟶ X`, which is Stacks 085Z;
-see the "what is assumed" section of the module documentation. -/
-@[stacks 0BHK "all four assertions — the normalized blowing up is an algebraic space, it is
-normal, it is Nagata, and it is proper over X — with properness of the blowing up X' ⟶ X
-itself, which is Stacks 085Z, as the named hypothesis hproperBlowup"]
+The hypothesis `hproperBlowup` holds for every Nagata `X`, by
+`AlgebraicGeometry.Space.NormalizedBlowupAtClosedPoint.isProper_proj` (Stacks 085Z); Stacks 0BHK
+with the Nagata hypothesis alone is `isNormal_and_isNagata_and_isProper_of_isNagata`, in this
+namespace. -/
 theorem isNormal_and_isNagata_and_isProper
     (hNagata : HasEtaleLocalProperty B S hS X.obj (fun T : Scheme.{u} => IsNagataScheme T))
     (hproperBlowup : IsProper B S hS N.proj.hom) :

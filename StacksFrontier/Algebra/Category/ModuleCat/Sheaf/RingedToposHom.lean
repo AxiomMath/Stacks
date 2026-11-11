@@ -116,7 +116,12 @@ namespace AlgebraicGeometry
 
 /-- **Stacks 01D3, part (2).** A morphism of ringed topoi: a morphism of the underlying topoi
 together with a map from the structure sheaf of the target to the direct image of the structure
-sheaf of the source. -/
+sheaf of the source.
+
+Its composition is `AlgebraicGeometry.RingedToposHom.comp` (Stacks 01D3, part (3)).
+`AlgebraicGeometry.RingedToposSiteHom` is a site-level variant whose geometric datum is a
+continuous functor between the sites; it is a morphism of ringed topoi only when that functor is a
+morphism of sites. -/
 @[stacks 01D3 "part (2): morphisms of ringed topoi",
   sga "4 Vbis 1.3.2" "absolute case (D = pt)",
   sga "4 IV 13.1"]

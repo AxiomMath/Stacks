@@ -24,16 +24,19 @@ pullback and descends along fppf coverings.
 
 ## Main results
 
-* `Stacks.QCoh.isStack_finiteTypeProjection`, Stacks 04U4: that projection is a stack.
+* `Stacks.QCoh.isStack_finiteTypeProjection`: if the projection from all quasi-coherent
+  modules is a stack, so is that projection.
 
 ## Implementation notes
 
-The statement that the projection from *all* quasi-coherent modules is a stack (Stacks 03YM)
-is not available in this library, so it is carried as a hypothesis; the content proved here is
-the passage from that stack to its finite-type full subcategory, which is the content of the
-source's lemma. The two conditions of Stacks 04TU are verified with the characterisation of the
-strongly cartesian arrows of Stacks 04U3 together with, respectively, the stability of finite
-type under pullback (Stacks 01B6) and its fppf descent (Stacks 05AZ).
+The statement that the projection from *all* quasi-coherent modules is a stack (Stacks 03YM) is
+`Stacks.QCoh.projection_isStack`, in a module this file does not import, so here it is taken
+as a hypothesis; the content proved here is the passage from that stack to its finite-type full
+subcategory, which is the content of the source's lemma. Stacks 04U4 itself, with that
+hypothesis discharged, is `Stacks.QCoh.finiteTypeProjection_isStack`. The two conditions of
+Stacks 04TU are verified with the characterisation of the strongly cartesian arrows of Stacks
+04U3 together with, respectively, the stability of finite type under pullback (Stacks 01B6) and
+its fppf descent (Stacks 05AZ).
 
 The covering appearing in condition (3) is a sieve in the slice over `S`; it is replaced by a
 covering family of the chosen bounded system of the big fppf site refining it, which is then
@@ -158,13 +161,11 @@ private lemma isFiniteType_of_isoOverId {A : Object B S hS}
   let : IsIso e.hom := e.isIso_hom
   exact isFiniteType_of_isStronglyCartesian B S hS e.hom hC
 
-/-- **Stacks 04U4.** The quasi-coherent modules of finite type over `S` form a stack for the
-big fppf topology: finite type is preserved by the pullbacks computing the strongly cartesian
-arrows of Stacks 04U3, and it descends along fppf coverings by Stacks 05AZ, so Stacks 04TU
-applies to the full subcategory they cut out. The hypothesis is Stacks 03YM, that the
-projection from all quasi-coherent modules is a stack. -/
-@[stacks 04U4 "conditional on Stacks 03YM, that the projection from quasi-coherent modules \
-to the big fppf site of S is a stack"]
+/-- If the projection from all quasi-coherent modules is a stack for the big fppf topology (Stacks
+03YM, proved as `Stacks.QCoh.projection_isStack`), so is the projection from those of finite
+type: finite type is preserved by the pullbacks computing the strongly cartesian arrows of Stacks
+04U3, and it descends along fppf coverings by Stacks 05AZ, so Stacks 04TU applies to the full
+subcategory they cut out. Stacks 04U4 is `Stacks.QCoh.finiteTypeProjection_isStack`. -/
 public theorem isStack_finiteTypeProjection
     (hp : Functor.IsStack (projection (B := B) (S := S) (hS := hS))
       (AlgebraicGeometry.BigFppfOver.topology B S hS)) :

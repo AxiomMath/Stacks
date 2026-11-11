@@ -44,8 +44,12 @@ pushforward and the pullback–pushforward adjunction along it.
   the same data read as a ringed site.
 * `AlgebraicGeometry.BigFppfOver.baseRingedTopos`: the ringed topos `((Sch/S)_τ, 𝒪)` of the
   indicated big site over `S`.
-* `AlgebraicGeometry.BigFppfOver.baseToZariskiRingedToposHom`: the morphism of ringed sites
-  `((Sch/S)_τ, 𝒪) → (S_Zar, 𝒪_S)`.
+* `AlgebraicGeometry.BigFppfOver.baseToZariskiRingedToposHom`: the data of the morphism
+  `((Sch/S)_τ, 𝒪) → (S_Zar, 𝒪_S)` of Stacks 070U — the continuous inclusion of the small Zariski
+  site and the comparison of structure sheaves — as an `AlgebraicGeometry.RingedToposSiteHom`,
+  which records continuity only.  The morphism of ringed sites in the sense of Stacks 03AD, with
+  the exactness of the inverse image, is
+  `AlgebraicGeometry.BigFppfOver.baseToZariskiRingedSiteHom`, which carries Stacks 070U.
 
 ## Main results
 
@@ -358,11 +362,15 @@ public noncomputable def baseCommStructureMap (τ : SiteKind) :
 public theorem baseCommStructureMap_hom_app (τ : SiteKind) (U : (S.Opens)ᵒᵖ) :
     (baseCommStructureMap B S hS τ).hom.app U = (Scheme.Opens.topIso U.unop).inv := rfl
 
-/-- The morphism of ringed sites
-`f : ((Sch/S)_τ, 𝒪) ⟶ (S_Zar, 𝒪_S)`, for each `τ ∈ {Zariski, étale, smooth, syntomic, fppf}`:
+/-- The data of the morphism `f : ((Sch/S)_τ, 𝒪) ⟶ (S_Zar, 𝒪_S)` of Stacks 070U, for each
+`τ ∈ {Zariski, étale, smooth, syntomic, fppf}`, as an `AlgebraicGeometry.RingedToposSiteHom`:
 the continuous inclusion of the small Zariski site of `S` into the big site, with structure map
-the identification of the sections of `𝒪_S` over an open with the functions on it. -/
-@[stacks 070U]
+the identification of the sections of `𝒪_S` over an open with the functions on it.
+
+This records only the continuity of the underlying functor, not that it defines a morphism of
+sites, so it is not yet a morphism of ringed sites in the sense of Stacks 03AD.  That morphism,
+with the same functor and structure map and the exactness of the inverse image added, is
+`AlgebraicGeometry.BigFppfOver.baseToZariskiRingedSiteHom`, which carries Stacks 070U. -/
 public noncomputable def baseToZariskiRingedToposHom (τ : SiteKind) :
     RingedToposSiteHom (baseRingedTopos B S hS τ) S.zariskiRingedTopos where
   u := opensToBig B S hS

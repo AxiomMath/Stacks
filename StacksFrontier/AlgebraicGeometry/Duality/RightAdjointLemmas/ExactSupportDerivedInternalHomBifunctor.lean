@@ -558,7 +558,7 @@ def derivedSheafHomPushforwardObjModelIso
 of the derived pushforward `Ri_* M` is derived sheaf Hom with exact support, followed by the
 derived internal Hom out of `M` on `Z`, followed by derived pushforward:
 `R ℰom_X(Ri_* M, -) ≅ Ri_* R ℰom_Z(M, R ℰom(𝒪_Z, -))`. -/
-@[stacks 0E2I "the derived isomorphism, unconditionally"]
+@[stacks 0E2I "the derived isomorphism, as an isomorphism of functors on D(O_X)"]
 def derivedSheafHomPushforwardNatIso
     (M : DerivedCategory (SheafOfModules.{u} (structureSheafRing S.Z))) :
     (Stacks.SheafOfModules.derivedSheafHom S.X.sheaf).obj

@@ -75,9 +75,10 @@ condition — the inverse systems of Stacks 07XL are directed sets, which are sm
 form in which Stacks 0D43 is proved as
 `AlgebraicGeometry.isLimitPreservingPolarizedUnconditional`.
 
-No Stacks tag attribute is placed: Stacks 0D4K is already registered, in the index-bounded
-setting, on `exists_hasRelativeDimensionLE_mapAt` in the namespace
-`AlgebraicGeometry.Space.ChartData.MorphismDescentSystemOfChartsBounded`.
+No Stacks tag attribute is placed: Stacks 0D4K is already registered, for Situation 084W under
+the chapter's convention of Section 70.2 (tag 07SD) with no bound on the index, on
+`MorphismDescentSituation.exists_hasRelativeDimensionLE_mapAt_of_siteContainsBaseChangeLimits`
+in the namespace `AlgebraicGeometry.Space`.
 
 ## References
 

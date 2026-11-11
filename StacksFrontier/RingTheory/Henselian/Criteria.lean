@@ -54,7 +54,7 @@ $\mathfrak m$ and residue field $\kappa = R/\mathfrak m$.
 Let $(R, \mathfrak m, \kappa)$ be a normal local domain: a local integral domain integrally
 closed in its fraction field $K = \operatorname{Frac}(R)$. If $K$ is separably algebraically
 closed then $R$ is strictly henselian, i.e. the residue field $\kappa$ is separably
-algebraically closed and $R$ is a henselian local ring (Stacks tag 04GF).
+algebraically closed and $R$ is a henselian local ring (Stacks tag 0BSQ).
 
 ## The encoding
 
@@ -318,11 +318,11 @@ theorem residue_sepClosed_half
     rw [Polynomial.eval_map, Polynomial.eval₂_at_apply]
   rw [← hg_map, heval, hc, map_zero]
 
-/-- **Stacks Tag 04GF.** Let `R` be a normal local domain (a local integral domain that
+/-- **Stacks Tag 0BSQ.** Let `R` be a normal local domain (a local integral domain that
 is integrally closed in its fraction field `K`). If `K` is separably algebraically
 closed, then `R` is strictly henselian, i.e. `R` is a henselian local ring and its
 residue field is separably algebraically closed. -/
-@[stacks 04GF, sga "7 I 0.0.3" "partial"]
+@[sga "7 I 0.0.3" "partial"]
 theorem normal_local_domain_sepClosed_fractionField_isStrictlyHenselian
     (R : Type*) [CommRing R] [IsLocalRing R] [IsDomain R] [IsIntegrallyClosed R]
     (K : Type*) [Field K] [Algebra R K] [IsFractionRing R K] [IsSepClosed K] :

@@ -389,10 +389,12 @@ surjective smooth 1-morphism off an *étale* covering of the base. The affine sm
 of **Stacks 04YC** is smooth and surjective, which is exactly what that tag asks for, so the
 étale case needs nothing of the presentation beyond what the fppf case needs — in particular no
 affine étale presentation of a quasi-compact algebraic stack. The family has one member, as in the
-source. -/
-@[stacks 0GMS "condition (2)(c) for the étale site of an algebraic stack quasi-separated over a \
-quasi-separated base scheme, with the collection B of Stacks 0GQV: the objects of the site lying \
-over affine schemes; the family produced has one member, as in the source"]
+source.
+
+This checks hypothesis (2)(c) of Stacks 0GMS on this site: it applies the remark (whose
+cases are formalized in `StacksFrontier.CategoryTheory.Sites.QuasiCompact.CoveringSetOfObjects`
+and `…CoveringSetFromCoversTop`) and is not a statement of it, so it carries no
+`@[stacks 0GMS]` attribute. -/
 theorem exists_fin_affineObjects_isLocallySurjective_prodLift_etale
     (hqsS : QuasiSeparatedSpace S) (h𝒳 : IsQuasiSeparatedOver.{u, w} B S hS 𝒳) :
     ∀ U ∈ affineObjects B S hS 𝒳.val, ∀ U' ∈ affineObjects B S hS 𝒳.val,

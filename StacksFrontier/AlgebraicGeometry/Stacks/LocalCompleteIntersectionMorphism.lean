@@ -34,10 +34,10 @@ the named condition is used directly rather than inlined so that the family stay
 
 Stacks 0CJ3 phrases the definition as "the equivalent conditions of Stacks 06FM hold", so either
 condition may serve; the universal one is taken, as for the two sister notions above. The
-equivalence itself is Stacks 06FM and is not used here. Note that its hypothesis — smooth
-locality on the source-and-target of the local complete intersection property of morphisms of
-algebraic spaces — is not in this library, so the two conditions cannot currently be interchanged
-for this property; nothing below depends on that.
+equivalence itself is Stacks 06FM and is not used here. Its hypothesis — smooth locality on the
+source-and-target of the local complete intersection property of morphisms of algebraic spaces —
+is `AlgebraicGeometry.Space.isLocalCompleteIntersection_isSmoothLocalOnSourceAndTarget`, so the
+two conditions are interchangeable for this property.
 
 Smoothness of the two vertical 1-morphisms is `AlgebraicGeometry.Stack.IsRelativelySmooth`, the
 relative property of **Stacks 03YK** at `AlgebraicGeometry.Space.smoothMorphismProperty`, whose

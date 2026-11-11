@@ -51,9 +51,10 @@ by derived reduction.
 
 ## Main results
 
-* `adicCompletion_homology_iso_limit_derivedReduction`: the Kollár--Kovács
-  comparison between completed cohomology and the inverse limit of the cohomology of the
-  derived reductions.
+* `adicCompletion_homology_iso_limit_derivedReduction`: an abstract isomorphism between
+  completed cohomology and the inverse limit of the cohomology of the derived reductions. The
+  canonical identification of Stacks 0EGS is
+  `Stacks.PseudoCoherent.AdicCompletion.isIso_adicCompletionToLimitDerivedReduction`.
 * `Stacks.DerivedLimit.AdicSystem.isDerivedComplete_and_reduction_isIso_of_isDerivedLimit` ([stacks
   09AU]): a
   derived limit of a bounded-above compatible adic system over a Noetherian ring is bounded
@@ -199,11 +200,15 @@ private theorem delta_epi {A : Type u} [CommRing A] (F : ℕᵒᵖ ⥤ ModuleCat
   rw [hxcomp, hxcomp, ← hycomp]
   exact hn.symm
 
-/-- **Stacks 0EGS (Kollár--Kovács).** Let `I` be an ideal of a Noetherian ring `A` and
-`K ∈ D(A)`. Suppose that every cohomology module of `K` is finite and, in every degree, the
-cohomology inverse system of `K ⊗ᴸ[A] A/Iⁿ` is Mittag--Leffler. Then the inverse limit of
-`Hⁱ(K ⊗ᴸ[A] A/Iⁿ)` is isomorphic to the `I`-adic completion of `Hⁱ(K)` for every `i`. -/
-@[stacks 0EGS]
+/-- **An abstract isomorphism for the Kollár--Kovács lemma.** Let `I` be an ideal of a
+Noetherian ring `A` and `K ∈ D(A)`. Suppose that every cohomology module of `K` is finite and, in
+every degree, the cohomology inverse system of `K ⊗ᴸ[A] A/Iⁿ` is Mittag--Leffler. Then the inverse
+limit of `Hⁱ(K ⊗ᴸ[A] A/Iⁿ)` is isomorphic to the `I`-adic completion of `Hⁱ(K)` for every `i`.
+
+The isomorphism is only asserted to exist; nothing relates it to the reduction maps
+`K ⟶ K ⊗ᴸ[A] A/Iⁿ`. Stacks 0EGS asserts the canonical identification, which is
+`Stacks.PseudoCoherent.AdicCompletion.isIso_adicCompletionToLimitDerivedReduction`; that proof
+uses this statement to transport finiteness properties. -/
 public theorem adicCompletion_homology_iso_limit_derivedReduction
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A)
     (K : DerivedCategory (ModuleCat.{u} A))

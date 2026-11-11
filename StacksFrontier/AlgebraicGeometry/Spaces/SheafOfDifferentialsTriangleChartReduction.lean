@@ -32,7 +32,11 @@ no chart and no étale morphism,
 > first map of the transitivity sequence of the pair read as *represented* algebraic spaces is a
 > monomorphism as soon as the canonical map of Stacks 01UV of the pair of schemes is.
 
-That statement is `AlgebraicGeometry.Space.IsSchemeTriangleDifferentialsMono` below.  It is the
+That statement is `AlgebraicGeometry.Space.IsSchemeTriangleDifferentialsMono` below.  It is
+proved as `AlgebraicGeometry.Space.pullbackDifferentialsMapSchemeSpaceComparison`
+(`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeComparisonMapSquare.lean`), where
+Stacks 06BI is registered unconditionally as
+`AlgebraicGeometry.Space.triangleDifferentials_shortExact_of_formallySmooth`.  It is the
 monomorphy twin of `AlgebraicGeometry.Space.IsSchemeSquareDifferentialsIso`: the square there is
 cartesian and its bottom edge is arbitrary, the square here has bottom edge an identity, and
 monomorphy — unlike invertibility, which Morphisms, Lemma 01V0 supplies outright — has to be
@@ -48,8 +52,8 @@ restriction of the comparison map to that chart with the chart triangle's own co
 
 ## Main definitions
 
-* `AlgebraicGeometry.Space.IsSchemeTriangleDifferentialsMono`: the one statement Stacks 06BI
-  still needs — monomorphy of the comparison map of Stacks 04CX of a triangle of schemes of the
+* `AlgebraicGeometry.Space.IsSchemeTriangleDifferentialsMono`: the one statement this route to
+  Stacks 06BI needs — monomorphy of the comparison map of Stacks 04CX of a triangle of schemes of the
   site, read as a triangle of represented algebraic spaces, from monomorphy of the canonical map
   of Stacks 01UV of the same triangle of schemes.
 
@@ -99,7 +103,8 @@ namespace AlgebraicGeometry.Space
 
 variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **The one statement Stacks 06BI still needs.**  For a composable pair `ψ : U ⟶ V`,
+/-- **The one statement this route to Stacks 06BI needs**, proved as
+`AlgebraicGeometry.Space.pullbackDifferentialsMapSchemeSpaceComparison`.  For a composable pair `ψ : U ⟶ V`,
 `χ : V ⟶ W` of schemes of the big fppf site over `S`, the first map
 `(ψ)^*Ω_{V/W} ⟶ Ω_{U/W}` of the transitivity sequence of Stacks 05Z8 of the pair read as
 *represented* algebraic spaces is a monomorphism as soon as the canonical map of Stacks 01UV of

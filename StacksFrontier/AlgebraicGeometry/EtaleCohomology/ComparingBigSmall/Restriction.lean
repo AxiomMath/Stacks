@@ -39,6 +39,11 @@ inclusion, respectively for the continuous postcomposition functor
   `AlgebraicGeometry.isKInjective_smallEtaleRestrictionAlong` — restriction preserves
   K-injectivity of complexes of abelian sheaves.
 
+The final sentence of Stacks 0758, that the corresponding statements for modules do not hold,
+is `AlgebraicGeometry.exists_injective_not_injective_smallEtaleModuleRestriction` and
+`AlgebraicGeometry.exists_isKInjective_not_isKInjective_smallEtaleModuleRestriction` in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/ComparingBigSmall/RestrictionModules.lean`.
+
 ## Implementation notes
 
 Preservation of injectives and of K-injectivity both follow from exactness of the left adjoint
@@ -196,7 +201,8 @@ private theorem isKInjective_mapHomologicalComplex_sheafPushforwardContinuous
 
 /-- **Stacks Project, Tag 0758.** Restriction of an injective abelian sheaf
 from the big étale site over `S` to the small étale site of `S` is injective. -/
-@[stacks 0758 "injective_restrict_s"]
+@[stacks 0758 "part (1)(b): restriction to the small étale site preserves injective abelian \
+sheaves"]
 public theorem injective_smallEtaleRestriction
     (S : Scheme.{u}) (hS : B.Contains S)
     (I : Sheaf (BigEtaleOver.topology B S hS) Ab.{u + 1})
@@ -208,7 +214,8 @@ public theorem injective_smallEtaleRestriction
 
 /-- **Stacks Project, Tag 0758.** Restriction to the small étale site of an
 object of the big étale site preserves injectivity of abelian sheaves. -/
-@[stacks 0758 "injective_restrict_t"]
+@[stacks 0758 "part (1)(a): restriction along a morphism of the big étale site preserves \
+injective abelian sheaves"]
 public theorem injective_smallEtaleRestrictionAlong
     (T S : B.Scheme) (f : T ⟶ S)
     (I : Sheaf (BigEtaleOver.topology B S.obj S.property) Ab.{u + 1})
@@ -221,7 +228,8 @@ public theorem injective_smallEtaleRestrictionAlong
 
 /-- **Stacks Project, Tag 0758.** Restriction of a K-injective complex of
 abelian sheaves from the big étale site to the small étale site is K-injective. -/
-@[stacks 0758 "kinjective_restrict_s"]
+@[stacks 0758 "part (2)(b): restriction to the small étale site preserves K-injective \
+complexes of abelian sheaves"]
 public theorem isKInjective_smallEtaleRestriction
     (S : Scheme.{u}) (hS : B.Contains S)
     (I : CochainComplex (Sheaf (BigEtaleOver.topology B S hS) Ab.{u + 1}) ℤ)
@@ -235,7 +243,8 @@ public theorem isKInjective_smallEtaleRestriction
 
 /-- **Stacks Project, Tag 0758.** Restriction to the small étale site of an
 object of the big étale site preserves K-injectivity of abelian sheaf complexes. -/
-@[stacks 0758 "kinjective_restrict_t"]
+@[stacks 0758 "part (2)(a): restriction along a morphism of the big étale site preserves \
+K-injective complexes of abelian sheaves"]
 public theorem isKInjective_smallEtaleRestrictionAlong
     (T S : B.Scheme) (f : T ⟶ S)
     (I : CochainComplex (Sheaf (BigEtaleOver.topology B S.obj S.property) Ab.{u + 1}) ℤ)

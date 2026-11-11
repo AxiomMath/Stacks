@@ -251,18 +251,12 @@ lemma exists_closedPoint_of_isConstructible
   rw [ht, Finset.sup_set_eq_biUnion]
   exact Set.mem_iUnion.mpr ⟨_, Set.mem_iUnion.mpr ⟨hpt, hzL⟩⟩
 
-/-- **Stacks 00GD, trivial inclusion of part (1) (`X₀ ∩ f(E) ⊆ f(E)₀`).**
-
-Let `φ : R →+* S` be any ring map and let `E ⊆ Spec S` be any subset; write
+/-- Let `φ : R →+* S` be any ring map and let `E ⊆ Spec S` be any subset; write
 `f = Spec(φ) : Spec S → Spec R`.  Any closed point of `Spec R` lying in the
-image `f(E)` is closed in the subspace topology on `f(E)`.
+image `f(E)` is closed in the subspace topology on `f(E)`, i.e. `X₀ ∩ f(E) ⊆ f(E)₀`.
 
-This is the inclusion the Stacks proof of Tag 00GD describes as "trivial".
-The full statement of Tag 00GD requires the Jacobson and finite-type
-hypotheses (used in the reverse inclusion and the harder part (2)). -/
-@[stacks 00GD "Only the trivial inclusion X₀ ∩ f(E) ⊆ f(E)₀ of part (1), for an arbitrary ring \
-map and arbitrary E. The Jacobson, finite-type and constructibility content of 00GD, the reverse \
-inclusion and part (2) are not formalized."]
+This is the inclusion the proof of Stacks 00GD calls trivial; the full statement of
+00GD is `comap_image_subspaceClosedPoints_and_mem_comap_image_iff`. -/
 theorem stacks00GD_closedPoints_inter_image_subset_subspaceClosedPoints
     {R S : Type*} [CommRing R] [CommRing S] (φ : R →+* S)
     (E : Set (PrimeSpectrum S)) :

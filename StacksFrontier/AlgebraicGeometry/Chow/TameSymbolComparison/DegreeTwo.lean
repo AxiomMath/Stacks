@@ -12,8 +12,8 @@ Let `A` be a Noetherian local domain of dimension one with fraction field `F` an
 `κ`, whose normalization `A'` is a finite `A`-module (for instance `A` Nagata, in particular
 excellent). Stacks 0EAY extends the tame symbol from discrete valuation rings to `A` by
 normalization and norm, `∂_A = ∑_𝔫 N_{κ(𝔫)/κ} ∘ ∂_{A'_𝔫}` (`Stacks.Chow.oneDimTameSymbol`).
-Section 42.5 and Stacks 02Q1 define a tame symbol `d_A : F^* × F^* → κ^*` directly, as a periodic
-determinant. This file proves that the two agree in degree two:
+Appendix A of the chapter (Stacks 02Q1) defines a tame symbol `d_A : F^* × F^* → κ^*` directly,
+as a periodic determinant. This file proves that the two agree in degree two:
 
 `∂_A {f, g} = {d_A(f, g)}` (`Stacks.Chow.oneDimTameSymbol_one_milnorKTwoPureSymbol`),
 
@@ -626,8 +626,9 @@ the tame symbol `∂_A : K^M_2(F) → K^M_1(κ)` of the remark is the tame symbo
 descended to Milnor K-theory, as maps. -/
 @[stacks 0EAY "the tame symbol ∂_A : K^M_{i+1}(F) → K^M_i(κ) of a discrete valuation ring is \
 defined as in Section 42.5: in degree i = 1 it is, as a map K^M_2(F) → K^M_1(κ) = κ^*, the tame \
-symbol d_A of Section 42.5 (Stacks 02Q1) descended along the presentation of K^M_2, for every \
-choice of uniformizer"]
+symbol d_A of Stacks 02Q1 descended along the presentation of K^M_2 (d_A is the tame symbol of \
+Section 42.5 by Stacks.Chow.regularModuleSymbol_eq_tameSymbolValue), for every choice of \
+uniformizer"]
 theorem dvrMilnorTameSymbol_one_eq_milnorKTwoTameSymbol {A : Type u} [CommRing A] [IsDomain A]
     [IsDiscreteValuationRing A] {F : Type u} [Field F] [Algebra A F] [IsFractionRing A F]
     {ϖ : A} (hϖ : Irreducible ϖ) :

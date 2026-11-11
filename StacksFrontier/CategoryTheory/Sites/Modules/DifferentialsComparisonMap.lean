@@ -12,8 +12,9 @@ set_option backward.isDefEq.respectTransparency false
 /-
 # Problem Description
 
-Formalization of Lemma 18.33.11 (Stacks Tag 04BR), in the chapter "Modules on
-Sites", Section 18.33 "Modules of differentials".
+A special case of Lemma 18.33.11 (Stacks Tag 04BR), in the chapter "Modules on
+Sites", Section 18.33 "Modules of differentials": the case where the presheaf of
+differentials is already a sheaf (see the notes below).
 
 Given a commutative diagram of morphisms of *ringed topoi*
 ```
@@ -40,14 +41,23 @@ Mathlib provides modules of differentials and derivations only at the level of
 `PresheafOfModulesOfCommRing.DifferentialsConstruction.relativeDifferentials'`).  There is
 currently no sheaf-level module of differentials in Mathlib.
 
-Following the Stacks project, the sheaf module of differentials `Ω_{X/Y}` is
-*defined* (Tags 04BL, 04BN) as the sheaf of modules representing the functor of
-`Y`-derivations: it comes equipped with a universal `Y`-derivation `d_{X/Y}`
-through which every `Y`-derivation factors uniquely.  We package exactly this
-data (a genuine `SheafOfModules` together with the universal property of its
-universal `Y`-derivation) in the structure `RelativeDifferentials` below.  This
-is faithful to the Stacks definition: there `Ω_{X/Y}` *is* by definition the
-representing object.
+In the Stacks project the sheaf module of differentials `Ω_{X/Y}` is defined
+(Tags 04BL, 04BN) as the sheaf of modules representing the functor of
+`Y`-derivations into *sheaves* of modules; it is the sheafification of the
+presheaf of sectionwise Kähler differentials.  The structure `RingedToposOverBase`
+below does **not** encode that object: its field `universal` is Mathlib's
+`PresheafOfModulesOfCommRing.Derivation.Universal`, which quantifies over all *presheaves*
+of modules.  It therefore forces `Ω.val` to be isomorphic to the presheaf of
+sectionwise Kähler differentials, so a `RingedToposOverBase` exists only when that
+presheaf is already a sheaf.  This fails in basic examples (on a smooth
+projective curve of genus at least one over a field `k`, with base `Spec k`, the
+presheaf of differentials has global sections `Ω_{k/k} = 0`), so the results of
+this file cover only special cases of Stacks Tag 04BR.
+
+The faithful statement of Tag 04BR, with `Ω_{X/Y}` the sheaf of differentials
+universal among derivations into sheaves of modules, is
+`Stacks.Sheaves.Differentials.RingedSiteOverBase.Hom.comparison_differentials`
+in `StacksFrontier/CategoryTheory/Sites/Modules/DifferentialsComparisonMapSheaf.lean`.
 
 A `Y`-derivation `O_X → F` of a genuine sheaf of modules `F` is, by definition,
 a `PresheafOfModulesOfCommRing.Derivation'` of the underlying presheaf of modules `F.val`
@@ -111,8 +121,9 @@ universal `Y`-derivation `d_{X/Y}` (Stacks Tags 04BQ, 04BL, 04BN).
 -- checkUnivs false positive: `u`, `v` are used separately by the bundled fields
 -- (`C : Type u`, `[Category.{v} C]`) but occur only together in the structure's sort.
 set_option linter.checkUnivs false in
-/-- A **ringed topos over a base**, with its sheaf module of differentials
-(Stacks Tags 04BQ, 04BL, 04BN).  The data consists of:
+/-- A **ringed topos over a base**, with a module of differentials universal among
+derivations into all presheaves of modules (compare Stacks Tags 04BQ, 04BL, 04BN).
+The data consists of:
 
 * a site `(C, J)` (a category with a Grothendieck topology) — the topos
   `Sh(C) = Sh(C, J)`;
@@ -124,9 +135,13 @@ set_option linter.checkUnivs false in
 * the **sheaf module of differentials** `Ω : SheafOfModules` (a genuine sheaf of
   `O`-modules), with its **universal `Y`-derivation** `d`, a derivation of
   sheaves of abelian groups `O_X ⟶ Ω` relative to `φ` (Tag 04BK);
-* the universal property `universal` witnessing that `d` is universal among
-  `Y`-derivations (Tag 04BN), which is precisely the Stacks definition (Tag
-  04BL) of `Ω_{X/Y}` as the representing object of the derivation functor.
+* the property `universal` that `d` is universal among derivations into all
+  *presheaves* of modules (Mathlib's `PresheafOfModulesOfCommRing.Derivation.Universal`).
+  This is stronger than the Stacks definition (Tag 04BL) of `Ω_{X/Y}`, which asks
+  for universality among derivations into sheaves of modules only: it forces `Ω`
+  to be the presheaf of sectionwise Kähler differentials, so this structure exists
+  only when that presheaf is a sheaf.  See
+  `Stacks.Sheaves.Differentials.RingedSiteOverBase` for the faithful setting.
 
 A `Y`-derivation `O_X ⟶ F` into a sheaf of modules `F` is encoded as a
 `PresheafOfModulesOfCommRing.Derivation'` of the underlying presheaf of modules `F.val`
@@ -153,8 +168,9 @@ structure RingedToposOverBase where
   Ω : SheafOfModules.{v} (ringSheaf O)
   /-- The universal `Y`-derivation `d_{X/Y} : O_X ⟶ Ω_{X/Y}`. -/
   d : PresheafOfModulesOfCommRing.Derivation' Ω.val φ
-  /-- `d_{X/Y}` is universal (Tag 04BN): the Stacks definition (Tag 04BL) of
-  `Ω_{X/Y}` as the object representing the functor of `Y`-derivations. -/
+  /-- `d_{X/Y}` is universal among derivations into all presheaves of modules.  This
+  is stronger than the Stacks definition (Tag 04BL), which quantifies over sheaves
+  of modules only. -/
   universal : d.Universal
 
 attribute [instance] RingedToposOverBase.cat RingedToposOverBase.hsc
@@ -415,8 +431,12 @@ side is literally `c_f` composed with the pulled-back section `f^* d_{X/Y}(t)`.
 
 Uniqueness holds because the local sections `d_{X/Y}(t)` generate `Ω_{X/Y}` as an
 `O_X`-module, so the sections `f^* d_{X/Y}(t)` generate `f^* Ω_{X/Y}` as an
-`O_{X'}`-module (Stacks Tag 04BR). -/
-@[stacks 04BR, ega "0 20.5.2" "(20.5.2.4) & (20.5.2.6)", ega "IV 16.4.3" "(16.4.3.6),(16.4.3.7)"]
+`O_{X'}`-module.
+
+This is only a special case of Stacks Tag 04BR: `RingedToposOverBase` requires
+`Ω` to be universal among derivations into all presheaves of modules, which holds
+only when the presheaf of differentials is a sheaf.  The statement of Tag 04BR is
+`Stacks.Sheaves.Differentials.RingedSiteOverBase.Hom.comparison_differentials`. -/
 theorem statement3_unique :
     ∃! cf : f.pullΩ ⟶ X'.Ω,
       ∀ (U : X.Cᵒᵖ) (t : X.ringSheaf'.obj.obj U),

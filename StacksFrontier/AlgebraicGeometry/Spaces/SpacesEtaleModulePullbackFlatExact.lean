@@ -30,7 +30,7 @@ scalars extended along a homomorphism of structure-sheaf stalks (Stacks 05V5). T
 spaces-étale structure sheaf at `x` is the étale local ring (Stacks 04KG), the small étale
 neighbourhoods being initial among the étale neighbourhoods, and on germs that homomorphism
 pulls regular functions back along every commuting diagram of pointed étale charts; so it is
-the homomorphism of étale local rings of Stacks 04NG, which is flat for flat `f` (Stacks 03MK).
+the homomorphism of étale local rings of Stacks 04NG, which that lemma shows is flat for flat `f`.
 
 ## Main results
 
@@ -52,7 +52,6 @@ preservesFiniteLimits_spacesEtaleRingedToposHom_pullbackModules_spacesEtaleModul
 * [Stacks Project, Tag 04K2](https://stacks.math.columbia.edu/tag/04K2)
 * [Stacks Project, Tag 04KG](https://stacks.math.columbia.edu/tag/04KG)
 * [Stacks Project, Tag 04NG](https://stacks.math.columbia.edu/tag/04NG)
-* [Stacks Project, Tag 03MK](https://stacks.math.columbia.edu/tag/03MK)
 -/
 
 @[expose] public noncomputable section
@@ -537,7 +536,7 @@ theorem isConservativeFamilyOfPoints_sitePoint_spacesEtaleModulePullbackFlatExac
 set_option synthInstance.maxHeartbeats 400000 in
 -- this was a file-wide setting: instance search in this file is heavy
 /-- **The homomorphism of structure-sheaf stalks of a flat morphism is flat**: transported to
-the étale local rings it is the homomorphism of Stacks 04NG, which is flat by Stacks 03MK. -/
+the étale local rings it is the homomorphism of Stacks 04NG, which that lemma shows is flat. -/
 theorem flat_spacesEtaleStalkPullbackRingMap_spacesEtaleModulePullbackFlatExact
     (hf : IsFlat B S hS f.hom) :
     (spacesEtaleStalkPullbackRingMapSpacesEtaleModulePullbackFlatExact f x).Flat := by

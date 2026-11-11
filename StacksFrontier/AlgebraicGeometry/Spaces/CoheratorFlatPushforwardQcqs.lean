@@ -55,7 +55,7 @@ composites are right adjoint to the same functor `D(QCoh(𝒪_Y)) ⥤ D(𝒪_X)`
 
 ## Implementation notes
 
-As in `AlgebraicGeometry.Space.flatPushforwardDerivedCoheratorIso`, the derived categories, their
+In `AlgebraicGeometry.Space.flatPushforwardDerivedCoheratorIsoOfQcqs` the derived categories, their
 localizations, the coherators and the four total right derived functors are arbitrary: the source
 says "the right adjoint of the inclusion" and "the right derived functor", each determined only up
 to a canonical isomorphism, so its equality of functors becomes a natural isomorphism valid for
@@ -322,7 +322,9 @@ Here `Rf_*` is `AlgebraicGeometry.Space.derivedModulePushforward`, `RQ_X` and `R
 `AlgebraicGeometry.Space.derivedCoherator`, and `Φ` is
 `AlgebraicGeometry.Space.derivedQuasicoherentPushforward` at the preservation of quasi-coherence of
 Stacks 03M9. -/
-@[stacks 08GZ "RQ_Y ∘ Rf_* = Φ ∘ RQ_X for a flat, quasi-compact, quasi-separated morphism"]
+@[stacks 08GZ "RQ_Y ∘ Rf_* = Φ ∘ RQ_X, the source's equality as a natural isomorphism, for a \
+flat, quasi-compact, quasi-separated morphism of algebraic spaces; Stacks 03M9, 03GA and 077V (1) \
+are proved in the library"]
 def derivedModulePushforwardCompDerivedCoheratorIso (f : X ⟶ Y)
     (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)
     (hflat : IsFlat B S hS f.hom) :

@@ -7,6 +7,7 @@ public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.Fla
 public import StacksFrontier.AlgebraicGeometry.TopDegreeBaseChange.VanishingLocal
 public import StacksFrontier.Homology.TorAmplitude.CanonicalCertificate
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.Bounded
+import StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineLocal
 
 /-!
 # The relative dualizing complex has bounded coherent cohomology
@@ -39,17 +40,15 @@ chart ring map as `f.appLE V U` and the model as `Γ(Y, V)` itself is what ties 
 
 The hypothesis says nothing about any complex being bounded or having coherent cohomology; it
 only names an isomorphism. The boundedness and the coherence come from
-[Stacks, Tag 0BZK] (2), `Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_isPerfectRingMap`,
+[Stacks, Tag 0BZK] (2), `Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_perfect`,
 which says that the algebraic upper shriek along a perfect homomorphism of Noetherian rings
 carries `D^b_Coh(R)` into `D^b_Coh(A)`, together with the globalisation proved here.
 
 *Perfectness is not carried.* The source's hypothesis is that `f` is perfect, flatness together
 with finite presentation sufficing by [Stacks, Tag 068A]. That implication is
-`AlgebraicGeometry.perfect_of_flat_of_locallyOfFinitePresentation`, and the class field
-`AlgebraicGeometry.Perfect.perfect_appLE` then supplies, for each pair of affine charts, exactly
-the `RingHom.IsPerfectRingMap` that Tag 0BZK (2) consumes — evaluated at the canonical derived
-tensoring `StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring`, so nothing about the
-derived tensor product is assumed either.
+`AlgebraicGeometry.perfect_of_flat_of_locallyOfFinitePresentation`, and the chart property of
+[Stacks, Tag 0687], read by `AlgebraicGeometry.HasRingHomProperty.appLE`, then supplies, for each
+pair of affine charts, exactly the `RingHom.Perfect` that Tag 0BZK (2) consumes.
 
 *The two derived categories.* `Stacks.Duality.upperShriek` lives on
 `Stacks.Duality.quasiCoherentDerivedCategory`, read at the locally small model
@@ -87,7 +86,6 @@ attribute [local instance] AlgebraicGeometry.Scheme.Modules.hasDerivedCategory
 
 open AlgebraicGeometry CategoryTheory CategoryTheory.Limits TopologicalSpace
 open Stacks.AlgebraicGeometry.CoherentTFAE Stacks.AlgebraicGeometry.CoherentOfFiniteType
-open StacksDraft.TorAmplitude
 
 attribute [local instance 5000] HasDerivedCategory.standard
 attribute [local instance 10000] AlgebraicGeometry.Scheme.Modules.hasDerivedCategory
@@ -314,12 +312,9 @@ theorem derivedCategoryBBounded_upperShriek_derivedStructureSheaf
       IsLocallyNoetherian.component_noetherian ⟨V, hV⟩
     have hUn : IsNoetherianRing Γ(X.left, U) :=
       IsLocallyNoetherian.component_noetherian ⟨U, hU⟩
-    let D : CertifiedDerivedTensoring.{u, u} Γ(Y.left, V) :=
-      canonicalCertifiedDerivedTensoring Γ(Y.left, V)
-    have hperf := AlgebraicGeometry.Perfect.perfect_appLE f.left U hU V hV hUV D
     exact ⟨U, hU, hxU, _,
-      Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_isPerfectRingMap.{u, u} p
-        D.tensor D.comparison D.isLeftDerived hperf
+      Dualizing.upperShriekFunctor_derivedCategoryBBounded_of_perfect.{u, u} p
+        (HasRingHomProperty.appLE @Perfect f.left inferInstance ⟨V, hV⟩ ⟨U, hU⟩ hUV)
         (derivedCategoryBBounded_structureModel (Y := Y) V),
       he⟩
   exact ⟨isBounded_of_tildeModels hmodels, fun i => isCoherent_homology_of_tildeModels hmodels i⟩

@@ -18,25 +18,27 @@ Concretely, of the five hypotheses of
 `Stacks.DeRhamSmooth.exists_boundedDeRhamSpectralSequence` three are discharged here: the
 filtered complex `K` is `Stacks.DeRhamSmooth.deRhamSmoothFiltration`, the identification
 `K.X = Ω^•_{X/S}` holds by `rfl`, and the exhaustion is the last clause of
-`Stacks.DeRhamSmooth.deRhamSmoothFiltration_spec`. What remains assumed is the eventual vanishing
-of `R^nf_*F^pΩ^•_{X/S}` for `p ≫ 0`, and the identification of `R^{p+q}f_*gr^pΩ^•_{X/S}` with the
-first page.
+`Stacks.DeRhamSmooth.deRhamSmoothFiltration_spec`. The other two, the eventual vanishing of
+`R^nf_*F^pΩ^•_{X/S}` for `p ≫ 0` and the identification of `R^{p+q}f_*gr^pΩ^•_{X/S}` with the
+first page, remain hypotheses here; they are proved in
+`StacksFrontier.AlgebraicGeometry.DeRham.SmoothSpectralSequenceOfStepSquares`.
 
 ## Main results
 
-* `Stacks.DeRhamSmooth.exists_boundedDeRhamSpectralSequence_of_pullback`: **[Stacks, Tag 0FMM]**
-  at the filtration of Section 50.12.
+* `Stacks.DeRhamSmooth.exists_boundedDeRhamSpectralSequence_of_pullback`: the spectral sequence
+  of [Stacks, Tag 0FMM] at the filtration of Section 50.12, from the vanishing and the
+  identification of the graded pieces.
 
 ## Implementation notes
 
 The filtered complex of `SmoothFiltration` is stated over
 `AlgebraicGeometry.SheafOfModules.underlyingRingSheaf ((f ≫ g)^{-1}𝒪_S)`, the ring sheaf the
 relative de Rham complex of `f ≫ g` is built over, while the spectral sequence is stated over
-`structureSheafRing (Stacks.DeRhamDirectImage.inverseImageBase (f ≫ g))`,
-the structure ring sheaf of the
-inverse-image ringed space. The two have the same body, so the filtered complex is accepted
-where the spectral sequence asks for one with no transport; this is the same identification that
-lets `Stacks.DeRhamDirectImage.deRhamCochainComplex` be read in either spelling.
+`structureSheafRing (Stacks.DeRhamDirectImage.inverseImageBase (f ≫ g))`, the structure ring
+sheaf of the inverse-image ringed space. The two have the same body, so the filtered complex is
+accepted where the spectral sequence asks for one with no transport; this is the same
+identification that lets `Stacks.DeRhamDirectImage.deRhamCochainComplex` be read in either
+spelling.
 
 This is a separate module rather than an addition to `SmoothSpectralSequence` because
 `StacksFrontier.AlgebraicGeometry.DeRham.PullbackComplex`, which constructs the pullback map the
@@ -81,7 +83,8 @@ def gradedPiece (Z : RingedSpace.{u, u}) (p : ℤ)
 
 variable {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S)
 
-/-- **Stacks Project, Tag 0FMM**, at the filtration of Section 50.12. Let `f : X ⟶ Y` be a
+/-- The spectral sequence of [Stacks, Tag 0FMM] at the filtration of Section 50.12, from the
+vanishing `hvanish` and the first-page identification `hgr`. Let `f : X ⟶ Y` be a
 quasi-compact, quasi-separated and smooth morphism of schemes over a base `S`, with `g : Y ⟶ S`
 the structure morphism of the target. There is a bounded cohomological spectral sequence of
 sheaves of `g^{-1}𝒪_S`-modules on `Y`, starting at its first page, with
@@ -92,14 +95,14 @@ which abuts to `R^{p + q}f_*Ω^•_{X/S}`.
 
 The filtration is not assumed: it is `Stacks.DeRhamSmooth.deRhamSmoothFiltration`, the filtration
 of `Ω^•_{X/S}` by the forms pulled back from `Y`, and its identification with `Ω^•_{X/S}` and its
-exhaustion come from `Stacks.DeRhamSmooth.deRhamSmoothFiltration_spec`. What is assumed is the
+exhaustion come from `Stacks.DeRhamSmooth.deRhamSmoothFiltration_spec`. The hypotheses are the
 eventual vanishing `hvanish` of `R^nf_*` on the far steps of that filtration, and the
 identification `hgr` of `R^{p+q}f_*gr^p` with the first page, which is the computation of the
 graded pieces `gr^kΩ^•_{X/S} = f^{-1}Ω^k_{Y/S}[-k] ⊗_{f^{-1}𝒪_Y} Ω^•_{X/Y}` of Section 0FMK
-followed by the projection formula of Tag 0FML. -/
-@[stacks 0FMM "at the filtration of Section 0FMK, which is constructed rather than assumed; \
-granted only hvanish, the eventual vanishing of R^nf_* on the far steps, and hgr, the graded \
-pieces of Section 0FMK followed by the projection formula of Tag 0FML conclusions (4) and (5)"]
+followed by the projection formula of Tag 0FML. Both are proved in the library
+(`Stacks.DeRhamSmooth.exists_higherDirectImage_deRhamSmoothFiltration_isZero` and
+`Stacks.DeRhamSmooth.higherDirectImageGradedPieceIsoFirstPage`), and the unconditional statement
+is `Stacks.DeRhamSmooth.exists_boundedDeRhamSpectralSequence_of_smooth`. -/
 theorem exists_boundedDeRhamSpectralSequence_of_pullback
     [QuasiCompact f] [QuasiSeparated f] [Smooth f]
     (hvanish : ∀ n : ℤ, ∃ p₀ : ℤ, ∀ p : ℤ, p₀ ≤ p →

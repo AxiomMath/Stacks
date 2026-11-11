@@ -32,8 +32,8 @@ stable under base change.
 * `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_baseChangeAlgebraicClosure`:
   [Stacks, Tag 0FD6] for the situation base changed to an algebraic closure of `k`, from
   hypotheses (1), (2) and (3) **for the original situation** alone. This is the conclusion of the
-  tag over `k̄`, with no hypothesis beyond the source's three; it is the whole of the reduction of
-  [Stacks, Tag 02FY] except for the descent of the conclusion back to `k`.
+  tag over `k̄`, with no hypothesis beyond the source's three; the descent of the conclusion back
+  to `k` is done in `BertiniFieldBaseChangeDescent`.
 
 ## Implementation notes
 
@@ -43,14 +43,11 @@ The basis of `K ⊗_k V` that the hypothesis is transferred to is `Module.Basis.
 hypothesis at an arbitrary basis indexed by `Fin (m + 1)`, so no reindexing is needed. Both read
 `φ` through the sections of `1 ⊗ vᵢ`, which are the pullbacks of the sections of the `vᵢ`.
 
-What is *not* done here is the last step of [Stacks, Tag 02FY]: the conclusion of
-[Stacks, Tag 0FD6] over `k̄` is an assertion about a nonempty open of the parameter space
-`𝔸^r_{k̄}` and about every extension of `k̄`, and returning it to one about a nonempty open of
-`𝔸^r_k` and every extension of `k` is a separate matter — it needs a nonempty open of `𝔸^r_k`
-whose points lift into the given open of `𝔸^r_{k̄}`, which is not a consequence of anything in
-this file. Smoothness itself descends (`AlgebraicGeometry.smooth_of_smooth_pullback_snd_spec_`
-`algebraMap`), so that open is the only thing between the result below and [Stacks, Tag 0FD6]
-over an arbitrary field.
+The last step of [Stacks, Tag 02FY], the descent of the conclusion from `k̄` back to `k`, is
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_forGeneral_`
+`baseChangeAlgebraicClosure` in `BertiniFieldBaseChangeDescent`; the tag over an arbitrary field
+is `Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`.
 
 ## References
 
@@ -119,18 +116,12 @@ All three hypotheses transfer to `D.baseChangeAlgebraicClosure`
 `Stacks.Bertini.FamilyDivisors.isImmersive_baseChangeFamily`), and `k̄` is algebraically closed,
 so the carrier of the tag applies to the base-changed situation.
 
-The registration is **qualified**: the conclusion drawn is the tag's conclusion for
-`D.baseChangeAlgebraicClosure`, not for `D`, and the passage between the two is what
-[Stacks, Tag 02FY] still owes — a nonempty open of `𝔸^r_k` whose points lift into the given
-nonempty open of `𝔸^r_{k̄}`, together with the identification of `H_v` on `X_{k'}` with its own
-base change. -/
-@[stacks 0FD6 "the conclusion of the tag for the standing situation base changed to an \
-algebraic closure of the base field, with hypotheses (1), (2) and (3) assumed only for the \
-original situation over k -- hypothesis (3) transfers by isImmersive_baseChangeFamily. This is \
-NOT the tag for an arbitrary base field: the descent of the conclusion from kbar back to k (the \
-reduction of Tag 02FY) needs a nonempty open of A^r_k whose points lift into the given nonempty \
-open of A^r_kbar, which is not proved. Hypothesis (3) is also still spelled at a basis of the \
-linear system rather than on the intrinsic morphism phi_(L, psi)"]
+The conclusion drawn is the tag's conclusion for `D.baseChangeAlgebraicClosure`, not for `D`;
+the descent back to `D` is
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_forGeneral_`
+`baseChangeAlgebraicClosure`, and [Stacks, Tag 0FD6] itself is
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`. -/
 theorem forGeneral_smooth_specializedDivisor_baseChangeAlgebraicClosure [Smooth D.toBase]
     (hgen : D.Generates) {m : ℕ} (b : Module.Basis (Fin (m + 1)) D.k D.V)
     (himm : D.IsImmersive b (D.generatesBy_basis hgen b)) :

@@ -215,7 +215,7 @@ are `S`-birational if and only if there is a scheme `Z` with `S`-morphisms `f : 
 takes three inputs as explicit hypotheses, each of which is an absent Stacks tag rather than a
 step of the source's argument: `descent`, the local splitting of [Stacks, Tag 0AGT];
 `reduction`, the enlargement of the domain of an `S`-rational map resting on
-[Stacks, Tag 0BX7] and [Stacks, Tag 081T] (these two are what the library's form of
+[Stacks, Tag 0BX7] and [Stacks, Tag 081T] (these two are what the three-input argument of
 [Stacks, Tag 0C5H], `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap`,
 itself consumes); and `h0C5R`, which is [Stacks, Tag 0C5R] in full. A declaration proved only
 under an assumed input does not formalize its tag, so the registration is carried instead by the

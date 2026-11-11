@@ -228,9 +228,10 @@ theorem chowClass_sectionWeilDivisor_eq {n : ℤ}
 for the nonzero meromorphic section `s` of `ℒ` of Stacks 0EPQ
 (`AlgebraicGeometry.Space.regularMeromorphicSection`); the class does not depend on the choice
 of `s` (`AlgebraicGeometry.Space.chowClass_sectionWeilDivisor`). -/
-@[stacks 0EQE "part (2): c₁(ℒ) ∩ [X] = the class of div_ℒ(s) in CH_{n-1}(X) = Z_{n-1}(X)/∼_rat \
-(Stacks 0EQ6), for a nonzero meromorphic section s of ℒ, which exists by Stacks 0EPQ; it is \
-the class of div_ℒ(s) for every nonzero s by chowClass_sectionWeilDivisor"]
+@[stacks 0EQE "part (2): for X/B good and integral with n = dim_δ(X) and ℒ invertible, \
+c₁(ℒ) ∩ [X] = the class of div_ℒ(s) in the Chow group CH_{n-1}(X) = Z_{n-1}(X)/∼_rat of \
+Stacks 0EQ6, for a nonzero meromorphic section s of ℒ, whose existence is Stacks 0EPQ, proved; \
+the class is the same for every nonzero s (well-definedness, Stacks 0EPT)"]
 def weilDivisorOfInvertibleSheaf {n : ℤ}
     (hn : deltaDimensionClosed D sX hX Set.univ isClosed_univ = (n : EInt)) :
     chowGroup.{v} D sX hX (n - 1) :=
@@ -248,9 +249,10 @@ def weilDivisorOfInvertibleSheaf {n : ℤ}
 
 /-- **Stacks 0EQE, part (2), well-definedness.** `c₁(ℒ) ∩ [X]` is the class of `div_ℒ(s)` in
 `CH_{n-1}(X)` for *every* nonzero meromorphic section `s` of `ℒ`. -/
-@[stacks 0EQE "part (2), well-definedness: the class of div_ℒ(s) in CH_{n-1}(X) is \
-c₁(ℒ) ∩ [X] for every nonzero meromorphic section s, by Stacks 0EPT, the principal divisor \
-div(f) of the ratio being rationally equivalent to zero in the sense of Stacks 0EQ6"]
+@[stacks 0EQE "part (2), well-definedness: for X/B good and integral with n = dim_δ(X) and ℒ \
+invertible, the class of div_ℒ(s) in CH_{n-1}(X) is c₁(ℒ) ∩ [X] for every nonzero meromorphic \
+section s of ℒ: two such sections differ by an invertible rational function f (Stacks 0EPT), \
+and the principal divisor div(f) is rationally equivalent to zero (Stacks 0EQ6), both proved"]
 theorem chowClass_sectionWeilDivisor {n : ℤ}
     (hn : deltaDimensionClosed D sX hX Set.univ isClosed_univ = (n : EInt))
     (s : MeromorphicSection.{u, u} D.site D.base D.base_mem X hX.1 L)

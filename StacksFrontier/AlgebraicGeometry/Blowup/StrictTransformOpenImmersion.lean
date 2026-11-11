@@ -83,10 +83,12 @@ is therefore unconditional, and the same observation is already used by
 (`StacksFrontier/AlgebraicGeometry/Flatness/Applications/FiniteLocallyFreeStrictTransform.lean`),
 whose composite-centre construction this one follows.
 
-Consequently `AlgebraicGeometry.exists_isAdmissibleBlowup_dominating` ([Stacks, Tag 081T]) still
-carries `StrictTransformOpenImmersion` as its hypothesis `h081S` for a morphism that is neither
-flat nor supplied with `AffineChartFlatteningCentre`, and in particular for the modification of
-Situation [Stacks, Tag 0AX8] consumed by [Stacks, Tag 0B4M].
+For a morphism that is neither flat nor supplied with `AffineChartFlatteningCentre`,
+`StrictTransformOpenImmersion` is supplied by
+`AlgebraicGeometry.strictTransformOpenImmersion_of_isIso_morphismRestrict`
+(`StacksFrontier/AlgebraicGeometry/Flatness/Compactification/StrictTransformOpenSubscheme.lean`),
+and [Stacks, Tag 081T] under the source's hypotheses is
+`AlgebraicGeometry.exists_isAdmissibleBlowup_dominating_of_affineCase`.
 
 ## Implementation notes
 
@@ -234,8 +236,10 @@ The inverse image of `U` in the blowup is the complement of the exceptional divi
 scheme-theoretically dense and retrocompact ([Stacks, Tag 07ZU]), and the strict transform is an
 isomorphism over it; so [Stacks, Tag 081M] applies.
 
-No `@[stacks 081S]` attribute: the flatness hypothesis is the conclusion of the cited
-[Stacks, Tag 081R], which this development does not prove. See the module documentation. -/
+No `@[stacks 081S]` attribute: the flatness hypothesis is the conclusion of
+[Stacks, Tag 081R] (proved as
+`AlgebraicGeometry.exists_isAdmissibleBlowup_flat_finitePresentation_strictTransform_of_affineCase`)
+rather than the hypotheses of tag 081S. See the module documentation. -/
 public theorem strictTransformOpenImmersion_of_flat_strictTransform (f : X ⟶ S) [IsSeparated f]
     [LocallyOfFiniteType f] (U : S.Opens) (I : S.IdealSheafData)
     (hIfp : FinitePresentation I.subschemeι) (hIU : U = I.support.compl)

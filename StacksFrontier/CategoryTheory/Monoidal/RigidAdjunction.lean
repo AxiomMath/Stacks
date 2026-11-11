@@ -41,6 +41,8 @@ of being a left dual of `X`.
 * `Adjunction.isIso_tensorEvaluation` and `ExactPairing.isIso_evaluation`: when `tensorRight X`
   is an equivalence the candidate evaluation of such an adjunction, and in particular the
   evaluation of an exact pairing on `X` and `Y`, is an isomorphism.
+* `ExactPairing.existsUnique_iso`: a left dual of `X` is unique up to unique isomorphism, the
+  isomorphism being the one compatible with the coevaluations and evaluations.
 
 ## References
 
@@ -277,11 +279,37 @@ def exactPairing (h : adj.IsTensorCompatible) : ExactPairing X Y where
 
 end Adjunction.IsTensorCompatible
 
+/-- **A left dual is unique up to unique isomorphism** (Stacks 0FFR, first assertion). If `Y₁`
+and `Y₂` are both left duals of `X`, i.e. `X` forms an exact pairing with each of them, there is
+exactly one isomorphism `e : Y₁ ≅ Y₂` compatible with the two pairings, that is, carrying the
+coevaluation `η₁ : 𝟙_ C ⟶ X ⊗ Y₁` to `η₂ : 𝟙_ C ⟶ X ⊗ Y₂` and the evaluation `ε₂ : Y₂ ⊗ X ⟶ 𝟙_ C`
+back to `ε₁ : Y₁ ⊗ X ⟶ 𝟙_ C`. The isomorphism is `CategoryTheory.rightDualIso`; uniqueness holds
+already among morphisms compatible with the coevaluations, by the bijection
+`tensorLeftHomEquiv`. -/
+@[stacks 0FFR]
+theorem ExactPairing.existsUnique_iso (X Y₁ Y₂ : C) [ExactPairing X Y₁] [ExactPairing X Y₂] :
+    ∃! e : Y₁ ≅ Y₂, η_ X Y₁ ≫ X ◁ e.hom = η_ X Y₂ ∧ e.hom ▷ X ≫ ε_ X Y₂ = ε_ X Y₁ := by
+  have key : ∀ f g : Y₁ ⟶ Y₂, η_ X Y₁ ≫ X ◁ f = η_ X Y₁ ≫ X ◁ g → f = g := fun f g h => by
+    have h' := congrArg (tensorLeftHomEquiv (𝟙_ C) X Y₁ Y₂).symm h
+    rw [tensorLeftHomEquiv_symm_coevaluation_comp_whiskerLeft,
+      tensorLeftHomEquiv_symm_coevaluation_comp_whiskerLeft] at h'
+    exact (cancel_epi _).mp h'
+  have hη : η_ X Y₁ ≫ X ◁ (rightDualIso ‹ExactPairing X Y₁› ‹ExactPairing X Y₂›).hom
+      = η_ X Y₂ := by
+    have h := @coevaluation_comp_rightAdjointMate C _ _ X X ⟨Y₂⟩ ⟨Y₁⟩ (𝟙 X)
+    rwa [MonoidalCategory.id_whiskerRight, Category.comp_id] at h
+  have hε : (rightDualIso ‹ExactPairing X Y₁› ‹ExactPairing X Y₂›).hom ▷ X ≫ ε_ X Y₂
+      = ε_ X Y₁ := by
+    have h := @rightAdjointMate_comp_evaluation C _ _ X X ⟨Y₂⟩ ⟨Y₁⟩ (𝟙 X)
+    rwa [MonoidalCategory.whiskerLeft_id, Category.id_comp] at h
+  exact ⟨_, ⟨hη, hε⟩, fun e he => Iso.ext (key _ _ (he.1.trans hη.symm))⟩
+
 end CategoryTheory
 
 /- Stacks 0FFR, first assertion: since `Z ↦ Z ⊗ Y` is a right adjoint of `Z' ↦ Z' ⊗ X` when `Y`
 is a left dual of `X`, uniqueness of adjoints makes a left dual unique up to unique isomorphism.
-Mathlib records the resulting isomorphism between two left duals of a fixed object; substituting
-`X₁ := Y₁`, `X₂ := Y₂`, `Y := X` in `leftDualIso` recovers the Stacks phrasing, in which `Y₁` and
-`Y₂` are the two left duals of `X`. -/
-add_to_stacks 0FFR CategoryTheory.leftDualIso
+Stacks' "`Y` is a left dual of `X`" is Mathlib's `ExactPairing X Y`, so two left duals `Y₁`, `Y₂`
+of `X` are compared by `rightDualIso : ExactPairing X Y₁ → ExactPairing X Y₂ → (Y₁ ≅ Y₂)`
+(Mathlib's `leftDualIso` is the mirror statement, for `ExactPairing Y₁ X` and `ExactPairing Y₂ X`).
+The uniqueness of that isomorphism is `CategoryTheory.ExactPairing.existsUnique_iso`. -/
+add_to_stacks 0FFR CategoryTheory.rightDualIso

@@ -34,7 +34,7 @@ Writing `⟸` for the converse of [Stacks, Tag 0B5V], `forall_of_hgeneric` leave
 `exists_isCoherent_supp_pushforward_eq_range` in
 `Stacks.AlgebraicGeometry.FiniteSurjectiveCoherentSupport`, and its ideal multiples come from
 [Stacks, Tag 01YP]
-(`Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`).
+(`Stacks.AlgebraicGeometry.PushforwardIdealSubsheaf.idealPowSmul_pushforward_eq`).
 
 The other inputs the converse uses are all in the library:
 

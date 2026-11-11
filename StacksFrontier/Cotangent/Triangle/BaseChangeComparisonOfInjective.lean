@@ -117,8 +117,8 @@ theorem baseChangedCotangentComplexIsoOfInjective_hom_comp (f : B ⟶ C)
 /-- **The identification of Remark 08SE is canonical**: it is the only isomorphism
 `Ω[Q̄_•⁄B] ⊗_{Q̄_•} C ≅ L_{C/B}` in `D(C)` whose composite with the first map of the comparison is
 the second. -/
-@[stacks 08SE "uniqueness of the identification: the only isomorphism whose composite with the \
-  first map of the comparison is the second, for B → C injective"]
+@[stacks 08SE "uniqueness of the identification: every isomorphism whose composite with the \
+  first map of the comparison is the second equals it, for B → C injective"]
 theorem eq_baseChangedCotangentComplexIsoOfInjective (f : B ⟶ C)
     (hf : Function.Injective f.hom)
     (e : DerivedCategory.Q.obj

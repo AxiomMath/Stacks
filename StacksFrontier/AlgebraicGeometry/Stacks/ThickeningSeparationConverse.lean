@@ -317,7 +317,6 @@ private instance isLocalAtTarget_fppf_of_fpqc
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is quasi-compact in the sense of Stacks 04XB (**Stacks 03HE**)
 if and only if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (d) of seventeen: quasi-compact"]
 theorem isQuasiCompact_relativeDiagonal_iff :
     Stack.IsQuasiCompact B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom ↔
       Stack.IsQuasiCompact B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer).hom :=
@@ -329,7 +328,6 @@ theorem isQuasiCompact_relativeDiagonal_iff :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is quasi-separated in the sense of Stacks 04XB (**Stacks 03HL**
 part (3)) if and only if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (g) of seventeen: quasi-separated"]
 theorem isQuasiSeparated_relativeDiagonal_iff :
     Stack.IsQuasiSeparated B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom ↔
       Stack.IsQuasiSeparated B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer).hom :=
@@ -343,7 +341,6 @@ theorem isQuasiSeparated_relativeDiagonal_iff :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is separated in the sense of Stacks 04XB (**Stacks 03HL** part
 (1)) if and only if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (h) of seventeen: separated"]
 theorem isSeparated_relativeDiagonal_iff :
     Stack.IsSeparated B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom ↔
       Stack.IsSeparated B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer).hom :=
@@ -357,7 +354,6 @@ theorem isSeparated_relativeDiagonal_iff :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is universally closed in the sense of Stacks 04XB
 (**Stacks 03HI** part (2)) if and only if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (e) of seventeen: universally closed"]
 theorem universallyClosed_relativeDiagonal_iff :
     Stack.UniversallyClosed B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom ↔
       Stack.UniversallyClosed B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer).hom :=
@@ -370,7 +366,6 @@ theorem universallyClosed_relativeDiagonal_iff :
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is universally open in the sense of Stacks 04XB
 (**Stacks 03Z2** part (2)) if and only if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (j) of seventeen: universally open"]
 theorem universallyOpen_relativeDiagonal_iff :
     HasRelativeProperty.{u, u, u + 1, u} B S hS (Space.universallyOpenMorphismProperty B S hS)
         (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom
@@ -410,7 +405,6 @@ theorem isSeparated_outer_of_inner (h : AlgebraicStacks.IsSeparated B S hS m.inn
 /-- For a morphism of thickenings `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the
 relative diagonal `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is proper in the sense of Stacks 04XB (**Stacks 03ZM**) if and
 only if `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (q) of seventeen: proper"]
 theorem isProper_relativeDiagonal_iff :
     Stack.IsProper B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom ↔
       Stack.IsProper B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer).hom :=

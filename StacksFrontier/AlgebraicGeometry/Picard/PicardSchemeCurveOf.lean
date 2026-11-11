@@ -120,8 +120,9 @@ theorem picardScheme_clauses_four_five_six_of (htw : TwistToNormalized' B hX hk 
   exact isBirational_curveAbelMap B hX hk f _ _ htw H hH
 
 include hproj in
-/-- **Clause (2)**: the `k`-points of `Pic^d_{X/k}` correspond to the isomorphism classes of
-invertible `𝒪_X`-modules of degree `d`. -/
+/-- The `k`-points of `Pic^d_{X/k}` and the isomorphism classes of invertible `𝒪_X`-modules of
+degree `d` are equipotent. This is weaker than clause (2) of [Stacks, Tag 0BA0], which says the
+natural map `Stacks.PicardFunctor.degreePointsEquiv'` is a bijection. -/
 theorem picardScheme_clause_two_of (htw : TwistToNormalized' B hX hk f hproj) (d : ℤ) :
     haveI := geometricallyIrreducible_of_isSepClosed B hX hk f
     haveI := isProjectiveVariety_of_isProjective B hX hk f hproj

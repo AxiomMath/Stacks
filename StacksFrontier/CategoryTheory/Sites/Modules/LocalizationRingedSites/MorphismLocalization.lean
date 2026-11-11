@@ -19,10 +19,12 @@ and `U = u(V)`, and let `f' : C/U → D/V` be the morphism of sites given by
 `O_U = j_U^{-1} O` and `j_U^# = 𝟙`.
 
 Then `(f')^# = j_V^{-1}(f^#)`, transported along the comparison isomorphism
-`f'_* j_U^{-1} ≅ j_V^{-1} f_*`, makes `f'` a morphism of ringed topoi; it is the unique map of
-sheaves of rings compatible with `f^#` under the localization identifications, so the square
-formed by `f`, `f'`, `j_U`, `j_V` commutes; and `f'_* j_U^* = j_V^* f_*` on sheaves of modules,
-while `f'_* j_U^{-1} ≅ j_V^{-1} f_*` for sheaves valued in any category.
+`f'_* j_U^{-1} ≅ j_V^{-1} f_*`, makes `f'` a morphism of ringed topoi, and it is the unique map of
+sheaves of rings whose transport across that comparison is `j_V^{-1}(f^#)`; moreover
+`f'_* j_U^* = j_V^* f_*` on sheaves of modules, while `f'_* j_U^{-1} ≅ j_V^{-1} f_*` for sheaves
+valued in any category.  The commutativity of the square of ringed topoi formed by `f`, `f'`,
+`j_U`, `j_V` is not stated in this bare model, which has no localization morphisms of ringed
+topoi; it is `AlgebraicGeometry.RingedSite.Hom.localizedRingedSquare`.
 
 ## Main definitions
 
@@ -36,16 +38,30 @@ while `f'_* j_U^{-1} ≅ j_V^{-1} f_*` for sheaves valued in any category.
 * `AlgebraicGeometry.RingedSite.MorphismLocalization.localizedStructureMap_comp_comparisonIso_hom`:
   `(f')^#` followed by the comparison isomorphism is `j_V^{-1}(f^#)`.
 * `AlgebraicGeometry.RingedSite.MorphismLocalization.eq_localizedStructureMap`: `(f')^#` is the
-  unique map with that property.
+  unique map with that property (a uniqueness statement about the formula for `(f')^#`, not the
+  commutativity of the square of Stacks 04J0).
 * `AlgebraicGeometry.RingedSite.MorphismLocalization.pushforward_overPullback_comm_modules`:
   `f'_* j_U^* = j_V^* f_*` as functors of sheaves of modules.
 * `AlgebraicGeometry.RingedSite.MorphismLocalization.nonempty_overPullback_pushforward_iso`:
   `f'_* j_U^{-1} ≅ j_V^{-1} f_*` for sheaves valued in any category.
 
+These are the general-category forms of the computations behind Stacks 04J0, for an arbitrary
+continuous `u` with `Over.post u` continuous.  Stacks 04J0 itself, for morphisms of ringed sites,
+is registered in
+`StacksFrontier/CategoryTheory/Sites/Localization/RingedSiteMorphismLocalization.lean`
+(`AlgebraicGeometry.RingedSite.Hom.localized`),
+`StacksFrontier/CategoryTheory/Sites/Modules/LocalizationRingedSites/LocalizedMorphism.lean`
+(`AlgebraicGeometry.RingedSite.Hom.localizedRingedSquare` and
+`AlgebraicGeometry.RingedSite.Hom.overPullback_comp_localizedPushforward`) and
+`Stacks.Cohomology.Localization.pushforwardTopos_comp_overFunctor`, where the continuity of
+`Over.post u` is proved rather than assumed.
+
 ## Implementation notes
 
 The continuity of `Over.post u` is an instance hypothesis, since Mathlib does not derive it from
-the continuity of `u`. The comparison isomorphism is built from
+the continuity of `u`; this repository does
+(`CategoryTheory.Functor.isContinuous_overPost_of_isContinuous`), and the registered forms of
+Stacks 04J0 listed above use that to drop the hypothesis. The comparison isomorphism is built from
 `Functor.sheafPushforwardContinuousComp'` and the functor equation
 `Over.post u ⋙ Over.forget U = Over.forget V ⋙ u` (`Over.post_forget_eq_forget_comp`), and it is
 the identity on each component. For a localization morphism `j^# = 𝟙`, so the module
@@ -157,22 +173,20 @@ equals `j_V^{-1}` applied to the structure map `f^# = α`.  This is the formal c
 the composite formula of part (1): up to the localization identifications
 `O'_V = j_V^{-1} O'`, `O_U = j_U^{-1} O` and the identity `f'_* j_U^{-1} = j_V^{-1} f_*`,
 the map `(f')^#` is `j_U^{-1}(f^#)`. -/
-@[stacks 04J0 "(1)"]
 theorem localizedStructureMap_comp_comparisonIso_hom :
     localizedStructureMap u JC JD V OC OD α ≫
         (localizationComparisonIso u JC JD V RingCat).hom.app OC
       = (JD.overPullback RingCat V).map α := by
   simp [localizedStructureMap_eq, localizationComparisonIso_hom_app]
 
-/-- **Part (2): commutativity of the square of ringed topoi.** With `(f')^#` chosen as in
-`localizedStructureMap`, the square of ringed topoi formed by `(f, f^#)`, `(f', (f')^#)`,
-`(j_U, j_U^#)`, `(j_V, j_V^#)` commutes.  The underlying square of topoi commutes by Stacks
-Lemma 7.28.1 (encoded by `localizationComparisonIso`); the new content is the
-compatibility of the structure-sheaf maps, namely that `(f')^#` is the *unique* map of
-sheaves of rings `g : O'_V ⟶ f'_* O_U` intertwining `f^#` with the localization
-identifications, i.e. satisfying `g ≫ cmp = j_V^{-1}(f^#)` (both `j_U^#`, `j_V^#` being
-identities).  Uniqueness expresses that the commuting choice of structure map is canonical. -/
-@[stacks 04J0 "(2)"]
+/-- **Uniqueness of the formula for `(f')^#`.** In this bare model, `localizedStructureMap` is
+the only map of sheaves of rings `g : O'_V ⟶ f'_* O_U` whose transport across the Tag 03CF
+comparison isomorphism is `j_V^{-1}(f^#)`.  Since that comparison is the identity on components
+(`localizationComparisonIso_hom_app`), this says no more than that `(f')^#` is determined by the
+formula `(f')^# = j_V^{-1}(f^#)`.  It is not the commutativity of the square of ringed topoi of
+Stacks 04J0, which involves the structure maps `j_U^#`, `j_V^#` of the localization morphisms
+(the units of `j^{-1} ⊣ j_*` at the structure sheaves, in pushforward form) and is stated as a
+2-isomorphism of the two composites by `AlgebraicGeometry.RingedSite.Hom.localizedRingedSquare`. -/
 theorem eq_localizedStructureMap
     (g : (JD.overPullback RingCat V).obj OD ⟶
           ((Over.post u).sheafPushforwardContinuous RingCat (JD.over V)
@@ -191,7 +205,6 @@ identity structure map, since `O_U = j_U^{-1} O`) and then push forward along `f
 `f^# = α`) and then restrict along `j_V`.  Because `j^# = id` for a localization morphism,
 `j_U^* = j_U^{-1}` and `j_V^* = j_V^{-1}` on modules, so this single equality realizes both
 functor identities of part (3) at the level of sheaves of modules. -/
-@[stacks 04J0 "(3)"]
 theorem pushforward_overPullback_comm_modules :
     SheafOfModules.pushforward (F := Over.forget (u.obj V))
         (𝟙 ((JC.overPullback RingCat (u.obj V)).obj OC))
@@ -209,7 +222,6 @@ level of sheaves valued in an arbitrary category `A` (in particular abelian shea
 `A := AddCommGrp`), the functors `f'_* ∘ j_U^{-1}` and `j_V^{-1} ∘ f_*` are canonically
 isomorphic, by `localizationComparisonIso`, the identification of functors of Stacks
 Lemma 7.28.1. -/
-@[stacks 04J0 "(3)"]
 theorem nonempty_overPullback_pushforward_iso (A : Type*) [Category A] :
     Nonempty
       ((JC.overPullback A (u.obj V) ⋙

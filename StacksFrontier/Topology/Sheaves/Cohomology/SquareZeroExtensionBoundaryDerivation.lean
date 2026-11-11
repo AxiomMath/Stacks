@@ -16,10 +16,15 @@ The `O`-action on `I` is the one the source describes: the map `O' → SheafHom(
 because `I·I = 0`, so it factors through `O`.  Concretely, a section `a` of `O` over `V` acts on
 a section `x` of `I` over `V` by multiplication by any local lift of `a` to `O'`; the result does
 not depend on the lift, and the local answers glue because `I` is a sheaf.  The boundary map is
-the one of Stacks 02AP: a global section `f` of `O` lifts to `O'` over the members of a covering
+built as in Stacks 02AP: a global section `f` of `O` lifts to `O'` over the members of a covering
 of `X`, the differences of the lifts form a Čech `1`-cocycle of `I`, and `∂(f)` is the class of
-that cocycle, transported to `H¹(X, I)` by the comparison of Stacks 01EQ.  The Leibniz rule is
-then the cocycle computation `f₀g₀ - f₁g₁ = (f₀ - f₁)g₀ + f₁(g₀ - g₁)` of the source.
+that cocycle, transported to `H¹(X, I)` by the comparison of Stacks 01EQ.  The cocycle used here
+is the Čech coboundary of the lifts, `(i₀, i₁) ↦ f̃_{i₁} - f̃_{i₀}`, which is the negative of the
+cocycle `(i₀, i₁) ↦ f̃_{i₀} - f̃_{i₁}` written in Stacks 02AP
+(`Stacks.Cohomology.CechBoundary.deltaCochain_eq_neg_cechD`); so `∂` is `-δ` for the source's
+`δ`.  Being a derivation is insensitive to this sign.  The Leibniz rule is then the cocycle
+computation `f₀g₀ - f₁g₁ = (f₀ - f₁)g₀ + f₁(g₀ - g₁)` of the source, where the subscript `k` of
+`f_k` labels the face omitting position `k`: `f₀` is the lift at `i₁` and `f₁` the lift at `i₀`.
 
 ## Main definitions
 
@@ -33,7 +38,8 @@ then the cocycle computation `f₀g₀ - f₁g₁ = (f₀ - f₁)g₀ + f₁(g�
 * `Stacks.Cohomology.SquareZeroBoundary.SquareZeroKernel.moduleCohomology` is the `R`-module
   structure on `M`.
 * `Stacks.Cohomology.SquareZeroBoundary.SquareZeroKernel.boundary` is the boundary map
-  `∂ : R → M`, and `…SquareZeroKernel.boundaryDerivation` is it as a derivation.
+  `∂ : R → M` in its Čech description, and `…SquareZeroKernel.boundaryDerivation` is it as a
+  derivation.
 
 ## Main results
 
@@ -62,15 +68,24 @@ which the source's hypothesis is used.  The same choice is made in
 `O`-action, the `R`-action or the boundary map is assumed: each of the three is constructed, and
 each is pinned by an equation (`incl_smul`, `smulCohomology_def`, `boundary_eq`).
 
-`O'` and `O` are presheaves of commutative rings and only `I` is a sheaf, because the sheaf
-condition is used only where sections of `I` are glued; the surjectivity of `π` enters as local
-surjectivity for the topology of open covers, which is exactly what exactness of
-`0 → I → O' → O → 0` at `O` gives.
+The construction of the `O`-action and of the Čech boundary map works for presheaves `O'` and
+`O` of commutative rings, since the sheaf condition is used just where sections of `I` are glued;
+the surjectivity of `π` enters as local surjectivity for the topology of open covers, which is
+exactly what exactness of `0 → I → O' → O → 0` at `O` gives.  The identification with the
+connecting morphism of cohomology is made for sheaves `O'` and `O`, as in the source, where the
+short exact sequence lives in abelian sheaves, in
+`StacksFrontier.Topology.Sheaves.Cohomology.SquareZeroExtensionConnecting`.  Rings are
+commutative, as everywhere in the Stacks Project.
 
 The boundary map is taken in its Čech description, which is how Stacks 02AP defines it: the
-class of the cocycle of differences of local lifts.  Identifying that class with the connecting
-morphism of the long exact sequence of right derived functors is the content Stacks 09V2 proves
-inside its own proof; it is not used here, and is not proved here either.
+class of the cocycle of differences of local lifts, with the opposite sign
+`(i₀, i₁) ↦ f̃_{i₁} - f̃_{i₀}` (the Čech coboundary of the lifts), so that `boundary` is the
+negative of the `δ` of Stacks 02AP.  That class is identified with the connecting
+morphism of the long exact sequence of the right derived functors of `Γ(X, -)` by
+`Stacks.Cohomology.CechOne.rightDerivedPlusδ_toRightDerivedZero`, which gives
+`Stacks.Cohomology.SquareZeroBoundary.SquareZeroKernel.boundary_eq_connecting`; the sign
+conventions match, the cocycle there being the Čech coboundary of the lifts as well.  So the
+derivation of Stacks 0B8S is the connecting morphism itself.
 
 ## References
 
@@ -835,7 +850,8 @@ theorem π_cechD_liftCochain (f : ToType (O.obj (op (⊤ : Opens X))))
   exact h1
 
 /-- The canonical Čech `1`-cochain of differences of the local lifts of a global section of `O`,
-as a cochain of the kernel.  This is the cocycle `α` of Stacks 0B8S. -/
+as a cochain of the kernel: its image in `O'` is the Čech coboundary of the lifts,
+`(i₀, i₁) ↦ f̃_{i₁} - f̃_{i₀}`, the negative of the cocycle `α` of Stacks 0B8S and 02AP. -/
 noncomputable def boundaryCochain (f : ToType (O.obj (op (⊤ : Opens X)))) :
     Cochain (E.boundaryCover f) I.presheaf 1 := fun j =>
   E.pre (inter (E.boundaryCover f) j)
@@ -869,15 +885,19 @@ theorem push_boundaryCocycle (f : ToType (O.obj (op (⊤ : Opens X)))) :
 
 /-- **The boundary map `∂ : H⁰(X, O) → H¹(X, I)`** of the short exact sequence
 `0 → I → O' → O → 0`, in the Čech description of Stacks 02AP: the class of the cocycle of
-differences of local lifts, transported to `H¹(X, I)` by the comparison of Stacks 01EQ. -/
+differences of local lifts, transported to `H¹(X, I)` by the comparison of Stacks 01EQ.  The
+cocycle is the Čech coboundary `(i₀, i₁) ↦ f̃_{i₁} - f̃_{i₀}` of the lifts, so this is the
+negative of the `δ` of Stacks 02AP, whose cocycle is `(i₀, i₁) ↦ f̃_{i₀} - f̃_{i₁}`. -/
 @[stacks 0B8S "the boundary map, in the Čech description of Stacks 02AP"]
 noncomputable def boundary (f : ToType (O.obj (op (⊤ : Opens X)))) : cohomologyOne I :=
   cechH1ToRightDerivedSections X ⊤ (E.boundaryCover f) (E.boundaryCover_iSup f) I
     (cls (E.boundaryCover f) I.presheaf (E.boundaryCocycle f))
 
 /-- **The boundary map is computed by the Čech cocycle of differences of local lifts, on every
-covering of `X` carrying such lifts.**  This is the characterization of Stacks 02AP: it pins the
-boundary map, and shows the canonical covering plays no role. -/
+covering of `X` with such lifts.**  This is the characterization of Stacks 02AP up to sign: the
+cocycle is the Čech coboundary `(i₀, i₁) ↦ f̃_{i₁} - f̃_{i₀}` of the lifts, the negative of the
+cocycle of Stacks 02AP.  It pins the boundary map, and shows the canonical covering plays no
+role. -/
 theorem boundary_eq {Λ : Type w} (f : ToType (O.obj (op (⊤ : Opens X))))
     (W : Λ → Opens X) (hW : (⊤ : Opens X) = ⨆ j, W j)
     (lift : Cochain W (addPresheaf O') 0)
@@ -993,7 +1013,9 @@ omit [HasSheafify (Opens.grothendieckTopology X) AddCommGrpCat.{max u v}] in
 of `g` over an open, let `α` and `β` be sections of the kernel with inclusions `a₀ - a₁` and
 `b₀ - b₁`, and let `γ` have inclusion `a₀b₀ - a₁b₁`.  Then `γ = α g + f β` for the `O`-module
 structure on the kernel.  This is the identity
-`f₀g₀ - f₁g₁ = (f₀ - f₁)g₀ + f₁(g₀ - g₁)` of the source. -/
+`f₀g₀ - f₁g₁ = (f₀ - f₁)g₀ + f₁(g₀ - g₁)` of the source.  In the application `a₀, b₀` are the lifts
+at the face omitting position `0` (the index `i₁`) and `a₁, b₁` those at `i₀`, so `α` is the value
+at `(i₀, i₁)` of the Čech coboundary `f̃_{i₁} - f̃_{i₀}`, the negative of the 02AP cocycle. -/
 theorem eq_smul_add_smul {V : Opens X} (f g : ToType (O.obj (op (⊤ : Opens X))))
     (a₀ a₁ b₀ b₁ : ToType (O'.obj (op V)))
     (hb₀ : E.π.app (op V) b₀ = rres le_top g) (ha₁ : E.π.app (op V) a₁ = rres le_top f)
@@ -1072,10 +1094,12 @@ theorem boundary_one : E.boundary (1 : ToType (O.obj (op (⊤ : Opens X)))) = 0 
   rw [mul_one, E.smulCohomology_one] at h
   rwa [eq_comm, add_eq_right] at h
 
-/-- **Stacks 0B8S.**  Let `X` be a topological space and `π : O' ⟶ O` a surjection of sheaves of
-commutative rings whose kernel `I` has square zero.  Then `M = H¹(X, I)` is a module over
-`R = H⁰(X, O)`, and the boundary map `∂ : R → M` of the short exact sequence
-`0 → I → O' → O → 0` is a derivation. -/
+/-- **Stacks 0B8S**, in the Čech description of the boundary map.  Let `X` be a topological
+space and `π : O' ⟶ O` a locally surjective morphism of presheaves of commutative rings whose
+kernel `I` is a sheaf of square zero.  Then `M = H¹(X, I)` is a module over `R = O(X)`, and the
+boundary map `∂ : R → M` of `0 → I → O' → O → 0` is a derivation.  For sheaves `O'` and `O` this
+`∂` is the connecting morphism of cohomology
+(`Stacks.Cohomology.SquareZeroBoundary.SquareZeroKernel.boundary_eq_connecting`). -/
 @[stacks 0B8S "the boundary map of the square-zero extension is a derivation"]
 noncomputable def boundaryDerivation :
     letI := E.moduleCohomology

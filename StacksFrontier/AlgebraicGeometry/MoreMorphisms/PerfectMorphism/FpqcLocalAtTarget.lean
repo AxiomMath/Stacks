@@ -20,18 +20,10 @@ import StacksCore.Tactic.EgaSgaAttribute
 A morphism of schemes is perfect if and only if its base change along every member of an fpqc
 covering of the target is perfect (Stacks 069B).
 
-## Main definitions
-
-* `AlgebraicGeometry.PerfectRingHom`: perfectness of a ring homomorphism, as a property of ring
-  maps in the sense of `RingHom.PropertyIsLocal`.
-
 ## Main results
 
-* `AlgebraicGeometry.hasRingHomProperty_perfect`: perfectness of a morphism of schemes is the
-  affine-local property attached to `AlgebraicGeometry.PerfectRingHom`, so it is Zariski local on
-  the source and on the target.
-* `AlgebraicGeometry.perfectRingHom_codescendsAlong_faithfullyFlat`: the algebra content, that
-  perfectness of a ring map descends along a faithfully flat base change.
+* `RingHom.Perfect.codescendsAlong_faithfullyFlat`: the algebra content, that perfectness of a
+  ring map descends along a faithfully flat base change.
 * `AlgebraicGeometry.perfect_descendsAlong_surjective_inf_flat_inf_quasiCompact`: perfectness of
   a morphism of schemes satisfies fpqc descent.
 * `AlgebraicGeometry.perfect_isLocalAtTarget_fpqc`: **Stacks 069B**.
@@ -42,18 +34,10 @@ The proof is the criterion `Stacks.Descent.isLocalAtTarget_fpqcPrecoverage` (Tag
 fpqc topology) at `P = AlgebraicGeometry.Perfect`, so it needs Zariski locality on the base,
 stability under flat base change, and descent along surjective flat quasi-compact morphisms.
 
-Zariski locality is obtained by exhibiting perfectness as an affine-local property of ring maps,
-which `AlgebraicGeometry.Perfect` is not set up as: its defining condition quantifies over an
-arbitrary certified derived tensor product, because this library has no canonical one. The
-property `AlgebraicGeometry.PerfectRingHom` splits that condition into its two halves,
-pseudo-coherence of the ring map and finite Tor dimension of the target, each of which is already
-a local property of ring maps — `RingHom.pseudoCoherent_isLocal` and
-`AlgebraicGeometry.finiteTorDimensionRingHom_propertyIsLocal` — so their conjunction is one by
-`RingHom.PropertyIsLocal.and`. That it agrees with the defining condition is
-`AlgebraicGeometry.hasFiniteTorDimensionRingHom_iff_forall`: both forms of finite Tor dimension
-are equivalent to the existence of a representative by a bounded complex of flat modules, which
-mentions no derived tensor product. Finite type, the remaining field of
-`AlgebraicGeometry.Perfect`, is implied by pseudo-coherence.
+Zariski locality is that of an affine-local property of ring maps:
+`AlgebraicGeometry.hasRingHomProperty_perfect` (in
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.PerfectMorphism.AffineLocal`) exhibits perfectness
+as the affine-local property attached to `RingHom.Perfect`, which mentions no derived category.
 
 Stability under flat base change is Tag 0688,
 `AlgebraicGeometry.perfect_of_isPullback_of_flat`; only *flat* base change is available, and it
@@ -66,9 +50,11 @@ of `A → C`. Finite type descends by
 presentation `A[x_1, …, x_n] ↠ C`; its base change `B[x_1, …, x_n] ↠ B ⊗_A C` is again surjective
 and `A[x_1, …, x_n] → B[x_1, …, x_n]` is again faithfully flat, because that square is a pushout
 and faithful flatness is stable under base change. Perfectness of `B ⊗_A C` as a
-`B[x_1, …, x_n]`-module is read off the ring map using that the fibres of `B → B[x_1, …, x_n]`
-have global dimension at most `n`, and it then descends to `C` over `A[x_1, …, x_n]` by Tag 068T,
-`StacksDraft.Perfect.isPerfect_of_faithfullyFlat_baseChange`.
+`B[x_1, …, x_n]`-module is Stacks 068Y at that presentation,
+`Algebra.Perfect.exists_finite_projective_resolution` read through Stacks 066Q, and it then
+descends to `C` over `A[x_1, …, x_n]` by Tag 068T,
+`StacksDraft.Perfect.isPerfect_of_faithfullyFlat_baseChange`; Stacks 068Y as worded,
+`Algebra.perfect_iff_exists_finite_projective_resolution`, turns this into perfectness of `A → C`.
 
 The two reductions of the geometric statement to the algebra one — from a general base to an
 affine one, and from a general source of the covering morphism to an affine one — are Mathlib's
@@ -101,116 +87,6 @@ attribute [local instance] HasDerivedCategory.standard
 
 namespace AlgebraicGeometry
 
-/-- Perfectness of a ring homomorphism: it is pseudo-coherent and its target has finite Tor
-dimension as a module over its source. -/
-public def PerfectRingHom {R S : Type u} [CommRing R] [CommRing S] (φ : R →+* S) : Prop :=
-  RingHom.PseudoCoherent φ ∧ HasFiniteTorDimensionRingHom φ
-
-/-- Perfectness of a ring homomorphism is a local property of ring maps. -/
-public theorem perfectRingHom_propertyIsLocal : RingHom.PropertyIsLocal @PerfectRingHom.{u} :=
-  RingHom.PropertyIsLocal.and RingHom.pseudoCoherent_isLocal
-    finiteTorDimensionRingHom_propertyIsLocal
-
-/-- Perfectness of the structure map of an algebra is perfectness of the ring map in the sense of
-Stacks 067H (2), at every certified derived tensor product on the source. -/
-public theorem perfectRingHom_algebraMap_iff {A B : Type u} [CommRing A] [CommRing B]
-    [Algebra A B] :
-    PerfectRingHom (algebraMap A B) ↔
-      ∀ D : CertifiedDerivedTensoring.{u, u} A,
-        RingHom.IsPerfectRingMap A B D.tensor D.comparison D.isLeftDerived := by
-  have h := hasFiniteTorDimensionRingHom_iff_forall (R := A) (S := B) (algebraMap A B)
-  rw [toAlgebra_algebraMap] at h
-  rw [PerfectRingHom, RingHom.pseudoCoherent_algebraMap, h]
-  exact ⟨fun hp D => ⟨hp.1, hp.2 D⟩,
-    fun hp => ⟨(hp (canonicalCertifiedDerivedTensoring A)).1, fun D => (hp D).2⟩⟩
-
-/-- Perfectness of a morphism of schemes is the affine-local property attached to perfectness of
-ring homomorphisms. -/
-public theorem perfect_eq_affineLocally :
-    (@Perfect.{u} : MorphismProperty Scheme.{u}) = affineLocally @PerfectRingHom.{u} := by
-  ext X S f
-  rw [affineLocally_iff_forall_isAffineOpen]
-  refine ⟨fun hf U hU V hV e => ?_, fun h => ?_⟩
-  · have h := Perfect.perfect_appLE f V hV U hU e
-    exact ⟨(h (canonicalCertifiedDerivedTensoring _)).1,
-      (hasFiniteTorDimensionRingHom_iff_forall _).mpr fun D => (h D).2⟩
-  · have hft : LocallyOfFiniteType f := by
-      rw [HasRingHomProperty.eq_affineLocally (P := @LocallyOfFiniteType),
-        affineLocally_iff_forall_isAffineOpen]
-      intro U hU V hV e
-      exact .of_finitePresentation (h hU hV e).1.finitePresentation
-    exact { toLocallyOfFiniteType := hft, perfect_appLE := fun U hU V hV hUV D =>
-      ⟨(h hV hU hUV).1, (hasFiniteTorDimensionRingHom_iff_forall _).mp (h hV hU hUV).2 D⟩ }
-
-/-- Perfectness of a morphism of schemes is the affine-local property attached to perfectness of
-ring homomorphisms, in the form `AlgebraicGeometry.HasRingHomProperty`. -/
-public instance hasRingHomProperty_perfect :
-    HasRingHomProperty (@Perfect.{u}) @PerfectRingHom.{u} where
-  isLocal_ringHomProperty := perfectRingHom_propertyIsLocal
-  eq_affineLocally' := perfect_eq_affineLocally
-
-/-- Perfectness of a morphism of schemes is Zariski local on the source. -/
-public instance perfect_isZariskiLocalAtSource :
-    IsZariskiLocalAtSource (@Perfect.{u}) :=
-  HasRingHomProperty.instIsZariskiLocalAtSource (Q := @PerfectRingHom.{u})
-
-/-- Perfectness of a morphism of schemes is Zariski local on the target. -/
-public instance perfect_isZariskiLocalAtTarget :
-    IsZariskiLocalAtTarget (@Perfect.{u}) :=
-  HasRingHomProperty.instIsZariskiLocalAtTarget _ (Q := @PerfectRingHom.{u})
-
-/-- Perfectness of a morphism of schemes is invariant under isomorphisms of the source and of the
-target. -/
-public instance perfect_respectsIso :
-    MorphismProperty.RespectsIso (@Perfect.{u}) :=
-  perfect_isZariskiLocalAtTarget.{u}.toRespects
-
--- Pseudo-coherence holds for every presentation; the polynomial fibre bound
--- upgrades it to perfectness using the finite Tor dimension of the ring map.
-private theorem isPerfectRingMap_perfectModule_of_polynomialPresentation
-    (A B : Type u) [CommRing A] [CommRing B] [Algebra A B]
-    (derivedTensor : DerivedCategory (ModuleCat.{u} A) ⥤
-      DerivedCategory (ModuleCat.{u} A) ⥤ DerivedCategory (ModuleCat.{u} A))
-    (comparison : ∀ N : ModuleCat.{u} A,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} A,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ)))
-    (n : ℕ) (α : MvPolynomial (Fin n) A →ₐ[A] B) (hα : Function.Surjective α)
-    (h : RingHom.IsPerfectRingMap A B derivedTensor comparison isLeftDerived) :
-    let : Module (MvPolynomial (Fin n) A) B := Module.compHom B α.toRingHom
-    StacksDraft.Perfect.IsPerfectModule (R := MvPolynomial (Fin n) A) B := by
-  obtain ⟨hfin, hpseudo⟩ :=
-    Algebra.pseudoCoherent_iff_exists_isModuleRelativelyPseudoCoherent.mp h.1
-  let := hfin
-  have hpseudo' := (StacksDraft.PseudoCoherence.pseudoCoherent_iff_all _).mpr
-    (fun m => hpseudo m n α hα)
-  obtain ⟨a, b, hamp⟩ := h.2
-  let : Module (MvPolynomial (Fin n) A) B := Module.compHom B α.toRingHom
-  have : Module.Flat A (MvPolynomial (Fin n) A) := Module.Flat.of_free
-  let F := ModuleCat.restrictScalars.{u} α.toRingHom
-  let G := ModuleCat.restrictScalars (algebraMap A (MvPolynomial (Fin n) A))
-  let K := F.mapDerivedCategory.obj
-    ((DerivedCategory.singleFunctor (ModuleCat.{u} B) 0).obj (ModuleCat.of B B))
-  let e₁ : K ≅ (DerivedCategory.singleFunctor (ModuleCat.{u} (MvPolynomial (Fin n) A)) 0).obj
-      (ModuleCat.of (MvPolynomial (Fin n) A) B) :=
-    (F.mapDerivedCategorySingleFunctor 0).app (ModuleCat.of B B)
-  let eR : G.mapDerivedCategory.obj K ≅
-      (DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj (ModuleCat.of A B) :=
-    G.mapDerivedCategory.mapIso e₁ ≪≫ RingHom.restrictScalarsSingleIso α
-  have hterm := StacksDraft.Perfect.hasTorAmplitudeIn_flatRepresentative_of_hasTorAmplitude
-    comparison isLeftDerived _ a b hamp
-  refine StacksDraft.Perfect.isPerfect_of_iso e₁.symm
-    (StacksDraft.Perfect.isPerfect_and_torAmplitude_of_flat_of_fibre_globalDimension_le
-      a b n (RingHom.polynomial_fibre_globalDimension_le A n) K hpseudo'
-      fun E hbdd hflat he => hterm E hbdd hflat (he.map fun e => eR.symm ≪≫ e)).1
-
 private theorem isPerfectModule_of_faithfullyFlat_baseChange
     {R S M N : Type u} [CommRing R] [CommRing S] [Algebra R S]
     [AddCommGroup M] [AddCommGroup N] [Module R M] [Module S N]
@@ -240,7 +116,7 @@ private theorem isPerfectModule_of_faithfullyFlat_baseChange
       (StacksDraft.Perfect.isPerfect_of_iso (F.mapDerivedCategoryFactors.app C).symm
         (StacksDraft.Perfect.isPerfect_of_iso e₁ hN)))
 
-private theorem perfectRingMap_of_faithfullyFlat_polynomialPresentation
+private theorem perfect_of_faithfullyFlat_polynomialPresentation
     (A B Q B' : Type u) [CommRing A] [CommRing B] [CommRing Q] [CommRing B']
     [Algebra A B] (n : ℕ) (α : MvPolynomial (Fin n) A →ₐ[A] B)
     (hα : Function.Surjective α)
@@ -250,56 +126,25 @@ private theorem perfectRingMap_of_faithfullyFlat_polynomialPresentation
     (hModule : (inferInstance : Module (MvPolynomial (Fin n) A) B) =
       Module.compHom B α.toRingHom)
     (e : (Q ⊗[MvPolynomial (Fin n) A] B) ≃ₗ[Q] B')
-    (hB' : StacksDraft.Perfect.IsPerfectModule (R := Q) B')
-    (derivedTensor : DerivedCategory (ModuleCat.{u} A) ⥤
-      DerivedCategory (ModuleCat.{u} A) ⥤ DerivedCategory (ModuleCat.{u} A))
-    (comparison : ∀ N : ModuleCat.{u} A,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} A,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ))) :
-    RingHom.IsPerfectRingMap A B derivedTensor comparison isLeftDerived := by
+    (hB' : StacksDraft.Perfect.IsPerfectModule (R := Q) B') :
+    Algebra.Perfect A B := by
   cases hModule
   let : Module (MvPolynomial (Fin n) A) B := Module.compHom B α.toRingHom
   let P := MvPolynomial (Fin n) A
   have hB : StacksDraft.Perfect.IsPerfectModule (R := P) B :=
     isPerfectModule_of_faithfullyFlat_baseChange (R := P) (S := Q) (M := B) (N := B')
       inferInstance e hB'
-  exact (RingHom.isPerfectRingMap_iff_exists_finite_projective_resolution
-    A B derivedTensor comparison isLeftDerived).2
-      ⟨n, α, hα, (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution
-        B).mp hB⟩
+  exact Algebra.perfect_iff_exists_finite_projective_resolution.mpr
+    ⟨n, α, hα, (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution
+      B).mp hB⟩
 
-private theorem perfectRingMap_of_faithfullyFlat_baseChange
+private theorem perfect_of_faithfullyFlat_baseChange
     {A B C D : Type u} [CommRing A] [CommRing B] [CommRing C] [CommRing D]
     [Algebra A B] [Algebra A C] [Algebra A D] [Algebra B D] [Algebra C D]
     [IsScalarTower A B D] [IsScalarTower A C D] [Algebra.IsPushout A B C D]
-    [Module.FaithfullyFlat A B]
-    (hBD : RingHom.IsPerfectRingMap B D
-      (canonicalCertifiedDerivedTensoring B).tensor
-      (canonicalCertifiedDerivedTensoring B).comparison
-      (canonicalCertifiedDerivedTensoring B).isLeftDerived)
-    (derivedTensorA : DerivedCategory (ModuleCat.{u} A) ⥤
-      DerivedCategory (ModuleCat.{u} A) ⥤ DerivedCategory (ModuleCat.{u} A))
-    (comparisonA : ∀ N : ModuleCat.{u} A,
-      DerivedCategory.Q ⋙
-          derivedTensorA.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerivedA : ∀ N : ModuleCat.{u} A,
-      (derivedTensorA.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} A) 0).obj N)).IsLeftDerivedFunctor
-        (comparisonA N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} A) (ComplexShape.up ℤ))) :
-    RingHom.IsPerfectRingMap A C derivedTensorA comparisonA isLeftDerivedA := by
-  have := hBD.1.equiv (Algebra.IsPushout.equiv A B C D).symm
+    [Module.FaithfullyFlat A B] [Algebra.Perfect B D] : Algebra.Perfect A C := by
+  have : Algebra.PseudoCoherent B (B ⊗[A] C) :=
+    .equiv inferInstance (Algebra.IsPushout.equiv A B C D).symm
   have : Algebra.FiniteType A C :=
     Algebra.FiniteType.of_finiteType_tensorProduct_of_faithfullyFlat B
   obtain ⟨n, α, hα⟩ :=
@@ -346,26 +191,20 @@ private theorem perfectRingMap_of_faithfullyFlat_baseChange
     ((Algebra.IsPushout.comm A B C D).mp inferInstance)
   have : Algebra.IsPushout P Q C D := .symm inferInstance
   have hBDperfect : StacksDraft.Perfect.IsPerfectModule (R := Q) D :=
-    isPerfectRingMap_perfectModule_of_polynomialPresentation B D
-      (canonicalCertifiedDerivedTensoring B).tensor
-      (canonicalCertifiedDerivedTensoring B).comparison
-      (canonicalCertifiedDerivedTensoring B).isLeftDerived
-      n β hβ hBD
-  exact perfectRingMap_of_faithfullyFlat_polynomialPresentation A C Q D n α hα rfl
-    (Algebra.IsPushout.equiv P Q C D).toLinearEquiv hBDperfect derivedTensorA comparisonA
-    isLeftDerivedA
+    (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution D).mpr
+      (Algebra.Perfect.exists_finite_projective_resolution β hβ)
+  exact perfect_of_faithfullyFlat_polynomialPresentation A C Q D n α hα rfl
+    (Algebra.IsPushout.equiv P Q C D).toLinearEquiv hBDperfect
 
 /-- **The algebra content of Stacks 069B**, as a statement about `RingHom.CodescendsAlong`:
 perfectness of ring maps codescends along faithfully flat ring maps. -/
-public theorem perfectRingHom_codescendsAlong_faithfullyFlat :
-    RingHom.CodescendsAlong @PerfectRingHom.{u} @RingHom.FaithfullyFlat := by
+public theorem _root_.RingHom.Perfect.codescendsAlong_faithfullyFlat :
+    RingHom.CodescendsAlong @RingHom.Perfect.{u, u} @RingHom.FaithfullyFlat := by
   intro R S R' S' _ _ _ _ _ _ _ _ _ _ _ _ hQ hP
   have : Module.FaithfullyFlat R R' := RingHom.faithfullyFlat_algebraMap_iff.mp hQ
   have : Algebra.IsPushout R R' S S' := Algebra.IsPushout.symm inferInstance
-  exact perfectRingHom_algebraMap_iff.mpr fun D =>
-    perfectRingMap_of_faithfullyFlat_baseChange (B := R') (D := S')
-      (perfectRingHom_algebraMap_iff.mp hP (canonicalCertifiedDerivedTensoring R'))
-      D.tensor D.comparison D.isLeftDerived
+  have : Algebra.Perfect R' S' := RingHom.perfect_algebraMap.mp hP
+  exact RingHom.perfect_algebraMap.mpr (perfect_of_faithfullyFlat_baseChange (B := R') (D := S'))
 
 /-- Perfectness is stable under flat base change, hypothesis (1) of Tag 02KP for the fpqc
 topology. This is Tag 0688 in the shape the criterion asks for. -/
@@ -385,7 +224,7 @@ private lemma perfect_of_pullback_fst_Spec {R S T : CommRingCat.{u}}
     (hfst : Perfect (pullback.fst f g)) : Perfect g := by
   have := perfect_respectsIso.{u}
   refine of_pullback_fst_Spec_of_codescendsAlong (@Perfect.{u}) (@Surjective ⊓ @Flat)
-    perfectRingHom_codescendsAlong_faithfullyFlat (fun {_ _ φ} hφ => ?_)
+    RingHom.Perfect.codescendsAlong_faithfullyFlat (fun {_ _ φ} hφ => ?_)
     (fun {_ _ _} => HasRingHomProperty.Spec_iff (P := (@Perfect.{u}))) hf hfst
   have _ : Surjective (Spec.map φ) := hφ.1
   rw [RingHom.FaithfullyFlat.iff_flat_and_comap_surjective]

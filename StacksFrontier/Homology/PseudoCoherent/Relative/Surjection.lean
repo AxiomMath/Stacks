@@ -48,7 +48,7 @@ private theorem isRelativelyPseudoCoherentFrom_iff_of_flat_aux {R A : Type u} [C
     (K : DerivedCategory (ModuleCat.{u} A)) (m : ℤ) :
     IsRelativelyPseudoCoherentFrom (R := R) K m ↔ IsPseudoCoherentFrom K m := by
   have hA := Algebra.pseudoCoherent_iff_isModuleRelativelyPseudoCoherent.mp
-    (RingHom.isPerfectRingMap_of_flat_of_finitePresentation R A).1
+    (Algebra.PseudoCoherent.of_flat_of_finitePresentation R A)
   exact (relativelyPseudoCoherent_iff_of_comp (R := R) (A := A) (B := A) hA K m).1.symm.trans
     (isRelativelyPseudoCoherentFrom_self_iff K m)
 

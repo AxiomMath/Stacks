@@ -399,9 +399,6 @@ all of its cohomology sheaves are quasi-coherent, for every base-change datum.
 This is Stacks 0GZR, `isQC_iff_hasQuasicoherentCohomology`: a morphism of affine étale charts is
 flat on the underlying affine schemes, so the restriction maps of `𝒪_F` are flat
 (`AlgebraicGeometry.Space.flat_affineEtaleChartRings_map`). -/
-@[stacks 0H06 "the equivalence of (3) D_QCoh(X_affine, O_X) and (4) QC(X_affine, O_X), as an \
-equality of the two conditions on an object of D(X_affine, O_X), with O_X the structure sheaf of \
-D_QCoh(O_X) restricted to the affine charts"]
 theorem isQC_iff_hasQuasicoherentCohomology_affineEtaleChartChaotic
     (bc : BaseChangeData.{w} (affineEtaleRingRestriction B S hS F hF).obj)
     (K : DMod.{w} (affineEtaleRingRestriction B S hS F hF).obj) :
@@ -416,7 +413,6 @@ theorem isQC_iff_hasQuasicoherentCohomology_affineEtaleChartChaotic
 `D(F_{affine}, 𝒪_F)`, by
 `AlgebraicGeometry.Space.isQC_iff_hasQuasicoherentCohomology_affineEtaleChartChaotic`, and the
 equivalence is the identity on objects. -/
-@[stacks 0H06 "the equivalence of (3) D_QCoh(X_affine, O_X) and (4) QC(X_affine, O_X)"]
 noncomputable def affineEtaleChartChaoticQuasicoherentQCEquivalence :
     affineEtaleChartChaoticQuasicoherentDerivedCategory.{u, w} B S hS F hF ≌
       QC.{w} (affineEtaleBaseChangeData.{u, w} B S hS F hF) :=
@@ -469,8 +465,6 @@ identified with `D_QCoh(F_{affine,étale}, 𝒪_F)`
 target with `D_QCoh(F_{affine}, 𝒪_F)`
 (`AlgebraicGeometry.Space.affineEtaleChartChaoticQuasicoherentQCEquivalence`). That its functor
 is `Rε_*` is `affineEtaleChartQuasicoherentDerivedChaoticEquivalence_functor_comp_ι`. -/
-@[stacks 0H06 "the equivalence of (2) D_QCoh(X_affine_etale, O_X) and (3) D_QCoh(X_affine, O_X), \
-given by Rε_* for the change of topology ε from the etale to the chaotic topology"]
 noncomputable def affineEtaleChartQuasicoherentDerivedChaoticEquivalence :
     affineEtaleChartQuasicoherentDerivedCategory.{u, w} B S hS F hF ≌
       affineEtaleChartChaoticQuasicoherentDerivedCategory.{u, w} B S hS F hF :=
@@ -502,8 +496,6 @@ categories, and it preserves and reflects quasi-coherence
 (`AlgebraicGeometry.Space.isQuasicoherentOnSite_affineEtaleModulePushforward_iff`), so that
 equivalence matches the two subcategories. Its functor is the derived functor of restriction,
 `quasicoherentDerivedAffineEtaleChartEquivalence_functor_obj_obj`. -/
-@[stacks 0H06 "the equivalence of (1) D_QCoh(O_X) and (2) D_QCoh(X_affine_etale, O_X), induced \
-by restriction to the affine charts"]
 noncomputable def quasicoherentDerivedAffineEtaleChartEquivalence :
     QuasicoherentDerivedCategory.{u, max (u + 1) w} B S hS F hF ≌
       affineEtaleChartQuasicoherentDerivedCategory.{u, w} B S hS F hF :=
@@ -569,7 +561,11 @@ charts (`AlgebraicGeometry.Space.quasicoherentDerivedAffineEtaleChartEquivalence
 `(2) ≌ (3)` given by `Rε_*` for the change of topology from the étale to the chaotic topology
 (`AlgebraicGeometry.Space.affineEtaleChartQuasicoherentDerivedChaoticEquivalence`), and
 `(3) ≌ (4)` the identity of the common full subcategory of `D(F_{affine}, 𝒪_F)`
-(`AlgebraicGeometry.Space.affineEtaleChartChaoticQuasicoherentQCEquivalence`). -/
+(`AlgebraicGeometry.Space.affineEtaleChartChaoticQuasicoherentQCEquivalence`).  The tag is
+registered here, for the equivalences, and in
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineEtaleQuasicoherentDerivedChainTriangulated.lean`, for
+the triangulated structure of the four categories and the exactness of the three equivalences;
+the three component equivalences above are not registered separately. -/
 @[stacks 0H06 "the chain of equivalences (1) ≃ (2) ≃ (3) ≃ (4)"]
 noncomputable def quasicoherentDerivedAffineEtaleChain :
     (QuasicoherentDerivedCategory.{u, max (u + 1) w} B S hS F hF ≌

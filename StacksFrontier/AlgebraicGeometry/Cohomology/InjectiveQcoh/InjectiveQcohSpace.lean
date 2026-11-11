@@ -53,8 +53,11 @@ are Artinian direct images along the composites `Z_i ⟶ U ⟶ X`.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.exists_filtered_colimit_artinian_pushforwards_retract`:
-  **Stacks 09TJ**, granted `ChartArtinianPresentation` at the affine surjective étale chart.
+* `AlgebraicGeometry.Space.exists_filtered_colimit_artinian_pushforwards_retract`: the
+  reduction of Stacks 09TJ to `ChartArtinianPresentation` at the affine surjective étale chart.
+  Stacks 09TJ itself, with every chart input proved, is
+  `AlgebraicGeometry.Space.exists_filtered_colimit_artinian_pushforwards_retract_of_isNoetherian`
+  in `UnconditionalArtinianPresentation.lean` of this directory.
 * `AlgebraicGeometry.Space.isArtinianPushforward_modulePushforward`: an Artinian direct image
   stays one after a further direct image, by the composition comparison of Stacks 03LU.
 * `AlgebraicGeometry.Space.faithful_quasicoherentPullbackOfIsEtale`: the inverse image of
@@ -83,36 +86,36 @@ together with the assertion that it is colimiting, which needs no instance.  "Di
 `CategoryTheory.Retract`, a morphism into the colimit split by a retraction; in an additive
 category this is exactly the splitting off of a direct summand.
 
-`AlgebraicGeometry.Space.ChartArtinianPresentation` bundles the inputs the argument cannot
-discharge, each of them a result of the Stacks project that this library has only conditionally
-or not at all:
+`AlgebraicGeometry.Space.ChartArtinianPresentation` bundles the inputs the argument needs at
+the chart, which this file takes as a hypothesis so that the reduction is independent of how
+they are proved:
 
 * `pushforwardQuasicoherent` is Stacks 03M9 for the chart: the direct image of a quasi-coherent
-  module along `j` is quasi-coherent.  The library has Stacks 03M9 only granted the exact
-  sequence of Stacks 03M8 over the affine charts of the target
-  (`AlgebraicGeometry.Space.pushforward_isQuasicoherentOnSite_of_chartwiseKernel`).  Without it
-  there is no functor `QCoh(𝒪_U) ⥤ QCoh(𝒪_X)` to transport the colimit along.
+  module along `j` is quasi-coherent.  Without it there is no functor `QCoh(𝒪_U) ⥤ QCoh(𝒪_X)`
+  to transport the colimit along.
 * `enoughInjectives` is Stacks 077V for the chart: `QCoh(𝒪_U)` has enough injectives.  This is
-  what embeds `j^*J` into an injective object, and the library does not have it.
+  what embeds `j^*J` into an injective object.
 * `pushforwardPreservesFilteredColimits` is Stacks 07U6 for the chart, read in `QCoh`: the
-  direct image along `j` preserves filtered colimits of quasi-coherent modules.  Since
-  `QCoh(𝒪_X)` is not known to be closed under the ambient colimits of modules, the statement in
-  the ambient category would not suffice, and it is stated for the restricted functor.
-* `artinianPresentation` is Stacks 09TI transported to the chart: every injective object of
-  `QCoh(𝒪_U)` admits an Artinian direct image presentation.  Stacks 09TI is available in this
-  library (`AlgebraicGeometry.exists_filtered_colimit_pushforwards_artinian`) but in *Zariski*
-  vocabulary, for the quasi-coherent modules on the scheme `U` in the sense of Mathlib's
-  `SheafOfModules.isQuasicoherent`, whereas the chart's `QCoh` is on the small étale site.
-  Comparing the two is Stacks 03DX, which this library does not have; see the section "What this
-  does not give" of
-  `StacksFrontier/AlgebraicGeometry/Spaces/ChartRestrictionQuasicoherent.lean`.  The field asks
-  only for a *retract* of the colimit, which is weaker than the conclusion of Stacks 09TI (there
-  the injective object *is* the colimit) and is all the argument consumes.
+  direct image along `j` preserves filtered colimits of quasi-coherent modules.  It is stated for
+  the restricted functor, which is what the argument consumes.
+* `artinianPresentation` is Stacks 09TI at the chart: every injective object of `QCoh(𝒪_U)` is
+  a retract of a filtered colimit of Artinian direct images over `U`.  The field asks only for a
+  *retract* of the colimit, which is weaker than the conclusion of Stacks 09TI (there the
+  injective object *is* the colimit) and is all the argument consumes.
+
+All four are proved at an affine locally Noetherian chart of a quasi-separated algebraic space by
+`AlgebraicGeometry.Space.chartArtinianPresentation_of_isAffine` (in
+`StacksFrontier/AlgebraicGeometry/Cohomology/InjectiveQcoh/NoetherianInjectiveEtaleAcyclicity.lean`)
+together with
+`AlgebraicGeometry.Space.preservesFilteredColimitsOfSize_chartQuasicoherentPushforward_of_isAffine`,
+which is how
+`AlgebraicGeometry.Space.exists_filtered_colimit_artinian_pushforwards_retract_of_isNoetherian`
+obtains Stacks 09TJ from the reduction here.
 
 The hypothesis of the main theorem is quantified over affine surjective étale charts with
 locally Noetherian source, so that the chart produced by Stacks 03H6 and the local Noetherianity
 of its source are proved here and not assumed; the antecedents are exactly the properties of the
-chart that make the five inputs legitimate.
+chart that make the four inputs legitimate.
 
 ## References
 
@@ -170,8 +173,8 @@ theorem isArtinianPushforward_modulePushforward (j : Y ⟶ X)
 /-- The direct image of Stacks 03LU along a morphism `j : Y ⟶ X` of algebraic spaces, restricted
 to the quasi-coherent modules of Stacks 03G9, granted that it preserves quasi-coherence.
 
-The hypothesis is the content of Stacks 03M9 for `j`, which this library has only
-conditionally. -/
+The hypothesis is the content of Stacks 03M9 for `j`; for a quasi-compact and quasi-separated
+`j` it is `AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePushforward_of_qcqs`. -/
 noncomputable def chartQuasicoherentPushforward (j : Y ⟶ X)
     (hqc : ∀ M : QuasicoherentSheaves.{u, u} B S hS Y.1 Y.2,
       ((modulePushforward B S hS j).obj M.obj).IsQuasicoherentOnSite) :
@@ -180,7 +183,7 @@ noncomputable def chartQuasicoherentPushforward (j : Y ⟶ X)
   ObjectProperty.lift _ (ObjectProperty.ι _ ⋙ modulePushforward B S hS j) hqc
 
 /-- The inputs at an étale chart `j : Y ⟶ X` of an algebraic space that the proof of Stacks 09TJ
-consumes and that this library cannot supply, bundled.
+consumes, bundled.
 
 The fields are, in order: Stacks 03M9 for `j`; Stacks 077V for the source; Stacks 07U6 for `j`
 read in the quasi-coherent categories; and Stacks 09TI transported to the chart, which is the
@@ -307,34 +310,19 @@ theorem exists_filtered_colimit_artinian_pushforwards_retract_of_chart
     fun i => isArtinianPushforward_modulePushforward B S hS j (hart i),
     ⟨isColimitOfPreserves _ hc⟩, ⟨hretJ.trans (hretJ'.map _)⟩⟩
 
-/-- **Stacks 09TJ**, granted `AlgebraicGeometry.Space.ChartArtinianPresentation` at the affine
-surjective étale chart of Stacks 03H6.
+/-- The chart reduction of Stacks 09TJ: the conclusion of Stacks 09TJ for a Noetherian `X`,
+from `AlgebraicGeometry.Space.ChartArtinianPresentation` at every affine surjective étale chart
+with locally Noetherian source.  Those inputs are all proved in
+`AlgebraicGeometry.Space.chartArtinianPresentation_of_isAffine` and
+`AlgebraicGeometry.Space.preservesFilteredColimitsOfSize_chartQuasicoherentPushforward_of_isAffine`,
+and Stacks 09TJ itself is
+`AlgebraicGeometry.Space.exists_filtered_colimit_artinian_pushforwards_retract_of_isNoetherian`.
 
 Let `X` be a Noetherian algebraic space over a scheme `S` of a big fppf site.  Every injective
 object `J` of the category `QCoh(𝒪_X)` of quasi-coherent modules on the small étale site of `X`
 is a direct summand — a retract — of a filtered colimit of quasi-coherent modules of the form
 `(Z_i ⟶ X)_* 𝒢_i` with `Z_i` the spectrum of an Artinian ring and `𝒢_i` a coherent module on
 `Z_i`. -/
-@[stacks 09TJ "Granted four inputs at the affine surjective étale chart `j : U ⟶ X` of
-Stacks 03H6, bundled as the hypothesis `ChartArtinianPresentation`: (1) Stacks 03M9 for `j`,
-that `j_*` of a quasi-coherent module is quasi-coherent, which this library has only granted
-the exact sequence of Stacks 03M8 over the affine charts of the target; (2) Stacks 077V for the
-chart, that `QCoh(𝒪_U)` has enough injectives, which this library has only granted the four
-closure and smallness inputs of `Spaces/QuasicoherentGrothendieck.lean`; (3) Stacks 07U6 for
-`j` read in `QCoh`, that `j_*` preserves filtered colimits of quasi-coherent modules — the
-library's Stacks 07U6 is about `R^p f_*` of abelian sheaves and does not transport without the
-missing identification of colimits in `QCoh` with the ambient ones; and (4) Stacks 09TI
-transported to the chart. Input (4) is the real gap: Stacks 09TI is formalized here as
-`AlgebraicGeometry.exists_filtered_colimit_pushforwards_artinian`, but in Zariski vocabulary
-for the quasi-coherent modules on the scheme `U`, whereas the chart's `QCoh` is on the small
-étale site, and the comparison of the two is Stacks 03DX, which this library does not have.
-Granted those four the conclusion is proved in full and is not weakened: the production of the
-affine surjective étale chart from Stacks 03H6, the local Noetherianity of its source, the
-quasi-coherence of `j^*J`, the monomorphy of the transposed map `J ⟶ j_*J'` — by faithfulness
-of `j^*` along a surjective étale chart, which is unconditional here — the splitting of that
-monomorphism by injectivity of `J`, which is the whole content of Stacks 09TJ beyond
-Stacks 09TI, and the identification of `j_*` of the colimit as a filtered colimit of direct
-images along the composites `Z_i ⟶ U ⟶ X` are all proved here."]
 theorem exists_filtered_colimit_artinian_pushforwards_retract
     (hZ : B.Contains (⊤_ Scheme.{u})) (X : AlgebraicSpaces B S hS)
     (hX : IsNoetherian B S hS hZ X.1)

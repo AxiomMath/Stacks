@@ -23,19 +23,26 @@ would carry the tag at its properties (b) and (f).
 **Neither clause below is registered.** Both carry the three hypotheses of the library's Stacks
 07VT, and one of them, `h07SQ`, is Stacks 07SQ with no bound on the index set, which is false in
 this development: an index as large as the site's size cutoff can have the empty algebraic space
-as its limit with no affine stage. The `@[stacks 0BPV …]` attributes these two lemmas carried were
-therefore removed; the clauses need the unconditional descent of affineness along a thickening
-of algebraic spaces, which is absent.
+as its limit with no affine stage. The Stacks 0BPV registrations these two lemmas carried were
+therefore removed. The unconditional forms of both clauses are
+`AlgebraicGeometry.Stack.isAffineHom_relativeDiagonal_inner_iff_outer` and
+`AlgebraicGeometry.Stack.isIntegralHom_relativeDiagonal_inner_iff_outer` in
+`StacksFrontier.AlgebraicGeometry.Stacks.ThickeningDiagonalAffine`, which use the unconditional
+cancellation of affineness against a surjective closed immersion of algebraic spaces; the full
+statement of Stacks 0BPV is
+`AlgebraicGeometry.Stack.thickeningMorphism_relativeDiagonal_inner_iff_outer`.
 
 ## What these two clauses assume, and what they do not
 
 The space-level cancellation for affineness is *conditional*: parts (1) and (5) of Stacks 09ZY
 rest on **Stacks 07VT**, that an algebraic space receiving a surjective universally closed
-morphism from an affine scheme is affine, which this library registers conditionally at
+morphism from an affine scheme is affine, which this library proves outright as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`;
+the clauses below go through its conditional form
 `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`. Its three
 hypotheses `h09YA`, `h07SQ` and `hFinitePresentation` are carried verbatim through the square
 forms into the two clauses below, where they are used for nothing else. **Both clauses are
-therefore exactly as conditional as Stacks 07VT and no more**, unlike the eight clauses of this
+therefore exactly as conditional as that form and no more**, unlike the eight clauses of this
 tag carried in `StacksFrontier.AlgebraicGeometry.Stacks.ThickeningDiagonal` and
 `…Stacks.ThickeningSeparationConverse`, which assume nothing.
 
@@ -44,10 +51,13 @@ hypotheses; the implication to them is a cancellation along the square and is un
 engine consumes exactly the conditional implication — the cancellation of the property off the
 front of `Δ ≫ k ≅ i ≫ Δ'` is the square form read at an identity right-hand inclusion, which is
 its `mp` direction — so both halves of each clause below inherit the hypotheses as parameters,
-and neither clause is available unconditionally.
+and neither clause below is unconditional by this route (the unconditional forms use a
+different cancellation; see above).
 
-**Stacks 07VT is awaited, not absent, and these two clauses become unconditional when it
-lands.** None of the three hypotheses can be discharged against the library *as it stands*:
+**Stacks 07VT is now proved outright**, as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`,
+so these two clauses can be made unconditional by routing them through it. None of the three
+hypotheses can be discharged against the library *as it stands*:
 no declaration of this library registers Stacks 07SQ, 09YA, 084Z or 07VP, in either of the two
 forms this project uses — the `@[stacks …]` attribute and the `add_to_stacks` command, the second
 of which no search for the first will find — where `h07SQ` is the conclusion of Stacks 07SQ and
@@ -55,7 +65,7 @@ of which no search for the first will find — where `h07SQ` is the conclusion o
 the third paragraph of the proof of Stacks 07VS, which runs through Stacks 07SU, 07SK, 084Z,
 07SN and 07VP — the first, second and fourth of those being proved and the other two not. Each of
 07VT, 09YA, 07SQ and 07SU is formalized elsewhere in the project, so the conditionality here is a
-question of order, not of mathematics: once Stacks 07VT is available unconditionally, the three
+question of order, not of mathematics: with Stacks 07VT available unconditionally, the three
 parameters come off by substitution, since they are passed straight through to
 `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed` and used for
 nothing else.
@@ -91,6 +101,11 @@ happens once, at the level of morphisms of algebraic spaces, inside Stacks 09ZY 
 
 ## Why clause (a), representability by schemes, is not here
 
+Clause (a) is proved by a different route, in
+`StacksFrontier.AlgebraicGeometry.Stacks.ThickeningDiagonalRepresentable`
+(`AlgebraicGeometry.Stack.isRepresentableMorphism_relativeDiagonal_inner_iff_outer`); what
+follows explains only why this engine does not reach it.
+
 Clause (a) of Stacks 0BPV has its space-level cancellation too — Stacks 09ZY part (9), the
 representability companion of
 `AlgebraicGeometry.Space.isAffineHom_iff_isAffineHom_of_isClosedImmersion_square` in the same
@@ -123,9 +138,9 @@ through **Stacks 04XC**, and that is exactly where the locality instance enters.
 * `AlgebraicGeometry.Stack.hasRelativeProperty_integral_of_isThickening`: the same for
   integrality, a closed immersion of algebraic spaces being integral.
 * `AlgebraicGeometry.Stack.isAffineHom_relativeDiagonal_iff`: **Stacks 0BPV** at its property
-  (b), affineness.
+  (b), affineness, on the three hypotheses of Stacks 07VT.
 * `AlgebraicGeometry.Stack.isIntegralHom_relativeDiagonal_iff`: **Stacks 0BPV** at its property
-  (f), integrality.
+  (f), integrality, on the same hypotheses.
 
 ## Implementation notes
 

@@ -351,21 +351,6 @@ quasi-separated schemes with equivalent categories of quasi-coherent modules are
 This is the statement above with the affine open cover of `X` deleted: `X` is covered by its own
 affine opens, `AlgebraicGeometry.iSup_affineOpens_eq_top`, and that family is indexed by
 `AlgebraicGeometry.Scheme.affineOpens`, a type in the same universe. -/
-@[stacks 0GPJ "the SCHEME HALF of the tag's conclusion, unconditionally: `X` and `Y` \
-quasi-compact and quasi-separated and an equivalence of their categories of quasi-coherent \
-modules give an isomorphism of schemes `Y ≅ X`.  No cover, no affineness, no invertible module \
-and no further hypothesis of any kind beyond qcqs.  This is the step the Stacks source dismisses \
-with \"We omit the details\", carried out: the charts are matched \
-(`ReconstructionGlobalForm.lean`), they cover `Y` (`ReconstructionCover.lean:164`), they agree on \
-overlaps in both directions \
-(`ReconstructionOverlapCompatible.lean:256`, `ReconstructionGlobalSchemeIso.lean:223`) because \
-the matched pair is rigid (`ReconstructionRigidity.lean:141`), and they glue \
-(`ReconstructionGluedIso.lean:113`).  The MODULE half — 0GPJ also asserts a single invertible \
-`𝒪_Y`-module `L` with `e(F) ≅ f^*F ⊗ L` — is NOT produced here: it is \
-`isInvertible_map_quasicoherentUnit_of_quasicoherentEquivalence` \
-(`ReconstructionGlobalModule.lean`), the module being `e(𝒪_X)`, and the comparison of functors \
-is `exists_natIso_pullbackTensorFunctor_of_quasicoherentEquivalence` \
-(`ReconstructionGlobalComparison.lean`).  Nothing in this statement assumes either"]
 theorem exists_schemeIso_of_quasicoherentEquivalence {X Y : Scheme.{u}} [CompactSpace X]
     [QuasiSeparatedSpace X] [CompactSpace Y] [QuasiSeparatedSpace Y]
     (e : (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory ≌

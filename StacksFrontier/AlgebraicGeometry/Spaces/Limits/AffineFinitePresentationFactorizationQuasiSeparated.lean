@@ -45,6 +45,10 @@ All declarations are in the namespace `AlgebraicGeometry.Space`.
   the factorization for a space over `Spec ℤ` carrying a presented Noetherian approximation.
 * `exists_affine_isLocallyOfFinitePresentation_factorization_of_isAbsolutelyQuasiSeparated`: the
   factorization for a quasi-separated algebraic space over any base scheme.
+* `exists_affine_isLocallyOfFinitePresentation_factorization_of_quasiSeparated_factorization`:
+  the factorization for an arbitrary algebraic space `Y`, given a factorization of an affine
+  open neighbourhood of `z` through a quasi-separated algebraic space locally of finite
+  presentation over `Y`.
 * `exists_affine_etale_isLocallyOfFinitePresentation_separation_of_isAbsolutelyQuasiSeparated`:
   Stacks 0CM8, including the refinement for `Z` a scheme, for `Y` quasi-separated.
 
@@ -341,6 +345,41 @@ theorem exists_affine_isLocallyOfFinitePresentation_factorization_of_isAbsolutel
       exact hfac'
     simp only [relocalizeChart] at key
     exact Λ.map_injective ((Iso.cancel_iso_inv_left _ _ _).1 key)
+
+/-- The factorization of an affine open neighbourhood of `z` through an affine scheme locally of
+finite presentation over `Y`, for an *arbitrary* algebraic space `Y`, from a factorization of an
+affine open neighbourhood `V₁` of `z` through a quasi-separated algebraic space `X'` locally of
+finite presentation over `Y`: the quasi-separated case applied to `V₁ ⟶ X'` gives an affine
+`U` locally of finite presentation over `X'`, hence over `Y`, receiving a smaller affine open
+neighbourhood of `z`. -/
+theorem exists_affine_isLocallyOfFinitePresentation_factorization_of_quasiSeparated_factorization
+    (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) (hZ : B.Contains (⊤_ Scheme.{u}))
+    {Y X' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {Z₀ V₁ : BigFppfOver B S hS}
+    (hY : IsAlgebraicSpace B S hS Y) (hX' : IsAlgebraicSpace B S hS X')
+    (hX'qs : IsAbsolutelyQuasiSeparated B S hS hZ X') (ψ : X' ⟶ Y)
+    (hψ : IsLocallyOfFinitePresentation B S hS ψ)
+    (g : yoneda.obj Z₀ ⟶ Y) (z : points B S hS (yoneda.obj Z₀))
+    (p₁ : V₁ ⟶ Z₀) (hp₁ : AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map p₁))
+    (v₁ : points B S hS (yoneda.obj V₁)) (hv₁ : pointsMap B S hS _ (yoneda.map p₁) v₁ = z)
+    (β : yoneda.obj V₁ ⟶ X') (hβ : β ≫ ψ = yoneda.map p₁ ≫ g) :
+    ∃ (U V : BigFppfOver B S hS) (ι : yoneda.obj U ⟶ Y) (pV : V ⟶ Z₀)
+      (v : points B S hS (yoneda.obj V)) (α₀ : V ⟶ U),
+      IsAffine ((BigFppfOver.toScheme B S hS).obj U) ∧
+      IsLocallyOfFinitePresentation B S hS ι ∧
+      IsAffine ((BigFppfOver.toScheme B S hS).obj V) ∧
+      AlgebraicGeometry.IsOpenImmersion ((BigFppfOver.toScheme B S hS).map pV) ∧
+      pointsMap B S hS (yoneda.obj V) (yoneda.map pV) v = z ∧
+      yoneda.map pV ≫ g = yoneda.map α₀ ≫ ι := by
+  obtain ⟨U, V, ι, pV, v, α₀, hU, hι, hV, hpV, hv, hfac⟩ :=
+    exists_affine_isLocallyOfFinitePresentation_factorization_of_isAbsolutelyQuasiSeparated
+      B S hS hZ hX' hX'qs β v₁
+  refine ⟨U, V, ι ≫ ψ, pV ≫ p₁, v, α₀, hU,
+    isLocallyOfFinitePresentation_comp B S hS (isAlgebraicSpace_yoneda B S hS U) hX' hY ι ψ hι hψ,
+    hV, ?_, ?_, ?_⟩
+  · rw [(BigFppfOver.toScheme B S hS).map_comp]
+    exact AlgebraicGeometry.IsOpenImmersion.comp _ _
+  · rw [yoneda.map_comp, pointsMap_comp_apply, hv, hv₁]
+  · rw [yoneda.map_comp, Category.assoc, ← hβ, ← Category.assoc, hfac, Category.assoc]
 
 section Separation
 

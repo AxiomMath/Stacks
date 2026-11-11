@@ -516,9 +516,10 @@ end
 
 /-! ### Stacks 00PM
 
-Stacks 00PM — a finite type ring map `R → S` is quasi-finite iff every residue-field fibre
-`S ⊗_R κ(p)` is finite over `κ(p)` — is Mathlib's `Algebra.quasiFinite_iff`, which already
-carries the tag upstream (and which needs no finite-type hypothesis). -/
+Stacks 00PM — a finite type ring map `R → S` is quasi-finite (00PL: quasi-finite at every prime
+of `S`) iff every residue-field fibre `S ⊗_R κ(p)` is finite over `κ(p)` — is
+`forall_quasiFiniteAt_iff_forall_finite_fiber` below, at the end of this file. Mathlib's tag on
+`Algebra.quasiFinite_iff` only unfolds the definition of `Algebra.QuasiFinite`. -/
 
 @[expose] public section
 set_option linter.unusedVariables false
@@ -1077,5 +1078,123 @@ theorem moduleFinite_fiber_iff_finite_primeSpectrum
     rw [← Algebra.QuasiFinite.iff_of_isArtinianRing (R := p.ResidueField),
         Algebra.QuasiFinite.iff_finite_comap_preimage_singleton]
     exact fun _ => Set.toFinite _
+
+/-- **Stacks 00PM.** Let `R → S` be a finite type ring map. Then `R → S` is quasi-finite, i.e.
+quasi-finite at every prime `q` of `S` (Stacks 00PL), if and only if for every prime `p` of `R`
+the fibre ring `S ⊗_R κ(p)` is finite over `κ(p)`. -/
+@[stacks 00PM "Quasi-finiteness at `q` is `Algebra.QuasiFiniteAt R q`, which for a finite type
+map is the 00PK condition `q̄` isolated in its fibre
+(`quasiFiniteAt_comap_includeRight_iff_isOpen_singleton`); `S ⊗_R κ(p)` is `p.Fiber S`.
+The source's finite type ring map is `[Algebra.FiniteType R S]`, which is also the finite type
+part of 00PL's definition. Proved from 0H8X fibre by fibre."]
+theorem forall_quasiFiniteAt_iff_forall_finite_fiber
+    {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] [Algebra.FiniteType R S] :
+    (∀ (q : Ideal S) [q.IsPrime], Algebra.QuasiFiniteAt R q) ↔
+      ∀ (p : Ideal R) [p.IsPrime], Module.Finite p.ResidueField (p.Fiber S) := by
+  refine ⟨fun H p _ ↦ (quasiFiniteAt_forall_iff_finite_fiber p).mp fun q _ _ ↦ H q,
+    fun H q _ ↦ (quasiFiniteAt_forall_iff_finite_fiber (q.comap (algebraMap R S))).mpr
+      (H _) q rfl⟩
+
+/-- For a finite type ring map `R → S`, being quasi-finite at every prime of `S` is Mathlib's
+`Algebra.QuasiFinite R S` (Stacks 00PM together with `Algebra.quasiFinite_iff`). -/
+theorem forall_quasiFiniteAt_iff_quasiFinite
+    {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] [Algebra.FiniteType R S] :
+    (∀ (q : Ideal S) [q.IsPrime], Algebra.QuasiFiniteAt R q) ↔ Algebra.QuasiFinite R S :=
+  forall_quasiFiniteAt_iff_forall_finite_fiber.trans (Algebra.quasiFinite_iff R S).symm
+
+end
+
+/-! ### Stacks 00PL
+
+Definition 00PL: let `R → S` be of finite type and `𝔮` a prime of `S`. (1) `R → S` is
+*quasi-finite at `𝔮`* when the equivalent conditions of Lemma 00PK hold, the first of which is
+that `𝔮` is an isolated point of its fibre. (2) A ring map `A → B` is *quasi-finite* when it is
+of finite type and quasi-finite at every prime of `B`.
+
+Mathlib's `Algebra.QuasiFinite R S`, which carries the tag upstream, asks instead that every
+fibre `κ(𝔭) ⊗_R S` be finite over `κ(𝔭)` and does not ask that `S` be of finite type over `R`;
+Mathlib's `Algebra.QuasiFiniteAt R 𝔮` asks that `S_𝔮` be quasi-finite over `R`, which is the
+source's notion (1) only for `S` of finite type. Here are the source's two notions,
+`Algebra.StacksQuasiFiniteAt` and `Algebra.StacksQuasiFinite`, and the bridges:
+`Algebra.stacksQuasiFiniteAt_iff_quasiFiniteAt` (for `S` of finite type, (1) is
+`Algebra.QuasiFiniteAt`), `Algebra.stacksQuasiFinite_iff` ((2) is finite type together with
+Mathlib's `Algebra.QuasiFinite`) and `Algebra.stacksQuasiFinite_iff_forall_finite_fiber`
+(Lemma 00PM in the source's own terms: for `S` of finite type, (2) holds iff every fibre
+`S ⊗_R κ(𝔭)` is finite over `κ(𝔭)`).
+
+The fibre is the subspace `comap (algebraMap R S) ⁻¹' {𝔭}` of `Spec S`, homeomorphic to
+`Spec (κ(𝔭) ⊗_R S)` by `PrimeSpectrum.preimageHomeomorphFiber`, as in
+`Algebra.isOpen_singleton_fiber_tfae_of_finiteType` (Lemma 00PK), whose condition (1) is the
+defining condition of `Algebra.StacksQuasiFiniteAt`; the other five conditions of 00PK are
+equivalent to it by that lemma.
+-/
+
+@[expose] public section
+
+namespace Algebra
+
+variable (R : Type*) {S : Type*} [CommRing R] [CommRing S] [Algebra R S]
+
+/-- **Stacks 00PL (1).** For a ring map `R → S` (of finite type, in the source) and a prime `𝔮`
+of `S`, `R → S` is quasi-finite at `𝔮` when `𝔮` is an isolated point of its fibre, the subspace
+of `Spec S` of the primes lying over `𝔮 ∩ R`: this is condition (1) of Lemma 00PK, equivalent to
+the other five by `Algebra.isOpen_singleton_fiber_tfae_of_finiteType`. -/
+@[stacks 00PL "(1). The fibre is the subspace `comap (algebraMap R S) ⁻¹' {𝔮 ∩ R}` of `Spec S`
+and the condition is 00PK (1), `𝔮` isolated in it. For `S` of finite type over `R` this is
+Mathlib's `Algebra.QuasiFiniteAt R 𝔮`, by `Algebra.stacksQuasiFiniteAt_iff_quasiFiniteAt`."]
+def StacksQuasiFiniteAt (q : PrimeSpectrum S) : Prop :=
+  IsOpen (X := PrimeSpectrum.comap (algebraMap R S) ⁻¹' {q.comap (algebraMap R S)}) {⟨q, rfl⟩}
+
+variable (S) in
+/-- **Stacks 00PL (2).** A ring map `R → S` is quasi-finite when it is of finite type and
+quasi-finite at every prime of `S` in the sense of (1), `Algebra.StacksQuasiFiniteAt`. -/
+@[stacks 00PL "(2). Equivalent to finite type together with Mathlib's `Algebra.QuasiFinite R S`
+(which does not include finite type), by `Algebra.stacksQuasiFinite_iff`."]
+def StacksQuasiFinite : Prop :=
+  Algebra.FiniteType R S ∧ ∀ q : PrimeSpectrum S, StacksQuasiFiniteAt R q
+
+/-- **Stacks 00PL (1), bridge.** For `R → S` of finite type, `R → S` is quasi-finite at `𝔮` in
+the source's sense (`𝔮` isolated in its fibre) iff it is in Mathlib's sense
+(`Algebra.QuasiFiniteAt`: `S_𝔮` is quasi-finite over `R`). -/
+@[stacks 00PL "(1), for `R → S` of finite type, in Mathlib's language."]
+theorem stacksQuasiFiniteAt_iff_quasiFiniteAt [Algebra.FiniteType R S] (q : PrimeSpectrum S) :
+    StacksQuasiFiniteAt R q ↔ Algebra.QuasiFiniteAt R q.asIdeal :=
+  (quasiFiniteAt_iff_isOpen_singleton_fiber q).symm
+
+/-- **Stacks 00PL (2), bridge.** A ring map `R → S` is quasi-finite in the source's sense (of
+finite type and quasi-finite at every prime) iff it is of finite type and quasi-finite in
+Mathlib's sense (every fibre `κ(𝔭) ⊗_R S` finite over `κ(𝔭)`). -/
+@[stacks 00PL "(2), in Mathlib's language: `Algebra.QuasiFinite` together with finite type."]
+theorem stacksQuasiFinite_iff :
+    StacksQuasiFinite R S ↔ Algebra.FiniteType R S ∧ Algebra.QuasiFinite R S := by
+  refine ⟨fun ⟨hft, h⟩ ↦ ⟨hft, ?_⟩, fun ⟨hft, _⟩ ↦ ⟨hft, fun q ↦ ?_⟩⟩
+  · -- Every point of each fibre is isolated, so each fibre is discrete; it is quasi-compact,
+    -- being homeomorphic to the spectrum of `κ(𝔭) ⊗_R S`; hence each fibre is finite.
+    rw [QuasiFinite.iff_finite_comap_preimage_singleton]
+    intro x
+    have : DiscreteTopology (PrimeSpectrum.comap (algebraMap R S) ⁻¹' {x}) := by
+      refine discreteTopology_iff_isOpen_singleton.mpr ?_
+      rintro ⟨q, hq⟩
+      obtain rfl : q.comap (algebraMap R S) = x := hq
+      exact h q
+    have : CompactSpace (PrimeSpectrum.comap (algebraMap R S) ⁻¹' {x}) :=
+      (PrimeSpectrum.preimageHomeomorphFiber R S x).symm.compactSpace
+    have : Finite (PrimeSpectrum.comap (algebraMap R S) ⁻¹' {x}) := finite_of_compact_of_discrete
+    exact Set.toFinite _
+  · -- Quasi-finiteness passes to the localization `S_𝔮`, which is `Algebra.QuasiFiniteAt`.
+    exact (stacksQuasiFiniteAt_iff_quasiFiniteAt R q).mpr inferInstance
+
+variable (S) in
+/-- **Stacks 00PM.** Let `R → S` be a ring map of finite type. Then `R → S` is quasi-finite (in
+the source's sense, Definition 00PL (2)) iff for every prime `𝔭` of `R` the ring `S ⊗_R κ(𝔭)` is
+finite over `κ(𝔭)`. -/
+@[stacks 00PM "Stated for the source's notion `Algebra.StacksQuasiFinite`; the fibre
+`S ⊗_R κ(𝔭)` is `𝔭.Fiber S = κ(𝔭) ⊗_R S`."]
+theorem stacksQuasiFinite_iff_forall_finite_fiber [Algebra.FiniteType R S] :
+    StacksQuasiFinite R S ↔
+      ∀ (𝔭 : Ideal R) [𝔭.IsPrime], Module.Finite 𝔭.ResidueField (𝔭.Fiber S) := by
+  rw [stacksQuasiFinite_iff, and_iff_right ‹_›, quasiFinite_iff]
+
+end Algebra
 
 end

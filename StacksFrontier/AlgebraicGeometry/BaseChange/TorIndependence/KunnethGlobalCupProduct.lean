@@ -124,9 +124,9 @@ tensor comparison of that one-point comparison is invertible because it is the `
 isomorphism of bifunctors, and affineness of the base supplies the invertibility of the unit and
 of the counit on the quasi-coherent part, which is the Spec–Γ equivalence of
 [Stacks, Tag 06Z0]. -/
-@[stacks 0FLQ "the global conclusion, over an affine base, at the fibre product of two \
-schemes, for the canonical global cup product of Section 0FKU and with no hypothesis beyond the \
-tag's own"]
+@[stacks 0FLQ "second statement: under the same hypotheses with S affine, the global Künneth \
+map (0G7V) RΓ(X, K) ⊗^L_A RΓ(Y, M) → RΓ(X ×_S Y, Lp^*K ⊗^L Lq^*M), built from the cup product \
+of Section 0FKU, is an isomorphism"]
 theorem isIso_kunnethGlobalMapScheme
     [IsAffine S] [QuasiCompact a] [QuasiSeparated a] [QuasiCompact b] [QuasiSeparated b]
     (hTor : TorIndependent a b)

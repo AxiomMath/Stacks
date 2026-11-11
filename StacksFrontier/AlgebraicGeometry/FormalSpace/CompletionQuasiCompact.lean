@@ -15,12 +15,13 @@ algebraic spaces over `S` and let `T` be a set of points of `X`. **Stacks 0GDE**
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.isQuasiCompact_completionSheafMap`: **Stacks 0GDE**, with
-  quasi-compactness of `f_{/T}` in the form of Bootstrap, Definition 03XZ.
-* `AlgebraicGeometry.FormalSpace.isQuasiCompact_completionSheafMap_of_agreesOnAlgebraicSpaces`:
-  the same with quasi-compactness read as `AlgebraicGeometry.FormalSpace.IsQuasiCompact`, the
-  form of Stacks 0AJC, granted the agreement of the two notions of a quasi-compact space on an
-  algebraic space.
+* `AlgebraicGeometry.FormalSpace.isQuasiCompact_completionSheafMap`: if `f` is quasi-compact,
+  then `f_{/T}` is representable by algebraic spaces and quasi-compact in the sense of
+  Bootstrap, Definition 03XZ.
+
+**Stacks 0GDE** itself, with quasi-compactness of `f_{/T}` in the sense of Stacks 0AJC, is
+`AlgebraicGeometry.FormalSpace.isQuasiCompact_completionSheafMap_of_isQuasiCompact` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.CompletionQuasiCompactIff`.
 
 ## Implementation notes
 
@@ -49,21 +50,15 @@ argument there.
 The quasi-compactness delivered is the Bootstrap one: `f_{/T}` is representable by algebraic
 spaces and each of its base changes along a scheme-valued point of its target is a
 quasi-compact morphism of algebraic spaces. For a morphism representable by algebraic spaces
-that is the quasi-compactness of Stacks 0AJC,
-`AlgebraicGeometry.FormalSpace.IsQuasiCompact`, by Stacks 0AM2,
-`AlgebraicGeometry.FormalSpace.isQuasiCompact_iff_hasPropertyULift`; but the proof of that
-equivalence rests on the agreement of the two notions of a quasi-compact space on an algebraic
-space, `AlgebraicGeometry.FormalSpace.QuasiCompactSpaceAgreesOnAlgebraicSpaces`, which this
-library does not carry — the direction needed here asks for an *affine formal* algebraic space
-mapping étale and surjectively onto a quasi-compact algebraic space, where the affine étale
-atlas of Stacks 03H6 supplies only an affine scheme in the site, and recognising that as an
-affine formal algebraic space is a further step. So that agreement is the hypothesis of
-`isQuasiCompact_completionSheafMap_of_agreesOnAlgebraicSpaces`, which states the conclusion in
-the form of Stacks 0AJC.
+this is equivalent to the quasi-compactness of Stacks 0AJC,
+`AlgebraicGeometry.FormalSpace.IsQuasiCompact`, by Stacks 0AM2; the form of Stacks 0AJC is
+proved directly from the completion square in
+`AlgebraicGeometry.FormalSpace.isQuasiCompact_completionSheafMap_of_isQuasiCompact`, which
+carries the tag 0GDE.
 
 Closedness of `T` is not used: it is what makes the two completions formal algebraic spaces,
-which neither the Bootstrap condition nor the condition of Stacks 0AJC refers to, so the
-statements are proved for an arbitrary set of points, as are the results of
+which the Bootstrap condition does not refer to, so the statement is proved for an arbitrary
+set of points, as are the results of
 `StacksFrontier.AlgebraicGeometry.FormalSpace.Completion`.
 
 ## References
@@ -128,21 +123,15 @@ private theorem hasPropertyULift_whiskerRight_of_isQuasiCompact
     (Iso.inv_comp_eq hsq.isoPullback).mpr hsq.isoPullback_hom_fst.symm
   exact heq ▸ Space.isQuasiCompactULift_precomp.{u + 1} B S hS hsq.isoPullback.symm _ hql
 
-/-! ### Stacks 0GDE -/
+/-! ### Stacks 0GDE in the form of Stacks 03XZ -/
 
-/-- **Stacks 0GDE.** Let `f : X' ⟶ X` be a morphism of algebraic spaces over `S` and let `T`
-be a set of points of `X`. If `f` is quasi-compact, then the induced morphism of completions
-`f_{/T} : X'_{/|f|⁻¹ T} ⟶ X_{/T}` is quasi-compact: it is representable by algebraic spaces
-and each of its base changes along a scheme-valued point of its target is a quasi-compact
-morphism of algebraic spaces. -/
-@[stacks 0GDE "quasi-compactness of `f_{/T}` in the form of Bootstrap, Definition 03XZ: \
-`f_{/T}` is representable by algebraic spaces and each of its base changes along a \
-scheme-valued point of its target is a quasi-compact morphism of algebraic spaces. For a \
-morphism representable by algebraic spaces this is the quasi-compactness of Stacks 0AJC by \
-Stacks 0AM2, whose proof needs the agreement of the two notions of a quasi-compact space on \
-an algebraic space, `QuasiCompactSpaceAgreesOnAlgebraicSpaces`, which this library does not \
-carry; `isQuasiCompact_completionSheafMap_of_agreesOnAlgebraicSpaces` is the conclusion in \
-the form of Stacks 0AJC granted that agreement"]
+/-- **Stacks 0GDE in the form of Bootstrap, Definition 03XZ.** Let `f : X' ⟶ X` be a morphism
+of algebraic spaces over `S` and let `T` be a set of points of `X`. If `f` is quasi-compact, then
+the induced morphism of completions `f_{/T} : X'_{/|f|⁻¹ T} ⟶ X_{/T}` is representable by
+algebraic spaces and each of its base changes along a scheme-valued point of its target is a
+quasi-compact morphism of algebraic spaces. The statement of Stacks 0GDE, with
+quasi-compactness in the sense of Stacks 0AJC, is
+`AlgebraicGeometry.FormalSpace.isQuasiCompact_completionSheafMap_of_isQuasiCompact`. -/
 theorem isQuasiCompact_completionSheafMap
     {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX' : IsAlgebraicSpace B S hS X') (hX : IsAlgebraicSpace B S hS X)
@@ -192,42 +181,6 @@ theorem isQuasiCompact_completionSheafMap
       (by simp) (by simp) hcomm (by simp)
   exact ⟨Space.isRepresentableByAlgebraicSpacesULift_of_isPullback B S hS _ _ _ _ hp hlarge,
     Space.hasPropertyULift_of_isPullback B S hS hp hlarge hprop⟩
-
-/-! ### The conclusion in the form of Stacks 0AJC -/
-
-/-- **Stacks 0GDE** with quasi-compactness of `f_{/T}` read as
-`AlgebraicGeometry.FormalSpace.IsQuasiCompact`, the form of Stacks 0AJC — every fibre product
-of `f_{/T}` with an affine scheme over `S` in the site mapping to its target is a
-quasi-compact formal algebraic space over `S` — granted the agreement of the two notions of a
-quasi-compact space on an algebraic space as the hypothesis `hagree`. That fibre product is an
-algebraic space because `f_{/T}` is representable by algebraic spaces, and it is a
-quasi-compact one because the Bootstrap condition makes the projection to the affine scheme a
-quasi-compact morphism and an affine scheme in the site is a quasi-compact algebraic space; so
-`hagree` turns it into a quasi-compact formal algebraic space. -/
-theorem isQuasiCompact_completionSheafMap_of_agreesOnAlgebraicSpaces
-    (hagree : QuasiCompactSpaceAgreesOnAlgebraicSpaces B S hS)
-    {X' X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
-    (hX' : IsAlgebraicSpace B S hS X') (hX : IsAlgebraicSpace B S hS X)
-    (f : X' ⟶ X) (T : Set (Space.points B S hS X))
-    (hf : Space.IsQuasiCompact B S hS f) :
-    IsQuasiCompact B S hS (Space.completionSheafMap B S hS f T) := by
-  obtain ⟨hrep, hprop⟩ := isQuasiCompact_completionSheafMap B S hS hX' hX f T hf
-  intro T₀ hT₀ g W p q sq
-  have hsq : IsPullback p.hom q.hom g.hom (Space.completionSheafMap B S hS f T).hom :=
-    sq.map (sheafToPresheaf (BigFppfOver.topology B S hS) (Type (u + 1)))
-  refine (hagree W (Space.isAlgebraicSpaceULift_of_iso B S hS hsq.isoPullback.symm
-    (hrep T₀ g.hom))).mpr ?_
-  have hT₀qc : Space.IsQuasiCompactSpaceULift.{u + 1} B S hS
-      ((uliftYoneda.{u + 1}).obj T₀) :=
-    (Space.isQuasiCompactSpaceULift_comp_uliftFunctor_iff B S hS (yoneda.obj T₀)).mpr
-      (Space.isQuasiCompactSpace_yoneda_obj B S hS
-        (@Scheme.compactSpace_of_isAffine ((BigFppfOver.toScheme B S hS).obj T₀) hT₀))
-  refine Space.isQuasiCompactSpaceULift_of_iso B S hS hsq.isoPullback.symm ?_
-  refine Space.isQuasiCompactSpaceULift_of_iso B S hS
-    (IsPullback.of_id_snd (f := pullback.fst g.hom
-      (Space.completionSheafMap B S hS f T).hom)).isoPullback.symm ?_
-  exact hprop T₀ g.hom _ (Space.isAlgebraicSpaceULift_uliftYoneda.{u + 1} B S hS T₀)
-    hT₀qc (𝟙 _)
 
 end AlgebraicGeometry.FormalSpace
 

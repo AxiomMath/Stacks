@@ -53,8 +53,8 @@ Everything lives in the namespace `Crystalline.GlobalCrystallineSituation.SmallS
 ## What is and is not proved
 
 **No tag attribute is placed here.**  [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.  What falls here, in the reduction with named
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.  What falls here, in the reduction with named
 hypotheses, is `hrow0`. The connections of the cosimplicial degrees and the row homotopy
 equivalence of [Stacks, Lemma 60.20.2, Tag 07LD] are untouched.
 

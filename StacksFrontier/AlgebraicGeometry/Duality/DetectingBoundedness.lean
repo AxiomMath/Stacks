@@ -85,13 +85,7 @@ spectral sequence, and the uniform vanishing bound of [Stacks, Tag 071L] (in thi
 out here.
 
 **What is owed for [Stacks, Tag 0GEM] beyond what is proved.** Only that a perfect object on a
-quasi-compact scheme is bounded above, and that is a gap the repository already records: the
-`@[stacks 0G03]` note on
-`Stacks.AlgebraicGeometry.exists_mem_forall_stalkHomology_isZero_of_hom_residueFieldSkyscraper`
-(in `StacksFrontier/AlgebraicGeometry/DerivedVarieties/DeducingFullyFaithfulness/`)
-says in as many words that "a perfect object of `D(𝒪_X)` in the sense of
-`Stacks.Cohomology.PerfectComplexes.IsPerfect` is bounded with coherent cohomology" is not bridged
-in the library. What is available is the local form, [Stacks, Tag 0FEP] as
+quasi-compact scheme is bounded above. What is available is the local form, [Stacks, Tag 0FEP] as
 `Stacks.AlgebraicGeometry.PerfectCohomology.locally_finite_homology`
 (`StacksFrontier/AlgebraicGeometry/Perfect/PseudoCoherentComplex/LocallyFiniteCohomology.lean`), and
 a global form under a Noetherian hypothesis,

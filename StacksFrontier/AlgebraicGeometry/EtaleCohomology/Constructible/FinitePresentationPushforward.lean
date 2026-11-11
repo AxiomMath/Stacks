@@ -140,7 +140,11 @@ over an affine open `U` the restriction of `p_*ℱ` is the direct image of the r
 along the base change of `p` to `U`, which is again finite and of finite presentation; there the
 source's reduction applies: base change along the surjection of Stacks 095K (1) (Stacks 095Q (1)
 and 0959), replace the pullback by its finite étale thickening (the unit of a finite universal
-homeomorphism is an isomorphism), and conclude by Stacks 095H. -/
+homeomorphism is an isomorphism), and conclude by Stacks 095H.
+
+The special case of a finite universal homeomorphism,
+`AlgebraicGeometry.isConstructibleSetSheaf_pushforward_of_universalHomeomorphism`, carries no
+registration. -/
 @[stacks 095R "sheaves of sets",
   sga "4 IX 2.14" "(i), sets variant",
   sga "4 XIV 1.1" "special case",

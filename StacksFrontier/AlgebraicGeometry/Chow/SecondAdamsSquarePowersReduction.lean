@@ -52,27 +52,14 @@ sibling predicate `Stacks.SheafOfModules.ExteriorPowersData` of
 `StacksFrontier.AlgebraicGeometry.WeilCohomology.LambdaOperations` already isolates, in all degrees,
 for the lambda operations.
 
-## What remains open
+## Status of the three fields
 
-`SquarePowersCore` has three fields, and all three are genuinely missing from the library:
-
-* `classOf_tensorSelf`, the class identity of `0 → ⋀² ℰ → ℰ ⊗ ℰ → Sym² ℰ → 0`. This is the
-  most elementary of the three — the sequence is exact for a free module over any commutative
-  ring, by inspection on a basis, and a short exact sequence of sheaves of modules is exact
-  stalkwise — but neither the module-level nor the sheaf-level statement is in Mathlib or in
-  this library.
-* `classOf_alt_shortExact`, the three-step filtration of `⋀²` along a short exact sequence.
-  [Stacks, Tag 01CJ] is available in full
-  (`SheafOfModules.ExtPresentation.exteriorPresentation_exact`) and supplies the *outer* step,
-  `⋀² ℱ ↠ ⋀² 𝒢` with kernel the image of `ℰ ⊗ ℱ`; the inner step, that this image is filtered
-  by `⋀² ℰ` with quotient `ℰ ⊗ 𝒢`, has to be checked on stalks, where the sequence splits.
-  `StacksFrontier.AlgebraicGeometry.WeilCohomology.LambdaOperations` enumerates the four steps for
-  the general degree.
-* `classOf_alt_tensor`, the decomposition of `⋀²(ℰ ⊗ ℱ)`. Nothing about a symmetric or exterior
-  power of a tensor product exists at any level, in this library or in Mathlib.
-
-So this file does not discharge [Stacks, Tag 0FEJ] and claims no tag. It replaces six
-obligations by three, two of which are proved outright and two of which are shown redundant.
+The three fields of `SquarePowersCore` were open when this reduction was written; the library
+now proves `SquarePowersData` outright, for every scheme
+(`AlgebraicGeometry.VectorBundleKZero.squarePowersData`, by way of
+`AlgebraicGeometry.VectorBundleKZero.SquarePowersData.of_classOf_sym_tensor`), and Tag 0FEJ
+is `AlgebraicGeometry.VectorBundleKZero.exists_secondAdamsOperator_pullbackRingHom`. This file
+claims no tag; it records that four of the six fields of `SquarePowersData` are redundant.
 
 ## Main definitions
 

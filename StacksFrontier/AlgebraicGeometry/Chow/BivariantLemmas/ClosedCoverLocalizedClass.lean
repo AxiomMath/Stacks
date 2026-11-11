@@ -22,8 +22,12 @@ classes `P'_p(E₂)`, `c'_p(E₂) ∈ A^p(X₂ ⟶ X)`, and characterizes them b
 for `αᵢ ∈ CH_k(Xᵢ)`, and similarly after any base change `X' ⟶ X`.
 
 `Stacks.Chow.IsClosedCoverLocalizedClass` is that characterizing property, and
-`Stacks.Chow.eq_of_isClosedCoverLocalizedClass` is **Stacks 0FAH**: the class it characterizes
-does not depend on the choice of `X₁`.
+`Stacks.Chow.eq_of_isClosedCoverLocalizedClass` says that the class it characterizes does not
+depend on the choice of `X₁`. Applied to the classes `P'_p(E₂)` and `c'_p(E₂)` constructed in
+`StacksFrontier.AlgebraicGeometry.Chow.BabyLocalizedChern.LocalizedChernClass` it gives
+**Stacks 0FAH**, `Stacks.Chow.localizedPowerSumOfClosedCover_eq` and
+`Stacks.Chow.localizedChernClassOfClosedCover_eq` in
+`StacksFrontier.AlgebraicGeometry.Chow.BabyLocalizedChern.IndependentLocalizedClass`.
 
 ## Main definitions
 
@@ -36,7 +40,8 @@ does not depend on the choice of `X₁`.
 
 ## Main results
 
-* `Stacks.Chow.eq_of_isClosedCoverLocalizedClass` — **Stacks 0FAH**: two bivariant classes in
+* `Stacks.Chow.eq_of_isClosedCoverLocalizedClass` — the key step of Stacks 0FAH: two bivariant
+  classes in
   `A^p(X₂ ⟶ X)` with the characterizing property of Stacks 0F9H for the two covers
   `X = X₁ ∪ X₂` and `X = X₁' ∪ X₂` and for the same class `κ ∈ A^p(X₂)` are equal.
 * `Stacks.Chow.isBirational_of_isIso_of_isIntegral` — an isomorphism onto an integral scheme is
@@ -50,24 +55,16 @@ does not depend on the choice of `X₁`.
 
 ## Implementation notes
 
-### Why the Chern classes are parameters
+### Why the class on `X₂` is a parameter
 
-The Chern classes of a perfect object are not constructed in this repository: only the
-uniqueness half of Stacks 0GUD is available (see
-`StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.EnvelopeUniqueness`), so there are no
-classes `c_p(E₂)`, `P_p(E₂) ∈ A^p(X₂)` to name, and consequently the classes `c'_p(E₂)`,
-`P'_p(E₂)` of Stacks 0F9H are not constructed either. Both therefore enter as parameters, as they
-do in `StacksFrontier.AlgebraicGeometry.Chow.BivariantLemmas.TotalLocalizedChernClass`: the class on
-`X₂` is an arbitrary `κ ∈ A^p(X₂)`, and the localized class is an arbitrary element of
-`A^p(X₂ ⟶ X)` satisfying `Stacks.Chow.IsClosedCoverLocalizedClass`, the characterizing property
-the source proves it has.
-
-Nothing is lost by this. The source's hypotheses on `E₂` — perfect, Chern classes defined, and
-`E₂|_{X₁ ∩ X₂}` zero respectively finite locally free of rank `< p` in degree `0` — are used in
-Stacks 0F9H only to produce a class with that property, so once Stacks 0F9H is available the
-statement below applied to its output, with `κ` the corresponding class on `X₂`, is exactly
-Stacks 0FAH. Taking `κ` to be `P_p(E₂)` gives the `P'_p` half of the source and taking it to be
-`c_p(E₂)` gives the `c'_p` half, so the single statement below covers both.
+The statement here is about an arbitrary class `κ ∈ A^p(X₂)` and arbitrary elements of
+`A^p(X₂ ⟶ X)` satisfying `Stacks.Chow.IsClosedCoverLocalizedClass`. The source's hypotheses on
+`E₂` — perfect, Chern classes defined, and `E₂|_{X₁ ∩ X₂}` zero respectively finite locally free
+of rank `< p` in degree `0` — are used in Stacks 0F9H only to produce a class with that property.
+Taking `κ` to be `P_p(E₂)` respectively `c_p(E₂)` and the two classes to be the constructions of
+Stacks 0F9H (`Stacks.Chow.localizedPowerSumOfClosedCover`,
+`Stacks.Chow.localizedChernClassOfClosedCover`) gives Stacks 0FAH itself, which is stated for
+those classes in `StacksFrontier.AlgebraicGeometry.Chow.BabyLocalizedChern.IndependentLocalizedClass`.
 
 ### The route through Stacks 02UC rather than Stacks 0F94
 
@@ -100,7 +97,6 @@ the fibre product and is not used.
 * [Stacks Project, Tag 02UC](https://stacks.math.columbia.edu/tag/02UC)
 * [Stacks Project, Tag 0B76](https://stacks.math.columbia.edu/tag/0B76)
 * [Stacks Project, Tag 0B7E](https://stacks.math.columbia.edu/tag/0B7E)
-* [Stacks Project, Tag 0GUD](https://stacks.math.columbia.edu/tag/0GUD)
 * [Stacks Project, Tag 0F94](https://stacks.math.columbia.edu/tag/0F94)
 -/
 
@@ -198,7 +194,7 @@ def IsClosedCoverLocalizedClass (κ : chowCohomologyComponent C G sX₂ p)
 
 end Characterization
 
-/-! ### Stacks 0FAH: independence of the choice of `X₁` -/
+/-! ### Independence of the choice of `X₁` -/
 
 section Independence
 
@@ -259,7 +255,8 @@ private theorem cap_fundamentalChowClass_eq_of_range_eq_univ {X X₂ Y : Scheme.
       v (fundamentalChowClass C (pullback.fst j g ≫ sY) k) := by
   rw [← h, closedCoverPushforward_fundamentalChowClass C sX sY j hj g hrange k]
 
-/-- **Stacks 0FAH.** The localized class of Stacks 0F9H does not depend on the choice of `X₁`: if
+/-- **Independence of the choice of `X₁`**, the key step of Stacks 0FAH. The localized class of
+Stacks 0F9H does not depend on the choice of `X₁`: if
 `c` has the characterizing property for the cover `X = X₁ ∪ X₂` and `c'` has it for the cover
 `X = X₁' ∪ X₂`, both with the same class `κ ∈ A^p(X₂)`, then `c = c'`.
 
@@ -270,17 +267,6 @@ of `T`; being a surjective closed immersion into a reduced scheme that piece is 
 and `[T]` is the pushforward of the fundamental class of the piece. If the `X₂`-piece fills `T`
 then both classes cap `[T]` to `κ ∩ [T]`; otherwise the `X₁`-piece and the `X₁'`-piece both fill
 `T`, and both classes cap `[T]` to zero. -/
-@[stacks 0FAH "the conclusion in full: the class of Stacks 0F9H in A^p(X_2 -> X) does not depend \
-on the choice of X_1, in the form that two bivariant classes with the characterizing property of \
-Stacks 0F9H for the covers X = X_1 cup X_2 and X = X_1' cup X_2 and for the same class on X_2 \
-are equal. CARRIED, because the Chern classes of a perfect object are not constructed in this \
-repository (only the uniqueness half of Stacks 0GUD is formalized): the class on X_2 that the \
-localized class caps as is a parameter kappa in A^p(X_2), covering the P_p(E_2) and c_p(E_2) \
-halves of the source at once, and the two localized classes are parameters satisfying the \
-characterizing property of Stacks 0F9H rather than its output. NOT NEEDED, since that property \
-is all the source's proof uses: that E_2 is perfect, that its Chern classes are defined, and \
-that its restriction to X_1 cap X_2 resp. X_1' cap X_2 is zero resp. finite locally free of rank \
-< p in degree 0."]
 theorem eq_of_isClosedCoverLocalizedClass
     (hcover : Set.range i₁.base ∪ Set.range i₂.base = Set.univ)
     (hcover' : Set.range i₁'.base ∪ Set.range i₂.base = Set.univ)

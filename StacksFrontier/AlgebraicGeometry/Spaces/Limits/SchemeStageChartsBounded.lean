@@ -54,8 +54,9 @@ stages; both are subsystems of the given one included by monomorphisms (open, re
 closed, immersions), and `AlgebraicGeometry.Space.ChartsBounded.of_mono` carries boundedness of
 the charts to them: the base change of an affine scheme-valued point along a transition morphism
 of the subsystem is a subscheme of its base change along the transition morphism of the system,
-so its size is bounded by Stacks 000I's bound for monomorphisms
-(`AlgebraicGeometry.Scheme.size_le_of_mono`).
+so its size is bounded by the size bound `size X ≤ max (2 ^ #Y) (size Y)` for an arbitrary
+monomorphism `X ⟶ Y` (`AlgebraicGeometry.Scheme.size_le_of_mono`), the hypothesis-free variant
+of Stacks 04VA.
 
 ## References
 

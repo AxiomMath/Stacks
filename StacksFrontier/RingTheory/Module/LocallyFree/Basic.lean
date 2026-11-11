@@ -63,6 +63,10 @@ projectivity of a finite module descends along a flat local homomorphism.
 * `Stacks.FiniteFlatNotProjective.quotientModule_flat`: `M` is a flat `R`-module.
 * `Stacks.FiniteFlatNotProjective.quotientModule_not_projective`: `M` is not a projective
   `R`-module.
+* `Stacks.FiniteFlatNotProjective.quotientModule_isLocalization`: `M` is the localization `R_m`
+  of `R` at the maximal ideal `m` of functions vanishing at `0`.
+* `Stacks.FiniteFlatNotProjective.quotientModule_isLocalization_finite_flat_not_projective`:
+  Remark 00NY, all of the above together with finiteness of `M`.
 * `finite_projective_iff_baseChange`: for a flat local homomorphism `R → S` of local rings and a
   finite `R`-module `M`, `M` is finite projective over `R` if and only if `S ⊗[R] M` is finite
   projective over `S`.
@@ -210,7 +214,6 @@ theorem vanishNearZero_ne_top : vanishNearZero ≠ ⊤ := fun h ↦
   vanishAtZero_isMaximal.ne_top (top_le_iff.mp (h ▸ vanishNearZero_lt_vanishAtZero).le)
 
 /-- `M = R/I` is not a projective `R`-module, although it is finite and flat. -/
-@[stacks 00NY]
 theorem quotientModule_not_projective : ¬ Module.Projective SmoothFunReal QuotientModule := by
   intro hproj
   have hidem : IsIdempotentElem vanishNearZero := Ideal.isIdempotentElem_of_pure vanishNearZero
@@ -224,6 +227,82 @@ theorem quotientModule_not_projective : ¬ Module.Projective SmoothFunReal Quoti
   rcases SmoothFunReal.eq_zero_or_one_of_isIdempotentElem he with he0 | he1
   · exact vanishNearZero_ne_bot (by simp [hIe, he0])
   · exact vanishNearZero_ne_top (by simp [hIe, he1])
+
+/-! ### `R/I` is the localization `R_m` -/
+
+instance vanishAtZero_isPrime : vanishAtZero.IsPrime := vanishAtZero_isMaximal.isPrime
+
+/-- A smooth function not vanishing at `0` becomes a unit in `R/I`. -/
+theorem isUnit_mk_of_notMem_vanishAtZero {s : SmoothFunReal} (hs : s ∉ vanishAtZero) :
+    IsUnit (Ideal.Quotient.mk vanishNearZero s) := by
+  have hsm : ContDiff ℝ (⊤ : ℕ∞) (s : ℝ → ℝ) := mem_smoothSubring.mp s.property
+  have h0 : (s : ℝ → ℝ) 0 ≠ 0 := by simpa using hs
+  obtain ⟨δ, hδ, hne⟩ := Metric.eventually_nhds_iff.mp
+    (hsm.continuous.continuousAt.eventually_ne h0)
+  set b : ContDiffBump (0 : ℝ) := ⟨δ / 2, δ, by linarith, by linarith⟩ with hb
+  set u : ℝ → ℝ := fun x ↦ b x * (s : ℝ → ℝ) x ^ 2 + (1 - b x) with hu
+  have hu_smooth : ContDiff ℝ (⊤ : ℕ∞) u :=
+    (b.contDiff.mul (hsm.pow 2)).add (contDiff_const.sub b.contDiff)
+  have hu_ne : ∀ x, u x ≠ 0 := by
+    intro x
+    rcases (b.le_one (x := x)).lt_or_eq with hlt | heq
+    · have : 0 ≤ b x * (s : ℝ → ℝ) x ^ 2 := mul_nonneg b.nonneg (sq_nonneg _)
+      simp only [hu]
+      linarith
+    · have hx : x ∈ Function.support b := by simp [Function.mem_support, heq]
+      rw [b.support_eq] at hx
+      have hsx : (s : ℝ → ℝ) x ≠ 0 := hne hx
+      simp only [hu, heq, one_mul, sub_self, add_zero]
+      exact pow_ne_zero 2 hsx
+  let t : SmoothFunReal := ⟨fun x ↦ (s : ℝ → ℝ) x * (u x)⁻¹, hsm.mul (hu_smooth.inv hu_ne)⟩
+  refine IsUnit.of_mul_eq_one (Ideal.Quotient.mk vanishNearZero t) ?_
+  rw [← map_mul, ← map_one (Ideal.Quotient.mk vanishNearZero), Ideal.Quotient.eq]
+  refine ⟨δ / 2, by linarith, fun x hx ↦ ?_⟩
+  have hbx : b x = 1 := b.one_of_mem_closedBall (by simpa [Real.dist_eq] using hx.le)
+  have hsx : (s : ℝ → ℝ) x ≠ 0 := hne (by
+    rw [Real.dist_eq, sub_zero]; linarith)
+  change (s : ℝ → ℝ) x * ((s : ℝ → ℝ) x * (u x)⁻¹) - 1 = 0
+  simp only [hu, hbx, one_mul, sub_self, add_zero]
+  field_simp
+  ring
+
+/-- `M = R/I` is the localization `R_m` of `R` at the maximal ideal `m` of functions vanishing
+at `0`. -/
+theorem quotientModule_isLocalization :
+    IsLocalization.AtPrime QuotientModule vanishAtZero where
+  map_units y := by
+    rw [Ideal.Quotient.algebraMap_eq]
+    exact isUnit_mk_of_notMem_vanishAtZero y.2
+  surj z := by
+    obtain ⟨r, rfl⟩ := Ideal.Quotient.mk_surjective z
+    exact ⟨⟨r, 1⟩, by simp [Ideal.Quotient.algebraMap_eq]⟩
+  exists_of_eq {x y} h := by
+    rw [Ideal.Quotient.algebraMap_eq, Ideal.Quotient.eq] at h
+    obtain ⟨ε, hε, hxy⟩ := h
+    set b : ContDiffBump (0 : ℝ) := ⟨ε / 2, ε, by linarith, by linarith⟩
+    let c : SmoothFunReal := ⟨fun x ↦ b x, b.contDiff⟩
+    have hc : c ∈ vanishAtZero.primeCompl := by
+      change ¬ (b 0 = 0)
+      rw [b.one_of_mem_closedBall (Metric.mem_closedBall_self b.rIn_pos.le)]
+      exact one_ne_zero
+    refine ⟨⟨c, hc⟩, Subtype.ext (funext fun z ↦ ?_)⟩
+    change b z * (x : ℝ → ℝ) z = b z * (y : ℝ → ℝ) z
+    rcases lt_or_ge |z| ε with hlt | hge
+    · have : (x : ℝ → ℝ) z - (y : ℝ → ℝ) z = 0 := hxy z hlt
+      rw [sub_eq_zero.mp this]
+    · rw [b.zero_of_le_dist (by rwa [Real.dist_eq, sub_zero]), zero_mul, zero_mul]
+
+/-- **Stacks 00NY.** Over `R = C^∞(ℝ)`, with `m` the ideal of functions vanishing at `0` and `I`
+the ideal of functions vanishing on a neighbourhood of `0`, the module `M = R/I` is the
+localization `R_m`, and it is a finite flat `R`-module which is not projective. -/
+@[stacks 00NY]
+theorem quotientModule_isLocalization_finite_flat_not_projective :
+    IsLocalization.AtPrime QuotientModule vanishAtZero ∧
+      Module.Finite SmoothFunReal QuotientModule ∧
+      Module.Flat SmoothFunReal QuotientModule ∧
+      ¬ Module.Projective SmoothFunReal QuotientModule :=
+  ⟨quotientModule_isLocalization, inferInstance, quotientModule_flat,
+    quotientModule_not_projective⟩
 
 end Stacks.FiniteFlatNotProjective
 

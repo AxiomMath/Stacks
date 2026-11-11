@@ -12,13 +12,14 @@ public import StacksFrontier.AlgebraicGeometry.AffineCohomologyGlue.AffineOpenVa
 # [Stacks, Tag 01YP] as an equality of subsheaves, and the vanishing it supplies
 
 For an affine morphism `f : Y ⟶ X`, a quasi-coherent `𝒪_Y`-module `ℱ` and a quasi-coherent
-sheaf of ideals `𝒥` on `X`, [Stacks, Tag 01YP] says `𝒥 · f₊ℱ = f₊((f⁻¹𝒥) · ℱ)`. That identity
-is already in the library as
-`Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`, but **only
-as an equality of submodules of sections over each affine open**, which is not a statement about
-the two subsheaves and in particular does not say that `𝒥 · f₊ℱ` is a direct image. This promotes
-it, and draws the consequence the dévissage of [Stacks, Tag 01YM] needs: for `Y` affine,
-`Hᵖ(X, 𝒥 · f₊ℱ) = 0` for every `p > 0`.
+sheaf of ideals `𝒥` on `X`, [Stacks, Tag 01YP] says `𝒥 · f₊ℱ = f₊((f⁻¹𝒥) · ℱ)`. Its
+affine-local computation is
+`Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`, an equality
+of submodules of sections over each affine open, which is not a statement about the two subsheaves
+and in particular does not say that `𝒥 · f₊ℱ` is a direct image. This file proves the tag as an
+equality of subsheaves (`idealPowSmul_pushforward_eq`, which carries the attribute), and draws
+the consequence the dévissage of [Stacks, Tag 01YM] needs: for `Y` affine, `Hᵖ(X, 𝒥 · f₊ℱ) = 0`
+for every `p > 0`.
 
 The promotion rests on two general facts proved here, neither of which was in the repository or
 in Mathlib (`mathlib_search` for both; see the implementation notes).
@@ -106,7 +107,7 @@ a cover of `V` by opens on which the section lies in `N` after pulling back give
 `{f ⁻¹ᵁ W}` of `f ⁻¹ᵁ V`, and `N.isSheaf` closes it. No quasi-coherence is used, so
 `pushforwardSubmodule` is available for an arbitrary morphism of schemes.
 
-**The cast in the library's [Stacks, Tag 01YP] is inert.** Its right-hand side transports a section
+**The cast in the affine-local computation is inert.** Its right-hand side transports a section
 along `Equiv.cast (congrArg _ (Scheme.Modules.pushforward_obj_obj f ℱ U))`; that equality of types
 is proved by `rfl`, so by proof irrelevance the transport is the identity and
 `idealPowSmul_pushforward_eq` needs no coercion lemma for it.
@@ -210,13 +211,20 @@ theorem ι_pushforwardSubmodule (f : Y ⟶ X) {M : Y.Modules} (N : M.Submodule) 
 
     𝒥 · f₊ℱ = f₊((f⁻¹𝒥) · ℱ)
 
-as submodules of `f₊ℱ`. The library's form of the tag is the equality of the two submodules of
-sections over each *affine* open; `submodule_ext_affineOpens` is exactly what upgrades that to the
-subsheaves, since both sides are submodules of one module sheaf.
+as submodules of `f₊ℱ`. Here `𝒥 · f₊ℱ` is `idealPowSmul J 1 (f₊ℱ)`, the quasi-coherent
+subsheaf of `f₊ℱ` with sections `J(U) · Γ(f₊ℱ, U)` over each affine open `U`; the inverse image
+`f⁻¹𝒥` acts on `ℱ` through `f^♯`, so `(f⁻¹𝒥) · ℱ` is `idealPowSmul (J.comap f) 1 ℱ`, with
+`J.comap f` the ideal sheaf `f⁻¹𝒥 · 𝒪_Y`; and `f₊` of that subsheaf of `ℱ` is the subsheaf
+`pushforwardSubmodule f _` of `f₊ℱ`, whose module sheaf is `f₊` of it by `rfl`
+(`toSheafOfModules_pushforwardSubmodule`).
 
-No attribute is attached: the tag is already carried by
-`Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`, which this
-result is deduced from. -/
+The proof is the source's: the question is local on `X`, so it reduces to the affine-local
+computation
+`Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`
+(`I(M_A) = ((IB)M)_A`), and `submodule_ext_affineOpens` upgrades that to the subsheaves, since
+both sides are submodules of one module sheaf and affine opens form a basis. -/
+@[stacks 01YP "𝒥 · f₊ℱ = f₊((f⁻¹𝒥) · ℱ) as an equality of subsheaves of f₊ℱ, for f affine, \
+ℱ quasi-coherent and 𝒥 a quasi-coherent sheaf of ideals"]
 theorem idealPowSmul_pushforward_eq (f : Y ⟶ X) [IsAffineHom f] (J : X.IdealSheafData)
     (ℱ : Y.Modules) [ℱ.IsQuasicoherent] :
     IdealPowerSmul.idealPowSmul J 1 ((Scheme.Modules.pushforward f).obj ℱ) =

@@ -4,30 +4,44 @@ public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SmallEtaleModuleComparison
 
 /-!
-# The flat base change property (Stacks 0762)
+# The flat base change property read on presheaves of modules
 
 Let `p : 𝒳 ⥤ (Sch/S)_{fppf}` be a category fibred in groupoids and let `F` be a presheaf of
 modules over the structure sheaf of Stacks 06TV. An object `x` of `𝒳` lying over a scheme `U`
 gives the restriction `F|_{U_ét}` to the small étale site of `U`, the restriction of Stacks 06W1
 on underlying abelian presheaves and of Stacks 06WJ as a module. An arrow `φ : x ⟶ y` of `𝒳`
 lying over a morphism of schemes `f : U ⟶ V` gives the comparison map
-`c_φ : f_{small}^*(F|_{V_ét}) ⟶ F|_{U_ét}` of **Stacks 0761**, which the source introduces as
-Equation (96.9.4.1) of Sheaves on Stacks, that is Stacks 06WC.
+`c_φ : f_{small}^*(F|_{V_ét}) ⟶ F|_{U_ét}` of Equation (96.9.4.1) of Sheaves on Stacks, that is
+Stacks 06WC, here with `f_{small}^*` the pullback of *presheaves* of modules along
+`f_{small}^♯` (`AlgebraicGeometry.Stack.restrictModulePullbackComparison`).
 
 **Stacks 0762** says that `F` *has the flat base change property* if and only if `c_φ` is an
-isomorphism whenever `f` is flat.
+isomorphism whenever `f` is flat. The definition below reads `c_φ` with the presheaf pullback,
+which is not the source's reading; Stacks 0762 is registered on
+`AlgebraicGeometry.Stack.HasFlatBaseChangePropertySheafUnivLE` of
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FlatBaseChangeSheafColimits.lean`.
 
 ## Main definitions
 
-* `AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`: **Stacks 0762**, the flat base change
-  property.
+* `AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`: the flat base change property read with
+  the pullback of presheaves of modules. **Stacks 0762** itself, read with the pullback of sheaves
+  of modules as the source reads it, is
+  `AlgebraicGeometry.Stack.HasFlatBaseChangePropertySheafUnivLE`.
 
 ## Implementation notes
 
-Stacks 0761 is the comparison map itself, and the source gives it by pointing at Equation
-(96.9.4.1) of Sheaves on Stacks: it is that same map, already available as
-`AlgebraicGeometry.Stack.restrictModulePullbackComparison`, so the tag is recorded on that
-declaration instead of being realized by a second copy.
+Stacks 0761 is the comparison map `c_φ` for an étale sheaf `F` of `𝒪_𝒳`-modules, with
+`f_{small}^*` the pullback of modules of the ringed topoi of the small étale sites, which
+includes sheafification. It is not `AlgebraicGeometry.Stack.restrictModulePullbackComparison`,
+whose domain is the pullback of *presheaves* of modules: on an étale sheaf the latter map is the
+former precomposed with the sheafification unit, and it can fail to be an isomorphism when the
+former is one. The tag is recorded on
+`AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison` of
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/FlatBaseChangeSheafColimits.lean`, whose
+domain is `SheafOfModules.pullback`. The flat base change property in that reading is
+`AlgebraicGeometry.Stack.HasFlatBaseChangePropertySheafUnivLE` of the same file; the property
+`HasFlatBaseChangeProperty` below, stated with the presheaf map, implies it on an étale sheaf
+(`AlgebraicGeometry.Stack.hasFlatBaseChangePropertySheafUnivLE_of_hasFlatBaseChangePropertyUnivLE`).
 
 The source states the definition for a sheaf of `𝒪_𝒳`-modules on `𝒳_étale`. The property speaks
 only about the comparison maps, so it is stated here for a presheaf of modules over the
@@ -57,17 +71,21 @@ universe u v w
 
 namespace AlgebraicGeometry.Stack
 
-add_to_stacks 0761 "the comparison map `c_φ`" restrictModulePullbackComparison
-
 variable (B : BigFppfSite.{u}) (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
   (S : Scheme.{u}) (hS : B.Contains S)
 
-/-- **Stacks 0762.** A presheaf of modules over the structure sheaf of a category fibred in
-groupoids *has the flat base change property* when the comparison map `c_φ` of Stacks 0761 is an
-isomorphism for every arrow `φ` of `𝒳` lying over a flat morphism of schemes.
+/-- The flat base change property read with the pullback of *presheaves* of modules. A presheaf
+of modules over the structure sheaf of a category fibred in groupoids has this property when the
+comparison map `c_φ` of Stacks 06WC, read with the pullback of presheaves of modules
+(`AlgebraicGeometry.Stack.restrictModulePullbackComparison`), is an isomorphism for every arrow
+`φ` of `𝒳` lying over a flat morphism of schemes.
 
-The source calls the name nonstandard. -/
-@[stacks 0762]
+This is not Stacks 0762: the source's `c_φ` (Stacks 0761) has the pullback of *sheaves* of
+modules as its domain, and the source's property is
+`AlgebraicGeometry.Stack.HasFlatBaseChangePropertySheafUnivLE`. On an étale sheaf the property
+here is the stronger demand and implies that one
+(`AlgebraicGeometry.Stack.hasFlatBaseChangePropertySheafUnivLE_of_hasFlatBaseChangePropertyUnivLE`).
+-/
 noncomputable abbrev HasFlatBaseChangeProperty {𝒳 : Type v} [Category.{w} 𝒳]
     (p : 𝒳 ⥤ BigFppfOver B S hS) (hp : p.IsFiberedInGroupoids)
     (τ : GrothendieckTopology B.Schemes) (hτ : τ ≤ B.topology)

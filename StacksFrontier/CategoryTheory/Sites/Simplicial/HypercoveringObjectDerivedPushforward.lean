@@ -54,11 +54,10 @@ simplicial semi-representable object over `X`.
 * `CategoryTheory.SimplicialSemiRepresentable.derivedAugmentationUnitOverQh_app`: at a complex
   `M` the composite factors as the localization of the ordinary augmentation unit of `M`,
   followed by the comparison of `a_*` with `Ra_*` at `a^{-1}M`, followed by an isomorphism.
-* `CategoryTheory.SimplicialSemiRepresentable.isIso_derivedAugmentationUnitOver_app`:
-  **Stacks 0D8L**, granted its two inputs — the canonical map is invertible at every object of
-  `D(C/X)` as soon as, at every complex, the ordinary augmentation unit is invertible and
-  `a^{-1}` of that complex is computed by `a_*` rather than only by `Ra_*`. Both are carried as
-  hypotheses; see the implementation notes.
+* `CategoryTheory.SimplicialSemiRepresentable.isIso_derivedAugmentationUnitOver_app`: the
+  canonical map is invertible at every object of `D(C/X)` as soon as, at every complex, the
+  ordinary augmentation unit is invertible and `a^{-1}` of that complex is computed by `a_*`
+  rather than only by `Ra_*`; see the implementation notes.
 
 ## Implementation notes
 
@@ -78,20 +77,17 @@ functor, and all colimits because it is a left adjoint — so its derived functo
 degreewise and no derivation is needed on that side. `a_*` is only additive, and is derived.
 
 The two inputs isolated by `isIso_derivedAugmentationUnitOver_app` are the two steps of the
-source's argument, and neither is available in this library. The first, that the ordinary unit
-`F ⟶ a_* a^{-1} F` is invertible, is the degree-zero half of Stacks 0D8K, carried in
-`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringObjectDescent.lean` only granted local
-fullness of `j_total`. The second, that `a^{-1}` of a K-injective complex is computed by `a_*`
-with no higher direct images, is the vanishing of `R^p a_* a^{-1} I` in positive degrees; the
-spectral sequence of Stacks 0D7A which computes those terms is not known to converge here,
-because positive-degree exactness of the complex of Stacks 0D79 rests on the resolution of
-Stacks 0D78, itself available only granted an undischarged hypothesis. Accordingly the
-invertibility asserted by Stacks 0D8L is stated with those two inputs as explicit hypotheses,
-and the attribute it carries names them; no unconditional invertibility is claimed anywhere
-here. The absolute form of the same assertion, Stacks 0D8G, is carried in
-`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringCohomologicalDescent.lean` granted the
-corresponding inputs for a site, so chaining to it would relocate these hypotheses rather than
-discharge them.
+source's argument. Neither holds for an arbitrary `K`, which is why they are hypotheses here.
+For a hypercovering of `X` both are proved further up the import order: the first, that the
+ordinary unit `F ⟶ a_* a^{-1} F` is invertible, is the degree-zero identification of
+Stacks 0D8K, `CategoryTheory.SimplicialSemiRepresentable.isIso_abelianUnit_over`; the second,
+that `a^{-1}` of a K-injective complex is computed by `a_*` with no higher direct images, is
+`CategoryTheory.SimplicialSemiRepresentable`
+`.inverseImageComputesDerivedPushforward_over_of_isHypercovering`. Stacks 0D8L, with no
+hypothesis beyond the hypercovering conditions, is
+`CategoryTheory.SimplicialSemiRepresentable`
+`.isIso_derivedAugmentationUnitOver_app_of_isHypercovering_unconditional` in
+`HypercoveringObjectDerivedPushforwardUnconditional.lean`.
 
 The derived categories are the standard ones, `CategoryTheory.HasDerivedCategory.standard`,
 installed as a local instance as in the neighbouring files so that no choice of model leaks out
@@ -354,19 +350,16 @@ theorem isIso_derivedAugmentationUnitOverQh_app
   rw [derivedAugmentationUnitOverQh_app]
   infer_instance
 
-/-- **Stacks Project, Tag 0D8L**, granted its two inputs. For a simplicial semi-representable
-object `K` over an object `X` of a site with fibre products, the canonical map
-`E ⟶ Ra_* a^{-1} E` is an isomorphism for every `E` of `D(C/X)` — as soon as, at every complex
-of abelian sheaves on `C/X`, the ordinary augmentation unit is invertible and the direct image
-of its inverse image needs no derivation.
+/-- For a simplicial semi-representable object `K` over an object `X` of a site with fibre
+products, the canonical map `E ⟶ Ra_* a^{-1} E` is an isomorphism for every `E` of `D(C/X)` as
+soon as, at every complex of abelian sheaves on `C/X`, the ordinary augmentation unit is
+invertible and the direct image of its inverse image needs no derivation.
 
 These are the two steps of the source's argument for cohomological descent, and this reduces
-that argument to them. Neither is discharged in this library, so both are carried as
-hypotheses and the invertibility is not proved unconditionally. -/
-@[stacks 0D8L "granted two inputs this library does not have:
-the degree-zero identification M = a_*a⁻¹M, which is the unproved clause of Tag 0D8K,
-and the vanishing of R^p a_* a⁻¹ in positive degrees;
-the isomorphism is not proved unconditionally"]
+that argument to them for an arbitrary `K`, for which neither need hold. For a hypercovering of
+`X` both hold, and Stacks 0D8L itself is
+`CategoryTheory.SimplicialSemiRepresentable`
+`.isIso_derivedAugmentationUnitOver_app_of_isHypercovering_unconditional`. -/
 theorem isIso_derivedAugmentationUnitOver_app
     (hunit : ∀ M, IsIso ((homotopyAugmentationUnitOver J X K).app M))
     (hacyclic : ∀ M, IsIso ((derivedAbelianTotalPushforwardOverUnit J X K).app

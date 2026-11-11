@@ -45,7 +45,7 @@ variable {A : Type u} [Category.{v} A] [Abelian A]
 
 /-- **Stacks 03T6, part (1).** A bounded below complex of injective objects computes
 morphisms into it in the derived category already in the homotopy category. -/
-@[stacks 03T6 "injective_hom"]
+@[stacks 03T6 "(1): Hom_D(K, I) = Hom_K(K, I) for I bounded below with injective terms"]
 theorem Qh_map_bijective_of_injective_of_plus [HasDerivedCategory.{w} A]
     (K : HomotopyCategory A (ComplexShape.up ℤ)) (I : CochainComplex A ℤ)
     (hI : CochainComplex.plus A I) [∀ n, Injective (I.X n)] :

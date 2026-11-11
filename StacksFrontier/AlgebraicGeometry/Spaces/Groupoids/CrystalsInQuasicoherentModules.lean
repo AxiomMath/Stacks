@@ -81,7 +81,7 @@ section, and `CrystalFamilyTransport.lean` turns the transition half into the co
 * [Stacks Project, Tag 077Z](https://stacks.math.columbia.edu/tag/077Z)
 * [Stacks Project, Tag 077L](https://stacks.math.columbia.edu/tag/077L)
 * [Stacks Project, Tag 077N](https://stacks.math.columbia.edu/tag/077N)
-* [Stacks Project, Tag 000I](https://stacks.math.columbia.edu/tag/000I)
+* [Stacks Project, Section 000H](https://stacks.math.columbia.edu/tag/000H)
 -/
 
 @[expose] public noncomputable section
@@ -446,7 +446,7 @@ end Subcrystal
 /-! ### The cardinal attached to the system -/
 
 /-- **The cardinal attached to a system of schemes.**  It is the maximum of `ℵ₀`, the
-cardinalities of the index sets `I` and `Φ`, and the sizes (Stacks 000I) of the schemes of the
+cardinalities of the index sets `I` and `Φ`, and the sizes (Stacks Section 000H) of the schemes of the
 system.  These are the bounds the source's argument asks of the cardinal: `κ` infinite and
 larger than the cardinality of `I` and of `Φ`, and, through the size of each `X i`, larger than
 the number of affine opens of each `X i` and than the cardinality of the sections of its

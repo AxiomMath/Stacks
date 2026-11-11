@@ -17,6 +17,12 @@ distinguished triangles `Yᵢ₊₁ ⟶ Xᵢ₊₁ ⟶ Yᵢ ⟶ Yᵢ₊₁⟦1�
 this file settles when such a system exists, when a morphism of complexes extends to one of
 systems, and when the extension is unique on the totalizations.
 
+## Main definitions
+
+* `CategoryTheory.Triangulated.PostnikovSystem`: a Postnikov system for a complex.
+* `CategoryTheory.Triangulated.PostnikovSystem.Hom`: a morphism of Postnikov systems over a
+  family of morphisms of the two complexes, with its identity and composition.
+
 ## Main results
 
 * `CategoryTheory.Triangulated.nonempty_postnikovSystem_of_length_le_two`: a complex of length
@@ -32,6 +38,10 @@ systems, and when the extension is unique on the totalizations.
 * `CategoryTheory.Triangulated.PostnikovSystem.subsingleton_hom_last`: under any one of the three
   vanishing hypotheses, two morphisms of Postnikov systems over the same morphism of complexes
   agree on the totalizations.
+* `CategoryTheory.Triangulated.PostnikovSystem.subsingleton_hom_of_hom_shift_eq_zero`: under the
+  third vanishing hypothesis there is at most one morphism of Postnikov systems over a given
+  morphism of complexes. Under the first two the intermediate components are not determined
+  (`StacksFrontier.CategoryTheory.Triangulated.PostnikovSystemsCounterexample`).
 * `CategoryTheory.Triangulated.PostnikovSystem.map`: a triangulated functor carries a Postnikov
   system to a Postnikov system for the image complex.
 
@@ -79,8 +89,9 @@ variable {D : Type u} [Category.{v} D] [HasZeroObject D] [HasShift D ℤ] [Pread
 the morphisms of the complex being `d i : X i.succ ⟶ X i.castSucc`: objects `Y₀, …, Yₙ` together
 with an isomorphism `Y₀ ⟶ X₀` and distinguished triangles
 `Yᵢ₊₁ ⟶ Xᵢ₊₁ ⟶ Yᵢ ⟶ Yᵢ₊₁⟦1⟧` in which the composition `Xᵢ₊₁ ⟶ Yᵢ ⟶ Xᵢ` is the given morphism
-`Xᵢ₊₁ ⟶ Xᵢ`. -/
-@[stacks 0D7Z]
+`Xᵢ₊₁ ⟶ Xᵢ`. The morphisms of Postnikov systems, the second notion of this Stacks definition, are
+`CategoryTheory.Triangulated.PostnikovSystem.Hom`. -/
+@[stacks 0D7Z "Postnikov system; the morphisms of Postnikov systems are `PostnikovSystem.Hom`"]
 public structure PostnikovSystem {n : ℕ} (X : Fin (n + 1) → D)
     (d : ∀ i : Fin n, X i.succ ⟶ X i.castSucc) where
   /-- the objects `Yᵢ` of the Postnikov system -/
@@ -99,6 +110,84 @@ public structure PostnikovSystem {n : ℕ} (X : Fin (n + 1) → D)
   p_comp_π : ∀ i : Fin n, p i ≫ π i.castSucc = d i
 
 attribute [instance] PostnikovSystem.isIso_π_zero
+
+/-! ### Morphisms of Postnikov systems -/
+
+namespace PostnikovSystem
+
+variable {n : ℕ} {X X' X'' : Fin (n + 1) → D} {d : ∀ i : Fin n, X i.succ ⟶ X i.castSucc}
+  {d' : ∀ i : Fin n, X' i.succ ⟶ X' i.castSucc} {d'' : ∀ i : Fin n, X'' i.succ ⟶ X'' i.castSucc}
+
+/-- A *morphism of Postnikov systems* `S ⟶ S'` lying over a family of morphisms
+`f i : Xᵢ ⟶ X'ᵢ` between two complexes `Xₙ ⟶ ⋯ ⟶ X₀` and `X'ₙ ⟶ ⋯ ⟶ X'₀` of the same length:
+morphisms `hom i : Yᵢ ⟶ Y'ᵢ` making every diagram of the two systems commute, that is compatible
+with the morphisms `Yᵢ ⟶ Xᵢ`, `Xᵢ₊₁ ⟶ Yᵢ` and `Yᵢ ⟶ Yᵢ₊₁⟦1⟧`. Equivalently, `f` and `hom`
+form morphisms of all the distinguished triangles `Yᵢ₊₁ ⟶ Xᵢ₊₁ ⟶ Yᵢ ⟶ Yᵢ₊₁⟦1⟧` of the two
+systems. That `f` is a morphism of complexes is not imposed: it follows, see `Hom.comm_d`. -/
+@[stacks 0D7Z "morphism of Postnikov systems"]
+public structure Hom (f : ∀ i, X i ⟶ X' i) (S : PostnikovSystem X d)
+    (S' : PostnikovSystem X' d') where
+  /-- the components `Yᵢ ⟶ Y'ᵢ` of the morphism -/
+  hom : ∀ i, S.obj i ⟶ S'.obj i
+  /-- compatibility with the morphisms `Yᵢ ⟶ Xᵢ` and `Y'ᵢ ⟶ X'ᵢ` -/
+  comm_π : ∀ i, hom i ≫ S'.π i = S.π i ≫ f i
+  /-- compatibility with the morphisms `Xᵢ₊₁ ⟶ Yᵢ` and `X'ᵢ₊₁ ⟶ Y'ᵢ` -/
+  comm_p : ∀ i : Fin n, S.p i ≫ hom i.castSucc = f i.succ ≫ S'.p i
+  /-- compatibility with the connecting morphisms `Yᵢ ⟶ Yᵢ₊₁⟦1⟧` and `Y'ᵢ ⟶ Y'ᵢ₊₁⟦1⟧` -/
+  comm_δ : ∀ i : Fin n, S.δ i ≫ (hom i.succ)⟦(1 : ℤ)⟧' = hom i.castSucc ≫ S'.δ i
+
+namespace Hom
+
+/-- The family of morphisms underlying a morphism of Postnikov systems is a morphism of
+complexes. -/
+lemma comm_d {f : ∀ i, X i ⟶ X' i} {S : PostnikovSystem X d} {S' : PostnikovSystem X' d'}
+    (g : Hom f S S') (i : Fin n) : d i ≫ f i.castSucc = f i.succ ≫ d' i := by
+  rw [← S.p_comp_π, ← S'.p_comp_π, Category.assoc, ← g.comm_π, ← Category.assoc, g.comm_p,
+    Category.assoc]
+
+/-- The `i`-th component of a morphism of Postnikov systems, together with the morphisms of the
+complexes, is a morphism of the `i`-th distinguished triangles. -/
+@[simps]
+def triangleHom {f : ∀ i, X i ⟶ X' i} {S : PostnikovSystem X d} {S' : PostnikovSystem X' d'}
+    (g : Hom f S S') (i : Fin n) :
+    Triangle.mk (S.π i.succ) (S.p i) (S.δ i) ⟶ Triangle.mk (S'.π i.succ) (S'.p i) (S'.δ i) where
+  hom₁ := g.hom i.succ
+  hom₂ := f i.succ
+  hom₃ := g.hom i.castSucc
+  comm₁ := (g.comm_π i.succ).symm
+  comm₂ := g.comm_p i
+  comm₃ := g.comm_δ i
+
+/-- The identity morphism of a Postnikov system, over the identity of the complex. -/
+@[simps]
+def id (S : PostnikovSystem X d) : Hom (fun i => 𝟙 (X i)) S S where
+  hom i := 𝟙 _
+  comm_π i := by simp
+  comm_p i := by simp
+  comm_δ i := by simp
+
+/-- The composition of morphisms of Postnikov systems, over the composition of the morphisms of
+complexes. -/
+@[simps]
+def comp {f : ∀ i, X i ⟶ X' i} {f' : ∀ i, X' i ⟶ X'' i} {S : PostnikovSystem X d}
+    {S' : PostnikovSystem X' d'} {S'' : PostnikovSystem X'' d''} (g : Hom f S S')
+    (g' : Hom f' S' S'') : Hom (fun i => f i ≫ f' i) S S'' where
+  hom i := g.hom i ≫ g'.hom i
+  comm_π i := by rw [Category.assoc, g'.comm_π, ← Category.assoc, g.comm_π, Category.assoc]
+  comm_p i := by rw [← Category.assoc, g.comm_p, Category.assoc, g'.comm_p, Category.assoc]
+  comm_δ i := by
+    rw [Functor.map_comp, ← Category.assoc, g.comm_δ, Category.assoc, g'.comm_δ, Category.assoc]
+
+/-- Two morphisms of Postnikov systems over the same family `f` are equal as soon as their
+components are. -/
+@[ext]
+lemma ext {f : ∀ i, X i ⟶ X' i} {S : PostnikovSystem X d} {S' : PostnikovSystem X' d'}
+    {g g' : Hom f S S'} (h : ∀ i, g.hom i = g'.hom i) : g = g' := by
+  cases g; cases g'; congr; funext i; exact h i
+
+end Hom
+
+end PostnikovSystem
 
 /-! ### Vanishing of `Hom`-groups out of, and into, a shifted object -/
 
@@ -294,8 +383,8 @@ private lemma nonempty_postnikovSystem_of_length_two (X : Fin 3 → D)
     | ⟨1, _⟩ => exact hq.symm
 
 /-- A complex `Xₙ ⟶ Xₙ₋₁ ⟶ ⋯ ⟶ X₀` of length `n ≤ 2` in a pretriangulated category admits a
-Postnikov system. The bound is sharp: for `n > 2` Postnikov systems do not always exist. -/
-@[stacks 0D81]
+Postnikov system. The bound is sharp: for `n > 2` Postnikov systems do not always exist, see
+`postnikovSystem_small_cases`. -/
 theorem nonempty_postnikovSystem_of_length_le_two {n : ℕ}
     (hn : n ≤ 2) (X : Fin (n + 1) → D) (d : ∀ i : Fin n, X i.succ ⟶ X i.castSucc)
     (hd : ∀ (i : Fin n) (h : (i : ℕ) + 1 < n), d ⟨(i : ℕ) + 1, h⟩ ≫ d i = 0) :
@@ -865,8 +954,12 @@ complexes, with objects `Yᵢ`, `Y'ᵢ`. If
 
 then any two morphisms of Postnikov systems `S ⟶ S'` over `f` — families `g i : Yᵢ ⟶ Y'ᵢ`
 compatible with the morphisms `Yᵢ ⟶ Xᵢ`, `Xᵢ₊₁ ⟶ Yᵢ` and `Yᵢ ⟶ Yᵢ₊₁⟦1⟧` of the two systems —
-induce the same morphism `Yₙ ⟶ Y'ₙ` on the totalizations. -/
-@[stacks 0FXE]
+induce the same morphism `Yₙ ⟶ Y'ₙ` on the totalizations. Under (3) they agree in every
+component (`PostnikovSystem.subsingleton_hom_of_hom_shift_eq_zero`); under (1) or (2) the
+intermediate components need not agree (`PostnikovSystem.exists_not_subsingleton_hom` in
+`StacksFrontier.CategoryTheory.Triangulated.PostnikovSystemsCounterexample`), and the
+uniqueness of the totalization component is the corrected form of these two cases. -/
+@[stacks 0FXE "(1), (2), (3): uniqueness of the component on the totalizations"]
 theorem PostnikovSystem.subsingleton_hom_last {n : ℕ}
     {X X' : Fin (n + 1) → D} {d : ∀ i : Fin n, X i.succ ⟶ X i.castSucc}
     {d' : ∀ i : Fin n, X' i.succ ⟶ X' i.castSucc}
@@ -889,6 +982,30 @@ theorem PostnikovSystem.subsingleton_hom_last {n : ℕ}
   · exact hom_last_eq_of_hom_shift_obj_last_eq_zero hgπ hgπ' hgδ hgδ' h₁
   · exact hom_last_eq_of_hom_shift_last_obj_eq_zero hgπ hgπ' h₂
   · exact hom_eq_of_hom_shift_eq_zero hgπ hgπ' hgp hgp' hgδ hgδ' h₃ h₃' (Fin.last n)
+
+/-- Let `Xₙ ⟶ ⋯ ⟶ X₀` and `X'ₙ ⟶ ⋯ ⟶ X'₀` be complexes in a pretriangulated category, let
+`f i : Xᵢ ⟶ X'ᵢ` be a family of morphisms, and let `S`, `S'` be Postnikov systems for the two
+complexes, with objects `Yᵢ`, `Y'ᵢ`. If every morphism `Xᵢ⟦i - j + 1⟧ ⟶ X'ⱼ` and every morphism
+`Xⱼ ⟶ X'ᵢ⟦i - j⟧` with `i < j` is zero (case (3) of the Stacks lemma), then there is at most one
+morphism of Postnikov systems `S ⟶ S'` over `f`: any two families `g i : Yᵢ ⟶ Y'ᵢ` compatible
+with the morphisms `Yᵢ ⟶ Xᵢ`, `Xᵢ₊₁ ⟶ Yᵢ` and `Yᵢ ⟶ Yᵢ₊₁⟦1⟧` of the two systems agree in every
+component. -/
+@[stacks 0FXE "(3): at most one morphism of Postnikov systems, all components"]
+theorem PostnikovSystem.subsingleton_hom_of_hom_shift_eq_zero {n : ℕ}
+    {X X' : Fin (n + 1) → D} {d : ∀ i : Fin n, X i.succ ⟶ X i.castSucc}
+    {d' : ∀ i : Fin n, X' i.succ ⟶ X' i.castSucc}
+    (S : PostnikovSystem X d) (S' : PostnikovSystem X' d') (f : ∀ i, X i ⟶ X' i)
+    (h : ∀ i j : Fin (n + 1), (i : ℕ) < (j : ℕ) →
+      ∀ u : (X i)⟦((i : ℕ) : ℤ) - ((j : ℕ) : ℤ) + 1⟧ ⟶ X' j, u = 0)
+    (h' : ∀ i j : Fin (n + 1), (i : ℕ) < (j : ℕ) →
+      ∀ u : X j ⟶ (X' i)⟦((i : ℕ) : ℤ) - ((j : ℕ) : ℤ)⟧, u = 0) :
+    {g : ∀ i, S.obj i ⟶ S'.obj i |
+      (∀ i, g i ≫ S'.π i = S.π i ≫ f i) ∧
+      (∀ i : Fin n, S.p i ≫ g i.castSucc = f i.succ ≫ S'.p i) ∧
+      (∀ i : Fin n, S.δ i ≫ (g i.succ)⟦(1 : ℤ)⟧' = g i.castSucc ≫ S'.δ i)}.Subsingleton := by
+  rintro g ⟨hgπ, hgp, hgδ⟩ g' ⟨hgπ', hgp', hgδ'⟩
+  funext i
+  exact hom_eq_of_hom_shift_eq_zero hgπ hgπ' hgp hgp' hgδ hgδ' h h' i
 
 /-! ### The image of a Postnikov system under a triangulated functor -/
 

@@ -67,14 +67,13 @@ quasi-isomorphism* when every `gr^p(α)` is a quasi-isomorphism
 of the complexes of finitely filtered objects at those morphisms. Two theorems about these
 notions are proved here.
 
-*The functors `gr^p`, `gr` and `(forget F)` descend to `DF(𝒜)`*, inducing canonical exact
-functors `gr^p, (forget F) : DF(𝒜) ⟶ D(𝒜)` and `gr : DF(𝒜) ⟶ D(Gr(𝒜))` which commute with the
-localisation functors. A functor factors through a localisation exactly when it inverts the class
-of morphisms localised at, and the factorisation, together with the isomorphism expressing its
-commutation with the two localisation functors, is then canonical
-(`CategoryTheory.Localization.lift` and `CategoryTheory.Localization.fac`, which is
-[Stacks, Tag 05R7]); so the content of the statement is that `gr^p ⋙ Q` and `(forget F) ⋙ Q`
-invert the filtered quasi-isomorphisms. For `gr^p` that is the definition of a filtered
+*The functors `gr^p` and `(forget F)` followed by `Q` invert the filtered
+quasi-isomorphisms*, which is the input to the universal property of localisation in
+[Stacks, Tag 05S3]: a functor factors through a localisation exactly when it inverts the class
+of morphisms localised at (`CategoryTheory.Localization.lift` and
+`CategoryTheory.Localization.fac`, which is [Stacks, Tag 05R7]); the exact functors on `DF(𝒜)`
+so obtained are constructed in `StacksFrontier.Homology.FilteredDerivedCategory.ExactFunctors`.
+For `gr^p` that is the definition of a filtered
 quasi-isomorphism together with the inversion of quasi-isomorphisms by `Q`, and it holds for an
 arbitrary filtration. For `(forget F)` it is a theorem, and it needs finiteness: for the constant
 filtration `F^p K^• = K^•` every graded piece vanishes, so `0 ⟶ K^•` is a filtered
@@ -115,8 +114,7 @@ asserted by [Stacks, Tag 05QH] and is proved here from a four lemma.
 * `CochainComplex.isIso_Q_map_gradedPiece_and_forget_of_filteredQuasiIso`: a filtered
   quasi-isomorphism is inverted by `gr^p` followed by the localisation functor to `D(𝒜)`, for
   every `p`, and — when the two filtrations are finite in each degree — also by `(forget F)`
-  followed by that functor; hence both `gr^p ⋙ Q` and `(forget F) ⋙ Q` factor canonically
-  through `DF(𝒜)`.
+  followed by that functor.
 * `CochainComplex.exists_filteredQuasiIso_bounded_of_isGE_of_isLE_gradedPiece`: the bounded below
   replacement `K^• ⟶ L^•`, the bounded above replacement `M^• ⟶ K^•`, and the commutative square
   the two fit in, as the three clauses of one statement about a filtered complex with finite
@@ -166,15 +164,11 @@ of complexes are the source's hypotheses on `K(Fil^f(𝒜))`, and the morphisms 
 second theorem are morphisms of complexes, as in the source's own diagram. The square produced
 in its third clause commutes on the nose, which is stronger than commuting in `K(Fil^f(𝒜))`.
 
-*`DF(𝒜)` is not mentioned in the first theorem.* Its triangulated structure ([Stacks, Tag 05S1]
-with [Stacks, Tag 05R6]) is not stated: the filtered complexes are modelled as
-`FilteredObject (CochainComplex 𝒜 ℤ) ℤᵒᵖ`, on which no shift and no distinguished triangles are
-constructed, so the exactness of the induced functors is out of reach, and only their existence
-is available.
-What is stated is therefore the hypothesis of the universal property,
-`CategoryTheory.MorphismProperty.IsInvertedBy` unfolded at a single morphism, from which the
-induced functor on any localisation is `CategoryTheory.Localization.lift` and its commutation
-with the localisation functors is `CategoryTheory.Localization.fac`.
+*`DF(𝒜)` is not mentioned in the first theorem.* It is stated on filtered complexes, as the
+hypothesis of the universal property (`CategoryTheory.MorphismProperty.IsInvertedBy` unfolded at
+a single morphism); the induced exact functors on `DF(𝒜)`, which need the triangulated structure
+of `K(Fil^f(𝒜))` and of `DF(𝒜)`, are built from it in
+`StacksFrontier.Homology.FilteredDerivedCategory.ExactFunctors`.
 
 *`gr` is the family `(gr^p)_p`, and the bounds are uniform in `p`.* The source phrases the
 hypotheses with the single functor `gr = ⨁_p gr^p` into complexes of graded objects; the pieces
@@ -596,17 +590,18 @@ private lemma isZero_homology_mappingCone
 
 namespace CochainComplex
 
-/-- **Stacks 05S3.** Let `𝒜` be an abelian category and let `α : K^• ⟶ L^•` be a filtered
+/-- **The functors `gr^p` and `(forget F)`, followed by `Q`, invert filtered
+quasi-isomorphisms.** Let `𝒜` be an abelian category and let `α : K^• ⟶ L^•` be a filtered
 quasi-isomorphism of filtered cochain complexes of `𝒜`. Then, for every `p`, the localisation
 functor `Q : CochainComplex 𝒜 ℤ ⥤ D(𝒜)` inverts `gr^p(α)`; and if moreover the filtrations of
 `K^•` and of `L^•` are finite in each degree — `F^p K^n = K^n` for some `p` and `F^q K^n = 0` for
 some `q`, for each `n`, i.e. `K^•` and `L^•` are complexes of finitely filtered objects — then
-`Q` inverts the underlying morphism of complexes `(forget F)(α)` as well. Equivalently: the
-functors `gr^p ⋙ Q` and, on `K(Fil^f(𝒜))`, `(forget F) ⋙ Q` invert the filtered
-quasi-isomorphisms, so that each factors canonically through the filtered derived category
-`DF(𝒜)`, compatibly with the localisation functors; the statement about `gr` is the conjunction
-over all `p` of the statements about `gr^p`. -/
-@[stacks 05S3, sga "4 Vbis 2.5.2" "more general"]
+`Q` inverts the underlying morphism of complexes `(forget F)(α)` as well. This is the input to the
+universal property of localisation in the proof of [Stacks, Tag 05S3]; the exact functors
+`gr^p, (forget F) : DF(𝒜) ⥤ D(𝒜)` and `gr : DF(𝒜) ⥤ D(Gr(𝒜))` it produces, and their
+commutation with the localisation functors, are
+`CochainComplex.FilteredDerivedCategory.isTriangulated_grDF_forgetDF_grGradedDF`. -/
+@[sga "4 Vbis 2.5.2" "more general"]
 public theorem isIso_Q_map_gradedPiece_and_forget_of_filteredQuasiIso {A : Type u}
     [Category.{v} A] [Abelian A] [HasDerivedCategory.{w} A]
     {K L : FilteredObject (CochainComplex A ℤ) ℤᵒᵖ} (α : K ⟶ L)
@@ -624,9 +619,10 @@ public theorem isIso_Q_map_gradedPiece_and_forget_of_filteredQuasiIso {A : Type 
   exact quasiIso_of_isZero_homology_mappingCone α.hom (isZero_homology_mappingCone α hα hK hL)
 
 /-- **A morphism of filtered complexes which is a quasi-isomorphism on every graded piece is a
-quasi-isomorphism**, provided both filtrations are finite in each degree. This is the second
-clause of [Stacks, Tag 05S3] read as a statement about the morphism of complexes rather than
-about its image in the derived category, which is the form the proofs of [Stacks, Tag 07LD] and
+quasi-isomorphism**, provided both filtrations are finite in each degree. This is the step of the
+proof of [Stacks, Tag 05S3] showing that `(forget F)` descends to `DF(𝒜)`, read as a statement
+about the morphism of complexes rather than about its image in the derived category, which is the
+form the proofs of [Stacks, Tag 07LD] and
 [Stacks, Tag 0FKH] use when they conclude from the graded pieces. Unlike
 `CochainComplex.isIso_Q_map_gradedPiece_and_forget_of_filteredQuasiIso` it asks for no
 `HasDerivedCategory` instance: the mapping cone of `α.hom` is acyclic outright.
@@ -634,8 +630,7 @@ about its image in the derived category, which is the form the proofs of [Stacks
 Finiteness cannot be dropped: for the constant filtration `F^p K^• = K^•` every graded piece
 vanishes, so `0 ⟶ K^•` is a filtered quasi-isomorphism whose underlying morphism is not a
 quasi-isomorphism unless `K^•` is acyclic. -/
-@[stacks 05S3 "the underlying morphism of complexes, as a quasi-isomorphism",
-  sga "4 Vbis 2.5.2" "more general"]
+@[sga "4 Vbis 2.5.2" "more general"]
 public theorem quasiIso_hom_of_filteredQuasiIso
     {K L : FilteredObject (CochainComplex 𝒜 ℤ) ℤᵒᵖ} (α : K ⟶ L)
     (hα : CochainComplex.filteredQuasiIso 𝒜 α)

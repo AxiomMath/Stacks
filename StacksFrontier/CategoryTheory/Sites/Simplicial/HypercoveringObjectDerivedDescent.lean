@@ -36,10 +36,10 @@ different site and a different augmentation, and neither implies the statements 
 * `CategoryTheory.SimplicialSemiRepresentable.situationOver` and `.augmentationOver`: the
   simplicial-site situation `n ↦ (C/X)/K_n` of Stacks 0D8B over `C/X`, and its augmentation.
 * `CategoryTheory.SimplicialSemiRepresentable.derivedGlobalSectionsInverseImageIsoOver`:
-  **Stacks 09X7**, the isomorphism `RΓ(X, -) ≅ a⁻¹ ⋙ RΓ((C/K)_total, -)` of functors on the
-  unbounded derived category of abelian sheaves on `C/X`.
+  the isomorphism `RΓ(X, -) ≅ a⁻¹ ⋙ RΓ((C/K)_total, -)` of Stacks 09X7 of functors on the
+  unbounded derived category of abelian sheaves on `C/X`, from its three inputs.
 * `CategoryTheory.SimplicialSemiRepresentable.derivedTotalInverseImageEquivalenceOver`:
-  **Stacks 0D8M**, the equivalence `D⁺(C/X) ≌ D⁺_𝒜((C/K)_total)`.
+  the equivalence `D⁺(C/X) ≌ D⁺_𝒜((C/K)_total)` of Stacks 0D8M, from its three inputs.
 
 ## Main results
 
@@ -52,15 +52,24 @@ different site and a different augmentation, and neither implies the statements 
 Both carry the two inputs of Stacks 0D8L — which over `C/X` play the role the two inputs of
 Stacks 0D8G play over `C` — in the shape in which the general-augmentation theorems consume them:
 `hunit`, that the underived unit `F ⟶ a_*a⁻¹F` of the augmentation adjunction on abelian sheaves
-is an isomorphism, and `hacyclic`, that `a⁻¹` of a K-injective complex computes `Ra_*`. See the
-module docstring of
-`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringObjectDerivedPushforward.lean` for why
-neither is discharged in this library.
+is an isomorphism, and `hacyclic`, that `a⁻¹` of a K-injective complex computes `Ra_*`. For a
+hypercovering of `X` the library proves both (`isIso_situationAbelianTotalAdjunctionUnit_over` and
+`inverseImageComputesDerivedPushforward_over_of_isHypercovering`), as well as `hsurj` below
+(`essImage_situationTotalInverseImageAb_of_isCartesianAbSheaf_over`); the unconditional
+statements are in
+`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringObjectDerivedDescentUnconditional.lean`.
 
 Stacks 09X7 carries in addition `hΓ`, the **underived** identity
 `Γ(C/X, a_*F) = Γ((C/K)_total, F)` on which the factorisation of Stacks 08J6 rests; the derived
 half of Stacks 08J6 is *not* assumed, being supplied by
 `CategoryTheory.SimplicialSiteSituation.Augmentation.derivedGlobalSectionsPushforwardIso`.
+That identity is proved, for every `K`, as `CategoryTheory.SimplicialSemiRepresentable`
+`.abelianTotalPushforwardGammaIsoOver`. With all three inputs discharged, Stacks 09X7 under
+exactly the source's hypotheses is `CategoryTheory.SimplicialSemiRepresentable`
+`.derivedGlobalSectionsInverseImageIsoOverOfHypercovering`, in
+`StacksFrontier/CategoryTheory/Sites/Simplicial/HypercoveringObjectDerivedDescentUnconditional.lean`,
+which carries the tag.
+
 Stacks 0D8M carries in addition `hsurj`, the remaining clause of Stacks 0D8K (2): every cartesian
 abelian sheaf on the total site lies in the essential image of `a⁻¹`. Each clause string names
 what it carries.
@@ -134,7 +143,7 @@ abbrev augmentationOver :
 
 /-! ### Derived global sections over the object -/
 
-/-- **Stacks 09X7**, granted the inputs the library does not have. For a site `C` with fibre
+/-- The isomorphism of Stacks 09X7 from its three inputs. For a site `C` with fibre
 products, an object `X` of `C`, a simplicial semi-representable object `K` over `X` — in
 particular a hypercovering of `X` — and the augmentation `a : Sh((C/K)_total) ⟶ Sh(C/X)` of
 Stacks 0D8B read over the slice site, derived global sections over `X` are derived global
@@ -151,11 +160,9 @@ statement over `C/X` of what Stacks 0D8G states over `C`: the first is the degre
 identification of Stacks 0D8K, that the underived unit `F ⟶ a_*a⁻¹F` is an isomorphism, and the
 second is that `a⁻¹` of a K-injective complex computes `Ra_*`. `hΓ` is the underived identity
 `Γ(C/X, a_*F) = Γ((C/K)_total, F)` on which the factorisation of Stacks 08J6 rests. The derived
-content of Stacks 08J6 is *not* assumed: see the module docstring. -/
-@[stacks 09X7 "RESTRICTED: granted the two inputs of Tag 0D8L — the underived unit F = a_*a⁻¹F
-and the Ra_*-acyclicity of a⁻¹ of a K-injective complex — and the underived identity
-Γ(C/X, a_*F) = Γ(total, F); stated for every simplicial semi-representable object over X,
-hence for a hypercovering of X"]
+content of Stacks 08J6 is *not* assumed: see the module docstring. All three inputs are proved
+for a hypercovering of `X`, and the statement of Stacks 09X7 with them discharged is
+`derivedGlobalSectionsInverseImageIsoOverOfHypercovering`. -/
 def derivedGlobalSectionsInverseImageIsoOver
     (hunit : IsIso (Augmentation.abelianTotalAdjunction (situationOver P K) (Cat.of (Over X))
       (P.toGrothendieck.over X) (augmentationOver P K)).unit)
@@ -198,7 +205,7 @@ theorem isIso_derivedAugmentationUnitOver_app_of_inputs
   NatIso.isIso_app_of_isIso _ E
 
 include hsurj in
-/-- **Stacks 0D8M**, granted the inputs the library does not have. For a site `C` with fibre
+/-- The equivalence of Stacks 0D8M from its three inputs. For a site `C` with fibre
 products, an object `X` of `C`, a simplicial semi-representable object `K` over `X` — in
 particular a hypercovering of `X` — the augmentation `a` of Stacks 0D8B read over the slice site
 `C/X`, and the weak Serre subcategory `𝒜 ⊂ Ab((C/K)_total)` of cartesian abelian sheaves of
@@ -215,11 +222,9 @@ statement over `C/X` of what Stacks 0D8G states over `C`. `hsurj` is the remaini
 Stacks 0D8K (2), that every cartesian abelian sheaf on the total site lies in the essential image
 of `a⁻¹`. The derived content — that both functors restrict to the bounded below subcategories,
 that the cohomology sheaves of `a⁻¹E` are cartesian, and the propagation of the counit from `𝒜`
-to all of `D⁺_𝒜` — is *not* assumed. -/
-@[stacks 0D8M "RESTRICTED: granted the two inputs of Tag 0D8L — the underived unit F = a_*a⁻¹F
-and the Ra_*-acyclicity of a⁻¹ of a K-injective complex — and the essential surjectivity clause
-of Tag 0D8K (2); stated for every simplicial semi-representable object over X, hence for a
-hypercovering of X"]
+to all of `D⁺_𝒜` — is *not* assumed. For a hypercovering of `X` the library proves all three
+inputs, and Stacks 0D8M itself is
+`derivedTotalInverseImageEquivalenceOverOfHypercovering`. -/
 def derivedTotalInverseImageEquivalenceOver :
     (DerivedCategoryB.derivedCategoryBPlus
         (⊤ : ObjectProperty
@@ -233,10 +238,8 @@ def derivedTotalInverseImageEquivalenceOver :
     (fun E hE ↦ Augmentation.isIso_derivedCounit_app_of_isCartesian _ _ _ _ hall hsurj E hE)
 
 include hunit hacyclic hsurj in
-/-- **Stacks 0D8M, the forward functor of the equivalence is `a⁻¹`:** it is the restriction of the
-derived inverse image to the bounded below subcategories. -/
-@[stacks 0D8M "RESTRICTED: the forward functor of the equivalence is a⁻¹, for the equivalence
-built granted the two inputs of Tag 0D8L and the essential surjectivity clause of Tag 0D8K (2)"]
+/-- The forward functor of `derivedTotalInverseImageEquivalenceOver` is `a⁻¹`: it is the
+restriction of the derived inverse image to the bounded below subcategories. -/
 theorem derivedTotalInverseImageEquivalenceOver_functor :
     (derivedTotalInverseImageEquivalenceOver P K hunit hacyclic hsurj).functor =
       Augmentation.derivedTotalInverseImagePlus (situationOver P K) (Cat.of (Over X))

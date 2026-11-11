@@ -102,7 +102,6 @@ chain of submodules of an Artinian module stabilizes, which is the Mittag-Leffle
 general specialization-stable `T ⊆ V(I)` lies beyond that argument, the modules `Hⁱ_T(M/IⁿM)`
 being in general neither finite nor Artinian; the source obtains part (2) there from the
 pro-zero assertion of [Stacks, Tag 0EFX] instead. -/
-@[stacks 0EFY "part (2) at T = {𝔪} over a Noetherian local ring, in every degree"]
 theorem isMittagLefflerCategorical_homologyAdicQuotientLocalCohomology
     [IsLocalRing A] [IsNoetherianRing A] (I : Ideal A) (M : ModuleCat.{u} A)
     [Module.Finite A M] (i : ℤ) :
@@ -124,7 +123,6 @@ family of modules and the same transition maps, read along the cofinal shift `n 
 
 `IᵏM` is a submodule of a finite module over a Noetherian ring, hence itself finite, so this is
 `isMittagLefflerCategorical_homologyAdicQuotientLocalCohomology` applied to it. -/
-@[stacks 0EFY "part (3) at T = {𝔪} over a Noetherian local ring, for the submodule IᵏM"]
 theorem isMittagLefflerCategorical_homologyAdicQuotientLocalCohomology_smul
     [IsLocalRing A] [IsNoetherianRing A] (I : Ideal A) (M : ModuleCat.{u} A)
     [Module.Finite A M] (k : ℕ) (i : ℤ) :

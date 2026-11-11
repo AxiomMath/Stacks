@@ -44,7 +44,9 @@ produced over the thickening is placed in the locus because the inclusion of the
 
 The open locus is carried as `AlgebraicGeometry.Stack.FiniteHilbert.HasOpenLciLocus`, the output
 of steps 1-3 of the source of Stacks 06CL, and is taken as an explicit argument here exactly as
-it is in `AlgebraicGeometry.Stack.isFiberedInGroupoids_lciFiniteHilbertCategory`. The witness
+it is in `AlgebraicGeometry.Stack.isFiberedInGroupoids_lciFiniteHilbertCategory`; at the
+hypotheses of Stacks 06CL it is proved, from Stacks 05X8 and Stacks 06CE, by
+`AlgebraicGeometry.Stack.FiniteHilbert.hasOpenLciLocus`. The witness
 that the projection of the locus is fibred in groupoids is likewise an argument, as in
 `AlgebraicGeometry.Stack.lciFiniteHilbertFibered`: the predicate
 `AlgebraicGeometry.Stack.IsFormallySmoothOnObjects` is stated of a 1-morphism of the 2-category

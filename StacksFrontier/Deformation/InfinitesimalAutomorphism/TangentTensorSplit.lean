@@ -46,9 +46,15 @@ to the square-zero extension `k ⊕ I` of the residue field. The two are isomorp
   split inclusion.
 * `Deformation.exists_pushforwardIso_kernelTrivialExtension`: the isomorphism `x_I ≅ x[I]`
   over `k ⊕ I`.
+* `Deformation.relativeInfinitesimalAutomorphismsMulEquivTangentTensor`: the canonical
+  identification `Inf(x'/x) = T_{id_{x₀}} Aut(x') ⊗_k I`, by the construction of Stacks 06JI
+  for the automorphism functor of `x'`.
+* `Deformation.tangentTensorAction`: **Stacks 06JY**, the canonical action of
+  `T_{id_{x₀}} Aut(x') ⊗_k I` on `Inf(x'/x)`.
+* `Deformation.tangentTensorAction_bijective`: **Stacks 06JY**, the canonical action is free and
+  transitive.
 * `Deformation.exists_freeTransitiveAction_tangentTensor_relativeInfinitesimalAutomorphisms`:
-  **Stacks 06JY**, the free and transitive action of `T_{id_{x₀}} Aut(x') ⊗_k I` on
-  `Inf(x'/x)`.
+  the existence of a free and transitive action, as a corollary.
 
 ## Implementation notes
 
@@ -769,11 +775,288 @@ universe u w u₁ v₁
 variable {Λ : Type u} {k : Type w} [CommRing Λ] [Field k] [Algebra Λ k]
   {F : Type u₁} [Category.{v₁} F] {p : F ⥤ ArtinianLocalAlgCat.{u, w, w} Λ k}
 
+/-- **The canonical identification `Inf(x'/x) = T_{id_{x₀}} Aut(x') ⊗_k I`.** For a category
+cofibered in groupoids over `𝒞_Λ` satisfying (RS) and a morphism `φ : x' ⟶ x` lying over a
+surjection `A' → A` whose kernel `I` is annihilated by the maximal ideal of `A'`, this is the
+isomorphism from the group `Inf(x'/x)` onto the additive group of
+`T_{id_{x₀}} Aut(x') ⊗_k I`, read multiplicatively.
+
+It is the construction of the proof of Stacks 06JI, carried out for the automorphism functor
+of `x'`. Let `z` be an (RS) fibre square of `x'` with itself over `x`, lying over
+`A' ×_A A'`, and push it forward along the difference coordinate
+`A' ×_A A' → k ⊕ I`, `(a₁, a₂) ↦ (ā₁, a₂ - a₁)`, to an object `x_I`. An infinitesimal
+automorphism `α` of `x'` over `x` is the second coordinate of a unique automorphism `(1, α)` of
+`z` trivial on the first factor; its pushforward to `x_I` is an infinitesimal automorphism of
+`x_I` relative to the special fibre, which is the infinitesimal difference of the two lifts
+`1` and `α` of the identity of `x`. Through the isomorphism `x_I ≅ x'[I]` with the chosen
+pushforward of `x'` to `k ⊕ I` it is an element of `Inf(x'[I]/x₀)`, and the identification of
+Tag 06IA for the automorphism functor
+(`Deformation.infinitesimalAutomorphismKernelMulEquivTensor`) reads it as an element of
+`T_{id_{x₀}} Aut(x') ⊗_k I`, where `T_{id_{x₀}} Aut(x')` carries the vector-space structure of
+Tag 06JV.
+
+The fibre square, the pushforwards to `k ⊕ I` and to the residue field are chosen; each is
+unique up to unique isomorphism. -/
+public noncomputable def relativeInfinitesimalAutomorphismsMulEquivTangentTensor
+    (hrs : SatisfiesRS p) {X' X : F} (φ : X' ⟶ X)
+    (hg : Function.Surjective (p.map φ).hom)
+    (hann : ∀ a : p.obj X', a ∈ maximalIdeal (p.obj X') →
+      ∀ i : RingHom.ker (p.map φ).hom.toRingHom, a * (i : p.obj X') = 0)
+    (P : ChosenPushforwardsAt p X') :
+    letI : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+    letI := naturalLocalizedTangentAddCommGroup P hrs
+    letI := naturalLocalizedTangentModule P hrs
+    ↥(relativeInfinitesimalAutomorphisms (x' := ⟨X', rfl⟩) (x := ⟨X, rfl⟩) hrs.1 (p.map φ) φ
+        (IsHomLift.map p φ)) ≃*
+      Multiplicative (TensorProduct k (localizedAutomorphismFunctorTangent P)
+        (RingHom.ker (p.map φ).hom.toRingHom)) := by
+  let _ : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+  let _ := naturalLocalizedTangentAddCommGroup P hrs
+  let _ := naturalLocalizedTangentModule P hrs
+  -- the (RS) fibre square `z` of `x'` with itself over `x`
+  have hRS := hrs.2 φ φ hg
+  let cone := hRS.choose
+  have hsq : IsPullback cone.fst cone.snd φ φ := by
+    obtain ⟨⟨hlim⟩, -⟩ := hRS.choose_spec
+    exact IsPullback.of_isLimit hlim
+  have hbase0 : IsPullback (p.map cone.fst) (p.map cone.snd) (p.map φ) (p.map φ) := by
+    obtain ⟨-, ⟨hlimp⟩⟩ := hRS.choose_spec
+    exact IsPullback.of_isLimit hlimp
+  -- its diagonal, and the difference coordinate `γ` out of its base
+  let dF : X' ⟶ cone.pt := hsq.lift (𝟙 X') (𝟙 X') rfl
+  have hdF₁ : dF ≫ cone.fst = 𝟙 X' := hsq.lift_fst (𝟙 X') (𝟙 X') rfl
+  have hdF₂ : dF ≫ cone.snd = 𝟙 X' := hsq.lift_snd (𝟙 X') (𝟙 X') rfl
+  have hd : ∀ {c : cone.pt ⟶ X'}, dF ≫ c = 𝟙 X' → p.map dF ≫ p.map c = 𝟙 (p.obj X') :=
+    fun h => by rw [← p.map_comp, h, p.map_id]
+  have hγ := exists_isPullback_kernelTrivialExtension_diagonal (p.map φ) hg hann hbase0
+    (p.map dF) (hd hdF₁) (hd hdF₂)
+  let γ := hγ.choose
+  have hbase : IsPullback (p.map cone.fst) γ (residueMorphism (p.obj X'))
+      (residueMorphism (infinitesimalDifferenceMap (p.map φ) hg hann).target) :=
+    hγ.choose_spec.1
+  have hdγ : p.map dF ≫ γ = kernelSplitInclusion (p.map φ) hg hann := hγ.choose_spec.2
+  -- the pushforward `x_I` of `z` along `γ`, and a pushforward `x₀` of `x'` to the residue field
+  have hXI := exists_pushforward hrs.1 γ cone.pt rfl
+  let XI := hXI.choose
+  let cI : cone.pt ⟶ XI := hXI.choose_spec.choose
+  have hcI : p.IsHomLift γ cI := hXI.choose_spec.choose_spec
+  have hY₀ := exists_pushforward hrs.1 (residueMorphism (p.obj X')) X' rfl
+  let Y₀ := hY₀.choose
+  let φ₀ : X' ⟶ Y₀ := hY₀.choose_spec.choose
+  have hφ₀ : p.IsHomLift (residueMorphism (p.obj X')) φ₀ := hY₀.choose_spec.choose_spec
+  let x₀ : p.Fiber (residueFieldObject.{u, w, w} Λ k) :=
+    ⟨Y₀, IsHomLift.codomain_eq p (residueMorphism (p.obj X')) φ₀⟩
+  let xI : p.Fiber (infinitesimalDifferenceMap (p.map φ) hg hann).target :=
+    ⟨XI, IsHomLift.codomain_eq p γ cI⟩
+  let _ := IsHomLift.map p cone.fst
+  let _ := isStronglyCocartesian_of_isCofiberedInGroupoids hrs.1 γ cI hcI
+  let fI : XI ⟶ x₀.1 := Functor.IsStronglyCocartesian.map p γ cI hbase.w (cone.fst ≫ φ₀)
+  have hfac : cI ≫ fI = cone.fst ≫ φ₀ :=
+    Functor.IsStronglyCocartesian.fac p γ cI hbase.w (cone.fst ≫ φ₀)
+  have hfI : p.IsHomLift
+      (residueMorphism (infinitesimalDifferenceMap (p.map φ) hg hann).target) fI :=
+    inferInstance
+  have hbaseI : IsPullback (p.map cone.fst) (p.map cI) (p.map φ₀) (p.map fI) := by
+    refine hbase.of_iso (Iso.refl _) (Iso.refl _) (eqToIso xI.2.symm) (eqToIso x₀.2.symm)
+      ?_ ?_ ?_ ?_
+    · simp
+    · rw [IsHomLift.fac' p γ cI]; simp
+    · rw [IsHomLift.fac' p (residueMorphism (p.obj X')) φ₀]; simp
+    · rw [IsHomLift.fac' p
+        (residueMorphism (infinitesimalDifferenceMap (p.map φ) hg hann).target) fI]
+      simp
+  have hsurjI : Function.Surjective (p.map fI).hom := by
+    rw [IsHomLift.fac' p
+      (residueMorphism (infinitesimalDifferenceMap (p.map φ) hg hann).target) fI]
+    exact (surjective_hom_eqToHom_of_eq _).comp
+      ((surjective_hom_residueMorphism _).comp (surjective_hom_eqToHom_of_eq _))
+  have hsqI : IsPullback cone.fst cI φ₀ fI := by
+    obtain ⟨hlimI⟩ := isLimit_of_map_isLimit hrs φ₀ fI
+      (PullbackCone.mk cone.fst cI hfac.symm) hsurjI
+      ⟨IsLimit.ofIsoLimit hbaseI.isLimit
+        (PullbackCone.ext (Iso.refl _) (Category.id_comp _).symm (Category.id_comp _).symm)⟩
+    exact IsPullback.of_isLimit hlimI
+  -- `Inf(z/x') = Inf(x'/x)` by the second projection, `Inf(z/x') = Inf(x_I/x₀)` along `cI`
+  let Fself := relativeInfinitesimalAutomorphismsFibreSquareEquiv
+    (z := ⟨cone.pt, rfl⟩) (x₁ := ⟨X', rfl⟩) (x₂ := ⟨X', rfl⟩) (x := ⟨X, rfl⟩)
+    hrs.1 (IsHomLift.map p cone.fst) (IsHomLift.map p cone.snd) (IsHomLift.map p φ) hsq hbase0
+  let E := relativeInfinitesimalAutomorphismsFibreSquareEquiv
+    (z := ⟨cone.pt, rfl⟩) (x₁ := ⟨X', rfl⟩) (x₂ := xI) (x := x₀)
+    hrs.1 (IsHomLift.map p cone.fst) hcI hfI hsqI hbase
+  -- the comparison of `x_I` with the chosen pushforward `x'[I]`
+  let ι : X' ⟶ XI := dF ≫ cI
+  have hι : p.IsHomLift (kernelSplitInclusion (p.map φ) hg hann) ι := by
+    rw [← hdγ]
+    exact IsHomLift.comp p (p.map dF) γ dF cI
+  have hιfac : ι ≫ fI = φ₀ := by
+    change (dF ≫ cI) ≫ fI = φ₀
+    rw [Category.assoc, hfac, ← Category.assoc, hdF₁, Category.id_comp]
+  let M := kernelCoordinateModule (p.map φ) hann
+  let red : squareZeroUnder.{u, w, w, u₁, v₁} p X' M ⟶
+      specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X') :=
+    squareZeroUnderRed.{u, w, w, u₁, v₁} p X' M
+  let ρ := kernelTrivialExtensionUnderIso.{u, w, u₁, v₁} (p := p) (x := X') (p.map φ) hg hann
+  let sI := specialFibreUnderIso.{u, w, u₁, v₁} (p := p) X'
+  let _ : IsIso sI.hom := ⟨sI.inv, sI.hom_inv_id, sI.inv_hom_id⟩
+  have hVhom : (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')).hom =
+      residueMorphism (p.obj X') ≫ sI.hom :=
+    hom_specialFibreUnder_right_ext X' _ _
+  let _ := isStronglyCocartesian_of_isCofiberedInGroupoids hrs.1 (residueMorphism (p.obj X'))
+    φ₀ hφ₀
+  let _ := P.inclusion_cocartesian (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X'))
+  let t := Functor.IsStronglyCocartesian.map p (residueMorphism (p.obj X')) φ₀ hVhom
+    (P.inclusion (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')))
+  have htfac : φ₀ ≫ t = P.inclusion (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')) :=
+    Functor.IsStronglyCocartesian.fac p (residueMorphism (p.obj X')) φ₀ hVhom
+      (P.inclusion (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')))
+  have htlift : p.IsHomLift sI.hom t := inferInstance
+  let _ := isStronglyCocartesian_of_isCofiberedInGroupoids hrs.1 sI.hom t htlift
+  have hti : IsIso t := Functor.IsStronglyCocartesian.isIso_of_base_isIso p sI.hom t
+  have hfzlift : p.IsHomLift (ρ.hom ≫ red).right (fI ≫ t) := by
+    rw [show (ρ.hom ≫ red).right =
+        residueMorphism (infinitesimalDifferenceMap (p.map φ) hg hann).target ≫ sI.hom from
+      hom_specialFibreUnder_right_ext X' _ _]
+    exact CategoryTheory.IsHomLift.comp p
+      (residueMorphism (infinitesimalDifferenceMap (p.map φ) hg hann).target) sI.hom fI t
+  have hfacB : ι ≫ fI ≫ t =
+      P.inclusion (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')) := by
+    rw [← Category.assoc, hιfac, htfac]
+  let B := relativeInfinitesimalAutomorphismsChosenMulEquiv P hrs.1 (ρ.hom ≫ red)
+    (y := xI) (z := x₀) ι hι fI hfI t hfzlift hfacB
+  let K := kerTransportAutHomMulEquivOfIso P ρ red
+  exact Fself.symm.trans (E.trans (B.trans (K.trans
+    (infinitesimalAutomorphismKernelMulEquivTensor.{u, w, w, u₁, v₁} P hrs M))))
+
+/-- **Stacks Project, Tag 06JY: the canonical action.** For a category cofibered in groupoids
+over `𝒞_Λ` satisfying (RS) and a morphism `φ : x' ⟶ x` lying over a surjection `A' → A` whose
+kernel `I` is annihilated by the maximal ideal of `A'`, the additive group
+`T_{id_{x₀}} Aut(x') ⊗_k I` acts on `Inf(x'/x)` by `t +ᵥ α = Θ⁻¹(t) ∘ α`, where `Θ` is the
+canonical identification `Deformation.relativeInfinitesimalAutomorphismsMulEquivTangentTensor`.
+This is the action of Stacks 06JI for the automorphism functor of `x'` on the lifts of the
+identity of `x`: the infinitesimal difference of the lifts `α` and `t +ᵥ α`, the pushforward of
+the automorphism `(α, t +ᵥ α)` of the fibre square to `k ⊕ I`, is `t`. -/
+@[stacks 06JY "the canonical action, that of 06JI for Aut(x') with the identification of 06JV",
+  instance_reducible]
+public noncomputable def tangentTensorAction
+    (hrs : SatisfiesRS p) {X' X : F} (φ : X' ⟶ X)
+    (hg : Function.Surjective (p.map φ).hom)
+    (hann : ∀ a : p.obj X', a ∈ maximalIdeal (p.obj X') →
+      ∀ i : RingHom.ker (p.map φ).hom.toRingHom, a * (i : p.obj X') = 0)
+    (P : ChosenPushforwardsAt p X') :
+    letI : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+    letI := naturalLocalizedTangentAddCommGroup P hrs
+    letI := naturalLocalizedTangentModule P hrs
+    AddAction (TensorProduct k (localizedAutomorphismFunctorTangent P)
+        (RingHom.ker (p.map φ).hom.toRingHom))
+      ↥(relativeInfinitesimalAutomorphisms (x' := ⟨X', rfl⟩) (x := ⟨X, rfl⟩) hrs.1 (p.map φ) φ
+        (IsHomLift.map p φ)) := by
+  let _ : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+  let _ := naturalLocalizedTangentAddCommGroup P hrs
+  let _ := naturalLocalizedTangentModule P hrs
+  let Θ := relativeInfinitesimalAutomorphismsMulEquivTangentTensor hrs φ hg hann P
+  exact
+    { vadd := fun t s => Θ.symm (Multiplicative.ofAdd t) * s
+      zero_vadd := fun s => by
+        change Θ.symm (Multiplicative.ofAdd 0) * s = s
+        rw [ofAdd_zero, map_one, one_mul]
+      add_vadd := fun t u s => by
+        change Θ.symm (Multiplicative.ofAdd (t + u)) * s =
+          Θ.symm (Multiplicative.ofAdd t) * (Θ.symm (Multiplicative.ofAdd u) * s)
+        rw [ofAdd_add, map_mul, mul_assoc] }
+
+/-- The canonical action is translation by the inverse of the canonical identification. -/
+public theorem tangentTensorAction_vadd
+    (hrs : SatisfiesRS p) {X' X : F} (φ : X' ⟶ X)
+    (hg : Function.Surjective (p.map φ).hom)
+    (hann : ∀ a : p.obj X', a ∈ maximalIdeal (p.obj X') →
+      ∀ i : RingHom.ker (p.map φ).hom.toRingHom, a * (i : p.obj X') = 0)
+    (P : ChosenPushforwardsAt p X') :
+    letI : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+    letI := naturalLocalizedTangentAddCommGroup P hrs
+    letI := naturalLocalizedTangentModule P hrs
+    letI := tangentTensorAction hrs φ hg hann P
+    ∀ t s, t +ᵥ s = (relativeInfinitesimalAutomorphismsMulEquivTangentTensor hrs φ hg hann P).symm
+      (Multiplicative.ofAdd t) * s :=
+  fun _ _ => rfl
+
+/-- **Stacks Project, Tag 06JY: the canonical action is free and transitive.** From any
+infinitesimal automorphism `α` of `x'` over `x`, the map `t ↦ t +ᵥ α` of
+`Deformation.tangentTensorAction` is a bijection from `T_{id_{x₀}} Aut(x') ⊗_k I` onto
+`Inf(x'/x)`: injectivity is freeness and surjectivity is transitivity. -/
+@[stacks 06JY "the canonical action is free and transitive"]
+public theorem tangentTensorAction_bijective
+    (hrs : SatisfiesRS p) {X' X : F} (φ : X' ⟶ X)
+    (hg : Function.Surjective (p.map φ).hom)
+    (hann : ∀ a : p.obj X', a ∈ maximalIdeal (p.obj X') →
+      ∀ i : RingHom.ker (p.map φ).hom.toRingHom, a * (i : p.obj X') = 0)
+    (P : ChosenPushforwardsAt p X') :
+    letI : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+    letI := naturalLocalizedTangentAddCommGroup P hrs
+    letI := naturalLocalizedTangentModule P hrs
+    letI := tangentTensorAction hrs φ hg hann P
+    ∀ s : ↥(relativeInfinitesimalAutomorphisms (x' := ⟨X', rfl⟩) (x := ⟨X, rfl⟩) hrs.1
+        (p.map φ) φ (IsHomLift.map p φ)),
+      Function.Bijective (fun t : TensorProduct k (localizedAutomorphismFunctorTangent P)
+        (RingHom.ker (p.map φ).hom.toRingHom) => t +ᵥ s) := by
+  let _ : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+  let _ := naturalLocalizedTangentAddCommGroup P hrs
+  let _ := naturalLocalizedTangentModule P hrs
+  intro s
+  exact (Group.mulRight_bijective s).comp
+    ((relativeInfinitesimalAutomorphismsMulEquivTangentTensor hrs φ hg hann P).symm.bijective.comp
+      Multiplicative.ofAdd.bijective)
+
+/-- The canonical action is free: a tangent vector fixing an infinitesimal automorphism is
+zero. -/
+public theorem tangentTensorAction_eq_zero_of_vadd_eq
+    (hrs : SatisfiesRS p) {X' X : F} (φ : X' ⟶ X)
+    (hg : Function.Surjective (p.map φ).hom)
+    (hann : ∀ a : p.obj X', a ∈ maximalIdeal (p.obj X') →
+      ∀ i : RingHom.ker (p.map φ).hom.toRingHom, a * (i : p.obj X') = 0)
+    (P : ChosenPushforwardsAt p X') :
+    letI : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+    letI := naturalLocalizedTangentAddCommGroup P hrs
+    letI := naturalLocalizedTangentModule P hrs
+    letI := tangentTensorAction hrs φ hg hann P
+    ∀ (s : ↥(relativeInfinitesimalAutomorphisms (x' := ⟨X', rfl⟩) (x := ⟨X, rfl⟩) hrs.1
+        (p.map φ) φ (IsHomLift.map p φ)))
+      (t : TensorProduct k (localizedAutomorphismFunctorTangent P)
+        (RingHom.ker (p.map φ).hom.toRingHom)), t +ᵥ s = s → t = 0 := by
+  let _ : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+  let _ := naturalLocalizedTangentAddCommGroup P hrs
+  let _ := naturalLocalizedTangentModule P hrs
+  let _ := tangentTensorAction hrs φ hg hann P
+  intro s t ht
+  exact (tangentTensorAction_bijective hrs φ hg hann P s).1 (ht.trans (zero_vadd _ s).symm)
+
+/-- The canonical action is transitive. -/
+public theorem tangentTensorAction_isPretransitive
+    (hrs : SatisfiesRS p) {X' X : F} (φ : X' ⟶ X)
+    (hg : Function.Surjective (p.map φ).hom)
+    (hann : ∀ a : p.obj X', a ∈ maximalIdeal (p.obj X') →
+      ∀ i : RingHom.ker (p.map φ).hom.toRingHom, a * (i : p.obj X') = 0)
+    (P : ChosenPushforwardsAt p X') :
+    letI : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+    letI := naturalLocalizedTangentAddCommGroup P hrs
+    letI := naturalLocalizedTangentModule P hrs
+    letI := tangentTensorAction hrs φ hg hann P
+    AddAction.IsPretransitive (TensorProduct k (localizedAutomorphismFunctorTangent P)
+        (RingHom.ker (p.map φ).hom.toRingHom))
+      ↥(relativeInfinitesimalAutomorphisms (x' := ⟨X', rfl⟩) (x := ⟨X, rfl⟩) hrs.1 (p.map φ) φ
+        (IsHomLift.map p φ)) := by
+  let _ : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
+  let _ := naturalLocalizedTangentAddCommGroup P hrs
+  let _ := naturalLocalizedTangentModule P hrs
+  let _ := tangentTensorAction hrs φ hg hann P
+  exact ⟨fun s s' => (tangentTensorAction_bijective hrs φ hg hann P s).2 s'⟩
+
 /-- For a category cofibered in groupoids over `𝒞_Λ` satisfying (RS) and a morphism
 `φ : x' ⟶ x` lying over a surjection `g : A' → A` whose kernel `I` is annihilated by the maximal
 ideal of `A'`, the group `Inf(x'/x)` of infinitesimal automorphisms of `x'` over `x` carries a
-free and transitive action by `T_{id_{x₀}} Aut(x') ⊗_k I`. -/
-@[stacks 06JY "the free and transitive action"]
+free and transitive action by `T_{id_{x₀}} Aut(x') ⊗_k I`. This only asserts that some such
+action exists; the canonical one, the action of Stacks 06JI for the automorphism functor of
+`x'`, is `Deformation.tangentTensorAction`, from which this is proved
+(`Deformation.tangentTensorAction_bijective`). -/
 public theorem exists_freeTransitiveAction_tangentTensor_relativeInfinitesimalAutomorphisms
     (hrs : SatisfiesRS p) {A' A : ArtinianLocalAlgCat.{u, w, w} Λ k}
     {x' : p.Fiber A'} {x : p.Fiber A}
@@ -797,82 +1080,16 @@ public theorem exists_freeTransitiveAction_tangentTensor_relativeInfinitesimalAu
       (∀ s s', ∃ t, act t s = s') ∧
       (∀ s, Function.Bijective fun t => act t s) := by
   obtain ⟨X', rfl⟩ := x'
-  let _ : Module k (RingHom.ker g.hom.toRingHom) := kernelModule g hann
+  obtain ⟨X, rfl⟩ := x
+  obtain rfl : g = p.map φ := IsHomLift.eq_of_isHomLift p g φ
+  let _ : Module k (RingHom.ker (p.map φ).hom.toRingHom) := kernelModule (p.map φ) hann
   let _ := naturalLocalizedTangentAddCommGroup P hrs
   let _ := naturalLocalizedTangentModule P hrs
-  have hres : g ≫ residueMorphism A = residueMorphism (p.obj X') :=
-    eq_residueMorphism (g ≫ residueMorphism A)
-  have hφ₀ : p.IsHomLift (residueMorphism (p.obj X')) (φ ≫ ψ₀) := by
-    rw [← hres]
-    exact CategoryTheory.IsHomLift.comp p g (residueMorphism A) φ ψ₀
-  obtain ⟨xI, fI, hfI, ι, hι, hιfac, act, hone, hmul, hbij⟩ :=
-    exists_relativeInfinitesimalAutomorphisms_kernelSplitInclusion_action
-      hrs g φ hφ hg hann (φ ≫ ψ₀) hφ₀
-  let M := kernelCoordinateModule g hann
-  let red : squareZeroUnder.{u, w, w, u₁, v₁} p X' M ⟶
-      specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X') :=
-    squareZeroUnderRed.{u, w, w, u₁, v₁} p X' M
-  let ρ := kernelTrivialExtensionUnderIso.{u, w, u₁, v₁} (p := p) (x := X') g hg hann
-  let sI := specialFibreUnderIso.{u, w, u₁, v₁} (p := p) X'
-  let _ : IsIso sI.hom := ⟨sI.inv, sI.hom_inv_id, sI.inv_hom_id⟩
-  have hVhom : (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')).hom =
-      residueMorphism (p.obj X') ≫ sI.hom :=
-    hom_specialFibreUnder_right_ext X' _ _
-  let _ := isStronglyCocartesian_of_isCofiberedInGroupoids hrs.1 (residueMorphism (p.obj X'))
-    (φ ≫ ψ₀) hφ₀
-  let _ := P.inclusion_cocartesian (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X'))
-  let t := Functor.IsStronglyCocartesian.map p (residueMorphism (p.obj X')) (φ ≫ ψ₀) hVhom
-    (P.inclusion (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')))
-  have htfac : (φ ≫ ψ₀) ≫ t =
-      P.inclusion (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')) :=
-    Functor.IsStronglyCocartesian.fac p (residueMorphism (p.obj X')) (φ ≫ ψ₀) hVhom
-      (P.inclusion (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')))
-  have htlift : p.IsHomLift sI.hom t := inferInstance
-  let _ := isStronglyCocartesian_of_isCofiberedInGroupoids hrs.1 sI.hom t htlift
-  have hti : IsIso t := Functor.IsStronglyCocartesian.isIso_of_base_isIso p sI.hom t
-  have hfzlift : p.IsHomLift (ρ.hom ≫ red).right (fI ≫ t) := by
-    rw [show (ρ.hom ≫ red).right =
-        residueMorphism (infinitesimalDifferenceMap g hg hann).target ≫ sI.hom from
-      hom_specialFibreUnder_right_ext X' _ _]
-    exact CategoryTheory.IsHomLift.comp p
-      (residueMorphism (infinitesimalDifferenceMap g hg hann).target) sI.hom fI t
-  have hfacB : ι ≫ fI ≫ t =
-      P.inclusion (specialFibreUnder.{u, w, w, u₁, v₁} (p := p) (x := X')) := by
-    rw [← Category.assoc, hιfac, htfac]
-  let B := relativeInfinitesimalAutomorphismsChosenMulEquiv P hrs.1 (ρ.hom ≫ red)
-    (y := xI) (z := x₀) ι hι fI hfI t hfzlift hfacB
-  let K := kerTransportAutHomMulEquivOfIso P ρ red
-  obtain ⟨e₀, he₀⟩ :=
-    exists_mulEquiv_tensor_infinitesimalAutomorphismKernel.{u, w, w, u₁, v₁} P hrs M
-  let E := (B.toEquiv.trans K.toEquiv).trans e₀
-  have he : ∀ a b, E (a * b) = E a + E b := by
-    intro a b
-    change e₀ (K (B (a * b))) = e₀ (K (B a)) + e₀ (K (B b))
-    rw [map_mul B, map_mul K, he₀]
-  have he1 : E 1 = 0 := by simpa using he 1 1
-  have hzero : E.symm 0 = 1 := by
-    rw [← he1, Equiv.symm_apply_apply]
-  have hadd : ∀ t u, E.symm (t + u) = E.symm t * E.symm u := by
-    intro t u
-    apply E.injective
-    rw [Equiv.apply_symm_apply, he, Equiv.apply_symm_apply, Equiv.apply_symm_apply]
-  have h0 : ∀ s, act (E.symm 0) s = s := by
-    intro s
-    rw [hzero]
-    exact hone s
-  refine ⟨fun t s => act (E.symm t) s, ?_, ?_, ?_, ?_, ?_⟩
-  · exact h0
-  · intro t u s
-    change act (E.symm (t + u)) s = act (E.symm t) (act (E.symm u) s)
-    rw [hadd]
-    exact hmul _ _ s
-  · intro s t ht
-    replace ht : act (E.symm t) s = s := ht
-    exact E.symm.injective ((hbij s).1 (ht.trans (h0 s).symm))
-  · intro s s'
-    obtain ⟨a, ha⟩ := (hbij s).2 s'
-    exact ⟨E a, (congrArg (act · s) (E.symm_apply_apply a)).trans ha⟩
-  · exact fun s => (hbij s).comp E.symm.bijective
+  let _ := tangentTensorAction hrs φ hg hann P
+  have hbij := tangentTensorAction_bijective hrs φ hg hann P
+  exact ⟨fun t s => t +ᵥ s, zero_vadd _, add_vadd,
+    tangentTensorAction_eq_zero_of_vadd_eq hrs φ hg hann P,
+    fun s s' => (hbij s).2 s', hbij⟩
 
 end
 

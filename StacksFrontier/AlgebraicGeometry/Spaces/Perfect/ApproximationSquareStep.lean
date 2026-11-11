@@ -345,7 +345,7 @@ theorem exists_approximation_step (T : Set (points B S hS W.1))
     (isEtale_edsOpenHom B S hS hsq)).obj E
   have hpc : (smallEtaleRingedSite B S hS (edsOpen B S hS hsq).1
       (edsOpen B S hS hsq).2).IsPseudoCoherentFrom EU.obj (t - rU) :=
-    isPseudoCoherentFrom_mono B S hS _ _ (isPseudoCoherentFrom_etaleModulePullback B S hS
+    isPseudoCoherentFrom_of_le B S hS _ _ (isPseudoCoherentFrom_etaleModulePullback B S hS
       (edsOpenHom B S hS hsq) (isEtale_edsOpenHom B S hS hsq) E.obj (m - r) hE.1) (by omega)
   have hsupp : ∀ i : ℤ, t - rU ≤ i →
       supportOfSheaf B S hS (edsOpen B S hS hsq).1

@@ -50,9 +50,11 @@ algebraic spaces over `S` tested on every base change to a scheme over `S` in th
   quasi-compact morphism is quasi-compact.
 * `AlgebraicGeometry.FormalSpace.IsQuasiCompactOnSchemeBaseChanges.of_isPullback`: the same
   for condition (2).
-* `AlgebraicGeometry.FormalSpace.isQuasiCompact_iff_hasPropertyULift`: **Stacks 0AM2**, the
-  agreement of Stacks 0AJC with Bootstrap, Definition 03XZ for a morphism representable by
-  algebraic spaces.
+* `AlgebraicGeometry.FormalSpace.isQuasiCompact_iff_hasPropertyULift`: the agreement of
+  Stacks 0AJC with Bootstrap, Definition 03XZ for a morphism representable by algebraic
+  spaces, with the two inputs below as hypotheses. The unconditional **Stacks 0AM2** is
+  `AlgebraicGeometry.FormalSpace.isQuasiCompact_iff_hasPropertyULift'` of
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.QuasiCompactMorphismComparison`.
 
 ## Implementation notes
 
@@ -88,8 +90,10 @@ universe-lifted notion of `StacksFrontier.AlgebraicGeometry.Spaces.LargeValuedFi
 value universe independent of the universe of the schemes, since the sheaves carrying formal
 algebraic spaces take values in `Type (u + 1)`.
 
-Of the implications among the four conditions of Stacks 0AJB only (2) ⇒ (3) is formalized.
-The implication (3) ⇒ (2) needs a finite covering of a quasi-compact scheme over `S` by affine
+Of the implications among the four conditions of Stacks 0AJB only (2) ⇒ (3) is formalized
+in this file; (3) ⇒ (2) is
+`AlgebraicGeometry.FormalSpace.IsQuasiCompact.isQuasiCompactOnSchemeBaseChanges` of
+`StacksFrontier.AlgebraicGeometry.FormalSpace.QuasiCompactMorphismDecomposition`. It needs a finite covering of a quasi-compact scheme over `S` by affine
 schemes inside the site and the assembly of the resulting finitely many quasi-compact fibre
 products into one, which rests on the equivalence of the three conditions of Stacks 0AJ9; the
 implications relating condition (1) to the others need in addition that the reduction of a
@@ -102,8 +106,9 @@ of morphisms of algebraic spaces over `S` in the value universe `u + 1` of the f
 algebraic spaces; the latter is `AlgebraicGeometry.Space.HasPropertyULift` evaluated at
 `AlgebraicGeometry.Space.quasiCompactPropertyULift`, which is the spelling of Stacks 03XZ for
 a value universe independent of the universe of the schemes. The two inputs from Stacks 0AJB
-are carried as the hypotheses `QuasiCompactSpaceAgreesOnAlgebraicSpaces` and the implication
-(3) ⇒ (2) for the morphism at hand: the first is the equivalence of the three conditions of
+are taken here as the hypotheses `QuasiCompactSpaceAgreesOnAlgebraicSpaces` and the
+implication (3) ⇒ (2) for the morphism at hand, both proved later in the import order, where
+the unconditional statement lives: the first is the equivalence of the three conditions of
 Stacks 0AJ9 compared with Stacks 03E3 on a sheaf which happens to be an algebraic space, the
 second the implication of Stacks 0AJB discussed above. Beyond these, a fibre product with a
 scheme-valued point of the target is an algebraic space by representability, the bootstrap
@@ -373,8 +378,8 @@ private theorem isQuasiCompactSpace_iff_isQuasiCompactSpaceULift
   · exact Space.isQuasiCompactSpaceULift_of_iso B S hS hsq.isoPullback h
   · exact Space.isQuasiCompactSpaceULift_of_iso B S hS hsq.isoPullback.symm h
 
-/-- **Stacks 0AM2.** Let `f : X ⟶ Y` be a morphism of formal algebraic spaces over `S` which
-is representable by algebraic spaces. Then `f` is quasi-compact in the sense of Stacks 0AJC —
+/-- A form of Stacks 0AM2 taking its two inputs as hypotheses. Let `f : X ⟶ Y` be a morphism
+of fppf sheaves over `S` which is representable by algebraic spaces. Then `f` is quasi-compact in the sense of Stacks 0AJC —
 every fibre product of it with an affine scheme over `S` in the site is a quasi-compact formal
 algebraic space — exactly when it is quasi-compact in the sense of Bootstrap, Definition
 03XZ: every fibre product of it with a scheme over `S` in the site is quasi-compact over that
@@ -386,11 +391,14 @@ on an algebraic space, which is the hypothesis
 direction the bootstrap condition must be tested against the quasi-compact, not only the
 affine, schemes over `S` in the site, which is the implication (3) ⇒ (2) of Stacks 0AJB and is
 the second hypothesis. The witnesses that the source and the target are formal algebraic
-spaces are not used, so the statement is for an arbitrary morphism of fppf sheaves. -/
-@[stacks 0AM2 "both directions, for an arbitrary morphism of fppf sheaves representable by \
-algebraic spaces, with two named hypotheses: `QuasiCompactSpaceAgreesOnAlgebraicSpaces`, the \
-agreement of the quasi-compactness notions of Stacks 0AJ9 and Stacks 03E3 on an algebraic \
-space, and the implication (3) ⇒ (2) of Stacks 0AJB for the morphism"]
+spaces are not used, so the statement is for an arbitrary morphism of fppf sheaves.
+
+Both hypotheses are proved in this library, further down the import order:
+`AlgebraicGeometry.FormalSpace.quasiCompactSpaceAgreesOnAlgebraicSpaces` and
+`AlgebraicGeometry.FormalSpace.IsQuasiCompact.isQuasiCompactOnSchemeBaseChanges`. Stacks 0AM2
+itself, with neither hypothesis, is
+`AlgebraicGeometry.FormalSpace.isQuasiCompact_iff_hasPropertyULift'` of
+`StacksFrontier.AlgebraicGeometry.FormalSpace.QuasiCompactMorphismComparison`. -/
 theorem isQuasiCompact_iff_hasPropertyULift {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hf : Space.IsRepresentableByAlgebraicSpacesULift.{u + 1} B S hS f.hom)
     (hagree : QuasiCompactSpaceAgreesOnAlgebraicSpaces B S hS)

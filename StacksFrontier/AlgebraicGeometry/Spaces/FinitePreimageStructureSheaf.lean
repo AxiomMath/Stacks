@@ -38,9 +38,12 @@ surjectivity of `f`.
   over one étale scheme chart of `X` above `X ×_Y V` do.
 * `AlgebraicGeometry.Space.supportOfSheaf_modulePushforward_structureSheaf_eq_univ`: for a
   surjective morphism `f : X ⟶ Y` of algebraic spaces the support of `f_*𝒪_X` is all of `Y`.
-* `AlgebraicGeometry.Space.isCoherent_modulePushforward_structureSheaf_preimage`: **the
-  coherence assertion of Stacks 0GF7**, granted the chart case `hchart` of Stacks 03DW that
-  Stacks 07UH already carries.
+* `AlgebraicGeometry.Space.isCoherent_modulePushforward_structureSheaf_preimage`: the
+  coherence of `𝒢`, from a hypothesis `hchart` on one surjective étale chart of `Z`.  The
+  coherence assertion of Stacks 0GF7 without that hypothesis is
+  `isCoherent_modulePushforward_structureSheaf_preimage_of_isLocallyNoetherian`,
+  and the whole of Stacks 0GF7 is
+  `isCoherent_and_supportOfSheaf_eq_univ_modulePushforward_structureSheaf_preimage`.
 * `AlgebraicGeometry.Space.supportOfSheaf_modulePushforward_structureSheaf_preimage_eq_univ`:
   **the support assertion of Stacks 0GF7**, unconditionally.
 
@@ -65,10 +68,11 @@ Coherence is Stacks 07UH applied to the coherent module `𝒪_{Z'}`: `Z` is loca
 because a closed immersion is locally of finite type (Stacks 06ED and 04ZK), `Z'` is locally
 Noetherian because `f'` is finite hence locally of finite type, the structure sheaf of a
 locally Noetherian algebraic space is coherent (Stacks 07UB), and `f'` is finite by
-Stacks 03ZS.  `AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite` carries the
-étale-site form of Stacks 01Y6, that is Stacks 03DW, as the named hypothesis `hchart`, which
-this development does not have; that hypothesis is therefore carried here as well and is
-recorded in the attribute string.
+Stacks 03ZS.  `AlgebraicGeometry.Space.isCoherent_modulePushforward_structureSheaf_preimage`
+goes through `AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite`, which takes
+the coherence on one surjective étale chart as the hypothesis `hchart`; the unconditional
+version goes through `AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite'`
+instead, in a module importing this one.
 
 ## References
 
@@ -226,18 +230,17 @@ theorem supportOfSheaf_modulePushforward_structureSheaf_eq_univ (f : X ⟶ Y)
 
 /-! ### Stacks 0GF7 -/
 
-/-- **The coherence assertion of Stacks 0GF7, granted the chart case `hchart`.**  Let
-`f : Y ⟶ X` be a finite morphism of algebraic spaces over `S` with `X` locally Noetherian, let
-`i : Z ⟶ X` be a closed immersion, and let `f' : Z' ⟶ Z` be the base change of `f` along `i`.
-Then `𝒢 = f'_*𝒪_{Z'}` is a coherent `𝒪_Z`-module.
+/-- Let `f : Y ⟶ X` be a finite morphism of algebraic spaces over `S` with `X` locally
+Noetherian, let `i : Z ⟶ X` be a closed immersion, and let `f' : Z' ⟶ Z` be the base change of
+`f` along `i`.  If, on a surjective étale chart `V` of `Z`, the localized direct image of
+`𝒪_{Z'}` is coherent (the hypothesis `hchart`), then `𝒢 = f'_*𝒪_{Z'}` is a coherent
+`𝒪_Z`-module.
 
 `Z` is locally Noetherian by Stacks 06ED and 04ZK, `f'` is finite by Stacks 03ZS, `Z'` is
 locally Noetherian for the same reason as `Z`, and `𝒪_{Z'}` is then coherent by Stacks 07UB; so
-this is `AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite`, whose hypothesis
-`hchart` is the étale-site form of Stacks 01Y6, that is Stacks 03DW, which this development
-does not carry.  Surjectivity of `f` is not used. -/
-@[stacks 0GF7 "coherence of the direct image, granted the chart case hchart of Stacks 03DW \
-which Tag 07UH already carries"]
+this is `AlgebraicGeometry.Space.isCoherent_modulePushforward_of_isFinite`.  Surjectivity of
+`f` is not used.  The coherence assertion of Stacks 0GF7, which needs no `V` and no `hchart`,
+is `isCoherent_modulePushforward_structureSheaf_preimage_of_isLocallyNoetherian`. -/
 theorem isCoherent_modulePushforward_structureSheaf_preimage (f : Y ⟶ X) (i : Z ⟶ X)
     {i' : Z' ⟶ Y} {f' : Z' ⟶ Z} (sq : IsPullback i' f' f i)
     (hf : IsFinite B S hS f.hom)

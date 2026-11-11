@@ -26,7 +26,8 @@ locally of finite presentation and locally quasi-finite.
 ## Implementation notes
 
 `AlgebraicGeometry.HasQuasiFiniteSlice` omits the regular-immersion clause and the singleton-fibre
-clause `Z_s = {x}` of Tag 0570, so neither is proved here.
+clause `Z_s = {x}` of Tag 0570, so neither is proved here; the complete Tag 0570 is proved in
+`StacksFrontier.AlgebraicGeometry.MoreMorphisms.CohenMacaulaySlice.RegularSliceThroughPoint`.
 
 ## References
 
@@ -499,12 +500,11 @@ which is closed in its fibre and at which a morphism locally of finite presentat
 Cohen-Macaulay admits an immersion through it which is flat, locally of finite presentation and
 locally quasi-finite over the base.
 
-The regular-immersion clause and the singleton-fibre clause `Z_s = {x}` of Tag 0570 are *not*
-proved; `AlgebraicGeometry.HasQuasiFiniteSlice` drops both, and the weaker statement is what
-[Stacks, Tag 0571] uses. -/
-@[stacks 0570 "the weak form: only an immersion through the point which is flat, locally of finite
-presentation and locally quasi-finite over the base, which is what Tag 0571 consumes. The
-regular-immersion clause and the singleton-fibre clause (c) are not proved."]
+This is not the statement of [Stacks, Tag 0570]: `AlgebraicGeometry.HasQuasiFiniteSlice` drops
+the regular-immersion clause and the singleton-fibre clause `Z_s = {x}`, and the weaker statement
+is what [Stacks, Tag 0571] uses. The complete Tag 0570, with both clauses, is the theorem
+`exists_regularImmersion_flat_locallyQuasiFinite_singleton_fiber_of_isCohenMacaulayAt`
+in the namespace `Stacks.AlgebraicGeometry`, which carries the tag. -/
 theorem hasQuasiFiniteSlices : HasQuasiFiniteSlices.{u} := by
   intro X S f hlfp x hCMex hclosed
   obtain ⟨hf, hCM⟩ := hCMex

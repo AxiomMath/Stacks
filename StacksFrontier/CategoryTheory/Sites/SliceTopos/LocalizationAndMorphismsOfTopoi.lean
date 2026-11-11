@@ -477,8 +477,10 @@ characterises it by
 In this repository `f_s` is `MorphismOfTopoi.relocalize` (`Sites/RelocalizationMorphism.lean`),
 which is stated — as Stacks 04H1 is, and for the same reason, Remark 03CJ — for an arbitrary
 morphism of topoi and arbitrary objects of the two topoi, so it covers Stacks 04IN and Stacks 04IV
-at once; what is *not* covered there, and is the content of Stacks 04IW, is the passage from the
-site `D/U` to the slice `Sh(D)/h_U^#`.
+at once (for sheaf topoi, where the pushforward of the relocalization is constructed, Stacks 04IV
+is registered on `MorphismOfTopoi.sheafRelocalize` and its companions,
+`SliceTopos/RelocalizationSheafTopoi.lean`); what is *not* covered there, and is the content of
+Stacks 04IW, is the passage from the site `D/U` to the slice `Sh(D)/h_U^#`.
 
 Stacks 04IW says the two diagrams agree via the identifications `j_F = j_U`, `j_G = j_V` of
 Stacks 04IQ, i.e. via the equivalences `Φ_U : Sh(D/U) ≌ Sh(D)/h_U^#` and
@@ -493,8 +495,10 @@ canonical comparison map.  That cartesian square is what is stated here.
 
 ## Main results
 
-* `CategoryTheory.SliceTopos.isPullback_sheafFunctorToOver_overMap_overPost` (Stacks 04IW): for
-  every sheaf `H` on `C/V` the square
+* `CategoryTheory.SliceTopos.isPullback_sheafFunctorToOver_overMap_overPost_of_isMorphismOfSites`
+  (Stacks 04IW), for an arbitrary morphism of sites, and its special case
+  `CategoryTheory.SliceTopos.isPullback_sheafFunctorToOver_overMap_overPost` under the hypotheses
+  of Stacks 03EF: for every sheaf `H` on `C/V` the square
   ```
     Φ_U((f_c)⁻¹H) -----> f⁻¹(j_{V!}H)
         |                     |
@@ -522,15 +526,16 @@ assertion of Stacks 04IW.  For the same reason `s` is pinned as `h_c^#` followed
 Stacks 04D3's `sheafPullbackSheafifyYonedaIso`, not by an unspecified isomorphism
 `h_{u(V)}^# ≅ f⁻¹h_V^#`.
 
-The hypotheses are those of Stacks 03EF — `C` has finite limits and `u` is left exact — rather than
-Stacks 04IW's bare "morphism of sites", exactly as for Stacks 04IU: they are the generality in
-which the repository's Stacks 03CF has `Over.post u` continuous (`Functor.isContinuous_overPost`)
-and in which `underlyingIso` is stated, and they are the situation the source's own proof of Stacks
-04H1 works in (a continuous functor satisfying the assumptions of Proposition 00X6 between sites
-with finite limits).  Unlike Stacks 04IU, `u.IsMorphismOfSites J K` is *not* taken as a hypothesis:
-no `MorphismOfTopoi` occurs in the statement — only `f⁻¹ = u_s` does — and under these hypotheses
-it is implied anyway by Stacks 00X6 (`Functor.isMorphismOfSites_of_preservesFiniteLimits`), so
-carrying it would be a hypothesis the conclusion does not use.
+The registered statement `isPullback_sheafFunctorToOver_overMap_overPost_of_isMorphismOfSites`
+takes Stacks 04IW's own hypotheses: `u` continuous and `hu : u.IsMorphismOfSites J K`, using the
+general continuity of `Over.post u` (`Functor.isContinuous_overPost_of_isContinuous`) and Stacks
+04IU in full generality.  The earlier `isPullback_sheafFunctorToOver_overMap_overPost` is the
+special case under the hypotheses of Stacks 03EF — `C` has finite limits and `u` is left exact —
+which are stronger than the source's bare "morphism of sites"; there `Over.post u` is continuous
+by the global instance `Functor.isContinuous_overPost_of_preservesFiniteLimits`, and `hu` is
+supplied by Stacks 00X6 (`Functor.isMorphismOfSites_of_preservesFiniteLimits`).  In the general
+statement `hu` does not occur in the conclusion — no `MorphismOfTopoi` does, only `f⁻¹ = u_s` — but
+it is the source's hypothesis and it is what the proof uses, through Stacks 04IU.
 
 The object `U` and the morphism `c` are arbitrary, as in Stacks 04IN and Stacks 04IV; Stacks 04IU
 is the case `U = u V`, `c = 𝟙`, where the fibre product collapses and only the identification of
@@ -539,8 +544,8 @@ compatibility with `b : V' ⟶ V`, `a : U' ⟶ U` — are `MorphismOfTopoi.reloc
 
 Faithfulness, on the four points a reader should check against the source.  (1) No hypothesis is
 dead: `V`, `U`, `c` are the data the two diagrams are built from and all three occur in the square,
-`H` is the sheaf at which the vertical edges are compared, and the finite-limit hypotheses are what
-make `Over.post u` continuous, hence the site-side `f'` — and with it `f_c` — exist.  (2) The sites
+`H` is the sheaf at which the vertical edges are compared, and `hu` is the "morphism of sites" of
+the source, used through Stacks 04IU.  (2) The sites
 are the source's: `(C, J)` and `(D, K)` are given, the slices carry the localized topologies
 `J.over V`, `K.over U` and `K.over (u V)` induced by them, and the sheaves are sheaves of sets.
 (3) Every map is pinned, none merely asserted to exist: the identification of the horizontal edges
@@ -693,8 +698,13 @@ is cartesian, the top edge being the canonical comparison map assembled from Sta
 (Stacks 04IS), which identifies `j_{U/u(V)}⁻¹ ⋙ Φ_U` with `Φ_{u(V)} ⋙ Over.pullback h_c^#`, and
 `underlyingIso` (Stacks 04IU, Stacks 03CF), which identifies `j_{u(V)!}(f')⁻¹H` with `f⁻¹j_{V!}H`.
 Equivalently: `Φ_U((f_c)⁻¹H) ≅ (f_s)⁻¹(Φ_V H)` in `Sh(D)/h_U^#`, i.e. the diagram of topoi of
-Stacks 04IN agrees with the diagram of topoi of Stacks 04IV. -/
-@[stacks 04IW]
+Stacks 04IN agrees with the diagram of topoi of Stacks 04IV.
+
+This is the special case of Stacks 04IW in which `C` has finite limits and `u` is left exact
+(Stacks 03EF's sufficient condition, under which `u` defines a morphism of sites by Stacks 00X6);
+these hypotheses are stronger than the source's.  The statement for an arbitrary morphism of
+sites, which carries the Stacks 04IW registration, is
+`isPullback_sheafFunctorToOver_overMap_overPost_of_isMorphismOfSites`. -/
 public theorem isPullback_sheafFunctorToOver_overMap_overPost {C : Type u} [SmallCategory C]
     {D : Type u} [SmallCategory D] {J : GrothendieckTopology C} {K : GrothendieckTopology D}
     {u : C ⥤ D} [u.IsContinuous J K] [HasFiniteLimits C] [PreservesFiniteLimits u]
@@ -717,6 +727,111 @@ public theorem isPullback_sheafFunctorToOver_overMap_overPost {C : Type u} [Smal
       ((presheafToSheaf K (Type u)).map (yoneda.map c) ≫
         (sheafPullbackSheafifyYonedaIso u J K V).inv) := by
   apply Stacks.SliceTopos.RelocalizationSquare.isPullback_sheafFunctorToOver_overMap_overPost_proof
+end
+
+end
+
+end CategoryTheory.SliceTopos
+
+/-! ### Stacks 04IW for an arbitrary morphism of sites
+
+The same cartesian square, under Stacks 04IW's own hypothesis: `u` is continuous and defines a
+morphism of sites (`hu : u.IsMorphismOfSites J K`, Stacks 00X1), with no finite-limit assumption on
+`C` and no exactness assumption on `u`.  `Over.post u` is continuous whenever `u` is
+(`Functor.isContinuous_overPost_of_isContinuous`, taken here as a `local instance`), and the
+identification of the two lower right corners is Stacks 04IU in full generality
+(`underlyingIso_hom_app_comp_hom`), which is where `hu` is used. -/
+
+namespace CategoryTheory.SliceTopos
+
+section
+
+universe u
+open CategoryTheory Limits
+open OverShriek
+open CategoryTheory Limits CategoryTheory.SliceTopos CategoryTheory.OverShriek
+
+attribute [local instance] Functor.isContinuous_overPost_of_isContinuous
+
+namespace Stacks.SliceTopos.RelocalizationSquare
+
+/-- **Stacks 04IU, read as a cartesian square, for an arbitrary morphism of sites.**  The
+canonical isomorphism `j_{u(V)!}(Over.post u)_s H ≅ f⁻¹j_{V!}H` of the proof of Stacks 03CF,
+together with the inverse of Stacks 04D3's identification `f⁻¹h_V^# ≅ h_{u(V)}^#`, forms a
+cartesian square; its horizontal edges are invertible and it commutes by Stacks 04IU. -/
+private lemma isPullback_underlyingIso_hom_app_of_isMorphismOfSites {C : Type u}
+    [SmallCategory C] {D : Type u} [SmallCategory D] (J : GrothendieckTopology C)
+    (K : GrothendieckTopology D) (u : C ⥤ D) [u.IsContinuous J K]
+    (hu : u.IsMorphismOfSites J K) (V : C) (H : Sheaf (J.over V) (Type u)) :
+    IsPullback ((underlyingIso J K u V).hom.app H)
+      ((sheafFunctorToOver (U := u.obj V) K).obj
+          (((Over.post (X := V) u).sheafPullback (Type u) (J.over V)
+            (K.over (u.obj V))).obj H)).hom
+      ((u.sheafPullback (Type u) J K).map ((sheafFunctorToOver (U := V) J).obj H).hom)
+      (sheafPullbackSheafifyYonedaIso u J K V).inv := by
+  refine IsPullback.of_horiz_isIso ⟨(Iso.eq_comp_inv _).2 ?_⟩
+  rw [Category.assoc]
+  exact CategoryTheory.SliceTopos.underlyingIso_hom_app_comp_hom hu V H
+
+end Stacks.SliceTopos.RelocalizationSquare
+
+@[expose] public section
+
+open Stacks.SliceTopos.RelocalizationSquare in
+/-- **Stacks 04IW.**  Let `u : C ⥤ D` be a continuous functor between sites defining a morphism of
+sites (`hu`), with induced morphism of topoi `f : Sh(D) ⟶ Sh(C)`, let `V` be an object of `C`, `U`
+an object of `D` and `c : U ⟶ u V`.  Localizing the morphism of sites at `c` (Stacks 04IN) gives
+`f_c : Sh(D/U) ⟶ Sh(C/V)` with `(f_c)⁻¹ = (Over.post u)_s ⋙ (Over.map c)^s`; localizing the
+morphism of topoi at `s : h_U^# ⟶ f⁻¹h_V^#`, the morphism induced by `c` (Stacks 04IV), gives
+`f_s : Sh(D)/h_U^# ⟶ Sh(C)/h_V^#`, characterised by
+`(f_s)⁻¹(H ⟶ h_V^#) = (f⁻¹H ×_{f⁻¹h_V^#, s} h_U^# ⟶ h_U^#)`.
+
+Through the equivalences `Φ_V, Φ_U` of Stacks 00Y1 — the identifications `j_G = j_V`, `j_F = j_U`
+of Stacks 04IQ — the two agree: for every sheaf `H` on `C/V` the square
+```
+    Φ_U((f_c)⁻¹H) ---------> f⁻¹(j_{V!}H)
+        |                          |
+        |                          | f⁻¹(structure map)
+        v                          v
+      h_U^# ---------s---------> f⁻¹h_V^#
+```
+is cartesian, the top edge being the canonical comparison map assembled from Stacks 04IL (1)
+(Stacks 04IS), which identifies `j_{U/u(V)}⁻¹ ⋙ Φ_U` with `Φ_{u(V)} ⋙ Over.pullback h_c^#`, and
+`underlyingIso` (Stacks 04IU, Stacks 03CF), which identifies `j_{u(V)!}(f')⁻¹H` with `f⁻¹j_{V!}H`.
+Equivalently: `Φ_U((f_c)⁻¹H) ≅ (f_s)⁻¹(Φ_V H)` in `Sh(D)/h_U^#`, i.e. the diagram of topoi of
+Stacks 04IN agrees with the diagram of topoi of Stacks 04IV.
+
+The hypotheses are exactly the source's: `u` continuous and `hu : u.IsMorphismOfSites J K`; no
+finite limits in `C` and no exactness of `u` are assumed.  `hu` is used through Stacks 04IU, whose
+statement involves the morphism of topoi `f` it defines. -/
+@[stacks 04IW]
+public theorem isPullback_sheafFunctorToOver_overMap_overPost_of_isMorphismOfSites
+    {C : Type u} [SmallCategory C] {D : Type u} [SmallCategory D] {J : GrothendieckTopology C}
+    {K : GrothendieckTopology D} {u : C ⥤ D} [u.IsContinuous J K]
+    (hu : u.IsMorphismOfSites J K) (V : C) {U : D} (c : U ⟶ u.obj V)
+    (H : Sheaf (J.over V) (Type u)) :
+    IsPullback
+      (((inverseImageCompSheafFunctorToOverIso c K).hom.app
+            (((Over.post (X := V) u).sheafPullback (Type u) (J.over V)
+              (K.over (u.obj V))).obj H)).left ≫
+          pullback.fst
+              ((sheafFunctorToOver (U := u.obj V) K).obj
+                (((Over.post (X := V) u).sheafPullback (Type u) (J.over V)
+                  (K.over (u.obj V))).obj H)).hom
+              ((presheafToSheaf K (Type u)).map (yoneda.map c)) ≫
+            (underlyingIso J K u V).hom.app H)
+      (((sheafFunctorToOver (U := U) K).obj
+        (((Over.map c).sheafPushforwardContinuous (Type u) (K.over U) (K.over (u.obj V))).obj
+          (((Over.post (X := V) u).sheafPullback (Type u) (J.over V)
+            (K.over (u.obj V))).obj H))).hom)
+      ((u.sheafPullback (Type u) J K).map ((sheafFunctorToOver (U := V) J).obj H).hom)
+      ((presheafToSheaf K (Type u)).map (yoneda.map c) ≫
+        (sheafPullbackSheafifyYonedaIso u J K V).inv) := by
+  simpa only [Category.assoc] using
+    (isPullback_sheafFunctorToOver_overMap K c
+        (((Over.post (X := V) u).sheafPullback (Type u) (J.over V)
+          (K.over (u.obj V))).obj H)).paste_horiz
+      (isPullback_underlyingIso_hom_app_of_isMorphismOfSites J K u hu V H)
 end
 
 end

@@ -26,7 +26,10 @@ dualizing complex for `Y` then `f^!K` is a dualizing complex for `X`. This is
   `Stacks.Duality.exists_isTildeModelOn_of_hasDualizingModelOn` — the two halves of the
   identification of `Stacks.Duality.HasDualizingModelOn` with the existence of a dualizing
   `Stacks.Duality.IsTildeModelOn` model.
-* `Stacks.Duality.isDualizingComplex_upperShriek_of_fts` — [Stacks, Tag 0AA3].
+* `Stacks.Duality.isDualizingComplex_upperShriek_of_fts` — [Stacks, Tag 0AA3] for an exceptional
+  inverse image given as a parameter. The statement for the library's `f^!` of [Stacks, Tag 0A9Y]
+  is `Stacks.Duality.isDualizingComplex_upperShriek_obj`, in
+  `StacksFrontier/AlgebraicGeometry/Duality/UpperShriekDualizingComplexOfCharts.lean`.
 
 ## Implementation notes
 
@@ -36,21 +39,19 @@ does on affine charts. Nothing is constructed, nothing is chosen, and no existen
 `f^!` is used. This is the idiom of `Stacks.Duality.sheafyTrace`, and it is why the statement
 needs no compactification of `f`.
 
-Two inputs of the source's proof are not available in this tree and appear as explicit
-hypotheses, both named in the `@[stacks 0AA3]` description:
+The source's proof has two further inputs, which this statement takes as explicit hypotheses so
+that it applies to any functor with the chart description; both are proved in the library:
 
 * `h0A86` is the conclusion of [Stacks, Tag 0A86], that being a dualizing complex may be checked
-  on the members of a single affine open cover. The definition
-  `Stacks.Duality.IsDualizingComplex` is deliberately the all-affine-open condition, and the
-  equivalence with the one-cover condition is that tag's content, which is open; see the
-  implementation notes of
-  `StacksFrontier/AlgebraicGeometry/Duality/RelativeDualizing/DualizingComplexScheme.lean`.
+  on the members of a single affine open cover; it is
+  `Stacks.Duality.isDualizingComplex_iff_exists_affineOpenCover`.
 * `h0AA1` is the affine-chart description of `f^!`: over an affine `V ⊆ Y` and an affine
   `U ⊆ f⁻¹(V)`, the restriction of `f^!K` to `U` is the associated sheaf of the *algebraic* upper
   shriek, along a polynomial presentation of the chart ring map `f.appLE V U`, of a model of `K`
   on `V`. This is the content of [Stacks, Tag 0AA1] together with the affine comparison of
-  [Stacks, Tag 0BV2]. Writing the chart ring map as `f.appLE V U` rather than as an arbitrary
-  finite type homomorphism is what ties the hypothesis to `f`.
+  [Stacks, Tag 0BV2]; for the library's `f^!` it is `Stacks.Duality.upperShriekCharts`.
+  Writing the chart ring map as `f.appLE V U` rather than as an arbitrary finite type
+  homomorphism is what ties the hypothesis to `f`.
 
 What is *proved* is the rest of the source's argument, and it is not formal: the affine charts of
 `X` lying over affine opens of `Y` are produced and shown to cover `X`; the dualizing model of
@@ -130,21 +131,15 @@ theorem exists_isTildeModelOn_of_hasDualizingModelOn {K : DerivedCategory X.Modu
 
 end TildeModel
 
-/-- **Stacks Project, Tag 0AA3 (Lemma 48.17.7).** In Situation 48.16.1, let `f : X ⟶ Y` be a
-morphism of `FTS S` and let `f^!` be an exceptional inverse image functor
+/-- **A parametrised form of [Stacks, Tag 0AA3] (Lemma 48.17.7).** In Situation 48.16.1, let
+`f : X ⟶ Y` be a morphism of `FTS S` and let `f^!` be an exceptional inverse image functor
 `D⁺_QCoh(𝒪_Y) ⥤ D⁺_QCoh(𝒪_X)` for it, in the sense that on affine charts it is the algebraic
 upper shriek of a polynomial presentation of the chart ring map. If `K` is a dualizing complex
-for `Y`, then `f^!K` is a dualizing complex for `X`. -/
-@[stacks 0AU3 "clause (4)(a) of Section 48.19: the normalized complex f^! of a dualizing \
-  complex is dualizing, under the same carried hypotheses as the Tag 0AA3 key below",
-  stacks 0AA3 "granted the conclusion of Tag 0A86 (dualizing may be checked on one affine \
-  cover) and the affine-chart description of f^! of Tag 0AA1 together with Tag 0BV2, carried \
-  as the explicit hypotheses h0A86 and h0AA1; f^! itself is an explicit parameter fShriek \
-  characterised by h0AA1, not a constructed or chosen functor. What is proved is the rest of \
-  the source argument: the affine charts of X lying over affine opens of Y cover X, the \
-  dualizing model of K over each such V comes from hK, Tag 0BZL upgrades its \
-  algebraic upper shriek to a dualizing complex over the chart ring of X, and h0A86 glues \
-  the local models. Neither carried hypothesis asserts that anything is dualizing"]
+for `Y`, then `f^!K` is a dualizing complex for `X`.
+
+It carries no `@[stacks]` attribute: clause (4)(a) of [Stacks, Section 0AU3] and
+[Stacks, Tag 0AA3] for the library's `f^!`, with nothing assumed, are
+`Stacks.Duality.isDualizingComplex_upperShriek_obj`. -/
 theorem isDualizingComplex_upperShriek_of_fts {S : Scheme.{u}} [IsNoetherian S] {X Y : FTS S}
     (f : X ⟶ Y)
     (fShriek : quasiCoherentDerivedCategoryPlus Y.left ⥤ quasiCoherentDerivedCategoryPlus X.left)

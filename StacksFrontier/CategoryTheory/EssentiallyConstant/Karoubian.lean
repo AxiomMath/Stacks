@@ -21,10 +21,13 @@ isomorphically onto `X_{i'}` and some transition map `M i'' ⟶ M i'` of `I'` va
 
 ## Main results
 
-* `CategoryTheory.EssentiallyConstantInd.isEssentiallyConstantInd_iff_exists_biproduct`:
+* `CategoryTheory.EssentiallyConstantInd.isEssentiallyConstantInd_iff_exists_subcategory`:
   Stacks 0A2E (1), the filtered case.
-* `CategoryTheory.EssentiallyConstantPro.isEssentiallyConstantPro_iff_exists_biproduct`:
+* `CategoryTheory.EssentiallyConstantPro.isEssentiallyConstantPro_iff_exists_subcategory`:
   Stacks 0A2E (2), the cofiltered case.
+* `CategoryTheory.EssentiallyConstantInd.isEssentiallyConstantInd_iff_exists_biproduct` and
+  `CategoryTheory.EssentiallyConstantPro.isEssentiallyConstantPro_iff_exists_biproduct`: the
+  variants in which the subcategory `I'` is required to be full.
 * `CategoryTheory.EssentiallyConstantInd.isEssentiallyConstantWith_of_forall_exists`: a diagram
   over a filtered category is essentially constant as soon as every coprojection `c_j` has a
   section `s_j` such that some transition map `M_j ⟶ M_a` factors as `c_j ≫ s_j` followed by
@@ -35,12 +38,14 @@ isomorphically onto `X_{i'}` and some transition map `M i'' ⟶ M i'` of `I'` va
 
 ## Implementation notes
 
-The subcategory `I' ⊂ I` of the source is encoded as a functor `H : I' ⥤ I` from a filtered
-(resp. cofiltered) category which is final (resp. initial), the Stacks notion of cofinal
-(resp. initial) functor between filtered (resp. cofiltered) categories. This is more permissive
-than a subcategory inclusion, so the implication (b) ⇒ (a) is proved in greater generality; for
-(a) ⇒ (b) the functor produced is the inclusion of the full subcategory of objects receiving
-(resp. admitting) a morphism from (resp. to) the index of an essential-constancy witness.
+A (not necessarily full) subcategory `I' ⊂ I` of the source (Stacks 0012) is encoded as a
+faithful functor `H : I' ⥤ I` injective on objects, i.e. a category isomorphic to a subcategory
+via `H`; "cofinal" (resp. "initial") is `H.Final` (resp. `H.Initial`), the Stacks notion for
+functors between filtered (resp. cofiltered) categories. The implication (b) ⇒ (a) is proved
+for an arbitrary final (resp. initial) functor from a filtered (resp. cofiltered) category, with
+neither faithfulness nor injectivity on objects; for (a) ⇒ (b) the functor produced is the
+inclusion of the full subcategory of objects receiving (resp. admitting) a morphism from (resp.
+to) the index of an essential-constancy witness.
 
 A direct sum decomposition `M_{i'} = X_{i'} ⊕ Z_{i'}` is a bilimit binary bicone on
 `X_{i'}, Z_{i'}` together with an isomorphism of its cone point with `M_{i'}`; no binary
@@ -123,12 +128,15 @@ theorem isEssentiallyConstantWith_of_forall_exists [IsFilteredOrEmpty I] {M : I 
 
 variable {A : Type u} [Category.{v} A] [Preadditive A]
 
-/-- The forward direction of Stacks 0A2E (1): an essentially constant diagram over a filtered
-category splits as in `isEssentiallyConstantInd_iff_exists_biproduct`. -/
-theorem exists_biproduct_of_isEssentiallyConstantInd [IsFiltered I] [IsIdempotentComplete A]
-    {M : I ⥤ A} (h : IsEssentiallyConstantInd M) :
+/-- The forward direction of Stacks 0A2E (1), in its strongest form: an essentially constant
+diagram over a filtered category splits as in `isEssentiallyConstantInd_iff_exists_subcategory`
+over a full subcategory `I'`, i.e. along a fully faithful final functor `H : I' ⥤ I` that is
+injective on objects. -/
+theorem exists_fullSubcategory_biproduct_of_isEssentiallyConstantInd [IsFiltered I]
+    [IsIdempotentComplete A] {M : I ⥤ A} (h : IsEssentiallyConstantInd M) :
     ∃ (_ : HasColimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsFiltered I')
-      (H : I' ⥤ I) (_ : H.Full) (_ : H.Faithful) (_ : H.Final), ∀ i' : I',
+      (H : I' ⥤ I) (_ : H.Full) (_ : H.Faithful) (_ : Function.Injective H.obj) (_ : H.Final),
+      ∀ i' : I',
         ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
           IsIso (b.inl ≫ e.hom ≫ colimit.ι M (H.obj i')) ∧
           ∃ (i'' : I') (f : i' ⟶ i''), b.inr ≫ e.hom ≫ M.map (H.map f) = 0 := by
@@ -139,7 +147,7 @@ theorem exists_biproduct_of_isEssentiallyConstantInd [IsFiltered I] [IsIdempoten
     ⟨⟨IsFiltered.max i d, ⟨IsFiltered.leftToMax i d⟩⟩, ⟨IsFiltered.rightToMax i d⟩⟩
   refine ⟨hc, P.FullSubcategory, inferInstance,
     IsFiltered.of_exists_of_isFiltered_of_fullyFaithful P.ι hP, P.ι, inferInstance,
-    inferInstance,
+    inferInstance, fun _ _ h => ObjectProperty.FullSubcategory.ext h,
     Functor.final_of_exists_of_isFiltered_of_fullyFaithful P.ι hP, fun j => ?_⟩
   have hsec : (r ≫ M.map j.property.some) ≫ colimit.ι M j.obj = 𝟙 _ := by
     simpa using hr.retraction
@@ -155,17 +163,33 @@ theorem exists_biproduct_of_isEssentiallyConstantInd [IsFiltered I] [IsIdempoten
     simp only [colimit.cocone_ι]
     rw [reassoc_of% he, b.inr_fst_assoc, zero_comp]
 
-/-- The backward direction of Stacks 0A2E (1): a diagram over a filtered category splitting
-as in `isEssentiallyConstantInd_iff_exists_biproduct` is essentially constant. -/
-theorem isEssentiallyConstantInd_of_exists_biproduct [IsFiltered I] [IsIdempotentComplete A]
-    {M : I ⥤ A}
-    (h : ∃ (_ : HasColimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsFiltered I')
+/-- The forward direction of Stacks 0A2E (1) along a fully faithful final functor: an
+essentially constant diagram over a filtered category splits as in
+`isEssentiallyConstantInd_iff_exists_biproduct`. -/
+theorem exists_biproduct_of_isEssentiallyConstantInd [IsFiltered I] [IsIdempotentComplete A]
+    {M : I ⥤ A} (h : IsEssentiallyConstantInd M) :
+    ∃ (_ : HasColimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsFiltered I')
       (H : I' ⥤ I) (_ : H.Full) (_ : H.Faithful) (_ : H.Final), ∀ i' : I',
+        ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
+          IsIso (b.inl ≫ e.hom ≫ colimit.ι M (H.obj i')) ∧
+          ∃ (i'' : I') (f : i' ⟶ i''), b.inr ≫ e.hom ≫ M.map (H.map f) = 0 := by
+  obtain ⟨hc, I', cI, fI, H, hF, hF', _, hH, h⟩ :=
+    exists_fullSubcategory_biproduct_of_isEssentiallyConstantInd h
+  exact ⟨hc, I', cI, fI, H, hF, hF', hH, h⟩
+
+/-- The backward direction of Stacks 0A2E (1), for an arbitrary final functor `H : I' ⥤ I` from a
+filtered category (in particular for the inclusion of any cofinal filtered subcategory): a diagram
+over a filtered category splitting as in `isEssentiallyConstantInd_iff_exists_subcategory` is
+essentially constant. -/
+theorem isEssentiallyConstantInd_of_final_of_exists_biproduct [IsFiltered I]
+    [IsIdempotentComplete A] {M : I ⥤ A}
+    (h : ∃ (_ : HasColimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsFiltered I')
+      (H : I' ⥤ I) (_ : H.Final), ∀ i' : I',
         ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
           IsIso (b.inl ≫ e.hom ≫ colimit.ι M (H.obj i')) ∧
           ∃ (i'' : I') (f : i' ⟶ i''), b.inr ≫ e.hom ≫ M.map (H.map f) = 0) :
     IsEssentiallyConstantInd M := by
-  obtain ⟨hc, I', _, _, H, _, _, _, h⟩ := h
+  obtain ⟨hc, I', cI, fI, H, _, h⟩ := h
   apply essentiallyConstant_of_comp_final H M
   choose X' Z' b hb e hiso i'' f hf using h
   let t : Cocone (H ⋙ M) := (colimit.cocone M).whisker H
@@ -194,13 +218,29 @@ theorem isEssentiallyConstantInd_of_exists_biproduct [IsFiltered I] [IsIdempoten
     simp only [s, Category.assoc]
     rw [reassoc_of% hc', ← hM]
 
-/-- Stacks 0A2E (1). Let `M : I ⥤ A` be a diagram over a filtered category in a preadditive
-Karoubian category. Then `M` is essentially constant if and only if `colim M` exists and there are
-a filtered category `I'` with a fully faithful cofinal functor `H : I' ⥤ I` (a cofinal
-filtered full subcategory) and, for each `i' : I'`, a direct sum
+/-- The backward direction of Stacks 0A2E (1) along a fully faithful final functor: a diagram over
+a filtered category splitting as in `isEssentiallyConstantInd_iff_exists_biproduct` is
+essentially constant. See `isEssentiallyConstantInd_of_final_of_exists_biproduct` for an
+arbitrary final functor. -/
+theorem isEssentiallyConstantInd_of_exists_biproduct [IsFiltered I] [IsIdempotentComplete A]
+    {M : I ⥤ A}
+    (h : ∃ (_ : HasColimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsFiltered I')
+      (H : I' ⥤ I) (_ : H.Full) (_ : H.Faithful) (_ : H.Final), ∀ i' : I',
+        ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
+          IsIso (b.inl ≫ e.hom ≫ colimit.ι M (H.obj i')) ∧
+          ∃ (i'' : I') (f : i' ⟶ i''), b.inr ≫ e.hom ≫ M.map (H.map f) = 0) :
+    IsEssentiallyConstantInd M := by
+  obtain ⟨hc, I', cI, fI, H, _, _, hH, h⟩ := h
+  exact isEssentiallyConstantInd_of_final_of_exists_biproduct ⟨hc, I', cI, fI, H, hH, h⟩
+
+/-- A variant of Stacks 0A2E (1) in which the subcategory `I'` is required to be full. Let
+`M : I ⥤ A` be a diagram over a filtered category in a preadditive Karoubian category. Then `M` is
+essentially constant if and only if `colim M` exists and there are a filtered category `I'` with a
+fully faithful cofinal functor `H : I' ⥤ I` and, for each `i' : I'`, a direct sum
 decomposition `M (H i') ≅ X_{i'} ⊕ Z_{i'}` such that `X_{i'}` maps isomorphically to `colim M` and
-`Z_{i'}` maps to zero in `M (H i'')` for some `i' ⟶ i''` in `I'`. -/
-@[stacks 0A2E "(1)"]
+`Z_{i'}` maps to zero in `M (H i'')` for some `i' ⟶ i''` in `I'`. The Stacks statement, over an
+arbitrary (not necessarily full) cofinal filtered subcategory, is
+`isEssentiallyConstantInd_iff_exists_subcategory`. -/
 theorem isEssentiallyConstantInd_iff_exists_biproduct [IsFiltered I] [IsIdempotentComplete A]
     (M : I ⥤ A) :
     IsEssentiallyConstantInd M ↔
@@ -210,6 +250,27 @@ theorem isEssentiallyConstantInd_iff_exists_biproduct [IsFiltered I] [IsIdempote
             IsIso (b.inl ≫ e.hom ≫ colimit.ι M (H.obj i')) ∧
             ∃ (i'' : I') (f : i' ⟶ i''), b.inr ≫ e.hom ≫ M.map (H.map f) = 0 :=
     ⟨exists_biproduct_of_isEssentiallyConstantInd, isEssentiallyConstantInd_of_exists_biproduct⟩
+
+/-- Stacks 0A2E (1). Let `M : I ⥤ A` be a diagram over a filtered category in a preadditive
+Karoubian category. Then `M` is essentially constant if and only if `colim M` exists and there are
+a cofinal filtered subcategory `I'` of `I` (a filtered category `I'` with a faithful final functor
+`H : I' ⥤ I` injective on objects, i.e. an isomorphism onto a subcategory) and, for each `i' : I'`,
+a direct sum decomposition `M (H i') ≅ X_{i'} ⊕ Z_{i'}` such that `X_{i'}` maps isomorphically to
+`colim M` and `Z_{i'}` maps to zero in `M (H i'')` for some `i' ⟶ i''` in `I'`. -/
+@[stacks 0A2E "(1)"]
+theorem isEssentiallyConstantInd_iff_exists_subcategory [IsFiltered I] [IsIdempotentComplete A]
+    (M : I ⥤ A) :
+    IsEssentiallyConstantInd M ↔
+      ∃ (_ : HasColimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsFiltered I')
+        (H : I' ⥤ I) (_ : H.Faithful) (_ : Function.Injective H.obj) (_ : H.Final), ∀ i' : I',
+          ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
+            IsIso (b.inl ≫ e.hom ≫ colimit.ι M (H.obj i')) ∧
+            ∃ (i'' : I') (f : i' ⟶ i''), b.inr ≫ e.hom ≫ M.map (H.map f) = 0 := by
+  refine ⟨fun h => ?_, fun ⟨hc, I', cI, fI, H, _, _, hH, h⟩ =>
+    isEssentiallyConstantInd_of_final_of_exists_biproduct ⟨hc, I', cI, fI, H, hH, h⟩⟩
+  obtain ⟨hc, I', cI, fI, H, _, hF, hinj, hH, h⟩ :=
+    exists_fullSubcategory_biproduct_of_isEssentiallyConstantInd h
+  exact ⟨hc, I', cI, fI, H, hF, hinj, hH, h⟩
 
 end EssentiallyConstantInd
 
@@ -244,12 +305,15 @@ theorem isEssentiallyConstantWith_of_forall_exists [IsCofilteredOrEmpty I] {M : 
 
 variable {A : Type u} [Category.{v} A] [Preadditive A]
 
-/-- The forward direction of Stacks 0A2E (2): an essentially constant diagram over a cofiltered
-category splits as in `isEssentiallyConstantPro_iff_exists_biproduct`. -/
-theorem exists_biproduct_of_isEssentiallyConstantPro [IsCofiltered I] [IsIdempotentComplete A]
-    {M : I ⥤ A} (h : IsEssentiallyConstantPro M) :
+/-- The forward direction of Stacks 0A2E (2), in its strongest form: an essentially constant
+diagram over a cofiltered category splits as in `isEssentiallyConstantPro_iff_exists_subcategory`
+over a full subcategory `I'`, i.e. along a fully faithful initial functor `H : I' ⥤ I` that is
+injective on objects. -/
+theorem exists_fullSubcategory_biproduct_of_isEssentiallyConstantPro [IsCofiltered I]
+    [IsIdempotentComplete A] {M : I ⥤ A} (h : IsEssentiallyConstantPro M) :
     ∃ (_ : HasLimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsCofiltered I')
-      (H : I' ⥤ I) (_ : H.Full) (_ : H.Faithful) (_ : H.Initial), ∀ i' : I',
+      (H : I' ⥤ I) (_ : H.Full) (_ : H.Faithful) (_ : Function.Injective H.obj) (_ : H.Initial),
+      ∀ i' : I',
         ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
           IsIso (limit.π M (H.obj i') ≫ e.inv ≫ b.fst) ∧
           ∃ (i'' : I') (f : i'' ⟶ i'), M.map (H.map f) ≫ e.inv ≫ b.snd = 0 := by
@@ -264,7 +328,7 @@ theorem exists_biproduct_of_isEssentiallyConstantPro [IsCofiltered I] [IsIdempot
       ⟨IsCofiltered.minToRight i.unop d⟩⟩
   refine ⟨hc, P.FullSubcategory, inferInstance,
     IsCofiltered.of_exists_of_isCofiltered_of_fullyFaithful P.ι hP, P.ι, inferInstance,
-    inferInstance,
+    inferInstance, fun _ _ h => ObjectProperty.FullSubcategory.ext h,
     Functor.initial_of_exists_of_isCofiltered_of_fullyFaithful P.ι hP, fun j => ?_⟩
   have hsec : limit.π M j.obj ≫ (M.map j.property.some ≫ r.unop) = 𝟙 _ := by
     simpa using hr'.retraction
@@ -281,17 +345,33 @@ theorem exists_biproduct_of_isEssentiallyConstantPro [IsCofiltered I] [IsIdempot
     simp only [limit.cone_π, Category.assoc]
     rw [reassoc_of% he, b.inl_snd, comp_zero, comp_zero]
 
-/-- The backward direction of Stacks 0A2E (2): a diagram over a cofiltered category splitting
-as in `isEssentiallyConstantPro_iff_exists_biproduct` is essentially constant. -/
-theorem isEssentiallyConstantPro_of_exists_biproduct [IsCofiltered I] [IsIdempotentComplete A]
-    {M : I ⥤ A}
-    (h : ∃ (_ : HasLimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsCofiltered I')
+/-- The forward direction of Stacks 0A2E (2) along a fully faithful initial functor: an
+essentially constant diagram over a cofiltered category splits as in
+`isEssentiallyConstantPro_iff_exists_biproduct`. -/
+theorem exists_biproduct_of_isEssentiallyConstantPro [IsCofiltered I] [IsIdempotentComplete A]
+    {M : I ⥤ A} (h : IsEssentiallyConstantPro M) :
+    ∃ (_ : HasLimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsCofiltered I')
       (H : I' ⥤ I) (_ : H.Full) (_ : H.Faithful) (_ : H.Initial), ∀ i' : I',
+        ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
+          IsIso (limit.π M (H.obj i') ≫ e.inv ≫ b.fst) ∧
+          ∃ (i'' : I') (f : i'' ⟶ i'), M.map (H.map f) ≫ e.inv ≫ b.snd = 0 := by
+  obtain ⟨hc, I', cI, fI, H, hF, hF', _, hH, h⟩ :=
+    exists_fullSubcategory_biproduct_of_isEssentiallyConstantPro h
+  exact ⟨hc, I', cI, fI, H, hF, hF', hH, h⟩
+
+/-- The backward direction of Stacks 0A2E (2), for an arbitrary initial functor `H : I' ⥤ I` from
+a cofiltered category (in particular for the inclusion of any initial cofiltered subcategory): a
+diagram over a cofiltered category splitting as in
+`isEssentiallyConstantPro_iff_exists_subcategory` is essentially constant. -/
+theorem isEssentiallyConstantPro_of_initial_of_exists_biproduct [IsCofiltered I]
+    [IsIdempotentComplete A] {M : I ⥤ A}
+    (h : ∃ (_ : HasLimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsCofiltered I')
+      (H : I' ⥤ I) (_ : H.Initial), ∀ i' : I',
         ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
           IsIso (limit.π M (H.obj i') ≫ e.inv ≫ b.fst) ∧
           ∃ (i'' : I') (f : i'' ⟶ i'), M.map (H.map f) ≫ e.inv ≫ b.snd = 0) :
     IsEssentiallyConstantPro M := by
-  obtain ⟨hc, I', _, _, H, _, _, _, h⟩ := h
+  obtain ⟨hc, I', cI, fI, H, _, h⟩ := h
   apply essentiallyConstant_of_comp_initial H M
   choose X' Z' b hb e hiso i'' f hf using h
   let t : Cone (H ⋙ M) := (limit.cone M).whisker H
@@ -324,13 +404,29 @@ theorem isEssentiallyConstantPro_of_exists_biproduct [IsCofiltered I] [IsIdempot
     rw [hc']
     exact hM
 
-/-- Stacks 0A2E (2). Let `M : I ⥤ A` be a diagram over a cofiltered category in a preadditive
-Karoubian category. Then `M` is essentially constant if and only if `lim M` exists and there are
-a cofiltered category `I'` with a fully faithful initial functor `H : I' ⥤ I` (an initial
-cofiltered full subcategory) and, for each `i' : I'`, a direct
+/-- The backward direction of Stacks 0A2E (2) along a fully faithful initial functor: a diagram
+over a cofiltered category splitting as in `isEssentiallyConstantPro_iff_exists_biproduct` is
+essentially constant. See `isEssentiallyConstantPro_of_initial_of_exists_biproduct` for an
+arbitrary initial functor. -/
+theorem isEssentiallyConstantPro_of_exists_biproduct [IsCofiltered I] [IsIdempotentComplete A]
+    {M : I ⥤ A}
+    (h : ∃ (_ : HasLimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsCofiltered I')
+      (H : I' ⥤ I) (_ : H.Full) (_ : H.Faithful) (_ : H.Initial), ∀ i' : I',
+        ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
+          IsIso (limit.π M (H.obj i') ≫ e.inv ≫ b.fst) ∧
+          ∃ (i'' : I') (f : i'' ⟶ i'), M.map (H.map f) ≫ e.inv ≫ b.snd = 0) :
+    IsEssentiallyConstantPro M := by
+  obtain ⟨hc, I', cI, fI, H, _, _, hH, h⟩ := h
+  exact isEssentiallyConstantPro_of_initial_of_exists_biproduct ⟨hc, I', cI, fI, H, hH, h⟩
+
+/-- A variant of Stacks 0A2E (2) in which the subcategory `I'` is required to be full. Let
+`M : I ⥤ A` be a diagram over a cofiltered category in a preadditive Karoubian category. Then `M`
+is essentially constant if and only if `lim M` exists and there are a cofiltered category `I'`
+with a fully faithful initial functor `H : I' ⥤ I` and, for each `i' : I'`, a direct
 sum decomposition `M (H i') ≅ X_{i'} ⊕ Z_{i'}` such that `lim M` maps isomorphically to `X_{i'}`
-and `M (H i'') ⟶ Z_{i'}` is zero for some `i'' ⟶ i'` in `I'`. -/
-@[stacks 0A2E "(2)"]
+and `M (H i'') ⟶ Z_{i'}` is zero for some `i'' ⟶ i'` in `I'`. The Stacks statement, over an
+arbitrary (not necessarily full) initial cofiltered subcategory, is
+`isEssentiallyConstantPro_iff_exists_subcategory`. -/
 theorem isEssentiallyConstantPro_iff_exists_biproduct [IsCofiltered I] [IsIdempotentComplete A]
     (M : I ⥤ A) :
     IsEssentiallyConstantPro M ↔
@@ -340,6 +436,27 @@ theorem isEssentiallyConstantPro_iff_exists_biproduct [IsCofiltered I] [IsIdempo
             IsIso (limit.π M (H.obj i') ≫ e.inv ≫ b.fst) ∧
             ∃ (i'' : I') (f : i'' ⟶ i'), M.map (H.map f) ≫ e.inv ≫ b.snd = 0 :=
     ⟨exists_biproduct_of_isEssentiallyConstantPro, isEssentiallyConstantPro_of_exists_biproduct⟩
+
+/-- Stacks 0A2E (2). Let `M : I ⥤ A` be a diagram over a cofiltered category in a preadditive
+Karoubian category. Then `M` is essentially constant if and only if `lim M` exists and there are
+an initial cofiltered subcategory `I'` of `I` (a cofiltered category `I'` with a faithful initial
+functor `H : I' ⥤ I` injective on objects, i.e. an isomorphism onto a subcategory) and, for each
+`i' : I'`, a direct sum decomposition `M (H i') ≅ X_{i'} ⊕ Z_{i'}` such that `lim M` maps
+isomorphically to `X_{i'}` and `M (H i'') ⟶ Z_{i'}` is zero for some `i'' ⟶ i'` in `I'`. -/
+@[stacks 0A2E "(2)"]
+theorem isEssentiallyConstantPro_iff_exists_subcategory [IsCofiltered I] [IsIdempotentComplete A]
+    (M : I ⥤ A) :
+    IsEssentiallyConstantPro M ↔
+      ∃ (_ : HasLimit M) (I' : Type u') (_ : Category.{v'} I') (_ : IsCofiltered I')
+        (H : I' ⥤ I) (_ : H.Faithful) (_ : Function.Injective H.obj) (_ : H.Initial), ∀ i' : I',
+          ∃ (X' Z' : A) (b : BinaryBicone X' Z') (_ : b.IsBilimit) (e : b.pt ≅ M.obj (H.obj i')),
+            IsIso (limit.π M (H.obj i') ≫ e.inv ≫ b.fst) ∧
+            ∃ (i'' : I') (f : i'' ⟶ i'), M.map (H.map f) ≫ e.inv ≫ b.snd = 0 := by
+  refine ⟨fun h => ?_, fun ⟨hc, I', cI, fI, H, _, _, hH, h⟩ =>
+    isEssentiallyConstantPro_of_initial_of_exists_biproduct ⟨hc, I', cI, fI, H, hH, h⟩⟩
+  obtain ⟨hc, I', cI, fI, H, _, hF, hinj, hH, h⟩ :=
+    exists_fullSubcategory_biproduct_of_isEssentiallyConstantPro h
+  exact ⟨hc, I', cI, fI, H, hF, hinj, hH, h⟩
 
 end EssentiallyConstantPro
 

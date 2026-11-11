@@ -115,7 +115,10 @@ morphisms of schemes.
 
 Flatness of morphisms of schemes is étale local on the source and target, stable under base
 change and local on the target for the fpqc, hence for the fppf, topology, so this is
-Stacks 03MJ for a representable morphism at that property. -/
+Stacks 03MJ for a representable morphism at that property. This is the agreement, stated in the
+introduction of the section on flat morphisms (Stacks 03MK), of flatness of a morphism of
+algebraic spaces with the notion for representable morphisms of Section 03HA. -/
+@[stacks 03MK "agreement of flatness with the notion for representable morphisms"]
 theorem isFlat_iff_presheaf (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)
     {f : X ⟶ Y} (hf : yoneda.relativelyRepresentable f) :
     IsFlat B S hS f ↔

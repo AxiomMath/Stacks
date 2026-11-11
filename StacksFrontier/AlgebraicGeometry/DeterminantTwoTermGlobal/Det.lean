@@ -11,9 +11,14 @@ affine open `V`, the restriction of `K` to `V` is the sheaf associated with a pe
 `M_V` of `Γ(X, V)`-modules of Tor amplitude in `[-1, 0]`, which has a determinant `det(M_V)`, an
 invertible `Γ(X, V)`-module (More on Algebra, Section 0FJI). For affine opens `W ⊆ V` the
 identification `Γ(X, W) ⊗ᴸ M_V ≅ M_W` induces `det(M_V) → det(M_W)`, which exhibits `det(M_W)` as
-`Γ(X, W) ⊗ det(M_V)`. These glue to the `𝒪_X`-module `det(K)` of Stacks 0FJX, whose sections over
-an affine open `V` are `det(M_V)`. When `K` has rank zero, the canonical elements `δ(M_V)` glue to
-the global section `δ(K)`.
+`Γ(X, W) ⊗ det(M_V)`. These glue to an `𝒪_X`-module `det(K)` whose sections over an affine open
+`V` are `det(M_V)`. When `K` has rank zero, the canonical elements `δ(M_V)` glue to the global
+section `δ(K)`. This is the construction of the proof of Stacks 0FJX carried out directly; it is
+identified with the value of the determinant functor
+`AlgebraicGeometry.DeterminantTwoTerm.determinantFunctor`, and `δ(K)` with its canonical section
+`AlgebraicGeometry.DeterminantTwoTerm.determinantSection`, by
+`AlgebraicGeometry.DeterminantTwoTerm.detModuleIso`
+(`StacksFrontier/AlgebraicGeometry/DeterminantTwoTermGlobal/GlobalDetIso.lean`).
 
 ## Main definitions
 
@@ -106,7 +111,9 @@ instance (V : X.affineOpens) : Module.Finite Γ(X, V) ((detSystem K).obj V) := i
 /-- The determinant `det(M_V)` is a projective `Γ(X, V)`-module. -/
 instance (V : X.affineOpens) : Module.Projective Γ(X, V) ((detSystem K).obj V) := inferInstance
 
-/-- **The determinant `det(K)` of Stacks 0FJX**, an `𝒪_X`-module. -/
+/-- **The determinant `det(K)`**, an `𝒪_X`-module, glued directly from the local determinants of
+More on Algebra, Section 0FJI. It is isomorphic to the value of the determinant functor of Stacks
+0FJX by `detModuleIso`. -/
 def detModule : X.Modules :=
   (detSystem K).toModules
 
@@ -131,7 +138,8 @@ theorem detSectionsEquiv_restrict {V W : X.affineOpens} (h : (W : X.Opens) ≤ V
 
 /-- **Rank zero.** `K` has rank zero when its derived pullback to every affine scheme over `X` has
 rank zero, that is, admits a two-term finite-projective presentation whose two terms have the same
-rank at every prime. -/
+rank at every prime. It is equivalent to `IsRankZeroOn`, rank zero on the affine charts
+(`isRankZero_iff_isRankZeroOn`). -/
 def IsRankZero : Prop :=
   ∀ (A : CommRingCat.{u}) (u : Spec A ⟶ X), IsLocallyRankZero K u
 

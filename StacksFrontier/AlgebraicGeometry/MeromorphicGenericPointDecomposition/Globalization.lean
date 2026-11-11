@@ -46,7 +46,9 @@ modules which is an isomorphism on every stalk is an isomorphism.
 
 * `AlgebraicGeometry.isLocalization_totalQuotientSheaf_obj`: on an affine open the sections of
   the *sheaf* `K_X` are the localization of `Γ(X, U)` at its nonzerodivisors. This is part (5)
-  of Tag 0EMF, and upgrades part (5) of [Stacks, Tag 02OW] from the presheaf to the sheaf.
+  of Tag 0EMF; its reduced case
+  `AlgebraicGeometry.isLocalization_totalQuotientSheaf_obj_of_isReduced` is part (5) of
+  [Stacks, Tag 02OW].
 * `AlgebraicGeometry.bijective_genericPointComparisonSectionsPi`: the affine case.
 * `AlgebraicGeometry.isIso_genericPointComparisonPi`,
   `AlgebraicGeometry.nonempty_meromorphicSections_iso_pi_genericPointStalkModuleOf`,
@@ -691,8 +693,24 @@ theorem meromorphicSections_isQuasicoherent_of_isReduced
   meromorphicSections_isQuasicoherent_of_genericHypotheses
     (weaklyAssociatedPointsOfScheme_eq_genericPoints X).subset hfinite F
 
-/-- **Stacks 0EMH**, the product decomposition of the sheaf of meromorphic sections. -/
-@[stacks 0EMH "meromorphic sections as a product"]
+/-- **Part (5) of [Stacks, Tag 02OW].** On an affine open `U` of a reduced scheme whose
+quasi-compact opens have finitely many irreducible components, the sections `K_X(U)` of the
+*sheaf* of meromorphic functions are the total quotient ring of `Γ(X, U)`, that is, its
+localization at its nonzerodivisors. -/
+@[stacks 02OW "part (5)"]
+theorem isLocalization_totalQuotientSheaf_obj_of_isReduced
+    (X : Scheme.{u}) [IsReduced X]
+    (hfinite : ∀ U : X.Opens, IsCompact (U : Set X) → (irreducibleComponents U).Finite)
+    {U : X.Opens} (hU : IsAffineOpen U) :
+    letI : Algebra Γ(X, U) (X.totalQuotientSheaf.obj.obj (op U)) :=
+      (X.toTotalQuotientSheaf.hom.app (op U)).hom.toAlgebra
+    IsLocalization (nonZeroDivisors Γ(X, U)) (X.totalQuotientSheaf.obj.obj (op U)) :=
+  isLocalization_totalQuotientSheaf_obj
+    (weaklyAssociatedPointsOfScheme_eq_genericPoints X).subset hfinite hU
+
+/-- **Stacks 0EMH**, the product decomposition of the sheaf of meromorphic sections.
+One clause of [Stacks, Tag 0EMH]; the complete statement is
+`AlgebraicGeometry.genericPointDecomposition_of_hasNoEmbeddedPoints`. -/
 theorem nonempty_meromorphicSections_iso_product_genericPointStalks_of_hasNoEmbeddedPoints
     (X : Scheme.{u}) [IsLocallyNoetherian X] (hX : HasNoEmbeddedPoints X)
     (F : X.Modules) [F.IsQuasicoherent] :
@@ -702,8 +720,9 @@ theorem nonempty_meromorphicSections_iso_product_genericPointStalks_of_hasNoEmbe
     (schemeWeaklyAssociatedPoints_eq_genericPoints_of_hasNoEmbeddedPoints X hX).le
     (finite_irreducibleComponents_of_isCompact X) F
 
-/-- **Stacks 0EMH**, the direct-sum decomposition of the sheaf of meromorphic sections. -/
-@[stacks 0EMH "meromorphic sections as a direct sum"]
+/-- **Stacks 0EMH**, the direct-sum decomposition of the sheaf of meromorphic sections.
+One clause of [Stacks, Tag 0EMH]; the complete statement is
+`AlgebraicGeometry.genericPointDecomposition_of_hasNoEmbeddedPoints`. -/
 theorem nonempty_meromorphicSections_iso_coproduct_genericPointStalks_of_hasNoEmbeddedPoints
     (X : Scheme.{u}) [IsLocallyNoetherian X] (hX : HasNoEmbeddedPoints X)
     (F : X.Modules) [F.IsQuasicoherent] :
@@ -713,8 +732,9 @@ theorem nonempty_meromorphicSections_iso_coproduct_genericPointStalks_of_hasNoEm
     (schemeWeaklyAssociatedPoints_eq_genericPoints_of_hasNoEmbeddedPoints X hX).le
     (finite_irreducibleComponents_of_isCompact X) F
 
-/-- **Stacks 0EMH**, quasi-coherence of the sheaf of meromorphic sections. -/
-@[stacks 0EMH "quasi-coherence of meromorphic sections"]
+/-- **Stacks 0EMH**, quasi-coherence of the sheaf of meromorphic sections.
+One clause of [Stacks, Tag 0EMH]; the complete statement is
+`AlgebraicGeometry.genericPointDecomposition_of_hasNoEmbeddedPoints`. -/
 theorem meromorphicSections_isQuasicoherent_of_hasNoEmbeddedPoints
     (X : Scheme.{u}) [IsLocallyNoetherian X] (hX : HasNoEmbeddedPoints X)
     (F : X.Modules) [F.IsQuasicoherent] :

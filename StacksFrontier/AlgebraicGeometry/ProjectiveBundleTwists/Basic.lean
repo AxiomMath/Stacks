@@ -8,6 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.Morphisms.Projective.BaseChange
 public import StacksFrontier.AlgebraicGeometry.PullbackInvertible.Basic
 public import StacksFrontier.AlgebraicGeometry.ProjectiveBundle.Sections
 import StacksCore.Tactic.EgaSgaAttribute
+import StacksCore.Tactic.StacksAttribute
 
 /-!
 # The twists `𝒪(n)` of the projective bundle of a quasi-coherent module
@@ -84,16 +85,20 @@ integer `1` definitionally, so the composite with the degree-one generator needs
 * [Stacks Project, Tag 01CG](https://stacks.math.columbia.edu/tag/01CG)
 * [Stacks Project, Section 17.21](https://stacks.math.columbia.edu/tag/01CF)
 
-## Not done here
+## Tag 01OB
 
-**No `@[stacks]` attribute is attached.** Tag 01OB asks for the projective bundle *together with*
-its twists, and the clause about the bundle and its projection is already carried by
-`Stacks.RelativeProj.projectiveBundle`. What Tag 01OB asks of the twists is that they be the
-twists of Tag 01O4, i.e. of the universal invertible quotient, and that is a statement about a
-universal property which is not available: `Stacks.RelativeProj.TautologicalDatum.IsUniversal`
-is uninhabited at rank at least two. The twists built here are the glued twists of Tag 01NR with
-Tag 01O4's invertibility, which is strictly less than the tag's clause, so placing the label is
-left to the pass that can close that gap.
+Tag 01OB defines, for a quasi-coherent `𝒪_S`-module `E` on a scheme `S` (no finiteness
+assumed), the projective bundle `π : 𝐏(E) = Proj_S(Sym(E)) ⟶ S` and the twists
+`𝒪_{𝐏(E)}(n)`, which are the invertible modules of Tag 01O4. Tag 01O4's `𝒪_X(n)` are the
+twists Tag 01NR constructs on the relative `Proj`, i.e. the homogeneous pieces of the glued
+algebra of the canonical twist datum `twistDataOfGradedAlgebra`, and Tag 01O4 proves them
+invertible because `Sym(E)` is generated in degree one. All of the definition is carried, at one
+presentation of the bundle, by the four declarations of the section `Definition01OB` below:
+`Stacks.SymGraded.projectiveBundleOfQuasicoherent`,
+`Stacks.SymGraded.projectiveBundleProjection`, `Stacks.SymGraded.twistOfQuasicoherent` and
+`Stacks.SymGraded.isInvertible_twistOfQuasicoherent`. The same bundle in the
+`Stacks.RelativeProj.Situation` presentation is `Stacks.RelativeProj.projectiveBundle`, and the
+twists carried over to it are `Stacks.SymGraded.bundleTwist`.
 -/
 
 @[expose] public noncomputable section
@@ -253,6 +258,44 @@ def projectiveBundleTwistUnivOfQuasicoherent :
   projectiveBundleTwistUniv E (isQuasicoherentPieces_of_isQuasicoherent E)
 
 end Canonical
+
+/-! ### Tag 01OB: the projective bundle, its projection and its twists -/
+
+section Definition01OB
+
+variable {X : Scheme.{u}} (E : X.Modules) [E.IsQuasicoherent]
+
+/-- **The projective bundle `𝐏(E) = Proj_X(Sym(E))` of a quasi-coherent `𝒪_X`-module `E`**
+(Stacks Tag 01OB), the relative homogeneous spectrum of the symmetric algebra of `E`. No
+finiteness of `E` is assumed, as in the source and EGA II 4.1.1. -/
+@[stacks 01OB "P(E) = Proj_S(Sym(E)) for a quasi-coherent O_S-module E"]
+abbrev projectiveBundleOfQuasicoherent : Scheme.{u} :=
+  (schemeProjectiveBundle E (isQuasicoherentPieces_of_isQuasicoherent E)).scheme
+
+/-- **The projection `π : 𝐏(E) ⟶ X`** of the projective bundle (Stacks Tag 01OB), the structure
+morphism of the relative `Proj`. -/
+@[stacks 01OB "the projection pi : P(E) -> S"]
+abbrev projectiveBundleProjection : projectiveBundleOfQuasicoherent E ⟶ X :=
+  (schemeProjectiveBundle E (isQuasicoherentPieces_of_isQuasicoherent E)).toBase
+
+/-- **The `n`th twist `𝒪_{𝐏(E)}(n)` of the structure sheaf** of the projective bundle (Stacks
+Tag 01OB), for every integer `n`: the module `𝒪_X(n)` of Tag 01O4 on `X = Proj_S(Sym(E))`, i.e.
+the degree-`n` piece of the glued algebra of twists of Tag 01NR's canonical twist datum. -/
+@[stacks 01OB "the nth twist O_{P(E)}(n) of the structure sheaf, the module O_X(n) of Tag 01O4"]
+abbrev twistOfQuasicoherent (n : ℤ) : (projectiveBundleOfQuasicoherent E).Modules :=
+  projectiveBundleTwist E (isQuasicoherentPieces_of_isQuasicoherent E) n
+
+/-- **Each twist `𝒪_{𝐏(E)}(n)` is an invertible `𝒪_{𝐏(E)}`-module** (Stacks Tag 01OB, by Tag
+01O4), for every integer `n` and every quasi-coherent `E`: `Sym(E)` is generated in degree one
+over its degree-zero part on every affine open. -/
+@[stacks 01OB "O_{P(E)}(n) is an invertible O_{P(E)}-module for every integer n"]
+theorem isInvertible_twistOfQuasicoherent (n : ℤ) :
+    AlgebraicGeometry.SheafOfModules.IsInvertible
+      (projectiveBundleOfQuasicoherent E).presheaf
+      (projectiveBundleOfQuasicoherent E).ringCatSheaf.2 (twistOfQuasicoherent E n) :=
+  isInvertible_projectiveBundleTwistOfQuasicoherent E n
+
+end Definition01OB
 
 /-! ### The twists on the other presentation of the bundle -/
 

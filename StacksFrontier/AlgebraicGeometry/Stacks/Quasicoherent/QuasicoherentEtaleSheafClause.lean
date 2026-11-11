@@ -24,61 +24,19 @@ topology is coarser, so it is a sheaf for that as well.
 
 * `AlgebraicGeometry.Stack.associatedTopology_mono`: the site of Stacks 06TP is monotone in the
   topology chosen on the underlying category of schemes.
-* `AlgebraicGeometry.Stack.isSheaf_etale_of_isQuasicoherent`: **Stacks 06WK**, the étale sheaf
-  condition of clause (1) in the forward direction.
+* `AlgebraicGeometry.Stack.isSheaf_etale_of_isQuasicoherent`: the étale sheaf condition of
+  clause (1) of Stacks 06WK, in the forward direction, at every module universe.
 
-## The rest of Stacks 06WK, and why it is not here
+## Where Stacks 06WK is
 
-The biconditional splits into four separable pieces, of which this file delivers one. The
-hypothesis below is quasi-coherence in the sense of Stacks 06WG:
-`AlgebraicGeometry.FibredSite.ringStructureSheafCore_fppf_eq_stack` identifies the coefficient
-sheaf of rings used here with the one that Stacks 06WG is stated over.
-
-* (⟹) clause (1), first conjunct — the étale sheaf condition. This is
-  `AlgebraicGeometry.Stack.isSheaf_etale_of_isQuasicoherent`, proved below with no further
-  input.
-* (⟹) clause (1), second conjunct — for every object `x` the restriction `x^*F|_{U_ét}` is
-  quasi-coherent on the small étale site of `U`. Quasi-coherence of `F` is quasi-coherence for
-  the *inherited fppf* topology, so a global presentation is only available on an fppf covering
-  of `x`, while the conclusion asks for one on an étale covering of each object of the small
-  étale site. The passage is quasi-coherence from the inherited fppf topology to a coarser one,
-  which is `AlgebraicGeometry.FibredSite.QuasicoherentOnSiteOfLeFppf` at `τ = .etale`, one of
-  the two inputs of Stacks 0EM8; it is **no longer a hypothesis**, being proved at the module
-  universe `u` of the schemes by
-  `AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_siteKind` in
-  `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.SiteEquivalenceAffine`, so this conjunct is
-  available in
-  `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.QuasicoherentOnSiteCoarserFromFppf` as
-  `AlgebraicGeometry.Stack.forallQuasicoherentIsLocallyQuasicoherent` and is not restated here.
-  The opposite direction is
-  `AlgebraicGeometry.FibredSite.isQuasicoherentOnSite_of_siteRestriction`. The
-  clause (2) of Descent, Proposition 03DX at `τ = étale` which this library does prove, namely
-  `AlgebraicGeometry.SmallEtale.quasicoherentIsEssImageAssociatedModule`, does not supply it:
-  that takes a module already quasi-coherent *on the small étale site* and produces the
-  `𝒪_U`-module, which is the conclusion sought here and not the hypothesis available.
-* (⟹) clause (2) — the comparison maps are isomorphisms. The source reads `𝒳/y` as
-  `(Sch/V)_{fppf}` and identifies `y^*F` with the module associated to a quasi-coherent module
-  on the scheme `V`, by the essential-surjectivity half of Descent, Proposition 03DX *at the
-  big site*, which is a theorem of this library at every base,
-  `AlgebraicGeometry.BigFppfOver.quasicoherentIsEssImageAssociatedModule'`;
-  what is not built is the assembly of the comparison maps into that isomorphism, described
-  under (⟸) below.
-* (⟸) clauses (1) and (2) together imply quasi-coherence. Its sheaf half is Stacks 076T, which
-  `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FppfSheafFromFlatBaseChange` carries over
-  `AlgebraicGeometry.Stack.IsSheafForLiftedFppfFamily`. Its quasi-coherence half is *not*
-  blocked by a missing prerequisite: Stacks 06WI, available as
-  `AlgebraicGeometry.FibredSite.isQuasicoherentOnSite_iff_forall_objectInverseImage`, reduces
-  it to quasi-coherence of `y^*F` on `(Sch/V)_{fppf}`; clause (1) makes `F|_{V_ét}`
-  quasi-coherent, so clause (2) of Descent, Proposition 03DX at `τ = étale` applies and
-  produces the quasi-coherent `𝒪_V`-module `𝓕_V`; and Descent, Lemma 03DV, available as
-  `AlgebraicGeometry.BigFppfOver.isQuasicoherentOnSite_baseAssociatedModule_of_isQuasicoherent`,
-  makes `𝓕_V^a` quasi-coherent on `(Sch/V)_{fppf}`. What is missing is only the step the source
-  states as "condition (2) now signifies": an isomorphism `y^*F ≅ 𝓕_V^a` of sheaves of modules
-  on `(Sch/V)_{fppf}`, assembled from the comparison maps `c_φ` of clause (2), which supply its
-  value at each object but not yet its compatibility with the arrows. That assembly is not
-  built here.
-
-None of the three is stated here, with or without those inputs as hypotheses.
+The whole biconditional of Stacks 06WK, both directions and both clauses, is
+`Stack.isQuasicoherentFppf_iff_isLocallyQuasicoherent_and_isIso_sheafifiedRestrictComparison`
+in `StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.QuasicoherentIffComparisonIso`, which
+carries the tag. The result here is the first step of its proof, kept because it holds at every
+module universe `m`, while the biconditional is stated at the universe `u` of the schemes, where
+the pullback of Stacks 06WC exists. The hypothesis below is quasi-coherence in the sense of
+Stacks 06WG: `AlgebraicGeometry.FibredSite.ringStructureSheafCore_fppf_eq_stack` identifies the
+coefficient sheaf of rings used here with the one that Stacks 06WG is stated over.
 
 ## References
 
@@ -111,16 +69,15 @@ theorem associatedTopology_mono {𝒳 : Type v} [Category.{w} 𝒳] (p : 𝒳 �
   exact Precoverage.toGrothendieck_mono fun _ _ hR =>
     ⟨hR.1, GrothendieckTopology.toPrecoverage_monotone hover _ hR.2⟩
 
-/-- **Stacks 06WK.** A quasi-coherent module on a category fibred in groupoids is a sheaf for the
-inherited étale topology.
+/-- **A quasi-coherent module on a category fibred in groupoids is a sheaf for the inherited
+étale topology.**
 
-This is the first conjunct of clause (1) of the source, local quasi-coherence being the étale
-sheaf condition together with quasi-coherence of the restrictions to the small étale sites, and
-it is the first step of the source's proof: quasi-coherence of `F` in the sense of Stacks 06WG
-asserts in particular that `F` is a sheaf for the inherited fppf topology, and the inherited
-étale topology is coarser. -/
-@[stacks 06WK "the étale sheaf condition, which is the first conjunct of clause (1), in the \
-forward direction"]
+This is the first conjunct of clause (1) of Stacks 06WK in the forward direction, local
+quasi-coherence being the étale sheaf condition together with quasi-coherence of the restrictions
+to the small étale sites, and it is the first step of the source's proof: quasi-coherence of `F`
+in the sense of Stacks 06WG asserts in particular that `F` is a sheaf for the inherited fppf
+topology, and the inherited étale topology is coarser. Stacks 06WK itself is
+`Stack.isQuasicoherentFppf_iff_isLocallyQuasicoherent_and_isIso_sheafifiedRestrictComparison`. -/
 theorem isSheaf_etale_of_isQuasicoherent {𝒳 : Type v} [Category.{w} 𝒳]
     (p : 𝒳 ⥤ BigFppfOver B S hS) (hp : p.IsFiberedInGroupoids)
     (F : PresheafOfModules.{m} (ringStructureSheafCore B S hS p hp

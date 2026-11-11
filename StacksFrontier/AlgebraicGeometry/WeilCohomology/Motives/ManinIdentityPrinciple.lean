@@ -31,7 +31,10 @@ induces an isomorphism on Chow groups in every degree, then `c` is an isomorphis
 
 ## Implementation notes
 
-The statement is made in an arbitrary monoidal category `Mot`, read as `M_k`, with a family
+The symmetric monoidal structure of `M_k` (Stacks 0FGC) is constructed on the concrete category
+of Chow motives, as `Stacks.WeilCohomology.ChowMotiveCat.monoidalCategory`; the abstract
+`CorrespondenceStructure.Motive` carries none, so the statement is made in an arbitrary monoidal
+category `Mot`, read as `M_k`, with a family
 `h : D → Mot` of the motives of the smooth projective schemes over `k`, untwisted; the twists
 `1(m)` are `Stacks.WeilCohomology.ChowRepresentability.unitTwist`. The theorem takes as
 hypotheses:

@@ -31,7 +31,8 @@ spanned by the unramified cusp forms satisfying `U_v f = q_v⁻¹ f` for every `
 * `Stacks.Adeles.IsHeckeEigenvalueAt` and `Stacks.Adeles.IsCentralEigenvalueAt` — the two
   eigenvalue equations.
 * `Stacks.Adeles.IsEigenform` — an eigenform.
-* `Stacks.Adeles.cuspFormsCentralChar` — the module `C(Λ)`.
+* `Stacks.Adeles.cuspFormsCentralChar` — the module `C(Λ)` for `φ_v = q_v`.
+* `Stacks.Adeles.cuspFormsWithChar` — the module `C(Λ)` for an arbitrary system `φ = (φ_v)`.
 
 ## Main results
 
@@ -73,6 +74,13 @@ inference made here, not a statement of the source*. In Lemma 03VY the represent
 `u_v = q_v⁻¹ det ρ(F_v)`, so the eigenform attached to such a representation has `u_v = q_v⁻¹`,
 that is `U_v f = q_v⁻¹ f`. That is the condition that must cut out `C(Λ)` for the proof of
 Lemma 03VY to read as the source writes it, and it forces `φ_v = q_v`.
+
+Proposition 03VW, which is stated before Lemma 03VY and does not depend on it, makes sense for
+any fixed system `φ = (φ_v)` of units. `Stacks.Adeles.cuspFormsWithChar K Λ φ` is `C(Λ)` for an
+arbitrary such system, and Proposition 03VW is proved for every one of them
+(`Stacks.Adeles.GlobalFunctionField.cuspFormsWithChar_fg_and_baseChange`);
+`cuspFormsCentralChar` is the instance `φ_v = q_v`
+(`Stacks.Adeles.cuspFormsCentralChar_eq_cuspFormsWithChar`).
 
 The condition is recorded in the cleared form `q_v · U_v f = f` rather than as
 `U_v f = q_v⁻¹ f`. The two are equivalent exactly when `q_v` is invertible in `Λ`, which holds
@@ -286,6 +294,57 @@ public theorem mem_cuspFormsCentralChar {Λ : Type w} [CommRing Λ]
     {f : GL (Fin 2) (AdeleRing K) → Λ} (hf : IsCuspFormCentralChar Λ f) :
     f ∈ cuspFormsCentralChar K Λ :=
   Submodule.subset_span hf
+
+/-- The unramified cusp forms with central character `φ`, for a system `φ = (φ_v)` of elements
+of `Λ` indexed by the places: those satisfying `φ_v · U_v f = f` at every place, the cleared
+form of the source's `U_v f = φ_v⁻¹ f` (equivalent to it when every `φ_v` is a unit, by
+`Stacks.Adeles.isCuspFormWithChar_iff`). -/
+public def IsCuspFormWithChar (Λ : Type w) [CommRing Λ] (φ : Place K → Λ)
+    (f : GL (Fin 2) (AdeleRing K) → Λ) : Prop :=
+  IsUnramifiedCuspForm f ∧ ∀ (v : Place K) (a : GL (Fin 2) (AdeleRing K)), IsCentralDataAt v a →
+    ∀ x, φ v * centralOperator a f x = f x
+
+/-- The module `C(Λ)` of the source for the central character `φ`: the `Λ`-span of the
+unramified cusp forms `f` with coefficients in `Λ` satisfying `U_v f = φ_v⁻¹ f` for every place
+`v`, in the cleared form `φ_v · U_v f = f`. -/
+public def cuspFormsWithChar (K : Type u) [Field K] (Λ : Type w) [CommRing Λ]
+    (φ : Place K → Λ) : Submodule Λ (GL (Fin 2) (AdeleRing K) → Λ) :=
+  Submodule.span Λ {f | IsCuspFormWithChar Λ φ f}
+
+/-- An unramified cusp form with central character `φ` lies in `C(Λ)`. -/
+public theorem mem_cuspFormsWithChar {Λ : Type w} [CommRing Λ] {φ : Place K → Λ}
+    {f : GL (Fin 2) (AdeleRing K) → Λ} (hf : IsCuspFormWithChar Λ φ f) :
+    f ∈ cuspFormsWithChar K Λ φ :=
+  Submodule.subset_span hf
+
+/-- When every `φ_v` is a unit, the cleared condition `φ_v · U_v f = f` is the source's
+`U_v f = φ_v⁻¹ f`. -/
+public theorem isCuspFormWithChar_iff {Λ : Type w} [CommRing Λ] {φ : Place K → Λ}
+    (hφ : ∀ v, IsUnit (φ v)) {f : GL (Fin 2) (AdeleRing K) → Λ} :
+    IsCuspFormWithChar Λ φ f ↔
+      IsUnramifiedCuspForm f ∧ ∀ v, IsCentralEigenvalueAt v f (Ring.inverse (φ v)) := by
+  simp only [IsCuspFormWithChar, IsCentralEigenvalueAt]
+  refine and_congr_right fun _ => forall_congr' fun v => forall_congr' fun a =>
+    forall_congr' fun _ => forall_congr' fun x => ?_
+  obtain ⟨u, hu⟩ := hφ v
+  rw [← hu, Ring.inverse_unit]
+  constructor
+  · intro h
+    rw [← h, ← mul_assoc, Units.inv_mul, one_mul]
+  · intro h
+    rw [h, ← mul_assoc, Units.mul_inv, one_mul]
+
+/-- `IsCuspFormCentralChar` is the instance `φ_v = q_v` of `IsCuspFormWithChar`. -/
+public theorem isCuspFormCentralChar_iff_isCuspFormWithChar {Λ : Type w} [CommRing Λ]
+    {f : GL (Fin 2) (AdeleRing K) → Λ} :
+    IsCuspFormCentralChar Λ f ↔ IsCuspFormWithChar Λ (fun v => (Place.residueCard v : Λ)) f :=
+  Iff.rfl
+
+/-- `cuspFormsCentralChar` is the instance `φ_v = q_v` of `cuspFormsWithChar`. -/
+public theorem cuspFormsCentralChar_eq_cuspFormsWithChar (K : Type u) [Field K] (Λ : Type w)
+    [CommRing Λ] :
+    cuspFormsCentralChar K Λ = cuspFormsWithChar K Λ (fun v => (Place.residueCard v : Λ)) :=
+  rfl
 
 end Stacks.Adeles
 

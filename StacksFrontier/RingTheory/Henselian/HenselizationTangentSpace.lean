@@ -94,13 +94,11 @@ morphism is produced only as a factorization of
 
 **The smoothness conclusion, and the shape of Stacks 0DZB it uses.** The first conclusion of
 Stacks 0DZD is `Deformation.Examples.isSmooth_henselizationFunctorData`.  The source obtains it
-from Stacks 0DZB, whose formalization `Deformation.hasFlatAlgebraLift_henselization_iff` carries
-a hypothesis `h0DZ2 : Deformation.FlatModuleLiftBaseChangeStatement` standing for Stacks 0DZ2
-with a *nilpotent* kernel of `A' → A`.  That hypothesis is not dischargeable as it stands: the
-route to its nilpotent dévissage through surjectivity on lift sets is refuted, that surjectivity
-needing `Ext¹` to be `J'`-power torsion while local liftability kills only the `Ext²`
-obstruction.  What the dévissage would need instead, and what is still missing for it, is
-recorded in `StacksFrontier.Deformation.FlatModuleLiftLocalization`.
+from Stacks 0DZB, which is
+`Deformation.hasFlatAlgebraLift_iff_hasFlatAlgebraLift_henselization`, proved at a nilpotent
+kernel of `A' → A` without Stacks 0DZ2 (which is false); the older
+`Deformation.hasFlatAlgebraLift_henselization_iff` assumes
+`h0DZ2 : Deformation.FlatModuleLiftBaseChangeStatement` and is vacuous.
 
 What Stacks 0DZD needs is weaker than that.  The criterion of Stacks 0DYP applies Stacks 0DZB
 only across *small extensions* `A' → A`, and a small extension has `ker(A' → A)² = ⊥` by

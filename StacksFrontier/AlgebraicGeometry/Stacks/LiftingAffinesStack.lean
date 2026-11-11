@@ -108,8 +108,8 @@ available and two are not.
 Available: that `i : U ⟶ U'` is a thickening is `isThickening_inclusion` below; the two legs and
 their étaleness and the three relation identities are the results below; that a thickening of a
 scheme is a scheme is **Stacks 05ZR**,
-`AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom`, granted the three hypotheses of
-Stacks 07VT that it carries; the quotient algebraic space and the étale surjective chart
+`AlgebraicGeometry.Space.isRepresentable_of_isThickeningHom_of_isRepresentable`, with no
+hypotheses; the quotient algebraic space and the étale surjective chart
 `∐ U'_l ⟶ U'` are **Stacks 02WW**,
 `AlgebraicGeometry.Space.isAlgebraicSpace_quotient_unconditional` with
 `AlgebraicGeometry.Space.quotientMap_etale_unconditional` and
@@ -157,10 +157,10 @@ and `AlgebraicGeometry.Space.ThickeningMorphisms` carries no base-change lemma t
 
 **The hypothesis `hCJC`.** The étaleness statement consumes **Stacks 0CJS**,
 `AlgebraicGeometry.Stack.EtaleSmoothLift.isEtale_ambient`, which carries the étale clause, item
-(9), of **Stacks 0CJC** as a hypothesis `hCJC`, because only the flatness, smoothness and
-syntomicity clauses of 0CJC are proved, in
-`StacksFrontier.AlgebraicGeometry.Stacks.ThickeningDeformationProperties`. That hypothesis is
-passed on unchanged and is documented at 0CJS.
+(9), of **Stacks 0CJC** as a hypothesis `hCJC`. That hypothesis is passed on unchanged. It is
+redundant: the étale clause of 0CJC is now proved, as
+`AlgebraicGeometry.Stack.isEtale_ambient_of_isEtale`, and the unconditional Stacks 0CJS is
+`AlgebraicGeometry.Stack.EtaleSmoothLift.Hom.isEtale_ambient`.
 
 **Inherited caveat.** Thickenings of algebraic stacks are
 `AlgebraicGeometry.Stack.IsThickening` (**Stacks 0BPP**, part (1)), which omits the
@@ -267,7 +267,9 @@ each of them.
 
 The hypothesis `hCJC` is the one carried by
 `AlgebraicGeometry.Stack.EtaleSmoothLift.isEtale_ambient`: the étale clause, item (9), of
-**Stacks 0CJC** for the thickening `ι`, which is not available in this library. -/
+**Stacks 0CJC** for the thickening `ι`. That clause is proved, as
+`AlgebraicGeometry.Stack.isEtale_ambient_of_isEtale`, and `hCJC` itself follows from
+`AlgebraicGeometry.Stack.isEtale_of_isTwoFibreProduct_of_isThickening`. -/
 @[stacks 0CJU "the two legs of the relation are étale"]
 theorem isEtale_relation
     (hCJC : ∀ (U U' V' V'' : AlgebraicSpaces B S hS) (i : U ⟶ U') (j : V' ⟶ V'')
@@ -310,8 +312,9 @@ isomorphisms of the triple `(k, k, k)` has identity ambient component. This is t
 identity of **Stacks 026C** read on the ambient spaces.
 
 The hypotheses `hiso` and `hfib` are the two carried by
-`AlgebraicGeometry.Stack.EtaleSmoothLift.isFiberedInGroupoids` (**Stacks 0CJT**), which is where
-the fibred-in-groupoids hypothesis of Stacks 026C comes from. -/
+`AlgebraicGeometry.Stack.EtaleSmoothLift.isFiberedInGroupoids` (**Stacks 0CJT**); they are used
+by the triple-overlap restatement `DescentDatum.diagonalPullback_eq_id`. Stacks 026C itself
+holds for any fibred category (`DescentDatum.eq_id_of_isRestrictionOf_diagonal`). -/
 @[stacks 0CJU "reflexivity of the relation"]
 theorem relation_refl
     (hiso : ∀ (ζ ζ' : EtaleSmoothLift B S hS ι hι W x hx) (n : ζ ⟶ ζ'),

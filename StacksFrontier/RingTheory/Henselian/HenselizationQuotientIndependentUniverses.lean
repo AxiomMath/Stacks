@@ -155,6 +155,13 @@ with respect to the residue field of `R/I`.
 the two quotient maps `R → R/I` and `Rh → Rh/I Rh` are surjective local maps, hence
 isomorphisms on residue fields, and the third side of the square is the identification carried by
 the henselization. -/
+@[stacks 05WQ "`R^h` is the henselization of `R` in the sense of Definition 04GQ (1),
+`IsHenselization R (ResidueField R) Rh`, which by Lemma 04GN exists and by Lemma 08HT is unique
+up to unique isomorphism over `R`; the conclusion says that `R^h/IR^h` is the henselization of
+`R/I` in the same sense, `IsHenselization (R ⧸ I) (ResidueField (R ⧸ I)) (Rh ⧸ I.map (algebraMap
+R Rh))`, for the `R/I`-algebra structure induced by `R → R^h`. The locality of the two quotients
+follows from `I ⊆ 𝔪` and is supplied in the statement. The base and the henselization live in
+independent universes."]
 theorem quotient_of_le_maximalIdeal [IsHenselization R (ResidueField R) Rh]
     {I : Ideal R} (hI : I ≤ maximalIdeal R) :
     letI : IsLocalRing (R ⧸ I) := isLocalRing_quotient_of_le_maximalIdeal I hI

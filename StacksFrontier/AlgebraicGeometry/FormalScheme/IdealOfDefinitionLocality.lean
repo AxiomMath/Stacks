@@ -74,14 +74,9 @@ definition over `𝒜`.
 
 Both halves of the condition are transported along the covering: the ideal-of-definition half by
 `IdealSheaf.isIdealOfDefinitionOn_of_cover`, the neighbourhood-basis half by
-`IdealSheaf.hasBasis_ideal_of_isCompact`. -/
-@[stacks 0AIW "it suffices to check the fundamental-system condition on an affine open covering, \
-CORRECTED: both halves are checked on the members of the class contained in a covering member, \
-not on the covering members themselves, which is false as the source states it \
-(`not_forall_isFundamentalSystemOfIdealsOfDefinitionOn_of_hasBasis_cover`), and the system is \
-nonempty and directed by inclusion (`hne`, `hdir`), the source's directed index set `Λ`; the \
-quasi-compactness `hcompact` and the refinement `hrefine` of the class of affine formal opens are \
-part of the statement"]
+`IdealSheaf.hasBasis_ideal_of_isCompact`. On a formal scheme à la EGA the hypotheses `hcompact`
+and `hrefine` hold, and the tagged form is
+`isFundamentalSystemOfIdealsOfDefinitionOn_of_cover_of_isFormalScheme`. -/
 theorem isFundamentalSystemOfIdealsOfDefinitionOn_of_cover_of_directed {X : LTRS.{u}}
     (𝒮 : Set (IdealSheaf X)) (𝒜 : Opens X → Prop) (hne : 𝒮.Nonempty)
     (hdir : ∀ I ∈ 𝒮, ∀ J ∈ 𝒮, ∃ K ∈ 𝒮, ∀ W : Opens X,

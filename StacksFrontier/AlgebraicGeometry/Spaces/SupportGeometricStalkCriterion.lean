@@ -25,10 +25,11 @@ the chart restriction, which by Stacks 07TY is the inverse image of the support 
 `|φ|` carries `u` to the image of `x̄`, the resulting criterion no longer mentions the
 neighbourhood, so it holds for every geometric point over the point.
 
-The same comparison discharges the hypothesis of
-`AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf`, which states
-Stacks 07TY for an arbitrary `𝒪_X`-module granted the comparison; for a quasi-coherent module
-the comparison is available and the support equality of Stacks 07TY is unconditional.
+The same comparison supplies the comparison hypothesis of
+`AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf`, the support equality
+for an arbitrary `𝒪_X`-module satisfying the comparison; for a quasi-coherent module, the
+setting of Stacks 07TY, this gives the support equality of Stacks 07TY with no further
+hypothesis.
 
 ## Main results
 
@@ -82,9 +83,11 @@ small étale site of `X`.  Then the support of `φ^* F` as a module on the *sche
 inverse image under `|φ|` of the support of `F`:
 `Supp(φ^* F) = |φ|^{-1}(Supp(F))`.
 
-The comparison `(φ^* F)_u ⊗_{𝒪_{U, u}} 𝒪_{X, x̄} ≅ F_{x̄}` which the general form of the
-statement carries as a hypothesis is Stacks 05VP, available because `F` is quasi-coherent. -/
-@[stacks 07TY "the support equality for a quasi-coherent module"]
+The proof is `AlgebraicGeometry.Space.supp_restrictToChart_eq_preimage_supportOfSheaf` with its
+comparison `(φ^* F)_u ⊗_{𝒪_{U, u}} 𝒪_{X, x̄} ≅ F_{x̄}` supplied by Stacks 05VP,
+`AlgebraicGeometry.Space.isIso_chartStalkTensorComparison`, which holds because `F` is
+quasi-coherent. -/
+@[stacks 07TY "the support of a quasi-coherent module pulled back along an étale chart"]
 theorem supp_restrictToChart_eq_preimage_supportOfSheaf_of_isQuasicoherent
     (X : AlgebraicSpaces B S hS) (U : SmallEtale B S hS X.1)
     (F : Modules.{u, u} B S hS X.1 X.2) [F.IsQuasicoherentOnSite] :

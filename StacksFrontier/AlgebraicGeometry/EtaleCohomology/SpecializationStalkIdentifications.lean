@@ -50,9 +50,11 @@ This file proves that both displayed identifications are isomorphisms and draws 
   `F_x ⟶ Γ(x, x⁻¹F)` is an isomorphism.
 * `AlgebraicGeometry.isIso_etaleStalkToSectionsAb_id` — **Theorem 03Q9 applied to `id_S`, in
   degree zero**: the comparison `F_s ⟶ Γ(Spec(𝒪^{sh}_{S,s}), p⁻¹F)` is an isomorphism.
-* `AlgebraicGeometry.smallEtaleSpecializationStalkAb_eq_sectionsRestrictionAb` — **[Stacks, Tag
-  0GJ3]**: under the two identifications, both isomorphisms, the specialization map `sp` is the
-  map induced by pullback of sections along `t`.
+* `AlgebraicGeometry.smallEtaleSpecializationStalkAb_eq_sectionsRestrictionAb` — the statement
+  of [Stacks, Tag 0GJ3] for abelian sheaves: under the two identifications, both isomorphisms, the
+  specialization map `sp` is the map induced by pullback of sections along `t`. The statement for
+  sheaves of sets is in
+  `StacksFrontier/AlgebraicGeometry/EtaleCohomology/SpecializationStalkSets.lean`.
 
 ## References
 
@@ -345,12 +347,12 @@ specialization map `sp : F_s ⟶ F_{t ≫ p}` of Stacks 0GJ2 *is* the map induce
 pullback of sections along `t`, that is, it is the composite of the first identification, the
 restriction of sections along `t`, and the inverse of the second.
 
-Here the first identification is `AlgebraicGeometry.etaleStalkSectionsAbIso`, the second is
+Here `F` is an abelian sheaf, the first identification is
+`AlgebraicGeometry.etaleStalkSectionsAbIso`, the second is
 `AlgebraicGeometry.geometricStalkPullbackSectionsAbIso`, and restriction of sections along `t` is
-`Stacks.EtaleCohomology.smallEtaleSectionsRestrictionAb`. -/
-@[stacks 0GJ3 "the specialization map is pullback of sections along `t`, read through the two \
-identifications F_s = Γ(Spec 𝒪^sh_{S,s}, p⁻¹F) (03Q9 at the identity) and \
-F_{t ≫ p} = Γ(t, t⁻¹p⁻¹F) (03Q1), both isomorphisms"]
+`Stacks.EtaleCohomology.smallEtaleSectionsRestrictionAb`. The same statement for every sheaf of
+sets on the small étale site of `S`, which is the setting of Section 0GJ2 and of Tag 0GJ3, is
+`AlgebraicGeometry.smallEtaleSpecializationStalkSet_eq_sectionsRestrictionSet`. -/
 theorem smallEtaleSpecializationStalkAb_eq_sectionsRestrictionAb :
     smallEtaleSpecializationStalkAb B S hS s t =
       (etaleStalkSectionsAbIso B S hS s).hom ≫

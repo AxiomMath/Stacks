@@ -63,7 +63,9 @@ Both factors are cartesian along the flat arrows between objects over affine sch
 Stacks 0779), hence so is their tensor product, whose sections over an affine object are the tensor
 product of the sections; a module cartesian along those arrows is locally quasi-coherent and has
 the flat base change property. -/
-@[stacks 0771 "part (6): LQCoh^fbc is closed under the tensor product of Mod(𝒪_𝒳)"]
+@[stacks 0771 "part (6): F ⊗_{𝒪_𝒳} G of Mod(𝒪_𝒳) lies in LQCoh^fbc(𝒪_𝒳) for F and G in \
+  LQCoh^fbc(𝒪_𝒳), with the flat base change property of 0762 read on sheaves; modules at the \
+  module universe u of the schemes"]
 theorem lqcohSheafFbcFppfModules_sheafTensor (F G : fppfModules B S hS 𝒳)
     (hF : lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳 F)
     (hG : lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳 G) :

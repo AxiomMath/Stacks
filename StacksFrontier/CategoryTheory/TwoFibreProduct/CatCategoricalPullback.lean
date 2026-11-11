@@ -10,8 +10,9 @@ public import StacksFrontier.CategoryTheory.TwoFibreProduct.Defs
 Fix functors `F : A ⥤ C` and `G : B ⥤ C`. Mathlib's `CategoryTheory.Limits.CategoricalPullback`
 is the category of triples `(a, b, φ)` with `φ : F a ≅ G b`, and this file shows that it is, with
 its two projections and its tautological filler, a 2-fibre product of `F` and `G` in the sense of
-Stacks 003Q: a terminal object of the category of 2-commutative squares over the cospan in the
-bicategory `Cat`. Consequently the functor comparing a 2-cartesian square of categories with the
+Stacks 003Q: a final object of the 2-category of 2-commutative squares over the cospan in the
+bicategory `Cat`, and in particular a terminal object of its quotient category. Consequently the
+functor comparing a 2-cartesian square of categories with the
 explicit construction is an equivalence.
 
 ## Main definitions
@@ -23,8 +24,13 @@ explicit construction is an equivalence.
 
 ## Main results
 
-* `CategoryTheory.Cat.isTwoFibreProduct_categoricalPullbackSq`: **Stacks 02X9**, the explicit
-  construction is a 2-fibre product.
+* `CategoryTheory.Cat.isFinalTwoCommSq_categoricalPullbackSq`: **Stacks 02X9**, the explicit
+  construction is a 2-fibre product in the sense of Stacks 003Q (a final object of the
+  2-category of 2-commutative diagrams).
+* `CategoryTheory.Cat.isTwoFibreProduct_categoricalPullbackSq`: its 1-truncated form, terminality
+  in the quotient category of 2-commutative squares.
+* `CategoryTheory.Cat.isFinalTwoCommSq_of_isTwoFibreProduct`: in `Cat` the 1-truncated notion
+  already implies the one of Stacks 003Q.
 * `CategoryTheory.Cat.isEquivalence_toCategoricalPullbackFunctor`: the comparison functor out of a
   2-cartesian square of categories is an equivalence.
 
@@ -208,9 +214,11 @@ theorem preHom_rel {P : TwoCommSq F G}
       he₂ x]
     simp
 
-/-- The explicit 2-fibre product of two functors is a 2-fibre product of them in the bicategory of
-categories: it is a terminal object of the category of 2-commutative squares over the cospan. -/
-@[stacks 02X9 "the explicit construction is a 2-fibre product in the sense of Stacks 003Q"]
+/-- The explicit 2-fibre product of two functors is a 1-truncated 2-fibre product of them in the
+bicategory of categories: it is a terminal object of the quotient category of 2-commutative
+squares over the cospan (`CategoryTheory.Bicategory.IsTwoFibreProduct`). The full statement of
+Stacks 02X9, with the uniqueness of the 2-isomorphism of Stacks 003P (2), is
+`CategoryTheory.Cat.isFinalTwoCommSq_categoricalPullbackSq`. -/
 def isTwoFibreProduct_categoricalPullbackSq (F : A ⟶ C) (G : B ⟶ C) :
     IsTwoFibreProduct (categoricalPullbackSq F G) :=
   IsTerminal.ofUniqueHom
@@ -230,6 +238,42 @@ theorem isEquivalence_toCategoricalPullbackFunctor {P : TwoCommSq F G}
     preHom_rel (b.comp a) (TwoCommSq.PreHom.id (categoricalPullbackSq F G))
   exact (CategoryTheory.Equivalence.mk (toCategoricalPullbackFunctor P) b.hom.toFunctor
     (Cat.Hom.toNatIso e₁).symm (Cat.Hom.toNatIso e₂)).isEquivalence_functor
+
+/-- **The projections of the explicit 2-fibre product jointly detect 2-cells.** A morphism of the
+category of triples is determined by its two components, so a natural transformation into it is
+determined by its whiskerings with the two projections. -/
+theorem legsDetect_categoricalPullbackSq : (categoricalPullbackSq F G).LegsDetectTwoCells := by
+  intro t a b η θ hfst hsnd
+  apply Cat.Hom₂.ext
+  ext x
+  apply CategoricalPullback.hom_ext
+  · have h := NatTrans.congr_app (congrArg Cat.Hom₂.toNatTrans hfst) x
+    simp only [Cat.whiskerRight_app] at h
+    exact h
+  · have h := NatTrans.congr_app (congrArg Cat.Hom₂.toNatTrans hsnd) x
+    simp only [Cat.whiskerRight_app] at h
+    exact h
+
+/-- **Stacks 02X9.** The explicit 2-fibre product of two functors is a 2-fibre product of them in
+the 2-category of categories in the sense of Stacks 003Q: a final object of the 2-category of
+2-commutative diagrams over the cospan, so any two 1-morphisms into it from a 2-commutative
+square are isomorphic by a *unique* 2-morphism. -/
+@[stacks 02X9 "the explicit construction is a 2-fibre product in the sense of Stacks 003Q, \
+with the uniqueness of the 2-isomorphism of Stacks 003P (2)"]
+noncomputable def isFinalTwoCommSq_categoricalPullbackSq (F : A ⟶ C) (G : B ⟶ C) :
+    IsFinalTwoCommSq (categoricalPullbackSq F G) :=
+  isFinalTwoCommSq_of_legsDetect (isTwoFibreProduct_categoricalPullbackSq F G)
+    legsDetect_categoricalPullbackSq
+
+/-- **In the 2-category of categories the two notions of 2-fibre product agree.** A terminal
+object of the quotient category of 2-commutative squares over a cospan of categories is a final
+object of the 2-category of 2-commutative diagrams (Stacks 003Q): the legs of the explicit
+2-fibre product detect 2-cells, and detection passes to every 1-truncated 2-fibre product of the
+cospan. -/
+noncomputable def isFinalTwoCommSq_of_isTwoFibreProduct {P : TwoCommSq F G}
+    (hP : IsTwoFibreProduct P) : IsFinalTwoCommSq P :=
+  isFinalTwoCommSq_of_isTwoFibreProduct_of_legsDetect hP
+    (isTwoFibreProduct_categoricalPullbackSq F G) legsDetect_categoricalPullbackSq
 
 end CategoryTheory.Cat
 

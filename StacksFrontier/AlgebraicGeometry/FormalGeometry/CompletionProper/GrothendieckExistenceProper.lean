@@ -132,7 +132,9 @@ This is `Stacks.Algebraization.isEquivalence_completionFunctor_of_devissage` wit
 hypotheses discharged: `hFF` by the theorem on formal functions in degree zero over a complete
 base, `isIso_globalSectionsToLimit_of_isProper`, and `hDev` by
 `Stacks.Coherent.essImage_completionFunctor_of_devissageStep`. -/
-@[stacks 088C]
+@[stacks 088C "Grothendieck's existence theorem: A Noetherian and complete with respect to I, \
+f : X -> Spec A proper and the ideal sheaf I O_X; the completion functor of 0880 from coherent \
+O_X-modules to coherent I O_X-adic systems is an equivalence"]
 public theorem isEquivalence_completionFunctor_of_isProper
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A) [IsAdicComplete I A]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of A)) [IsProper f] :

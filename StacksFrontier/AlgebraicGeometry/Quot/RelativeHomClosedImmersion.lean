@@ -47,7 +47,7 @@ of Stacks 03LU this is the assertion that the unit `(i_*G')_T ⟶ (j_T)_*j_T^*(i
 isomorphism, which holds as soon as `(i_*G')_T` is a direct image along `j_T` — because `j_T` is
 again a closed immersion, so `(j_T)_*` is fully faithful by Stacks 04CJ, part (2).  That
 `(i_*G')_T` *is* a direct image along `j_T` is exactly the base-change clause of Stacks 07U8 for
-the affine morphism `i`, and it is the one thing this development does not have; see below.
+the affine morphism `i`; see below.
 
 ## Main definitions
 
@@ -61,7 +61,7 @@ the affine morphism `i`, and it is the one thing this development does not have;
   and `G'` over the algebraic spaces over `X'` is the relative Hom functor of `F` and `i_*G'`
   over the algebraic spaces over `X`, restricted along `Over.map i`.
 * `AlgebraicGeometry.Space.TestSchemePushforwardBaseChange`: **the base-change clause of
-  Stacks 07U8 for `i`**, in the form consumed here; the one missing input.
+  Stacks 07U8 for `i`**, in the form consumed here.
 * `AlgebraicGeometry.Space.pushforwardHomSituation` and
   `AlgebraicGeometry.Space.pullbackHomSituation`: the two relative Hom situations of
   Stacks 08JT whose functors Stacks 08K5 compares.
@@ -74,44 +74,35 @@ the affine morphism `i`, and it is the one thing this development does not have;
 * `AlgebraicGeometry.Space.homFunctorClosedImmersionIso`: the isomorphism of the two relative
   Hom functors, at the level of the whiskered composites that
   `AlgebraicGeometry.Space.HomSituation.homFunctor` is built from.
-* `AlgebraicGeometry.Space.homFunctorClosedImmersion`: **Stacks 08K5**, the identification
-  `Hom(F, i_*G') = Hom(i^*F, G')` as an isomorphism of the two relative Hom functors of
-  Stacks 08JT on the test schemes over `Y`.
+* `AlgebraicGeometry.Space.homFunctorClosedImmersion`: the identification
+  `Hom(F, i_*G') = Hom(i^*F, G')` of Stacks 08K5 as an isomorphism of the two relative Hom
+  functors of Stacks 08JT on the test schemes over `Y`, from the four inputs listed below.
+  Stacks 08K5 itself, with all four inputs supplied, is
+  `AlgebraicGeometry.Space.homFunctorClosedImmersionIso_of_isQuasicoherentOnSite` in
+  `StacksFrontier/AlgebraicGeometry/Quot/RelativeHomClosedImmersionUnconditional.lean`.
 
-## Missing prerequisites, carried as hypotheses
+## The inputs, and where they are proved
 
-Three inputs are not available in this development and are carried explicitly.  None of them is
-a weakening of the source statement; each is a result the source quotes and this development
-does not have, and the tag attribute names all three.
+The isomorphism is assembled here from four inputs, taken as arguments so that this file does
+not depend on the files proving them.  Each is proved in this development, and
+`StacksFrontier/AlgebraicGeometry/Quot/RelativeHomClosedImmersionUnconditional.lean` supplies all
+four to obtain Stacks 08K5.
 
 1. **The pseudofunctoriality of the direct images of Stacks 03LU**,
-   `AlgebraicGeometry.Space.ModulePushforwardCoherence`.  The relative Hom *functor* of
-   Stacks 08JT does not exist without it — see the implementation notes of
-   `StacksFrontier/AlgebraicGeometry/Quot/RelativeHom.lean` — so every statement here that
-   mentions `AlgebraicGeometry.Space.HomSituation.homFunctor` inherits it.
-2. **Quasi-coherence of `i_*G'` (Stacks 07U8, resp. Stacks 03M9) and of `i^*F`
-   (Stacks 03GA).**  These are fields of `AlgebraicGeometry.Space.HomSituation`, so they are
-   needed to *form* the two situations the source compares, exactly as in
-   `AlgebraicGeometry.Space.HomSituation.baseChangedSituation` of Stacks 08JW.  Quasi-coherence
-   of the direct image along the affine morphism `i` is available only granted
-   `AlgebraicGeometry.Space.SchemeTargetAffinePushforwardQuasicoherent`
-   (`StacksFrontier/AlgebraicGeometry/Spaces/AffineDirectImageQuasicoherent.lean`), and
-   quasi-coherence of the pullback only granted
-   `AlgebraicGeometry.Space.HasLocalInverseImagePresentations`
-   (`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePullbackQuasicoherence.lean`); both
-   are taken here as the two bare quasi-coherence hypotheses, which is weaker than taking
-   either of those two.
-3. **The base-change clause of Stacks 07U8**, that the formation of the direct image along an
-   affine morphism commutes with arbitrary base change.  The file proving the first clause of
-   Stacks 07U8, `StacksFrontier/AlgebraicGeometry/Spaces/AffineDirectImageQuasicoherent.lean`,
-   records in its implementation notes that this clause is not treated, and no base-change
-   comparison for `AlgebraicGeometry.Space.modulePushforward` exists in this development beyond
-   the étale one of Stacks 03LX
-   (`StacksFrontier/AlgebraicGeometry/Spaces/ModulePushforwardEtaleBaseChange.lean`), which does
-   not apply to a test scheme.  It is carried as
+   `AlgebraicGeometry.Space.ModulePushforwardCoherence`, without which the relative Hom functor
+   of Stacks 08JT does not exist — see the implementation notes of
+   `StacksFrontier/AlgebraicGeometry/Quot/RelativeHom.lean`.  It is the term
+   `AlgebraicGeometry.Space.modulePushforwardCoherence`.
+2. **Quasi-coherence of `i_*G'` (Stacks 03M9) and of `i^*F` (Stacks 03GA).**  These are fields
+   of `AlgebraicGeometry.Space.HomSituation`, so they are needed to *form* the two situations
+   the source compares.  They are
+   `AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePushforward_of_isClosedImmersion` and
+   `AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePullback_of_isClosedImmersion`.
+3. **The base-change clause of Stacks 07U8**, carried as
    `AlgebraicGeometry.Space.TestSchemePushforwardBaseChange`, stated for exactly the squares
-   this file meets, and as `Nonempty` of an isomorphism because only its existence is used, and
-   only to prove a proposition.
+   this file meets.  It is
+   `AlgebraicGeometry.Space.testSchemePushforwardBaseChange_of_isAffineHom`, from the affine
+   base change `AlgebraicGeometry.Space.nonempty_modulePullbackModulePushforwardIso_of_isAffineHom`.
 
 ## Implementation notes
 
@@ -378,11 +369,9 @@ image along the base change `X'_T ⟶ X_T` of `i`, namely of the pullback of `G'
 
 This is the assertion of Stacks 07U8 that the formation of the direct image along an affine
 morphism commutes with arbitrary base change, specialised to the squares of
-`AlgebraicGeometry.Space.isPullback_baseChangeSourceMap`.  It is the one input of Stacks 08K5
-that this development does not have: the file proving the quasi-coherence clause of
-Stacks 07U8 records the base-change clause as untreated, and the only base-change comparison
-available for `AlgebraicGeometry.Space.modulePushforward` is the étale one of Stacks 03LX,
-which does not apply to a test scheme.
+`AlgebraicGeometry.Space.isPullback_baseChangeSourceMap`.  It holds for every affine `i` and
+quasi-coherent `G'`: this is
+`AlgebraicGeometry.Space.testSchemePushforwardBaseChange_of_isAffineHom`.
 
 It is stated as `Nonempty` of an isomorphism because only the existence of the isomorphism is
 used, and only in the proof of a proposition. -/
@@ -498,9 +487,8 @@ def homFunctorClosedImmersionIso (hc : ModulePushforwardCoherence B S hS) (p : X
 `p : X ⟶ Y`, the module `F` and the direct image `i_*G'`.
 
 Quasi-coherence of `i_*G'` is a field of `AlgebraicGeometry.Space.HomSituation` and is taken as
-a hypothesis: it is Stacks 03M9 for the closed immersion `i`, equivalently the quasi-coherence
-clause of Stacks 07U8 for the affine morphism `i`, which this development has only granted
-`AlgebraicGeometry.Space.SchemeTargetAffinePushforwardQuasicoherent`. -/
+a hypothesis: it is Stacks 03M9 for the closed immersion `i`,
+`AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePushforward_of_isClosedImmersion`. -/
 def pushforwardHomSituation (p : X ⟶ Y) (i : X' ⟶ X) (F : Modules.{u, u} B S hS X.1 X.2)
     (G' : Modules.{u, u} B S hS X'.1 X'.2) (hF : F.IsQuasicoherentOnSite)
     (hiG : ((modulePushforward B S hS i).obj G').IsQuasicoherentOnSite) :
@@ -517,8 +505,8 @@ def pushforwardHomSituation (p : X ⟶ Y) (i : X' ⟶ X) (F : Modules.{u, u} B S
 `i ≫ p : X' ⟶ Y`, the inverse image `i^*F` and the module `G'`.
 
 Quasi-coherence of `i^*F` is a field of `AlgebraicGeometry.Space.HomSituation` and is taken as a
-hypothesis: it is Stacks 03GA, which this development has only granted
-`AlgebraicGeometry.Space.HasLocalInverseImagePresentations`. -/
+hypothesis: it is Stacks 03GA along a closed immersion,
+`AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePullback_of_isClosedImmersion`. -/
 def pullbackHomSituation (p : X ⟶ Y) (i : X' ⟶ X) (F : Modules.{u, u} B S hS X.1 X.2)
     (G' : Modules.{u, u} B S hS X'.1 X'.2)
     (hiF : ((modulePullback B S hS i).obj F).IsQuasicoherentOnSite)
@@ -532,7 +520,7 @@ def pullbackHomSituation (p : X ⟶ Y) (i : X' ⟶ X) (F : Modules.{u, u} B S hS
   quasicoherent_F := hiF
   quasicoherent_G := hG'
 
-/-- **Stacks 08K5.**  Let `i : X' ⟶ X` be a closed immersion of algebraic spaces over an
+/-- Let `i : X' ⟶ X` be a closed immersion of algebraic spaces over an
 algebraic space `Y` over `S`, let `F` be a quasi-coherent `𝒪_X`-module and let `G'` be a
 quasi-coherent `𝒪_{X'}`-module.  Then
 
@@ -546,17 +534,11 @@ change of test scheme.
 The comparison is pullback of homomorphisms along the base changes `X'_T ⟶ X_T` of `i`, read
 through the counit isomorphism `i^*i_* ≅ 𝟭` of Stacks 04CJ, part (2).
 
-It is conditional on three inputs this development does not have, all of them results the
-source quotes: the pseudofunctoriality `hc` of the direct images of Stacks 03LU, without which
-the relative Hom functor of Stacks 08JT does not exist at all; the quasi-coherence `hiG` of
-`i_*G'` (Stacks 03M9, resp. the quasi-coherence clause of Stacks 07U8) and `hiF` of `i^*F`
-(Stacks 03GA), which are fields of `AlgebraicGeometry.Space.HomSituation` and so are needed to
-form the two situations being compared; and the base-change clause `hbc` of Stacks 07U8, which
-is the one input with mathematical content here. -/
-@[stacks 08K5 "the identification Hom(F, i_*G') = Hom(i^*F, G') as functors on (Sch/B), \
-conditional on the pseudofunctoriality of the direct images of Stacks 03LU, on the \
-quasi-coherence of i_*G' (Stacks 03M9) and of i^*F (Stacks 03GA), and on the base-change \
-clause of Stacks 07U8 for i"]
+The four inputs are taken as arguments: the pseudofunctoriality `hc` of the direct images of
+Stacks 03LU, the quasi-coherence `hiG` of `i_*G'` (Stacks 03M9) and `hiF` of `i^*F`
+(Stacks 03GA), which are fields of `AlgebraicGeometry.Space.HomSituation`, and the base-change
+clause `hbc` of Stacks 07U8.  All four are proved in this development, and Stacks 08K5 with
+them supplied is `AlgebraicGeometry.Space.homFunctorClosedImmersionIso_of_isQuasicoherentOnSite`. -/
 def homFunctorClosedImmersion (hc : ModulePushforwardCoherence B S hS) (p : X ⟶ Y)
     (i : X' ⟶ X) (hi : IsClosedImmersion B S hS i.hom)
     (F : Modules.{u, u} B S hS X.1 X.2) (G' : Modules.{u, u} B S hS X'.1 X'.2)

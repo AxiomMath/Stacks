@@ -316,8 +316,11 @@ of `𝒳` over `W`, and its restriction maps are `AlgebraicGeometry.Stack.pointR
 
 This is the object the last paragraph of Stacks 06PP calls `Isom_𝒳(x₁, x₂)`, the *sheaf of
 isomorphisms from `x₁` to `x₂`*. That it is represented by an algebraic space over `Z` is the
-other half of that definition and is not asserted here; neither is its part (1), the group law
-on the relative sheaf of automorphisms. -/
+other half of that definition and is not asserted here. Part (1), the group law on the relative
+sheaf of automorphisms `Isom_{𝒳/𝒴}(x, x)`, is
+`AlgebraicGeometry.Stack.relativeAutomorphismGroupAlgebraicSpace`; for `𝒴` an algebraic space
+its underlying presheaf is this one at `x₁ = x₂ = x`, by
+`AlgebraicGeometry.Stack.isIso_relativeAutomorphismToIsomSpace`. -/
 @[stacks 06PP "the sheaf of isomorphisms from one algebraic-space-valued point to another"]
 noncomputable def isomSpaceOverSpace (x₁ x₂ : algebraicSpaceStack.{u, w} B S hS Z hZ ⟶ 𝒳) :
     (BigFppfOver B S hS)ᵒᵖ ⥤ Type u where

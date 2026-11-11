@@ -54,8 +54,14 @@ All names below live in the namespace
 
 **Scope.** The tag asserts that the displayed map exists, is canonical, is functorial in `K` and
 is compatible with distinguished triangles. The declarations below give the map together with
-the adjunction equation that pins it down and its uniqueness subject to that equation;
-functoriality in `K` and compatibility with distinguished triangles are not formalized here.
+the adjunction equation that pins it down and its uniqueness subject to that equation. Its
+naturality in `K` is `derivedPullbackTensorSheafHomMap_natural`
+(`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.TensorHomTorAmplitudeComparison`), and
+the morphism of functors it forms, its commutation with the shift and the morphisms of triangles
+it induces are in
+`StacksFrontier.AlgebraicGeometry.Duality.RightAdjointLemmas.ExactSupportDerivedTensorHomMapTriangles`
+(`derivedPullbackTensorSheafHomNatTrans`, `commShift_derivedPullbackTensorSheafHomNatTrans`,
+`derivedPullbackTensorSheafHomTriangleHom`).
 
 **[Stacks, Tag 0B55].** The construction needs the projection-formula map of
 [Stacks, Tag 0B53] at `R ℰom(𝒪_Z, 𝒪_X)` and `K` to be invertible. That is [Stacks, Tag 0B55],
@@ -195,8 +201,7 @@ def derivedPullbackTensorSheafHomMateMap
 
 in `D(𝒪_Z)`: the map corresponding to `derivedPullbackTensorSheafHomMateMap` under the
 adjunction `i_* ⊣ R ℰom(𝒪_Z, -)` of [Stacks, Tag 0A76]. -/
-@[stacks 0B4C "the canonical map, unconditionally; not functoriality in the complex and not \
-  compatibility with distinguished triangles"]
+@[stacks 0B4C "the canonical map, defined for every complex"]
 def derivedPullbackTensorSheafHomMap
     (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing S.X))) :
     S.derivedPullbackTensorSheafHom.obj K ⟶ S.derivedSheafHomExactSupport.obj K :=

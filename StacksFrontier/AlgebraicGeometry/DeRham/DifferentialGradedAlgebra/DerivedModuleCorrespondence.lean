@@ -609,6 +609,8 @@ noncomputable abbrev deRhamClassDerivedEquiv (n : ℤ) :
 in `D(f^{-1}𝒪_S)` attached to a relative de Rham cohomology class `ξ ∈ H^n_{dR}(X/S)`: the
 morphism of `D(Ω^•, d)` which Section 0FU3 attaches to `ξ`, with its differential graded
 structure forgotten. -/
+@[stacks 0FU7 "the morphism xi' : Omega^bullet -> Omega^bullet[n] of D(f^{-1}O_S) attached to a de
+  Rham class xi in H^n_dR by Differential Graded Sheaves Section 0FU3"]
 noncomputable abbrev deRhamClassMorphism (n : ℤ) (ξ : deRhamCohomology B D n) :
     deRhamDerivedObject B D ⟶ (deRhamDerivedObject B D)⟦n⟧ :=
   dgaClassMorphism (deRhamDifferentialGradedAlgebra B D) n ξ
@@ -632,6 +634,8 @@ theorem deRhamEvalOne_deRhamClassMorphism (n : ℤ) (ξ : deRhamCohomology B D n
 /-- **Stacks Project, Tag 0FU7, uniqueness.** A morphism `Ω^•_{X/S} ⟶ Ω^•_{X/S}[n]` of
 `D(f^{-1}𝒪_S)` which lifts to the derived category of right differential graded
 `Ω^•_{X/S}`-modules and whose value at the unit is `ξ` is `ξ'`. -/
+@[stacks 0FU7 "uniqueness: a morphism with properties (1) and (2) is the morphism attached to the
+  class"]
 theorem eq_deRhamClassMorphism (n : ℤ) (ξ : deRhamCohomology B D n)
     {f : deRhamDerivedObject B D ⟶ (deRhamDerivedObject B D)⟦n⟧}
     (hlift : ∃ g : deRhamDerivedRegular B D ⟶ (deRhamDerivedRegular B D)⟦n⟧,

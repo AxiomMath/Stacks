@@ -11,13 +11,18 @@ public import StacksFrontier.Algebra.Homology.DerivedCategory.RightDerivedFuncto
 
 Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian categories, with `𝒜` having enough
 injectives. This file proves that two right acyclic objects in a short exact sequence force the
-third ([Stacks, Tag 015D]), builds the distinguished triangle of a stupid truncation of a bounded
-below complex, and proves Leray's acyclicity lemma ([Stacks, Tag 015E]): a bounded below complex
-of right `F`-acyclic objects computes `RF`.
+third (the enough-injectives case of [Stacks, Tag 015D]), builds the distinguished triangle of a
+stupid truncation of a bounded below complex, and proves the enough injectives case of Leray's
+acyclicity lemma ([Stacks, Tag 015E]): a bounded below complex of right `F`-acyclic objects
+computes `RF`. The lemma as Stacks states it, with `RF` only defined at the complex, is
+`isIso_ι_app_of_computesRightDerived_single_of_isRightDerivedValueAt` in
+`RightDerivedFunctorInjective.AcyclicResolutions`.
 
 ## Main results
 
-* `CategoryTheory.Functor.rightAcyclic_and_shortExact_map_of_shortExact`
+* `CategoryTheory.Functor.rightAcyclic_and_shortExact_map_of_shortExact`: the enough-injectives
+  case of [Stacks, Tag 015D], proved for an everywhere defined `RF` in
+  `CategoryTheory.Functor.rightAcyclic_and_shortExact_map_of_shortExact_of_isRightDerivable`
 * `CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic`
 
 ## References
@@ -336,15 +341,19 @@ private lemma shortExact_map [PreservesFiniteLimits F] (hg : Epi (F.map S.g)) :
 
 end Main
 
-/-- **Right acyclicity in a short exact sequence**, [StacksProject 015D].
+/-- **Right acyclicity in a short exact sequence, the enough-injectives case** of
+[StacksProject 015D].
 Let `F : 𝒜 ⥤ ℬ` be a left exact functor between abelian categories, where `𝒜` has enough
 injectives, so that `RF : D⁺(𝒜) ⥤ D⁺(ℬ)` is everywhere defined, and let
 `S : 0 ⟶ A ⟶ B ⟶ C ⟶ 0` be a short exact sequence of `𝒜`. Then
 1. if `A` and `C` are right acyclic for `F`, so is `B`,
 2. if `A` and `B` are right acyclic for `F`, so is `C`, and
 3. if `B` and `C` are right acyclic for `F` and `F(B) ⟶ F(C)` is epi, then so is `A`,
-and in each of the three cases `0 ⟶ F(A) ⟶ F(B) ⟶ F(C) ⟶ 0` is a short exact sequence of `ℬ`. -/
-@[stacks 015D]
+and in each of the three cases `0 ⟶ F(A) ⟶ F(B) ⟶ F(C) ⟶ 0` is a short exact sequence of `ℬ`.
+
+The source assumes no injectives, only that `RF` is everywhere defined; that statement is
+`CategoryTheory.Functor.rightAcyclic_and_shortExact_map_of_shortExact_of_isRightDerivable`, the
+registration of that tag. -/
 public theorem rightAcyclic_and_shortExact_map_of_shortExact
     {C D : Type*} [Category* C] [Category* D] [Abelian C] [Abelian D]
     [HasDerivedCategory C] [HasDerivedCategory D] (F : C ⥤ D) [F.Additive]
@@ -817,7 +826,7 @@ lemma isGE_Phi_obj (L : CochainComplex C ℤ) (hL : CochainComplex.plus C L) (m 
 second map of the triangle is an isomorphism on `H ⁱ`: in the long exact sequence of the
 homological functor `H ⁱ` the two neighbours of `H ⁱ(T.obj₂) ⟶ H ⁱ(T.obj₃)` are `H ⁱ(T.obj₁)` and
 `H ⁱ⁺¹(T.obj₁)`, and both vanish, so the map is a mono and an epi. -/
-private lemma isIso_homologyFunctor_map_mor₂ (T : Triangle (DerivedCategory.Plus D))
+lemma isIso_homologyFunctor_map_mor₂_of_isGE (T : Triangle (DerivedCategory.Plus D))
     (hT : T ∈ distTriang (DerivedCategory.Plus D)) (i : ℤ) (h : T.obj₁.IsGE (i + 1 + 1)) :
     IsIso ((DerivedCategory.Plus.homologyFunctor D i).map T.mor₂) := by
   have := h
@@ -863,7 +872,7 @@ lemma isIso_app_of_plus
   have h₁ : IsIso ((DerivedCategory.Plus.homologyFunctor D i).map
       ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).mapTriangle.obj
         (stupidTruncTrianglehPlus K (i + 1) hK)).mor₂) :=
-    isIso_homologyFunctor_map_mor₂ _
+    isIso_homologyFunctor_map_mor₂_of_isGE _
       ((F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).map_distinguished _ hT) i
       (isGE_Phi_obj F _ (plus_stupidTruncGE K (i + 1 + 1)) (i + 1 + 1) hgeGE)
   -- and likewise for `RF(Qh(T))`, since `RF` moves cohomology to the right
@@ -872,7 +881,7 @@ lemma isIso_app_of_plus
         DerivedCategory.Plus.Qh).totalRightDerived DerivedCategory.Plus.Qh
         (HomotopyCategory.Plus.quasiIso C)).mapTriangle.obj
         (stupidTruncTrianglehPlus K (i + 1) hK)).mor₂) :=
-    isIso_homologyFunctor_map_mor₂ _
+    isIso_homologyFunctor_map_mor₂_of_isGE _
       ((DerivedCategory.Plus.Qh ⋙ (F.mapHomotopyCategoryPlus ⋙
         DerivedCategory.Plus.Qh).totalRightDerived DerivedCategory.Plus.Qh
         (HomotopyCategory.Plus.quasiIso C)).map_distinguished _ hT) i
@@ -951,13 +960,17 @@ private lemma isGE_totalRightDerived_obj (X : DerivedCategory.Plus C) (a : ℤ) 
 
 end LerayEnoughInjectives
 
-/-- **Leray's acyclicity lemma**, [StacksProject 015E].
+/-- **Leray's acyclicity lemma, the enough injectives case** (the special case of
+[Stacks, Tag 015E] given by its footnote, where `RF` is everywhere defined).
 Let `F : 𝒜 ⥤ ℬ` be an additive functor between abelian categories, with `𝒜` having enough
 injectives, so that the right derived functor `RF : D⁺(𝒜) ⥤ D⁺(ℬ)`, with unit `α`, is everywhere
 defined. Let `K` be a bounded below cochain complex of `𝒜` all of whose terms are right acyclic
 for `F`. Then `K` computes `RF`: the canonical map `F(K) ⟶ RF(K)`, the component of `α` at the
-image of `K` in `K⁺(𝒜)`, is an isomorphism in `D⁺(ℬ)`. -/
-@[stacks 015E, sga "4 XVII 1.2.7" "enough injectives (RF)"]
+image of `K` in `K⁺(𝒜)`, is an isomorphism in `D⁺(ℬ)`.
+
+Stacks assumes only that `RF` is defined at `K`; that statement, with no injectives, is
+`CategoryTheory.Functor.isIso_ι_app_of_computesRightDerived_single_of_isRightDerivedValueAt`. -/
+@[sga "4 XVII 1.2.7" "enough injectives (RF)"]
 public theorem isIso_totalRightDerivedUnit_app_of_rightAcyclic
     {C D : Type*} [Category* C] [Category* D] [Abelian C] [Abelian D]
     [HasDerivedCategory C] [HasDerivedCategory D] (F : C ⥤ D) [F.Additive] [EnoughInjectives C]

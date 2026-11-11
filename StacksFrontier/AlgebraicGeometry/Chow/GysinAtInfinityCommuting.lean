@@ -17,12 +17,21 @@ every morphism `fY : Y ⟶ X` locally of finite type and every `c ∈ A^p(Y ⟶ 
 
 which by Remark 0FA2 is exactly the assertion that `C` and `c` *commute*.
 
+This file reduces Stacks 0FAS, for an abstract class at infinity given with a presentation of
+its cap operation, to the two naturality steps of the source's proof. It does not carry the tag:
+the unconditional Stacks 0FAS, for the canonical class `Stacks.Chow.gysinAtInfinityClass`, is
+`Stacks.Chow.GysinAtInfinity.gysinAtInfinityClass_comp_comm` (the displayed equation) and
+`Stacks.Chow.gysinAtInfinityClass_bivariantCommute` (the form of Remark 0FA2), with the version
+for a nonhomogeneous `c ∈ A^*(Y ⟶ X)`
+`Stacks.Chow.nonhomogeneousBivariantTransport_compositeOfInvertible_gysinAtInfinityClass`.
+
 ## Main results
 
-* `Stacks.Chow.gysinAtInfinity_bivariantCommute` — **Stacks 0FAS**: `C` and `c` commute, in the
-  sense of `Stacks.Chow.BivariantCommute` (the repository's Stacks 0FA2).
-* `Stacks.Chow.gysinAtInfinity_commuteCompositeCap_eq` — **Stacks 0FAS** in the displayed form of
-  the tag: the cap operations of the two composites `res(C) ∘ c` and `res(c) ∘ C` agree under the
+* `Stacks.Chow.gysinAtInfinity_bivariantCommute` — the reduction of Stacks 0FAS: `C` and `c`
+  commute, in the sense of `Stacks.Chow.BivariantCommute` (the repository's Stacks 0FA2), given a
+  presentation of `C` and the two naturality steps.
+* `Stacks.Chow.gysinAtInfinity_commuteCompositeCap_eq` — the same reduction in the displayed form
+  of the tag: the cap operations of the two composites `res(C) ∘ c` and `res(c) ∘ C` agree under the
   canonical identification `W_∞ ×_X Y ≅ Y ×_X W_∞`.
 * `Stacks.Chow.gysinAtInfinity_bivariantCommute_zero` — the two naturality hypotheses are
   satisfiable: for the zero class of `A^p(Y ⟶ X)` they hold for every class at infinity and
@@ -178,8 +187,9 @@ variable {C : ChowSituation.{u}} {G : GysinSystem C} {X W Y : Scheme.{u}} {f : X
   (fY : Y ⟶ X) [LocallyOfFiniteType fY] (p : ℤ)
   (c : BivariantClass C G (fY ≫ f) f fY rfl p)
 
-/-- **Stacks 0FAS**, conditional on the construction of Stacks 0F9J and its two naturality
-properties under `c`.
+/-- A reduction of Stacks 0FAS to the construction of Stacks 0F9J and its two naturality
+properties under `c`. The unconditional Stacks 0FAS, for the canonical class
+`Stacks.Chow.gysinAtInfinityClass`, is `Stacks.Chow.gysinAtInfinityClass_bivariantCommute`.
 
 In the setting of Stacks 0F9J, let `fY : Y ⟶ X` be locally of finite type and let
 `c ∈ A^p(Y ⟶ X)`. Then the canonical class `C ∈ A⁰(W_∞ ⟶ X)` and `c` commute, in the sense of
@@ -198,11 +208,6 @@ The hypotheses are the source's own proof steps, and none of them is the conclus
   zero-scheme base-change identification of Stacks 0B6Y, which this repository lacks.
 
 See the implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.GysinAtInfinityCommuting`. -/
-@[stacks 0FAS "given the construction of Stacks 0F9J as a presentation of the cap operation of \
-C by a lift and a Gysin step, and the naturality of each of those two factors under c (the \
-first being the source's step that `c ∩ β` lifts `c ∩ α`, resting on Stacks 02RC and 02RX; the \
-second being condition (3) of Stacks 0B76 for c at the divisor at infinity, which needs Stacks \
-0B6Y to instantiate)"]
 theorem gysinAtInfinity_bivariantCommute
     (hlift : ∀ {T : Scheme.{u}} (t : T ⟶ X) [LocallyOfFiniteType t] (k : ℤ)
         (α : chowGroup C (t ≫ f) k),
@@ -239,8 +244,10 @@ theorem gysinAtInfinity_bivariantCommute_zero
   refine gysinAtInfinity_bivariantCommute Q fY p 0 ?_ ?_ <;> intro T t _ k x <;>
     simp [commuteCapTransport_apply, BivariantClass.zero_cap]
 
-/-- **Stacks 0FAS** in the displayed form of the tag: `C ∘ c = c ∘ C` in
-`A^p(W_∞ ×_X Y ⟶ X)`, read on cap operations.
+/-- The reduction of Stacks 0FAS in the displayed form of the tag: `C ∘ c = c ∘ C` in
+`A^p(W_∞ ×_X Y ⟶ X)`, read on cap operations, for a presented class at infinity satisfying the two
+naturality steps. The unconditional statement, for the canonical class, is
+`Stacks.Chow.GysinAtInfinity.gysinAtInfinityClass_comp_comm`.
 
 This is `Stacks.Chow.gysinAtInfinity_bivariantCommute` pushed through the equivalence of Remark
 0FA2, `Stacks.Chow.bivariantCommute_iff_commuteCompositeCap_eq`: the cap operations of the two
@@ -250,8 +257,6 @@ hypothesis `hgys` is the isomorphism case of Stacks 02TA for the Gysin system, w
 `Stacks.Chow.bivariantRestriction` (Stacks 0F9Z) needs in order to be a bivariant class; the
 Stacks 02S2 hypothesis of `Stacks.Chow.bivariantCompositeCap` is discharged by
 `Stacks.Chow.properPushforwardDescends`. -/
-@[stacks 0FAS "the displayed equality C ∘ c = c ∘ C of the tag, on cap operations, under the \
-same hypotheses as `gysinAtInfinity_bivariantCommute`"]
 theorem gysinAtInfinity_commuteCompositeCap_eq (hgys : G.IsNaturalUnderBaseChangeIso)
     (hlift : ∀ {T : Scheme.{u}} (t : T ⟶ X) [LocallyOfFiniteType t] (k : ℤ)
         (α : chowGroup C (t ≫ f) k),

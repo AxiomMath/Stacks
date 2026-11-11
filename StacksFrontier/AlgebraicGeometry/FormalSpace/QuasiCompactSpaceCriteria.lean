@@ -44,28 +44,31 @@ covering, which is again an affine formal algebraic space.
   `AlgebraicGeometry.FormalSpace.CoproductsRepresentableEtale`: the four auxiliary assertions
   about reductions and about coproducts which the equivalence rests on. The third of them is
   a theorem of this library, `finiteCoproductsAffineFormal` below; the other three are
-  hypotheses.
+  hypotheses here and are proved in other files of the library.
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.IsQuasiCompactSpace.hasFiniteFormalAtlas`:
-  **Stacks 0AJ9**, the implication (3) ⇒ (2).
+* `AlgebraicGeometry.FormalSpace.IsQuasiCompactSpace.hasFiniteFormalAtlas`: the implication
+  (3) ⇒ (2) of Stacks 0AJ9.
 * `AlgebraicGeometry.FormalSpace.HasFiniteFormalAtlas.isQuasiCompactSpace`: the implication
   (2) ⇒ (3).
-* `AlgebraicGeometry.FormalSpace.IsQuasiCompactSpace.isQuasiCompactSpaceULift_reduction`:
-  **Stacks 0AJ9**, the implication (3) ⇒ (1).
-* `AlgebraicGeometry.FormalSpace.tfae_isQuasiCompactSpace`: **Stacks 0AJ9**, the equivalence
-  of the three conditions.
+* `AlgebraicGeometry.FormalSpace.IsQuasiCompactSpace.isQuasiCompactSpaceULift_reduction`: the
+  implication (3) ⇒ (1), on the hypotheses `hAffineReduction` and `hReductionEtaleSurjective`.
+* `AlgebraicGeometry.FormalSpace.tfae_isQuasiCompactSpace`: the equivalence of the three
+  conditions on the hypotheses below; the unconditional form is
+  `AlgebraicGeometry.FormalSpace.tfae_isQuasiCompactSpace_unconditional`.
 
-## What is assumed
+## The hypotheses of the declarations below
 
-Stacks 0AIN, the existence of the reduction of a formal algebraic space, is available in this
-library only for affine formal algebraic spaces, so condition (1) cannot be phrased through a
-chosen reduction of `X`. It is phrased instead, as Stacks 0GB8 and Stacks 0CB9 are in this
-library, with a reduction `i : Xred ⟶ X` supplied as a hypothesis: that is the source's
-condition on the reduction as soon as 0AIN is available in general, and it needs no choice.
+The declarations of this file take steps of the proof of Stacks 0AJ9 as hypotheses. The
+equivalence of the three conditions with nothing assumed beyond the source's hypotheses is
+`AlgebraicGeometry.FormalSpace.tfae_isQuasiCompactSpace_unconditional`, for every reduction
+`i : Xred ⟶ X` of `X`. A reduction exists for every formal algebraic space by
+`AlgebraicGeometry.FormalSpace.exists_isReduction_of_isFormalAlgebraicSpace` (Stacks 0AIN), and
+condition (1) is phrased here, as Stacks 0GB8 and Stacks 0CB9 are in this library, through a
+reduction `i : Xred ⟶ X`, which needs no choice.
 
-Three further assertions are hypotheses of `tfae_isQuasiCompactSpace`; a fourth,
+Three assertions are hypotheses of `tfae_isQuasiCompactSpace`; a fourth,
 `FiniteCoproductsAffineFormal`, is no longer one, being proved here as
 `AlgebraicGeometry.FormalSpace.finiteCoproductsAffineFormal`.
 
@@ -217,7 +220,6 @@ abbrev CoproductsRepresentableEtale : Prop :=
 atlas as in Definition 0AIM indexed by a one-point type, the induced map from the coproduct
 over that type being the given map up to the coproduct inclusion, which is a split
 epimorphism. -/
-@[stacks 0AJ9 "the implication (3) ⇒ (2)"]
 theorem IsQuasiCompactSpace.hasFiniteFormalAtlas {X : FppfSheaf B S hS}
     (h : IsQuasiCompactSpace B S hS X) : HasFiniteFormalAtlas B S hS X := by
   let _ : HasColimitsOfSize.{u + 1, u + 1} (FppfSheaf B S hS) := Sheaf.instHasColimitsOfSize
@@ -255,10 +257,6 @@ algebraic space. Indeed, the affine formal algebraic space `Y` surjecting onto `
 reduction `iY : Yred ⟶ Y`, the composite `Yred ⟶ Y ⟶ X` factors through `i` because `Yred` is
 a reduced algebraic space, and the resulting morphism `Yred ⟶ Xred` is surjective and étale;
 composing a quasi-compact surjective étale chart of `Yred` with it gives one of `Xred`. -/
-@[stacks 0AJ9 "the implication (3) ⇒ (1), with a reduction of X supplied as a hypothesis in \
-place of Stacks 0AIN, on the hypotheses hAffineReduction that a reduction of an affine formal \
-algebraic space is quasi-compact and hReductionEtaleSurjective that the morphism of reductions \
-induced by a representable, étale and surjective morphism is surjective and étale"]
 theorem IsQuasiCompactSpace.isQuasiCompactSpaceULift_reduction
     (hAffineReduction : AffineReductionsQuasiCompact B S hS)
     (hReductionEtaleSurjective : ReductionsOfEtaleSurjectionsEtaleSurjective B S hS)
@@ -284,10 +282,6 @@ reduction of `X`. The following are equivalent:
 2. `X` admits an atlas as in Definition 0AIM indexed by a finite type,
 3. `X` receives a morphism from an affine formal algebraic space which is representable by
    algebraic spaces, étale and a surjection of sheaves. -/
-@[stacks 0AJ9 "the equivalence of the three conditions, with a reduction of X supplied as a \
-hypothesis in place of Stacks 0AIN, and on the hypotheses hFiniteRefinement for the implication \
-(1) ⇒ (2), hCoproductEtale for the implication (2) ⇒ (3), and hAffineReduction and \
-hReductionEtaleSurjective for the implication (3) ⇒ (1)"]
 theorem tfae_isQuasiCompactSpace
     (hAffineReduction : AffineReductionsQuasiCompact B S hS)
     (hReductionEtaleSurjective : ReductionsOfEtaleSurjectionsEtaleSurjective B S hS)

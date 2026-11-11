@@ -14,9 +14,13 @@ pair over the completed envelope `D` of the presentation `A[x_i : i ∈ ι] → 
 (the instance `...SmallSite.WholeSpacePresentation S hp`, by default the tautological
 `A[x_c : c ∈ C] → C`)
 ([Stacks, Lemma 60.17.3, Tag 07JG]), and `A → P' → C` a smooth presentation with completed
-envelope `D'`.  This module proves [Stacks, Lemma 60.21.4, Tag 07LH]: the complex
+envelope `D'`.  [Stacks, Lemma 60.21.4, Tag 07LH] says that the complex
 `M' ⊗^∧_{D'} Ω^*_{D'}` of the pair `(M', ∇')` over `D'` corresponding to `ℱ` computes
-`RΓ(Cris(X/S), ℱ)`.
+`RΓ(Cris(X/S), ℱ)`.  This module proves its inputs — the stratification of the crystal and the
+quasi-isomorphy of the base change `M ⊗^∧_D Ω^*_D → M' ⊗^∧_{D'} Ω^*_{D'}` — and its reading on
+cohomology groups; the isomorphism in the derived category, which is the tag, is
+`...SmallSite.smoothPresentationPairDerivedPlusIso` of
+`SmallSite/SmoothPresentationDerived07LH.lean`.
 
 The proof is the source's.  [Stacks, Tag 07LG] says that `M ⊗^∧_D Ω^*_D` computes
 `RΓ(Cris(X/S), ℱ)`, and `Crystalline.quasiIso_baseChangeHom_smoothPresentation` says that the
@@ -49,7 +53,10 @@ the base-changed modules are transported from the cosimplicial side.
 
 * `...SmallSite.quasiIso_crystalPair_baseChangeHom_coprojection` — the base change along every
   coprojection `D → D(b)` is a quasi-isomorphism.
-* `...SmallSite.smoothPresentationPair_computesCohomology` — **[Stacks, Tag 07LH]**.
+* `...SmallSite.smoothPresentationPair_computesCohomology` — the cohomology groups of
+  `M' ⊗^∧_{D'} Ω^*_{D'}` are those of `Cris(X/S)`; [Stacks, Tag 07LH] itself, in the derived
+  category, is `...SmallSite.smoothPresentationPairDerivedPlusIso` of
+  `SmallSite/SmoothPresentationDerived07LH.lean`.
 
 ## References
 
@@ -627,7 +634,8 @@ theorem smoothPresentationPair_computesCohomologyOfTower
         (presentationEnvelope_prime_nilpotent (affineSituation S hp) f' hf') a ha)) j)).symm ≪≫
     crystalPairDeRhamCohomologyIso hp Fc j⟩
 
-/-- **[Stacks, Lemma 60.21.4, Tag 07LH]**: in the situation of
+/-- **The cohomology groups of `M' ⊗^∧_{D'} Ω^*_{D'}` are the crystalline cohomology groups**, the
+degreewise reading of [Stacks, Lemma 60.21.4, Tag 07LH]: in the situation of
 [Stacks, Proposition 60.21.3, Tag 07LG] (`X` and `S` affine, `p` nilpotent on `X`), let
 `ℱ` be a crystal in quasi-coherent `𝒪_{X/S}`-modules, `A → P' → C` ring maps with `A → P'`
 smooth and `P' → C` surjective with kernel `J'`, `D'` the `p`-adic completion of
@@ -636,17 +644,13 @@ pair `(M, ∇)` of `ℱ` along any divided power `A`-algebra map `a : D → D'` 
 augmentations to `C` (one exists, `Crystalline.exists_smoothPresentationMap`).  Here `D` is the
 completed envelope of the presentation `A[x_i : i ∈ ι] → C` of the system, any one with a variable
 (the instance `...SmallSite.WholeSpacePresentation S hp`, by default the tautological
-`A[x_c : c ∈ C] → C`).  Then the complex
-`M' ⊗^∧_{D'} Ω^*_{D'}` computes `RΓ(Cris(X/S), ℱ)`: its cohomology in every degree `j` is
-`H^j(Cris(X/S), ℱ)`, in the graded sense in which [Stacks, Tag 07LG] is stated
-(`...SmallSite.crystalPairDeRhamComplex_computesCohomology`). -/
-@[stacks 07LH "for A -> P' smooth and P' -> C surjective, D' the p-adically completed divided \
-power envelope and (M', nabla') the pair over D' corresponding to F (the base change of the pair \
-of 07JG, for any polynomial presentation A[x_i] -> C of the system with a variable \
-(WholeSpacePresentation S hp, by default the tautological one), along any augmentation-compatible \
-divided power map D -> D'), the complex \
-M' ⊗^∧_{D'} Ω*_{D'} computes RΓ(Cris(X/S), F): its cohomology in every degree j is \
-H^j(Cris(X/S), F)"]
+`A[x_c : c ∈ C] → C`).  Then for every degree `j`, `H^j(M' ⊗^∧_{D'} Ω^*_{D'})` is
+`H^j(Cris(X/S), ℱ)`.
+
+[Stacks, Tag 07LH] itself, the isomorphism `M' ⊗^∧_{D'} Ω^*_{D'} ≅ RΓ(Cris(X/S), ℱ)` in the
+derived category, is `...SmallSite.smoothPresentationPairDerivedPlusIso` of
+`SmallSite/SmoothPresentationDerived07LH.lean`, whose cohomology recovers this statement
+(`...SmallSite.smoothPresentationPair_computesCohomology_of_derived`). -/
 theorem smoothPresentationPair_computesCohomology [Nonempty (wholeSpaceIndex S hp)]
     [Algebra.Smooth ((affineSituation S hp).A : Type u) P']
     (haug : (completedEnvelopeAugmentation (affineSituation S hp) f' hf').comp a.toRingHom =

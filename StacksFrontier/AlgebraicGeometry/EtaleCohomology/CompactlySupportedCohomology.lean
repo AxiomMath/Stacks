@@ -27,9 +27,13 @@ cohomology of `K` with compact support is `RΓ_c(X, K) = RΓ(Spec k, Rf_! K)`, a
 ## Implementation notes
 
 A compactification `AlgebraicGeometry.CompactificationOf`, an open immersion of `X` into a
-scheme proper over the base, is an explicit argument rather than a choice. Stacks Tag 0F7I, that
-different compactifications give canonically isomorphic functors, is not proved here, so the
-dependence of these definitions on the chosen compactification is visible in their arguments.
+scheme proper over the base, is an explicit argument rather than a choice, so the dependence of
+these definitions on the chosen compactification is visible in their arguments. Stacks Tag 0F7I,
+that different compactifications give canonically isomorphic functors, is proved separately, for
+quasi-compact quasi-separated schemes, as
+`Stacks.EtaleCohomology.derivedLowerShriek_independent_of_compactification` and
+`Stacks.EtaleCohomology.derivedLowerShriekUnbounded_independent_of_compactification` (in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.CompactificationIndependence.Independence`).
 
 The source states the definition for `K` in the bounded below derived category with torsion
 cohomology sheaves, and for a torsion ring `Λ` on the whole derived category.  The formula uses

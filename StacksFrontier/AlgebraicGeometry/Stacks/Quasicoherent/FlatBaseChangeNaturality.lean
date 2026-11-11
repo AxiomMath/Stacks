@@ -7,11 +7,13 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.FlatBaseChan
 # Functoriality of the comparison map in the module (Stacks 06WC)
 
 Let `p : 𝒳 ⥤ (Sch/S)_{fppf}` be a category fibred in groupoids and let `φ : x ⟶ y` be an arrow
-of `𝒳` lying over a morphism of schemes `a : U ⟶ V`. Stacks 06WC attaches to a presheaf of
+of `𝒳` lying over a morphism of schemes `a : U ⟶ V`. Stacks 06WC attaches to an étale sheaf of
 modules `F` over the structure sheaf of Stacks 06TV the comparison map
-`c_φ : a_{small}^*(F|_{V_ét}) ⟶ F|_{U_ét}`, built in
+`c_φ : a_{small}^*(F|_{V_ét}) ⟶ F|_{U_ét}`. Its presheaf form, for any presheaf of modules `F`
+and with `a_{small}^*` the pullback of presheaves of modules, is built in
 `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/SmallEtaleModuleComparison.lean` as the mate
-of the direct-image comparison of Stacks 06W2.
+of the direct-image comparison of Stacks 06W2; the map of sheaves of modules is its
+sheafification adjunct, `AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`.
 
 This file records that `c_φ` is natural in `F`. On underlying presheaves this is
 `AlgebraicGeometry.Stack.restrictionPushforwardComparison_naturality`, the corresponding
@@ -33,15 +35,15 @@ isomorphism class of the module.
 
 * `AlgebraicGeometry.Stack.restrictModuleToSmallEtaleFunctor`: the restriction of Stacks 06WJ to
   the small étale site of the scheme below an object, as a functor on presheaves of modules.
-* `AlgebraicGeometry.Stack.restrictModulePullbackComparisonNatTrans`: **Stacks 06WC**, the
+* `AlgebraicGeometry.Stack.restrictModulePullbackComparisonNatTrans`: the presheaf-level
   comparison map `c_φ` as a natural transformation of functors of the module.
 
 ## Main results
 
 * `AlgebraicGeometry.Stack.restrictModulePushforwardComparison_naturality`: the direct-image
-  comparison of Stacks 06WC is natural in the presheaf of modules.
+  comparison underlying Stacks 06WC is natural in the presheaf of modules.
 * `AlgebraicGeometry.Stack.restrictModulePullbackComparison_naturality`: the comparison map
-  `c_φ` of Stacks 06WC is natural in the presheaf of modules.
+  `c_φ` (the presheaf-level ingredient of Stacks 06WC) is natural in the presheaf of modules.
 * `AlgebraicGeometry.Stack.hasFlatBaseChangeProperty_of_iso`: the flat base change property of
   Stacks 0762 transports along an isomorphism of presheaves of modules.
 
@@ -118,14 +120,19 @@ section
 
 variable {x y : 𝒳} (φ : x ⟶ y)
 
-/-- **Stacks 06WC.** The direct-image comparison of a presheaf of modules below an arrow of `𝒳`
-is natural in the module, at an arbitrary universe for the sections of the module.
+/-- The direct-image comparison of a presheaf of modules below an arrow of `𝒳` is natural in the
+module, at an arbitrary universe for the sections of the module.
+
+This is not the assertion of Stacks 06WC, which constructs the comparison map
+`c_φ : a_{small}^*(ℱ|_{V_ét}) ⟶ ℱ|_{U_ét}` of an étale sheaf of modules; that map is
+`AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`. This lemma is the naturality in
+the module of the direct-image comparison `ℱ|_{V_ét} ⟶ a_{small, *}(ℱ|_{U_ét})` it is the mate
+of, which the source uses without statement.
 
 On underlying abelian presheaves this is the naturality of Stacks 06W2, which holds for
 presheaves with values in any category, and putting the module structure on the comparison does
 not change it on sections. No universe inequality is needed: the direct image of presheaves of
 modules is restriction of scalars followed by reindexing, and exists at every module universe. -/
-@[stacks 06WC "functoriality of the direct-image comparison in the module"]
 theorem restrictModulePushforwardComparison_naturality
     {F F' : PresheafOfModules.{m} (ringStructureSheafCore B S hS p hp τ hτ).obj} (α : F ⟶ F') :
     (restrictModuleToSmallEtaleFunctor.{u, v, w, m} B E h S hS p hp τ hτ y).map α ≫
@@ -145,7 +152,10 @@ theorem restrictModulePushforwardComparison_naturality
   simp only at hnat ⊢
   exact hnat.symm
 
-/-- **Stacks 06WC.** The comparison map `c_φ` is natural in the module.
+/-- The comparison map `c_φ`, read on presheaves of modules, is natural in the module.
+
+This naturality is not stated by Stacks 06WC, which only constructs `c_φ`; it is used without
+statement by the source, for instance in Stacks 0764.
 
 The square for `c_φ` is the square for the direct-image comparison carried across the
 pullback–direct image adjunction along `a_{small}^♯`, using that `c_φ` is by definition the mate
@@ -153,7 +163,6 @@ of that comparison: naturality of the adjunction isomorphism on the left turns t
 composite into a mate, naturality on the right does the same for the right-hand composite, and
 the two mates agree by
 `AlgebraicGeometry.Stack.restrictModulePushforwardComparison_naturality`. -/
-@[stacks 06WC "functoriality of the comparison map in the module"]
 theorem restrictModulePullbackComparison_naturality
     {F F' : PresheafOfModules.{u} (ringStructureSheafCore B S hS p hp τ hτ).obj} (α : F ⟶ F') :
     (PresheafOfModules.pullback.{u}
@@ -174,10 +183,13 @@ theorem restrictModulePullbackComparison_naturality
   rw [restrictModulePushforwardComparison_naturality B E h S hS p hp τ hτ φ α] at hleft
   exact hleft.symm.trans hright
 
-/-- **Stacks 06WC.** The comparison map `c_φ` below an arrow `φ : x ⟶ y` of `𝒳`, as a natural
-transformation from the restriction at `y` followed by `a_{small}^*` to the restriction at
-`x`. -/
-@[stacks 06WC "the comparison map as a natural transformation"]
+/-- The presheaf-level comparison map `c_φ` below an arrow `φ : x ⟶ y` of `𝒳`, as a natural
+transformation from the restriction at `y` followed by the pullback of presheaves of modules
+`a_{small}^*` to the restriction at `x`.
+
+This is a presheaf-level ingredient of Stacks 06WC, not its statement; the comparison map of
+étale sheaves of modules the source defines is
+`AlgebraicGeometry.Stack.restrictSheafModulesPullbackComparison`. -/
 noncomputable def restrictModulePullbackComparisonNatTrans :
     restrictModuleToSmallEtaleFunctor.{u, v, w, u} B E h S hS p hp τ hτ y ⋙
         PresheafOfModules.pullback.{u}
@@ -189,8 +201,8 @@ noncomputable def restrictModulePullbackComparisonNatTrans :
 
 end
 
-/-- The comparison map of **Stacks 06WC** below a fixed arrow is an isomorphism for one presheaf
-of modules as soon as it is for an isomorphic one.
+/-- The presheaf-level comparison map underlying **Stacks 06WC** below a fixed arrow is an
+isomorphism for one presheaf of modules as soon as it is for an isomorphic one.
 
 The two comparison maps sit in the commuting square of
 `AlgebraicGeometry.Stack.restrictModulePullbackComparison_naturality`, whose other two sides are

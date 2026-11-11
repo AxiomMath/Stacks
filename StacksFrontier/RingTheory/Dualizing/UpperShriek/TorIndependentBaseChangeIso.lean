@@ -3,7 +3,7 @@ module
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.PolynomialEvalDualityProof
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.RingEquivIsoLarge
 public import StacksFrontier.RingTheory.Dualizing.UpperShriek.TorIndependentBaseChange
-public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectAnyPresentation
+public import StacksFrontier.RingTheory.PseudoCoherentMap.PerfectPresentation
 
 /-!
 # Upper shriek of a perfect homomorphism commutes with Tor-independent base change
@@ -33,13 +33,13 @@ transports along the ring isomorphism `A ⊗_P P' ≅ R' ⊗_R A` of `Dualizing.
 proof of invertibility rebuilds the local definitions of the construction in the same order, so
 the identification of the map with the conjugated morphism is `rfl`.
 
-Perfectness of `φ` is `RingHom.IsPerfectRingMap`, relative to an arbitrary certified model of the
-derived tensor product on `D(R)`.  By [stacks 068Y] it makes `A` a perfect module over the
-polynomial algebra of every presentation of `φ`, which is the finiteness hypothesis of
-[stacks 0BZP] at the square of the presentation.  The Noetherian hypotheses of the source are not
-used.  `(φ')^!` is read at an arbitrary presentation of `φ'`, compared with the base-changed one
-by [stacks 0BZJ], and the two derived tensor products at arbitrary left-derived models of
-extension of scalars.
+Perfectness of `φ` is `Algebra.Perfect R A`.  By [stacks 068Y]
+(`Algebra.Perfect.exists_finite_projective_resolution`, read through [stacks 066Q]) it makes `A` a
+perfect module over the polynomial algebra of every presentation of `φ`, which is the finiteness
+hypothesis of [stacks 0BZP] at the square of the presentation.  The Noetherian hypotheses of the
+source are not used.  `(φ')^!` is read at an arbitrary presentation of `φ'`, compared with the
+base-changed one by [stacks 0BZJ], and the two derived tensor products at arbitrary left-derived
+models of extension of scalars.
 
 ## References
 
@@ -305,22 +305,7 @@ perfect module, and `A` and `P' = R'[x_1, …, x_n]` are Tor independent over `P
 base-change morphism of [stacks 0E29] at the square `P, A, P', A ⊗_P P'`, conjugated by
 isomorphisms of functors and whiskered, and that morphism is invertible by [stacks 0BZP]. -/
 theorem PolynomialPresentation.isIso_upperShriekTorIndependentBaseChangeLarge
-    (p : PolynomialPresentation (algebraMap R A))
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hperf : RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived)
+    [Algebra.Perfect R A] (p : PolynomialPresentation (algebraMap R A))
     (hTor : TorIndependent R A R')
     (bcR : DerivedCategory (ModuleCat.{max v u} R) ⥤ DerivedCategory (ModuleCat.{max v u} R'))
     (cmpR : DerivedCategory.Q ⋙ bcR ⟶
@@ -342,8 +327,9 @@ theorem PolynomialPresentation.isIso_upperShriekTorIndependentBaseChangeLarge
   let : Algebra (MvPolynomial (Fin p.variableCount) R) (MvPolynomial (Fin p.variableCount) R') :=
     MvPolynomial.algebraMvPolynomial
   have hperfP : StacksDraft.Perfect.IsPerfectModule (R := MvPolynomial (Fin p.variableCount) R) A :=
-    RingHom.isPerfectModule_of_isPerfectRingMap derivedTensor comparison isLeftDerived hperf
-      p.variableCount p.toAlgHom p.surjective
+    (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (Algebra.Perfect.exists_finite_projective_resolution
+        (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective)
   unfold PolynomialPresentation.upperShriekTorIndependentBaseChangeLarge
   dsimp only
   refine IsIso.comp_isIso' (Iso.isIso_hom _) (IsIso.comp_isIso' ?_ (Iso.isIso_hom _))
@@ -372,8 +358,7 @@ induced map.  Then `φ^!(K) ⊗_A^L A' ≅ (φ')^!(K ⊗_R^L R')`, naturally in 
 
 Here `φ^!` is read at an arbitrary polynomial presentation `p` of `φ` and `(φ')^!` at an
 arbitrary polynomial presentation `p'` of `φ'`, the two derived tensor products at arbitrary
-left-derived models of extension of scalars, perfectness of `φ` relative to an arbitrary
-certified model of the derived tensor product on `D(R)`, and the modules in an arbitrary universe
+left-derived models of extension of scalars, and the modules in an arbitrary universe
 `max v u`.  The Noetherian hypotheses of the source are not needed.
 
 The isomorphism is the base-change map
@@ -383,23 +368,8 @@ change, invertible by
 comparison of [stacks 0BZJ] between the base-changed presentation and `p'`. -/
 @[stacks 0BZR]
 theorem PolynomialPresentation.nonempty_upperShriekFunctor_comp_iso_of_torIndependent
-    (p : PolynomialPresentation (algebraMap R A))
+    [Algebra.Perfect R A] (p : PolynomialPresentation (algebraMap R A))
     (p' : PolynomialPresentation (algebraMap R' (TensorProduct R R' A)))
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hperf : RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived)
     (hTor : TorIndependent R A R')
     (bcR : DerivedCategory (ModuleCat.{max v u} R) ⥤ DerivedCategory (ModuleCat.{max v u} R'))
     (cmpR : DerivedCategory.Q ⋙ bcR ⟶
@@ -417,8 +387,7 @@ theorem PolynomialPresentation.nonempty_upperShriekFunctor_comp_iso_of_torIndepe
     (ldT : bcT.IsLeftDerivedFunctor cmpT
       (HomologicalComplex.quasiIso (ModuleCat.{max v u} A) (ComplexShape.up ℤ))) :
     Nonempty (p.upperShriekFunctor.{u, v} ⋙ bcT ≅ bcR ⋙ p'.upperShriekFunctor.{u, v}) := by
-  have := p.isIso_upperShriekTorIndependentBaseChangeLarge.{u, v} derivedTensor comparison
-    isLeftDerived hperf hTor bcR cmpR ldR bcT cmpT ldT
+  have := p.isIso_upperShriekTorIndependentBaseChangeLarge.{u, v} hTor bcR cmpR ldR bcT cmpT ldT
   obtain ⟨eJ⟩ := nonempty_upperShriekFunctor_iso.{u, v}
     (algebraMap R' (TensorProduct R R' A))
     (PolynomialPresentation.baseChangeAlgebraMap' (R' := R') p) p'

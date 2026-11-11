@@ -411,33 +411,22 @@ theorem nonpositive_grading_eq_bot (C : DGCategory.{w, v, u} R) (x : C.Obj) (n :
     (((homRepresentation (nonpositive C) x).algebraHom n).map_eq_zero_iff.mp
       (Subtype.ext (((homRepresentation (nonpositive C) x).algebraHom n ⟨a, ha⟩).2.1 hn)))
 
-/-- **The quasi-isomorphism `End_{C^{≤0}}(x) → End_C(x)`.** Let `C` be a differential graded
-category over `R`, let `x` be an object of `C` and let `H` present the endomorphism differential
-graded algebra `E = End_C(x)` of `x` as in [Stacks, Tag 09LE]. Assume that every closed
-homogeneous element of `E` of positive degree is a coboundary, i.e. `H^k(E) = 0` for `k > 0`.
-Then the homomorphism `End_{C^{≤0}}(x) → E` of
-`DGCategory.exists_hom_algebra_of_dgFunctor` applied to `DGCategory.nonpositiveInclusion` is
-bijective on cohomology in every degree.
-
-This is the first of the two quasi-isomorphisms `(A, d) ← (E', d) → (E, d)` in the proof of
-[Stacks, Tag 09SA]; the hypothesis is the vanishing of `H^k(E)` for `k > 0` that proof deduces
-from `A = H^0(A)`. Composed with
-`DifferentialGradedModule.derivedExtensionEquivalence` ([Stacks, Tag 09S6]) it gives an
-equivalence `D(E', d) ≌ D(E, d)`.
-
-In degrees `k > 0` both sides vanish: the truncation has no morphisms there
-(`DGCategory.nonpositive_grading_eq_bot`) and `H^k(E) = 0` by hypothesis. In degrees `k ≤ 0` the
-inclusion is bijective in degrees `k` and `k - 1` — a morphism of negative degree lies in the
-truncation for free, and a closed degree-`0` one lies in it by being closed — so cocycles and
-coboundaries match up. -/
-theorem exists_hom_nonpositive_bijective_cohomologyMap (C : DGCategory.{w, v, u} R) (x : C.Obj)
-    (H : HomRepresentation C x)
+/-- **The quasi-isomorphism `End_{C^{≤0}}(x) → End_C(x)`, with its formula.** The homomorphism of
+`DGCategory.exists_hom_nonpositive_bijective_cohomologyMap` is the inclusion: under the
+identifications of the two endomorphism algebras with the homogeneous endomorphisms of `x` it
+sends a morphism of the truncation to itself. -/
+theorem exists_hom_nonpositive_bijective_cohomologyMap_algebraHom (C : DGCategory.{w, v, u} R)
+    (x : C.Obj) (H : HomRepresentation C x)
     (hpos : ∀ n : ℤ, 0 < n → ∀ a : H.algebra.grading n, H.algebra.d a = 0 →
       ∃ c : H.algebra.grading (n - 1), (a : H.algebra.A) = H.algebra.d c) :
     ∃ φ : (homRepresentation (nonpositive C) x).algebra.Hom H.algebra,
-      ∀ k : ℤ, Function.Bijective (φ.cohomologyMap k) := by
+      (∀ k : ℤ, Function.Bijective (φ.cohomologyMap k)) ∧
+        ∀ (n : ℤ) (a : (homRepresentation (nonpositive C) x).algebra.grading n),
+          H.algebraHom n ⟨φ.toAlgebraHom a, φ.map_grading n a a.property⟩ =
+            ((homRepresentation (nonpositive C) x).algebraHom n a).1 := by
   set S := homRepresentation (nonpositive C) x with hS
   obtain ⟨φ, hφ⟩ := exists_hom_algebra_of_dgFunctor (nonpositiveInclusion C) S H
+  refine ⟨φ, ?_, hφ⟩
   -- `φ` is injective in every degree, since it is `F` read through two linear equivalences.
   have hinj (n : ℤ) (a b : S.algebra.grading n)
       (hab : φ.toAlgebraHom a = φ.toAlgebraHom b) : a = b := by
@@ -460,7 +449,7 @@ theorem exists_hom_nonpositive_bijective_cohomologyMap (C : DGCategory.{w, v, u}
     have h : (⟨H.algebra.d a, H.algebra.d_mem n a a.property⟩ :
         H.algebra.grading (n + 1)) = 0 := Subtype.ext ha
     rw [h, map_zero]
-  refine ⟨φ, fun k => ⟨?_, ?_⟩⟩
+  refine fun k => ⟨?_, ?_⟩
   · intro X Y hXY
     induction X using Quotient.ind with | _ a => ?_
     induction Y using Quotient.ind with | _ b => ?_
@@ -499,6 +488,33 @@ theorem exists_hom_nonpositive_bijective_cohomologyMap (C : DGCategory.{w, v, u}
       refine ⟨Quotient.mk _ ⟨b, hdb⟩, Quotient.sound ⟨0, ?_⟩⟩
       rw [DifferentialGradedAlgebra.Hom.cocycleMap_val, hb, sub_self, Submodule.coe_zero,
         map_zero]
+
+/-- **The quasi-isomorphism `End_{C^{≤0}}(x) → End_C(x)`.** Let `C` be a differential graded
+category over `R`, let `x` be an object of `C` and let `H` present the endomorphism differential
+graded algebra `E = End_C(x)` of `x` as in [Stacks, Tag 09LE]. Assume that every closed
+homogeneous element of `E` of positive degree is a coboundary, i.e. `H^k(E) = 0` for `k > 0`.
+Then the homomorphism `End_{C^{≤0}}(x) → E` of
+`DGCategory.exists_hom_algebra_of_dgFunctor` applied to `DGCategory.nonpositiveInclusion` is
+bijective on cohomology in every degree.
+
+This is the first of the two quasi-isomorphisms `(A, d) ← (E', d) → (E, d)` in the proof of
+[Stacks, Tag 09SA]; the hypothesis is the vanishing of `H^k(E)` for `k > 0` that proof deduces
+from `A = H^0(A)`. Composed with
+`DifferentialGradedModule.derivedExtensionEquivalence` ([Stacks, Tag 09S6]) it gives an
+equivalence `D(E', d) ≌ D(E, d)`.
+
+In degrees `k > 0` both sides vanish: the truncation has no morphisms there
+(`DGCategory.nonpositive_grading_eq_bot`) and `H^k(E) = 0` by hypothesis. In degrees `k ≤ 0` the
+inclusion is bijective in degrees `k` and `k - 1` — a morphism of negative degree lies in the
+truncation for free, and a closed degree-`0` one lies in it by being closed — so cocycles and
+coboundaries match up. -/
+theorem exists_hom_nonpositive_bijective_cohomologyMap (C : DGCategory.{w, v, u} R) (x : C.Obj)
+    (H : HomRepresentation C x)
+    (hpos : ∀ n : ℤ, 0 < n → ∀ a : H.algebra.grading n, H.algebra.d a = 0 →
+      ∃ c : H.algebra.grading (n - 1), (a : H.algebra.A) = H.algebra.d c) :
+    ∃ φ : (homRepresentation (nonpositive C) x).algebra.Hom H.algebra,
+      ∀ k : ℤ, Function.Bijective (φ.cohomologyMap k) :=
+  (exists_hom_nonpositive_bijective_cohomologyMap_algebraHom C x H hpos).imp fun _ h => h.1
 
 end DGCategory
 

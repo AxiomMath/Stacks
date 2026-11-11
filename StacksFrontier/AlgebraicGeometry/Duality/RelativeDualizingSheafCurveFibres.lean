@@ -22,10 +22,11 @@ cartesian square presenting `C` as `X ×_S Spec k` over a field, the derived res
 one-dimensional and concentrated in degree `-1`, so `ω_{X/S}^•` is perfect (Stacks 068V on affine
 charts) and, by Stacks 0BDK, it is `ω_{X/S}[1]` for a finite locally free module `ω_{X/S}` of rank
 one. The top-degree base change then identifies the pullback of `ω_{X/S}` to every such `C` with
-the dualizing sheaf `ω_C` of Stacks 0BS2. These are the assertions of Stacks 0E6P and 0E6R for the
-families of curves whose total space is a scheme, with the relative dualizing sheaf of
-Stacks 0E6Q, proved by the route the source suggests ("deduce this directly from the discussion
-above of what happens after base change to a field").
+the dualizing sheaf `ω_C` of Stacks 0BS2. These are the Gorenstein special case of Stacks 0E6P
+(which assumes only Cohen–Macaulay fibres) together with Stacks 0E6R, for the families of curves
+whose total space is a scheme, with the relative dualizing sheaf of Stacks 0E6Q, proved by the
+route the source suggests ("deduce this directly from the discussion above of what happens after
+base change to a field").
 
 ## Main definitions
 
@@ -42,14 +43,17 @@ above of what happens after base change to a field").
 * `Stacks.Duality.CurveFibres.isPerfect_relativeDualizingComplex`: `ω_{X/S}^•` is perfect.
 * `Stacks.Duality.CurveFibres.isFiniteLocallyFreeOfRank_properFlatDualizingSheaf` and
   `Stacks.Duality.CurveFibres.isZero_homology_relativeDualizingComplex`: `ω_{X/S}^• = ω_{X/S}[1]`
-  with `ω_{X/S}` invertible (Stacks 0E6P, 0E6R).
+  with `ω_{X/S}` invertible (the Gorenstein special case of Stacks 0E6P, and Stacks 0E6R).
 * `Stacks.Duality.CurveFibres.nonempty_pullback_properFlatDualizingSheaf_iso_of_isPullback`: the
   pullback of `ω_{X/S}` to a fibre over a field is its dualizing sheaf.
 
 ## Implementation notes
 
 Not registered: Stacks 0E6P, 0E6Q and 0E6R are stated for families of curves whose total space is
-an algebraic space; these are their contents for scheme families.
+an algebraic space; these are their contents for scheme families, and for 0E6P only the special
+case of Gorenstein fibres. The full Stacks 0E6P (Cohen–Macaulay fibres, total space an algebraic
+space, arbitrary base change) is registered at
+`AlgebraicGeometry.CurveFamily.exists_iso_shift_relativeDualizingComplex`.
 The relative dualizing complex and the derived-fibre machinery of Stacks 0BDK are stated at the
 standard model `CategoryTheory.HasDerivedCategory.standard`; the statements here name that model
 explicitly, and cross to the locally small model of `Stacks.Duality.dualizingComplexOverField`
@@ -270,7 +274,7 @@ theorem derivedFiberBetti_relativeDualizingComplex (hG : HasGorensteinCurveFibre
   have : QuasiSeparatedSpace C := quasiSeparatedSpace_of_quasiSeparated g
   let y : C := hpb.isoPullback.inv.base (f.asFiber x)
   have hy : h.base y = x := by
-    change (hpb.isoPullback.inv ≫ h).base (f.asFiber x) = x
+    show (hpb.isoPullback.inv ≫ h).base (f.asFiber x) = x
     rw [hpb.isoPullback_inv_fst]
     exact f.fiberι_asFiber x
   obtain ⟨e⟩ := nonempty_relativeDualizingComplex_baseChange_iso f hpb
@@ -304,11 +308,12 @@ theorem isPerfect_relativeDualizingComplex (hG : HasGorensteinCurveFibres f) :
   have : QuasiSeparatedSpace X := quasiSeparatedSpace_of_quasiSeparated f
   exact Scheme.Modules.isPerfect_of_isPseudoCoherent_of_finrank_derivedFibre _
     (isPseudoCoherent_relativeDualizingComplex f) (-1) (-1) fun x j hj =>
-      (derivedFiberBetti_relativeDualizingComplex f hG j x).trans (ite_eq_right (by omega))
+      (derivedFiberBetti_relativeDualizingComplex f hG j x).trans (if_neg (by omega))
 
 /-- **`ω_{X/S}^•` is a finite locally free module of rank one placed in degree `-1`
-everywhere** (Stacks 0E6P, 0E6R): the open subscheme of Stacks 0BDK on which it is so is all of
-`X`, by the pointwise description of that open for a perfect object. -/
+everywhere** (Gorenstein special case of Stacks 0E6P, and Stacks 0E6R): the open subscheme of
+Stacks 0BDK on which it is so is all of `X`, by the pointwise description of that open for a
+perfect object. -/
 theorem singleDegreeRankOpen_relativeDualizingComplex_eq_top (hG : HasGorensteinCurveFibres f) :
     have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace f
     have : QuasiSeparatedSpace X := quasiSeparatedSpace_of_quasiSeparated f
@@ -330,8 +335,8 @@ def properFlatDualizingSheaf : X.Modules :=
     (StandardModel.relativeDualizingComplex f).obj
 
 /-- **`ω_{X/S}^•` has a single nonzero cohomology sheaf, in degree `-1`, finite locally free of
-rank one, on all of `X`** (Stacks 0E6P, 0E6R): the open of Stacks 0BDK on which this holds is
-`⊤`. -/
+rank one, on all of `X`** (Gorenstein special case of Stacks 0E6P, and Stacks 0E6R): the open of
+Stacks 0BDK on which this holds is `⊤`. -/
 theorem isSingleDegreeRank_top_relativeDualizingComplex (hG : HasGorensteinCurveFibres f) :
     have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace f
     have : QuasiSeparatedSpace X := quasiSeparatedSpace_of_quasiSeparated f
@@ -351,8 +356,10 @@ theorem isFiniteLocallyFreeOfRank_properFlatDualizingSheaf (hG : HasGorensteinCu
       ((Scheme.Modules.isFiniteLocallyFreeOfRank_iff _ 1).2
         (isSingleDegreeRank_top_relativeDualizingComplex f hG).2))
 
-/-- **`ω_{X/S}^• = ω_{X/S}[1]`** (Stacks 0E6P): for a family with Gorenstein fibres
-equidimensional of dimension one, `ω_{X/S}^•` has no cohomology outside degree `-1`. -/
+/-- **`ω_{X/S}^• = ω_{X/S}[1]`** (the Gorenstein special case of Stacks 0E6P, whose full form with
+Cohen–Macaulay fibres is `AlgebraicGeometry.CurveFamily.exists_iso_shift_relativeDualizingComplex`):
+for a family with Gorenstein fibres equidimensional of dimension one, `ω_{X/S}^•` has no
+cohomology outside degree `-1`. -/
 theorem isZero_homology_relativeDualizingComplex (hG : HasGorensteinCurveFibres f) (j : ℤ)
     (hj : j ≠ -1) :
     have : CompactSpace X := QuasiCompact.compactSpace_of_compactSpace f
@@ -387,7 +394,8 @@ private theorem nonempty_pullback_properFlatDualizingSheaf_iso_of_iso
       (-1)).mapIso e.symm ≪≫ homologyRelativeDualizingComplexIsoOverField g (-1)⟩
 
 /-- **The relative dualizing sheaf restricts to the dualizing sheaf of every fibre**
-(Stacks 0E6P, 0E6R: formation of `ω_{X/S}` commutes with base change, here to `Spec κ(s)`).
+(Gorenstein special case of Stacks 0E6P, and Stacks 0E6R: formation of `ω_{X/S}` commutes with
+base change, here to `Spec κ(s)`).
 `ω_{X/S}^•` lies in `D^{≤ -1}`, so the degree `-1` cohomology of its derived restriction to the
 fibre `h : X_s ⟶ X` is `h^*ω_{X/S}` (the top-degree base change), and `Lh^*ω_{X/S}^•` is
 `ω_{X_s}^•` (Stacks 0E4P), whose degree `-1` cohomology is `ω_{X_s}` (Stacks 0BS2). -/
@@ -400,13 +408,16 @@ theorem nonempty_pullback_properFlatDualizingSheaf_iso (hG : HasGorensteinCurveF
   obtain ⟨e⟩ := nonempty_relativeDualizingComplex_fiber_iso f s
   exact nonempty_pullback_properFlatDualizingSheaf_iso_of_iso f hG _ (fiberToSpecOf f s) e
 
-/-- **The relative dualizing sheaf after base change to a field** (Stacks 0E6P, 0E6R: formation
-of `ω_{X/S}` commutes with base change). For a cartesian square presenting `C` as
-`X ×_S Spec k`, the pullback of `ω_{X/S}` to `C` is the dualizing sheaf `ω_C` of Stacks 0BS2
-(no hypothesis on `C` is needed: it is a fibre of the Gorenstein curve family). -/
+/-- **The relative dualizing sheaf after base change to a field** (Gorenstein special
+case of Stacks 0E6P, and Stacks 0E6R: formation of `ω_{X/S}` commutes with base change, here to
+`Spec k`). For a cartesian square presenting `C` as
+`X ×_S Spec k`, with `C` Gorenstein and equidimensional of dimension one, the pullback of
+`ω_{X/S}` to `C` is the dualizing sheaf `ω_C` of Stacks 0BS2. -/
 theorem nonempty_pullback_properFlatDualizingSheaf_iso_of_isPullback
     (hG : HasGorensteinCurveFibres f) {k : Type u} [Field k] {C : Scheme.{u}} {h : C ⟶ X}
-    {g : C ⟶ Spec (.of k)} {c : Spec (.of k) ⟶ S} (hpb : IsPullback h g f c) [IsProper g] :
+    {g : C ⟶ Spec (.of k)} {c : Spec (.of k) ⟶ S} (hpb : IsPullback h g f c) [IsProper g]
+    (hC : AlgebraicGeometry.IsGorenstein C ∧ TopologicalSpace.Equidimensional C ∧
+      topologicalKrullDim C = 1) :
     Nonempty ((RingedSpaceModuleAdjunction.modulePullback h.toLRSHom.toShHom).obj
         (properFlatDualizingSheaf f) ≅ dualizingSheafOverField g) := by
   have : CompactSpace C := QuasiCompact.compactSpace_of_compactSpace g

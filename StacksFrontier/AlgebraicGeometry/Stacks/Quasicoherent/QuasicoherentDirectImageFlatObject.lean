@@ -45,8 +45,11 @@ Three things are **carried**, each a named result of the source which this libra
   `AlgebraicGeometry.Stack.quasicoherentDirectImageOfEtale`, which is the composite of
   **Stacks 077A** this file's conclusion is about.  It is `f_*` when `D` is the étale direct image
   and `R^i f_*` when `D` is its `i`-th right derived functor, so one statement covers both halves
-  of the source.  The reason it is data is recorded at that definition: **Stacks 077A** is absent
-  from the library, and the composite cannot be assembled from what is available, because
+  of the source.  The reason it is data is recorded at that definition: **Stacks 077A** is proved
+  on the fppf sites at module universe `u`
+  (`AlgebraicGeometry.Stack.AlgebraicStacks.quasicoherentHigherDirectImageDeltaFunctor`), but on
+  the étale-site category this file is stated over the composite cannot be assembled from what
+  is available, because
   `AlgebraicGeometry.Stack.moduleSheafHigherDirectImage` produces modules with sections in
   `u + 1` while `AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeModules` pins them
   to `u`.

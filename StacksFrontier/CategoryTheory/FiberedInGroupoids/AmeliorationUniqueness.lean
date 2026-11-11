@@ -4,14 +4,14 @@ public import StacksCore.Tactic.StacksAttribute
 public import StacksCore.CategoryTheory.FiberedInGroupoids
 
 /-!
-# Uniqueness of the amelioration of a 1-morphism of fibred categories
+# Uniqueness of a factorization through equivalences, for bare categories
 
-Stacks 06N8: let `F : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in groupoids over `𝒞`, and
-suppose `F` factors in two ways, as `𝒳 ⟶[a] 𝒳' ⟶[f] 𝒴` and as `𝒳 ⟶[b] 𝒳'' ⟶[g] 𝒴`, with
-`a`, `b` equivalences over `𝒞` and `f`, `g` themselves fibred in groupoids. Then `𝒳'` and
-`𝒳''` are equivalent over `𝒴` compatibly with the first legs: there is an equivalence
-`h : 𝒳'' ⥤ 𝒳'` with `h ⋙ f ≅ g` and `b ⋙ h ≅ a`. So the factorization produced by Stacks
-06N7 is unique up to equivalence over `𝒴`.
+`amelioration_unique`: if `F : 𝒳 ⥤ 𝒴` factors up to isomorphism as `a ⋙ f` and as `b ⋙ g`
+with `a`, `b` equivalences, then `h = b⁻¹ ⋙ a` is an equivalence with `h ⋙ f ≅ g` and
+`b ⋙ h ≅ a`. This ignores every base category and every strictness requirement. Stacks 06N8
+itself, for categories fibred in groupoids over a base with 1-morphisms strictly over the base
+and 2-isomorphisms over identities, is in
+`StacksFrontier.CategoryTheory.FiberedInGroupoids.AmeliorationUniquenessOver`.
 -/
 
 @[expose] public section
@@ -20,25 +20,16 @@ open CategoryTheory
 
 universe v₁ v₂ v₃ v₄ v₅ u₁ u₂ u₃ u₄ u₅
 
-/-- **Stacks 06N8** (uniqueness of the factorization of 4.35.16 / 06N7).
+/-- Uniqueness of a factorization through equivalences, for bare categories.
 
-Let `F : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in groupoids over `𝒞`. Suppose `F`
-is factored in two ways through categories fibred in groupoids over `𝒞`:
-`𝒳 ⟶[a] 𝒳' ⟶[f] 𝒴` and `𝒳 ⟶[b] 𝒳'' ⟶[g] 𝒴`, where
+Let `F : 𝒳 ⥤ 𝒴` be factored up to isomorphism in two ways, `a ⋙ f ≅ F` and `b ⋙ g ≅ F`, with
+`a` and `b` equivalences. Then there is an equivalence `h : 𝒳'' ⥤ 𝒳'` with `h ⋙ f ≅ g` and
+`b ⋙ h ≅ a`, namely `h = b⁻¹ ⋙ a`.
 
-* `a`, `b` are equivalences (over `𝒞`);
-* the two factorizations agree with `F`: `a ⋙ f ≅ F` and `b ⋙ g ≅ F`.
-
-Then there is an equivalence `h : 𝒳'' ⥤ 𝒳'` **over `𝒴`** (i.e. `h.IsEquivalence` together
-with `h ⋙ f ≅ g`) such that `b ⋙ h ≅ a`. In particular the intermediate category is unique
-up to equivalence over `𝒴`, compatibly with the first legs.
-
-The conclusion uses none of the remaining data of 06N8 — the structure functors
-`p : 𝒳 ⥤ 𝒞`, `q : 𝒴 ⥤ 𝒞`, `p' : 𝒳' ⥤ 𝒞`, `p'' : 𝒳'' ⥤ 𝒞`, their fiberedness in
-groupoids, that of `f` and `g`, and the compatibilities `a ⋙ p' = p`, `b ⋙ p'' = p`,
-`f ⋙ q = p'`, `g ⋙ q = p''` — so it is stated in the general form below, which
-specializes to 06N8 in the fibred setting. -/
-@[stacks 06N8]
+This ignores all base categories: `h ⋙ f ≅ g` is only an isomorphism and nothing lies over
+identities, so it is much weaker than Stacks 06N8, which is
+`CategoryTheory.Functor.IsFiberedInGroupoids.amelioration_unique_isEquivalenceOver` and
+`CategoryTheory.Functor.IsFiberedInGroupoids.amelioration_unique_isEquivalenceOver_of_comp_eq`. -/
 theorem amelioration_unique
     {𝒞 : Type u₁} [Category.{v₁} 𝒞]
     {𝒳 : Type u₂} [Category.{v₂} 𝒳]

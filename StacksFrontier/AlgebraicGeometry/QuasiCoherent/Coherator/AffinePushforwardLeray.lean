@@ -74,8 +74,10 @@ for the tag is therefore the localization of the conclusion on the target — th
 local on `Y`, but transporting the unit of the derived direct image along restriction to an open
 of `Y` is not available here. Nor is
 `@[stacks 015E]` placed on the bounded below case: Leray's acyclicity lemma is already carried by
-`CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic`, whose conclusion is
-about the *bounded below* derived functor, and the statement below is its transfer to the
+`CategoryTheory.Functor.isIso_ι_app_of_computesRightDerived_single_of_isRightDerivedValueAt`,
+and its enough injectives case
+`CategoryTheory.Functor.isIso_totalRightDerivedUnit_app_of_rightAcyclic` has a conclusion
+about the *bounded below* derived functor; the statement below is the transfer of the latter to the
 unbounded one — a different assertion, obtained from the K-injective criterion of
 [Stacks, Tag 070K] rather than from that lemma.
 

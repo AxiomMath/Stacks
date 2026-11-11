@@ -92,10 +92,9 @@ of Stacks 0A0Q as the hypothesis `hint`.
 comparison homomorphism exists —
 `AlgebraicGeometry.Space.directImageSectionsToGlobalFunctions`, proved injective — but its
 surjectivity, which is what clause (3) turns on, is not proved.  The connectedness half of
-clause (1) is the theorem on formal functions for algebraic spaces, Stacks 08B1;  what is proved
-towards that tag, in
-`StacksFrontier.AlgebraicGeometry.Spaces.FormalFunctionsGeometricStalk`, carries the conclusion of
-Stacks 08AZ as an input, and the source's route for the general case is anyway a limit argument
+clause (1) rests on the theorem on formal functions for algebraic spaces, Stacks 08B1, which is
+`AlgebraicGeometry.Space.completionIsoLimitOfQuotientsOverCompletion_geometricStalk`; but the
+source's route for the general case is a limit argument
 over proper finitely presented morphisms with Noetherian affine base, for which the limit
 presentation of Stacks 09ZM is absent for algebraic spaces.  Stacks 0A1A,
 `AlgebraicGeometry.Space.connectedSpace_geometricFiber_iff_forall_scheme_etaleNeighborhood`, is

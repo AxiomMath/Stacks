@@ -145,9 +145,12 @@ variable [∀ (S T : B.Scheme) (g : T ⟶ S),
 constructible flat `Λ`-module on `X_étale`, for a scheme of finite type over a finite field and an
 arbitrary commutative coefficient ring `Λ`, in particular any finite ring. Its local factors are
 the projective determinants of the geometric Frobenius on the finite projective stalks. -/
-@[stacks 03UV "the definition of L(X, F) for a constructible flat Λ-module F over an arbitrary \
-finite (indeed commutative) coefficient ring Λ, not necessarily local: the local factors are the \
-projective determinants of the geometric Frobenius on the finite projective stalks",
+@[stacks 03UV "the definition of L(X, F) for a constructible flat Λ-module F, for any \
+commutative coefficient ring Λ (in particular any finite ring of order prime to the \
+characteristic of k, local or not): the local factors are the projective determinants of the \
+geometric Frobenius on the stalks, whose finiteness and projectivity are derived from \
+constructible flatness; the closing remark that the definition generalizes to K in \
+D_ctf(X, Λ) gives no formula and is not formalized",
   sga "4½ Rapport 1.6" "partial"]
 public def constructibleFlatLFunction [QuasiCompact f]
     (hF : IsConstructibleFlatModuleSheaf B X Λ F) : PowerSeries Λ :=

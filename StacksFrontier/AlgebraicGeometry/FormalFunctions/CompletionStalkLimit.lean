@@ -130,7 +130,7 @@ public theorem nonempty_adicCompletionHigherDirectImageStalkEquiv (f : X ⟶ Y)
   -- Flat base change: the stalk of the higher direct image is the cohomology of `X'`.
   obtain ⟨e₁⟩ := nonempty_higherDirectImageStalkLinearEquiv f F y p
   -- The affine theorem on formal functions over `Spec 𝒪_{Y,y}`.
-  obtain ⟨e₂, -⟩ :=
+  obtain ⟨-, e₂, -⟩ :=
     @exists_formalFunctionsEquiv_of_02O8 ↥(Y.presheaf.stalk y) _ hA _
       (stalkBaseChangeStructure f y) inferInstance (stalkMaximalIdeal y)
       (stalkBaseChangeModule f F y) hcoh p isReesFinite_cohomologyIdealPowerSystem

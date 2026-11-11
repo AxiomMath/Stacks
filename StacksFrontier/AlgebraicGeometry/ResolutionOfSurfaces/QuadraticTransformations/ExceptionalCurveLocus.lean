@@ -66,10 +66,10 @@ still missing, on top of what this file provides, is exactly the `step` hypothes
 `Stacks.ResolutionOfSurfaces.factorsAsPointBlowups_of_pointBlowupStep`, and for that:
 
 * the induction on the length of the chain of [Stacks, Tag 0C5H] which reduces step 2 to a
-  single blowup `π : X' ⟶ X`, together with the three hypotheses that the library's form of that
-  tag, `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap`, carries
-  ([Stacks, Tag 0AGT], [Stacks, Tag 0AHI] and the [Stacks, Tag 0BX7] plus [Stacks, Tag 081T]
-  reduction);
+  single blowup `π : X' ⟶ X` (the tag itself is
+  `Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap_of_dim_two`, with
+  [Stacks, Tag 0AGT], [Stacks, Tag 0AHI] and the [Stacks, Tag 0BX7] plus [Stacks, Tag 081T]
+  reduction all discharged);
 * the data this file consumes as hypotheses, produced from that reduction: that the exceptional
   curve of the blowup of a regular surface at a closed point is an exceptional curve of the first
   kind presented as `𝐏¹_k` (the globalization of [Stacks, Tag 0AGR] and [Stacks, Tag 0C5K]), and

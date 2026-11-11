@@ -324,12 +324,9 @@ members contained in an open cover that open. Then an ideal sheaf is an ideal of
 ideals of definition.
 
 Checking the members of `𝒰` alone would not do, for the same reason as in the weak case
-(`IdealSheaf.isWeakIdealOfDefinitionOn_of_cover`). -/
-@[stacks 0AIW "it suffices to check the ideal-of-definition condition on an affine open \
-covering, CORRECTED: the condition is checked on the members of the class contained in a \
-covering member, not on the covering members themselves, which is false as the source states \
-it; the quasi-compactness `hcompact` and the refinement `hrefine` of the class of affine \
-formal opens are part of the statement"]
+(`IdealSheaf.isWeakIdealOfDefinitionOn_of_cover`). On a formal scheme à la EGA the hypotheses
+`hcompact` and `hrefine` hold, and the tagged form is
+`IdealSheaf.isIdealOfDefinitionOn_of_cover_of_isFormalScheme`. -/
 theorem isIdealOfDefinitionOn_of_cover (I : IdealSheaf X) (𝒜 : Opens X → Prop)
     (𝒰 : Set (Opens X)) (hcover : sSup 𝒰 = ⊤)
     (hcompact : ∀ U : Opens X, 𝒜 U → IsCompact (U : Set X))
@@ -348,11 +345,9 @@ end IdealSheaf
 
 /-- **Stacks 0AIW**, the locality of the fundamental-system condition: the neighbourhood-basis
 half is a condition on the individual opens of `𝒜`, so only the ideal-of-definition half has to
-be transported along the covering, by `IdealSheaf.isIdealOfDefinitionOn_of_cover`. -/
-@[stacks 0AIW "it suffices to check the fundamental-system condition on an affine open covering, \
-CORRECTED in the same way as the ideal-of-definition condition, and granting `hbasis`: the \
-neighbourhood-basis half is a condition on each individual affine formal open and there is \
-nothing about it to transport along a covering"]
+be transported along the covering, by `IdealSheaf.isIdealOfDefinitionOn_of_cover`. The tagged
+form on a formal scheme à la EGA, which checks both halves on the covering, is
+`isFundamentalSystemOfIdealsOfDefinitionOn_of_cover_of_isFormalScheme`. -/
 theorem isFundamentalSystemOfIdealsOfDefinitionOn_of_cover {X : LTRS.{u}}
     (𝒮 : Set (IdealSheaf X)) (𝒜 : Opens X → Prop)
     (𝒰 : Set (Opens X)) (hcover : sSup 𝒰 = ⊤)
@@ -400,12 +395,8 @@ admissibility of `𝒪_𝔛(𝔘)`. Let `𝒮` be a nonempty, sectionwise downwa
 system of *weak* ideals of definition over `𝒜`. Then there is a finite covering of `X` by members
 of `𝒜` and a member `I₀` of `𝒮` such that every member of `𝒮` below `I₀` has ideals of definition
 for its ideals of sections over the covering: an open ideal contained in an ideal of definition is
-an ideal of definition, and only the finitely many members of the covering have to be checked. -/
-@[stacks 0AIW "`ℐ_λ` is an ideal of definition for `λ` large, RESTRICTED to the finite affine \
-open covering that quasi-compactness produces, as in the source's own argument; the \
-sectionwise directedness `hdir` and nonemptiness `hne` of the system are the source's \
-directedness of the index set `Λ`, and `hadm` is the admissibility of the rings of sections \
-over the members of the class of affine formal opens"]
+an ideal of definition, and only the finitely many members of the covering have to be checked.
+The tagged form on a formal scheme à la EGA is `exists_isIdealOfDefinition_of_isFormalScheme`. -/
 theorem exists_isIdealOfDefinition_of_isFundamentalSystemOfWeakIdealsOfDefinitionOn
     {X : LTRS.{u}} [CompactSpace ↥X] (𝒮 : Set (IdealSheaf X)) (𝒜 : Opens X → Prop)
     (hne : 𝒮.Nonempty)
@@ -449,9 +440,11 @@ inputs of
 affine formal opens cover `X` because `X` is a formal scheme, and the ring of sections over one of
 them is pre-admissible by Stacks 0AHY. -/
 @[stacks 0AIW "`ℐ_λ` is an ideal of definition for `λ` large, on a quasi-compact formal scheme \
-à la EGA and RESTRICTED to the finite affine open covering that quasi-compactness produces, as \
-in the source's own argument; only the sectionwise directedness `hdir` and nonemptiness `hne` \
-of the system are carried, and they are the source's directedness of the index set `Λ`"]
+à la EGA, over the members of a finite affine open covering, which is what the source's argument \
+proves; `hdir` and `hne` are the source's directed index set `Λ`. Over every affine formal open \
+the step is false for arbitrary ideal sheaves (erratum in errata.md, \
+`not_forall_exists_isIdealOfDefinitionOn_of_isFundamentalSystemOfWeakIdealsOfDefinitionOn`) and \
+holds for systems cut out by their sections, `exists_forall_isIdealOfDefinitionOn_of_isCutOutOn`"]
 theorem exists_isIdealOfDefinition_of_isFormalScheme {X : LTRS.{u}} [CompactSpace ↥X]
     (hX : IsFormalScheme X) (𝒮 : Set (IdealSheaf X)) (hne : 𝒮.Nonempty)
     (hdir : ∀ I ∈ 𝒮, ∀ J ∈ 𝒮, ∃ K ∈ 𝒮, ∀ W : Opens X,

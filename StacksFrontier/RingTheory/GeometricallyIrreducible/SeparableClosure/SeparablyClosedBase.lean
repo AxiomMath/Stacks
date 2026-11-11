@@ -6,7 +6,9 @@ import StacksCore.Tactic.EgaSgaAttribute
 /-! # Geometric irreducibility over a separably closed subfield
 
 The perfect-closure reduction, irreducibility of `Spec (K ⊗[F] L)` when `F` is separably
-closed in `K`, and the main statement Stacks 037Q (1). -/
+closed in `K`, and its consequence for the separable closure of `k` in `K` with test fields in
+`Type` (Stacks 037Q (1) in the universe `0`; the 037L form in every universe is
+`separableClosure.isGeometricallyIrreducible`). -/
 
 @[expose] public section
 
@@ -791,11 +793,13 @@ theorem geomIrred_of_sepClosed (F K : Type*) [Field F] [Field K] [Algebra F K]
     geomIrred_tensor_sep_isDomain F K hsc
   exact geomIrred_descent F K hdom L
 
-/-- Statement 1 (Geometric irreducibility over `k'`). `K` is geometrically irreducible over `k' =
-separableClosure k K`: for every field extension `L/k'` the spectrum `Spec(K ⊗_{k'} L)` is
-irreducible. -/
-@[stacks 037Q "(1)",
-  ega "IV 4.3.2" "special case",
+/-- Let `k' = separableClosure k K`. For every field extension `L/k'` with `L : Type` (the
+universe `0`), the spectrum `Spec(K ⊗_{k'} L)` is irreducible. When `K : Type` this is Stacks
+037Q (1); for `K` in a higher universe it tests only fields in `Type`, so it does not by itself
+give geometric irreducibility in the 037L sense, which tests fields in the universe of `K`. The
+statement of 037Q (1) in the 037L sense, in every universe, is
+`separableClosure.isGeometricallyIrreducible`. -/
+@[ega "IV 4.3.2" "special case",
   ega "IV 4.3.3" "special case",
   ega "IV 4.4.4" "special case",
   ega "IV 4.5.21" "special case"]

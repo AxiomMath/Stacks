@@ -27,6 +27,7 @@ public import StacksFrontier.RingTheory.Smooth.NaiveCotangentCriterion
 public import StacksFrontier.RingTheory.Smooth.SmoothAt
 
 import StacksCore.Tactic.StacksAttribute
+import StacksFrontier.Algebra.Homology.Resolution.ProjectiveDimensionTruncation
 
 /-!
 # Smooth ring maps and perfect diagonals
@@ -60,17 +61,15 @@ The argument uses the diagonal only through finite projective dimension of `B` o
 `Algebra.TensorProduct.lmul'`. That condition mentions no derived category, so the main
 statements take it as their hypothesis, and the tags 0FCW and 0FCX sit on those forms.
 
-The source's hypothesis, a perfect diagonal, is `RingHom.IsPerfectRingMap` read at a model of
-`D(B ⊗[A] B)` through a certified derived tensoring
-`StacksDraft.TorAmplitude.CertifiedDerivedTensoring (B ⊗[A] B)`; by
-`RingHom.isPerfectRingMap_iff_exists_flat_roof` it depends neither on the model nor on the
-certificate. It implies finite projective dimension (`exists_hasProjectiveDimensionLT_diagonal`):
-since `B ⊗[A] B` is Noetherian and `B` is a finite module over it, `B` is pseudo-coherent there
-(Stacks 066E), a bounded complex of flat modules joined to `B[0]` by a roof of
-quasi-isomorphisms makes it perfect (Stacks 0657), and a perfect module has a finite resolution
-by finite projective modules. That step reads `D(B ⊗[A] B)` in the standard model inside a proof
-whose statement mentions no derived category. The theorems with a perfect diagonal as hypothesis
-are corollaries of the model-free ones.
+The source's hypothesis, a perfect diagonal, is `RingHom.Perfect` of the multiplication map
+`B ⊗[A] B → B`. It implies finite projective dimension (`exists_hasProjectiveDimensionLT_diagonal`):
+by Stacks 068Y (`Algebra.perfect_iff_pseudoCoherent_and_exists_flat_roof`) a bounded complex of
+flat modules is joined to `B[0]` by a roof of quasi-isomorphisms; since `B ⊗[A] B` is Noetherian
+and `B` is a finite module over it, `B` is pseudo-coherent there (Stacks 066E), the roof makes it
+perfect (Stacks 0657), and a perfect module has a finite resolution by finite projective modules.
+That step reads `D(B ⊗[A] B)` in the standard model inside a proof whose statement mentions no
+derived category. The theorems with a perfect diagonal as hypothesis are corollaries of the
+model-free ones.
 
 The source argues with a presentation `B = R/K`, with `R` a localization of `A[x_1, …, x_n]`,
 and runs Rodicio's theorem (Stacks 09PV) on the pair of ideals `I ⊆ J` of `(R ⊗_A R)_𝔪`
@@ -355,31 +354,17 @@ private theorem exists_hasProjectiveDimensionLT_of_exists_flat_roof
   obtain ⟨d, F, hF, hzero⟩ :=
     (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution B).mp
       (hKperf : StacksDraft.Perfect.IsPerfectModule (R := T) B)
-  let G : (isProjective (ModuleCat T)).LeftResolution (ModuleCat.of T B) :=
-    { complex := F.complex
-      property i := by
-        let : Module.Projective T (F.complex.X i) := (hF i).2
-        exact ModuleCat.projective_of_categoryTheory_projective (F.complex.X i)
-      π := F.π
-      quasiIso := F.quasiIso }
-  have hres : ∃ G : (isProjective (ModuleCat T)).LeftResolution (ModuleCat.of T B),
-      ∀ i, d < i → IsZero (G.complex.X i) := ⟨G, hzero⟩
-  exact ⟨d + 1, ((CategoryTheory.hasProjectiveDimensionLE_tfae_leftResolution
-    (ModuleCat.of T B) d).out 2 1).mp hres⟩
+  exact ⟨d + 1, F.hasProjectiveDimensionLE (fun i => (hF i).2) hzero⟩
 
-/-- A perfect diagonal gives `B` finite projective dimension over `B ⊗[A] B`, for any model of
-`D(B ⊗[A] B)` and any certified derived tensor product on it: `B ⊗[A] B` is Noetherian and `B` is
-a finite module over it, and perfectness provides a bounded complex of flat modules joined to
-`B[0]` by a roof of quasi-isomorphisms (`RingHom.isPerfectRingMap_iff_exists_flat_roof`), so
+/-- A perfect diagonal gives `B` finite projective dimension over `B ⊗[A] B`: `B ⊗[A] B` is
+Noetherian and `B` is a finite module over it, and perfectness provides a bounded complex of flat
+modules joined to `B[0]` by a roof of quasi-isomorphisms
+(`Algebra.perfect_iff_pseudoCoherent_and_exists_flat_roof`), so
 `exists_hasProjectiveDimensionLT_of_exists_flat_roof` applies. -/
 private theorem exists_hasProjectiveDimensionLT_diagonal
     (A : Type u) (B : Type v) [CommRing A] [CommRing B] [IsNoetherianRing B] [Algebra A B]
     [Algebra.EssFiniteType A B]
-    [HasDerivedCategory.{w} (ModuleCat.{v} (TensorProduct A B B))]
-    (D : StacksDraft.TorAmplitude.CertifiedDerivedTensoring (TensorProduct A B B))
-    (hperfect :
-      letI := (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom.toAlgebra
-      RingHom.IsPerfectRingMap (TensorProduct A B B) B D.tensor D.comparison D.isLeftDerived) :
+    (hperfect : (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom.Perfect) :
     letI := (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom.toAlgebra
     ∃ n : ℕ, HasProjectiveDimensionLT (ModuleCat.of (TensorProduct A B B) B) n := by
   let T := TensorProduct A B B
@@ -393,7 +378,7 @@ private theorem exists_hasProjectiveDimensionLT_diagonal
     change Function.Surjective (Algebra.TensorProduct.lmul' (R := A) (S := B))
     exact fun b => ⟨b ⊗ₜ[A] (1 : B), by simp⟩
   exact exists_hasProjectiveDimensionLT_of_exists_flat_roof B
-    ((RingHom.isPerfectRingMap_iff_exists_flat_roof _ _).mp hperfect).2
+    (Algebra.perfect_iff_pseudoCoherent_and_exists_flat_roof.mp hperfect).2
 
 /-- If `B` has finite projective dimension over `B ⊗[A] B`, it has finite projective dimension
 over the *local* ring `(B ⊗[A] B)_𝔮`, the localization at the prime `𝔮` pulled back from the
@@ -1174,24 +1159,19 @@ public theorem formallySmooth_of_hasProjectiveDimensionLT_diagonal
     (R := A) (S := B) (P := P) hg (IsNoetherian.noetherian _)).mpr hcotangent
 
 /-- A flat local homomorphism of Noetherian local rings which is essentially of finite type and
-whose diagonal `B ⊗[A] B → B` is perfect, for a certified derived tensor product on a model of
-`D(B ⊗[A] B)`, is formally smooth; locality of `A` is not needed. A perfect diagonal gives `B`
-finite projective dimension over `B ⊗[A] B`, so this is
+whose diagonal `B ⊗[A] B → B` is perfect is formally smooth; locality of `A` is not needed. A
+perfect diagonal gives `B` finite projective dimension over `B ⊗[A] B`, so this is
 `StacksDraft.Smooth.formallySmooth_of_hasProjectiveDimensionLT_diagonal`. -/
 public theorem formallySmooth_of_isPerfect_diagonal
     (A : Type u) (B : Type v) [CommRing A] [CommRing B]
     [IsLocalRing B] [IsNoetherianRing A]
     [Algebra A B] [Module.Flat A B]
     [Algebra.EssFiniteType A B]
-    [HasDerivedCategory.{w} (ModuleCat.{v} (TensorProduct A B B))]
-    (D : StacksDraft.TorAmplitude.CertifiedDerivedTensoring (TensorProduct A B B))
-    (hperfect :
-      letI := (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom.toAlgebra
-      RingHom.IsPerfectRingMap (TensorProduct A B B) B D.tensor D.comparison D.isLeftDerived) :
+    (hperfect : (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom.Perfect) :
     Algebra.FormallySmooth A B :=
   have : IsNoetherianRing B := Algebra.EssFiniteType.isNoetherianRing A B
   formallySmooth_of_hasProjectiveDimensionLT_diagonal A B
-    (exists_hasProjectiveDimensionLT_diagonal A B D hperfect)
+    (exists_hasProjectiveDimensionLT_diagonal A B hperfect)
 
 /-- **Stacks 0FCW.** Let `A → B` be a flat ring map, essentially of finite type, from a Noetherian
 ring to a local ring. If `B` has finite projective dimension over `B ⊗[A] B`, then `B` is the
@@ -1216,8 +1196,8 @@ public theorem exists_smooth_isLocalization_of_hasProjectiveDimensionLT_diagonal
 
 /-- Stacks 0FCW in the source's form: let `A → B` be a local homomorphism of Noetherian local rings
 with `B` flat and essentially of finite type over `A`. If the multiplication map `B ⊗[A] B → B` is
-a perfect ring map, for a certified derived tensor product on a model of `D(B ⊗[A] B)`, then `B`
-is the localization of a smooth `A`-algebra. Locality of `A` is not needed.
+a perfect ring map, then `B` is the localization of a smooth `A`-algebra. Locality of `A` is not
+needed.
 
 The perfect diagonal gives formal smoothness by
 `StacksDraft.Smooth.formallySmooth_of_isPerfect_diagonal`, and a formally smooth local algebra
@@ -1228,15 +1208,11 @@ public theorem exists_smooth_isLocalization_of_isPerfect_diagonal
     [IsLocalRing B] [IsNoetherianRing A]
     [Algebra A B] [Module.Flat A B]
     [Algebra.EssFiniteType A B]
-    [HasDerivedCategory.{w} (ModuleCat.{v} (TensorProduct A B B))]
-    (D : StacksDraft.TorAmplitude.CertifiedDerivedTensoring (TensorProduct A B B))
-    (hperfect :
-      letI := (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom.toAlgebra
-      RingHom.IsPerfectRingMap (TensorProduct A B B) B D.tensor D.comparison D.isLeftDerived) :
+    (hperfect : (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom.Perfect) :
     ∃ (C : Type u) (_ : CommRing C) (_ : Algebra A C) (_ : Algebra.Smooth A C)
       (M : Submonoid C) (_ : Algebra C B), IsScalarTower A C B ∧ IsLocalization M B :=
   exists_smooth_isLocalization_of_formallySmooth A B
-    (formallySmooth_of_isPerfect_diagonal A B D hperfect)
+    (formallySmooth_of_isPerfect_diagonal A B hperfect)
 
 /-! ### The global statement, Stacks 0FCX -/
 
@@ -1421,23 +1397,18 @@ public theorem smooth_of_flat_of_hasProjectiveDimensionLT_diagonal
   exact Algebra.IsSmoothAt.exists_notMem_smooth A q
 
 /-- Stacks 0FCX in the source's form: let `A → B` be a flat finite type ring map of Noetherian
-rings. If the multiplication map `B ⊗[A] B → B` is a perfect ring map, for a certified derived
-tensor product on a model of `D(B ⊗[A] B)`, then `B` is a smooth `A`-algebra. A perfect diagonal
-gives `B` finite projective dimension over `B ⊗[A] B`, so this is
+rings. If the multiplication map `B ⊗[A] B → B` is a perfect ring map, then `B` is a smooth
+`A`-algebra. A perfect diagonal gives `B` finite projective dimension over `B ⊗[A] B`, so this is
 `StacksDraft.Smooth.smooth_of_flat_of_hasProjectiveDimensionLT_diagonal`. -/
 public theorem smooth_of_flat_of_isPerfect_diagonal
     (A : Type u) (B : Type v) [CommRing A] [CommRing B] [Algebra A B]
     [IsNoetherianRing A] [Module.Flat A B] [Algebra.FiniteType A B]
-    [HasDerivedCategory.{w} (ModuleCat.{v} (TensorProduct A B B))]
-    (D : StacksDraft.TorAmplitude.CertifiedDerivedTensoring (TensorProduct A B B))
-    (hperfect :
-      letI := (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom.toAlgebra
-      RingHom.IsPerfectRingMap (TensorProduct A B B) B D.tensor D.comparison D.isLeftDerived) :
+    (hperfect : (Algebra.TensorProduct.lmul' (R := A) (S := B)).toRingHom.Perfect) :
     Algebra.Smooth A B := by
   have : Algebra.EssFiniteType A B := Algebra.EssFiniteType.of_finiteType A B
   have : IsNoetherianRing B := Algebra.EssFiniteType.isNoetherianRing A B
   exact smooth_of_flat_of_hasProjectiveDimensionLT_diagonal A B
-    (exists_hasProjectiveDimensionLT_diagonal A B D hperfect)
+    (exists_hasProjectiveDimensionLT_diagonal A B hperfect)
 
 end StacksDraft.Smooth
 

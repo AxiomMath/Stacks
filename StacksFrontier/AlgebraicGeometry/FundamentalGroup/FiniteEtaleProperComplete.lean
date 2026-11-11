@@ -17,8 +17,9 @@ Let `A` be a Noetherian ring complete with respect to an ideal `I` and let `X` b
 stages of the Stacks proof of Tag 0A48 (and of Tag 0GS2, whose proof is the same): base change
 `FÉt_X ⥤ FÉt_{X₀}` is essentially surjective, and then an equivalence. The one input taken as a
 hypothesis is Grothendieck's existence theorem for finite sheaves of algebras,
-`AlgebraicGeometry.AdicFiniteAlgebraAlgebraization`, which is the hypothesis of the library's
-Stacks 09ZT, `AlgebraicGeometry.exists_finite_algebraization_of_adicFiniteSystem`.
+`AlgebraicGeometry.AdicFiniteAlgebraAlgebraization`, which is the input of
+`AlgebraicGeometry.exists_finite_algebraization_of_adicFiniteSystem`, and which the library
+proves as `AlgebraicGeometry.adicFiniteAlgebraAlgebraization_holds`.
 
 ## The argument
 

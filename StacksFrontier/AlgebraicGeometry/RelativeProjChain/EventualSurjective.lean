@@ -69,13 +69,17 @@ Both rings live in the single universe `u`, forced because `Proj ℬ ⟶ Proj �
 of `Scheme.{u}`; the two `SetLike` carriers are independent. No transparency attribute is needed
 in this file: nothing here crosses the twisting sheaf's index category.
 
-## What is not done
+## The comparison maps on twists
 
-Tag 01N1's third assertion — that the comparison maps on all twists are isomorphisms when `𝒜` is
-generated in degree one over `𝒜 0` — is not proved. It is a statement about
-`Stacks.AlgebraicGeometry.ProjTwistCompare.twistMap`, not about the morphism of schemes, and is
-untouched here. Surjectivity of those comparison maps, Tag 01N0's twist assertion, is likewise
-untouched.
+The assertions about the comparison maps `Stacks.AlgebraicGeometry.ProjTwistCompare.twistMap`
+are statements about sheaves of modules, not about the morphism of schemes, and are proved in
+other files: Tag 01N0 part (3) is
+`Stacks.AlgebraicGeometry.ProjTwistEpi.epi_projMapData_twistMap_of_eventually_surjective`
+(surjectivity) together with
+`Stacks.AlgebraicGeometry.ProjTwistCompare.NotIsoExample`
+`.surjective_and_not_isIso_projMapData_twistMap`
+(not isomorphisms in general), and Tag 01N1's third assertion is
+`Stacks.AlgebraicGeometry.ProjTwistMono.isIso_projMapData_twistMap`.
 
 ## References
 
@@ -145,13 +149,14 @@ public theorem surjective_awayMap_of_eventually_surjective (ψ : 𝒜 →+*ᵍ �
 /-! ### The domain of definition and the closed immersion -/
 
 omit [GradedRing 𝒜] in
-/-- **Stacks 01N1 (1)**: a graded ring homomorphism surjective in all sufficiently large degrees
-is defined on the whole of `Proj ℬ`.
+/-- **Stacks 01N0 (1) and 01N1 (1)**: a graded ring homomorphism surjective in all sufficiently
+large degrees is defined on the whole of `Proj ℬ`.
 
 A point of `Proj ℬ` omits some homogeneous `g` of positive degree `m`; a large power `g ^ k` is
 homogeneous of degree `k * m`, is still omitted because the point is prime, and is in the image
 of `ψ`. -/
-@[stacks 01N1 "part (1): the domain is all of Proj", stacks 01N0 "domain"]
+@[stacks 01N1 "part (1): the domain is all of Proj",
+  stacks 01N0 "part (1): U(ψ) = Proj B when A_d → B_d is surjective for all d ≫ 0"]
 public theorem mapDomain_eq_top_of_eventually_surjective (ψ : 𝒜 →+*ᵍ ℬ)
     (hψ : ∀ᶠ d : ℕ in atTop, Function.Surjective (GradedRingHom.gradedAddHom ψ d)) :
     mapDomain 𝒜 ℬ ψ = ⊤ := by
@@ -215,11 +220,13 @@ public theorem isClosedImmersion_mapHom_of_eventually_surjective (ψ : 𝒜 →+
   rw [morphismRestrict_mapHom_eq 𝒜 ℬ ψ hd hf]
   infer_instance
 
-/-- **Stacks 01N1 (2)** on Tag 01MY's bundle: the underlying morphism of
+/-- **Stacks 01N0 (2) and 01N1 (2)** on Tag 01MY's bundle: the underlying morphism of
 `Stacks.AlgebraicGeometry.ProjTwistCompare.projMapData` is a closed immersion. This is the form
 the statements of the chain quantify over, and it is the previous result unchanged, since the
 bundle's morphism is `mapHom` by definition. -/
-@[stacks 01N1 "part (2): the closed immersion", stacks 01N0 "closed_immersion"]
+@[stacks 01N1 "part (2): the closed immersion",
+  stacks 01N0 "part (2): r_ψ : Proj B ⟶ Proj A is a closed immersion when A_d → B_d is \
+surjective for all d ≫ 0"]
 public theorem isClosedImmersion_projMapData_hom_of_eventually_surjective (ψ : 𝒜 →+*ᵍ ℬ)
     (hψ : ∀ᶠ d : ℕ in atTop, Function.Surjective (GradedRingHom.gradedAddHom ψ d)) :
     IsClosedImmersion (ProjTwistCompare.projMapData 𝒜 ℬ ψ).hom := by

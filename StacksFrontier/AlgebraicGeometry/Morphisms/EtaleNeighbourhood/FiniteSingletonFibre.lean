@@ -24,9 +24,11 @@ stalk at `x` of a quasi-coherent module agrees with the stalk at `f x` of its pu
 * `AlgebraicGeometry.finite_stalkMap_of_preimage_singleton`: the stalk map is finite.
 * `AlgebraicGeometry.finitePresentation_stalkMap_of_preimage_singleton`: the stalk map is of
   finite presentation when `f` is.
-* `AlgebraicGeometry.stalk_isomorphic_pushforward_of_finite_singleton_fiber`: the stalk of a
-  quasi-coherent module, with scalars restricted along the stalk map, is the stalk of the
-  pushforward.
+* `AlgebraicGeometry.exists_linearEquiv_stalkPushforward_of_finite_singleton_fiber`: the
+  canonical map from the stalk of the pushforward of a quasi-coherent module to its stalk, with
+  scalars restricted along the stalk map, is a linear isomorphism.
+* `AlgebraicGeometry.stalk_isomorphic_pushforward_of_finite_singleton_fiber`: the two stalks are
+  isomorphic in `ModuleCat`.
 
 ## Implementation notes
 
@@ -36,10 +38,10 @@ always taken to be the image `f x` of the chosen source point, so that the auxil
 between the two points disappears from the statements. The local-ring map is the canonical
 stalk map `Scheme.Hom.stalkMap`.
 
-For the pushforward statement, the equality of modules in the source is represented by an
-isomorphism in `ModuleCat`: the module structure on the source stalk is restricted from
-`𝒪_{X,x}` to `𝒪_{Y,f x}` along the stalk map, and the pushforward is Mathlib's canonical
-pushforward of modules on schemes.
+For the pushforward statement, the equality of modules in the source is represented by the
+canonical map `TopCat.Presheaf.stalkPushforward` being a linear equivalence: the module
+structure on the source stalk is restricted from `𝒪_{X,x}` to `𝒪_{Y,f x}` along the stalk
+map, and the pushforward is Mathlib's canonical pushforward of modules on schemes.
 
 ## References
 
@@ -411,10 +413,54 @@ private lemma stalkPushforward_smul {X Y : Scheme.{u}} (f : X ⟶ Y) (F : X.Modu
   rw [Scheme.Hom.germ_stalkMap_apply f W x hW r, ← hgsF (f.app W r) t]
   rfl
 
+/-- Let `f : X ⟶ Y` be finite and suppose that the fibre over `f x` is the singleton `{x}`.
+For a quasi-coherent `O_X`-module `F` we have `F_x = (f_* F)_{f x}` as `O_{Y,f x}`-modules:
+the canonical map `TopCat.Presheaf.stalkPushforward` from the stalk of `f_* F` at `f x` to the
+stalk of `F` at `x` (sending the germ of a section over `V` to the germ of the same section
+over `f ⁻¹ V`) is an `O_{Y,f x}`-linear isomorphism, where `O_{Y,f x}` acts on `F_x` through
+the stalk map. The statement provides a linear equivalence whose underlying function is this
+canonical map. -/
+@[stacks 05B8 "pushforward_stalk"]
+theorem exists_linearEquiv_stalkPushforward_of_finite_singleton_fiber
+    {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f]
+    (x : X) (hfiber : f ⁻¹' ({f x} : Set Y) = {x})
+    (F : X.Modules) [F.IsQuasicoherent] :
+    letI : Module (X.presheaf.stalk x)
+        ↑(TopCat.Presheaf.stalk F.val.presheaf x) :=
+      PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
+        (R := X.presheaf) F.val x
+    letI : Module (Y.presheaf.stalk (f x))
+        ↑(TopCat.Presheaf.stalk F.val.presheaf x) :=
+      Module.compHom _ (f.stalkMap x).hom
+    letI : Module (Y.presheaf.stalk (f x))
+        ↑(TopCat.Presheaf.stalk
+          ((Scheme.Modules.pushforward f).obj F).val.presheaf (f x)) :=
+      PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
+        (R := Y.presheaf) ((Scheme.Modules.pushforward f).obj F).val (f x)
+    ∃ e : ↑(TopCat.Presheaf.stalk
+          ((Scheme.Modules.pushforward f).obj F).val.presheaf (f x)) ≃ₗ[Y.presheaf.stalk (f x)]
+        ↑(TopCat.Presheaf.stalk F.val.presheaf x),
+      ⇑e = ConcreteCategory.hom
+        (TopCat.Presheaf.stalkPushforward Ab f.base F.val.presheaf x) := by
+  let := stalkModule F x
+  let := stalkModule ((Scheme.Modules.pushforward f).obj F) (f x)
+  let : Module ↑(Y.presheaf.stalk (f x)) ↑(F.presheaf.stalk x) :=
+    Module.compHom _ (f.stalkMap x).hom
+  let := stalkPushforward_iso_of_finite_singleton_fiber f x hfiber F.presheaf
+  let e := asIso (TopCat.Presheaf.stalkPushforward Ab f.base F.presheaf x)
+  let lin : ↑(((Scheme.Modules.pushforward f).obj F).presheaf.stalk (f x)) →ₗ[
+        Y.presheaf.stalk (f x)] ↑(F.presheaf.stalk x) :=
+    { toFun := ConcreteCategory.hom e.hom
+      map_add' := map_add (ConcreteCategory.hom e.hom)
+      map_smul' := stalkPushforward_smul f F x }
+  exact ⟨LinearEquiv.ofBijective lin (ConcreteCategory.bijective_of_isIso e.hom), rfl⟩
+
 /-- Let `f : X ⟶ Y` be finite and suppose that the fibre over `f x` is the
 singleton `{x}`. For a quasi-coherent `O_X`-module `F`, its stalk at `x`, viewed
-as an `O_{Y,f x}`-module, is isomorphic to the stalk at `f x` of `f_* F`. -/
-@[stacks 05B8 "pushforward_stalk"]
+as an `O_{Y,f x}`-module, is isomorphic to the stalk at `f x` of `f_* F`.
+
+This only records that some isomorphism exists; the form of Stacks Tag 05B8 (4) naming the
+canonical comparison map is `exists_linearEquiv_stalkPushforward_of_finite_singleton_fiber`. -/
 theorem stalk_isomorphic_pushforward_of_finite_singleton_fiber
     {X Y : Scheme.{u}} (f : X ⟶ Y) [IsFinite f]
     (x : X) (hfiber : f ⁻¹' ({f x} : Set Y) = {x})
@@ -437,19 +483,8 @@ theorem stalk_isomorphic_pushforward_of_finite_singleton_fiber
         ModuleCat.of (Y.presheaf.stalk (f x))
           ↑(TopCat.Presheaf.stalk
             ((Scheme.Modules.pushforward f).obj F).val.presheaf (f x))) := by
-  let := stalkModule F x
-  let := stalkModule ((Scheme.Modules.pushforward f).obj F) (f x)
-  let : Module ↑(Y.presheaf.stalk (f x)) ↑(F.presheaf.stalk x) :=
-    Module.compHom _ (f.stalkMap x).hom
-  let := stalkPushforward_iso_of_finite_singleton_fiber f x hfiber F.presheaf
-  let e := asIso (TopCat.Presheaf.stalkPushforward Ab f.base F.presheaf x)
-  let lin : ↑(((Scheme.Modules.pushforward f).obj F).presheaf.stalk (f x)) →ₗ[
-        Y.presheaf.stalk (f x)] ↑(F.presheaf.stalk x) :=
-    { toFun := ConcreteCategory.hom e.hom
-      map_add' := map_add (ConcreteCategory.hom e.hom)
-      map_smul' := stalkPushforward_smul f F x }
-  exact ⟨(LinearEquiv.ofBijective lin
-    (ConcreteCategory.bijective_of_isIso e.hom)).symm.toModuleIso⟩
+  obtain ⟨e, -⟩ := exists_linearEquiv_stalkPushforward_of_finite_singleton_fiber f x hfiber F
+  exact ⟨e.symm.toModuleIso⟩
 
 end PushforwardStalk
 

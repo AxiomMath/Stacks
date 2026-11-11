@@ -283,9 +283,9 @@ theorem lambdaOperation_add (h : ExteriorPowersData X) (r : ℕ) (a b : VectorBu
 The family is `X ↦ lambdaOperation (exteriorPowersData X)`, so nothing is assumed: the filtration
 relation the construction consumes is `exteriorPowersData`, and the pullback map is the one
 constructed in `StacksFrontier.AlgebraicGeometry.Chow.VectorBundleKZeroPullback`. -/
-@[stacks 0FIC "the maps `λ^r` on `K₀(Vect(X))` for every scheme `X`, their value \
-  `λ^r[ℰ] = [⋀^r ℰ]` on finite locally free modules, and their compatibility with pullback \
-  `λ^r ∘ f^* = f^* ∘ λ^r` for the pullback ring map `f^*` of `K₀(Vect(-))`; no hypothesis",
+@[stacks 0FIC "there exist maps `λ^r : K₀(Vect(X)) → K₀(Vect(X))`, `r : ℕ`, for every scheme \
+  `X`, with `λ^r [ℰ] = [⋀^r ℰ]` for each finite locally free `𝒪_X`-module `ℰ` and \
+  `λ^r (f^* a) = f^* (λ^r a)` for every morphism `f : Y ⟶ X`, `f^*` being `pullbackRingHom f`",
   sga "6 X 1.2" "clause (1.2.1)"]
 theorem exists_lambdaOperations_pullbackRingHom :
     ∃ lam : ∀ X : Scheme.{u}, ℕ → VectorBundleKZero X → VectorBundleKZero X,

@@ -4,54 +4,36 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ChartSchemeRestrictionQuas
 public import StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjChartSituation
 
 /-!
-# The quasi-coherence hypothesis of the chart restriction is dischargeable
+# The chart restriction of a graded algebra, in the forms its consumers use
 
 `AlgebraicGeometry.Space.relativeProjChartAlgebra` restricts a graded algebra `𝒜` on an algebraic
-space `X` to an étale scheme chart `V` of `X`, landing in Situation 01NN on the chart
-(`Stacks.AlgebraicGeometry.RelativeProjBridge.SheafGradedAlgebra`), and it takes as a hypothesis
-`hqc` the quasi-coherence of the Zariski restrictions of the homogeneous pieces.  Its siblings
-`AlgebraicGeometry.Space.relativeProjChartSituation` and
-`AlgebraicGeometry.Space.relativeProjChartSheafAlgebra` carry the same hypothesis, and the
-structure `AlgebraicGeometry.Space.RelativeProjSituationChart` carries it as a field.
+space `X` whose homogeneous pieces are quasi-coherent on the small étale site to an étale scheme
+chart `V` of `X`, landing in Situation 01NN on the chart
+(`Stacks.AlgebraicGeometry.RelativeProjBridge.SheafGradedAlgebra`); quasi-coherence of the Zariski
+restrictions of the pieces is supplied there by the étale-to-Zariski direction of Descent,
+Stacks 03DX, `AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme`.
 
-The hypothesis is **not needed**: quasi-coherence of a module on the small étale site of `X` gives
-quasi-coherence of its Zariski restriction to a chart, with no further assumption, by
-`AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme` — the étale-to-Zariski direction
-of Descent, Stacks 03DX.  This file spends that, so that the restriction of Situation 0849's
-algebra to a chart needs nothing beyond Situation 0849 itself.
-
-The implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/GradedAlgebraChartRestriction.lean` state that the
-étale-to-Zariski direction of Descent 03DX "is not in this library"; that is no longer so, and
-was already not so when those notes were written —
-`AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme` of
-`StacksFrontier/AlgebraicGeometry/Spaces/ChartSchemeRestrictionQuasicoherent.lean` is that
-direction,
-proved, and the same notes' claim that the two available clauses of Stacks 03DX "neither of which
-compares the two" sites overlooks it.  The hypothesis-carrying forms are left in place, since they
-are consumed elsewhere; what is added here is the discharged form.
+This file records that step for a single piece, and the names under which the restriction of
+Situation 0849's algebra is consumed elsewhere.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme_piece`: the hypothesis `hqc` of
-  `AlgebraicGeometry.Space.relativeProjChartAlgebra`, discharged for a graded algebra whose
-  homogeneous pieces are quasi-coherent on the small étale site of `X`.
+* `AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme_piece`: the Zariski restriction
+  of a homogeneous piece which is quasi-coherent on the small étale site of `X` is quasi-coherent.
 * `AlgebraicGeometry.Space.relativeProjChartAlgebraOfQc`: the restriction of such a graded algebra
-  to an étale scheme chart, with no quasi-coherence hypothesis.
+  to an étale scheme chart.
 * `AlgebraicGeometry.Space.relativeProjChartSheafAlgebraOfSituation` and
   `AlgebraicGeometry.Space.relativeProjChartSituationOfSituation`: the restriction of Situation
-  0849's algebra to an étale scheme chart, under Situation 0849 alone.
+  0849's algebra to an étale scheme chart.
 
 ## Implementation notes
 
-Nothing below carries a Stacks attribute.  The tag 01NN sits on the hypothesis-carrying
-`AlgebraicGeometry.Space.relativeProjChartAlgebra` and
-`AlgebraicGeometry.Space.relativeProjChartSituation`, and these are the same constructions with
-one hypothesis supplied, so they state no new tag; the attribute on the originals describes the
-construction, not the hypothesis.
-
-The homogeneous pieces are unchanged, so every `piece` identity of the originals transports by
-`rfl`, and the statements below are definitionally the originals at the supplied hypothesis.
+Nothing below carries a Stacks attribute: these are the constructions
+`AlgebraicGeometry.Space.relativeProjChartAlgebra`,
+`AlgebraicGeometry.Space.relativeProjChartSheafAlgebra` and
+`AlgebraicGeometry.Space.relativeProjChartSituation`, which carry the tag 01NN, under the names
+their consumers use.  The homogeneous pieces are unchanged, so every `piece` identity transports
+by `rfl`.
 
 ## References
 
@@ -77,24 +59,19 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 /-- **The Zariski restriction to an étale scheme chart of a homogeneous piece which is
 quasi-coherent on the small étale site is quasi-coherent.**
 
-This is the hypothesis `hqc` of `AlgebraicGeometry.Space.relativeProjChartAlgebra`, supplied from
-quasi-coherence of the pieces of `𝒜` on the small étale site of `X` — which is the form
-Situation 0849 carries it in — by the étale-to-Zariski direction of Descent, Stacks 03DX, that is
-by `AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme`. -/
+This is the étale-to-Zariski direction of Descent, Stacks 03DX, in the form
+`AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme`, read for a homogeneous piece. -/
 theorem isQuasicoherent_restrictToChartScheme_piece {X : AlgebraicSpaces B S hS}
     (A : SheafOfModules.GradedAlgebra (structureRingSheaf B S hS X))
     (hA : ∀ n : ℤ, (A.piece n).IsQuasicoherentOnSite) (V : SmallEtale B S hS X.1) (n : ℤ) :
     (restrictToChartScheme B S hS X.1 X.2 (A.piece n) V).IsQuasicoherent :=
   isQuasicoherent_restrictToChartScheme B S hS X (A.piece n) (hA n) V
 
-/-! ### The chart restriction without a quasi-coherence hypothesis -/
+/-! ### The chart restriction -/
 
 /-- **The restriction of a graded algebra on an algebraic space to an étale scheme chart**, for a
 graded algebra whose homogeneous pieces are quasi-coherent on the small étale site: Situation
-01NN on the chart, with no quasi-coherence hypothesis on the Zariski restrictions.
-
-This is `AlgebraicGeometry.Space.relativeProjChartAlgebra` with its `hqc` supplied by
-`AlgebraicGeometry.Space.isQuasicoherent_restrictToChartScheme_piece`. -/
+01NN on the chart.  This is `AlgebraicGeometry.Space.relativeProjChartAlgebra`. -/
 def relativeProjChartAlgebraOfQc {X : AlgebraicSpaces B S hS}
     (A : SheafOfModules.GradedAlgebra (structureRingSheaf B S hS X))
     (V : SmallEtale B S hS X.1)
@@ -104,11 +81,10 @@ def relativeProjChartAlgebraOfQc {X : AlgebraicSpaces B S hS}
       (y : (A.piece n).val.obj W), y = 0)
     (hA : ∀ n : ℤ, (A.piece n).IsQuasicoherentOnSite) :
     SheafGradedAlgebra (chartScheme V) :=
-  relativeProjChartAlgebra A V hcomm hneg
-    (isQuasicoherent_restrictToChartScheme_piece B S hS A hA V)
+  relativeProjChartAlgebra A V hcomm hneg hA
 
 /-- The homogeneous pieces of the chart restriction are the module restrictions of the pieces of
-`𝒜`, as for the hypothesis-carrying form. -/
+`𝒜`. -/
 theorem relativeProjChartAlgebraOfQc_piece {X : AlgebraicSpaces B S hS}
     (A : SheafOfModules.GradedAlgebra (structureRingSheaf B S hS X))
     (V : SmallEtale B S hS X.1)
@@ -128,12 +104,9 @@ variable (s : RelativeProjSituation.{u, u}) (V : SmallEtale s.site s.base s.cont
 /-- **The restriction of Situation 0849's graded algebra to an étale scheme chart**, under
 Situation 0849 alone: Situation 01NN on the chart, with no hypothesis beyond the situation.
 
-This is `AlgebraicGeometry.Space.relativeProjChartSheafAlgebra` with its `hqc` supplied from the
-situation's own `isQuasicoherent` field. -/
+This is `AlgebraicGeometry.Space.relativeProjChartSheafAlgebra`. -/
 def relativeProjChartSheafAlgebraOfSituation : SheafGradedAlgebra (chartScheme V) :=
   relativeProjChartSheafAlgebra s V
-    (isQuasicoherent_restrictToChartScheme_piece s.site s.base s.containsBase s.algebra
-      s.isQuasicoherent V)
 
 /-- The homogeneous pieces of that restriction are the module restrictions of the pieces of
 `𝒜`. -/
@@ -146,12 +119,9 @@ theorem relativeProjChartSheafAlgebraOfSituation_piece (n : ℤ) :
 /-- **The relative Proj situation of Stacks 01NN carried on an étale scheme chart by the
 restriction of Situation 0849's algebra**, under Situation 0849 alone.
 
-This is `AlgebraicGeometry.Space.relativeProjChartSituation` with its `hqc` supplied from the
-situation's own `isQuasicoherent` field. -/
+This is `AlgebraicGeometry.Space.relativeProjChartSituation`. -/
 def relativeProjChartSituationOfSituation : Stacks.RelativeProj.Situation.{u} :=
   relativeProjChartSituation s V
-    (isQuasicoherent_restrictToChartScheme_piece s.site s.base s.containsBase s.algebra
-      s.isQuasicoherent V)
 
 /-- The base of that situation is the scheme underlying the chart. -/
 theorem relativeProjChartSituationOfSituation_base :

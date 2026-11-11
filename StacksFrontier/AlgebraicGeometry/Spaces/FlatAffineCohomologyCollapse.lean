@@ -71,10 +71,12 @@ theorem acyclicPushforwardOfInjective_of_isFlat (f : X ⟶ Y) (hf : IsFlat B S h
 
 /-- Let `f : X ⟶ Y` be a flat affine morphism of algebraic spaces over `S` and `𝓕` a
 quasi-coherent `𝒪_X`-module. Then for every `i` the `i`-th right derived functor of `Γ(Y, f_*−)`
-at `𝓕` is isomorphic to the `i`-th cohomology of `f_*𝓕` on `Y`. -/
-@[stacks 0D2U "for a FLAT affine morphism, with both of 0D2U's hypotheses discharged;
-  flatness is not the source's hypothesis and is used only to reach 072Z's conclusion
-  through 0730 instead -- see the notes"]
+at `𝓕` is isomorphic to the `i`-th cohomology of `f_*𝓕` on `Y`.
+
+Here the acyclicity of the direct image of an injective module is reached through Stacks 0730;
+it holds without flatness (`AlgebraicGeometry.Space.acyclicPushforwardOfInjective`), and the
+isomorphism for any affine morphism is `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom`
+(Stacks 0D2U). -/
 def cohomologyCollapseIsoOfIsFlatOfIsAffineHom (f : X ⟶ Y) (haff : IsAffineHom B S hS f.hom)
     (hflat : IsFlat B S hS f.hom) (F : Modules.{u, u} B S hS X.1 X.2)
     (hF : F.IsQuasicoherentOnSite) (i : ℕ) :
@@ -85,7 +87,7 @@ def cohomologyCollapseIsoOfIsFlatOfIsAffineHom (f : X ⟶ Y) (haff : IsAffineHom
       ((globalSectionsFunctor.{u + 1, u, u, u}
           (ringSheaf (smallEtaleRingedSite B S hS Y.1 Y.2).O)).rightDerived i).obj
         ((modulePushforward B S hS f).obj F)) :=
-  cohomologyCollapseIsoOfIsAffineHom B S hS f haff F
+  cohomologyCollapseIsoOfIsAffineHomOfChartwise B S hS f haff F
     (fun n hn => chartwiseIsZeroHigherDirectImage_of_isAffineHom B S hS f haff
       (relativelyRepresentable_of_isAffineHom B S hS f haff) F hF n hn)
     (acyclicPushforwardOfInjective_of_isFlat B S hS f hflat) i

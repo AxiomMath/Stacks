@@ -5,7 +5,6 @@ public import StacksFrontier.Algebra.Homology.DerivedCategory.CochainComplexPlus
 public import StacksFrontier.Algebra.Homology.DerivedCategory.PlusCoproducts
 public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmallEtaleModuleDerivedFunctors
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.CompactObjects.ExtensionByZeroIsCompact
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Derived direct image and direct sums bounded below
@@ -27,27 +26,35 @@ comparison of the two cofans is an isomorphism.
 * `Stacks.EtaleCohomology.preservesColimit_rightDerivedFunctorPlus_of_isGE` — the statement for
   an arbitrary left exact functor between Grothendieck abelian categories, with the vanishing
   input as a hypothesis.
-* `Stacks.EtaleCohomology.preservesColimit_etaleModuleDerivedDirectImage_of_isGE` — **the tag**,
-  for the derived direct image of sheaves of `Λ`-modules on small étale sites.
+* `Stacks.EtaleCohomology.preservesColimit_etaleModuleDerivedDirectImage_of_isGE` — the same
+  for the bounded below derived direct image of sheaves of `Λ`-modules on small étale sites,
+  given that every `R^q f_*` commutes with the direct sum.
+
+The tag itself, for abelian sheaves and the unbounded `Rf_*`, is
+`Stacks.EtaleCohomology.preservesColimit_etaleAbelianDerivedDirectImage_of_isGE`; the
+`Λ`-module statement with no hypothesis beyond the source's is
+`Stacks.EtaleCohomology.preservesColimit_etaleModuleDerivedDirectImage_of_isGE_univ`.
 
 ## Implementation notes
 
-*The one input that is carried rather than used.* That the ordinary higher direct images
-`R^q f_*` on the small étale site commute with direct sums is [Stacks, Tag 09Z1]. It is not
-proved in this repository, so it appears as the hypothesis `hsums`, in the shape in which the
-source cites it. Nothing else is assumed.
+*The input on higher direct images.* That the ordinary higher direct images `R^q f_*` on the
+small étale site commute with direct sums is [Stacks, Tag 09Z1]. It is an argument `hsums` of the
+statements here, which sit below its proof in the import order: for sheaves of `Λ`-modules along
+a quasi-compact and quasi-separated morphism it is
+`Stacks.EtaleCohomology.preservesColimitsOfShape_discrete_rightDerived_etaleModuleDirectImage_univ`,
+and `preservesColimit_etaleModuleDerivedDirectImage_of_isGE_univ` feeds it in.
 
 *Bounded below.* The source states the lemma in `D(X_étale)`, but its hypothesis
 `H^n(K_i) = 0` for `n < a` places every `K_i`, and hence their direct sum, in `D⁺(X_étale)`. The
 statement here is therefore read on `D⁺` and for the bounded below derived direct image
-`Stacks.EtaleCohomology.etaleModuleDerivedDirectImage`, which is the only `Rf_*` on the small
-étale site this repository has and which is the shape its consumer needs: the hypothesis
+`Stacks.EtaleCohomology.etaleModuleDerivedDirectImage`, which is the shape its consumer needs:
+the hypothesis
 `hProper` of
 `Stacks.EtaleCohomology.DerivedUpperShriek.preservesColimit_derivedLowerShriek_of_isGE`, which
 is [Stacks, Tag 0G29] (1) and cites this tag for it.
 
 *Coefficients.* The source's `D(X_étale)` is the derived category of abelian sheaves, the case
-`Λ = ℤ`; the statement below is for an arbitrary ring `Λ`, which contains it.
+`Λ = ℤ`; the statement below is for an arbitrary ring `Λ`.
 
 *Direct sums.* "Commutes with direct sums" is
 `CategoryTheory.Limits.PreservesColimit` for a discrete diagram: the image of a coproduct cocone
@@ -285,34 +292,26 @@ section Etale
 
 variable (Λ : Type r) [Ring Λ]
 
-/-- **[Stacks, Tag 0GIW].** Let `Λ` be a ring, let `f : X ⟶ Y` be a quasi-compact and
-quasi-separated morphism of schemes, let `K : I → D⁺(X_étale, Λ)` be a family of objects and
-let `a : ℤ` be such that `H^n(K i) = 0` for `n < a` and all `i`, that is `(K i).IsGE a`. Then
-`Rf_*(⨁ i, K i) = ⨁ i, Rf_*(K i)`.
+/-- **Bounded below derived direct images of sheaves of `Λ`-modules commute with direct sums of
+a family with a common lower bound, given [Stacks, Tag 09Z1].** Let `Λ` be a ring, let
+`f : X ⟶ Y` be a quasi-compact and quasi-separated morphism of schemes, let
+`K : I → D⁺(X_étale, Λ)` be a family of objects and let `a : ℤ` be such that `H^n(K i) = 0` for
+`n < a` and all `i`, that is `(K i).IsGE a`. If each ordinary higher direct image `R^q f_*`
+commutes with the direct sum (`hsums`), then `Rf_*(⨁ i, K i) = ⨁ i, Rf_*(K i)`.
 
-The one input that is carried rather than used is `hsums`: that each ordinary higher direct
-image `R^q f_*` on the small étale site commutes with the direct sum. That is
-[Stacks, Tag 09Z1], which is not proved in this repository, so it appears here as a hypothesis,
-in the shape in which the source cites it. Nothing else is assumed: that `f_*` itself commutes
-with the direct sum is *proved* from `hsums` at `q = 0`, and the rest of the argument of the
-source — the injective resolutions bounded below by `a` of [Stacks, Tag 07D9], the right
+The argument `hsums` is [Stacks, Tag 09Z1], proved downstream as
+`preservesColimitsOfShape_discrete_rightDerived_etaleModuleDirectImage_univ`; the statement
+without it is `preservesColimit_etaleModuleDerivedDirectImage_of_isGE_univ`. That `f_*` itself
+commutes with the direct sum follows from `hsums` at `q = 0`, and the rest of the argument of
+the source — the injective resolutions bounded below by `a` of [Stacks, Tag 07D9], the right
 acyclicity of their termwise direct sum, and Leray's acyclicity lemma [Stacks, Tag 015E]
-identifying `Rf_*` with the termwise image on each of them — is proved.
+identifying `Rf_*` with the termwise image on each of them — is proved here.
 
-Quasi-compactness and quasi-separatedness of `f` are the hypotheses under which the source's
-proof invokes [Stacks, Tag 09Z1]; they are carried here even though the argument consumes them
-only through `hsums`, so that the statement is the source's.
+Quasi-compactness and quasi-separatedness of `f` are the hypotheses under which [Stacks,
+Tag 09Z1] holds; the argument here consumes them only through `hsums`.
 
-The source states the lemma in `D(X_étale)`; its hypothesis places every `K_i` in `D⁺`, and the
-module docstring records why the statement is read there, why the coefficients are an arbitrary
-ring, and why the index universe is `max (u + 1) r`. -/
-@[stacks 0GIW "Rf_*(⨁ K_i) = ⨁ Rf_* K_i for a family of D⁺(X_étale, Λ) with common lower bound
-a. Tag 09Z1, that each R^q f_* on the small étale site commutes with direct sums, is carried as
-the hypothesis `hsums`, since it is not proved in this library; everything
-else the source cites is proved. The index type lies in Type (max (u+1) r), the universe at
-which the sheaves of Λ-modules on the small étale sites are Grothendieck abelian: the termwise
-direct sum of the resolutions is formed inside those categories, so the index universe and the
-Grothendieck universe are the same. For Λ a general ring."]
+The module docstring records why the statement is read on `D⁺`, and why the index universe is
+`max (u + 1) r`. -/
 theorem preservesColimit_etaleModuleDerivedDirectImage_of_isGE
     {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f] [QuasiSeparated f]
     {I : Type (max (u + 1) r)}

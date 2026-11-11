@@ -229,7 +229,15 @@ successive quotients are of the form `M_T` for finite `Λ`-modules `M`.
 
 The filtration is a chain of subobjects of `f⁻¹F` running from the zero subobject to the whole
 sheaf, each step having the constant sheaf of a finite `Λ`-module as its quotient. The degree of
-`f` is the rank of the finite locally free morphism `f` (Tag 02KA). -/
+`f` is the rank of the finite locally free morphism `f` (Tag 02KA).
+
+The proof is the source's: `F` is trivialized by a pointed Galois cover `A` of `S`
+(`AlgebraicGeometry.trivializedByPointedGaloisCovers`, the input Tag 0GIY provides), `T` is the
+quotient of `A` by an `ℓ`-Sylow subgroup `H` of its automorphism group, and the filtration of the
+sections of `F` over `A` by `Λ[H]`-submodules (Tag 0GIZ) descends along `A → T`. It needs no
+monodromy dictionary, unlike
+`Stacks.EtaleCohomology.exists_primeToEll_finiteEtale_finiteModuleFiltration`, which reads the
+same proof through a `FiniteModuleMonodromyDictionary`. -/
 @[stacks 0GJ0]
 theorem exists_primeToEll_finiteEtale_finiteModuleFiltration_general {ℓ n : ℕ} (hℓ : ℓ.Prime)
     (_hn : 1 ≤ n) {Λ : Type v} [CommRing Λ] [IsNoetherianRing Λ]

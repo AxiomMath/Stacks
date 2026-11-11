@@ -33,6 +33,8 @@ public import StacksFrontier.Algebra.Homology.DerivedCategory.Ext.Basic.YonedaCl
 * `DerivedCategory.bijective_homologyFunctor_shiftMap_of_isLE_of_isGE`: taking homology in
   degree `a` is a bijection `Ext^n_𝒜(X, Y) → Hom_𝒜(H^a(X), H^{a'}(Y))` when `X` lives in
   degrees `≤ a`, `Y` in degrees `≥ b`, and `n + a = a' ≤ b`.
+* `DerivedCategory.zExt_subsingleton_of_neg_and_bijective_mk₀`: for objects `A`, `B` of `𝒜`,
+  `Ext^i_𝒜(B, A) = 0` for `i < 0` and `Ext^0_𝒜(B, A) = Hom_𝒜(B, A)`.
 
 ## References
 
@@ -567,7 +569,7 @@ homology in degree `a`,
 is bijective. For `a' < b` the target is the zero group, so this says that
 `Ext^n_𝒜(X, Y) = 0` for `n < b - a`; for `a' = b` it is the identification
 `Ext^{b - a}_𝒜(X, Y) = Hom_𝒜(H^a(X), H^b(Y))`. -/
-@[stacks 06XS]
+@[stacks 06XS "(1)"]
 public theorem bijective_homologyFunctor_shiftMap_of_isLE_of_isGE
     (X Y : DerivedCategory C) (a b n a' : ℤ) [X.IsLE a] [Y.IsGE b]
     (ha' : n + a = a') (hab : a' ≤ b) :
@@ -588,6 +590,26 @@ public theorem bijective_homologyFunctor_shiftMap_of_isLE_of_isGE
   rw [key]
   exact (bijective_comp_right (((homologyFunctor C 0).shiftIso n a a' ha').hom.app Y)).comp
     (bijective_homologyFunctor_map_of_isLE_of_isGE X (Y⟦n⟧) a)
+
+/-- Let `𝒜` be an abelian category and let `A`, `B` be objects of `𝒜`. For `i < 0` we have
+`Ext^i_𝒜(B, A) = 0`, and `Ext^0_𝒜(B, A) = Hom_𝒜(B, A)`: the map sending `f : B ⟶ A` to the
+class of `f[0] : B[0] ⟶ A[0]` in `Ext^0_𝒜(B, A)` is bijective. Here
+`Ext^i_𝒜(B, A) = Hom_{D(𝒜)}(B[0], A[0]⟦i⟧)` is `CategoryTheory.Abelian.zExt B A i`.
+
+The vanishing is the case `X = B[0]`, `Y = A[0]`, `a = b = 0` of
+`bijective_homologyFunctor_shiftMap_of_isLE_of_isGE`, whose target `Hom_𝒜(B, H^i(A[0]))` is
+zero for `i < 0`; the degree-zero statement is the full faithfulness of `𝒜 ⥤ D(𝒜)`. -/
+@[stacks 06XS "(2)"]
+public theorem zExt_subsingleton_of_neg_and_bijective_mk₀ (B A : C) :
+    (∀ i < 0, Subsingleton (Abelian.zExt B A i)) ∧
+      Function.Bijective (fun f : B ⟶ A ↦
+        (ShiftedHom.mk₀ (0 : ℤ) rfl ((singleFunctor C 0).map f) : Abelian.zExt B A 0)) := by
+  refine ⟨fun i hi ↦ ⟨fun f g ↦ ?_⟩, ?_⟩
+  · have hZ := isZero_of_isGE ((singleFunctor C 0).obj A) 0 i hi
+    exact (bijective_homologyFunctor_shiftMap_of_isLE_of_isGE ((singleFunctor C 0).obj B)
+      ((singleFunctor C 0).obj A) 0 0 i i (add_zero i) hi.le).1 (hZ.eq_of_tgt _ _)
+  · exact (ShiftedHom.homEquiv (0 : ℤ) rfl).bijective.comp
+      ((Functor.FullyFaithful.ofFullyFaithful (singleFunctor C 0)).map_bijective B A)
 
 end
 

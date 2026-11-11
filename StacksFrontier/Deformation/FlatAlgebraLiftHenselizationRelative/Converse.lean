@@ -18,7 +18,8 @@ import all StacksFrontier.Deformation.FlatAlgebraLiftHenselization
 hypothesis discharged by `Deformation.flatModuleLiftBaseChangeStatementAt_of_sq_zero`. A
 square-zero kernel is what a small extension of Artinian local rings supplies, which is the only
 case the smoothness criterion of Stacks 0DYP consumes; so this is the form in which Stacks 0DZD
-uses Stacks 0DZB. Stacks 0DZB itself says `nilpotent kernel`, and that case stays open.
+uses Stacks 0DZB. Stacks 0DZB itself says `nilpotent kernel`; that case is
+`Deformation.hasFlatAlgebraLift_iff_hasFlatAlgebraLift_henselization`.
 
 ## Main results
 

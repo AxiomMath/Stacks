@@ -27,20 +27,20 @@ is an isomorphism, and Stacks 0DAC is the same assertion for a hypercovering `U 
 a simplicial object of `C`, read as a hypercovering by semi-representable objects with one
 summand in each degree.
 
-The source's proof is a reduction to abelian sheaves: since `a⁻¹O_X = O` one has
-`La^* = a^* = a⁻¹`, the derived direct image of modules agrees with that of abelian sheaves by
-Stacks 0D6J, and the assertion becomes its abelian counterpart Stacks 0D8L. The same reduction is
-made here, at the one place where it is needed: the map is the derived unit of `La^* ⊣ Ra_*`,
-which is invertible as soon as the underived unit `M ⟶ a_*a^*M` is invertible (Stacks 0DA4) and
-`a^*` of a K-injective complex `I` of `O_X`-modules computes `Ra_*`
-(`AlgebraicGeometry.RingedToposHom.isIso_derivedPullbackPushforwardUnit`). For the second
-input, forgetting the module structure is exact and reflects isomorphisms, it carries `a_*` to
-the direct image of abelian sheaves along the localization functor `j_total` and `a^*` to
-restriction along `j_total`; the underlying abelian complex of a K-injective complex of
-`O`-modules computes the abelian `Ra_*` by Stacks 0D6J for the cocontinuous functor `j_total`;
-and the comparison `a_* ⟶ Ra_*` is invertible at `a⁻¹` of *every* complex of abelian sheaves on
-`C/X`, because there it is the abelian derived unit of Stacks 0D8L composed with the inverse of
-the underived unit of Stacks 0D8K.
+The source's proof is a reduction to abelian sheaves: since `a⁻¹O_X = O` one has `La^* = a^* = a⁻¹`,
+the derived direct image of modules agrees with that of abelian sheaves by Stacks 0D6J, and the
+assertion becomes its abelian counterpart Stacks 0D8L. The same reduction is made here, at the one
+place where it is needed: the map is the derived unit of `La^* ⊣ Ra_*`, which by
+`AlgebraicGeometry.RingedToposHom.isIso_derivedPullbackPushforwardUnit` is invertible as soon as the
+underived unit `M ⟶ a_*a^*M` is invertible and `a^*` of a K-injective complex `I` of `O_X`-modules
+computes `Ra_*`. The first input is Stacks 0DA4 (`isIso_pullbackAdjPushforwardModules_unit_over`).
+For the second input, forgetting the module structure is exact and reflects isomorphisms, it carries
+`a_*` to the direct image of abelian sheaves along the localization functor `j_total` and `a^*` to
+restriction along `j_total`; the underlying abelian complex of a K-injective complex of `O`-modules
+computes the abelian `Ra_*` by Stacks 0D6J for the cocontinuous functor `j_total`; and the
+comparison `a_* ⟶ Ra_*` is invertible at `a⁻¹` of *every* complex of abelian sheaves on `C/X`,
+because there it is the abelian derived unit of Stacks 0D8L composed with the inverse of the
+underived unit of Stacks 0D8K.
 
 ## Main definitions
 
@@ -259,8 +259,19 @@ augmentation of Stacks 0D9X, the canonical map
 `E ⟶ R a_* L a^* E`
 
 is an isomorphism for every object `E` of the unbounded derived category `D(O_X)` of sheaves of
-`O_X`-modules. -/
-@[stacks 0DA5]
+`O_X`-modules. Nothing is assumed beyond the hypercovering conditions on `K`: both inputs of the
+reduction `AlgebraicGeometry.RingedToposHom.isIso_derivedPullbackPushforwardUnit` are proved
+here from `hK`: the underived unit `M ⟶ a_*a^*M` by Stacks 0DA4
+(`isIso_pullbackAdjPushforwardModules_unit_over`), and the acyclicity of `a^*` of a K-injective
+complex by `pullbackComputesDerivedPushforward_of_isHypercovering`, which consumes the
+hypercovering conditions through Stacks 0D8L and 0D8K. In particular this is not the conditional
+`isIso_derivedPullbackPushforwardUnit_app_of_hypercovering_over` (in the namespace
+`Stacks.CategoryTheory.Hypercovering`), which takes those two inputs as hypotheses and does not
+use `hK`; that declaration carries no tag.
+A hypercovering of `X` is, as in the source, a simplicial semi-representable object over `X`
+(`IsHypercovering`), and the rings are commutative, following the Stacks convention. -/
+@[stacks 0DA5 "for a site with fibre products, a sheaf of rings and a hypercovering K of an \
+object X, the map E -> Ra_*La^*E is an isomorphism for every E in the unbounded D(O_X)"]
 theorem isIso_derivedPullbackPushforwardUnit_app_of_isHypercovering (hK : IsHypercovering P K)
     (E : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf
       (J := (hypercoveringObjectRingedAugmentation P K OC).augmentationRingedTopos.J))

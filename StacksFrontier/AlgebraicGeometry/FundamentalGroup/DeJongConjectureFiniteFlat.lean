@@ -66,7 +66,8 @@ image on `π₁(X_k̄)`), that `ρ₀|_{π₁(X_k̄)}` is absolutely irreducible
 every continuous character `δ : π₁(X) → ℤ_ℓ^*`, the universal deformation ring `R` of `ρ₀` with
 determinant fixed to `δ` (`δ` lifts `det ρ₀`, a field of the universal property) is finite and
 flat over `ℤ_ℓ`. -/
-@[stacks 03W1]
+@[stacks 03W1 "the theorem in full, with the determinant fixed to delta: the universal \
+deformation ring is finite and flat over Z_l"]
 theorem finite_flat_of_isUniversalFixedDeterminantDeformation
     (k kbar : Type u) [Field k] [Finite k] [Field kbar] [Algebra k kbar] [IsAlgClosure k kbar]
     (p ℓ n : ℕ) [CharP k p] [Fact ℓ.Prime] (hℓp : ℓ ≠ p) (hn : ¬ ℓ ∣ n)

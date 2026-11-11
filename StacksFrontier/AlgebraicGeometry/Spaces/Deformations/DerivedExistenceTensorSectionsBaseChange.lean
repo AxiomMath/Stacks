@@ -12,15 +12,16 @@ projection) is an isomorphism, and `M` is pseudo-coherent.
 
 ## Main definitions
 
-* `DerivedExistenceSystem.stageTensorSectionsBaseChange`: the canonical map `cₙ`.
+* `SeparatedDerivedExistenceSystem.stageTensorSectionsBaseChange`: the canonical map `cₙ`.
 
 ## Main results
 
-* `DerivedExistenceSystem.isIso_stageTensorSectionsBaseChange`: `cₙ` is an isomorphism for `E`
+* `SeparatedDerivedExistenceSystem.isIso_stageTensorSectionsBaseChange`: `cₙ` is an isomorphism for
+  `E`
   perfect.
-* `DerivedExistenceSystem.isIso_stageSections_map_tensor_coheratorLimitPullbackMap`:
+* `SeparatedDerivedExistenceSystem.isIso_stageSections_map_tensor_coheratorLimitPullbackMap`:
   `RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` is invertible for `E` perfect.
-* `DerivedExistenceSystem.isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`:
+* `SeparatedDerivedExistenceSystem.isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange`:
   [Stacks, Tag 0DIM].
 
 ## References
@@ -156,9 +157,9 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.ModulesOnACategory.ChaoticComparison.sheafOfModules_hasDerivedCategory
 attribute [local instance] HasDerivedCategory.standard SheafOfModules.instAbelian
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- **The shift structure of `Ψ = RΓ(X, E ⊗^L -)`**, composed from those of `E ⊗^L -`, `Rf_*`
 and `RΓ(Spec A, -)`. -/
@@ -282,7 +283,7 @@ theorem homEquiv_stageTensorSectionsBaseChange (E : smallEtaleToposDerivedCatego
     (D.smallEtaleDerivedModuleAdjunction_homEquiv_coheratorLimitPullbackMap DQ adj n)
 
 /-- **`cₙ` is an isomorphism** for `E` perfect ([Stacks, Tag 0DIM], second half). -/
-theorem isIso_stageTensorSectionsBaseChange
+theorem isIso_stageTensorSectionsBaseChange (hpc : D.StageSectionsPseudoCoherent)
     (E : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left)
     (hE : spaceIsPerfect D.B (limitBase D.system) D.containsLimitBase D.X.left E) (n : ℕ) :
     IsIso (D.stageTensorSectionsBaseChange DQ adj E n) := by
@@ -297,7 +298,7 @@ theorem isIso_stageTensorSectionsBaseChange
     (D.limitTensorSections E) D.spaceTower D.derivedLimit D.derivedLimitToProduct
     D.exists_distTriang_derivedLimitToProduct
   have hq := qcohDerived_of_isPerfect _ _ _ _ _ hE
-  have hc := (D.isPseudoCoherent_and_isIso_of_distTriang E hE
+  have hc := (D.isPseudoCoherent_and_isIso_of_distTriang E hpc hE
     (fun n ↦ (D.limitTensorSections E).obj (D.spaceTower.obj ⟨n⟩))
     (fun n ↦ (D.limitTensorSections E).map (D.spaceTower.map (homOfLE (Nat.le_succ n)).op))
     (fun n ↦ D.towerTensorSectionsHom E n) (he' := fun n ↦ D.isIso_towerTensorSectionsHom E hq n)
@@ -322,7 +323,8 @@ theorem isIso_stageTensorSectionsBaseChange
 /-- **`RΓ_{Aₙ}(Xₙ, Lpₙ^*E ⊗^L τₙ)` is invertible** for `E` perfect: `cₙ` is, and so is its
 first factor, the base change map of `RΓ` along `Spec Aₙ ⟶ Spec A` (`X` is flat over `A`, so
 `X` and `Spec Aₙ` are Tor independent over `Spec A`). -/
-theorem isIso_stageSections_map_tensor_coheratorLimitPullbackMap (n : ℕ)
+theorem isIso_stageSections_map_tensor_coheratorLimitPullbackMap
+    (hpc : D.StageSectionsPseudoCoherent) (n : ℕ)
     (E : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left)
     (hE : spaceIsPerfect D.B (limitBase D.system) D.containsLimitBase D.X.left E) :
     IsIso ((derivedModulePushforward D.B (limitBase D.system) D.containsLimitBase
@@ -334,7 +336,7 @@ theorem isIso_stageSections_map_tensor_coheratorLimitPullbackMap (n : ℕ)
   have hq := qcohDerived_of_isPerfect _ _ _ _ _ hE
   exact Stacks.CategoryTheory.TowerStep.isIso_map_of_isIso_baseChangeTensorRight
     _ _ _ _ _ _ _ _
-    (D.isIso_stageTensorSectionsBaseChange DQ adj E hE n)
+    (D.isIso_stageTensorSectionsBaseChange DQ adj hpc E hE n)
     (isIso_affineBaseDerivedSectionsBaseChangeMap D.B (limitBase D.system) D.containsLimitBase
       (baseObjectProjection D.system D.B D.containsLimitBase D.containsBaseAt n) D.X.hom
       (spaceBaseProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
@@ -346,6 +348,31 @@ theorem isIso_stageSections_map_tensor_coheratorLimitPullbackMap (n : ℕ)
     (Iso.isIso_hom _)
 
 end Coherator
+
+/-- **[Stacks, Tag 0DIM], for `X` only separated over `A`, given the pseudo-coherence of the
+`Mₙ`.** In the situation of `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem` let `K =
+DQ_X(R lim Kₙ)` be the object of
+[Stacks, Tag 0DIL] and `E` a perfect object of `D(𝒪_X)`. Then `M = RΓ(X, E ⊗^L K)` is a
+pseudo-coherent object of `D(A)`, and for every `n` the canonical map
+`cₙ : M ⊗^L_A Aₙ ⟶ RΓ(Xₙ, Lpₙ^*E ⊗^L Kₙ)` (the base change map of `RΓ`, then Stacks 07A4 and
+`Lpₙ^*E ⊗^L τₙ`, with `τₙ : Lpₙ^*K ⟶ Kₙ` adjoint to the projection) is an isomorphism in
+`D(Aₙ)`. Here `K` is `D.quasicoherentLimit`, with `R lim Kₙ = D.derivedLimit` and `DQ_X` the
+right adjoint `D.coherator` of the inclusion `D_QCoh(𝒪_X) ⥤ D(𝒪_X)`. -/
+theorem isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange
+    (hpc : D.StageSectionsPseudoCoherent)
+    (E : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left)
+    (hE : spaceIsPerfect D.B (limitBase D.system) D.containsLimitBase D.X.left E) :
+    StacksDraft.PseudoCoherence.IsPseudoCoherent
+        ((D.limitTensorSections E).obj ((spaceQuasicoherentProp D.B (limitBase D.system)
+          D.containsLimitBase D.X.left).ι.obj D.quasicoherentLimit)) ∧
+      ∀ n : ℕ, IsIso (D.stageTensorSectionsBaseChange D.coherator D.coheratorAdjunction E n) := by
+  obtain ⟨h, hK⟩ := D.isDerivedLimit_quasicoherentLimit
+  exact ⟨D.isPseudoCoherent_limitTensorSections_of_isDerivedLimit hpc h _ hK E hE,
+    fun n ↦ D.isIso_stageTensorSectionsBaseChange D.coherator D.coheratorAdjunction hpc E hE n⟩
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
 
 /-- **[Stacks, Tag 0DIM].** In Situation 0DIK let `K = DQ_X(R lim Kₙ)` be the object of
 [Stacks, Tag 0DIL] and `E` a perfect object of `D(𝒪_X)`. Then `M = RΓ(X, E ⊗^L K)` is a
@@ -362,16 +389,16 @@ site containing Spec A and every Spec Aₙ, X proper, flat and of finite present
 pseudo-coherent Kₙ, and the comparison isomorphisms Liₙ^* Kₙ₊₁ ≅ Kₙ; no result is a field. \
 K = DQ_X(R lim Kₙ) is the object of 0DIL, built from the coherator (the right adjoint of \
 D_QCoh(𝒪_X) ⥤ D(𝒪_X)) and a derived limit, both constructed and not assumed"]
-theorem isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange
+theorem isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange (D : DerivedExistenceSystem.{u})
     (E : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left)
     (hE : spaceIsPerfect D.B (limitBase D.system) D.containsLimitBase D.X.left E) :
     StacksDraft.PseudoCoherence.IsPseudoCoherent
-        ((D.limitTensorSections E).obj ((spaceQuasicoherentProp D.B (limitBase D.system)
-          D.containsLimitBase D.X.left).ι.obj D.quasicoherentLimit)) ∧
-      ∀ n : ℕ, IsIso (D.stageTensorSectionsBaseChange D.coherator D.coheratorAdjunction E n) := by
-  obtain ⟨h, hK⟩ := D.isDerivedLimit_quasicoherentLimit
-  exact ⟨D.isPseudoCoherent_limitTensorSections_of_isDerivedLimit h _ hK E hE,
-    fun n ↦ D.isIso_stageTensorSectionsBaseChange D.coherator D.coheratorAdjunction E hE n⟩
+        ((D.toSeparated.limitTensorSections E).obj ((spaceQuasicoherentProp D.B (limitBase D.system)
+          D.containsLimitBase D.X.left).ι.obj D.toSeparated.quasicoherentLimit)) ∧
+      ∀ n : ℕ, IsIso (D.toSeparated.stageTensorSectionsBaseChange D.toSeparated.coherator
+        D.toSeparated.coheratorAdjunction E n) :=
+  D.toSeparated.isPseudoCoherent_and_isIso_stageTensorSectionsBaseChange
+    D.stageSectionsPseudoCoherent E hE
 
 end DerivedExistenceSystem
 

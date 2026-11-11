@@ -24,9 +24,11 @@ when the residue-field extension is separable.
   formal power series ring, given a finite generating family of the ideal of completion.
 * `AlgebraicGeometry.exists_powerSeries_quotient_ringEquiv_adicCompletion` gives the
   power-series presentation and records its action on residue fields.
-* `AlgebraicGeometry.exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable`
+* `AlgebraicGeometry.exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparableExtension`
   gives a presentation compatible with the ground-field maps when the residue extension is
-  separable.
+  separable in the sense of Stacks 030O;
+  `exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable` is its special
+  case for separable algebraic residue extensions.
 
 ## Implementation notes
 
@@ -185,10 +187,14 @@ theorem exists_powerSeries_quotient_ringEquiv_adicCompletion
   simpa only [RingHom.comp_apply, RingHom.id_apply] using
     congrArg (fun g => g (ρ a)) hs
 
-/-- If the residue field at the point is separable over the ground field, the power-series
-presentation of the completed local ring can be chosen to respect the ground-field maps. -/
-@[stacks 0C53 "separable ground-field compatibility"]
-theorem exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable
+/-- If the residue field at the point is separable over the ground field, in the sense of
+Stacks 030O (`Algebra.IsSeparableExtension`, which allows transcendental extensions), the
+power-series presentation of the completed local ring can be chosen to respect the ground-field
+maps, that is, to be an isomorphism of `k`-algebras inducing the identity on residue fields. -/
+@[stacks 0C53 "separable ground-field compatibility: separability is Stacks 030O
+(`Algebra.IsSeparableExtension`), and the `k`-algebra compatibility is stated as equality on
+elements of `k`"]
+theorem exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparableExtension
     (k : Type u) [Field k] (X : Scheme.{u}) (f : X ⟶ Spec (.of k))
     [IsLocallyNoetherian X] (x : X)
     (hsep :
@@ -196,7 +202,7 @@ theorem exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable
         ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.presheaf.germ ⊤ x trivial).hom
       letI : Algebra k (X.residueField x) :=
         ((X.residue x).hom.comp kToStalk).toAlgebra
-      Algebra.IsSeparable k (X.residueField x)) :
+      Algebra.IsSeparableExtension k (X.residueField x)) :
     let kToStalk : k →+* X.presheaf.stalk x :=
       ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.presheaf.germ ⊤ x trivial).hom
     let kToResidue : k →+* X.residueField x := (X.residue x).hom.comp kToStalk
@@ -226,7 +232,8 @@ theorem exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable
   let _ : Algebra k (ResidueField R) := kToResidue.toAlgebra
   let _ : Algebra k (ResidueField A) :=
     ((residue A).comp ((algebraMap R A).comp kToStalk)).toAlgebra
-  have : Algebra.IsSeparable k (ResidueField R) := hsep
+  have : Algebra.FormallySmooth k (ResidueField R) :=
+    ((Algebra.isSeparableExtension_of_charZero_and_tfae k (ResidueField R)).2.out 1 6).mp hsep
   let ρ : ResidueField R →+* ResidueField A :=
     ResidueField.map (algebraMap R A)
   let ρe : ResidueField R ≃+* ResidueField A :=
@@ -238,13 +245,9 @@ theorem exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable
         change ρ (residue R (kToStalk a)) =
           residue A (algebraMap R A (kToStalk a))
         exact ResidueField.map_residue (algebraMap R A) (kToStalk a) }
-  have : Algebra.IsSeparable k (ResidueField A) := AlgEquiv.Algebra.isSeparable ρa
-  have hsepExt : Algebra.IsSeparableExtension k (ResidueField A) := by
-    constructor
-    intro K' _
-    have : Algebra.IsSeparable k K' := Algebra.IsSeparable.of_algHom k _ K'.val
-    obtain ⟨s, hs⟩ := exists_isTranscendenceBasis k K'
-    exact ⟨s, hs, Algebra.isSeparable_tower_top_of_isSeparable k _ _⟩
+  have : Algebra.FormallySmooth k (ResidueField A) := Algebra.FormallySmooth.of_equiv ρa
+  have hsepExt : Algebra.IsSeparableExtension k (ResidueField A) :=
+    ((Algebra.isSeparableExtension_of_charZero_and_tfae k (ResidueField A)).2.out 1 6).mpr ‹_›
   obtain ⟨s, hs⟩ := exists_residueField_algHom_section (k := k) (A := A) hsepExt
   let t : ResidueField R →+* A := s.toRingHom.comp ρe.toRingHom
   have ht : Function.Surjective ((residue A).comp t) := by
@@ -267,6 +270,50 @@ theorem exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable
     change s (ρe (kToResidue a)) = algebraMap R A (kToStalk a)
     rw [show ρe (kToResidue a) = algebraMap k (ResidueField A) a from ρa.commutes a]
     exact s.commutes a
+
+/-- If the residue field at the point is separable algebraic over the ground field
+(Mathlib's `Algebra.IsSeparable`), the power-series presentation of the completed local ring can
+be chosen to respect the ground-field maps. This is the special case of
+`exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparableExtension` for algebraic
+separable residue extensions. -/
+theorem exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparable
+    (k : Type u) [Field k] (X : Scheme.{u}) (f : X ⟶ Spec (.of k))
+    [IsLocallyNoetherian X] (x : X)
+    (hsep :
+      let kToStalk : k →+* X.presheaf.stalk x :=
+        ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.presheaf.germ ⊤ x trivial).hom
+      letI : Algebra k (X.residueField x) :=
+        ((X.residue x).hom.comp kToStalk).toAlgebra
+      Algebra.IsSeparable k (X.residueField x)) :
+    let kToStalk : k →+* X.presheaf.stalk x :=
+      ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.presheaf.germ ⊤ x trivial).hom
+    let kToResidue : k →+* X.residueField x := (X.residue x).hom.comp kToStalk
+    ∃ (n : ℕ) (I : Ideal (MvPowerSeries (Fin n) (X.residueField x)))
+      (e : (MvPowerSeries (Fin n) (X.residueField x) ⧸ I) ≃+*
+        AdicCompletion (maximalIdeal (X.presheaf.stalk x)) (X.presheaf.stalk x)),
+      (∀ a : X.residueField x,
+        residue (AdicCompletion (maximalIdeal (X.presheaf.stalk x))
+            (X.presheaf.stalk x))
+            (e (Ideal.Quotient.mk I (MvPowerSeries.C a))) =
+          IsLocalRing.ResidueField.map
+            (algebraMap (X.presheaf.stalk x)
+              (AdicCompletion (maximalIdeal (X.presheaf.stalk x))
+                (X.presheaf.stalk x))) a) ∧
+      (∀ a : k,
+        e (Ideal.Quotient.mk I (MvPowerSeries.C (kToResidue a))) =
+          algebraMap (X.presheaf.stalk x)
+            (AdicCompletion (maximalIdeal (X.presheaf.stalk x))
+              (X.presheaf.stalk x)) (kToStalk a)) := by
+  let kToStalk : k →+* X.presheaf.stalk x :=
+    ((Scheme.ΓSpecIso (.of k)).inv ≫ f.appTop ≫ X.presheaf.germ ⊤ x trivial).hom
+  let _ : Algebra k (X.residueField x) := ((X.residue x).hom.comp kToStalk).toAlgebra
+  have : Algebra.IsSeparable k (X.residueField x) := hsep
+  refine exists_powerSeries_quotient_ringEquiv_adicCompletion_of_isSeparableExtension k X f x ?_
+  constructor
+  intro K' _
+  have : Algebra.IsSeparable k K' := Algebra.IsSeparable.of_algHom k _ K'.val
+  obtain ⟨s, hs⟩ := exists_isTranscendenceBasis k K'
+  exact ⟨s, hs, Algebra.isSeparable_tower_top_of_isSeparable k _ _⟩
 
 end AlgebraicGeometry
 

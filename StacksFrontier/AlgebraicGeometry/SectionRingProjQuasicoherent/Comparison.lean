@@ -11,19 +11,26 @@ In the situation of Stacks Tag 01QH — `X` a scheme, `L` an ample invertible `�
 morphism `M̃ ⟶ f_* ℱ` on `Proj S`, functorial in `ℱ`. Stacks Tag 01QJ asserts that the
 transposed morphism `f^* M̃ ⟶ ℱ` is an isomorphism, functorially in `ℱ`.
 
-**Clause (b) of Tag 01QJ — the functoriality — is what this file proves**: transposition along
-the adjunction `f^* ⊣ f_*` carries a natural family `M̃ ⟶ f_* ℱ` to a natural family
-`f^* M̃ ⟶ ℱ`. Since `f` is an open immersion (Stacks Tag 01Q1), the transposition can be run
-through `AlgebraicGeometry.Scheme.Modules.restrictFunctor`, whose adjunction has an explicit
-counit, and transported to `f^*` along Mathlib's
+This file proves that transposition along the adjunction `f^* ⊣ f_*` carries a natural family
+`M̃ ⟶ f_* ℱ` to a natural family `f^* M̃ ⟶ ℱ`. Tag 01QJ itself is
+`Stacks.SectionRingProjQuasicoherent.pullbackTildeComparison_spec` in the sibling
+`StacksFrontier/AlgebraicGeometry/SectionRingProjQuasicoherent/Isomorphism.lean`. The sibling
+`StacksFrontier/AlgebraicGeometry/SectionRingProjQuasicoherent/PushforwardComparison.lean` constructs
+the family `M̃ ⟶ f_* ℱ` (`Stacks.SectionRingProjQuasicoherent.tildeToPushforward`) and shows that
+`pullbackComparison` at it is the comparison of Tag 01QJ
+(`Stacks.SectionRingProjQuasicoherent.pullbackComparison_tildeToPushforward`).
+
+Since `f` is an open immersion (Stacks Tag 01Q1), the transposition can be run through
+`AlgebraicGeometry.Scheme.Modules.restrictFunctor`, whose adjunction has an explicit counit,
+and transported to `f^*` along Mathlib's
 `AlgebraicGeometry.Scheme.Modules.restrictFunctorIsoPullback`.
 
 ## Main definitions
 
 * `Stacks.SectionRingProjQuasicoherent.restrictComparison`: the transposition through
   restriction along the open immersion `f`.
-* `Stacks.SectionRingProjQuasicoherent.pullbackComparison`: **clause (b) of Stacks Tag 01QJ**,
-  the comparison `f^* M̃ ⟶ ℱ` as a natural transformation in `ℱ`.
+* `Stacks.SectionRingProjQuasicoherent.pullbackComparison`: the transpose `f^* M̃ ⟶ ℱ` of a
+  natural family `M̃ ⟶ f_* ℱ`, as a natural transformation in `ℱ`.
 
 ## Implementation notes
 
@@ -76,14 +83,13 @@ def restrictComparison
 
 end Restrict
 
-/-- **Clause (b) of Stacks Tag 01QJ: the comparison `f^* M̃ ⟶ ℱ` is functorial in `ℱ`.**
+/-- **The transpose `f^* M̃ ⟶ ℱ` of a natural family `M̃ ⟶ f_* ℱ`.**
 
-Stacks Tag 0B5I supplies, for each `ℱ`, a morphism `M̃ ⟶ f_* ℱ` on `Proj Γ_*(X, L)` functorial
-in `ℱ`, where `M = Γ_*(X, L, ℱ)`; that family is the hypothesis `c`. Transposing it along the
-adjunction `f^* ⊣ f_*` gives a morphism `f^* M̃ ⟶ ℱ` for each `ℱ`, and transposition is natural,
-so the transposed family is again functorial in `ℱ`. -/
-@[stacks 01QJ "clause (b): the comparison `f^*M̃ ⟶ ℱ` is functorial in `ℱ`, carrying Tag 0B5I's
-morphism `M̃ ⟶ f_*ℱ` for the twisted-section module as the hypothesis `c`"]
+For a family `c` of morphisms `M̃ ⟶ f_* ℱ` on `Proj Γ_*(X, L)`, natural in `ℱ`, where
+`M = Γ_*(X, L, ℱ)`, transposing along the adjunction `f^* ⊣ f_*` gives a morphism `f^* M̃ ⟶ ℱ`
+for each `ℱ`, and transposition is natural, so the transposed family is again natural in `ℱ`.
+At the family `Stacks.SectionRingProjQuasicoherent.tildeToPushforward` this is the comparison of
+Stacks Tag 01QJ (`Stacks.SectionRingProjQuasicoherent.pullbackComparison_tildeToPushforward`). -/
 def pullbackComparison
     (c : tildeFunctor L ⟶ Scheme.Modules.pushforward (projHomOfIsAmple L hL)) :
     pullbackTildeFunctor L hL ⟶ 𝟭 X.Modules :=

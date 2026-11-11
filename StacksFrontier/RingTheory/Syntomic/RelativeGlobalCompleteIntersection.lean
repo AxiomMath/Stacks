@@ -133,8 +133,9 @@ theorem Algebra.Presentation.flat_localization_atPrime {R S : Type*} [CommRing R
 is a relative global complete intersection over `R`, then `R → S` is flat, of finite
 presentation, and its fibres are local complete intersections over the residue fields. -/
 @[stacks 00SW "Stated for the class `Algebra.IsRelativeGlobalCompleteIntersection R S` and
-concluding `Algebra.Syntomic R S`, the whole of Definition 00SL, not only the flatness that the
-source's \"i.e., flat\" singles out."]
+concluding `Algebra.Syntomic R S`: flatness, finite presentation and local complete intersection
+fibres, the three clauses of Definition 00SL. Flatness is the clause the source's proof
+singles out as needing an argument."]
 theorem Algebra.Syntomic.of_isRelativeGlobalCompleteIntersection (R S : Type*) [CommRing R]
     [CommRing S] [Algebra R S] [Algebra.IsRelativeGlobalCompleteIntersection R S] :
     Algebra.Syntomic R S := by

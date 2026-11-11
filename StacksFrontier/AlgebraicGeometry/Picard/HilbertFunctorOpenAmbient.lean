@@ -64,7 +64,7 @@ Stacks 0B99. This file is the identification. The affine case is available uncon
 declaration here carries the `@[stacks 0B9A]` attribute**: an identification of two functors is
 an input to condition (2)(a), not the condition itself, and still less the proposition. The tag
 is registered on
-`Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one`
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated`
 in `StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentableAmbient.lean`. See
 `StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorAffineRepresentableUnconditional.lean` for
 Stacks 0B99, and the module docstring of

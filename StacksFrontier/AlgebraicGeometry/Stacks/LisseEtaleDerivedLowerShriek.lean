@@ -3,7 +3,6 @@ module
 public import Mathlib.CategoryTheory.Abelian.GrothendieckAxioms.Sheaf
 public import StacksFrontier.AlgebraicGeometry.Stacks.LisseEtaleInclusion
 public import StacksFrontier.AlgebraicGeometry.Stacks.SubsiteCohomologyComparison
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Derived lower shriek for abelian sheaves on the lisse-étale site
@@ -66,6 +65,10 @@ vanishing of Stacks 0D6X, which is `AlgebraicGeometry.Stack.LisseEtale.objectAcy
   `Lg_! ⊣ g⁻¹`.
 * `AlgebraicGeometry.Stack.LisseEtale.derivedAbelianLowerShriekRestrictionIso`: **Stacks 07AS
   (1)**, `g⁻¹ ∘ Lg_! = id`.
+
+The three assertions are combined into one statement, which carries the tag of **Stacks 07AS
+(1)**, as `AlgebraicGeometry.Stack.LisseEtale.abelianLowerShriek_derived` in
+`StacksFrontier/AlgebraicGeometry/Stacks/SubsiteAbelianDerivedLowerShriek.lean`.
 
 ## Implementation notes
 
@@ -294,16 +297,6 @@ has a left derived functor along the localization of the homotopy category of
 `Ab(𝒳_{lisse,étale})`. This is the weakening of
 `AlgebraicGeometry.Stack.LisseEtale.abelianLowerShriek_hasPointwiseLeftDerivedFunctor` that
 forgets pointwise-ness. -/
-@[stacks 07AS "part (1), existence of the unbounded left derived functor `Lg_!` on abelian \
-sheaves for the lisse-étale site, with NO hypothesis. The acyclicity statement of Tag 07AC is \
-discharged by `AlgebraicGeometry.Stack.LisseEtale.abelianLowerShriekAcyclic`, which is proved \
-for every algebraic stack out of the object-level vanishing of Tag 0D6X, \
-`AlgebraicGeometry.Stack.LisseEtale.objectAcyclic`. The closure condition of Tag 07AK (1) for \
-the smooth objects is likewise a theorem here, not a hypothesis, namely \
-`AlgebraicGeometry.Stack.LisseEtale.closedUnderSmoothMorphisms`. Only the abelian-sheaf \
-statement for the lisse-étale site is covered: parts (2) and (4) are the module-level \
-statements, which the source does not know to agree with the abelian one, and part (3) is the \
-flat-fppf site"]
 theorem abelianLowerShriek_hasLeftDerivedFunctor :
     haveI := isContinuous_inclusion.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳)
     haveI := isCocontinuous_inclusion.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳)
@@ -380,15 +373,6 @@ lower-shriek functor on abelian sheaves is left adjoint to derived restriction. 
 09T5 on the unbounded derived category of the Grothendieck abelian category `Ab(𝒳_{étale})`,
 whose two inputs — existence of `Lg_!` and its absoluteness — both come from the acyclicity
 statement. -/
-@[stacks 07AS "part (1), the adjunction `Lg_! ⊣ g⁻¹` on abelian sheaves for the lisse-étale \
-site, with NO hypothesis: the acyclicity statement of Tag 07AC that supplies both the existence \
-of `Lg_!` and its absoluteness is discharged by \
-`AlgebraicGeometry.Stack.LisseEtale.abelianLowerShriekAcyclic`, itself proved out of the \
-object-level vanishing of Tag 0D6X, `AlgebraicGeometry.Stack.LisseEtale.objectAcyclic`, and the \
-closure condition of Tag 07AK (1) by \
-`AlgebraicGeometry.Stack.LisseEtale.closedUnderSmoothMorphisms`. Only the abelian-sheaf \
-statement for the lisse-étale site: parts (2) and (4) are the module-level statements and part \
-(3) is the flat-fppf site"]
 def derivedAbelianLowerShriekAdjunction :
     derivedAbelianLowerShriek.{u, w} B S hS 𝒳 ⊣ derivedAbelianRestriction.{u, w} B S hS 𝒳 :=
   haveI := isContinuous_inclusion.{u, w} B S hS 𝒳 (closedUnderSmoothMorphisms.{u, w} B S hS 𝒳)
@@ -407,16 +391,6 @@ The ordinary unit `F ⟶ g⁻¹ g_! F` is an isomorphism, the inclusion of the s
 continuous, cocontinuous and fully faithful — that is Stacks 077I, which for this inclusion is
 `AlgebraicGeometry.Stack.LisseEtale.isIso_abelianLowerShriek_unit` — and uniqueness of left
 derived functors carries that to the unit of the derived adjunction. -/
-@[stacks 07AS "part (1), `g⁻¹ ∘ Lg_! = id` on abelian sheaves for the lisse-étale site, with NO \
-hypothesis: the acyclicity statement of Tag 07AC is discharged by \
-`AlgebraicGeometry.Stack.LisseEtale.abelianLowerShriekAcyclic`, out of the object-level \
-vanishing of Tag 0D6X, `AlgebraicGeometry.Stack.LisseEtale.objectAcyclic`; the closure \
-condition of Tag 07AK (1) by \
-`AlgebraicGeometry.Stack.LisseEtale.closedUnderSmoothMorphisms`; and the invertibility of the \
-ordinary unit is Tag 077I, \
-`AlgebraicGeometry.Stack.LisseEtale.isIso_abelianLowerShriek_unit`. Only the abelian-sheaf \
-statement for the lisse-étale site: parts (2) and (4) are the module-level statements and part \
-(3) is the flat-fppf site"]
 def derivedAbelianLowerShriekRestrictionIso :
     derivedAbelianLowerShriek.{u, w} B S hS 𝒳 ⋙ derivedAbelianRestriction.{u, w} B S hS 𝒳 ≅
       𝟭 (DerivedCategory (Sheaf (inclusionTopology.{u, w} B S hS 𝒳) AbCat.{u, u + 1})) :=

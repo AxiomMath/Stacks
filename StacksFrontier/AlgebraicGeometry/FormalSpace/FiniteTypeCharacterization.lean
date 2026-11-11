@@ -94,7 +94,8 @@ conditional comparison with condition (4).
 * `AlgebraicGeometry.FormalSpace.IsLocallyOfFiniteTypeOnEveryEtaleSquare` and
   `AlgebraicGeometry.FormalSpace.IsLocallyOfFiniteTypeOfTargetCover` are the implications
   (1) ⟹ (3) and (4) ⟹ (1) of **Stacks 0ANL**, which are the two the source's proof of Stacks
-  0ANW uses and which this library does not carry.
+  0ANW uses; for formal algebraic spaces `X` and `Y` the library proves both, as part of
+  `AlgebraicGeometry.FormalSpace.isLocallyOfFiniteType_tfae`.
 
 ## References
 
@@ -180,7 +181,8 @@ abbrev ChartPropertyIsLocallyOfFiniteType : Prop :=
 
 /-- The implication (1) ⟹ (3) of **Stacks 0ANL**: if a morphism of formal algebraic spaces
 over `S` is locally of finite type, then so is the induced map of any pair of representable
-étale charts of its source and target. The library does not carry Stacks 0ANL; the source's
+étale charts of its source and target. The library proves it as
+`isLocallyOfFiniteTypeOnEverySquare_of_isLocallyOfFiniteType`; the source's
 proof of this implication goes through Stacks 046G and the locally-of-finite-type diagonal of
 Stacks 0AN2. -/
 abbrev IsLocallyOfFiniteTypeOnEveryEtaleSquare : Prop :=
@@ -192,9 +194,11 @@ abbrev IsLocallyOfFiniteTypeOnEveryEtaleSquare : Prop :=
 /-- The implication (4) ⟹ (1) of **Stacks 0ANL**: a morphism of formal algebraic spaces over
 `S` admitting an affine étale covering of its target together with affine étale coverings of
 the fibre products of the members with its source, all of whose maps to the members of the
-outer covering are locally of finite type, is itself locally of finite type. The library does
-not carry Stacks 0ANL; the source's proof of this implication assembles the coverings into a
-single square and descends along it by Stacks 040Y. -/
+outer covering are locally of finite type, is itself locally of finite type. For `X` and `Y`
+formal algebraic spaces the library proves it, as part of `isLocallyOfFiniteType_tfae`; the
+proposition below quantifies over all fppf sheaves `X` and `Y`. The source's proof of this
+implication assembles the coverings into a single square and descends along it by Stacks
+040Y. -/
 abbrev IsLocallyOfFiniteTypeOfTargetCover : Prop :=
   ∀ {X Y : FppfSheaf B S hS} (f : X ⟶ Y),
     (∃ (J : Type (u + 1)) (V : J → FppfSheaf B S hS) (v : ∀ j, V j ⟶ Y),

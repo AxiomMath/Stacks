@@ -53,13 +53,17 @@ public import StacksFrontier.CategoryTheory.Localization.LeftDerivedByResolution
 public import StacksFrontier.Algebra.Homology.SpectralSequence.FilteredComplex.CanonicalTruncation
 import StacksCore.Tactic.EgaSgaAttribute
 public import StacksFrontier.Algebra.Homology.DerivedCategory.UnboundedComplexes.PCellularComplexes
+public import StacksFrontier.CategoryTheory.Functor.Derived.Computing
 
 /-!
 # The left derived functor of a right exact functor on the unbounded derived category
 
 `F` sends quasi-isomorphisms between `P`-cellular complexes to quasi-isomorphisms, hence the
-`P`-cellular complexes derive `F`, which gives **Stacks 0794**, the existence of the left derived
-functor `LF` on all of `D(A)`, together with its absoluteness.
+`P`-cellular complexes derive `F`, which gives **Stacks 0794**: `LF` is defined on all of `D(A)`
+in the sense of Tags 05S9 and 05SV, i.e. at every object the pro-object `(s : K' ⟶ K) ↦ F(K')`
+is essentially constant (`isLeftDerivable_of_acyclic_mapHomologicalComplex`, through
+Stacks 06XN(2)). The file also records that the pointwise left derived functor exists in
+Mathlib's sense, and that it is absolute.
 -/
 
 @[expose] public section
@@ -400,20 +404,18 @@ namespace CategoryTheory.Functor
 variable {A : Type*} [Category A] {B : Type*} [Category B] [Abelian A] [Abelian B]
   [HasDerivedCategory A] [HasDerivedCategory B]
 
-/-- **Stacks 0794.** Let `F : 𝒜 ⥤ ℬ` be a right exact functor of abelian categories and let `P`
-be a class of objects of `𝒜` which contains a zero object, is closed under finite direct sums,
-and is such that every object of `𝒜` is a quotient of an object satisfying `P`. Assume that
+/-- Under the hypotheses of Stacks 0794, the functor `K(𝒜) ⥤ D(ℬ)`, `K ↦ F(K)`, has a
+pointwise left derived functor along the localization `Qh : K(𝒜) ⥤ D(𝒜)` at
+quasi-isomorphisms, in Mathlib's sense (`Functor.HasPointwiseLeftDerivedFunctor`: a pointwise
+right Kan extension exists at every object).
 
-1. `F` turns every bounded above acyclic complex with all terms satisfying `P` into an acyclic
-   complex,
-2. `𝒜` and `ℬ` have colimits of systems indexed by `ℕ`,
-3. those colimits are exact in both `𝒜` and `ℬ`, and
-4. `F` commutes with them.
-
-Then the left derived functor `LF` of `K(𝒜) ⥤ D(ℬ)`, `K ↦ F(K)`, along the localization
-`Qh : K(𝒜) ⥤ D(𝒜)` at quasi-isomorphisms is defined at every object, i.e. `LF` is defined on
-all of `D(𝒜)`. -/
-@[stacks 0794]
+This is Mathlib's form of the conclusion; the Stacks conclusion, that `LF` is defined on all of
+`D(𝒜)` in the sense of Tags 05S9/05SV (essential constancy of the pro-object at every object),
+is `isLeftDerivable_of_acyclic_mapHomologicalComplex`. The hypotheses are those of Stacks 0794:
+`F` is right exact, `P` contains a zero object, is closed under finite direct sums, and every
+object of `𝒜` is a quotient of an object satisfying `P`; `F` turns every bounded above acyclic
+complex with all terms satisfying `P` into an acyclic complex; `𝒜` and `ℬ` have exact colimits
+of systems indexed by `ℕ`, and `F` commutes with them. -/
 public theorem hasPointwiseLeftDerivedFunctor_of_acyclic_mapHomologicalComplex
     (F : A ⥤ B) [F.Additive] [PreservesFiniteColimits F]
     (P : ObjectProperty A) [P.ContainsZero]
@@ -428,6 +430,72 @@ public theorem hasPointwiseLeftDerivedFunctor_of_acyclic_mapHomologicalComplex
         DerivedCategory.Qh).HasPointwiseLeftDerivedFunctor
       (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) :=
   StacksDraft.UnboundedLeftDerivedFunctor.solution F P hsum hP hFP
+
+/-- The quasi-isomorphisms of `K(𝒜)` are multiplicative and satisfy the saturation condition
+MS4: if `f ≫ g` and `g ≫ h` are quasi-isomorphisms then so is `g`, since on each
+cohomology object `H^n(g)` is then both a monomorphism and an epimorphism. -/
+theorem _root_.HomotopyCategory.isSaturatedMultiplicative_quasiIso (C : Type*) [Category C]
+    [Abelian C] :
+    (HomotopyCategory.quasiIso C (ComplexShape.up ℤ)).IsSaturatedMultiplicative := by
+  refine { toIsMultiplicative := inferInstance, mem_of_comp_mem_comp := ?_ }
+  intro X Y Z T f g h hfg hgh n
+  let H := HomotopyCategory.homologyFunctor C (ComplexShape.up ℤ) n
+  have h₁ : IsIso (H.map f ≫ H.map g) := by
+    rw [← H.map_comp]
+    exact hfg n
+  have h₂ : IsIso (H.map g ≫ H.map h) := by
+    rw [← H.map_comp]
+    exact hgh n
+  have : Mono (H.map g) := mono_of_mono _ (H.map h)
+  have : Epi (H.map g) := epi_of_epi (H.map f) _
+  exact isIso_of_mono_of_epi (H.map g)
+
+/-- **Stacks 0794.** Let `F : 𝒜 ⥤ ℬ` be a right exact functor of abelian categories and let `P`
+be a class of objects of `𝒜`. Assume
+
+1. `P` contains a zero object, is closed under finite direct sums, and every object of `𝒜` is a
+   quotient of an object satisfying `P`,
+2. `F` turns every bounded above acyclic complex with all terms satisfying `P` into an acyclic
+   complex,
+3. `𝒜` and `ℬ` have colimits of systems indexed by `ℕ`,
+4. those colimits are exact in both `𝒜` and `ℬ`, and
+5. `F` commutes with them.
+
+Then `LF` is defined on all of `D(𝒜)`: the functor `K(𝒜) ⥤ D(ℬ)`, `K ↦ F(K)`, is left
+derivable with respect to the quasi-isomorphisms (Tag 05SV), i.e. for every complex `K` the
+pro-object `(s : K' ⟶ K) ↦ F(K')` over quasi-isomorphisms `s` is essentially constant (Tag 05S9).
+
+The proof is the source's: every object of `K(𝒜)` receives a quasi-isomorphism from a
+`P`-cellular complex (the colimit of the ladder of Tag 06XX), `F` sends quasi-isomorphisms
+between `P`-cellular complexes to quasi-isomorphisms (the claim of the source's proof,
+`StacksDraft.UnboundedLeftDerivedFunctor.derives_cellularLocalizerMorphism`), and Tag 06XN(2)
+then makes `LF` everywhere defined. -/
+@[stacks 0794]
+public theorem isLeftDerivable_of_acyclic_mapHomologicalComplex
+    (F : A ⥤ B) [F.Additive] [PreservesFiniteColimits F]
+    (P : ObjectProperty A) [P.ContainsZero]
+    (hsum : ∀ X Y : A, P X → P Y → P (X ⊞ Y))
+    (hP : ∀ X : A, ∃ (Y : A) (_ : P Y) (p : Y ⟶ X), Epi p)
+    (hFP : ∀ (a : ℤ) (L : CochainComplex A ℤ), L.IsStrictlyLE a → (∀ n, P (L.X n)) →
+      L.Acyclic → ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj L).Acyclic)
+    [HasColimitsOfShape ℕ A] [HasColimitsOfShape ℕ B]
+    [HasExactColimitsOfShape ℕ A] [HasExactColimitsOfShape ℕ B]
+    [PreservesColimitsOfShape ℕ F] :
+    (F.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh).IsLeftDerivable
+      (HomotopyCategory.quasiIso A (ComplexShape.up ℤ)) := by
+  have hres :=
+    StacksDraft.UnboundedLeftDerivedFunctor.hasLeftResolutions_cellularLocalizerMorphism P hsum hP
+  have hder :=
+    StacksDraft.UnboundedLeftDerivedFunctor.derives_cellularLocalizerMorphism F P hsum hP hFP
+  refine (Stacks.DerivedFunctor.Computing.leftDerived_everywhereDefined_and_computes _
+    (HomotopyCategory.quasiIso A (ComplexShape.up ℤ))
+    (HomotopyCategory.isSaturatedMultiplicative_quasiIso A)
+    {X | StacksDraft.UnboundedLeftDerivedFunctor.cellular P X} (fun X => ?_)
+    (fun X Y s hs hX hY => ?_)).1
+  · obtain ⟨R⟩ := hres X
+    exact ⟨R.X₁.obj, R.w, R.hw, R.X₁.property⟩
+  · exact hder (ObjectProperty.homMk
+      (P := StacksDraft.UnboundedLeftDerivedFunctor.cellular P) (X := ⟨_, hX⟩) (Y := ⟨_, hY⟩) s) hs
 
 /-- **The left derived functor of Stacks 0794 is absolute.** Under the hypotheses of
 `hasPointwiseLeftDerivedFunctor_of_acyclic_mapHomologicalComplex`, if `α` exhibits `LF` as the

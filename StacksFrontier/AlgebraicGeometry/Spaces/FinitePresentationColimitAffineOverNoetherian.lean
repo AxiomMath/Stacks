@@ -36,57 +36,45 @@ which is available as
 
 * `AlgebraicGeometry.Space.exists_epi_isColimit_isFinitePresentation_of_isAffineHom` — the
   source's intermediate claim, *"every quasi-coherent module on `X` is a quotient of a filtered
-  colimit of finitely presented modules"*, granted the four general hypotheses below.
-* `AlgebraicGeometry.Space.isFilteredColimit_isFinitePresentation_of_isAffineHom` —
-  **Stacks 07UW**, granted those four together with `hqcqs`.
+  colimit of finitely presented modules"*, from the four general inputs below.
+* `AlgebraicGeometry.Space.isFilteredColimit_isFinitePresentation_of_isAffineHom` — the source's
+  argument for Stacks 07UW, from those four inputs together with `hqcqs`.
+
+Each of the five inputs is proved in
+`StacksFrontier.AlgebraicGeometry.Spaces.FinitePresentationColimitAffineOverNoetherianUnconditional`,
+which applies the second theorem to them and registers Stacks 07UW unconditionally, as
+`Space.exists_isFiltered_isColimit_isFinitePresentation_of_isAffineHom_of_isNoetherian`.
 
 ## Implementation notes
 
-### The carried inputs, and why each is general
+### The inputs, and why each is general
 
-Five hypotheses are carried.  Each is stated about *arbitrary* algebraic spaces, morphisms and
-modules of its own — none of them `f`, `X`, `Y` or `F` — exactly as `hscheme` of
-`AlgebraicGeometry.Space.exists_isAffine_etale_charts_projective_sections` carries the case of
-schemes of Stacks 05ID under Stacks 0CVY, and as `hEKP` of
-`Stacks.Algebraization.completionFullyFaithful_of_isAdicComplete_of_annihilated` carries the
-chain (1) ⇒ (4) of Stacks 0EKP under Stacks 0EKS.  In particular none of them has this theorem's
-conclusion as its consequent: `hNoeth` is the conclusion for a *Noetherian* space, which is a
-different assertion — Stacks 07UV with Stacks 07UB — and is precisely what the source quotes at
-this point, while `X` is not assumed Noetherian but only affine over a Noetherian space, which is
-the whole content of the tag.
+The five inputs are stated about *arbitrary* algebraic spaces, morphisms and modules of their
+own — none of them `f`, `X`, `Y` or `F` — so that this file needs none of the geometry behind
+them.  None of them has the tag's conclusion as its consequent: `hNoeth` is the conclusion for a
+*Noetherian* space, while `X` is only affine over a Noetherian space.
 
 * `hNoeth` is Stacks 07UV together with Stacks 07UB, for every Noetherian algebraic space: every
-  quasi-coherent module on one is a filtered colimit of modules of finite presentation.  Stacks
-  07UV is `AlgebraicGeometry.Space.isFiltered_and_nonempty_isColimit_coherentSubobjectCocone`;
-  of Stacks 07UB this repository has
-  only the special cases listed in
-  `StacksFrontier.AlgebraicGeometry.Spaces.FiniteDirectImageCoherence` and
-  `StacksFrontier.AlgebraicGeometry.Spaces.InvertibleCoherent`, not the implication from coherence
-  to finite presentation on the small étale site.  The two are therefore carried jointly, in the
-  finite-presentation form in which the source's proof uses them, and in the spelling of the
-  companion hypothesis `h07V9` of
-  `AlgebraicGeometry.Space.isColimit_finiteTypeQuasicoherentSubobjectCocone`.
-* `hpush` is the direct-image half of Stacks 08AI for an affine morphism:
-  `AlgebraicGeometry.Space.DirectImagePreservesQuasicoherence` is still a `def … : Prop` and the
-  tagged functor `AlgebraicGeometry.Space.quasicoherentDirectImage` takes it as an argument.
-* `hpull` is pullback of modules preserving quasi-coherence (Stacks 03LU) and finite presentation
-  (Properties of Spaces, Section 05VR); neither is available in this tree.
+  quasi-coherent module on one is a filtered colimit of modules of finite presentation.  It is
+  `AlgebraicGeometry.Space.exists_isFiltered_isColimit_isFinitePresentation_of_isNoetherian`.
+* `hpush` is the preservation of quasi-coherence by the direct image along an affine morphism,
+  Stacks 07U8: `AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePushforward_isAffineHom`.
+* `hpull` is the preservation of quasi-coherence (Stacks 03GA) and of finite presentation
+  (Stacks 03DO (7)) by pullback of modules:
+  `AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePullback_of_isQuasicoherentOnSite` and
+  `AlgebraicGeometry.Space.isFinitePresentation_modulePullback`.
 * `hepi` is step 3 of the source's proof, the surjectivity of the counit `g^*g_*M ⟶ M` for an
-  affine morphism.  Stacks 03LX is proved, as
-  `AlgebraicGeometry.Space.modulePushforwardEtaleBaseChangeIso`, but that is the compatibility of
-  direct image with étale base change, which is what the source *uses* to reduce the
-  surjectivity to the case of schemes; the surjectivity itself is not proved here.
+  affine morphism: `AlgebraicGeometry.Space.epi_modulePullbackAdjunction_counit_app_of_isAffineHom`.
 * `hqcqs` is the step the source leaves implicit when it applies Stacks 07U7 on `X`: an algebraic
-  space affine over a Noetherian algebraic space is quasi-compact and quasi-separated.  Stacks
-  07U7 is proved, and this is all that is missing to apply it to `X`.
+  space affine over a Noetherian algebraic space is quasi-compact and quasi-separated
+  (`AlgebraicGeometry.Space.isQuasiCompactSpace_and_isAbsolutelyQuasiSeparated_of_isAffineHom`).
 
 ### The universe of the index category
 
 The hypothesis `hNoeth` produces a diagram indexed by a `SmallCategory` on a `Type u`, which is
-what Stacks 07U7 requires of the shape it is applied to, and is the spelling already used by
-`h07V9` above.  The conclusion's index category is the one the second half of the proof
-constructs: the category of triples `(i, j, α)`, whose objects carry a morphism of
-`𝒪_X`-modules and so live in `Type (u + 1)` — the universe of the Hom-types of
+what Stacks 07U7 requires of the shape it is applied to.  The conclusion's index category is the
+one the second half of the proof constructs: the category of triples `(i, j, α)`, whose objects
+carry a morphism of `𝒪_X`-modules and so live in `Type (u + 1)` — the universe of the Hom-types of
 `AlgebraicGeometry.Space.Modules`, with Hom-types still in `Type u`.  This is the size of the
 source's own index set `K`, which is literally a set of such triples; no smallness of the
 conclusion's index is claimed, and the tag claims none.
@@ -164,27 +152,19 @@ theorem exists_epi_isColimit_isFinitePresentation_of_isAffineHom
     ⟨isColimitOfPreserves _ hcol⟩, hepi X Y f hf M hM,
     (hpull X Y f ((modulePushforward B S hS f).obj M)).1 hfM⟩
 
-/-- **Stacks 07UW.**  Let `f : X ⟶ Y` be an affine morphism of algebraic spaces over a scheme `S`
-with `Y` Noetherian.  Then every quasi-coherent `𝒪_X`-module is a filtered colimit of
-`𝒪_X`-modules of finite presentation.
+/-- **The source's argument for Stacks 07UW.**  Let `f : X ⟶ Y` be an affine morphism of
+algebraic spaces over a scheme `S` with `Y` Noetherian.  Granted the five general inputs `hNoeth`,
+`hpush`, `hpull`, `hepi` and `hqcqs` (see the module docstring), every quasi-coherent
+`𝒪_X`-module is a filtered colimit of `𝒪_X`-modules of finite presentation.
 
-No clause of the tag's conclusion is dropped or weakened, and the tag's own hypotheses — `f`
-affine, `Y` Noetherian, the module quasi-coherent — are the hypotheses here.  What is granted
-beyond them are the five general cited inputs `hNoeth`, `hpush`, `hpull`, `hepi` and `hqcqs`,
-each quantified over its own algebraic spaces, morphisms and modules and none of them mentioning
-`f`, `X`, `Y` or `F`; see the module docstring for what each one is and for which tag it stands
-in.  In particular `hNoeth` is the assertion for a *Noetherian* space, namely Stacks 07UV with
-Stacks 07UB, which the source quotes here and which is not the conclusion below: `X` is affine
-over a Noetherian space, not Noetherian, and the transfer along `f` is the content of the tag.
+All five inputs are proved, and Stacks 07UW is registered without them as
+`Space.exists_isFiltered_isColimit_isFinitePresentation_of_isAffineHom_of_isNoetherian`.
 
-Everything else in the source's proof is discharged: the pullback of the presentation and the
-quotient presentation of an arbitrary quasi-coherent module
-(`AlgebraicGeometry.Space.exists_epi_isColimit_isFinitePresentation_of_isAffineHom`), the
-identification of `F` as a cokernel of a map between two such colimits, Stacks 07U7 on `X`, and
-the formal passage from that cokernel to the filtered colimit of the cokernels of the
-representing maps. -/
-@[stacks 07UW "granted five general cited inputs: hNoeth (the Noetherian case, Stacks 07UV with \
-07UB), hpush (Stacks 08AI), hpull (Stacks 03LU, 05VR), hepi (Stacks 03LX, step 3) and hqcqs"]
+The proof: the quotient presentation of an arbitrary quasi-coherent module
+(`AlgebraicGeometry.Space.exists_epi_isColimit_isFinitePresentation_of_isAffineHom`), applied to
+`F` and to the kernel of its quotient map, identifies `F` as a cokernel of a map between two
+such colimits; Stacks 07U7 on `X` and the formal passage from that cokernel to the filtered
+colimit of the cokernels of the representing maps conclude. -/
 theorem isFilteredColimit_isFinitePresentation_of_isAffineHom
     (hNoeth : ∀ Z : AlgebraicSpaces B S hS, IsNoetherian B S hS hZ Z.1 →
       ∀ N : Modules.{u, u} B S hS Z.1 Z.2, N.IsQuasicoherentOnSite →

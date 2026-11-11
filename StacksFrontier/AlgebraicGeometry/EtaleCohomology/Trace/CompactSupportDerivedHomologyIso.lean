@@ -53,8 +53,11 @@ uses the cohomological derived clause of 03VM in its Galois form
 `coeffaceable_compactSupportRepresentationHomology_of_not_iso_projectiveLine` in the namespace
 `AlgebraicGeometry`. The base case `hbase` is
 `AlgebraicGeometry.isIso_homologyMap_poincarePairing_two`; the statement with `hbase` as a
-hypothesis is `AlgebraicGeometry.compactSupportDerivedHomologyNatIso`, and the unconditional one
-is `AlgebraicGeometry.compactSupportDerivedHomologyIso`.
+hypothesis is `AlgebraicGeometry.compactSupportDerivedHomologyNatIso`, and the one without it is
+`AlgebraicGeometry.compactSupportDerivedHomologyIso`. Over an arbitrary field, where `k̄` need not
+be separable over `k`, the clause is
+`AlgebraicGeometry.compactSupportDerivedHomologyIsoOfAlgClosure`
+(`StacksFrontier/AlgebraicGeometry/EtaleCohomology/Trace/DerivedVersionsAlgClosure.lean`).
 
 ## Main results
 
@@ -156,10 +159,9 @@ connected smooth curve over `k` with `X_k̄ ≇ 𝐏¹_k̄`, `k̄` is an algebra
 over `k` (automatic for `k` finite), and `Λ` is a finite ring with `#Λ` invertible in `k`. The left
 side is the Galois-equivariant `RΓ_c` of Remark 03UI (2), `M(-1) = Hom(μ_n(k̄), M)`, and `LH₀` is
 the derived functor of the coinvariants in the continuous sense, `M ⊗^L_{Λ[[π₁(X_k̄)]]} Λ` computed
-on pseudocompact modules (see the module docstring). -/
-@[stacks 03VM "third assertion (the derived version of the homological half): \
-`RΓ_c(X_k̄, ℱ_ρ) ≅ LH₀(π₁(X_k̄, η̄), M(-1))[-2]` in the derived category of \
-`Λ[[Aut(k̄/k)]]`-modules, natural in `(M, ρ)`"]
+on pseudocompact modules (see the module docstring). The case of an arbitrary field `k`, where `k̄`
+need not be separable over `k`, is `AlgebraicGeometry.compactSupportDerivedHomologyIsoOfAlgClosure`,
+which reduces to this one over the perfect closure of `k` in `k̄`. -/
 def compactSupportDerivedHomologyIso (hΛ : IsUnit ((Nat.card Λ : ℕ) : k))
     (hP : ¬ ∃ e : fieldBaseChange (Over.mk f) K ≅ projectiveSpaceOver 1 (Spec (.of K)),
       e.hom ≫ (projectiveSpaceOver 1 (Spec (.of K)) ↘ Spec (.of K)) =

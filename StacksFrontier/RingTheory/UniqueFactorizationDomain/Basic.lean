@@ -52,12 +52,75 @@ Associates and equal principal ideals, factorization into irreducibles under the
 chain condition for principal ideals, the definition of a unique factorization domain and its
 characterization by existence and uniqueness of irreducible factorizations, the criterion
 "irreducible implies prime", that a principal ideal domain is a UFD and a Dedekind domain,
-that a UFD is integrally closed, that polynomial rings over a UFD are UFDs, and that a UFD
-satisfies the ascending chain condition for principal ideals, are all Mathlib's.
+that a UFD is integrally closed, and that polynomial rings over a UFD are UFDs, are all
+Mathlib's.
 
 What remains here is Stacks 0BUE: the polynomial ring over a domain satisfying ACCP again
-satisfies ACCP, in both the monoid-theoretic (`WfDvdMonoid`) and the ideal-theoretic form.
+satisfies ACCP, in both the monoid-theoretic (`WfDvdMonoid`) and the ideal-theoretic form; and
+Stacks 0BUD: a UFD, in the sense of existence and uniqueness of irreducible factorizations,
+satisfies ACCP.
 -/
+
+/-! ### Stacks 034P
+
+The definitions of associates, irreducible elements and prime elements of a domain, each compared
+with Mathlib's notion (`Associated`, `Irreducible`, `Prime`). -/
+
+section Elements
+
+variable {R : Type*} [CommRing R]
+
+/-- **Stacks 034P (1).** In a domain `R`, elements `x, y` are associates in the Stacks sense, that
+is `x = u y` for a unit `u ∈ R^*`, exactly when they are associated in Mathlib's sense
+(`Associated x y`, a unit `u` with `x * u = y`). -/
+@[stacks 034P "(1) associates: `x = u y` for a unit `u`"]
+theorem associated_iff_exists_unit_eq_mul [IsDomain R] {x y : R} :
+    Associated x y ↔ ∃ u : Rˣ, x = u * y := by
+  constructor
+  · rintro ⟨u, rfl⟩
+    exact ⟨u⁻¹, by rw [mul_comm x, ← mul_assoc, Units.inv_mul, one_mul]⟩
+  · rintro ⟨u, rfl⟩
+    exact ⟨u⁻¹, by rw [mul_comm (u : R), mul_assoc, Units.mul_inv, mul_one]⟩
+
+/-- **Stacks 034P (2).** In a domain `R`, an element `x` is irreducible in the Stacks sense, that
+is nonzero, not a unit, and whenever `x = y z` the factor `y` is a unit or an associate `y = u x`
+(`u ∈ R^*`) of `x`, exactly when it is irreducible in Mathlib's sense (`Irreducible x`). -/
+@[stacks 034P "(2) irreducible elements"]
+theorem irreducible_iff_ne_zero_and_isUnit_or_eq_unit_mul [IsDomain R] {x : R} :
+    Irreducible x ↔ x ≠ 0 ∧ ¬IsUnit x ∧
+      ∀ y z : R, x = y * z → IsUnit y ∨ ∃ u : Rˣ, y = u * x := by
+  constructor
+  · intro hx
+    refine ⟨hx.ne_zero, hx.not_isUnit, fun y z h => ?_⟩
+    rcases hx.isUnit_or_isUnit h with hy | hz
+    · exact Or.inl hy
+    · refine Or.inr ⟨hz.unit⁻¹, ?_⟩
+      rw [h, mul_comm y, ← mul_assoc, IsUnit.val_inv_mul, one_mul]
+  · rintro ⟨hx0, hxu, hx⟩
+    refine ⟨hxu, fun y z h => ?_⟩
+    rcases hx y z h with hy | ⟨u, rfl⟩
+    · exact Or.inl hy
+    · refine Or.inr (IsUnit.of_mul_eq_one_right (u : R) ?_)
+      refine (mul_left_cancel₀ hx0 ?_).symm
+      calc x * 1 = x := mul_one x
+        _ = u * x * z := h
+        _ = x * (u * z) := by ring
+
+/-- **Stacks 034P (3).** In a domain `R`, an element `x` is prime in the Stacks sense, that is the
+ideal `(x)` is a prime ideal, exactly when `x = 0` or `x` is prime in Mathlib's sense
+(`Prime x`, which excludes `0`). The case `x ≠ 0` is Mathlib's `Ideal.span_singleton_prime`; the
+case `x = 0` is that `(0)` is a prime ideal of a domain (`Ideal.isPrime_bot`). -/
+@[stacks 034P "(3) prime elements"]
+theorem Ideal.isPrime_span_singleton_iff_eq_zero_or_prime [IsDomain R] {x : R} :
+    (Ideal.span {x}).IsPrime ↔ x = 0 ∨ Prime x := by
+  by_cases hx : x = 0
+  · subst hx
+    simp only [Set.singleton_zero, Ideal.span_zero, true_or, iff_true]
+    exact Ideal.isPrime_bot
+  · rw [Ideal.span_singleton_prime hx]
+    simp [hx]
+
+end Elements
 
 -- The former @[stacks 034Q] declaration is now the Mathlib theorem.
 add_to_stacks 034Q "associates generate the same principal ideal"
@@ -80,11 +143,10 @@ add_to_stacks 034S "existence and uniqueness of irreducible factorizations chara
 add_to_stacks 034S "uniqueness of irreducible factorizations, up to associates and permutation"
   UniqueFactorizationMonoid.factors_unique
 
--- The former @[stacks 034T] declarations are now the Mathlib theorems.
-add_to_stacks 034T "in a UFD every irreducible element is prime"
-  UniqueFactorizationMonoid.irreducible_iff_prime
-add_to_stacks 034T "factorization into primes gives a UFD"
-  UniqueFactorizationMonoid.of_exists_prime_factors
+-- Stacks 034T in the source's terms is `irreducible_factors_unique_iff_forall_irreducible_prime`
+-- below; Mathlib's forward direction, from existence and uniqueness of irreducible factorizations:
+add_to_stacks 034T "existence and uniqueness of irreducible factorizations make irreducibles prime"
+  irreducible_iff_prime_of_existsUnique_irreducible_factors
 
 -- The former @[stacks 034V] declaration is now the Mathlib instance.
 add_to_stacks 034V "a principal ideal domain is a UFD"
@@ -103,10 +165,13 @@ add_to_stacks 0BC1 "a polynomial ring over a UFD is a UFD" Polynomial.uniqueFact
 add_to_stacks 0BC1 "a multivariate polynomial ring over a UFD is a UFD"
   MvPolynomial.uniqueFactorizationMonoid
 
--- The former @[stacks 0BUD] declaration is now the Mathlib theorem, which states the ascending
--- chain condition as well-foundedness of `>` on the principal ideals.
-add_to_stacks 0BUD "a UFD satisfies ACC on principal ideals"
-  Ideal.setOfPred_isPrincipal_wellFoundedOn_gt
+-- Stacks 0BUD is `accp_of_existsUnique_irreducible_factors` below, stated for a domain that is a
+-- UFD in the sense of 034S. Its proof, as in Stacks, writes each nonzero element as a product of
+-- primes, which is Mathlib's `WfDvdMonoid.of_exists_prime_factors`. The Mathlib theorem
+-- `Ideal.setOfPred_isPrincipal_wellFoundedOn_gt` restates ACCP in ideal form for a domain
+-- already known to be a `WfDvdMonoid`; it is not registered for 0BUD.
+add_to_stacks 0BUD "factorization into primes gives a well-founded divisibility relation"
+  WfDvdMonoid.of_exists_prime_factors
 
 
 -- ===== merged from StacksDraft.Ch10.Sec120.Tag0BUE =====
@@ -189,3 +254,69 @@ theorem polynomial_accp_ideal {R : Type*} [CommRing R] [IsDomain R]
       ∃ n, ∀ m, n ≤ m → f m = f n :=
   have := wfDvdMonoid_of_accp hR
   accp_of_wfDvdMonoid
+
+/-- **Stacks 034T.** Let `R` be a domain in which every nonzero nonunit factors into
+irreducibles. Then `R` is a UFD in the sense of Stacks 034S (every nonzero nonunit has a
+factorization into irreducibles, and two factorizations of the same nonzero nonunit into
+irreducibles agree up to permutation and associates) if and only if every irreducible element
+of `R` is prime. -/
+@[stacks 034T "a domain with irreducible factorizations is a UFD iff irreducibles are prime"]
+theorem irreducible_factors_unique_iff_forall_irreducible_prime {R : Type*} [CommRing R]
+    [IsDomain R]
+    (hfac : ∀ x : R, x ≠ 0 → ¬IsUnit x → ∃ f : Multiset R, (∀ a ∈ f, Irreducible a) ∧ f.prod = x) :
+    ((∀ x : R, x ≠ 0 → ¬IsUnit x → ∃ f : Multiset R, (∀ a ∈ f, Irreducible a) ∧ f.prod = x) ∧
+      ∀ x : R, x ≠ 0 → ¬IsUnit x → ∀ f g : Multiset R, (∀ a ∈ f, Irreducible a) →
+        (∀ b ∈ g, Irreducible b) → f.prod = x → g.prod = x → Multiset.Rel Associated f g) ↔
+      ∀ p : R, Irreducible p → Prime p := by
+  constructor
+  · rintro ⟨-, huniq⟩ p hp
+    refine (irreducible_iff_prime_of_existsUnique_irreducible_factors (fun a ha => ?_)
+      (fun f g hf hg hfg => ?_) p).1 hp
+    · by_cases hu : IsUnit a
+      · exact ⟨0, by simp, by simpa using (associated_one_iff_isUnit.2 hu).symm⟩
+      · obtain ⟨f, hf, rfl⟩ := hfac a ha hu
+        exact ⟨f, hf, Associated.refl _⟩
+    · obtain ⟨u, hu⟩ := hfg
+      induction g using Multiset.induction_on with
+      | empty =>
+        have hfu : IsUnit (f.prod * ↑u) := by rw [hu, Multiset.prod_zero]; exact isUnit_one
+        have : f = 0 := Multiset.eq_zero_of_forall_notMem fun a ha => (hf a ha).not_isUnit
+          (isUnit_of_dvd_unit (Multiset.dvd_prod ha) (isUnit_of_mul_isUnit_left hfu))
+        rw [this]
+        exact Multiset.Rel.zero
+      | cons b g _ =>
+        have hbu : Irreducible (b * ↑u⁻¹) :=
+          (irreducible_mul_isUnit u⁻¹.isUnit).2 (hg b (Multiset.mem_cons_self _ _))
+        have hg' : ∀ c ∈ (b * ↑u⁻¹) ::ₘ g, Irreducible c := by
+          intro c hc
+          rcases Multiset.mem_cons.1 hc with rfl | hc
+          exacts [hbu, hg c (Multiset.mem_cons_of_mem hc)]
+        have hprod : ((b * ↑u⁻¹) ::ₘ g).prod = f.prod := by
+          rw [Multiset.prod_cons, mul_right_comm, ← Multiset.prod_cons, ← hu,
+            Units.mul_inv_cancel_right]
+        have hne : f.prod ≠ 0 := Multiset.prod_ne_zero fun h0 => not_irreducible_zero (hf 0 h0)
+        have hnu : ¬IsUnit f.prod := fun h => hbu.not_isUnit
+          (isUnit_of_dvd_unit (hprod ▸ Multiset.dvd_prod (Multiset.mem_cons_self _ _)) h)
+        obtain ⟨a, f', hab, hf', rfl⟩ := Multiset.rel_cons_right.1
+          (huniq _ hne hnu f _ hf hg' rfl hprod)
+        exact Multiset.Rel.cons (hab.trans (associated_mul_unit_left b _ u⁻¹.isUnit)) hf'
+  · intro hprime
+    refine ⟨hfac, fun x _ _ f g hf hg hfx hgx => prime_factors_unique
+      (fun a ha => hprime a (hf a ha)) (fun b hb => hprime b (hg b hb))
+      (hfx.trans hgx.symm ▸ .refl _)⟩
+
+/-- A UFD satisfies the ascending chain condition for principal ideals: if `R` is a domain in
+which every nonzero element is, up to a unit, a product of irreducibles, uniquely up to
+associates and order (the definition of a UFD, Stacks 034S), then every ascending chain of
+principal ideals of `R` stabilizes. As in Stacks, the proof factors elements into primes. -/
+@[stacks 0BUD]
+theorem accp_of_existsUnique_irreducible_factors {R : Type*} [CommRing R] [IsDomain R]
+    (eif : ∀ a : R, a ≠ 0 → ∃ f : Multiset R, (∀ b ∈ f, Irreducible b) ∧ Associated f.prod a)
+    (uif : ∀ f g : Multiset R, (∀ x ∈ f, Irreducible x) → (∀ x ∈ g, Irreducible x) →
+      Associated f.prod g.prod → Multiset.Rel Associated f g)
+    (f : ℕ → Ideal R) (hp : ∀ i, (f i).IsPrincipal) (hm : ∀ i, f i ≤ f (i + 1)) :
+    ∃ n, ∀ m, n ≤ m → f m = f n :=
+  have := UniqueFactorizationMonoid.of_existsUnique_irreducible_factors eif uif
+  have : WfDvdMonoid R :=
+    .of_exists_prime_factors fun _ ha ↦ UniqueFactorizationMonoid.exists_prime_factors _ ha
+  accp_of_wfDvdMonoid f hp hm

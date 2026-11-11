@@ -12,8 +12,7 @@ ideals, `G` a coherent `𝒪_F`-module, `E` a coherent `𝓘`-adic system and `�
 kernel and cokernel are annihilated by a power of `𝓘`.  Stacks 08BB asserts that there is a
 unique, up to unique isomorphism, triple `(M, a, β)` of a coherent module `M`, a map `a : M ⟶ G`
 whose kernel and cokernel are annihilated by a power of `𝓘`, and an isomorphism `β : E ≅ M^∧`
-with `α = a^∧ ∘ β`.  This file states existence and uniqueness on one theorem, and registers the
-existence half.
+with `α = a^∧ ∘ β`.  This file states existence and uniqueness on one theorem.
 
 ## Main results
 
@@ -89,10 +88,6 @@ theorem exists_algebraization_and_existsUnique_iso
     fun a a' β β' ha ha' hα₁ hα₂ =>
       existsUnique_iso_of_algebraization_of_isNoetherian B S hS F hF 𝓘 hI hZ hN α a a' β β'
         ha ha' hα₁ hα₂⟩
-
-add_to_stacks 08BB "existence of the algebraization (F, a, β), over the source's hypotheses with \
-Noetherianity of the algebraic space weakened to local Noetherianity of its étale charts"
-  AlgebraicGeometry.Space.C1573.exists_algebraization
 
 end AlgebraicGeometry.Space
 

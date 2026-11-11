@@ -67,7 +67,11 @@ theorem artinianApproximationDataAt_of_charP (k Λ : Type u) [Field k] [CommRing
 
 This was item (9) of the proof of Stacks 07FJ, carried as a hypothesis there and in
 `Stacks.Smoothing.TwistedQuotientResolution`. The λ-choice of Stacks 07FH, on which it turns, is
-not justified by the source's text; **the repair implemented here is due to Brian Nugent**. -/
+not justified by the source's text; **the repair implemented here is due to Brian Nugent**.
+
+This is the only declaration carrying `@[stacks 07FT]`: the special case
+`Stacks.Smoothing.exists_mvPolynomial_localArtinianFactorization_mem`, which assumes in addition
+that the residue field `κ(𝔮)` is essentially of finite type over `k`, is untagged. -/
 @[stacks 07FT "The lemma in full generality: for every field k of characteristic p > 0, every
 Noetherian geometrically regular k-algebra Λ, every prime 𝔮 of Λ, every n ≥ 1 and every finite
 subset E of Λ_𝔮/𝔮^nΛ_𝔮, there are m and a k-algebra map φ : k[y_1, …, y_m] → Λ such that, with

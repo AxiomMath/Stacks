@@ -34,7 +34,12 @@ point of `x₀` (Stacks 0DSA) is `2 dim A - dim B`.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.hasLocalRingDimension_of_versalCogroupoid`: **Stacks 0DSB**.
+* `AlgebraicGeometry.Stack.hasLocalRingDimension_of_versalCogroupoid`: the integer
+  `2 dim A - dim B` satisfies the relation `AlgebraicGeometry.Stack.HasLocalRingDimension`.
+* `AlgebraicGeometry.Stack.exists_canonicalChart_hasRelationLocalRingDimension_of_isVersal`: the
+  same at the canonical identification of the chart, from which
+  `StacksFrontier.AlgebraicGeometry.Stacks.LocalRingDimensionVersalChart` derives **Stacks 0DSB**
+  (`AlgebraicGeometry.Stack.hasLocalRingDimensionAtSomeChart_iff_of_versalCogroupoid`).
 
 ## Implementation notes
 
@@ -587,13 +592,16 @@ theorem isFiniteTypePoint_objectPoint (D : VersalSituation.{u, w})
   rw [← pointsMap_chartFieldPoint g iΛ x₀ hx₀ u₀ hu₀ η]
   exact isFiniteTypePoint_pointsMap_chartFieldPoint g hg iΛ u₀ hu₀ hfinl.1
 
-/-- **Stacks 0DSB, for any ring prorepresenting the isomorphisms of a versal object.** In Situation
-0DQU, let `x₀` be an object of `𝒳` over `Spec k`, `k` of finite type over `S`, let `Spec Λ ⊆ S` be
-an affine open through which `Spec k ⟶ S` factors with `Λ → k` finite (Section 07T2), let `ξ` be a
-versal formal object of `𝓕_{𝒳,k,x₀}` over `A` and let `B` be a Noetherian complete local
-`Λ`-algebra with residue field `k` with `B|_{𝒞_Λ} ≅ A|_{𝒞_Λ} ×_{ξ, 𝓕, ξ} A|_{𝒞_Λ}`. Then the
-dimension of the local ring of `𝒳` at the point of `x₀` (Stacks 0DSA) is `2 dim A - dim B`. -/
-theorem hasLocalRingDimension_of_isVersal (D : VersalSituation.{u, w})
+/-- **The chart computation behind Stacks 0DSB, at the canonical identification of the chart.**
+Under the hypotheses of `AlgebraicGeometry.Stack.hasLocalRingDimension_of_isVersal`, the dimensions
+of `A` and `B` are natural numbers `m`, `n`, and condition (1) of Stacks 0DS9 holds at the point of
+`x₀` with the integer `2 m - n`, with the identification of the chart `V` with the presheaf it
+represents fixed to the canonical one,
+`CategoryTheory.PresheafOfCategories.sliceElementsEquivalenceOver`.
+The conclusion is the unfolding of `AlgebraicGeometry.Stack.HasLocalRingDimensionAtSomeChart`;
+the statement of Stacks 0DSB built from it is
+`AlgebraicGeometry.Stack.hasLocalRingDimensionAtSomeChart_iff_of_versalCogroupoid`. -/
+theorem exists_canonicalChart_hasRelationLocalRingDimension_of_isVersal (D : VersalSituation.{u, w})
     {Λ k : Type u} [CommRing Λ] [Field k] [Algebra Λ k] [Module.Finite Λ k]
     (iΛ : Spec (.of Λ) ⟶ D.S) (hiΛ : _root_.AlgebraicGeometry.IsOpenImmersion iΛ)
     (x₀ : D.𝒳.val.val.obj)
@@ -611,9 +619,25 @@ theorem hasLocalRingDimension_of_isVersal (D : VersalSituation.{u, w})
       (_ : Deformation.restrictedCoyoneda Bv ≅
         (Deformation.versalGroupoid C.projection hp ξ).arrows),
       ∃ m n : ℕ, ringKrullDim ξ.base = m ∧ ringKrullDim Bv = n ∧
-        HasLocalRingDimension D.B D.S D.hS D.𝒳 (isLocallyNoetherianStack_of_versalSituation D)
-          (objectPoint D.B D.S D.hS iΛ x₀ hx₀)
-          (isFiniteTypePoint_objectPoint D iΛ hiΛ x₀ hx₀ hfinite) (2 * (m : ℤ) - (n : ℤ)) := by
+        ∃ (V : BigFppfOver D.B D.S D.hS) (g : schemeStack.{u, w} D.B D.S D.hS V ⟶ D.𝒳)
+          (T : Bicategory.TwoCommSq g g) (_hT : Bicategory.IsTwoFibreProduct T)
+          (Q : (BigFppfOver D.B D.S D.hS)ᵒᵖ ⥤ Type u) (_hQ : IsAlgebraicSpace D.B D.S D.hS Q)
+          (eQ : StacksRepresentableCFG.EquivalenceOver
+            T.pt.val.val.p (presheafOfCategories (Q ⋙ typeToCat)).p)
+          (δ : Bicategory.TwoCommSq.PreHom (selfIntersectionDiagonalSquare D.B D.S D.hS V g) T)
+          (ν : Space.points D.B D.S D.hS (yoneda.obj V)),
+          AlgebraicStacks.IsSmooth D.B D.S D.hS g ∧
+            AlgebraicGeometry.IsFiniteTypePoint (Space.pointsToScheme D.B D.S D.hS V ν) ∧
+              pointsMap D.B D.S D.hS (schemeFibredCategory D.B D.S D.hS V).val
+                  (schemeFibredCategory D.B D.S D.hS V).property D.𝒳.val.property g.hom.hom
+                  (representedChartPointMap D.B D.S D.hS V ν) =
+                objectPoint D.B D.S D.hS iΛ x₀ hx₀ ∧
+                HasRelationLocalRingDimension D.B D.S D.hS V g T Q
+                  (PresheafOfCategories.sliceElementsEquivalenceOver V) eQ
+                  (Space.pointsMap D.B D.S D.hS (yoneda.obj V)
+                    (selfIntersectionDiagonalMap D.B D.S D.hS V g T Q
+                      (PresheafOfCategories.sliceElementsEquivalenceOver V) eQ δ) ν)
+                  (2 * (m : ℤ) - (n : ℤ)) := by
   intro C hp ξ hξ Bv e
   have : _root_.AlgebraicGeometry.IsOpenImmersion iΛ := hiΛ
   obtain ⟨l, _, _, _, _, hkl, hsep, V, g, hg, hV, u₀, hu₀, hxₗ, η, hη, -, hc₀, hres⟩ :=
@@ -671,7 +695,7 @@ theorem hasLocalRingDimension_of_isVersal (D : VersalSituation.{u, w})
     eV₀ eQ' δ
   obtain ⟨hptL, hpt⟩ := pointMap_comp_algebraMap_eq D.B D.S D.hS π hu₀ hw₀ huL hπ
   let ηL := (CatFiberedInGroupoids.homFunctor g.hom).map (Over.homMk π rfl : uL ⟶ u₀) ≫ η
-  refine ⟨a₁, b₁, h1, h2, V, g, T, hT, Q, hQ, eV₀, eQ', δ, pν.class D.B D.S D.hS _, hg, ?_,
+  refine ⟨a₁, b₁, h1, h2, V, g, T, hT, Q, hQ, eQ', δ, pν.class D.B D.S D.hS _, hg, ?_,
     pointsMap_chartFieldPoint g iΛ x₀ hx₀ uL huL ηL, ?_⟩
   · rw [Space.pointsToScheme_class, schemePoint_chartFieldPoint, hpt]
     have hcomp : pointMap hu₀ ≫ D.B.inclusion.map V.hom =
@@ -728,22 +752,65 @@ theorem hasLocalRingDimension_of_isVersal (D : VersalSituation.{u, w})
       exact_mod_cast hch
     · omega
 
-/-- **Stacks 0DSB.** Let `𝒳` be an algebraic stack, locally of finite type over a locally
-Noetherian scheme `S` (Situation 0DQU), and let `x₀ : Spec k ⟶ 𝒳` be a morphism, `k` a field of
-finite type over `S`, with `Spec Λ ⊆ S` an affine open through which `Spec k ⟶ S` factors with
-`Λ → k` finite (Section 07T2). Represent `𝓕_{𝒳,k,x₀}` as in Remark 0DR3 by a cogroupoid
-`(A, B, s, t, c)` of Noetherian complete local `Λ`-algebras with residue field `k`: a versal formal
-object `ξ` over `A` and a representable presentation `P` on `𝒞^_Λ` with objects `P.objects = A`,
-arrows `P.arrows = B`, source and target `s = P.source`, `t = P.target` and comultiplication
-`c = P.comultiplication`, whose restriction to `𝒞_Λ` is the groupoid in functors
-`(A|_{𝒞_Λ}, A|_{𝒞_Λ} ×_{ξ, 𝓕, ξ} A|_{𝒞_Λ})` of `ξ` (this is the representation produced by
-`AlgebraicGeometry.Stack.exists_versalCogroupoid_predeformationCategory`). Then the dimension of
-the local ring of `𝒳` at the point of `x₀` (Stacks 0DSA) is `2 dim A - dim B`.
+/-- **Stacks 0DSB, for any ring prorepresenting the isomorphisms of a versal object.** In Situation
+0DQU, let `x₀` be an object of `𝒳` over `Spec k`, `k` of finite type over `S`, let `Spec Λ ⊆ S` be
+an affine open through which `Spec k ⟶ S` factors with `Λ → k` finite (Section 07T2), let `ξ` be a
+versal formal object of `𝓕_{𝒳,k,x₀}` over `A` and let `B` be a Noetherian complete local
+`Λ`-algebra with residue field `k` with `B|_{𝒞_Λ} ≅ A|_{𝒞_Λ} ×_{ξ, 𝓕, ξ} A|_{𝒞_Λ}`. Then the
+relation `AlgebraicGeometry.Stack.HasLocalRingDimension` of Stacks 0DSA holds at the point of `x₀`
+with the integer `2 dim A - dim B`.
+
+That relation quantifies the identification of the chart with the presheaf it represents and so
+does not by itself pin down the integer; the faithful statement, with the single integer of
+Stacks 0DS9, is `AlgebraicGeometry.Stack.hasLocalRingDimensionAtSomeChart_iff_of_isVersal`. -/
+theorem hasLocalRingDimension_of_isVersal (D : VersalSituation.{u, w})
+    {Λ k : Type u} [CommRing Λ] [Field k] [Algebra Λ k] [Module.Finite Λ k]
+    (iΛ : Spec (.of Λ) ⟶ D.S) (hiΛ : _root_.AlgebraicGeometry.IsOpenImmersion iΛ)
+    (x₀ : D.𝒳.val.val.obj)
+    (hx₀ : (D.𝒳.val.val.p ⋙ Over.post D.B.inclusion).obj x₀ =
+      Over.mk (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ))
+    (hfinite : LocallyOfFiniteType (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ) ∧
+      QuasiCompact (Spec.map (CommRingCat.ofHom (algebraMap Λ k)) ≫ iΛ)) :
+    let C := Deformation.Artin.predeformationCategory iΛ
+      (D.𝒳.val.val.p ⋙ Over.post D.B.inclusion) x₀ hx₀
+    letI := C.category
+    let hp := Deformation.Artin.predeformationCategory_isPredeformationCategory
+      D.B D.hS iΛ D.𝒳.val.val.p x₀ hx₀ D.𝒳.val.property
+    ∀ (ξ : Deformation.FormalObject C.projection) (_ : Deformation.IsVersal hp.cofibered ξ)
+      (Bv : Deformation.CompleteLocalAlgCat.{u, u, u} Λ k)
+      (_ : Deformation.restrictedCoyoneda Bv ≅
+        (Deformation.versalGroupoid C.projection hp ξ).arrows),
+      ∃ m n : ℕ, ringKrullDim ξ.base = m ∧ ringKrullDim Bv = n ∧
+        HasLocalRingDimension D.B D.S D.hS D.𝒳 (isLocallyNoetherianStack_of_versalSituation D)
+          (objectPoint D.B D.S D.hS iΛ x₀ hx₀)
+          (isFiniteTypePoint_objectPoint D iΛ hiΛ x₀ hx₀ hfinite) (2 * (m : ℤ) - (n : ℤ)) := by
+  intro C hp ξ hξ Bv e
+  obtain ⟨m, n, hm, hn, V, g, T, hT, Q, hQ, eQ, δ, ν, h⟩ :=
+    exists_canonicalChart_hasRelationLocalRingDimension_of_isVersal D iΛ hiΛ x₀ hx₀ hfinite ξ hξ
+      Bv e
+  exact ⟨m, n, hm, hn, V, g, T, hT, Q, hQ, _, eQ, δ, ν, h⟩
+
+/-- **Stacks 0DSB, for the quantified relation.** Let `𝒳` be an algebraic stack, locally of finite
+type over a locally Noetherian scheme `S` (Situation 0DQU), and let `x₀ : Spec k ⟶ 𝒳` be a
+morphism, `k` a field of finite type over `S`, with `Spec Λ ⊆ S` an affine open through which
+`Spec k ⟶ S` factors with `Λ → k` finite (Section 07T2). Represent `𝓕_{𝒳,k,x₀}` as in Remark
+0DR3 by a cogroupoid `(A, B, s, t, c)` of Noetherian complete local `Λ`-algebras with residue
+field `k`: a versal formal object `ξ` over `A` and a representable presentation `P` on `𝒞^_Λ` with
+objects `P.objects = A`, arrows `P.arrows = B`, source and target `s = P.source`, `t = P.target`
+and comultiplication `c = P.comultiplication`, whose restriction to `𝒞_Λ` is the groupoid in
+functors `(A|_{𝒞_Λ}, A|_{𝒞_Λ} ×_{ξ, 𝓕, ξ} A|_{𝒞_Λ})` of `ξ` (this is the representation produced
+by `AlgebraicGeometry.Stack.exists_versalCogroupoid_predeformationCategory`). Then the relation
+`AlgebraicGeometry.Stack.HasLocalRingDimension` of Stacks 0DSA holds at the point of `x₀` with the
+integer `2 dim A - dim B`.
+
+That relation quantifies the identification of the chart with the presheaf it represents and so
+does not by itself pin down the integer. **Stacks 0DSB** itself, the single integer of Stacks 0DS9
+being `2 dim A - dim B`, is
+`AlgebraicGeometry.Stack.hasLocalRingDimensionAtSomeChart_iff_of_versalCogroupoid`.
 
 Every such representation is allowed, so the statement holds for all of them; the two dimensions
 are finite and are recorded as natural numbers before the difference is taken, as in Stacks
 0DSA. -/
-@[stacks 0DSB]
 theorem hasLocalRingDimension_of_versalCogroupoid (D : VersalSituation.{u, w})
     {Λ k : Type u} [CommRing Λ] [Field k] [Algebra Λ k] [Module.Finite Λ k]
     (iΛ : Spec (.of Λ) ⟶ D.S) (hiΛ : _root_.AlgebraicGeometry.IsOpenImmersion iΛ)

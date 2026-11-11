@@ -30,8 +30,8 @@ Situation 0849, are in `StacksFrontier.AlgebraicGeometry.Spaces.RelativeProjPoin
   `U(χ) = r_ψ^{-1}(U(φ))`, as an equality of subfunctors of `R`.
 * `AlgebraicGeometry.Space.RelativeProjHomPoints.compRestrict_comp_relativeMapSpaceHom`:
   `r_χ = r_φ ∘ r_ψ|_{U(χ)}`, as an equality of morphisms `U(χ) ⟶ P`.
-* `AlgebraicGeometry.Space.RelativeProjHomPoints.relativeTwistSpaceMap_comp`:
-  `θ_ψ ∘ r_ψ^*θ_φ = θ_{ψ ∘ φ}`, over every scheme point of the base.
+* `AlgebraicGeometry.Space.RelativeProjHomPoints.relativeTwistSpaceMap_comp`: **the third
+  assertion of Tag 085G**, `θ_ψ ∘ r_ψ^*θ_φ = θ_{ψ ∘ φ}`, over every scheme point of the base.
 
 ## Implementation notes
 
@@ -128,12 +128,25 @@ theorem compRestrict_comp_relativeMapSpaceHom :
   ext Y ⟨y, hc⟩
   exact (hφ.app_comp_relativeMapSpaceHom hψ Y y _ hc _).symm
 
-/-- **`θ_ψ ∘ r_ψ^*θ_φ = θ_{ψ ∘ φ}`**, over a scheme point
+/-- **Tag 085G, the third assertion: `θ_ψ ∘ r_ψ^*θ_φ = θ_{ψ ∘ φ}`**, over a scheme point
 `(T, f)` of the base and in degree `n`.  The `n`-th map on twists of the composite is the inverse
 image along the restriction of `r_ψ` to `U(ψ ∘ φ)` of the `n`-th map on twists of `φ`, followed
 by the inverse image along the inclusion of `U(ψ ∘ φ)` into `U(ψ)` of the `n`-th map on twists of
 `ψ`; the remaining factors are the inverse-image isomorphisms that identify the sources and
-targets, named by the first two assertions at that point. -/
+targets, named by the first two assertions at that point.
+
+The source's "obvious notation" `r_ψ^*θ_φ` is the inverse image of
+`θ_φ : r_φ^*𝒪_P(n) ⟶ 𝒪_{U(φ)}(n)` along `r_ψ|_{U(ψ ∘ φ)} : U(ψ ∘ φ) ⟶ U(φ)`, a map
+`r_ψ^*r_φ^*𝒪_P(n) ⟶ r_ψ^*𝒪_Q(n)` over `U(ψ ∘ φ)`; it is composed with `θ_ψ` restricted to
+`U(ψ ∘ φ)`, and `r_ψ^*r_φ^* = r_{ψ ∘ φ}^*` by the second assertion.  Tag 085F's `θ` is, in this
+library, `AlgebraicGeometry.Space.RelativeProjHomPoints.relativeTwistSpaceMap`, its restriction
+over every scheme point `(T, f)` of `X`, so this is the assertion over every such point.  The
+source's `θ` is a map of `ℤ`-graded algebras, and such a map is determined by its components, so
+the degreewise identity is the identity of graded maps. -/
+@[stacks 085G "(3): θ_ψ ∘ r_ψ^*θ_φ = θ_{ψ ∘ φ}, in every degree n and over every scheme point \
+(T, f) of X, where Tag 085F's θ is given: the inverse image of θ_φ along the restriction \
+r_ψ|_{U(ψ ∘ φ)} : U(ψ ∘ φ) ⟶ U(φ), followed by the restriction of θ_ψ to U(ψ ∘ φ), is \
+θ_{ψ ∘ φ}, up to the canonical inverse-image isomorphisms"]
 theorem relativeTwistSpaceMap_comp (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X) (n : ℤ) :
     (Scheme.Modules.pullbackCongr
           (relativeMapHomRestrict_comp_relativeMapHom (hφ.hom T f) (hψ.hom T f))).inv.app

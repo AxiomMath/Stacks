@@ -11,7 +11,7 @@ public import Mathlib.CategoryTheory.EssentialImage
 public import Mathlib.CategoryTheory.Subfunctor.Image
 
 /-!
-# Stacks 0505: the invariant subspace cut out by an immersion into a quotient stack
+# The invariant subspace cut out by an immersion into a quotient stack
 
 Let `G = (U, R, s, t, c)` be a groupoid in algebraic spaces over an algebraic space `B` over a
 scheme `S` of a big fppf site, and let `i : 𝒵 ⟶ [U/R]` be an immersion. Stacks 0505 asserts
@@ -20,9 +20,17 @@ that there is an `R`-invariant locally closed subspace `Z ⊆ U` and a presentat
 respectively open — when `i` is a closed — respectively open — immersion.
 
 The subspace the source produces is `U' = 𝒵 ×_{[U/R]} U`, read as a subspace of `U` through the
-immersion `U' ⟶ U`. This module proves the two assertions about that subspace: that it **is** a
-locally closed — respectively closed, respectively open — subspace of `U`, and that it is
-**`R`-invariant**.
+immersion `U' ⟶ U`. This module proves, as auxiliary steps, the two assertions about that
+subspace: that it **is** a locally closed — respectively closed, respectively open — subspace of
+`U`, and that it is **`R`-invariant**, for a given immersion `U' ⟶ U` with the right range.
+
+Stacks 0505 itself, with the presentation `[Z/R_Z] ⟶ 𝒵` and the 2-commutative triangle and
+under exactly the source's hypotheses, is
+`AlgebraicGeometry.Stack.exists_isInvariantLocallyClosed_groupoidPresentation_of_isImmersion` of
+`StacksFrontier.AlgebraicGeometry.Stacks.ImmersionQuotientStackPresentation`, which carries the tag;
+the immersion `U' ⟶ U` and its range are produced from `i` in
+`StacksFrontier.AlgebraicGeometry.Stacks.QuotientStackImmersionBaseChangeSpace`. Nothing in this
+module is tagged 0505.
 
 ## Main results
 
@@ -54,30 +62,28 @@ locally closed — respectively closed, respectively open — subspace of `U`, a
   and `…_iff_exists_twoFibreProductSquare`: that statement at the cospan of Stacks 0505 — the
   canonical atlas `U ⟶ [U/R]` of Stacks 044R against `i : 𝒵 ⟶ [U/R]` — for the 2-fibre product
   over the site and for the apex of the canonical 2-fibre product square of the 2-category of
-  categories fibred in groupoids. **This discharges the essential-image half of the carried
+  categories fibred in groupoids. **This discharges the essential-image half of the
   hypothesis `hmem` below**: a point of `U` is in the locus `hmem` describes exactly when it is
   carried by an object of `𝒵 ×_{[U/R]} U`.
 
-## What is proved, and what is not
+## The role of the hypotheses below
 
 Stacks 0505's proof has one citation, **Stacks 04Y6**, which produces the 2-fibre product
 `U' = 𝒵 ×_{[U/R]} U` together with the presentation of `𝒵` by the restriction of `G` to it. The
 2-fibre product itself is available: it is
 `CategoryTheory.CatFiberedInGroupoids.twoFibreProductSquare` at the canonical atlas
 `AlgebraicGeometry.Stack.quotientStackProjectionHom` and at `i`, and the two statements below
-identify, with no hypothesis, the locus of `U` its projection covers. What is *not* available is
-the step that reads that 2-fibre product as an algebraic space over `U`: it is a category fibred
-in groupoids, and exhibiting it as an algebraic space needs `i` to be representable by algebraic
-spaces (Stacks 0300,
-`AlgebraicGeometry.Stack.isRepresentableByAlgebraicSpace_twoFibreProduct`). So the *space* `U'`
-is still carried, in the two pieces the argument uses:
+identify, with no hypothesis, the locus of `U` its projection covers. The step that reads
+that 2-fibre product as an algebraic space over `U` needs `i` to be representable by algebraic
+spaces (Stacks 0300); it is done in
+`StacksFrontier.AlgebraicGeometry.Stacks.QuotientStackImmersionBaseChangeSpace`, which imports this
+module. The statements here therefore take the *space* `U'` as input, in the two pieces the
+argument uses:
 
 * an algebraic space `U'` with a morphism `m : U' ⟶ U`, together with the hypothesis that `m`
   is an immersion (respectively a closed, respectively an open immersion) of algebraic spaces.
-  In the source this is read off from `i` being one, by Stacks 04XD; that descent is not
-  available for a 1-morphism out of a quotient stack, whose morphisms live one universe up
-  (see the module documentation of
-  `StacksFrontier.AlgebraicGeometry.Stacks.QuotientStackRestrictionImmersion`), so it is carried;
+  In the source this is read off from `i` being one, by Stacks 04XD; in this library that is
+  `AlgebraicGeometry.Stack.exists_isImmersion_representingMap_of_isImmersion_quotientStack`;
 * the hypothesis that the range of `m` is, pointwise, the locus of `U` the projection of
   `𝒵 ×_{[U/R]} U` covers. In the three statements this is spelled out with essential images,
   as `hmem`; given that `𝒵` is fibred in groupoids it is equivalent to the 2-fibre product
@@ -88,17 +94,15 @@ The comparison of a vertical isomorphism with an arbitrary one, which that equiv
 the new content, and it is
 `CategoryTheory.TwoFibreProductOver.essImage_obj_iff_exists_x_eq`, which carries nothing.
 
-Both carried hypotheses are used; neither is the conclusion. From them the two subspace
-assertions of Stacks 0505 are proved outright: local closedness (respectively closedness,
+Both hypotheses are used; neither is the conclusion. From them the two subspace
+assertions of Stacks 0505 are proved: local closedness (respectively closedness,
 openness) by the range lemmas below, and `R`-invariance by the 2-morphism of Stacks 044S. No
 smoothness of `G` is used anywhere — Stacks 044S holds for any groupoid in algebraic spaces —
-so the smoothness hypothesis of Stacks 0505 is **not** carried.
+so the smoothness hypothesis of Stacks 0505 does not appear.
 
 The remaining assertion of Stacks 0505 — that `[Z/R_Z] ⟶ 𝒵` is a *presentation* and that the
-triangle over `[U/R]` is 2-commutative — is **not** proved and nothing here is tagged for it.
-It is precisely what Stacks 04Y6 supplies, and assuming the equivalence
-`[Z/R_Z] ≃ 𝒵` would be assuming all but the smoothness clause of
-`AlgebraicGeometry.Stack.GroupoidPresentation`, so no statement of that shape is given.
+triangle over `[U/R]` is 2-commutative — is proved in
+`StacksFrontier.AlgebraicGeometry.Stacks.ImmersionQuotientStackPresentation`.
 
 ## Implementation notes
 
@@ -336,18 +340,17 @@ variable {G : GroupoidInAlgebraicSpaces C S hS B}
   {𝒵 : BasedCategory.{u + 1, u + 1} (BigFppfOver C S hS)}
   (i : 𝒵 ⥤ᵇ quotientStack G) {U' : AlgebraicSpaces C S hS} (m : U' ⟶ G.objects)
 
-/-- **Stacks 0505, the invariant locally closed subspace.** Let `G = (U, R, s, t, c)` be a
-groupoid in algebraic spaces, let `i : 𝒵 ⟶ [U/R]` be a 1-morphism over the big fppf site, and
-let `m : U' ⟶ U` be an immersion of algebraic spaces whose range is, pointwise, the inverse
-image along `U ⟶ [U/R]` of the essential image of `i` — which is what it is for `U'` to be the
-2-fibre product `𝒵 ×_{[U/R]} U` of Stacks 04Y6. Then the range of `m` is an `R`-invariant
-locally closed subspace `Z ⊆ U` in the sense of Stacks 044F, part (2), and `U' ≅ Z`.
+/-- **The invariant locally closed subspace, an auxiliary step of Stacks 0505.**
+Let `G = (U, R, s, t, c)` be a groupoid in algebraic spaces, let `i : 𝒵 ⟶ [U/R]` be a
+1-morphism over the big fppf site, and let `m : U' ⟶ U` be an immersion of algebraic spaces whose
+range is, pointwise, the inverse image along `U ⟶ [U/R]` of the essential image of `i` — which is
+what it is for `U'` to be the 2-fibre product `𝒵 ×_{[U/R]} U` of Stacks 04Y6. Then the range of
+`m` is an `R`-invariant locally closed subspace `Z ⊆ U` in the sense of Stacks 044F, part (2),
+and `U' ≅ Z`.
 
-Smoothness of `G` is not used. -/
-@[stacks 0505 "the R-invariant locally closed subspace Z = U' of U cut out by an immersion \
-into [U/R]; the 2-fibre product U' = 𝒵 ×_{[U/R]} U of Stacks 04Y6 is carried as the morphism m \
-together with hmem, and the immersion property of m (Stacks 04XD applied to i) as hm; the \
-presentation [Z/R_Z] ⟶ 𝒵 and the 2-commutative triangle are not proved"]
+Smoothness of `G` is not used. The full Stacks 0505 is
+`AlgebraicGeometry.Stack.exists_isInvariantLocallyClosed_groupoidPresentation_of_isImmersion`,
+where `m` and `hmem` are produced from an immersion `i`. -/
 theorem isInvariantLocallyClosed_range_of_isImmersion_essImage
     (hm : Space.IsImmersion C S hS m.hom)
     (hmem : ∀ (W : (BigFppfOver C S hS)ᵒᵖ) (u : G.objects.obj.obj W),
@@ -357,13 +360,10 @@ theorem isInvariantLocallyClosed_range_of_isImmersion_essImage
   ⟨Space.isLocallyClosedSubspace_range_of_isImmersion C S hS m.hom U'.property hm,
     preimage_target_eq_preimage_source_of_mem_iff G i.toFunctor.essImage _ hmem⟩
 
-/-- **Stacks 0505, the invariant closed subspace.** In the situation of
+/-- **The invariant closed subspace, an auxiliary step of Stacks 0505.** In the situation of
 `AlgebraicGeometry.Stack.isInvariantLocallyClosed_range_of_isImmersion_essImage`, if `m` is a
 closed immersion — which is what the source gets from `i` being a closed immersion — then the
 range of `m` is an invariant *closed* subspace of `U`. -/
-@[stacks 0505 "the R-invariant closed subspace, for a closed immersion into [U/R]; the 2-fibre \
-product of Stacks 04Y6 is carried as m together with hmem, and the closed immersion property of \
-m (Stacks 04XD applied to i) as hm"]
 theorem isInvariantClosed_range_of_isClosedImmersion_essImage
     (hm : Space.IsClosedImmersion C S hS m.hom)
     (hmem : ∀ (W : (BigFppfOver C S hS)ᵒᵖ) (u : G.objects.obj.obj W),
@@ -376,13 +376,10 @@ theorem isInvariantClosed_range_of_isClosedImmersion_essImage
       Space.prop_range_ι_of_mono C S hS _ m.hom hm⟩,
     preimage_target_eq_preimage_source_of_mem_iff G i.toFunctor.essImage _ hmem⟩
 
-/-- **Stacks 0505, the invariant open subspace.** In the situation of
+/-- **The invariant open subspace, an auxiliary step of Stacks 0505.** In the situation of
 `AlgebraicGeometry.Stack.isInvariantLocallyClosed_range_of_isImmersion_essImage`, if `m` is an
 open immersion — which is what the source gets from `i` being an open immersion — then the range
 of `m` is an invariant *open* subspace of `U` in the sense of Stacks 044F, part (1). -/
-@[stacks 0505 "the R-invariant open subspace, for an open immersion into [U/R]; the 2-fibre \
-product of Stacks 04Y6 is carried as m together with hmem, and the open immersion property of m \
-(Stacks 04XD applied to i) as hm"]
 theorem isInvariantOpen_range_of_isOpenImmersion_essImage
     (hm : Space.IsOpenImmersion C S hS m.hom)
     (hmem : ∀ (W : (BigFppfOver C S hS)ᵒᵖ) (u : G.objects.obj.obj W),
@@ -393,18 +390,16 @@ theorem isInvariantOpen_range_of_isOpenImmersion_essImage
       U'.property hm,
     le_of_eq (preimage_target_eq_preimage_source_of_mem_iff G i.toFunctor.essImage _ hmem).symm⟩
 
-/-- **Stacks 0505: the locus the 2-fibre product of Stacks 04Y6 covers is the essential-image
-locus.** Let `G = (U, R, s, t, c)` be a groupoid in algebraic spaces and let `i : 𝒵 ⟶ [U/R]` be
-a 1-morphism over the big fppf site whose source is fibred in groupoids. A point `x` of `U`
-over an object `W` of the site is carried by an object of the 2-fibre product
+/-- **The locus the 2-fibre product of Stacks 04Y6 covers is the essential-image locus**, an
+auxiliary step of Stacks 0505. Let `G = (U, R, s, t, c)` be a groupoid in algebraic spaces and
+let `i : 𝒵 ⟶ [U/R]` be a 1-morphism over the big fppf site whose source is fibred in groupoids.
+A point `x` of `U` over an object `W` of the site is carried by an object of the 2-fibre product
 `U ×_{[U/R]} 𝒵` — the `U'` Stacks 04Y6 forms, for the canonical atlas `U ⟶ [U/R]` of
 Stacks 044R — exactly when the image of `x` in `[U/R]` lies in the essential image of `i`.
 
-Nothing is carried: this is the hypothesis `hmem` of
+This is the hypothesis `hmem` of
 `AlgebraicGeometry.Stack.isInvariantLocallyClosed_range_of_isImmersion_essImage`, in the shape
-Stacks 04Y6 states it, proved rather than assumed. -/
-@[stacks 0505 "the points of U covered by the 2-fibre product U' = 𝒵 ×_{[U/R]} U of Stacks 04Y6 \
-are exactly those whose image in [U/R] is in the essential image of i; nothing carried"]
+Stacks 04Y6 states it. -/
 theorem essImage_quotientStackProjection_iff_exists_twoFibreProductOver
     (h𝒵 : 𝒵.p.IsFiberedInGroupoids) (W : (BigFppfOver C S hS)ᵒᵖ)
     (x : G.objects.obj.obj W) :
@@ -421,17 +416,13 @@ section Square
 
 variable {G : GroupoidInAlgebraicSpaces C S hS B}
 
-/-- **Stacks 0505 for the canonical 2-fibre product square of Stacks 04Y6.** The same statement
+/-- **The essential-image locus on the canonical 2-fibre product square of Stacks 04Y6**, an
+auxiliary step of Stacks 0505. The same statement
 as `AlgebraicGeometry.Stack.essImage_quotientStackProjection_iff_exists_twoFibreProductOver`,
 read on the apex of `CategoryTheory.CatFiberedInGroupoids.twoFibreProductSquare` at the
 canonical atlas `AlgebraicGeometry.Stack.quotientStackProjectionHom` of Stacks 044R and at a
 1-morphism `j : 𝒴 ⟶ [U/R]` of categories fibred in groupoids. That square is the
-`U' = 𝒰 ×_𝒳 𝒳'` of Stacks 04Y6, formed at the universes a quotient stack lives at.
-
-Nothing is carried. -/
-@[stacks 0505 "the points of U covered by the apex of the canonical 2-fibre product square of \
-Stacks 04Y6 at the atlas U ⟶ [U/R] are exactly those whose image in [U/R] is in the essential \
-image of the other leg; nothing carried"]
+`U' = 𝒰 ×_𝒳 𝒳'` of Stacks 04Y6, formed at the universes a quotient stack lives at. -/
 theorem essImage_quotientStackProjection_iff_exists_twoFibreProductSquare
     (𝒴 : CatFiberedInGroupoids.{u, u + 1, u + 1, u + 1} (BigFppfOver C S hS))
     (j : 𝒴 ⟶ CatFiberedInGroupoids.mk (quotientStack G)

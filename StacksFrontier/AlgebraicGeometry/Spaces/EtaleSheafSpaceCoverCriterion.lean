@@ -48,9 +48,11 @@ conclusion.
   a pre-relation in the slice over its target, with its monicity and its equivalence-relation
   structure.
 * `AlgebraicGeometry.Space.isAlgebraicSpace_of_isSheaf_etale_of_etale_space_atlas`:
-  **Stacks 0BH4**.
+  Stacks 0BH4 with its Stacks 04S6 input carried; the unconditional form is in
+  `StacksFrontier/AlgebraicGeometry/Spaces/EtaleSheafAtlasCriteria.lean`.
 * `AlgebraicGeometry.Space.isAlgebraicSpace_of_isSheaf_etale_of_smooth_scheme_atlas`:
-  **Stacks 07WF**.
+  Stacks 07WF with its Stacks 04S6 input carried; the unconditional form is in
+  `StacksFrontier/AlgebraicGeometry/Spaces/EtaleSheafAtlasCriteria.lean`.
 
 ## Implementation notes
 
@@ -607,8 +609,10 @@ carried there as `AlgebraicGeometry.Space.IsBootstrapAlgebraicSpaceAlongFlatSurj
 condition (3) does not apply either: it needs `U ⟶ U/R` to be representable by algebraic
 spaces, which in this library is available only from
 `AlgebraicGeometry.Space.relativelyRepresentable_quotientMap_of_isAlgebraicSpace`, gated on the
-quotient already being an algebraic space, or from Stacks 0AMP, which is itself conditional on
-condition (3).  The unconditional quotient-algebraicity results of the library
+quotient already being an algebraic space, or from Stacks 0AMP,
+`Space.isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective_unconditional`,
+which is downstream of condition (3).  The unconditional quotient-algebraicity results of the
+library
 (`AlgebraicGeometry.Space.isAlgebraicSpace_quotientSheaf_of_affineBase_unconditional` and the
 Stacks 02WW route behind `@[stacks 076M]`) all require the relation to be one of *schemes*, so
 they do not cover an equivalence relation of algebraic spaces either.
@@ -721,18 +725,17 @@ theorem coreCriterion
     (IsPullback.of_hasPullback a a) hqpb hla hlq
   exact hQ.of_iso e.symm
 
-/-- **Stacks 0BH4.** Let `F` be a presheaf of sets on the big category over `S`, which is the
-common underlying category of the chosen big fppf and big étale sites. If `F` is a sheaf for the
-étale topology and there are an algebraic space `X` over `S` and a morphism `X ⟶ F` which is
-representable by algebraic spaces, surjective and étale, then `F` is an algebraic space over `S`
-in the sense of Algebraic Spaces, Definition 025Y.
+/-- Let `F` be a presheaf of sets on the big category over `S`, which is the common underlying
+category of the chosen big fppf and big étale sites. If `F` is a sheaf for the étale topology and
+there are an algebraic space `X` over `S` and a morphism `X ⟶ F` which is representable by
+algebraic spaces, surjective and étale, then `F` is an algebraic space over `S` in the sense of
+Algebraic Spaces, Definition 025Y, given the Stacks 04S6 input `h04S6`.
 
 The étale cover is smooth, so the criterion is the smooth one of
-`AlgebraicGeometry.Space.coreCriterion`. -/
-@[stacks 0BH4 "granted Stacks 04S6 part (1), the algebraicity of the fppf quotient \
-sheaf of a flat locally finitely presented equivalence relation of algebraic spaces, carried as \
-the hypothesis `h04S6`; the library's Stacks 04S6 is conditions (5) and (6), which need the \
-quotient's diagonal and are themselves conditional on condition (3), so neither discharges it"]
+`AlgebraicGeometry.Space.coreCriterion`. Stacks 0BH4 itself, with `h04S6` discharged by
+`AlgebraicGeometry.Space.bootstrap04S6QuotientSheaf`, is
+`AlgebraicGeometry.Space.isAlgebraicSpace_of_isSheaf_etale_of_etale_space_atlas_unconditional`
+in `StacksFrontier/AlgebraicGeometry/Spaces/EtaleSheafAtlasCriteria.lean`. -/
 theorem isAlgebraicSpace_of_isSheaf_etale_of_etale_space_atlas
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (hF : Presheaf.IsSheaf ((etaleTopology B).over (B.obj hS)) F)
@@ -754,11 +757,10 @@ then `F` is an algebraic space over `S` in the sense of Algebraic Spaces, Defini
 The representability by algebraic spaces of the cover is not a further hypothesis: it follows
 from the representable diagonal by
 `AlgebraicGeometry.Space.isRepresentableByAlgebraicSpaces_of_diagonal`, and the surjectivity and
-smoothness are asked of that witness. -/
-@[stacks 07WF "granted Stacks 04S6 part (1), the algebraicity of the fppf quotient \
-sheaf of a flat locally finitely presented equivalence relation of algebraic spaces, carried as \
-the hypothesis `h04S6`; the library's Stacks 04S6 is conditions (5) and (6), which need the \
-quotient's diagonal and are themselves conditional on condition (3), so neither discharges it"]
+smoothness are asked of that witness. The form without the Stacks 04S6 input `h04S6`, which
+`AlgebraicGeometry.Space.bootstrap04S6QuotientSheaf` proves, is
+`AlgebraicGeometry.Space.isAlgebraicSpace_of_isSheaf_etale_of_smooth_scheme_atlas_unconditional`.
+-/
 theorem isAlgebraicSpace_of_isSheaf_etale_of_smooth_scheme_atlas
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
     (hF : Presheaf.IsSheaf ((etaleTopology B).over (B.obj hS)) F)

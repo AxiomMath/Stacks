@@ -65,7 +65,9 @@ of `S`.
 
 The ambient `ℋ_d(𝒳/𝒴)` is a stack in groupoids by Stacks 05WB, and the locus is a full
 subcategory inherited along morphisms and local on the base by the open locus of Stacks 05X8 and
-06CE, `AlgebraicGeometry.Stack.FiniteHilbert.hasOpenLciLocus`. -/
+06CE, `AlgebraicGeometry.Stack.FiniteHilbert.hasOpenLciLocus`. The form
+`AlgebraicGeometry.Stack.isStackInGroupoids_lciFiniteHilbertCategory`, which takes these inputs as
+arguments, carries no registration. -/
 @[stacks 06CL "ℋ_{d,lci}(𝒳/𝒴) is a stack in groupoids"]
 theorem isStackInGroupoids_lciFiniteHilbertCategory_of_flat
     (hFrep : IsRepresentableByAlgebraicSpaces B S hS F)

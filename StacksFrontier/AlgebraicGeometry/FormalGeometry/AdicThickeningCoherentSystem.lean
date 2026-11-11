@@ -27,8 +27,13 @@ and asserts that the completion functor
 is an equivalence of categories, the two support conditions being omissible when `X` is proper
 over `A`.
 
-This file introduces that category and that functor, and proves the final clause. It does **not**
-prove that the functor is an equivalence; see "What is not proved here" below.
+This file introduces that category and that functor, and proves that clause (3) may be dropped
+over a proper base. That the functor is an equivalence is
+`AlgebraicGeometry.isEquivalence_adicThickeningCompletionFunctor`
+(`FormalGeometry/CompletionProper/AdicThickeningEssSurj.lean`), and the proper case with the
+support conditions omitted is
+`AlgebraicGeometry.isEquivalence_adicThickeningTransitionCompletionFunctor`
+(`FormalGeometry/CompletionProper/AdicThickeningProperEquivalence.lean`); both build on this file.
 
 ## Main definitions
 
@@ -45,31 +50,23 @@ prove that the functor is an equivalence; see "What is not proved here" below.
 * `AlgebraicGeometry.hasProperSupport_adicThickeningCompletion_zero` — clause (3) for a
   completion: the restriction to `X₁` of a coherent module whose support is proper over `A` has
   support proper over `S₁`. This is Stacks 088D read in the thickening picture.
-* `AlgebraicGeometry.hasProperSupport_of_isProper_adicBaseChange` — the remark's final clause:
-  when `f` is proper, clause (3) holds for every coherent module on `Xₙ`, so it may be omitted.
+* `AlgebraicGeometry.hasProperSupport_of_isProper_adicBaseChange` — the support half of the
+  remark's final clause: when `f` is proper, clause (3) holds for every coherent module on `Xₙ`,
+  so it may be omitted.
   On the other side of the arrow the corresponding statement is
   `Stacks.Algebraization.hasProperSupport_of_isProper`, imported from the file carrying Stacks
   088E.
 * `AlgebraicGeometry.AdicCoherentModuleSystem.ofIsProper` — the resulting constructor: for a
   proper `f`, coherence and the transition isomorphisms alone produce a system.
 
-## What is not proved here
+## Where the equivalence is proved
 
-That `adicThickeningCompletionFunctor` is an **equivalence** is not proved. Two separate inputs
-are missing.
-
-* Stacks 088E itself. The library's carrier,
-  `Stacks.Algebraization.isEquivalence_completionFunctorProperOver_of_isProper`, takes Stacks
-  088C as a named hypothesis and is restricted to a proper `f`; Stacks 088C has no carrier at
-  all.
-* The *unwinding* itself, which is the content this remark adds to 088E: an identification of
-  `Stacks.Coherent.CoherentAdicSystems (baseIdealSheaf A I f)` — inverse systems of coherent
-  `𝒪_X`-modules annihilated by `Iⁿ` with quotient transitions, which is the category Stacks 088E
-  is stated against in this library — with the systems of this file. Levelwise that is Stacks
-  087T (`Stacks.ClosedImmersion.pushforwardCohEquivalence`), but the comparison needs in
-  addition an identification of `adicBaseChange A I f n` with the closed subscheme of
-  `baseIdealSheaf A I f ^ (n + 1)` carrying `adicBaseChangeSucc` to the inclusion of consecutive
-  subschemes, and nothing in the library provides it.
+The equivalence is Stacks 088E,
+`Stacks.Algebraization.isEquivalence_completionFunctorProperOver_holds`, stated against
+`Stacks.Coherent.CoherentAdicSystems (baseIdealSheaf A I f)`, read through the unwinding of
+`FormalGeometry/AdicThickeningUnwinding.lean`, which identifies the `n`-th term of the
+`I`-adic completion with the direct image of the restriction to `Xₙ`. The two are combined in
+`FormalGeometry/CompletionProper/AdicThickeningEssSurj.lean`.
 
 ## Implementation notes
 
@@ -88,8 +85,8 @@ Properness of the support is the library's `Stacks.Algebraization.HasProperSuppo
 The source's standing hypotheses are carried only where they are used, which makes the
 statements below more general than the remark, never less: completeness of `A` for `I` is never
 assumed, Noetherianness of `A` only for the coherence of a restriction, and of `f` only
-`LocallyOfFiniteType` — not separatedness or quasi-compactness. All three are needed for the
-equivalence, which is not proved here.
+`LocallyOfFiniteType` — not separatedness or quasi-compactness. The equivalence
+`AlgebraicGeometry.isEquivalence_adicThickeningCompletionFunctor` assumes all of them.
 
 Coherence is spelled `_root_.SheafOfModules.IsCoherent.{u}`: the predicate is declared more than
 once and a relative spelling can resolve to `Stacks.SheafOfModules.IsCoherent`, a different
@@ -244,13 +241,9 @@ proper over `A` to the system `(ℱ|_{Xₙ})` of its restrictions to the adic th
 transition isomorphisms induced by `iₙ ≫ (Xₙ₊₁ ⟶ X) = (Xₙ ⟶ X)`, and a map of modules to the
 system of its restrictions.
 
-This is the arrow displayed in the remark. That it is an **equivalence** is Stacks 088E read
-through an identification of the coherent adic systems of `Stacks.Coherent.CoherentAdicSystems`
-with the systems of this file; neither input is available in this library, so no equivalence is
-claimed here. -/
-@[stacks 088F "the completion functor into those systems; not that it is an equivalence, for \
-which Stacks 088E (itself conditional on 088C here) and an identification of the adic \
-thickenings with the closed subschemes of the ideal powers are both missing"]
+This is the arrow displayed in the remark. That it is an **equivalence**, for `A` Noetherian
+and `I`-adically complete and `f` separated of finite type, is
+`AlgebraicGeometry.isEquivalence_adicThickeningCompletionFunctor`. -/
 public def adicThickeningCompletionFunctor (A : Type u) [CommRing A] [IsNoetherianRing A]
     (I : Ideal A) {X : Scheme.{u}} (f : X ⟶ Spec (.of A)) [LocallyOfFiniteType f] :
     Stacks.Algebraization.CoherentModulesProperOver f ⥤ AdicCoherentModuleSystem A I f where
@@ -272,14 +265,15 @@ public def adicThickeningCompletionFunctor (A : Type u) [CommRing A] [IsNoetheri
 
 /-! ### The proper case -/
 
-/-- **Stacks 088F, final clause: over a proper base the support conditions may be omitted.**
+/-- **Over a proper base the support condition (3) on the systems is automatic.**
 If `f : X ⟶ Spec A` is proper then the structure morphism `Xₙ ⟶ Sₙ` is proper too, being its
 base change, and so the support of any coherent `𝒪_{Xₙ}`-module is proper over `Sₙ`. Hence
-clause (3) is automatic.
+clause (3) is automatic. This is the input for
+`AlgebraicGeometry.isEquivalence_adicThickeningTransitionCompletionFunctor`, the proper case of
+the remark with the support conditions omitted.
 
 The companion statement on the other side of the arrow — that the support of any coherent
 `𝒪_X`-module is then proper over `A` — is `Stacks.Algebraization.hasProperSupport_of_isProper`. -/
-@[stacks 088F "for a proper f the support condition (3) on the systems is vacuous"]
 public lemma hasProperSupport_of_isProper_adicBaseChange [IsProper f] (n : ℕ)
     (F : (adicBaseChange A I f n).Modules) (hF : _root_.SheafOfModules.IsCoherent.{u} F) :
     HasProperSupport (pullback.snd f (adicThickeningι A I n)) F :=

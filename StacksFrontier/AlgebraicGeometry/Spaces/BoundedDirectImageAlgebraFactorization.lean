@@ -533,10 +533,11 @@ quasi-compact, quasi-separated morphism `f : Y ⟶ X` of algebraic spaces factor
 quasi-coherent algebra `f_* 𝒪_Y` taken with an anti-equivalence of Stacks 081V against the
 algebras below the site's cutoff.
 
-This is `AlgebraicGeometry.Space.qcqsDirectImageFactorizationMap_factorization` with its
-anti-equivalence replaced by one the size obstruction does not refute; see the implementation
-notes for the arguments it takes.  It does not carry Stacks 081X: the tag is delivered, with
-neither `E`, `hb` nor `bc`, by `AlgebraicGeometry.Space.directImageSpec_factorization` of
+This is `AlgebraicGeometry.Space.directImageFactorizationMap_factorization`, read at a
+quasi-compact, quasi-separated morphism, with its anti-equivalence replaced by one the size
+obstruction does not refute; see the implementation notes for the arguments it takes.  It does
+not carry Stacks 081X: the tag is delivered, with neither `E`, `hb` nor `bc`, by
+`AlgebraicGeometry.Space.directImageSpec_factorization` of
 `StacksFrontier.AlgebraicGeometry.Spaces.DirectImageSpecFactorization`. -/
 theorem boundedQcqsDirectImageFactorizationMap_factorization
     (bc : pushforwardAlgebra B S hS

@@ -29,7 +29,8 @@ public import StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullbackProper
 Let `(S, δ)` be the base situation of chapter 42 of the Stacks Project, let `g : Y ⟶ Z` be a
 smooth morphism of relative dimension `d`, with `Y` locally of finite type over `S`, let
 `Δ : Y ⟶ Y ×_Z Y` be the diagonal and `pr_1, pr_2 : Y ×_Z Y ⟶ Y` the projections. **Stacks 0FBS**
-asserts that the Gysin class `Δ^! ∈ A^d(Y ⟶ Y ×_Z Y)` of Stacks 0FBR satisfies
+asserts, here at constant relative dimension `d`, that the Gysin class
+`Δ^! ∈ A^d(Y ⟶ Y ×_Z Y)` of Stacks 0FBR satisfies
 
   `Δ^! ∘ pr_i^* = 1`   in `A^0(Y)`,
 
@@ -55,6 +56,10 @@ relative dimension `r`. Then `c(Z ⟶ X, 𝒩) ∘ q^* = 1`.
 
 * `Stacks.Chow.isFiniteLocallyFreeOfRank_conormalModule_of_comp_eq_id` — the conormal sheaf of a
   section of a smooth morphism of relative dimension `r` is finite locally free of rank `r`.
+* `Stacks.Chow.BivariantClass.compFlatPullback` — the composite `D ∘ pr^*` (Stacks 0B75), read
+  in `A^0(Y)`.
+* `Stacks.Chow.BivariantClass.compFlatPullback_eq_one_iff` — `D ∘ pr^* = 1` as an equality of
+  bivariant classes is equivalent to the identity on cap operations.
 * `Stacks.Chow.BivariantClass.compFlatPullbackEqOne_of_fundamentalChowClass` — the reduction of
   Stacks 02UC: `D ∘ pr^* = 1` holds once it holds on the fundamental classes of integral schemes.
 * `Stacks.Chow.IsVirtualNormalBundleClass.compFlatPullbackEqOne` — `c(Z ⟶ X, 𝒩) ∘ q^* = 1` for a
@@ -63,15 +68,22 @@ relative dimension `r`. Then `c(Z ⟶ X, 𝒩) ∘ q^* = 1`.
   factor of the diagonal and `ι ≫ pr`, for any smooth retraction `pr` of the diagonal of relative
   dimension `d`.
 * `Stacks.Chow.diagonalGysinClass_compFlatPullbackEqOne_fst`,
-  `Stacks.Chow.diagonalGysinClass_compFlatPullbackEqOne_snd` — **Stacks 0FBS**, for the two
-  projections.
+  `Stacks.Chow.diagonalGysinClass_compFlatPullbackEqOne_snd` — the identity on cap operations,
+  for the two projections.
+* `Stacks.Chow.diagonalGysinClass_compFlatPullback_eq_one` — `Δ^! ∘ pr_i^! = 1` in `A^0(Y)` as
+  an equality of bivariant classes, for both projections, at constant relative dimension `d`. The
+  general case of Stacks 0FBS is
+  `Stacks.Chow.diagonalGysinMap_comp_eq_completedIdentityClass`, in
+  `StacksFrontier.AlgebraicGeometry.Chow.DiagonalGysinMap`.
 
 ## Implementation notes
 
 The source writes `pr_i^!` for the Gysin class of the smooth projection; it is read here as the
-flat pullback class `pr_i^*` of Stacks 0B78, and the identity `Δ^! ∘ pr_i^* = 1` is stated on cap
-operations, as `Stacks.Chow.BivariantClass.CompFlatPullbackEqOne`. These are the two hypotheses
-`hD₁`, `hD₂` of `Stacks.Chow.smoothShiftEquiv`, the core of Stacks 0FBT.
+flat pullback class `pr_i^*` of Stacks 0B78, which is its Gysin class by Stacks 0FF3 (factor
+`pr_i` as `𝟙` followed by itself). The identity `Δ^! ∘ pr_i^* = 1` is proved first on cap
+operations, as `Stacks.Chow.BivariantClass.CompFlatPullbackEqOne` — these are the two hypotheses
+`hD₁`, `hD₂` of `Stacks.Chow.smoothShiftEquiv`, the core of Stacks 0FBT — and then, by
+`Stacks.Chow.BivariantClass.compFlatPullback_eq_one_iff`, as an equality in `A^0(Y)`.
 
 The reduction to integral test schemes is carried out at the Gysin system of the first Chern class
 of an invertible module, where the composite of two bivariant classes (Stacks 0B75) and the class
@@ -149,14 +161,137 @@ section Reduction
 variable {C : ChowSituation.{u}} {Y P : Scheme.{u}} {sY : Y ⟶ C.S} [LocallyOfFiniteType sY]
   {sP : P ⟶ C.S} [LocallyOfFiniteType sP] {Δ : Y ⟶ P} [LocallyOfFiniteType Δ] {r : ℕ}
 
+/-- **The composite `D ∘ pr^*`, read in `A^0(Y)`.** Let `D ∈ A^r(Y ⟶ P)` be a class for
+`Δ : Y ⟶ P` and let `pr : P ⟶ Y` be a flat retraction of `Δ` of relative dimension `r`. The
+composite (Stacks 0B75) of the flat pullback class `pr^* ∈ A^{-r}(P ⟶ Y)` of Stacks 0B78 with `D`
+is a class in `A^{r - r}(Y ⟶ Y)` for `Δ ≫ pr`; through `Δ ≫ pr = 𝟙 Y` and `r - r = 0` it is a
+class in `A^0(Y) = A^0(Y ⟶ Y)`. -/
+def BivariantClass.compFlatPullback
+    (D : BivariantClass C (gysinSystemOfInvertible C) (Δ ≫ sP) sP Δ rfl r) (pr : P ⟶ Y)
+    [LocallyOfFiniteType pr] [Flat pr] (hpr : pr ≫ sY = sP) (hdiag : Δ ≫ pr = 𝟙 Y)
+    (hr : AlgebraicGeometry.RelativeDimension pr r) :
+    BivariantClass C (gysinSystemOfInvertible C) sY sY (𝟙 Y) (Category.id_comp sY) 0 :=
+  bivariantClassDegreeCongr C (gysinSystemOfInvertible C) sY sY (𝟙 Y)
+    (Category.id_comp sY) (show (r : ℤ) + -(r : ℤ) = 0 by ring)
+    (BivariantClass.congrHom hdiag (Category.id_comp sY)
+      (bivariantClassCongrBase C (gysinSystemOfInvertible C) (Δ ≫ pr)
+        (by rw [← hpr, ← Category.assoc, hdiag, Category.id_comp]) rfl
+        (hv := comp_comp_structureMorphism_eq rfl hpr)
+        (hv' := by rw [hdiag, Category.id_comp]) ((r : ℤ) + -(r : ℤ))
+        (bivariantCompositeOfInvertible C (Δ ≫ sP) sP sY Δ pr rfl hpr (r : ℤ) (-(r : ℤ)) D
+          (flatPullbackBivariantClassOfInvertible C sP sY pr hpr r hr))))
+
+/-- **The cap operation of `D ∘ pr^*`.** Capping `α ∈ CH_k(T)` with the composite `D ∘ pr^*`,
+read in `A^0(Y)`, caps the flat pullback of `α` to `P ×_Y T` with `D`, read on `T` through
+`Stacks.Chow.sectionPullbackIso` and on `Y ×_Y T` through the base-change isomorphism. -/
+theorem BivariantClass.compFlatPullback_cap_heq
+    (D : BivariantClass C (gysinSystemOfInvertible C) (Δ ≫ sP) sP Δ rfl r) (pr : P ⟶ Y)
+    [LocallyOfFiniteType pr] [Flat pr] (hpr : pr ≫ sY = sP) (hdiag : Δ ≫ pr = 𝟙 Y)
+    (hr : AlgebraicGeometry.RelativeDimension pr r) {T : Scheme.{u}} (t : T ⟶ Y)
+    [LocallyOfFiniteType t] (k : ℤ) (α : chowGroup C (t ≫ sY) k) :
+    (D.compFlatPullback pr hpr hdiag hr).cap t k α ≍
+      chowPushforwardOfIso C (t ≫ sY) (pullback.fst (𝟙 Y) t ≫ sY)
+        (identityBaseChangeIso t).inv (identityBaseChangeIso_hom_comp C sY t) (k + r - r)
+        (chowPushforwardOfIso C (pullback.fst Δ (pullback.fst pr t) ≫ (Δ ≫ sP)) (t ≫ sY)
+          (sectionPullbackIso Δ pr hdiag t).hom
+          (sectionPullbackIso_hom_comp_structureMorphism Δ pr hdiag t hpr) (k + r - r)
+          (D.cap (pullback.fst pr t) (k + r)
+            (flatPullbackChow C (pullback.fst pr t ≫ sP) (t ≫ sY) (pullback.snd pr t)
+              (pullbackSnd_comp_structureMorphism hpr t) r
+              (relativeDimension_pullbackSnd pr hr t) k
+              (flatPullbackDescends C _ _ _ _ _ _ _) α))) := by
+  set F := flatPullbackBivariantClassOfInvertible C sP sY pr hpr r hr with hF
+  have hsA : Δ ≫ sP = sY := by rw [← hpr, ← Category.assoc, hdiag, Category.id_comp]
+  have hw : (pullbackRightPullbackFstIso pr t Δ).hom ≫ (pullback.congrHom hdiag rfl).hom =
+      (sectionPullbackIso Δ pr hdiag t).hom ≫ (identityBaseChangeIso t).inv := by
+    refine pullback.hom_ext ?_ ?_
+    · simp [sectionPullback_fst_eq Δ pr hdiag t]
+    · simp [identityBaseChangeIso]
+  have hD : D.cap (pullback.fst pr t) (k - -(r : ℤ)) (F.cap t k α) ≍
+      D.cap (pullback.fst pr t) (k + r)
+        (flatPullbackChow C (pullback.fst pr t ≫ sP) (t ≫ sY) (pullback.snd pr t)
+          (pullbackSnd_comp_structureMorphism hpr t) r
+          (relativeDimension_pullbackSnd pr hr t) k
+          (flatPullbackDescends C _ _ _ _ _ _ _) α) :=
+    BivariantClass.cap_heq D _ (by ring)
+      (IsBivariantFlatPullback.cap_heq (hS1 := flatPullbackDescends C)
+    (isBivariantFlatPullback_flatPullbackBivariantClassOfInvertible C _ _ pr hpr r hr)
+          t k α)
+  have h1 : (bivariantClassCongrBase C (gysinSystemOfInvertible C) (Δ ≫ pr) hsA rfl
+      (hv := comp_comp_structureMorphism_eq rfl hpr)
+      (hv' := by rw [hdiag, Category.id_comp]) ((r : ℤ) + -(r : ℤ))
+      (bivariantCompositeOfInvertible C (Δ ≫ sP) sP sY Δ pr rfl hpr (r : ℤ) (-(r : ℤ))
+        D F)).cap t k α ≍
+      chowPushforwardOfIso C (pullback.fst Δ (pullback.fst pr t) ≫ (Δ ≫ sP))
+        (pullback.fst (Δ ≫ pr) t ≫ (Δ ≫ sP)) (pullbackRightPullbackFstIso pr t Δ).hom
+        (by simp) (k + r - r)
+        (D.cap (pullback.fst pr t) (k + r)
+          (flatPullbackChow C (pullback.fst pr t ≫ sP) (t ≫ sY) (pullback.snd pr t)
+            (pullbackSnd_comp_structureMorphism hpr t) r
+            (relativeDimension_pullbackSnd pr hr t) k
+            (flatPullbackDescends C _ _ _ _ _ _ _) α)) := by
+    refine (bivariantClassCongrBase_cap C _ (Δ ≫ pr) hsA rfl _ _ t k α α HEq.rfl).trans ?_
+    refine (chowGroupDegreeEquiv_heq C _ _ _).trans ?_
+    rw [bivariantCompositeCap_apply, properChowPushforward_eq_chowPushforwardOfIso]
+    exact chowPushforwardOfIso_heq _ _ _ rfl rfl (by ring) hD
+  refine (bivariantClassDegreeCongr_cap C _ _ _ _ _ _ _ t k α).trans ?_
+  rw [BivariantClass.congrHom_cap]
+  exact (chowPushforwardOfIso_heq_comp_of_comp_eq _ _ _ hw (by simp) _ (by rw [hsA]) rfl
+      (by ring) _ _ h1).trans
+    (chowPushforwardOfIso_heq_comp_of_comp_eq _ _ _ rfl _ _ rfl rfl rfl _ _ HEq.rfl).symm
+
+/-- `D ∘ pr^*` and `1` agree on a class exactly when capping its flat pullback with `D` returns
+it. -/
+theorem BivariantClass.compFlatPullback_cap_eq_iff
+    (D : BivariantClass C (gysinSystemOfInvertible C) (Δ ≫ sP) sP Δ rfl r) (pr : P ⟶ Y)
+    [LocallyOfFiniteType pr] [Flat pr] (hpr : pr ≫ sY = sP) (hdiag : Δ ≫ pr = 𝟙 Y)
+    (hr : AlgebraicGeometry.RelativeDimension pr r) {T : Scheme.{u}} (t : T ⟶ Y)
+    [LocallyOfFiniteType t] (k : ℤ) (α : chowGroup C (t ≫ sY) k) :
+    (D.compFlatPullback pr hpr hdiag hr).cap t k α =
+        (bivariantIdentityClassOfInvertible C sY).cap t k α ↔
+      chowPushforwardOfIso C (pullback.fst Δ (pullback.fst pr t) ≫ (Δ ≫ sP)) (t ≫ sY)
+          (sectionPullbackIso Δ pr hdiag t).hom
+          (sectionPullbackIso_hom_comp_structureMorphism Δ pr hdiag t hpr) (k + r - r)
+          (D.cap (pullback.fst pr t) (k + r)
+            (flatPullbackChow C (pullback.fst pr t ≫ sP) (t ≫ sY) (pullback.snd pr t)
+              (pullbackSnd_comp_structureMorphism hpr t) r
+              (relativeDimension_pullbackSnd pr hr t) k
+              (flatPullbackDescends C _ _ _ _ _ _ _) α)) =
+        chowGroupDegreeEquiv C (t ≫ sY) (by ring) α := by
+  have hI := bivariantIdentityClassOfInvertible_cap_heq C sY t k α
+  have hK := D.compFlatPullback_cap_heq pr hpr hdiag hr t k α
+  rw [← heq_iff_eq, eq_comm, chowGroupDegreeEquiv_eq_iff_heq]
+  constructor
+  · intro hc
+    exact ((chowPushforwardOfIso_heq_iff _ _ (by ring) _ _).1
+      (hK.symm.trans (hc.trans hI))).symm
+  · intro hc
+    exact hK.trans (((chowPushforwardOfIso_heq_iff _ _ (by ring) _ _).2 hc.symm).trans hI.symm)
+
+/-- **`D ∘ pr^* = 1` as an equality of bivariant classes.** The composite `D ∘ pr^*`, read in
+`A^0(Y)`, is the unit `1 ∈ A^0(Y)` exactly when the identity holds on cap operations, in the form
+`Stacks.Chow.BivariantClass.CompFlatPullbackEqOne`. -/
+theorem BivariantClass.compFlatPullback_eq_one_iff
+    (D : BivariantClass C (gysinSystemOfInvertible C) (Δ ≫ sP) sP Δ rfl r) (pr : P ⟶ Y)
+    [LocallyOfFiniteType pr] [Flat pr] (hpr : pr ≫ sY = sP) (hdiag : Δ ≫ pr = 𝟙 Y)
+    (hr : AlgebraicGeometry.RelativeDimension pr r) :
+    D.compFlatPullback pr hpr hdiag hr = bivariantIdentityClassOfInvertible C sY ↔
+      D.CompFlatPullbackEqOne pr hpr hdiag hr := by
+  constructor
+  · intro h T t _ k α
+    exact (D.compFlatPullback_cap_eq_iff pr hpr hdiag hr t k α).1 (by rw [h])
+  · intro h
+    ext T t _ k α
+    exact (D.compFlatPullback_cap_eq_iff pr hpr hdiag hr t k α).2 (h t k α)
+
 /-- **Stacks 02UC for `D ∘ pr^* = 1`.** Let `D ∈ A^r(Y ⟶ P)` be a class for `Δ : Y ⟶ P` and let
 `pr : P ⟶ Y` be a flat retraction of `Δ` of relative dimension `r`. If capping the flat pullback
 of the fundamental class `[T]_k` to `P ×_Y T` with `D` returns `[T]_k` for every integral scheme
 `T` locally of finite type over `Y`, then `D ∘ pr^* = 1` on every class of every test scheme.
 
-The composite `D ∘ pr^* ∈ A^0(Y)` (Stacks 0B75), read as a class for `𝟙 Y`, caps by the
-left-hand side of the identity, and `1` caps by the identity; so the identity holds for all
-classes exactly when the two bivariant classes are equal, and by Stacks 02UC this is checked on
+The composite `D ∘ pr^* ∈ A^0(Y)` (Stacks 0B75, `Stacks.Chow.BivariantClass.compFlatPullback`)
+caps by the left-hand side of the identity, and `1` caps by the identity; so the identity holds for
+all classes exactly when the two bivariant classes are equal, and by Stacks 02UC this is checked on
 the fundamental classes of integral test schemes. -/
 theorem BivariantClass.compFlatPullbackEqOne_of_fundamentalChowClass
     (D : BivariantClass C (gysinSystemOfInvertible C) (Δ ≫ sP) sP Δ rfl r) (pr : P ⟶ Y)
@@ -173,99 +308,11 @@ theorem BivariantClass.compFlatPullbackEqOne_of_fundamentalChowClass
               (flatPullbackDescends C _ _ _ _ _ _ _) (fundamentalChowClass C (t ≫ sY) k))) =
         chowGroupDegreeEquiv C (t ≫ sY) (by ring) (fundamentalChowClass C (t ≫ sY) k)) :
     D.CompFlatPullbackEqOne pr hpr hdiag hr := by
-  set F := flatPullbackBivariantClassOfInvertible C sP sY pr hpr r hr with hF
-  have hsA : Δ ≫ sP = sY := by rw [← hpr, ← Category.assoc, hdiag, Category.id_comp]
-  -- the composite `D ∘ pr^*`, read as a class of degree `0` for `𝟙 Y`
-  set E := bivariantClassDegreeCongr C (gysinSystemOfInvertible C) sY sY (𝟙 Y)
-    (Category.id_comp sY) (show (r : ℤ) + -(r : ℤ) = 0 by ring)
-    (BivariantClass.congrHom hdiag (Category.id_comp sY)
-      (bivariantClassCongrBase C (gysinSystemOfInvertible C) (Δ ≫ pr) hsA rfl
-        (hv := comp_comp_structureMorphism_eq rfl hpr)
-        (hv' := by rw [hdiag, Category.id_comp]) ((r : ℤ) + -(r : ℤ))
-        (bivariantCompositeOfInvertible C (Δ ≫ sP) sP sY Δ pr rfl hpr (r : ℤ) (-(r : ℤ)) D F)))
-    with hE
-  -- its cap operation is the left-hand side of `D ∘ pr^* = 1`
-  have key : ∀ {T : Scheme.{u}} (t : T ⟶ Y) [LocallyOfFiniteType t] (k : ℤ)
-      (α : chowGroup C (t ≫ sY) k),
-      E.cap t k α ≍ chowPushforwardOfIso C (t ≫ sY) (pullback.fst (𝟙 Y) t ≫ sY)
-        (identityBaseChangeIso t).inv (identityBaseChangeIso_hom_comp C sY t) (k + r - r)
-        (chowPushforwardOfIso C (pullback.fst Δ (pullback.fst pr t) ≫ (Δ ≫ sP)) (t ≫ sY)
-          (sectionPullbackIso Δ pr hdiag t).hom
-          (sectionPullbackIso_hom_comp_structureMorphism Δ pr hdiag t hpr) (k + r - r)
-          (D.cap (pullback.fst pr t) (k + r)
-            (flatPullbackChow C (pullback.fst pr t ≫ sP) (t ≫ sY) (pullback.snd pr t)
-              (pullbackSnd_comp_structureMorphism hpr t) r
-              (relativeDimension_pullbackSnd pr hr t) k
-              (flatPullbackDescends C _ _ _ _ _ _ _) α))) := by
-    intro T t _ k α
-    have hw : (pullbackRightPullbackFstIso pr t Δ).hom ≫ (pullback.congrHom hdiag rfl).hom =
-        (sectionPullbackIso Δ pr hdiag t).hom ≫ (identityBaseChangeIso t).inv := by
-      refine pullback.hom_ext ?_ ?_
-      · simp [sectionPullback_fst_eq Δ pr hdiag t]
-      · simp [identityBaseChangeIso]
-    have hD : D.cap (pullback.fst pr t) (k - -(r : ℤ)) (F.cap t k α) ≍
-        D.cap (pullback.fst pr t) (k + r)
-          (flatPullbackChow C (pullback.fst pr t ≫ sP) (t ≫ sY) (pullback.snd pr t)
-            (pullbackSnd_comp_structureMorphism hpr t) r
-            (relativeDimension_pullbackSnd pr hr t) k
-            (flatPullbackDescends C _ _ _ _ _ _ _) α) :=
-      BivariantClass.cap_heq D _ (by ring)
-        (IsBivariantFlatPullback.cap_heq (hS1 := flatPullbackDescends C)
-      (isBivariantFlatPullback_flatPullbackBivariantClassOfInvertible C _ _ pr hpr r hr)
-            t k α)
-    have h1 : (bivariantClassCongrBase C (gysinSystemOfInvertible C) (Δ ≫ pr) hsA rfl
-        (hv := comp_comp_structureMorphism_eq rfl hpr)
-        (hv' := by rw [hdiag, Category.id_comp]) ((r : ℤ) + -(r : ℤ))
-        (bivariantCompositeOfInvertible C (Δ ≫ sP) sP sY Δ pr rfl hpr (r : ℤ) (-(r : ℤ))
-          D F)).cap t k α ≍
-        chowPushforwardOfIso C (pullback.fst Δ (pullback.fst pr t) ≫ (Δ ≫ sP))
-          (pullback.fst (Δ ≫ pr) t ≫ (Δ ≫ sP)) (pullbackRightPullbackFstIso pr t Δ).hom
-          (by simp) (k + r - r)
-          (D.cap (pullback.fst pr t) (k + r)
-            (flatPullbackChow C (pullback.fst pr t ≫ sP) (t ≫ sY) (pullback.snd pr t)
-              (pullbackSnd_comp_structureMorphism hpr t) r
-              (relativeDimension_pullbackSnd pr hr t) k
-              (flatPullbackDescends C _ _ _ _ _ _ _) α)) := by
-      refine (bivariantClassCongrBase_cap C _ (Δ ≫ pr) hsA rfl _ _ t k α α HEq.rfl).trans ?_
-      refine (chowGroupDegreeEquiv_heq C _ _ _).trans ?_
-      rw [bivariantCompositeCap_apply, properChowPushforward_eq_chowPushforwardOfIso]
-      exact chowPushforwardOfIso_heq _ _ _ rfl rfl (by ring) hD
-    refine (bivariantClassDegreeCongr_cap C _ _ _ _ _ _ _ t k α).trans ?_
-    rw [BivariantClass.congrHom_cap]
-    exact (chowPushforwardOfIso_heq_comp_of_comp_eq _ _ _ hw (by simp) _ (by rw [hsA]) rfl
-        (by ring) _ _ h1).trans
-      (chowPushforwardOfIso_heq_comp_of_comp_eq _ _ _ rfl _ _ rfl rfl rfl _ _ HEq.rfl).symm
-  -- so `E = 1` is equivalent to `D ∘ pr^* = 1` on each class
-  have key2 : ∀ {T : Scheme.{u}} (t : T ⟶ Y) [LocallyOfFiniteType t] (k : ℤ)
-      (α : chowGroup C (t ≫ sY) k),
-      E.cap t k α = (bivariantIdentityClassOfInvertible C sY).cap t k α ↔
-        chowPushforwardOfIso C (pullback.fst Δ (pullback.fst pr t) ≫ (Δ ≫ sP)) (t ≫ sY)
-            (sectionPullbackIso Δ pr hdiag t).hom
-            (sectionPullbackIso_hom_comp_structureMorphism Δ pr hdiag t hpr) (k + r - r)
-            (D.cap (pullback.fst pr t) (k + r)
-              (flatPullbackChow C (pullback.fst pr t ≫ sP) (t ≫ sY) (pullback.snd pr t)
-                (pullbackSnd_comp_structureMorphism hpr t) r
-                (relativeDimension_pullbackSnd pr hr t) k
-                (flatPullbackDescends C _ _ _ _ _ _ _) α)) =
-          chowGroupDegreeEquiv C (t ≫ sY) (by ring) α := by
-    intro T t _ k α
-    have hI := bivariantIdentityClassOfInvertible_cap_heq C sY t k α
-    have hK := key t k α
-    rw [← heq_iff_eq, eq_comm, chowGroupDegreeEquiv_eq_iff_heq]
-    constructor
-    · intro hc
-      exact ((chowPushforwardOfIso_heq_iff _ _ (by ring) _ _).1
-        (hK.symm.trans (hc.trans hI))).symm
-    · intro hc
-      exact hK.trans (((chowPushforwardOfIso_heq_iff _ _ (by ring) _ _).2 hc.symm).trans hI.symm)
-  have hE1 : E = bivariantIdentityClassOfInvertible C sY := by
-    refine eq_of_sub_eq_zero ?_
-    rw [BivariantClass.eq_zero_iff_capsIntegralFundamentalClassesToZero]
-    intro T t _ _ k
-    rw [BivariantClass.sub_cap, sub_eq_zero]
-    exact (key2 t k _).2 (h t k)
-  intro T t _ k α
-  exact (key2 t k α).1 (by rw [hE1])
+  refine (D.compFlatPullback_eq_one_iff pr hpr hdiag hr).1 (eq_of_sub_eq_zero ?_)
+  rw [BivariantClass.eq_zero_iff_capsIntegralFundamentalClassesToZero]
+  intro T t _ _ k
+  rw [BivariantClass.sub_cap, sub_eq_zero]
+  exact (D.compFlatPullback_cap_eq_iff pr hpr hdiag hr t k _).2 (h t k)
 
 end Reduction
 
@@ -367,11 +414,10 @@ theorem diagonalClosedFactorClass_compFlatPullbackEqOne (pr : pullback g g ⟶ Y
       simpa using RelativeDimension.comp_of_flat _ pr
         (relativeDimension_of_isOpenImmersion (pullback.diagonal g).coborderRange.ι) hr)
 
-/-- **Stacks 0FBS for the first projection: `Δ^! ∘ pr_1^* = 1` in `A^0(Y)`.** For `g : Y ⟶ Z`
+/-- **`Δ^! ∘ pr_1^* = 1` on cap operations.** For `g : Y ⟶ Z`
 smooth of relative dimension `d`, capping the flat pullback along `pr_1 : Y ×_Z Y ⟶ Y` with the
 Gysin class `Δ^!` of the diagonal is the identity on the Chow groups of every test scheme over
 `Y`. -/
-@[stacks 0FBS "Δ^! ∘ pr_1^* = 1 in A^0(X), on cap operations, for the first projection"]
 theorem diagonalGysinClass_compFlatPullbackEqOne_fst :
     (diagonalGysinClass C sY g hd).CompFlatPullbackEqOne (pullback.fst g g) rfl
       (pullback.diagonal_fst g) (relativeDimension_pullback_fst_self g hd) :=
@@ -380,11 +426,10 @@ theorem diagonalGysinClass_compFlatPullbackEqOne_fst :
     (diagonalClosedFactorClass_compFlatPullbackEqOne C sY g hd (pullback.fst g g) rfl
       (pullback.diagonal_fst g) (relativeDimension_pullback_fst_self g hd))
 
-/-- **Stacks 0FBS for the second projection: `Δ^! ∘ pr_2^* = 1` in `A^0(Y)`.** For `g : Y ⟶ Z`
+/-- **`Δ^! ∘ pr_2^* = 1` on cap operations.** For `g : Y ⟶ Z`
 smooth of relative dimension `d`, with `Z` over the base compatibly with `Y`, capping the flat
 pullback along `pr_2 : Y ×_Z Y ⟶ Y` with the Gysin class `Δ^!` of the diagonal is the identity on
 the Chow groups of every test scheme over `Y`. -/
-@[stacks 0FBS "Δ^! ∘ pr_2^* = 1 in A^0(X), on cap operations, for the second projection"]
 theorem diagonalGysinClass_compFlatPullbackEqOne_snd (sZ : Z ⟶ C.S) [LocallyOfFiniteType sZ]
     (hg : g ≫ sZ = sY) :
     (diagonalGysinClass C sY g hd).CompFlatPullbackEqOne (pullback.snd g g)
@@ -396,6 +441,30 @@ theorem diagonalGysinClass_compFlatPullbackEqOne_snd (sZ : Z ⟶ C.S) [LocallyOf
     (diagonalClosedFactorClass_compFlatPullbackEqOne C sY g hd (pullback.snd g g)
       (smoothShift_pullback_snd_comp_structureMorphism C sY sZ g hg) (pullback.diagonal_snd g)
       (relativeDimension_pullback_snd g g d hd))
+
+/-- **`Δ^! ∘ pr_i^! = 1` in `A^0(Y)` at constant relative dimension, for `i = 1, 2`.** Let
+`g : Y ⟶ Z` be a smooth morphism of constant relative dimension `d` of schemes locally of finite
+type over the base, let
+`Δ : Y ⟶ Y ×_Z Y` be the diagonal, with Gysin class `Δ^! ∈ A^d(Y ⟶ Y ×_Z Y)` (Stacks 0FBR), and
+let `pr_1, pr_2 : Y ×_Z Y ⟶ Y` be the projections, smooth of relative dimension `d`, whose Gysin
+classes are the flat pullback classes `pr_i^! = pr_i^* ∈ A^{-d}(Y ×_Z Y ⟶ Y)` (Stacks 0FF3,
+0B78). Then for both projections the composite `Δ^! ∘ pr_i^!` (Stacks 0B75), read in `A^0(Y)`
+through `Δ ≫ pr_i = 𝟙 Y`, is the unit `1 ∈ A^0(Y)`. For an arbitrary smooth `g`, with the
+Gysin maps in the completed groups of Stacks 0FE0, the identity is
+`Stacks.Chow.diagonalGysinMap_comp_eq_completedIdentityClass`. -/
+theorem diagonalGysinClass_compFlatPullback_eq_one (sZ : Z ⟶ C.S) [LocallyOfFiniteType sZ]
+    (hg : g ≫ sZ = sY) :
+    (diagonalGysinClass C sY g hd).compFlatPullback (pullback.fst g g) rfl
+        (pullback.diagonal_fst g) (relativeDimension_pullback_fst_self g hd) =
+        bivariantIdentityClassOfInvertible C sY ∧
+      (diagonalGysinClass C sY g hd).compFlatPullback (pullback.snd g g)
+        (smoothShift_pullback_snd_comp_structureMorphism C sY sZ g hg) (pullback.diagonal_snd g)
+        (relativeDimension_pullback_snd g g d hd) =
+        bivariantIdentityClassOfInvertible C sY :=
+  ⟨(BivariantClass.compFlatPullback_eq_one_iff _ _ _ _ _).2
+      (diagonalGysinClass_compFlatPullbackEqOne_fst C sY g hd),
+    (BivariantClass.compFlatPullback_eq_one_iff _ _ _ _ _).2
+      (diagonalGysinClass_compFlatPullbackEqOne_snd C sY g hd sZ hg)⟩
 
 end Diagonal
 

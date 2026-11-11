@@ -43,3 +43,25 @@ add_to_stacks 00ZL "the canonical map F → F^# is the composite of the two unit
   of the plus construction: naturality of `toPlus` at `toPlus F` turns Mathlib's
   `toPlus F ≫ plusMap (toPlus F)` into `toPlus F ≫ toPlus (plusObj F)`"
   CategoryTheory.GrothendieckTopology.toPlus_naturality
+
+namespace CategoryTheory.GrothendieckTopology
+
+universe v u
+
+variable {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
+
+/-- The universal property of the sheaf `F^# = L L F` associated to a presheaf of sets `F`:
+every map `φ : F ⟶ G` into a sheaf of sets `G` factors uniquely through the canonical map
+`F ⟶ F^#`, i.e. there is a unique `ψ : F^# ⟶ G` with `(F ⟶ F^#) ≫ ψ = φ`.
+
+Here `J.sheafify F` is by definition `J.plusObj (J.plusObj F)`, the plus construction applied
+twice, and `J.toSheafify F` is the canonical map; the factorization is Mathlib's
+`GrothendieckTopology.sheafifyLift`, with `toSheafify_sheafifyLift` and `sheafifyLift_unique`. -/
+@[stacks 00ZM]
+theorem existsUnique_toSheafify_comp_eq {F G : Cᵒᵖ ⥤ Type (max u v)}
+    (hG : Presheaf.IsSheaf J G) (φ : F ⟶ G) :
+    ∃! ψ : J.sheafify F ⟶ G, J.toSheafify F ≫ ψ = φ :=
+  ⟨J.sheafifyLift φ hG, J.toSheafify_sheafifyLift φ hG,
+    fun ψ hψ => J.sheafifyLift_unique φ hG ψ hψ⟩
+
+end CategoryTheory.GrothendieckTopology

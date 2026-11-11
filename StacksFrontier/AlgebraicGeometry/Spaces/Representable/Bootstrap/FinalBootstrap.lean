@@ -148,7 +148,9 @@ bootstrap input is discharged here by
 `AlgebraicGeometry.Space.isBootstrapAlgebraicSpaceAlongFlatSurjection`.
 
 Sheafness of `F` is assumed in the source and is not needed here: representability of `a ≫ b`
-already makes the base changes of `F` that the argument uses algebraic spaces. -/
+already makes the base changes of `F` that the argument uses algebraic spaces.
+
+This is the complete statement of Stacks 0AMP and its only registration; nothing is assumed. -/
 @[stacks 0AMP]
 theorem isRepresentableByAlgebraicSpaces_of_comp_of_flat_surjective_unconditional
     {F G H : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} (a : F ⟶ G) (b : G ⟶ H)

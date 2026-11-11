@@ -105,13 +105,12 @@ variable (S S' : ClosedQuotientMorphismOfRingedSpaces.{u})
 
 /-! ### The map of Stacks 0E2K -/
 
-/-- **Stacks Project, Tag 0E2K.** The base change map
+/-- The construction of the base change map of [Stacks, Tag 0E2K], for an arbitrary
+identification `e`:
 `Lg^* R ℰom(𝒪_Z, K) ⟶ R ℰom(𝒪_{Z'}, Lf^*K)` for the right adjoint of pushforward along a
 closed quotient morphism: the transpose, under the derived adjunction
 `Ri'_* ⊣ R ℰom(𝒪_{Z'}, -)` of [Stacks, Tag 0A76], of the identification `e` of
 [Stacks, Tag 0E23] followed by `Lf^*` of the counit `Ri_* R ℰom(𝒪_Z, K) ⟶ K`. -/
-@[stacks 0E2K "the map (48.10.0.1), granted the base change isomorphism \
-  `Ri'_* ∘ Lg^* ≅ Lf^* ∘ Ri_*` of Stacks 0E23 as a named hypothesis"]
 def rightAdjointBaseChangeMap (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing S.X))) :
     Lg.obj (S.derivedSheafHomExactSupport.obj K) ⟶
       S'.derivedSheafHomExactSupport.obj (Lf.obj K) :=

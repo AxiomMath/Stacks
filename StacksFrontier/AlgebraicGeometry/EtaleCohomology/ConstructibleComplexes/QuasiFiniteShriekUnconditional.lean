@@ -337,7 +337,9 @@ which is locally quasi-finite and of finite presentation. The functor
 `f_! : D(X_étale, Λ) ⥤ D(Y_étale, Λ)` of Stacks 0F5N, induced by the direct image with compact
 support `AlgebraicGeometry.SmallEtale.fShriekMod` with coefficients in `Λ`, sends
 `D_c(X_étale, Λ)` into `D_c(Y_étale, Λ)`. -/
-@[stacks 0GK3, sga "4 XVII 5.3.6" "Quasi-finite case"]
+@[stacks 0GK3 "for f locally quasi-finite and of finite presentation and Λ Noetherian, the \
+  derived f_! of fShriekMod sends every K in D_c(X_étale, Λ) to D_c(Y_étale, Λ)",
+  sga "4 XVII 5.3.6" "Quasi-finite case"]
 public theorem isConstructible_moduleFShriekDerivedFunctor_general
     (K : DerivedCategory (ModuleSheaf.{u, u, u + 1} B X Λ)) (hK : IsConstructible B X Λ K) :
     IsConstructible B Y Λ ((moduleFShriekDerivedFunctor B Λ f (fShriekMod.{u, u, u + 1} B Λ f)

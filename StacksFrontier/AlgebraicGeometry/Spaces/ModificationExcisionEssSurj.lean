@@ -92,7 +92,19 @@ theorem essSurj_restrictionFunctor_of_excision : D.restrictionFunctor.EssSurj :=
 
 /-- **Stacks 0BHB.** The functor `F` of Stacks 0BHA, base change of the modifications of `X`
 away from the chosen closed points to the chosen elementary étale neighborhoods, is an
-equivalence of categories. -/
+equivalence of categories.
+
+The data `D : ClosedPointNeighborhoods B S hS n` is exactly the setting of Stacks 0BH9: a decent
+algebraic space `X` over `S`, pairwise distinct closed points `x₁, …, xₙ ∈ |X|`, and for each `i`
+an affine elementary étale neighborhood `(Uᵢ, uᵢ) → (X, xᵢ)` with `uᵢ` the only point above `xᵢ`
+and no point above `xⱼ` for `j ≠ i`. It carries no excision or base-change hypothesis. The source
+of `F` is the category of algebraic spaces over `X` that are isomorphisms over
+`X ∖ {x₁, …, xₙ}`, its target the product of the categories of algebraic spaces over `Uᵢ` that
+are isomorphisms over `Uᵢ ∖ {uᵢ}`. Full faithfulness is
+`AlgebraicGeometry.Space.ClosedPointNeighborhoods.full_restrictionFunctor` and
+`AlgebraicGeometry.Space.ClosedPointNeighborhoods.faithful_restrictionFunctor`; essential
+surjectivity is proved above from the case `n = 1` of Stacks 0BGY,
+`AlgebraicGeometry.Space.exists_isModification_pullback_iso`, as in the source. -/
 @[stacks 0BHB]
 theorem isEquivalence_restrictionFunctor : D.restrictionFunctor.IsEquivalence where
   faithful := D.faithful_restrictionFunctor

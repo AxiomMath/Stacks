@@ -13,9 +13,11 @@ Let `f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in groupoids over t
 of a scheme `S`. If `f` induces an equivalence of stackifications, then the inverse image
 `f^*` of Stacks 06WE is an equivalence `Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳)`.
 
-Inducing an equivalence of stackifications is
+The theorems of this file take as hypothesis
 `CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence`, the two local
-criteria of Stacks 02ZN, and what it gives is that `f` is a dense subsite inclusion for the
+criteria of Stacks 02ZN, which a 1-morphism inducing an equivalence of stackifications satisfies
+(`CategoryTheory.Functor.IsFibredOneMorphism.isStackificationEquivalence_of_isEquivalenceOver`).
+What they give is that `f` is a dense subsite inclusion for the
 associated topologies of Stacks 06TP
 (`CategoryTheory.Functor.IsFibredOneMorphism.isDenseSubsite_of_isStackificationEquivalence`,
 the engine of Stacks 06WQ). The Comparison Lemma for sheaves of modules on a dense subsite,
@@ -30,8 +32,14 @@ ring needs no comparison map beyond a `CategoryTheory.eqToHom`.
 * `AlgebraicGeometry.Stack.isEquivalence_pushforward_eqToHom`: on a dense subsite whose
   Comparison Lemma for abelian sheaves holds, restriction of sheaves of modules along a
   tautological identification of the coefficient rings is an equivalence.
-* `AlgebraicGeometry.Stack.isEquivalence_modulePullback_of_isStackificationEquivalence`:
-  **Stacks 06WR for `Mod`.**
+* `AlgebraicGeometry.Stack.isEquivalence_modulePullback_of_isStackificationEquivalence` and
+  `AlgebraicGeometry.Stack.isEquivalence_quasicoherentPullback_of_isStackificationEquivalence`:
+  the `Mod` and `QCoh` clauses of Stacks 06WR for a 1-morphism satisfying the local criteria of
+  Stacks 02ZN. The statement under the source's hypothesis, that `f` induces an equivalence of
+  stackifications, is
+  `AlgebraicGeometry.Stack.isEquivalence_modulePullback_of_isStackification_of_isEquivalenceOver`
+  and its `QCoh` companion, in
+  `StacksFrontier.AlgebraicGeometry.Stacks.Sheaves.StackificationModulesOfStackifications`.
 
 ## Implementation notes
 
@@ -114,16 +122,18 @@ private theorem isDenseSubsite_associatedTopology_of_isStackificationEquivalence
   letI : q.IsFibered := hq.isFibered
   hF.isDenseSubsite_of_isStackificationEquivalence (BigFppfOver.topology B S hS) hp hq heq
 
-/-- **Stacks 06WR, the `Mod` clause.** Let `f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in
-groupoids over the big fppf category of `S`. If `f` induces an equivalence of stackifications,
-then the inverse image of sheaves of modules of Stacks 06WE is an equivalence
-`Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳)`.
+/-- **The `Mod` clause of Stacks 06WR, under the local criteria of Stacks 02ZN.** Let
+`f : 𝒳 ⥤ 𝒴` be a 1-morphism of categories fibred in groupoids over the big fppf category of `S`
+satisfying the two local criteria of Stacks 02ZN,
+`CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence`. Then the inverse image
+of sheaves of modules of Stacks 06WE is an equivalence `Mod(𝒪_𝒴) ⥤ Mod(𝒪_𝒳)`. Stacks 06WR itself,
+with the hypothesis that `f` induces an equivalence of stackifications, is
+`AlgebraicGeometry.Stack.isEquivalence_modulePullback_of_isStackification_of_isEquivalenceOver`.
 
 Equivalence of stackifications makes `f` a dense subsite inclusion for the associated fppf
 topologies, by the engine of Stacks 06WQ; the structure sheaf of `𝒳` is the restriction along
 `f` of that of `𝒴`, so the inverse image *is* restriction of sections, and the Comparison
 Lemma for sheaves of modules applies. -/
-@[stacks 06WR "modules"]
 theorem isEquivalence_modulePullback_of_isStackificationEquivalence
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {𝒳 : Type u} [Category.{u} 𝒳] {𝒴 : Type u} [Category.{u} 𝒴]
@@ -213,10 +223,11 @@ private theorem isQuasicoherentOnSite_of_modulePullback_comp
       (M.over (f.obj x))
       (Stacks.SheafOfModules.isQuasicoherent_over _ hM x)
 
-/-- **Quasi-coherence is reflected by `f^*`** when `f` induces an equivalence of
-stackifications. This is the content of Stacks 06WR beyond Stacks 06WH: the inverse image of a
-quasi-coherent module is quasi-coherent by Stacks 06WH, and conversely a module whose inverse
-image is quasi-coherent is itself quasi-coherent. -/
+/-- **Quasi-coherence is reflected by `f^*`** when `f` satisfies the two local criteria of
+Stacks 02ZN, as a 1-morphism inducing an equivalence of stackifications does. This is the
+content of Stacks 06WR beyond Stacks 06WH: the inverse image of a quasi-coherent module is
+quasi-coherent by Stacks 06WH, and conversely a module whose inverse image is quasi-coherent is
+itself quasi-coherent. -/
 theorem isQuasicoherentOnSite_of_modulePullback
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {𝒳 : Type u} [Category.{u} 𝒳] {𝒴 : Type u} [Category.{u} 𝒴]
@@ -262,14 +273,16 @@ noncomputable def quasicoherentPullback :
       modulePullback.{u, u, u, u, u, u} B S hS p q hp hq f hF.comp_eq B.topology le_rfl)
     fun M => isQuasicoherentOnSite_modulePullback B S hS p q hp hq f hF.comp_eq M.obj
 
-/-- **Stacks 06WR, the `QCoh` clause.** If `f : 𝒳 ⥤ 𝒴` induces an equivalence of
-stackifications, then the inverse image of quasi-coherent modules is an equivalence
-`QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳)`.
+/-- **The `QCoh` clause of Stacks 06WR, under the local criteria of Stacks 02ZN.** If
+`f : 𝒳 ⥤ 𝒴` satisfies the two local criteria of Stacks 02ZN,
+`CategoryTheory.Functor.IsFibredOneMorphism.IsStackificationEquivalence`, then the inverse image
+of quasi-coherent modules is an equivalence `QCoh(𝒪_𝒴) ⥤ QCoh(𝒪_𝒳)`. Stacks 06WR itself, with
+the hypothesis that `f` induces an equivalence of stackifications, is
+`isEquivalence_quasicoherentPullback_of_isStackification_of_isEquivalenceOver`.
 
 Fullness and faithfulness come from the equivalence on all modules, since `QCoh` is a full
 subcategory; essential surjectivity needs in addition that `f^*` reflects quasi-coherence,
 which is `AlgebraicGeometry.Stack.isQuasicoherentOnSite_of_modulePullback`. -/
-@[stacks 06WR "quasi-coherent modules"]
 theorem isEquivalence_quasicoherentPullback_of_isStackificationEquivalence
     (heq : letI : p.IsFibered := hp.isFibered
       letI : q.IsFibered := hq.isFibered

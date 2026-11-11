@@ -171,8 +171,8 @@ theorem firstChernClassCapFactorsThroughRationalEquivalence_firstChernComponentC
 
 /-- **Stacks 02TI.** Intersection with the first Chern class of an invertible module, as an
 operation `c₁(L) ∩ - : A_{k+1}(X) ⟶ A_k(X)` on Chow groups. -/
-@[stacks 02TI "the descended operation c_1(L) cap - : A_{k+1}(X) ⟶ A_k(X) the factoring \
-produces, with no hypothesis"]
+@[stacks 02TI "the descended operation c_1(L) cap - : A_{k+1}(X) ⟶ A_k(X), agreeing with the \
+cap product of 02SO on cycle representatives (firstChernClassCapChow_mk)"]
 def firstChernClassCapChow : chowGroup C p (k + 1) →+ chowGroup C p k :=
   firstChernClassCapOnChow C p k (firstChernComponentCycleRule C p k L)
     (firstChernClassCapFactorsThroughRationalEquivalence_firstChernComponentCycleRule C k p L)

@@ -1,5 +1,6 @@
 module
 
+public import Mathlib.RingTheory.Valuation.ValuationRing
 public import StacksFrontier.RingTheory.Coherent.Basic
 
 @[expose] public section
@@ -20,7 +21,8 @@ valuation ring is a local Bézout domain, so this contains the source's statemen
 ## Main results
 
 * `Stacks.Coherent.BezoutDomain.solution`: the proof of Stacks 0EWV, as stated in
-  `IsBezout.instIsCoherentRing`.
+  `IsBezout.instIsCoherentRing` and specialized to valuation rings in
+  `ValuationRing.isCoherentRing`.
 
 ## Implementation notes
 
@@ -78,8 +80,9 @@ Noetherian.
 
 ## Main results
 
-* `IsBezout.instIsCoherentRing`: a Bézout domain is a coherent ring; a valuation ring is one
-  through `ValuationRing.instIsBezout`.
+* `IsBezout.instIsCoherentRing`: a Bézout domain is a coherent ring.
+* `ValuationRing.isCoherentRing`: a valuation ring is a coherent ring, the source's statement,
+  deduced from the Bézout case through `ValuationRing.instIsBezout`.
 
 ## Implementation notes
 
@@ -87,11 +90,12 @@ The source (Stacks 0EWV) states this for a valuation ring, but its proof uses on
 generated ideals are principal and that `A` is a domain, never that `A` is local. Since
 `ValuationRing.iff_local_bezout_domain` reads `ValuationRing A ↔ IsLocalRing A ∧ IsBezout A`,
 locality would be a hypothesis the conclusion does not need, so the statement is made for a
-Bézout domain. The valuation ring case is then found by instance search through
-`ValuationRing.instIsBezout` — the very lemma the source's proof cites (Stacks 090Q) — and is not
-given a name of its own, being a composite with no extra content. The gain is genuine: the ring
-of all algebraic integers and the ring of entire functions on `ℂ` are non-Noetherian Bézout
-domains that are not valuation rings, and `ℤ` is a Bézout domain that is not one either.
+Bézout domain. The valuation ring case, the source's literal statement, is recorded as
+`ValuationRing.isCoherentRing` and follows by instance search through
+`ValuationRing.instIsBezout` — the very lemma the source's proof cites (Stacks 090Q). The gain
+is genuine: the ring of all algebraic integers and the ring of entire functions on `ℂ` are
+non-Noetherian Bézout domains that are not valuation rings, and `ℤ` is a Bézout domain that is
+not one either.
 
 The domain hypothesis is not dropped, and cannot be: over a Bézout ring the ideal `(f)` is
 `A / ann f`, which is finitely presented only when `ann f` is finitely generated, and a domain is
@@ -128,11 +132,19 @@ ring of the field of Puiseux series over a field, whose value group is `ℚ`.
 (`IsBezout.isPrincipal_of_FG`), hence free since the ring is a domain, hence finitely presented.
 The source states this for a valuation ring, which is a local Bézout domain
 (`ValuationRing.iff_local_bezout_domain`); locality is not used. -/
-@[stacks 0EWV "Stated for a Bézout domain: the source's proof of the valuation ring case uses \
-only that finitely generated ideals are principal and that the ring is a domain. The valuation \
-ring case is instance search through `ValuationRing.instIsBezout`."]
+@[stacks 0EWV "Generalization from valuation rings to Bézout domains: the source's proof uses \
+that finitely generated ideals are principal and that the ring is a domain, not that it is \
+local. The source's valuation ring statement is `ValuationRing.isCoherentRing`."]
 public instance IsBezout.instIsCoherentRing (A : Type*) [CommRing A] [IsDomain A] [IsBezout A] :
     IsCoherentRing A :=
       by apply Stacks.Coherent.BezoutDomain.solution
+
+/-- **Stacks 0EWV.** A valuation ring is a coherent ring: every finitely generated ideal is
+principal (`ValuationRing.instIsBezout`, Stacks 090Q), hence free as a valuation ring is a domain,
+hence finitely presented. This is the Bézout case `IsBezout.instIsCoherentRing`. -/
+@[stacks 0EWV]
+public theorem ValuationRing.isCoherentRing (A : Type*) [CommRing A] [IsDomain A]
+    [ValuationRing A] : IsCoherentRing A :=
+  inferInstance
 
 end

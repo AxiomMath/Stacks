@@ -122,10 +122,13 @@ family, which is the family form of Stacks 0AQU,
 applies Stacks 0AQU to `∐ gᵢ`, and that form avoids the coproduct by catching each adic point in
 one member of the family.
 
-The source states this for locally Noetherian formal algebraic spaces `X`, `Y` and `Yᵢ`. Only
-that the `Yᵢ` are formal algebraic spaces is used; the locally Noetherian hypotheses and the
-hypotheses on `X` and `Y` are omitted. -/
-@[stacks 0AQV]
+The source states this for locally Noetherian formal algebraic spaces `X`, `Y` and `Yᵢ`. The
+proof uses that the `Yᵢ` are formal algebraic spaces and nothing more, so the locally Noetherian
+hypotheses and the hypotheses on `X` and `Y` are omitted. -/
+@[stacks 0AQV "for a morphism f : X ⟶ Y locally of finite type and a family of representable \
+étale morphisms gᵢ : Yᵢ ⟶ Y from formal algebraic spaces with ∐ gᵢ surjective, f is \
+rig-surjective if and only if every base change X ×_Y Yᵢ ⟶ Yᵢ is; the locally Noetherian \
+hypotheses of the source are not needed"]
 theorem isRigSurjective_iff_forall_pullback_snd_of_isRepresentableEtale (B : BigFppfSite.{u})
     (S : Scheme.{u}) (hS : B.Contains S) {I : Type v} {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (Yi : I → FppfSheaf B S hS) (g : ∀ i, Yi i ⟶ Y)

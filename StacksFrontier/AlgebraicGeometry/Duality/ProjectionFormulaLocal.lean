@@ -465,7 +465,8 @@ quasi-coherent `𝒪_S`-module. Then the canonical projection-formula morphism
 `h_*G ⊗_{𝒪_S} H ⟶ h_*(G ⊗_{𝒪_T} h^*H)`
 
 is invertible. -/
-@[stacks 0FZE]
+@[stacks 0FZE "the canonical map h_*G ⊗ H ⟶ h_*(G ⊗ h^*H) is an isomorphism for affine h and \
+  quasi-coherent G, H"]
 theorem isIso_projectionFormulaMap [IsAffineHom h] (hG : G.IsQuasicoherent)
     (hH : H.IsQuasicoherent) : IsIso (projectionFormulaMap h G H) :=
   isIso_projectionFormulaMap_of_restrict_affineOpens h G H

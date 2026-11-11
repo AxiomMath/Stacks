@@ -51,12 +51,13 @@ determine the comparison of its left factor.
 
 ## Implementation notes
 
-**The category of Section 0372 is taken as a hypothesis, as it is where it is introduced.**
+**The category of Section 0372 is taken as a parameter.**
 Section 0372 names `Picardstack_{X/B}` a category by designation and verifies nothing, so
 `StacksFrontier/AlgebraicGeometry/Quot/PicardStack.lean` records the category structure together
 with its projection and the identification of its hom-sets, identities, composition and
-projection as the *specification* `AlgebraicGeometry.Space.PicardCategoryData`, and constructs
-no value of it.  A statement about the functor `p` of Stacks 04WN is therefore a statement about
+projection as the *specification* `AlgebraicGeometry.Space.PicardCategoryData`; a value of it is
+constructed downstream, as `AlgebraicGeometry.Space.picardCategoryData` of
+`StacksFrontier/AlgebraicGeometry/Quot/PicardStackCategory.lean`.  A statement about the functor `p` of Stacks 04WN is therefore a statement about
 `AlgebraicGeometry.Space.PicardCategoryData.projection`, for a value of that specification
 supplied as a hypothesis, over the coherence data
 `AlgebraicGeometry.Space.ModulePushforwardCoherence` of Stacks 03LU that the identities and the
@@ -72,19 +73,14 @@ rather than assume it.
 
 **What of Stacks 04WN is here, and what is not.**  Stacks 04WN is the conjunction of the three
 conditions of Stacks 02ZI (`CategoryTheory.Functor.IsStackInGroupoids`) for `p`.  Condition (1),
-that `p` is fibred in groupoids, is proved below.  Conditions (2) and (3) — that the `Isom`
-presheaves are sheaves, and that descent data are effective — are *not* proved, and the source's
-proof of them is a single citation: after the base maps `b_i` have been glued and the covering
-`{U_i ⟶ U}` has been base-changed to the covering `{X_i ⟶ X_U}`, the descent datum for the
-invertible modules is effective by Descent on Spaces, Proposition 74.4.1 (Stacks 04W8).  That
-proposition is not available in this development: fpqc descent of quasi-coherent modules is
-carried here only for *schemes*
-(`Stacks.Descent.nonempty_fullyFaithful_canonicalDescentFunctor'` and
-`AlgebraicGeometry.QuasicoherentDescentData.isEffective_fpqcPrecoverage`), and
-`StacksFrontier/AlgebraicGeometry/Quot/PicardFunctor.lean` records that the corresponding statement
-for the small étale site of an algebraic space cannot even be stated here, there being no sheaf
-of units and no group of global units of the structure sheaf of an algebraic space.  The
-attribute below is qualified accordingly, and no unqualified 04WN claim is made.
+that `p` is fibred in groupoids, is proved below, and it is the only one proved in this file.
+The complete statement of Stacks 04WN, all three conditions for the category of Section 0372
+constructed in `StacksFrontier/AlgebraicGeometry/Quot/PicardStackCategory.lean`, is
+`AlgebraicGeometry.Space.picardBasedCategory_isStackInGroupoids` of
+`StacksFrontier/AlgebraicGeometry/Quot/PicardStackIsStack.lean`, which carries the tag; conditions
+(2) and (3) are proved there from the descent of invertible modules along fpqc coverings of
+algebraic spaces of `StacksFrontier/AlgebraicGeometry/Quot/PicardDescent/`, the part of Stacks 04W8
+the source cites.
 
 **The "up to a replacement as in Remark 03ZZ" clause of the source.**  That clause is a size
 reduction: in the source the objects of `Picardstack_{X/B}` form a proper class, so `p` cannot be
@@ -360,7 +356,8 @@ theorem picardProjection_isFiberedInGroupoids_schemesOver
 
 /-- **Condition (1) of Stacks 02ZI for the functor of Stacks 04WN.**  In Situation 0D25 the
 projection `p : Picardstack_{X/B} ⟶ (Sch/S)_fppf` of Section 0372, which sends an object
-`(U, b, L)` to its test scheme `U`, is fibred in groupoids.
+`(U, b, L)` to its test scheme `U`, is fibred in groupoids, for every value `cd` of the
+specification of that category.
 
 The projection of `Picardstack_{X/B}` to the test schemes over the base is fibred in groupoids
 by `AlgebraicGeometry.Space.picardProjection_isFiberedInGroupoids_schemesOver`, the projection
@@ -368,20 +365,14 @@ of the test schemes over the base to the schemes of the site is fibred in groupo
 `CategoryTheory.Functor.IsFiberedInGroupoids.costructuredArrow_proj`, and Stacks 09WW composes
 the two.
 
-**This carrier asserts the first of the three conditions of Stacks 02ZI, and asserts it
-conditionally.**  Stacks 04WN is the conjunction of all three for this functor, and conditions
-(2) and (3) — the `Isom` presheaves being sheaves, and effectivity of descent data — are not
-proved here: the source proves them by citing Descent on Spaces, Proposition 74.4.1
-(Stacks 04W8), fpqc descent of quasi-coherent modules on algebraic spaces, which this
-development does not carry.  Of the hypotheses, `cd` is the category of Section 0372, which the
-source introduces by designation, and `hc` is the pseudofunctoriality of Stacks 03LU that its
-identities and composition already need.
-The attribute is qualified accordingly, and no unqualified 04WN claim is made here.  The
-source's "up to a replacement as in Remark 03ZZ" clause needs nothing: see the implementation
-notes of the file. -/
-@[stacks 04WN "condition (1) of Stacks 02ZI only — the functor Picardstack_{X/B} ⟶ \
-(Sch/S)_fppf is fibred in groupoids — and conditional on the category of Section 0372; \
-conditions (2) and (3) need Stacks 04W8, which this development does not carry"]
+This is a step of Stacks 04WN, not the tag: the complete statement, all three conditions of
+Stacks 02ZI for the category of Section 0372 constructed in
+`AlgebraicGeometry.Space.picardCategoryData`, is
+`AlgebraicGeometry.Space.picardBasedCategory_isStackInGroupoids`.  The specification `cd` pins
+the hom-sets, identities, composition and projection, and a value of it is constructed, so the
+statement is not conditional on it; `hc` is the pseudofunctoriality of Stacks 03LU that the
+identities and the composition of the category need, and
+`AlgebraicGeometry.Space.modulePushforwardCoherence` constructs it. -/
 theorem picardProjection_isFiberedInGroupoids (hc : ModulePushforwardCoherence B S hS)
     {s : PicardSituation B S hS} (cd : PicardCategoryData hc s) :
     letI : Category.{u + 1} (PicardObject s) := cd.category

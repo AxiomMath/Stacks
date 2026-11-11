@@ -15,15 +15,16 @@ public import StacksFrontier.Algebra.Homology.DerivedCategory.ExactFunctorBounde
 
 Let `S` be a scheme, `X` an algebraic space over `S` and `a : U → X` a proper hypercovering of `X`
 by a simplicial algebraic space (Section 0DHI), with the morphism of topoi
-`a : Sh(U_étale) → Sh(X_étale)` of Section 0DE7. This file proves Stacks 0DHL and Stacks 0DHM for
-torsion coefficients: for `K ∈ D⁺(X_étale)` with torsion cohomology sheaves,
+`a : Sh(U_étale) → Sh(X_étale)` of Section 0DE7. This file proves the corrected statements of
+Stacks 0DHL and Stacks 0DHM: for `K ∈ D⁺(X_étale)` with torsion cohomology sheaves,
 
 `K = Ra_*(a⁻¹K)` and `RΓ(X_étale, K) = RΓ(U_étale, a⁻¹K)`.
 
-The source states both for every `K ∈ D⁺(X_étale)`. As written they are false, and their proofs
-use the torsion hypothesis through Stacks 0DGU; see
-`AlgebraicGeometry.Space.isIso_etaleAugmentation_derivedPlusUnit_of_isProperHypercovering` for a
-counterexample with rational coefficients.
+The source states both for every `K ∈ D⁺(X_étale)`. As printed they fail for `K = ℚ`, and their
+proofs use the torsion hypothesis through Stacks 0DGU; the counterexample (the Čech nerve of the
+blow-up of a normal surface singularity whose exceptional curve is a nodal cubic) is described in
+the docstring of
+`AlgebraicGeometry.Space.isIso_etaleAugmentation_derivedPlusUnit_of_isProperHypercovering`.
 
 ## The proof
 
@@ -55,9 +56,9 @@ Stacks 0DHM follows by Cohomology on Sites, Remark 08J6.
 ## Main results
 
 * `AlgebraicGeometry.Space.isIso_etaleAugmentation_derivedPlusUnit_of_isProperHypercovering`:
-  **Stacks 0DHL**, for torsion coefficients.
-* `AlgebraicGeometry.Space.derivedGlobalSectionsIsoOfIsProperHypercovering`: **Stacks 0DHM**, for
-  torsion coefficients.
+  **Stacks 0DHL**, corrected statement (`K` with torsion cohomology sheaves).
+* `AlgebraicGeometry.Space.derivedGlobalSectionsIsoOfIsProperHypercovering`: **Stacks 0DHM**,
+  corrected statement (`K` with torsion cohomology sheaves).
 * `CategoryTheory.SimplicialSiteSituation.Augmentation.isIso_rightDerivedFunctorPlus_unit_app_iff`:
   the unit of `a⁻¹ ⊣ Ra_*` is the same whether `a⁻¹` is read degreewise or as its right derived
   functor.
@@ -296,7 +297,7 @@ attribute [local instance 2000] HomotopyCategory.Plus.instHasPointwiseRightDeriv
 
 attribute [local instance] HasDerivedCategory.standard
 
-/-- **Stacks Project, Tag 0DHL**, for torsion coefficients. Let `S` be a scheme, `X` an algebraic
+/-- **Stacks Project, Tag 0DHL**, corrected statement. Let `S` be a scheme, `X` an algebraic
 space over `S`, `U` a simplicial algebraic space over `S` and `a : U → X` an augmentation. If
 `a : U → X` is a proper hypercovering of `X`, then for `K ∈ D⁺(X_étale)` with torsion cohomology
 sheaves the canonical map
@@ -311,15 +312,18 @@ proper hypercovering condition is Section 0DHI (`AlgebraicGeometry.Space.IsPrope
 and `D⁺` is the bounded below derived category of abelian sheaves. The map is the unit at `K` of
 the adjunction `a⁻¹ ⊣ Ra_*` on `D⁺`, `a⁻¹` being exact and applied degreewise.
 
-The statement of the source is for every `K ∈ D⁺(X_étale)`, and as written it is false: its proof
-cites Stacks 0DGU, which holds only for complexes with torsion cohomology sheaves. For a
-counterexample with rational coefficients let `X` be a normal surface over an algebraically closed
-field with a cusp singularity `x`, let `π : X̃ → X` be a resolution whose exceptional curve `E`
-over `x` is a cycle of rational curves, and let `U` be the Čech nerve of the proper surjective
-morphism `X̃ ⊔ {x} → X`, a proper hypercovering. Descent `ℚ = Ra_*a⁻¹ℚ` would give, through the
-spectral sequence of the hypercovering, `H²(X_étale, ℚ) ≠ 0`, coming from `H¹(E, ℚ) = ℚ`; but
-`Hⁱ(X_étale, ℚ) = 0` for `i > 0` because `X` is normal. The torsion hypothesis on `K` is
-therefore part of the statement, and this is the corrected form.
+The source states this for every `K ∈ D⁺(X_étale)`, and as printed it fails for `K = ℚ`; its proof
+cites Stacks 0DGU, a statement about complexes with torsion cohomology sheaves. Counterexample: let
+`k` be an algebraically closed field of characteristic `≠ 2`, let `f = y²z - x³ - x²z + z⁴`, and let
+`X` be the spectrum of the strict henselization of `k[x, y, z]/(f)` at the origin. The tangent cone
+of `X` is the nodal cubic `N = V(y²z - x³ - x²z) ⊂ ℙ²`, and the blow-up `π : Y → X` of the closed
+point is regular, with exceptional curve `E ≅ N` (in the chart `z = 1` its equation is
+`y² - x³ - x² + z = 0`). Let `U` be the Čech nerve of the proper surjective morphism `π`, a proper
+hypercovering of `X`. Since `Y ×_X ⋯ ×_X Y = Δ(Y) ∪ E × ⋯ × E`, closed Mayer-Vietoris gives
+`RΓ(U_étale, ℚ) = fib(RΓ(Y, ℚ) ⊕ ℚ → RΓ(E, ℚ))`. As `Y` is normal and connected, `H¹(Y, ℚ) = 0`,
+while `H¹(E, ℚ) = ℚ`; hence `H²(U_étale, ℚ) = ℚ`. But `X` is strictly henselian local, so
+`H²(X_étale, ℚ) = 0`, and `ℚ → Ra_*a⁻¹ℚ` is not an isomorphism. The torsion hypothesis on `K` is
+the correction.
 
 The proof is that of the source: a big ph site `(Spaces/S)_ph` on the algebraic spaces over `S`
 exists (`AlgebraicGeometry.BigFppfSite.bigPHSpaceSite`), and in it the square of Tag 0DHJ, the
@@ -327,7 +331,8 @@ comparison of ph and étale cohomology of torsion sheaves (Stacks 0DGT, Stacks 0
 along the ph hypercovering `U` of `X` (Stacks 0DA8, Stacks 0D8N) give
 `Ra_*a⁻¹K = Rh₋₁,* Ra_{ph,*} a_ph⁻¹ h₋₁⁻¹ K = K`; see
 `AlgebraicGeometry.BigPHSpaceSite.isIso_etaleAugmentation_derivedPlusUnit_of_torsion`. -/
-@[stacks 0DHL]
+@[stacks 0DHL "for `K` with torsion cohomology sheaves; the torsion hypothesis is required: for
+  `K = ℚ` the statement is false"]
 theorem isIso_etaleAugmentation_derivedPlusUnit_of_isProperHypercovering
     (hA : IsProperHypercovering B S hS A)
     (K : DerivedCategory.Plus (Sheaf (SpacesEtale.topology B S hS A.right) AddCommGrpCat.{u + 1}))
@@ -339,7 +344,7 @@ theorem isIso_etaleAugmentation_derivedPlusUnit_of_isProperHypercovering
   BigPHSpaceSite.isIso_etaleAugmentation_derivedPlusUnit_of_torsion
     (P := B.bigPHSpaceSite S hS) hA K hK
 
-/-- **Stacks Project, Tag 0DHM**, for torsion coefficients. Let `S` be a scheme, `X` an algebraic
+/-- **Stacks Project, Tag 0DHM**, corrected statement. Let `S` be a scheme, `X` an algebraic
 space over `S`, `U` a simplicial algebraic space over `S` and `a : U → X` an augmentation. If
 `a : U → X` is a proper hypercovering of `X`, then
 
@@ -353,12 +358,11 @@ factorisation `RΓ(U_étale, -) = RΓ(X_étale, -) ∘ Ra_*` of Cohomology on Si
 (`Stacks.LerayPullbackComparison.lerayPullback`), invertible by
 `isIso_etaleAugmentation_derivedPlusUnit_of_isProperHypercovering` (Stacks 0DHL).
 
-As for Stacks 0DHL, the source states this for every `K ∈ D⁺(X_étale)`, and as written it is false:
-for the proper hypercovering of a normal surface with a cusp by the Čech nerve of
-`X̃ ⊔ {x} → X` described at `isIso_etaleAugmentation_derivedPlusUnit_of_isProperHypercovering`, the
-spectral sequence of the hypercovering computes `H²(U_étale, ℚ) ≠ 0` from `H¹(E, ℚ) = ℚ` for the
-exceptional curve `E`, while `H²(X_étale, ℚ) = 0` since `X` is normal. The torsion hypothesis on
-`K` is the correction. -/
+As for Stacks 0DHL, the source states this for every `K ∈ D⁺(X_étale)`, and as printed it fails
+for `K = ℚ`: for the Čech nerve `U` of the blow-up `Y → X` of the strictly henselian surface
+singularity described at `isIso_etaleAugmentation_derivedPlusUnit_of_isProperHypercovering`,
+`H²(U_étale, ℚ) = ℚ` while `H²(X_étale, ℚ) = 0`. The torsion hypothesis on `K` is the
+correction. -/
 @[stacks 0DHM]
 def derivedGlobalSectionsIsoOfIsProperHypercovering (hA : IsProperHypercovering B S hS A)
     (K : DerivedCategory.Plus (Sheaf (SpacesEtale.topology B S hS A.right) AddCommGrpCat.{u + 1}))

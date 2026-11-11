@@ -57,8 +57,8 @@ the sheaf-level crystal condition.
 ## What this does and does not do to [Stacks, Tag 07LG]
 
 **No `@[stacks 07LG]` attribute is placed.** [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`. What falls here of the hypothesis list of
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`. What falls here of the hypothesis list of
 `...SmallSite.computes07LG_of_doubleComplex` is the data `K` itself, for the structure sheaf;
 its five other hypotheses (`hcolumns`, `hrows`, `hrow0`, `hcolumn0` and `hker`) are untouched.
 

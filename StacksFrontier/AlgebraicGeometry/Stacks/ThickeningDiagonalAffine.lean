@@ -114,7 +114,6 @@ variable {𝒳 𝒳' 𝒴 𝒴' : AlgebraicStacks.{u, w} B S hS}
 `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the relative diagonal
 `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is affine in the sense of Stacks 04XB (**Stacks 03WF**) if and only if
 `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (b) of seventeen: affine"]
 theorem isAffineHom_relativeDiagonal_inner_iff_outer :
     Stack.IsAffineHom B S hS (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom ↔
       Stack.IsAffineHom B S hS (AlgebraicStacks.relativeDiagonal B S hS m.outer).hom := by
@@ -136,7 +135,6 @@ theorem isAffineHom_relativeDiagonal_inner_iff_outer :
 `(f, f') : (𝒳 ⊂ 𝒳') → (𝒴 ⊂ 𝒴')` of algebraic stacks over `S`, the relative diagonal
 `Δ : 𝒳 ⟶ 𝒳 ×_𝒴 𝒳` is integral in the sense of Stacks 04XB (**Stacks 03ZP**) if and only if
 `Δ' : 𝒳' ⟶ 𝒳' ×_{𝒴'} 𝒳'` is. -/
-@[stacks 0BPV "property (f) of seventeen: integral"]
 theorem isIntegralHom_relativeDiagonal_inner_iff_outer :
     HasRelativeProperty.{u, u, u + 1, u} B S hS (Space.integralMorphismProperty B S hS)
         (AlgebraicStacks.relativeDiagonal B S hS m.inner).hom

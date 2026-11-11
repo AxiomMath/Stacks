@@ -15,7 +15,7 @@ public import StacksFrontier.Algebra.Homology.DerivedCategory.BoundedBelowCorefl
 import StacksCore.Tactic.StacksAttribute
 
 /-!
-# Stacks 0DJA (3) without flatness of `g` fails
+# Stacks 0DJA (3) without a condition on `g` fails
 
 Let `A` be a commutative ring with an element `e ≠ 0` such that `e² = 0` and whose annihilator is
 `eA`, for example `A = ℤ/4` and `e = 2`; put `k = A/eA`. Take the cartesian square
@@ -37,10 +37,14 @@ degrees `≥ 0`. Hence the comparison `L g^* R𝓗om(E, K) ⟶ R𝓗om(L g^* E, 
 isomorphism, and since the vertical arrows of the square are identities, condition (1) of
 Stacks 0DJ8 fails for it.
 
+Here `g` does not have finite Tor dimension: `Tor_i^A(k, k) = k` for every `i ≥ 0`. With `g` of
+finite Tor dimension part (3) holds, as
+`AlgebraicGeometry.isIso_baseChangeCohomologyMap_baseChangeSheafHomComparison_of_hasTorAmplitude`.
+
 ## Main results
 
 * `AlgebraicGeometry.not_pointwiseBaseChangeSheafHomOfPseudoCoherent`: the statement of
-  Stacks 0DJA (3) without flatness of `g` is false.
+  Stacks 0DJA (3) with no condition on `g` is false.
 -/
 
 @[expose] public noncomputable section
@@ -175,7 +179,7 @@ variable {R : CommRingCat.{u}} {e : R} (he : e * e = 0)
   (hker : ∀ x : R, e * x = 0 → ∃ y, e * y = x)
 
 include he hker in
-/-- **The statement of Stacks 0DJA (3) without flatness of `g` fails**, over any ring `R` with an
+/-- **The statement of Stacks 0DJA (3) with no condition on `g` fails**, over any ring `R` with an
 element `e` such that `e² = 0` and whose annihilator is `eR`, and any nonzero ring `S` over `R` in
 which `e` vanishes: for the cartesian square with `g : Spec S ⟶ Spec R` and identities as vertical
 arrows, `K = 𝒪_{Spec R}`, `K' = L g^* K`, `φ = id` and `E = P̃` for the periodic resolution `P`
@@ -298,7 +302,7 @@ form (1) and `g` an arbitrary morphism, fails: for `A = ℤ/4`, the cartesian sq
 resolution `⋯ --2--> ℤ/4 --2--> ℤ/4` of `ℤ/2`, condition (1) of Stacks 0DJ8 holds for `φ` but
 fails for `L g^* R𝓗om(E, K) ⟶ R𝓗om(L g^* E, K')`, whose source has cohomology
 `Tor_1^{ℤ/4}(ℤ/2, ℤ/2) ≠ 0` in degree `-1` while its target lies in degrees `≥ 0`. -/
-@[stacks 0DJA "(3) as written is false: the statement of part (3) without flatness of g fails, \
+@[stacks 0DJA "(3) as written is false: the statement of part (3), with no condition on g, fails \
 by a counterexample over ℤ/4 with g : Spec ℤ/2 ⟶ Spec ℤ/4, K the structure sheaf and E the \
 periodic resolution of ℤ/2"]
 theorem not_pointwiseBaseChangeSheafHomOfPseudoCoherent :

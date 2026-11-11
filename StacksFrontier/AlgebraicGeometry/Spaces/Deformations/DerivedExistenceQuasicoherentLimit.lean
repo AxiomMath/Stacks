@@ -7,14 +7,18 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.GrothendieckExistence.Deri
 # The derived limit of Situation 0DIK in `D_QCoh(𝒪_X)` is bounded above, from the affine case
 
 In Situation [Stacks, Tag 0DIK] let `K = R lim_{D_QCoh(𝒪_X)}(Kₙ) = DQ_X(R lim_{D(𝒪_X)} Kₙ)`.
-[Stacks, Tag 0DIL] says that `K` lies in `D⁻_QCoh(𝒪_X)`.  This file proves it granted the affine
+[Stacks, Tag 0DIL] says that `K` lies in `D⁻_QCoh(𝒪_X)`.  This file proves it from the affine
 case of the coherator, `AlgebraicGeometry.Space.FlatSheafExistenceSituation.AffineCoheratorCase`,
 exactly as `…FlatSheafExistenceSituation.derivedLimit_bounded_of_affineCase` proves
-[Stacks, Tag 0CX5]: the affine case is the one input that is not yet available.
+[Stacks, Tag 0CX5]. The affine case is proved as `AlgebraicGeometry.Space.affineCoheratorCase`,
+and `…DerivedExistenceSystem.derivedLimit_isBoundedAbove` (in
+`StacksFrontier.AlgebraicGeometry.Spaces.Deformations.DerivedExistenceBoundedLimit`) is the statement
+with it discharged.
 
 ## Main definitions
 
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.quasicoherentTower`: the tower `(Rjₙ,* Kₙ)` read
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.quasicoherentTower`: the tower `(Rjₙ,*
+  Kₙ)` read
   in `D_QCoh(𝒪_X)`.
 
 ## Main results
@@ -48,9 +52,9 @@ universe u
 
 namespace AlgebraicGeometry.Space
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- **`X` is a separated algebraic space**: it is proper, hence separated, over the affine base
 `Spec A`. -/
@@ -58,7 +62,7 @@ theorem isAbsolutelySeparated :
     IsAbsolutelySeparated D.B (limitBase D.system) D.containsLimitBase D.B.contains_terminal
       D.X.left.1 :=
   isAbsolutelySeparated_of_isSeparated_to_affine D.B (limitBase D.system) D.containsLimitBase
-    D.B.contains_terminal _ D.isAffine_limitBaseObject D.X.hom.hom D.proper.1
+    D.B.contains_terminal _ D.isAffine_limitBaseObject D.X.hom.hom D.separated
 
 /-- `X` is quasi-separated. -/
 theorem isAbsolutelyQuasiSeparated :
@@ -159,6 +163,6 @@ theorem derivedLimit_isBoundedAbove_of_affineCase
   exact ⟨c, fun i hi => (hle i hi).of_iso ((spaceDerivedHomology D.B (limitBase D.system)
       D.containsLimitBase D.X.left i).mapIso (P.ι.mapIso e)).symm⟩
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space

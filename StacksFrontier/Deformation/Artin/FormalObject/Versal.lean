@@ -12,18 +12,23 @@ Let `S` be a locally Noetherian scheme, let `p : 𝒳 ⥤ (Sch/S)_{fppf}` be a c
 groupoids and let `ξ = (R, ξ_n, f_n)` be a formal object of `p`: a Noetherian complete local
 ring `R` over `S` together with objects `ξ_n` of `𝒳` over the infinitesimal thickenings of the
 closed point of `Spec R` and transitions between them. Write `k = R / 𝔪` for the residue field
-and `x₀ = ξ_0` for the closed fibre, and fix a ring `Λ` through which the structure morphism
-`Spec R ⟶ S` factors. Then `ξ` is the same data as a formal object of the predeformation
-category `𝓕_{𝒳,k,x₀}` over `𝒞_Λ`, with the same levels, the same transitions and the same
-complete local base. The formal object `ξ` is *versal* when that formal object of the
+and `x₀ = ξ_0` for the closed fibre, and fix an affine open `Spec Λ ⊆ S` through which the
+structure morphism `Spec R ⟶ S` factors. Then `ξ` is the same data as a formal object of the
+predeformation category `𝓕_{𝒳,k,x₀}` over `𝒞_Λ`, with the same levels, the same transitions and
+the same complete local base. The formal object `ξ` is *versal* when that formal object of the
 predeformation category is versal, that is, when its associated morphism from the functor
-represented by the complete local base is smooth.
+represented by the complete local base is smooth. The relative predicate is stated for any ring
+`Λ` with a morphism `Spec Λ ⟶ S`; it is the notion of the source only when `Spec Λ ⟶ S` is an
+affine open, which is what `Deformation.Artin.FormalObject.IsVersalOverScheme` asks.
 
 ## Main definitions
 
 * `Deformation.Artin.FormalObject.predeformationFormalObject` is `ξ` read as a formal object of
   the predeformation category of its closed fibre.
-* `Deformation.Artin.FormalObject.IsVersal`: **Stacks 0CXJ**.
+* `Deformation.Artin.FormalObject.IsVersal`: versality of `ξ` relative to a chosen `Λ`.
+* `Deformation.Artin.FormalObject.IsVersalOverScheme`: **Stacks 0CXJ**, versality relative to an
+  affine open `Spec Λ ⊆ S`; its independence of the affine open is in
+  `StacksFrontier.Deformation.Artin.FormalObject.VersalChartIndependence`.
 
 ## Main results
 
@@ -117,10 +122,20 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {F : Type v} [Category.{w} F] (p : F ⥤ BigFppfOver B S hS)
 
 /-- A formal object `ξ` of a category fibred in groupoids over the big fppf site of `S` is
-versal, relative to a ring `Λ` through which the structure morphism of its complete local base
-factors, when the formal object of the predeformation category of its closed fibre determined
-by `ξ` is versal. -/
-@[stacks 0CXJ]
+versal *relative to `Λ`*, for a ring `Λ` with a morphism `iΛ : Spec Λ ⟶ S` through which the
+structure morphism of its complete local base factors, when the formal object of the
+predeformation category over `𝒞_Λ` of its closed fibre determined by `ξ` is versal
+(**Stacks 06HR**).
+
+This is the predicate of **Stacks 0CXJ** only for a good choice of `Λ`: the predeformation
+category built here forces the structure morphism of every deformation to factor through
+`Spec Λ ⟶ S`, so for an arbitrary `iΛ` (for instance `Λ = R` itself, with `iΛ` the structure
+morphism of `ξ`) it is smaller than `𝓕_{𝒳,k,x₀}` and the predicate can fail for a versal `ξ`.
+When `iΛ` is an open immersion, that is `Spec Λ ⊆ S` is an affine open as in **Stacks 07T2**,
+the two agree, and the answer does not depend on the affine open
+(`Deformation.Artin.FormalObject.isVersal_iff_of_isOpenImmersion`). The notion of
+**Stacks 0CXJ** itself, which depends on no auxiliary data, is
+`Deformation.Artin.FormalObject.IsVersalOverScheme`. -/
 def FormalObject.IsVersal (hp : p.IsFiberedInGroupoids) (ξ : FormalObject B S hS p)
     (Λ : Type u) [CommRing Λ] [Algebra Λ ξ.base.R] (iΛ : Spec (.of Λ) ⟶ S)
     (hR : Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base.R)) ≫ iΛ = ξ.base.toS) : Prop :=
@@ -129,8 +144,32 @@ def FormalObject.IsVersal (hp : p.IsFiberedInGroupoids) (ξ : FormalObject B S h
       (ξ.basePoint Λ iΛ hR) hp).cofibered
     (ξ.predeformationFormalObject Λ iΛ hR)
 
-/-- Versality of `ξ` is versality, in the sense of **Stacks 06HR**, of the formal object of the
-predeformation category of its closed fibre that `ξ` determines. -/
+/-- **Stacks 0CXJ.** A formal object `ξ = (R, ξ_n, f_n)` of a category fibred in groupoids over
+the big fppf site of `S`, with `k = R / 𝔪` and `x₀ = ξ_0`, is *versal* when `ξ`, read as a
+formal object of the predeformation category `𝓕_{𝒳,k,x₀}` (**Stacks 0CXH**), is versal in the
+sense of **Stacks 06HR**.
+
+The predeformation category is built over `𝒞_Λ` for an affine open `Spec Λ ⊆ S` through which
+`Spec k ⟶ S` factors (**Stacks 07T2**): here `iΛ : Spec Λ ⟶ S` is an open immersion and the
+`Λ`-algebra structure of `R` is the one factoring the structure morphism of `ξ` through
+`Spec Λ` (it exists and is unique, `Spec R` being local and `iΛ` a monomorphism). The
+definition asks for one such affine open; by
+`Deformation.Artin.FormalObject.isVersal_iff_of_isOpenImmersion` the answer is the same for
+every one of them, which is the independence of the choice noted in **Stacks 07T2**, and
+`Deformation.Artin.FormalObject.isVersalOverScheme_iff_forall` restates it with all affine
+opens. In particular it is the same for the affine opens with `Λ → k` finite that
+**Stacks 07T2** picks. -/
+@[stacks 0CXJ "versal for one, equivalently every, affine open `Spec Λ ⊆ S` through which \
+the closed point factors; the independence is `FormalObject.isVersal_iff_of_isOpenImmersion`"]
+def FormalObject.IsVersalOverScheme (hp : p.IsFiberedInGroupoids)
+    (ξ : FormalObject B S hS p) : Prop :=
+  ∃ (Λ : Type u) (_ : CommRing Λ) (iΛ : Spec (.of Λ) ⟶ S) (_ : IsOpenImmersion iΛ)
+    (_ : Algebra Λ ξ.base.R)
+    (hR : Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base.R)) ≫ iΛ = ξ.base.toS),
+    FormalObject.IsVersal B S hS p hp ξ Λ iΛ hR
+
+/-- Versality of `ξ` relative to `Λ` is versality, in the sense of **Stacks 06HR**, of the formal
+object of the predeformation category of its closed fibre that `ξ` determines. -/
 theorem FormalObject.isVersal_iff (hp : p.IsFiberedInGroupoids) (ξ : FormalObject B S hS p)
     (Λ : Type u) [CommRing Λ] [Algebra Λ ξ.base.R] (iΛ : Spec (.of Λ) ⟶ S)
     (hR : Spec.map (CommRingCat.ofHom (algebraMap Λ ξ.base.R)) ≫ iΛ = ξ.base.toS) :

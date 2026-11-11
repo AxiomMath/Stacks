@@ -8,7 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.Variety.Curve.Defs
 public import StacksFrontier.AlgebraicGeometry.Variety.Curve.ProjectiveCompletionDiscreteValuation
 
 /-!
-# Stacks Tag 0BY0: factoring a morphism from a curve through a projective curve
+# Factoring a morphism from a curve through a projective curve, given an ample sheaf
 
 [Stacks, Tag 0BY0] says that a morphism `X ⟶ Y` of varieties over a field `k`, with `Y` proper
 and `X` a curve, factors as `X ⟶ X̄ ⟶ Y` with `X ⟶ X̄` an open immersion and `X̄` a projective
@@ -32,9 +32,12 @@ reach all of `X̄`.
   complement of the dense open is finite, where the iteration therefore reaches the whole
   scheme.
 * `AlgebraicGeometry.exists_isOpenImmersion_isCurve_isProjectiveMorphism_factorization`:
-  **[Stacks, Tag 0BY0]**, given the carried hypothesis `h09NZ`; see below.
+  the factorization of [Stacks, Tag 0BY0] with the superfluous hypothesis `h09NZ`; see below.
+  [Stacks, Tag 0BY0] itself, with nothing assumed, is
+  `AlgebraicGeometry.exists_isOpenImmersion_isCurve_isProjectiveMorphism_factorization_of_isCurve`
+  in `StacksFrontier.AlgebraicGeometry.Variety.Curve.ProjectiveCurveFactorizationUnconditional`.
 
-## What is proved, and the one hypothesis carried
+## What is proved, and the superfluous hypothesis
 
 Both clauses of the conclusion are proved of the scheme that is constructed: `X ⟶ X̄` is an open
 immersion, and `X̄` is a projective curve, meaning `AlgebraicGeometry.IsCurve` for its structure
@@ -42,13 +45,16 @@ morphism together with `AlgebraicGeometry.IsProjectiveMorphism` of that morphism
 factorization `j ≫ G = g` is part of the conclusion, as are `j ≫ q = pX` and `G ≫ pY = q`, so
 both halves of the factorization are morphisms of `k`-schemes.
 
-The single hypothesis is `h09NZ`, inherited unchanged from
-`Stacks.CurveProjectiveCompletion.exists_projective_completion_discreteValuation`, the
-library's [Stacks, Tag 0BXW], and through it from [Stacks, Tag 0BXV] and [Stacks, Tag 0A25]: it
-is [Stacks, Tag 09NZ], the existence of an ample invertible sheaf on a Noetherian separated
-scheme of dimension at most one, which this repository does not have. Nothing in the present
-argument assumes anything else; in particular the extension step and the verification that the
-completion is a curve are unconditional.
+The hypothesis `h09NZ` is the statement of [Stacks, Tag 09NZ], the existence of an ample
+invertible sheaf on a Noetherian separated scheme of dimension at most one. It is passed to
+`Stacks.CurveProjectiveCompletion.exists_projective_completion_discreteValuation`, where it is
+superfluous as well. The library proves it, as
+`Stacks.AmpleNoetherianDimensionOne.exists_isAmple_of_isNoetherian_of_topologicalKrullDim_le_one`
+and in the form of the proposition as
+`Stacks.HQuasiProjectiveDimensionOne.ampleOfNoetherianSeparatedDimLEOne`; and for a curve, which
+is reduced, the completion is
+`Stacks.CurveProjectiveCompletion.exists_projective_completion_discreteValuation_of_isReduced`,
+which needs no ample sheaf as input. Nothing in the present argument uses anything else.
 
 ## Implementation notes
 
@@ -185,26 +191,21 @@ theorem exists_extension_of_finite_compl_valuationRing_stalk
       _ = Z.homOfLE hUV ≫ g := by rw [Scheme.ι_toIso_inv, Category.id_comp]
       _ = f := hgf
 
-/-! ### Stacks Tag 0BY0 -/
+/-! ### The factorization of Tag 0BY0, given an ample sheaf -/
 
-/-- **[Stacks, Tag 0BY0].** Let `k` be a field, let `X` be a curve over `k` and `Y` a proper
-variety over `k`, and let `g : X ⟶ Y` be a morphism over `k`. Then there is a factorization
-`X ⟶ X̄ ⟶ Y` of `g` in which `X ⟶ X̄` is an open immersion and `X̄` is a projective curve over
-`k`, that is, a curve whose structure morphism is H-projective.
+/-- **The factorization of [Stacks, Tag 0BY0], with a superfluous hypothesis.** Let `k` be a
+field, let `X` be a curve over `k` and `Y` a proper variety over `k`, and let `g : X ⟶ Y` be a
+morphism over `k`. Then there is a factorization `X ⟶ X̄ ⟶ Y` of `g` in which `X ⟶ X̄` is an
+open immersion and `X̄` is a projective curve over `k`, that is, a curve whose structure
+morphism is H-projective.
 
-The hypothesis `h09NZ` is [Stacks, Tag 09NZ], carried through the library's [Stacks, Tag 0BXW]
-and from there through [Stacks, Tag 0BXV] and [Stacks, Tag 0A25]; it is the only thing assumed,
-and both clauses of the conclusion are proved of the scheme constructed. See the module
-documentation.
+The hypothesis `h09NZ`, the statement of [Stacks, Tag 09NZ], is superfluous: the library proves
+it as `Stacks.HQuasiProjectiveDimensionOne.ampleOfNoetherianSeparatedDimLEOne`, and
+[Stacks, Tag 0BY0] with nothing assumed is
+`AlgebraicGeometry.exists_isOpenImmersion_isCurve_isProjectiveMorphism_factorization_of_isCurve`.
+See the module documentation.
 
-Only properness of `pY` is used, not the variety structure of `Y`. -/
-@[stacks 0BY0 "the full statement, given Tag 09NZ as the hypothesis `h09NZ`, which Tag 0A25 \
-needs and this repository does not have; it is inherited unchanged from the library's Tag \
-0BXW, `Stacks.CurveProjectiveCompletion.exists_projective_completion_discreteValuation`. Both \
-clauses are proved of the scheme constructed: `j` is an open immersion and `q` makes `Xbar` a \
-curve (Tag 0A23) which is H-projective over `k` (Tag 01W8). The factorization `j ≫ G = g` is \
-part of the conclusion, together with `j ≫ q = pX` and `G ≫ pY = q`, so both halves are \
-morphisms of `k`-schemes"]
+The variety structure of `Y` is not used, only properness of `pY`. -/
 theorem exists_isOpenImmersion_isCurve_isProjectiveMorphism_factorization
     (h09NZ : Stacks.HQuasiProjectiveDimensionOne.AmpleOfNoetherianSeparatedDimLEOne.{u})
     (k : Type u) [Field k] {X Y : Scheme.{u}}

@@ -41,8 +41,9 @@ points of `Y` outside `i(Z)`.  Here `i(Z)` is the first component, and it is pre
 second component that `j` fails to be regular.  The corrected statement, which is what the
 source's own argument gives, is
 `Stacks.AlgebraicGeometry.RegularIdealSheaf.exists_opens_isRegularImmersion_comp_of_perfect`:
-there is an open `V ⊆ Y` containing `i(Z)` with `V.ι ≫ j` a regular immersion.  That declaration
-carries the Stacks tag; nothing in this file does.
+there is an open `V ⊆ Y` containing `i(Z)` with `V.ι ≫ j` a regular immersion.  Both that
+declaration and the refutation below carry the Stacks tag 09RK, the latter as the erratum's
+counterexample.
 
 ## Main results
 
@@ -242,8 +243,10 @@ sequence: every element of `(ε)` kills `ε ≠ 0`.
 
 The source's proof establishes regularity of `j` only at the points of `i(Z)` — here the first
 component, where `j` is an isomorphism — and the statement it does support is
-`Stacks.AlgebraicGeometry.RegularIdealSheaf.exists_opens_isRegularImmersion_comp_of_perfect`,
-which carries the tag. -/
+`Stacks.AlgebraicGeometry.RegularIdealSheaf.exists_opens_isRegularImmersion_comp_of_perfect`. -/
+@[stacks 09RK "erratum: the claim that j is a regular immersion is false as written; \
+counterexample with Z = Spec k, Y = Spec k ⊔ Spec k, X = Spec k ⊔ Spec k[ε]/(ε²); the corrected \
+statement is exists_opens_isRegularImmersion_comp_of_perfect"]
 theorem not_forall_isRegularImmersion_of_perfect_of_isRegularImmersion_comp :
     ¬ ∀ (Z Y X : Scheme.{u}) (i : Z ⟶ Y) (j : Y ⟶ X) [IsImmersion i] [IsImmersion j],
         IsLocallyNoetherian X → AlgebraicGeometry.Perfect i →

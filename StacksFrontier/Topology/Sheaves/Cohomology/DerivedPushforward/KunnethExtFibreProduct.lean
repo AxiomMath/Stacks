@@ -1,11 +1,6 @@
 module
 
-public import StacksFrontier.AlgebraicGeometry.BaseChange.TorIndependence.KunnethDischarged
-public import StacksFrontier.AlgebraicGeometry.Duality.DerivedTilde.SchemeSheafPerfectHomQuasicoherent
-public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.InternalHomPullbackPerfectAndPseudoCoherent
 public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.KunnethExtIsomorphism
-public import StacksFrontier.Topology.Sheaves.Cohomology.DerivedPushforward.KunnethExtTensorComparison
-public import StacksFrontier.Topology.Sheaves.Cohomology.PerfectComplexes.PerfectDerivedPullback
 import StacksCore.Tactic.StacksAttribute
 
 /-!
@@ -24,7 +19,12 @@ independent over `S`, `K` and `M` are perfect, and `K'` and `M'` lie in `D_QCoh`
 ## Main results
 
 * `Stacks.Cohomology.DerivedKunnethExt.isIso_kunnethExtMap_fibreProduct`: under these
-  hypotheses the Künneth morphism for Ext at the fibre product is an isomorphism.
+  hypotheses the Künneth morphism for Ext at the chosen fibre product `X ×_S Y` is an
+  isomorphism.
+
+It is the specialization at `CategoryTheory.IsPullback.of_hasPullback` of
+`Stacks.Cohomology.DerivedKunnethExt.isIso_kunnethExtMap_cartesian`, which proves the same at an
+arbitrary cartesian square.
 
 ## References
 
@@ -70,29 +70,8 @@ theorem isIso_kunnethExtMap_fibreProduct
       (pullback.fst a b).toLRSHom.toShHom (pullback.snd a b).toLRSHom.toShHom
       (pullback.fst a b ≫ a).toLRSHom.toShHom rfl
       (Stacks.Cohomology.GlobalKunneth.toShHom_pullback_condition a b) K K' M M') :=
-  isIso_kunnethExtMap a.toLRSHom.toShHom b.toLRSHom.toShHom
-    (pullback.fst a b).toLRSHom.toShHom (pullback.snd a b).toLRSHom.toShHom
-    (pullback.fst a b ≫ a).toLRSHom.toShHom rfl
-    (Stacks.Cohomology.GlobalKunneth.toShHom_pullback_condition a b) K K' M M'
-    (Stacks.Cohomology.DerivedKunneth.isIso_kunnethMapScheme a b hTor
-      (sheafHomObj X.toRingedSpace K K') (sheafHomObj Y.toRingedSpace M M')
-      (AlgebraicGeometry.derivedCategoryB_derivedSheafHom_of_isPerfect X K K' hK hK')
-      (AlgebraicGeometry.derivedCategoryB_derivedSheafHom_of_isPerfect Y M M' hM hM'))
-    (isIso_boxSheafHomMap (pullback.fst a b).toLRSHom.toShHom
-      (pullback.snd a b).toLRSHom.toShHom K K' M M'
-      (Stacks.Cohomology.DerivedInternalHomPullback.isIso_derivedPullbackSheafHomMap_of_isPerfect
-        (pullback.fst a b).toLRSHom.toShHom K hK K')
-      (Stacks.Cohomology.DerivedInternalHomPullback.isIso_derivedPullbackSheafHomMap_of_isPerfect
-        (pullback.snd a b).toLRSHom.toShHom M hM M')
-      (isIso_sheafHomTensorMap_of_isPerfect_space (pullback a b).toRingedSpace
-        ((derivedPullbackFunctor (pullback.fst a b).toLRSHom.toShHom).obj K)
-        ((derivedPullbackFunctor (pullback.fst a b).toLRSHom.toShHom).obj K')
-        ((derivedPullbackFunctor (pullback.snd a b).toLRSHom.toShHom).obj M)
-        ((derivedPullbackFunctor (pullback.snd a b).toLRSHom.toShHom).obj M')
-        (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback
-          (pullback.fst a b).toLRSHom.toShHom K hK)
-        (AlgebraicGeometry.RingedSpace.KFlatDerivedPullback.isPerfect_derivedPullback
-          (pullback.snd a b).toLRSHom.toShHom M hM)))
+  isIso_kunnethExtMap_cartesian a b (pullback.fst a b) (pullback.snd a b)
+    (IsPullback.of_hasPullback a b) hTor K K' M M' hK hK' hM hM'
 
 end FibreProduct
 

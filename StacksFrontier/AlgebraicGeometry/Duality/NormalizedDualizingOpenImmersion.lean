@@ -3,24 +3,29 @@ module
 public import StacksFrontier.AlgebraicGeometry.Duality.DualizingModuleOverField
 
 /-!
-# Normalized dualizing complexes restrict along an open immersion
+# `j^! ω_Y^•` is normalized relative to `ω_S^•`, for any upper-shriek formalism
 
-Let `(S, ω_S^•)` be as in Situation [Stacks, Tag 0AU4], let `j : X ⟶ Y` be an open immersion of
-schemes of finite type over `S`, and let `ω_X^•` and `ω_Y^•` be dualizing complexes normalized
-relative to `ω_S^•`. Then there is a canonical isomorphism `ω_X^• = ω_Y^•|_X`. This is
-[Stacks, Tag 0AUC].
+Let `(S, ω_S^•)` be as in Situation [Stacks, Tag 0AU4], let `f : X ⟶ Y` be a morphism of
+schemes of finite type over `S`, and let `ω_Y^•` be normalized relative to `ω_S^•` and a
+covering `𝒱` of `Y`. Then `f^!ω_Y^•` is normalized relative to `ω_S^•` and any covering `𝒰` of
+`X` whose members `f` carries into members of `𝒱`. For `f = j` an open immersion this is the
+step of [Stacks, Tag 0AUC] that makes `ω_Y^•|_X = j^!ω_Y^•` a second normalized structure on
+`X`.
 
-Normalization is the covering-indexed notion `Stacks.Duality.Normalized` of the text of
-[Stacks, Tag 0AU5], and the upper shriek functors are the parameter
-`Stacks.Duality.UpperShriek`, both as defined in
-`StacksFrontier/AlgebraicGeometry/Duality/NormalizedDualizingTransitivity.lean`. Restriction to an
-open is read there as `(U → X)^!`, which agrees with derived restriction by [Stacks, Tag 0AU0];
-for the same reason `ω_Y^•|_X` is written `j^!ω_Y^•` below.
+Normalization here is the covering-indexed notion `Stacks.Duality.Normalized` of the text of
+[Stacks, Tag 0AU5], and the statement holds for every upper-shriek formalism
+`A : Stacks.Duality.UpperShriek 𝒟`, as defined in
+`StacksFrontier/AlgebraicGeometry/Duality/NormalizedDualizingTransitivity.lean`.
+
+[Stacks, Tag 0AUC] itself, for the upper shriek functors of Nagata compactifications, is
+`Stacks.Duality.NormalizedOnOpens.isoDerivedRestrictNagata` and
+`Stacks.Duality.NormalizedOnOpens.existsUnique_iso_shriekOfIsOpenImmersion_nagata` in
+`StacksFrontier/AlgebraicGeometry/Duality/NormalizedOnOpensOpenImmersion.lean`; the uniqueness
+[Stacks, Tag 0AU7] it rests on is `Stacks.Duality.Normalized.existsUnique_iso_nagata`.
 
 ## Main definitions
 
-* `Stacks.Duality.Normalized.restrictOverBase` — **[Stacks, Tag 0AUC]**, part one: `f^!ω_Y^•`
-  is normalized relative to `ω_S^•`.
+* `Stacks.Duality.Normalized.restrictOverBase` — `f^!ω_Y^•` is normalized relative to `ω_S^•`.
 
 ## Main results
 
@@ -29,44 +34,25 @@ for the same reason `ω_Y^•|_X` is written `j^!ω_Y^•` below.
 * `Stacks.Duality.Normalized.transport_localIso_eq` — the transported normalizations of
   `ω_Y^•` agree on an overlap of `X`: the cocycle condition of the proof of [Stacks, Tag 0AUB],
   pulled back to `X`.
-* `Stacks.Duality.exists_normalizedIso_restrict_of_openImmersion` — **[Stacks, Tag 0AUC]**: the
-  canonical isomorphism `ω_X^• ≅ ω_Y^•|_X`, compatible with the normalizations on every member
-  of the covering.
+* `Stacks.Duality.exists_normalizedIso_restrict_of_openImmersion` — for a formalism in which
+  complexes normalized on a fixed covering are unique, `ω_X^• ≅ j^!ω_Y^•` compatibly with the
+  normalizations.
 
 ## Implementation notes
 
-*The shape of the argument.* The source says only "immediate from the construction of normalized
-dualizing complexes given just above Definition [Stacks, Tag 0AUA]". Unwound, it is two steps.
+*The shape of the argument.* Each member `U_k` of the covering of `X` gets the normalization
+`(U_k → X)^!f^!ω_Y^• ≅ (U_k → Y)^!ω_Y^• ≅ (U_k → S)^!ω_S^•`, the first comparison being
+[Stacks, Tag 0ATX] and the second the transport along `U_k → V_{idx k}` of the normalization
+of `ω_Y^•`, which is the map `p_{ki}^!ω_S^• → (f'_{ki})^!ω_Y^•` of the proof of
+[Stacks, Tag 0AUB]. The compatibility on overlaps splits by
+`Stacks.Duality.UpperShriek.restrictLocalIso_trans` into the coherence [Stacks, Tag 0ATY] for
+the first halves — that is `Stacks.Duality.restrictLocalIso_upperShriekLocalIso` — and the
+cocycle condition for the second (`Stacks.Duality.Normalized.transport_localIso_eq`).
 
-1. `ω_Y^•|_X = j^!ω_Y^•` is itself a complex normalized relative to `ω_S^•`. This is the
-   mathematical content, and it is proved here: `Stacks.Duality.Normalized.restrictOverBase`.
-   Each member `U_k` of the covering of `X` gets the normalization
-   `(U_k → X)^!j^!ω_Y^• ≅ (U_k → Y)^!ω_Y^• ≅ (U_k → S)^!ω_S^•`, the first comparison being
-   [Stacks, Tag 0ATX] and the second the transport along `U_k → V_{idx k}` of the normalization
-   of `ω_Y^•`, which is the map `p_{ki}^!ω_S^• → (f'_{ki})^!ω_Y^•` of the proof of
-   [Stacks, Tag 0AUB]. The compatibility on overlaps splits by
-   `Stacks.Duality.UpperShriek.restrictLocalIso_trans` into the coherence
-   [Stacks, Tag 0ATY] for the first halves — that is
-   `Stacks.Duality.restrictLocalIso_upperShriekLocalIso` — and the cocycle condition for the
-   second (`Stacks.Duality.Normalized.transport_localIso_eq`).
-2. Two complexes normalized relative to `ω_S^•` and the same covering are canonically
-   isomorphic. That is [Stacks, Tag 0AU7], a separate lemma of the source, and it is **not**
-   proved in this library — its proof needs the invertible objects of [Stacks, Tag 0ATP] and
-   the fact that an invertible object with trivializations on a covering and trivial transition
-   maps is trivial. It is therefore the explicit hypothesis `h0AU7` of
-   `Stacks.Duality.exists_normalizedIso_restrict_of_openImmersion`, in the compatible form the
-   source proves: the isomorphism carries one family of normalizations to the other.
-
-`h0AU7` does not make the statement vacuous: applying it needs a *second* normalized structure
-on the covering `𝒰` of `X`, and producing one whose complex is `j^!ω_Y^•` is step 1, which is
-exactly the content being delivered. The conclusion is not a bare existence either — the
-isomorphism it produces is compatible with the normalizations member by member.
-
-*Why the open immersion appears only at the end.* Step 1 uses nothing about `j` beyond
-shriekability, so `Stacks.Duality.Normalized.restrictOverBase` is stated for an arbitrary
-morphism of finite-type schemes over the base. What the open immersion buys is the reading of
-`j^!` as restriction, [Stacks, Tag 0AU0], and shriekability of `j` itself; neither is used in
-the proofs.
+*Why an arbitrary morphism.* Nothing in the argument uses more than shriekability of `f`, so
+`Stacks.Duality.Normalized.restrictOverBase` is stated for an arbitrary morphism of finite-type
+schemes over the base. What an open immersion adds is the reading of `j^!` as restriction,
+[Stacks, Tag 0AU0].
 
 *What is reused.* The comparison `(f^!L)|_U ≅ (U → Y)^!L` of [Stacks, Tag 0ATX] and its
 compatibility with further restriction are already available, as
@@ -97,8 +83,6 @@ rewrites stop firing. The transports therefore appear in full, as they do in the
 * [Stacks Project, Tag 0AUC](https://stacks.math.columbia.edu/tag/0AUC)
 * [Stacks Project, Tag 0AU4](https://stacks.math.columbia.edu/tag/0AU4)
 * [Stacks Project, Tag 0AU5](https://stacks.math.columbia.edu/tag/0AU5)
-* [Stacks Project, Tag 0AU7](https://stacks.math.columbia.edu/tag/0AU7)
-* [Stacks Project, Tag 0AUA](https://stacks.math.columbia.edu/tag/0AUA)
 * [Stacks Project, Tag 0AUB](https://stacks.math.columbia.edu/tag/0AUB)
 * [Stacks Project, Tag 0ATX](https://stacks.math.columbia.edu/tag/0ATX)
 * [Stacks Project, Tag 0ATY](https://stacks.math.columbia.edu/tag/0ATY)
@@ -202,7 +186,7 @@ theorem transport_localIso_eq (k k' : ι) :
     (hq.isShriekable_ι _) hDq (hq.isShriekable_ι _) hWp hWf
     (𝒩Y.localIso (idx k)) (𝒩Y.localIso (idx k')) hβ
 
-/-- **Stacks Project, Tag 0AUC, part one: `ω_Y^•|_X` is normalized relative to `ω_S^•`.**
+/-- **`f^!ω_Y^•` is normalized relative to `ω_S^•`.**
 
 Let `(S, ω_S^•)` be as in Situation [Stacks, Tag 0AU4], let `f : X ⟶ Y` be a morphism of schemes
 of finite type over `S` and let `ω_Y^•` be normalized relative to `ω_S^•` and the covering `𝒱`
@@ -217,13 +201,10 @@ The normalization on `U_k` is the composite
 `Stacks.Duality.UpperShriek.restrictLocalIso_shriekRestrictIso` for the first halves and
 `Stacks.Duality.Normalized.transport_localIso_eq` for the second.
 
-For `f = j` an open immersion `j^!ω_Y^•` is the restriction `ω_Y^•|_X`, by [Stacks, Tag 0AU0],
-and this is the statement [Stacks, Tag 0AUC] needs in order to apply the uniqueness
-[Stacks, Tag 0AU7]. It is proved for an arbitrary `f`, since nothing in the argument uses more
-than shriekability. -/
-@[stacks 0AUC "the restriction of a normalized complex is itself normalized, which is the whole
-content of the tag; RESTRICTED in that the upper-shriek formalism is the parameter UpperShriek of
-Stacks 0A9E/0ATX/0ATY and normalization is the covering-indexed notion of the text of Tag 0AU5"]
+For `f = j` an open immersion `j^!ω_Y^•` is the restriction `ω_Y^•|_X`, by [Stacks, Tag 0AU0];
+this is the covering-indexed form of the step of [Stacks, Tag 0AUC] proved, for the Nagata
+formalism and every open separated over `S`, as
+`Stacks.Duality.NormalizedOnOpens.shriekOfIsOpenImmersion`. -/
 def restrictOverBase (hf : IsShriekable f) : Normalized A hp ωS 𝒰 where
   complex := (A.shriek f hf).obj 𝒩Y.complex
   localIso k :=
@@ -285,24 +266,19 @@ theorem restrictOverBase_complex (hf : IsShriekable f) :
 
 end Normalized
 
-/-- **Stacks Project, Tag 0AUC.** Let `(S, ω_S^•)` be as in Situation [Stacks, Tag 0AU4]. Let
-`j : X ⟶ Y` be an open immersion of schemes of finite type over `S`. Let `ω_X^•` and `ω_Y^•` be
-dualizing complexes normalized relative to `ω_S^•`. Then there is a canonical isomorphism
-`ω_X^• = ω_Y^•|_X`, where the restriction `ω_Y^•|_X` is `j^!ω_Y^•` by [Stacks, Tag 0AU0].
+/-- **Uniqueness applied to `j^!ω_Y^•`, for any upper-shriek formalism.** Let `j : X ⟶ Y` be a
+shriekable morphism of schemes of finite type over `S`, `ω_X^•` normalized relative to `ω_S^•`
+and `𝒰`, and `ω_Y^•` normalized relative to `ω_S^•` and `𝒱`. Given, for the formalism `A`, that
+any two complexes normalized relative to `ω_S^•` and `𝒰` are isomorphic compatibly with the
+normalizations (the binder `h0AU7`), `ω_X^•` is isomorphic to `j^!ω_Y^•` compatibly with the
+normalizations of `Stacks.Duality.Normalized.restrictOverBase`.
 
-The isomorphism produced is compatible with the normalizations on every member of the covering
-`𝒰` of `X`, which is what makes it canonical rather than an arbitrary isomorphism of complexes.
-
-The content is `Stacks.Duality.Normalized.restrictOverBase`: `ω_Y^•|_X` is itself normalized
-relative to `ω_S^•` and `𝒰`. Uniqueness of a complex normalized relative to `ω_S^•` and a given
-covering is [Stacks, Tag 0AU7], a separate lemma whose proof needs the invertible objects of
-[Stacks, Tag 0ATP]; it is not proved in this library and is the hypothesis `h0AU7`. See the
-module documentation for why that hypothesis leaves the statement with content. -/
-@[stacks 0AUC "RESTRICTED: the upper-shriek formalism is the parameter UpperShriek of Stacks
-0A9E/0ATX/0ATY, normalization is the covering-indexed notion of the text of Tag 0AU5, and the
-uniqueness of a normalized complex on a fixed covering (Tag 0AU7, not proved here) is the hypothesis
-h0AU7. What is proved is that omega_Y restricted to X is itself normalized relative to omega_S,
-which is the second normalized structure h0AU7 is applied to"]
+This is a one-line application of `h0AU7` to `Stacks.Duality.Normalized.restrictOverBase`. For
+the formalism of Nagata compactifications the uniqueness is proved, as
+`Stacks.Duality.Normalized.existsUnique_iso_nagata` ([Stacks, Tag 0AU7]), and
+[Stacks, Tag 0AUC] is proved outright as
+`Stacks.Duality.NormalizedOnOpens.isoDerivedRestrictNagata` and
+`Stacks.Duality.NormalizedOnOpens.existsUnique_iso_shriekOfIsOpenImmersion_nagata`. -/
 theorem exists_normalizedIso_restrict_of_openImmersion {𝒟 : Scheme.{u} → Type v}
     [∀ X : Scheme.{u}, Category.{v'} (𝒟 X)] (A : UpperShriek 𝒟) {X Y S : Scheme.{u}}
     {j : X ⟶ Y} {q : Y ⟶ S} {p : X ⟶ S} (hpe : j ≫ q = p) (hj : IsShriekable j)

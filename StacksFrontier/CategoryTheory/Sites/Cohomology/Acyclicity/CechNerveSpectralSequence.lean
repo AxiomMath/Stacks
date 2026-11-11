@@ -42,10 +42,13 @@ two is `Stacks.Cohomology.cohomologyOverSheafEquivZExt`.
   statement about `D(Ab(𝒞))`.
 * `Stacks.Cohomology.isLocallySurjective_iff_epi_presheafToSheaf_map`: a map of presheaves of
   sets is locally surjective exactly when its sheafification is surjective.
-* `Stacks.Cohomology.exists_abutsTo_cechNerveSpectralSequence`: **[Stacks, Tag 079Z]**, the
-  spectral sequence with first page `H^q(K'_p, 𝓕)` abutting to `H^{p+q}(K, 𝓕)`.
-* `Stacks.Cohomology.exists_abutsTo_cechNerveSpectralSequence_of_epi_sheafify`: the same, with
-  the hypothesis in the source's words.
+* `Stacks.Cohomology.exists_firstQuadrant_cechNerveSpectralSequence`: **[Stacks, Tag 079Z]**,
+  the first-quadrant spectral sequence with first page `H^q(K'_p, 𝓕)` abutting to
+  `H^{p+q}(K, 𝓕)`.
+* `Stacks.Cohomology.exists_firstQuadrant_cechNerveSpectralSequence_of_epi_sheafify`: the same,
+  with the hypothesis in the source's words.
+* `Stacks.Cohomology.exists_abutsTo_cechNerveSpectralSequence` and its `_of_epi_sheafify` form:
+  the same spectral sequence without the vanishing of the first page outside the first quadrant.
 
 ## Implementation notes
 
@@ -207,9 +210,9 @@ private def extIsoOfIsoLeft {X Y Z : DerivedCategory (Sheaf J AddCommGrpCat.{u})
       AddCommGrpCat.of (DerivedCategory.Ext Y Z n) :=
   (Stacks.Injectives.homCongrAddEquiv e (Iso.refl (Z⟦n⟧))).toAddCommGrpIso
 
-/-- **Stacks Project, Tag 079Z.** Let `𝒞` be a site and `K' → K` a map of presheaves of sets
-whose sheafification is surjective. For every abelian sheaf `𝓕` there is a cohomological spectral
-sequence, starting on page one, with
+/-- **The Čech spectral sequence, with its first page named in the columns `p ≥ 0`.** Let `𝒞` be
+a site and `K' → K` a locally surjective map of presheaves of sets. For every abelian sheaf `𝓕`
+there is a cohomological spectral sequence, starting on page one, with
 
 ```
 E₁^{p,q} = H^q(K'_p, 𝓕),
@@ -218,11 +221,15 @@ E₁^{p,q} = H^q(K'_p, 𝓕),
 the cohomology of `𝓕` over the fibre power `K'_p = K' ×_K … ×_K K'` with `p + 1` factors,
 abutting to `H^{p+q}(K, 𝓕)`.
 
+This statement says nothing about the columns `p < 0` of the first page, so on its own it does not
+tie the cohomology of the `K'_p` to that of `K`. The statement of [Stacks, Tag 079Z], which also
+asserts that the first page vanishes outside the first quadrant, is
+`Stacks.Cohomology.exists_firstQuadrant_cechNerveSpectralSequence`.
+
 Cohomology over a presheaf of sets is `Ext` out of the free abelian sheaf it generates, as in
 [Stacks, Tag 072Y]; see `Stacks.Cohomology.cohomologyOverSheafEquivZExt`. Abutment is
 `CategoryTheory.SpectralSequence.AbutsTo`: the spectral sequence has an infinity page everywhere
 and its terms are the graded pieces of a finite decreasing filtration of each `H^n(K, 𝓕)`. -/
-@[stacks 079Z]
 theorem exists_abutsTo_cechNerveSpectralSequence (hf : Presheaf.IsLocallySurjective J f)
     (F : Sheaf J AddCommGrpCat.{u}) :
     ∃ E : CohomologicalSpectralSequence AddCommGrpCat.{u + 1} 1,
@@ -256,13 +263,14 @@ lemma isLocallySurjective_iff_epi_presheafToSheaf_map [HasSheafify J (Type u)] :
     ← Presheaf.isLocallySurjective_comp_iff J f (CategoryTheory.toSheafify J K),
     CategoryTheory.toSheafify_naturality, Presheaf.comp_isLocallySurjective_iff]
 
-/-- **Stacks Project, Tag 079Z**, with the hypothesis in the source's own words: the
-sheafification of `K' → K` is surjective, i.e. an epimorphism of sheaves of sets.
+/-- **The Čech spectral sequence, with its first page named in the columns `p ≥ 0`**, with the
+hypothesis in the source's words: the sheafification of `K' → K` is surjective, i.e. an
+epimorphism of sheaves of sets.
 
 This is `Stacks.Cohomology.exists_abutsTo_cechNerveSpectralSequence` read through
-`Stacks.Cohomology.isLocallySurjective_iff_epi_presheafToSheaf_map`. It needs sheafification of
-type-valued presheaves, which the statement with the locally surjective hypothesis does not. -/
-@[stacks 079Z]
+`Stacks.Cohomology.isLocallySurjective_iff_epi_presheafToSheaf_map`. Like that statement it says
+nothing about the columns `p < 0`; the full statement of [Stacks, Tag 079Z] is
+`Stacks.Cohomology.exists_firstQuadrant_cechNerveSpectralSequence_of_epi_sheafify`. -/
 theorem exists_abutsTo_cechNerveSpectralSequence_of_epi_sheafify [HasSheafify J (Type u)]
     (hf : Epi ((presheafToSheaf J (Type u)).map f)) (F : Sheaf J AddCommGrpCat.{u}) :
     ∃ E : CohomologicalSpectralSequence AddCommGrpCat.{u + 1} 1,
@@ -272,6 +280,85 @@ theorem exists_abutsTo_cechNerveSpectralSequence_of_epi_sheafify [HasSheafify J 
       SpectralSequence.AbutsTo E (fun n ↦ AddCommGrpCat.of
         (Abelian.zExt ((Presheaf.freeAbelianSheaf J).obj K) F n)) :=
   exists_abutsTo_cechNerveSpectralSequence J f
+    ((isLocallySurjective_iff_epi_presheafToSheaf_map J f).2 hf) F
+
+/-- The first page of the termwise `Ext` spectral sequence of the Čech complex vanishes outside
+the first quadrant: in a column `p < 0` the term of the Čech complex is zero, and in a row
+`q < 0` the `Ext`-group between two sheaves is zero. -/
+private lemma isZero_zExt_cechNerveFreeCochainComplex_X (F : Sheaf J AddCommGrpCat.{u})
+    (p q : ℤ) (hpq : p < 0 ∨ q < 0) :
+    IsZero (AddCommGrpCat.of (Abelian.zExt ((cechNerveFreeCochainComplex J f).X (-p)) F q)) := by
+  have : Subsingleton (Abelian.zExt ((cechNerveFreeCochainComplex J f).X (-p)) F q) := by
+    refine subsingleton_of_forall_eq 0 fun g => ?_
+    rcases hpq with hp | hq
+    · have hterm : IsZero ((cechNerveFreeCochainComplex J f).X (-p)) :=
+        (cechNerveFreeCochainComplex J f).isZero_of_isStrictlyLE 0 (-p) (by omega)
+      exact (Functor.map_isZero (DerivedCategory.singleFunctor _ 0) hterm).eq_of_src _ _
+    · have hbij := DerivedCategory.bijective_homologyFunctor_shiftMap_of_isLE_of_isGE
+        ((DerivedCategory.singleFunctor (Sheaf J AddCommGrpCat.{u}) 0).obj
+          ((cechNerveFreeCochainComplex J f).X (-p)))
+        ((DerivedCategory.singleFunctor (Sheaf J AddCommGrpCat.{u}) 0).obj F) 0 0 q q
+        (by omega) (by omega)
+      have hzero : IsZero ((DerivedCategory.homologyFunctor (Sheaf J AddCommGrpCat.{u}) q).obj
+          ((DerivedCategory.singleFunctor (Sheaf J AddCommGrpCat.{u}) 0).obj F)) :=
+        DerivedCategory.isZero_of_isGE _ 0 q (by omega)
+      exact hbij.1 (hzero.eq_of_tgt _ _)
+  exact AddCommGrpCat.isZero_of_subsingleton _
+
+/-- **Stacks Project, Tag 079Z.** Let `𝒞` be a site and `K' → K` a map of presheaves of sets
+whose sheafification is surjective (here: which is locally surjective, the same condition by
+`Stacks.Cohomology.isLocallySurjective_iff_epi_presheafToSheaf_map`). For every abelian sheaf `𝓕`
+there is a first-quadrant cohomological spectral sequence, starting on page one, with
+
+```
+E₁^{p,q} = H^q(K'_p, 𝓕)   (p ≥ 0),    E₁^{p,q} = 0   (p < 0 or q < 0),
+```
+
+where `K'_p = K' ×_K … ×_K K'` is the fibre power with `p + 1` factors, abutting to
+`H^{p+q}(K, 𝓕)`.
+
+Cohomology over a presheaf of sets is `Ext` out of the free abelian sheaf it generates, as in
+[Stacks, Tag 079X] and [Stacks, Tag 072Y]; see `Stacks.Cohomology.cohomologyOverSheafEquivZExt`.
+Abutment is `CategoryTheory.SpectralSequence.AbutsTo`: the spectral sequence has an infinity page
+everywhere and its terms are the graded pieces of a finite decreasing filtration of each
+`H^n(K, 𝓕)`. -/
+@[stacks 079Z]
+theorem exists_firstQuadrant_cechNerveSpectralSequence (hf : Presheaf.IsLocallySurjective J f)
+    (F : Sheaf J AddCommGrpCat.{u}) :
+    ∃ E : CohomologicalSpectralSequence AddCommGrpCat.{u + 1} 1,
+      (∀ (p : ℕ) (q : ℤ), Nonempty ((E.page 1).X ((p : ℤ), q) ≅
+        AddCommGrpCat.of (Abelian.zExt
+          ((Presheaf.freeAbelianSheaf J).obj (cechFibrePower f p)) F q))) ∧
+      (∀ p q : ℤ, p < 0 ∨ q < 0 → IsZero ((E.page 1).X (p, q))) ∧
+      SpectralSequence.AbutsTo E (fun n ↦ AddCommGrpCat.of
+        (Abelian.zExt ((Presheaf.freeAbelianSheaf J).obj K) F n)) := by
+  obtain ⟨E, hE₁, habuts⟩ := CochainComplex.exists_termwiseExtSpectralSequence
+    (cechNerveFreeCochainComplex J f) (minus_cechNerveFreeCochainComplex J f) F
+  refine ⟨E, fun p q ↦ ?_, fun p q hpq ↦ ?_, habuts.of_iso fun n ↦ ?_⟩
+  · exact ⟨(hE₁ (p : ℤ) q).some ≪≫
+      extIsoOfIsoLeft J ((DerivedCategory.singleFunctor _ 0).mapIso
+        (cechNerveFreeCochainComplexXIso J f p)) q⟩
+  · exact (isZero_zExt_cechNerveFreeCochainComplex_X J f F p q hpq).of_iso (hE₁ p q).some
+  · exact extIsoOfIsoLeft J (qIsoSingleFreeAbelianSheaf J f hf) n
+
+/-- **Stacks Project, Tag 079Z**, with the hypothesis in the source's own words: if the
+sheafification of `K' → K` is surjective, i.e. an epimorphism of sheaves of sets, then for every
+abelian sheaf `𝓕` there is a first-quadrant spectral sequence with `E₁^{p,q} = H^q(K'_p, 𝓕)` for
+`p ≥ 0`, `E₁^{p,q} = 0` for `p < 0` or `q < 0`, abutting to `H^{p+q}(K, 𝓕)`.
+
+This is `Stacks.Cohomology.exists_firstQuadrant_cechNerveSpectralSequence` read through
+`Stacks.Cohomology.isLocallySurjective_iff_epi_presheafToSheaf_map`. -/
+@[stacks 079Z]
+theorem exists_firstQuadrant_cechNerveSpectralSequence_of_epi_sheafify [HasSheafify J (Type u)]
+    (hf : Epi ((presheafToSheaf J (Type u)).map f)) (F : Sheaf J AddCommGrpCat.{u}) :
+    ∃ E : CohomologicalSpectralSequence AddCommGrpCat.{u + 1} 1,
+      (∀ (p : ℕ) (q : ℤ), Nonempty ((E.page 1).X ((p : ℤ), q) ≅
+        AddCommGrpCat.of (Abelian.zExt
+          ((Presheaf.freeAbelianSheaf J).obj (cechFibrePower f p)) F q))) ∧
+      (∀ p q : ℤ, p < 0 ∨ q < 0 → IsZero ((E.page 1).X (p, q))) ∧
+      SpectralSequence.AbutsTo E (fun n ↦ AddCommGrpCat.of
+        (Abelian.zExt ((Presheaf.freeAbelianSheaf J).obj K) F n)) :=
+  exists_firstQuadrant_cechNerveSpectralSequence J f
     ((isLocallySurjective_iff_epi_presheafToSheaf_map J f).2 hf) F
 
 end Stacks.Cohomology

@@ -36,6 +36,9 @@ commutes with the direct sum.
 * `Stacks.EtaleCohomology.isIso_sigmaComparison_etaleAbelianDerivedDirectImage_of_isGE` — the
   same, read as invertibility of the canonical map `⨁ Rf_* K_i ⟶ Rf_*(⨁ K_i)`.
 
+The same statement for sheaves of `Λ`-modules and the bounded below derived direct image is
+`Stacks.EtaleCohomology.preservesColimit_etaleModuleDerivedDirectImage_of_isGE_univ`.
+
 ## Implementation notes
 
 *The category.* The statement is made in the unbounded derived categories, as in the source, for
@@ -189,7 +192,11 @@ derived direct image `Rf_* : D(X_étale) ⥤ D(Y_étale)` preserves the direct s
 Nothing is assumed beyond the source's hypotheses. That each `R^q f_*` commutes with direct sums
 is `preservesColimitsOfShape_discrete_rightDerived_etaleAbelianDirectImage`, where
 quasi-compactness and quasi-separatedness of `f` are used. -/
-@[stacks 0GIW]
+@[stacks 0GIW "Rf_*(⨁ K_i) = ⨁ Rf_* K_i in the unbounded derived category D(Y_étale) of abelian
+sheaves, for f quasi-compact and quasi-separated and a family of D(X_étale) with a common lower
+bound a; Tag 09Z1 is proved in the library and used. The index type lies in
+Type (max (u+1) v), the universe in which the categories of abelian sheaves on the small étale
+sites have direct sums."]
 theorem preservesColimit_etaleAbelianDerivedDirectImage_of_isGE
     {X Y : Scheme.{u}} (f : X ⟶ Y) [QuasiCompact f] [QuasiSeparated f]
     {I : Type (max (u + 1) v)}

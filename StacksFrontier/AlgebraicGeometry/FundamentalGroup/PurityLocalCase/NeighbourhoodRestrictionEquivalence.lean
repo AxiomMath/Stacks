@@ -24,8 +24,12 @@ colim_{U₀ ⊆ U' ⊆ U} FÉt_{U'} ⟶ FÉt_{U₀}.
 
 This file proves that this functor is an equivalence, under the three hypotheses of Stacks
 0BLV — `A` is `f`-adically complete, `f` is a nonzerodivisor, and `H¹_𝔪(A / fA)` and
-`H²_𝔪(A / fA)` are finite `A`-modules — together with two explicitly carried hypotheses that
-are discussed below.
+`H²_𝔪(A / fA)` are finite `A`-modules — together with two further purity hypotheses that
+are discussed below and that Stacks 0BLV does not make.  This is therefore a conditional
+variant, not Stacks 0BLV itself: the tag is registered on
+`Stacks.FundamentalGroup.finiteEtaleColimitEquivalence_puncturedSpectrum_of_isAdicComplete`
+(in the module `PurityLocalCase.PuncturedNeighbourhoodEquivalence`),
+which proves the equivalence under exactly the hypotheses of Stacks 0BLV.
 
 The route is the one the first hypothesis opens up.  An `f`-adically complete ring is
 henselian along `fA`, so `(A, fA)` is a henselian pair, and by Stacks 09ZS restriction of
@@ -61,7 +65,8 @@ restriction functor out of the colimit then hold with no shrinking of the neighb
   restriction of finite étale covers from `X` to `U₀` is an equivalence.
 * `AlgebraicGeometry.LocalLefschetzSituation.finiteEtaleBaseChange_nbhdRestriction_isEquivalence`
   — restriction from a neighbourhood `U'` to `U₀` is an equivalence.
-* `AlgebraicGeometry.LocalLefschetzSituation.isColimitRestrictionEquivalence` — Stacks 0BLV.
+* `AlgebraicGeometry.LocalLefschetzSituation.isColimitRestrictionEquivalence` — the
+  equivalence of Stacks 0BLV under the two additional purity hypotheses.
 
 ## Implementation notes
 
@@ -80,15 +85,14 @@ through the smaller `U''` — are canonically isomorphic rather than equal, beca
 separately chosen pullback, so the clause is phrased against the canonical comparison
 `AlgebraicGeometry.finiteEtaleBaseChangeComp`.
 
-**The two carried hypotheses, and why they are upstream.** Stacks 0BLV is deduced in the source
-from Stacks 0EK1 (Fundamental Groups, Lemma 58.17.4), whose input is the completion equivalence
-of Stacks 0EKZ (Algebraic and Formal Geometry, Lemma 52.24.2) on finite locally free objects.
-Neither is available: the conclusion of Stacks 0EKZ cannot even be stated in this library,
-because it compares `Coh(U, f𝒪_U)` with `Coh(V, f𝒪_V)` for the neighbourhoods `V`, which is
-exactly the comparison recorded as missing in
-`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionFullyFaithful/PrincipalComplement.lean`.
-What is carried instead are two *purity* statements, each about a restriction functor that is
-not the functor of Stacks 0BLV:
+**The two additional hypotheses.** Stacks 0BLV is deduced in the source from Stacks 0EK1
+(Fundamental Groups, Lemma 58.17.4), whose input is the completion equivalence of Stacks 0EKZ
+(Algebraic and Formal Geometry, Lemma 52.24.2) on finite locally free objects.  That route is
+the one taken by
+`Stacks.FundamentalGroup.finiteEtaleColimitEquivalence_puncturedSpectrum_of_isAdicComplete`,
+which proves Stacks 0BLV with no further hypotheses.  The theorem here takes a different,
+stagewise route and needs two *purity* statements, each about a restriction functor that is
+not the functor of Stacks 0BLV, and neither of which Stacks 0BLV assumes:
 
 * `RestrictionToClosedFibreIsEquivalence`: restriction `FÉt_{X₀} ⟶ FÉt_{U₀}` from the spectrum
   of `A / fA` to its punctured spectrum is an equivalence.  This is purity for the ring
@@ -305,9 +309,9 @@ structure IsColimitRestrictionEquivalence : Prop where
     ∃ (W : S.X.Opens) (hW : S.IsNeighbourhood W) (A : FiniteEtaleOver W.toScheme),
       Nonempty ((finiteEtaleBaseChange (S.nbhdRestriction hW)).obj A ≅ C)
 
-/-- **Stacks Project, Tag 0BLV.**  In the local Lefschetz situation of Stacks 0BLF assume that
-`A` is `f`-adically complete, that `f` is a nonzerodivisor, and that `H¹_𝔪(A / fA)` and
-`H²_𝔪(A / fA)` are finite `A`-modules.  Then the restriction functor
+/-- **A conditional variant of Stacks Project, Tag 0BLV.**  In the local Lefschetz situation of
+Stacks 0BLF assume that `A` is `f`-adically complete, that `f` is a nonzerodivisor, and that
+`H¹_𝔪(A / fA)` and `H²_𝔪(A / fA)` are finite `A`-modules.  Then the restriction functor
 
 ```
 colim_{U₀ ⊆ U' ⊆ U} FÉt_{U'} ⟶ FÉt_{U₀}
@@ -315,16 +319,16 @@ colim_{U₀ ⊆ U' ⊆ U} FÉt_{U'} ⟶ FÉt_{U₀}
 
 is an equivalence.
 
-Two purity statements are carried as explicit hypotheses, each about a restriction functor out
-of an affine spectrum and neither about the functor above: that restriction
+This theorem also assumes two purity statements that Stacks 0BLV does not, each about a
+restriction functor out of an affine spectrum and neither about the functor above: that restriction
 `FÉt_{Spec (A / fA)} ⟶ FÉt_{U₀}` is an equivalence, and that restriction `FÉt_{Spec A} ⟶ FÉt_{U'}`
 is an equivalence for every open `U'` between `U₀` and `U`.  The `f`-adic completeness
 hypothesis is discharged: it makes `(A, fA)` a henselian pair, so that Stacks 09ZS identifies
 `FÉt_{Spec A}` with `FÉt_{Spec (A / fA)}`, which is what turns the two carried statements into
-the equivalence of restriction from each neighbourhood `U'` to `U₀`. -/
-@[stacks 0BLV "the equivalence, carrying as explicit hypotheses the purity of restriction \
-`FÉt_{Spec (A/fA)} ⟶ FÉt_{U₀}` and the purity of restriction `FÉt_{Spec A} ⟶ FÉt_{U'}` for the \
-opens `U₀ ⊆ U' ⊆ U`"]
+the equivalence of restriction from each neighbourhood `U'` to `U₀`.
+
+Stacks 0BLV itself, with only its own three hypotheses, is
+`Stacks.FundamentalGroup.finiteEtaleColimitEquivalence_puncturedSpectrum_of_isAdicComplete`. -/
 theorem isColimitRestrictionEquivalence (h : S.Hypotheses)
     (hfibre : S.RestrictionToClosedFibreIsEquivalence)
     (hnbhd : S.RestrictionToNeighbourhoodsIsEquivalence) :

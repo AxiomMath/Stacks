@@ -22,7 +22,10 @@ Noetherian ring is *universally catenary* if every algebra of finite type over i
 * `IsUniversallyCatenaryRing`: every finite-type algebra over a Noetherian ring satisfies
   `IsCatenaryRing`.
 * `Ring.IsCatenary`: catenarity, phrased with `LTSeries` and covering pairs.
-* `Ring.IsUniversallyCatenary`: every finite-type algebra satisfies `Ring.IsCatenary`.
+* `Ring.IsUniversallyCatenary`: every finite-type algebra satisfies `Ring.IsCatenary`; no
+  Noetherian condition.
+* `Ring.IsUniversallyCatenaryNoetherian`: universal catenarity as in Stacks 00NL, i.e. Noetherian
+  and `Ring.IsUniversallyCatenary`.
 
 ## Main results
 
@@ -617,7 +620,8 @@ theorem isCatenary_primesDisjointFrom
     (stableUnderGeneralization_primesDisjointFrom R S) h
 
 /-- A localization of a catenary ring is catenary. -/
-@[ega "0 16.1.4", ega "IV 5.1.5" "special case", ega "IV 5.6.3"]
+@[stacks 00NJ "first part, stated for catenarity of the spectrum", ega "0 16.1.4",
+  ega "IV 5.1.5" "special case", ega "IV 5.6.3"]
 theorem localization_isCatenary
     (R : Type u) [CommRing R] (S : Submonoid R)
     (A : Type u) [CommRing A] [Algebra R A] [IsLocalization S A]
@@ -700,7 +704,8 @@ theorem exists_finiteType_localization_of_finiteType_over_localization
     exact ⟨1, by rw [Subtype.val_injective hxy]⟩
 
 /-- A localization of a Noetherian universally catenary ring is universally catenary. -/
-@[stacks 00NJ, ega "IV 10.7.2" "more general", ega "IV 5.6.3", ega "IV 7.8.2" "partial"]
+@[stacks 00NJ "second part", ega "IV 10.7.2" "more general", ega "IV 5.6.3",
+  ega "IV 7.8.2" "partial"]
 theorem localization_isUniversallyCatenary
     (R : Type u) [CommRing R] [IsNoetherianRing R] (S : Submonoid R)
     (A : Type u) [CommRing A] [Algebra R A] [IsLocalization S A]
@@ -1264,11 +1269,39 @@ public def Ring.IsCatenary (R : Type*) [CommRing R] : Prop :=
     ∃ n : ℕ, ∀ s : LTSeries (PrimeSpectrum R), s.head = p → s.last = q →
       (∀ i : Fin s.length, s i.castSucc ⋖ s i.succ) → s.length = n
 
-/-- A commutative ring `R` is **universally catenary** if every `R`-algebra of finite type is
-catenary. -/
-@[stacks 00NL, ega "IV 5.6.2"]
+/-- Every `R`-algebra of finite type, in the universe of `R`, is catenary. This is the second
+clause of Stacks Definition 00NL only: it does not require `R` to be Noetherian, so it is strictly
+weaker than the source's notion, which is `Ring.IsUniversallyCatenaryNoetherian`. Results stated
+for a Noetherian `R` with this hypothesis use the source's notion. -/
 public def Ring.IsUniversallyCatenary (R : Type u) [CommRing R] : Prop :=
   ∀ (C : Type u) [CommRing C] [Algebra R C] [Algebra.FiniteType R C], Ring.IsCatenary C
+
+/-- A ring `R` is **universally catenary** if `R` is Noetherian and every `R`-algebra of finite
+type is catenary. The finite-type algebras range over the universe of `R`; this is no restriction,
+since every finite-type `R`-algebra is isomorphic to a quotient of a polynomial ring
+`R[X₁, …, Xₙ]` (`Ring.isUniversallyCatenary_iff_forall_finiteType`). -/
+@[stacks 00NL "Noetherianity is a conjunct of the definition, as in the source",
+  ega "IV 5.6.2"]
+public def Ring.IsUniversallyCatenaryNoetherian (R : Type u) [CommRing R] : Prop :=
+  IsNoetherianRing R ∧
+    ∀ (C : Type u) [CommRing C] [Algebra R C] [Algebra.FiniteType R C], Ring.IsCatenary C
+
+/-- Universal catenarity in the sense of Stacks 00NL is Noetherianity together with
+`Ring.IsUniversallyCatenary`. -/
+public theorem Ring.isUniversallyCatenaryNoetherian_iff {R : Type u} [CommRing R] :
+    Ring.IsUniversallyCatenaryNoetherian R ↔
+      IsNoetherianRing R ∧ Ring.IsUniversallyCatenary R :=
+  Iff.rfl
+
+/-- A universally catenary ring is Noetherian. -/
+public theorem Ring.IsUniversallyCatenaryNoetherian.isNoetherianRing {R : Type u} [CommRing R]
+    (h : Ring.IsUniversallyCatenaryNoetherian R) : IsNoetherianRing R :=
+  h.1
+
+/-- Over a universally catenary ring, every finite-type algebra is catenary. -/
+public theorem Ring.IsUniversallyCatenaryNoetherian.isUniversallyCatenary {R : Type u}
+    [CommRing R] (h : Ring.IsUniversallyCatenaryNoetherian R) : Ring.IsUniversallyCatenary R :=
+  h.2
 
 /-- `Ring.IsCatenary`, phrased with `LTSeries` and covering pairs, agrees with `IsCatenaryRing`,
 phrased with `PrimeChain`. -/
@@ -1289,6 +1322,16 @@ public theorem Ring.isCatenary_iff_isCatenaryRing {R : Type*} [CommRing R] :
     · obtain ⟨c, hc⟩ := hex
       exact ⟨c.length, fun s hs ht hsat => heq ⟨s, hs, ht⟩ c hsat hc⟩
     · exact ⟨0, fun s hs ht hsat => (hex ⟨⟨s, hs, ht⟩, hsat⟩).elim⟩
+
+/-- Universal catenarity in the sense of Stacks 00NL is Noetherianity together with
+`IsUniversallyCatenaryRing`, which is defined for Noetherian rings only. -/
+public theorem Ring.isUniversallyCatenaryNoetherian_iff_isUniversallyCatenaryRing {R : Type u}
+    [CommRing R] :
+    Ring.IsUniversallyCatenaryNoetherian R ↔
+      ∃ _ : IsNoetherianRing R, IsUniversallyCatenaryRing R := by
+  refine ⟨fun ⟨hR, h⟩ => ⟨hR, fun A _ _ hA => ?_⟩, fun ⟨hR, h⟩ => ⟨hR, fun A _ _ hA => ?_⟩⟩
+  · exact Ring.isCatenary_iff_isCatenaryRing.mp (h A)
+  · exact Ring.isCatenary_iff_isCatenaryRing.mpr (h A hA)
 
 /-- If `f : A →+* B` is surjective, then `B` is catenary if `A` is, and `B` is universally catenary
 if `A` is. -/

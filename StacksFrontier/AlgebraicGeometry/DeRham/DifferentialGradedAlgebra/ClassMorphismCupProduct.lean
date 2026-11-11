@@ -715,7 +715,8 @@ variable {X : RingedSpace.{u, u}} {A : TopCat.Sheaf CommRingCat.{u} X.carrier} {
 `ξ ∈ H^n_{dR}(X/S)` sends `η ∈ H^m_{dR}(X/S)` to `ξ ∪ η ∈ H^{n + m}_{dR}(X/S)`: the map `ξ'`
 induces on `H^m(X, -)`, read through `H^m(X, Ω^•[n]) = H^{n + m}_{dR}(X/S)`, is left cup product
 with `ξ` (the cup product of Tag 0FM3). -/
-@[stacks 0FU7 "property (3): the morphism acts on cohomology by cup product with the class"]
+@[stacks 0FU7 "property (3): the morphism xi' sends eta in H^m_dR to the cup product xi cup eta in
+  H^{n+m}_dR, read through H^m(X, Omega^bullet[n]) = H^{n+m}_dR"]
 theorem deRhamCohomologyCup_eq_deRhamClassMorphism (n m : ℤ) (ξ : deRhamCohomology B D n)
     (η : deRhamCohomology B D m) :
     deRhamCohomologyCup B D n m ξ η =

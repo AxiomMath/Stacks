@@ -97,7 +97,9 @@ Let `C` be a category, let `U`, `V`, `W` be simplicial objects of `C` and let `a
 `Mor(T, V ×_U W)` with the fibre product of sets
 `Mor(T, V) ×_{Mor(T, U)} Mor(T, W) = {(f, g) | a ∘ f = b ∘ g}`, by `h ↦ (p ∘ h, q ∘ h)`. This is
 the universal property of the fibre product and uses nothing simplicial, so it is stated for a
-pullback cone in an arbitrary category and then specialized to `SimplicialObject C`.
+pullback cone in an arbitrary category and then specialized to `SimplicialObject C`; the
+simplicial content of the source is that the degreewise fibre product of Tag 016T is such a
+limit, which only needs the degreewise fibre products `V_n ×_{U_n} W_n` to exist.
 
 ### Main definitions
 
@@ -113,8 +115,14 @@ pullback cone in an arbitrary category and then specialized to `SimplicialObject
   arbitrary category, `canonicalMap` is a bijection.
 * `CategoryTheory.Limits.PullbackCone.canonicalEquiv_apply`: `canonicalEquiv` is given by
   `canonicalMap`.
-* `CategoryTheory.SimplicialObject.isBijective_canonicalMap`: the same bijection for simplicial
-  objects of `C`, the case stated in the source.
+* `CategoryTheory.SimplicialObject.isBijective_canonicalMap`: the same bijection for a limit
+  pullback cone of simplicial objects of `C`.
+* `CategoryTheory.SimplicialObject.fibreProduct.isLimit`: the degreewise fibre product
+  `fibreProduct a b` of Tag 016T, with its degreewise projections `fibreProduct.fst` and
+  `fibreProduct.snd`, is a fibre product in `SimplicialObject C`.
+* `CategoryTheory.SimplicialObject.fibreProduct.isBijective_canonicalMap`: the source's
+  statement, `Mor(T, V ×_U W) = Mor(T, V) ×_{Mor(T, U)} Mor(T, W)` for the degreewise fibre
+  product.
 
 ### References
 
@@ -178,18 +186,112 @@ namespace CategoryTheory.SimplicialObject
 
 variable {C : Type u} [Category.{v} C]
 
-/-- **Stacks 016U**.
-Let `C` be a category, let `U V W` be simplicial objects of `C` and let `a : V ⟶ U`, `b : W ⟶ U`
-be morphisms of simplicial objects whose fibre product `V ×_U W` exists in `SimplicialObject C`,
-witnessed by a limit pullback cone `c` with projections `p`, `q`. For every simplicial object `T`
-the map `h ↦ (h ≫ p, h ≫ q)` is a bijection from `Mor(T, V ×_U W)` onto
-`Mor(T, V) ×_{Mor(T, U)} Mor(T, W)`. -/
-@[stacks 016U]
+/-- Let `C` be a category, let `U V W` be simplicial objects of `C` and let `a : V ⟶ U`,
+`b : W ⟶ U` be morphisms of simplicial objects, and let `c` be a limit pullback cone of `a` and
+`b` in `SimplicialObject C`, with projections `p`, `q`. For every simplicial object `T` the map
+`h ↦ (h ≫ p, h ≫ q)` is a bijection from `Mor(T, c.pt)` onto
+`Mor(T, V) ×_{Mor(T, U)} Mor(T, W)`. This is the universal property of an arbitrary categorical
+fibre product; the source's statement, about the degreewise fibre product `fibreProduct a b`, is
+`fibreProduct.isBijective_canonicalMap`. -/
 theorem isBijective_canonicalMap
     {U V W T : SimplicialObject C} (a : V ⟶ U) (b : W ⟶ U)
     (c : PullbackCone a b) (hc : IsLimit c) :
     Function.Bijective (PullbackCone.canonicalMap a b c (T := T)) :=
   PullbackCone.isBijective_canonicalMap a b c hc
+
+namespace fibreProduct
+
+variable {U V W : SimplicialObject C} (a : V ⟶ U) (b : W ⟶ U)
+  [∀ n, HasPullback (a.app n) (b.app n)]
+
+/-- The first projection `V ×_U W ⟶ V` of the degreewise fibre product of simplicial objects,
+given in degree `n` by `pullback.fst : V_n ×_{U_n} W_n ⟶ V_n`. -/
+@[simps]
+noncomputable def fst : fibreProduct a b ⟶ V where
+  app n := pullback.fst (a.app n) (b.app n)
+  naturality _ _ _ := by exact pullback.lift_fst _ _ _
+
+/-- The second projection `V ×_U W ⟶ W` of the degreewise fibre product of simplicial objects,
+given in degree `n` by `pullback.snd : V_n ×_{U_n} W_n ⟶ W_n`. -/
+@[simps]
+noncomputable def snd : fibreProduct a b ⟶ W where
+  app n := pullback.snd (a.app n) (b.app n)
+  naturality _ _ _ := by exact pullback.lift_snd _ _ _
+
+lemma fst_comp_eq_snd_comp : fst a b ≫ a = snd a b ≫ b := by
+  ext n
+  exact pullback.condition
+
+/-- The pullback cone of `a` and `b` with point the degreewise fibre product `fibreProduct a b`
+and with the degreewise projections `fst a b`, `snd a b`. -/
+noncomputable abbrev cone : PullbackCone a b :=
+  PullbackCone.mk (fst a b) (snd a b) (fst_comp_eq_snd_comp a b)
+
+variable {a b}
+
+/-- `pullback.hom_ext` in degree `n` of `fibreProduct a b`, with the source and target of the
+morphisms written through `fibreProduct a b` rather than through `pullback`. -/
+private lemma app_hom_ext {n : SimplexCategoryᵒᵖ} {X : C} {k l : X ⟶ (fibreProduct a b).obj n}
+    (h₁ : k ≫ (fst a b).app n = l ≫ (fst a b).app n)
+    (h₂ : k ≫ (snd a b).app n = l ≫ (snd a b).app n) : k = l :=
+  pullback.hom_ext h₁ h₂
+
+/-- The morphism `X ⟶ V_n ×_{U_n} W_n` into degree `n` of `fibreProduct a b` induced by a pair
+`f : X ⟶ V_n`, `g : X ⟶ W_n` with `f ≫ a_n = g ≫ b_n`; it is `pullback.lift f g w`, with its
+target written through `fibreProduct a b`. -/
+noncomputable def appLift {n : SimplexCategoryᵒᵖ} {X : C} (f : X ⟶ V.obj n) (g : X ⟶ W.obj n)
+    (w : f ≫ a.app n = g ≫ b.app n) : X ⟶ (fibreProduct a b).obj n :=
+  pullback.lift f g w
+
+@[reassoc (attr := simp)]
+lemma appLift_fst {n : SimplexCategoryᵒᵖ} {X : C} (f : X ⟶ V.obj n) (g : X ⟶ W.obj n)
+    (w : f ≫ a.app n = g ≫ b.app n) : appLift f g w ≫ (fst a b).app n = f :=
+  pullback.lift_fst f g w
+
+@[reassoc (attr := simp)]
+lemma appLift_snd {n : SimplexCategoryᵒᵖ} {X : C} (f : X ⟶ V.obj n) (g : X ⟶ W.obj n)
+    (w : f ≫ a.app n = g ≫ b.app n) : appLift f g w ≫ (snd a b).app n = g :=
+  pullback.lift_snd f g w
+
+variable (a b)
+
+/-- The degreewise fibre product `fibreProduct a b`, with its degreewise projections, is a fibre
+product of `a` and `b` in the category of simplicial objects of `C`. -/
+noncomputable def isLimit : IsLimit (cone a b) :=
+  PullbackCone.IsLimit.mk (fst_comp_eq_snd_comp a b)
+    (fun s =>
+      { app := fun n => appLift (s.fst.app n) (s.snd.app n)
+          (by simpa using congrArg (fun t => NatTrans.app t n) s.condition)
+        naturality := fun _ _ φ => by
+          apply app_hom_ext
+          · rw [Category.assoc, Category.assoc, appLift_fst, (fst a b).naturality φ,
+              ← Category.assoc, appLift_fst]
+            exact s.fst.naturality φ
+          · rw [Category.assoc, Category.assoc, appLift_snd, (snd a b).naturality φ,
+              ← Category.assoc, appLift_snd]
+            exact s.snd.naturality φ })
+    (fun s => by ext n; exact appLift_fst _ _ _)
+    (fun s => by ext n; exact appLift_snd _ _ _)
+    (fun s m h₁ h₂ => by
+      ext n
+      exact app_hom_ext
+        ((congrArg (fun t => NatTrans.app t n) h₁).trans (appLift_fst _ _ _).symm)
+        ((congrArg (fun t => NatTrans.app t n) h₂).trans (appLift_snd _ _ _).symm))
+
+/-- **Stacks 016U.** Let `C` be a category, let `U V W` be simplicial objects of `C` and let
+`a : V ⟶ U`, `b : W ⟶ U` be morphisms such that the fibre products `V_n ×_{U_n} W_n` exist in `C`,
+so that the degreewise fibre product `V ×_U W = fibreProduct a b` of Tag 016T exists. For every
+simplicial object `T` of `C`, the map `h ↦ (h ≫ p, h ≫ q)`, with `p`, `q` the degreewise
+projections, is a bijection
+`Mor(T, V ×_U W) → Mor(T, V) ×_{Mor(T, U)} Mor(T, W)`. -/
+@[stacks 016U "the fibre product of sets is `Types.PullbackObj`, and the identification is the \
+  map `h ↦ (h ≫ p, h ≫ q)` given by the degreewise projections `fibreProduct.fst`, \
+  `fibreProduct.snd`; the limit structure itself is `fibreProduct.isLimit`"]
+theorem isBijective_canonicalMap (T : SimplicialObject C) :
+    Function.Bijective (PullbackCone.canonicalMap a b (cone a b) (T := T)) :=
+  PullbackCone.isBijective_canonicalMap a b _ (isLimit a b)
+
+end fibreProduct
 
 end CategoryTheory.SimplicialObject
 
@@ -291,20 +393,23 @@ universe u v
 # Fibre products of cosimplicial objects
 
 Let `C` be a category and let `a : V ⟶ U` and `b : W ⟶ U` be morphisms of cosimplicial objects
-of `C`. If `V ×_U W` is a fibre product of `a` and `b` in the category of cosimplicial objects,
-then for every cosimplicial object `T` the Hom-set `Mor(T, V ×_U W)` is the fibre product of
-`Mor(T, V)` and `Mor(T, W)` over `Mor(T, U)`.
+of `C`. If `P` is a fibre product of `a` and `b` in the category of cosimplicial objects, then for
+every cosimplicial object `T` the Hom-set `Mor(T, P)` is the fibre product of `Mor(T, V)` and
+`Mor(T, W)` over `Mor(T, U)`. The case of the degreewise fibre product `V ×_U W` of
+[Stacks, Tag 0172], which is the statement of [Stacks, Tag 0173], is
+`CategoryTheory.CosimplicialObject.isBijective_canonicalMap_pointwisePullback`.
 
 ## Main results
 
-* `CategoryTheory.CosimplicialObject.isBijective_canonicalMap`: for a pullback square
-  `V ×_U W` of cosimplicial objects, the comparison map
-  `Mor(T, V ×_U W) → Mor(T, V) ×_{Mor(T, U)} Mor(T, W)`, `f ↦ (f ≫ p, f ≫ q)`, is a bijection;
-  the comparison map is `CategoryTheory.Limits.PullbackCone.canonicalMap` and its target the
-  fibre product of sets `Types.PullbackObj`.
+* `CategoryTheory.CosimplicialObject.isBijective_canonicalMap`: for a pullback square `P` of `a`
+  and `b` in the category of cosimplicial objects, with projections `p`, `q`, the comparison map
+  `Mor(T, P) → Mor(T, V) ×_{Mor(T, U)} Mor(T, W)`, `f ↦ (f ≫ p, f ≫ q)`, is a bijection; the
+  comparison map is `CategoryTheory.Limits.PullbackCone.canonicalMap` and its target the fibre
+  product of sets `Types.PullbackObj`.
 
 ## References
 
+* [Stacks, Tag 0172](https://stacks.math.columbia.edu/tag/0172)
 * [Stacks, Tag 0173](https://stacks.math.columbia.edu/tag/0173)
 -/
 
@@ -312,12 +417,12 @@ open CategoryTheory CategoryTheory.Limits
 
 namespace CategoryTheory.CosimplicialObject
 
-/-- **Stacks 0173**.
-Let `C` be a category, `U V W` cosimplicial objects of `C`, and `a : V ⟶ U`, `b : W ⟶ U`
-morphisms of cosimplicial objects. If `V ×_U W`, with projections `p` and `q`, is a fibre
-product of `a` and `b`, then for every cosimplicial object `T` the comparison map
-`Mor(T, V ×_U W) → Mor(T, V) ×_{Mor(T, U)} Mor(T, W)`, `f ↦ (f ≫ p, f ≫ q)`, is a bijection. -/
-@[stacks 0173]
+/-- Let `C` be a category, `U V W` cosimplicial objects of `C`, and `a : V ⟶ U`, `b : W ⟶ U`
+morphisms of cosimplicial objects. If `P`, with projections `p` and `q`, is a fibre product of
+`a` and `b` in the category of cosimplicial objects, then for every cosimplicial object `T` the
+comparison map `Mor(T, P) → Mor(T, V) ×_{Mor(T, U)} Mor(T, W)`, `f ↦ (f ≫ p, f ≫ q)`, is a
+bijection. For the degreewise fibre product of [Stacks, Tag 0172] this is
+`isBijective_canonicalMap_pointwisePullback`, the statement of [Stacks, Tag 0173]. -/
 theorem isBijective_canonicalMap
     {C : Type u} [Category.{v} C] {U V W : CosimplicialObject C}
     {a : V ⟶ U} {b : W ⟶ U}

@@ -310,11 +310,12 @@ private theorem propertySkModule_and_depth_modulesStalk_upperShriek
   change _ ≤ moduleDepth (X.left.presheaf.stalk x) T
   rwa [hdep, hdim]
 
-/-- **Stacks Project, Tag 0E9V (Lemma 48.21.5), the `(S₂)` clause.** Under the hypotheses of the
+/-- **The `(S₂)` clause of [Stacks, Tag 0E9V].** Under the hypotheses of the
 tag, the stalk `H^{-r}(f^!𝒪_Y)_x` satisfies `(S₂)` as an `𝒪_{X,x}`-module, for every
 compactification `j` defining `f^!`. On a chart the stalk is the localization of
-`H^{-r}(ω^•_{A/R})` at the prime of `x`, which is `(S₂)` by the ring-level [Stacks, Tag 0E9R]. -/
-@[stacks 0E9V "the (S_2) property of the stalk H^{-r}(f^! O_Y)_x as an O_{X,x}-module"]
+`H^{-r}(ω^•_{A/R})` at the prime of `x`, which is `(S₂)` by the ring-level [Stacks, Tag 0E9R].
+Together with the vanishing it is the full tag,
+`neg_le_and_propertySkModule_stalk_homology_upperShriek_of_residueTrdeg_le`. -/
 theorem propertySkModule_modulesStalk_homology_upperShriek_of_residueTrdeg_le
     (x : X.left) (r : ℕ)
     (hCM : IsCohenMacaulayLocalRing (Y.left.presheaf.stalk (f.left.base x)))

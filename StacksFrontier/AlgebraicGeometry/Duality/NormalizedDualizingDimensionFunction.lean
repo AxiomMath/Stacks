@@ -52,9 +52,13 @@ conclusions.
 
 * `hClosedImage` — that `f` carries closed points of `X` to closed points of `S`. The source
   obtains this by replacing `X` by a compactification over `S` ([Stacks, Tag 0F41]) and so
-  reducing to `f` proper; that reduction rests on Nagata compactification and on the invariance
-  of `ω_X^•` under restriction to an open ([Stacks, Tag 0AUC]), neither of which is available
-  here. For a proper `f` the hypothesis is just `Scheme.Hom.isClosedMap`.
+  reducing to `f` proper; that reduction rests on Nagata compactification
+  (`Stacks.Duality.hasCompactification_of_isShriekable`) and on the invariance of `ω_X^•` under
+  restriction to an open ([Stacks, Tag 0AUC],
+  `Stacks.Duality.NormalizedOnOpens.isoDerivedRestrictNagata`). Both are proved for normalized
+  complexes of the Nagata formalism, while `ω_X^•` here is a bare complex in `D(𝒪_X)` with no
+  normalization, so the reduction is not carried out in this lemma. For a proper `f` the
+  hypothesis is just `Scheme.Hom.isClosedMap`.
 * `hClosedPoint` — the identity at a closed point `x` whose image is closed. This is
   [Stacks, Tag 0AWL], proved in this repository as
   `Stacks.Duality.isNormalizedDualizingComplex_derivedStalkOfComplex_normalizedDualizingComplex`;

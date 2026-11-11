@@ -287,16 +287,17 @@ section symmetric
 -- `Sym[R]^(n + 2) M` needs `R : Type`: Mathlib's `SymmetricPower` takes `(R ι : Type u)`.
 variable {R : Type} [CommRing R] {M : Type*} [AddCommGroup M] [Module R M]
 
-/-- **Stacks Tag 00DP.** Let `M` be a module over a commutative ring `R` with a
-generating system `x : I → M`, and let `n + 2 ≥ 2`. There are canonical exact
-sequences
+/-- The two presentations of Stacks Tag 00DP for a ring `R : Type` in universe `0`. Let `M` be
+a module over a commutative ring `R : Type` with a generating system `x : I → M`, and let
+`n + 2 ≥ 2`. There are canonical exact sequences
 
   `(⊕ relators) → Tⁿ⁺²(M) → ⋀ⁿ⁺²(M) → 0`   and
   `(⊕ relators) → Tⁿ⁺²(M) → Symⁿ⁺²(M) → 0`,
 
 with the relator maps and projections determined by their values on pure tensors
-as described in the module docstring. -/
-@[stacks 00DP]
+as described in the module docstring. The statement of Tag 00DP for a ring in any universe is
+`exists_presentation_exteriorPower_and_symmetricPower_univ`
+(`StacksFrontier.LinearAlgebra.SymmetricPower.TensorPowerPresentation`). -/
 theorem exists_presentation_exteriorPower_and_symmetricPower {I : Type*} [DecidableEq I] (x : I → M)
     (hx : Submodule.span R (Set.range x) = ⊤) (n : ℕ) :
     -- exterior power presentation

@@ -38,14 +38,16 @@ public import Std.Tactic.BVDecide.Normalize.Prop
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Set-sized sub-sites (Stacks 000X)
+# Coverings with a bounded index set (towards Stacks 000X)
 
 Fix a category `C` together with a class `IsCov : Covering C → Prop` of *coverings* of `C`, a
-covering being a family of morphisms `{φᵢ : Uᵢ ⟶ U}_{i ∈ I}` with a common target. Stacks 000X
-shrinks such a class to a set-sized one: for a suitable cardinal `κ`, the coverings in `IsCov`
-whose index set has cardinality at most `κ` again satisfy the site axioms, they contain any
-prescribed small set of coverings, and every covering in `IsCov` is combinatorially equivalent
-to one of them.
+covering being a family of morphisms `{φᵢ : Uᵢ ⟶ U}_{i ∈ I}` with a common target. For a
+suitable cardinal `κ`, the coverings in `IsCov` whose index set has cardinality at most `κ` again
+satisfy the site axioms, they contain any prescribed small set of coverings, and every covering
+in `IsCov` is combinatorially equivalent to one of them. This is the cardinality half of
+Stacks 000X; the class it produces is in general *not* set-sized. Stacks 000X itself, with the
+`V_α` truncation that makes the class a set, is `exists_covTrunc_isSite` in
+`StacksFrontier.CategoryTheory.Sites.Pretopology.SmallSubsiteTruncated`.
 
 ## Main definitions
 
@@ -57,7 +59,8 @@ to one of them.
 
 ## Main results
 
-* `exists_covBounded_isSite`: Stacks 000X.
+* `exists_covBounded_isSite`: the cardinality-bounded coverings form a site representing every
+  covering.
 
 ## Combinatorial equivalence is Stacks 00VU (1), not a `HEq` of morphisms
 
@@ -82,13 +85,13 @@ with the morphism equality.
 
 ## Implementation notes
 
-Stacks 000X bounds a covering by asking that it lie in a stage `V_α` of the von Neumann
-cumulative hierarchy. Lean's type theory attaches no ZFC rank to an arbitrary `Covering C`;
-the role of `V_α` is played by the universe level at which `Covering C` sits, which already
-makes it set-sized. The ordinal `α` therefore imposes no further restriction and survives only
-as a parameter of the conclusion, while the cardinal `κ` carries the whole force of the bound.
-In the same spirit, "`Cov₀` is a set rather than a proper class" reads as
-`Small.{max u v} Cov₀`, and "`α` is a limit ordinal" reads as `Order.IsSuccLimit α`.
+Stacks 000X also bounds a covering by asking that it lie in a stage `V_α` of the von Neumann
+cumulative hierarchy, and that is what makes `Cov(C)_{κ, α}` a set. `CovBounded` omits this
+truncation: the class `CovBounded IsCov κ` lives in `Type (max u v + 1)` and is in general not
+`Small.{max u v}` (one-element index types alone already form a proper class). The ordinal `α`
+of `exists_covBounded_isSite` is unconstrained and the proof takes `α = ω`. The truncated,
+set-sized form is `CovTrunc` and `exists_covTrunc_isSite`. "`Cov₀` is a set rather than a proper
+class" reads as `Small.{max u v} Cov₀`.
 
 The covering families and site axioms have an independent index universe `w`. The cardinal
 bounds below specialize to `w = max u v`, so that both index sets and the type of
@@ -164,16 +167,29 @@ def BaseChangeCond (IsCov : Covering.{u, v, w} C → Prop) : Prop :=
       (∀ i, IsPullback (π₁ i) (π₂ i) (𝒰.2.f i) g) ∧ IsCov ⟨V, ⟨𝒰.2.I₀, P, π₂⟩⟩
 
 /-- A class of coverings is a *site* if it satisfies the isomorphism, composition and base
-change axioms. -/
-@[sga "4 II 1.3", sga "3 IV 4.2.5"]
+change axioms: these are axioms (1), (2) and (3) of Stacks 00VH, as `IsoCond`, `CompositionCond`
+and `BaseChangeCond`. The set `Cov(𝒞)` is the predicate `IsCov`. The coverings are families of
+morphisms with fixed target, indexed by a type (Stacks 0396), not presieves, so a family may
+repeat a morphism. Following the clarification after 00VH, axiom (3) asks for the fibre products
+`Uᵢ ×_U V` of the members of a covering only, and for the covering property of *some* choice of
+them; no other fibre products are assumed to exist.
+
+Mathlib's `CategoryTheory.Pretopology`, which also carries Stacks 00VH, is the special case of a
+category with all pullbacks, with coverings recorded as presieves and base change taken along
+the chosen pullbacks; `IsSite.pretopologyBigFppfPretopology` produces it from a site when `C` has
+pullbacks. Conversely `CategoryTheory.Precoverage.isSite_presieve₀_mem` produces a site from a
+Mathlib precoverage with `HasIsos`, `IsStableUnderComposition`, `IsStableUnderBaseChange` and
+`HasPullbacks`. -/
+@[sga "4 II 1.3", sga "3 IV 4.2.5",
+  stacks 00VH "Stacks' definition of a site: no fibre products beyond those of axiom (3)."]
 def IsSite (IsCov : Covering.{u, v, w} C → Prop) : Prop :=
   IsoCond IsCov ∧ CompositionCond IsCov ∧ BaseChangeCond IsCov
 
 /-! ### Coverings with a bounded index set -/
 
 /-- `CovBounded IsCov κ 𝒰` says that `𝒰` is a covering in `IsCov` whose index set has
-cardinality at most `κ`. This is the class `Cov(C)_{κ, α}` of Stacks 000X; the ordinal `α`
-contributes no further restriction. -/
+cardinality at most `κ`. This is the class `Cov(C)_{κ, α}` of Stacks 000X *without* the `V_α`
+truncation, so it is not set-sized in general; the truncated class is `CovTrunc`. -/
 def CovBounded (IsCov : Covering.{u, v, w} C → Prop) (κ : Cardinal.{w}) (𝒰 : Covering C) : Prop :=
   IsCov 𝒰 ∧ #𝒰.2.I₀ ≤ κ
 
@@ -286,13 +302,17 @@ private lemma exists_rep_bound (IsCov : Covering C → Prop) :
 
 /-! ### The main theorem -/
 
-/-- **Stacks 000X**. Let `IsCov` be a site on `C` and let `Cov₀` be a set-sized family of
-coverings in it. Then there are a cardinal `κ` and a limit ordinal `α` such that the coverings
+/-- The cardinality half of Stacks 000X. Let `IsCov` be a site on `C` and let `Cov₀` be a
+set-sized family of coverings in it. Then there are a cardinal `κ` and a limit ordinal `α` such
+that the coverings
 in `IsCov` whose index set has cardinality at most `κ` again form a site, contain `Cov₀`, and
 every covering in `IsCov` is combinatorially equivalent to one of them. One may take
 `κ = ℵ₀ ⊔ κ₀ ⊔ κ_rep`, with `κ₀` bounding the index sets of `Cov₀` and `κ_rep` bounding those
-of a system of combinatorial representatives, and `α = ω`. -/
-@[stacks 000X]
+of a system of combinatorial representatives, and `α = ω`.
+
+The ordinal `α` is unconstrained, and the class `CovBounded IsCov κ` is not shown to be a set:
+the `V_α` truncation of the source is missing. Stacks 000X with that truncation, the class being
+proved `Small`, is `exists_covTrunc_isSite`. -/
 theorem exists_covBounded_isSite
     {C : Type u} [Category.{v} C]
     (IsCov : Covering.{u, v, max u v} C → Prop)

@@ -527,7 +527,16 @@ Spec k <--g-- T
 
 with `g` quasi-compact and quasi-separated. Then the canonical base change map
 `f⁻¹ g_* F ⟶ h_* e⁻¹ F` is an isomorphism for every sheaf of sets `F` on the small étale site of
-`T`. Nothing is assumed of `X`. -/
+`T`. Nothing is assumed of `X`.
+
+This is the complete statement of Stacks Tag 0EZY. The hypothesis that `g` be quasi-compact and
+quasi-separated is the standing convention of Section 0EZW, fixed at its start for every
+cartesian diagram of the section; the entry for 0EZY in `errata.md` records why this is not an
+erratum, and the module docstring gives a counterexample showing the hypothesis cannot be
+dropped. The finite-type siblings
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed_locallyOfFiniteType` and
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed` treat `X` locally of
+finite type, where no hypothesis on `g` is needed. -/
 @[stacks 0EZY "the tag's statement for an arbitrary scheme `X` over the spectrum of a separably \
 closed field, with nothing assumed of `X` and no result of the source assumed. The assumption \
 that `g` be quasi-compact and quasi-separated is the standing convention of Section 0EZW, stated \

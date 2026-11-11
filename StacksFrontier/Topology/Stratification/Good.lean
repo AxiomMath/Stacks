@@ -56,13 +56,12 @@ frontier condition: a stratum meeting the closure of another stratum is containe
 
 open Set Topology
 
-/-- **Stacks 09Y0**.
-A *good stratification* of a topological space `X`, indexed by `I`, is a
+/-- A *good stratification* of a topological space `X`, indexed by `I`, is a
 family of subsets `S : I → Set X` which forms a partition (the sets are
 pairwise disjoint, each nonempty, and their union covers `X`) and which
 satisfies the frontier condition: if `S i ∩ closure (S j) ≠ ∅`, then
-`S i ⊆ closure (S j)`. -/
-@[stacks_fixed 09Y0]
+`S i ⊆ closure (S j)`. This variant of Stacks 09Y0 (registered on `IsGoodPartition`) asks the
+strata to be nonempty and does not ask them to be locally closed. -/
 structure IsGoodStratification {X : Type*} [TopologicalSpace X] {I : Type*}
     (S : I → Set X) : Prop where
   /-- Each stratum is nonempty. -/

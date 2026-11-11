@@ -26,16 +26,20 @@ The elided prefix is `Stacks.AlgebraicGeometry.FreenessOverDVR`.
 
 * `cohomologyOver`, `genericFibre`, `thickening`: the three objects the statement names, namely
   `Hⁱ(X, ℱ)` as an `A`-module, the generic fibre `X_η` and the thickening `X_n`.
-* `TrivialityInput`: the inputs of the source's proof which this library does not carry — the
-  finiteness of cohomology of a proper morphism and the comparison of `𝓔` with a free module
-  after derived reduction modulo `π^m`.
+* `TrivialityInput`: the inputs of the source's section-based proof — the finiteness of
+  cohomology of a proper morphism ([Stacks, Tag 02O6], proved in this library as
+  `moduleFinite_cohomologyOver`) and the comparison of `𝓔` with a free module after derived
+  reduction modulo `π^m`.
 * `TorsionExponentTransfer` and `torsionExponentTransfer`: the summand-counting step, as a
   statement of pure algebra over a discrete valuation ring, and its proof.
 * `pow_smul_torsionBy_eq_bot_iff`, `pow_smul_torsionBy_pi_eq_bot`,
   `pow_smul_torsionBy_eq_bot_of_le`: annihilation of `π^m`-torsion read elementwise, and its
   stability under finite products and under raising the annihilating power.
-* `exists_thickening_exponent_free_of_free_generic_and_thickening`: the lemma itself, over such
-  an input. The integer produced is `k + e + 1` in the source's notation.
+* `exists_thickening_exponent_free_of_free_generic_and_thickening`: the conclusion of the lemma,
+  derived from such an input. The integer produced is `k + e + 1` in the source's notation.
+  [Stacks, Tag 0EXF] itself, with no input, is `exists_thickening_exponent_free`
+  (`StacksFrontier.AlgebraicGeometry.FreenessOverDVR.FreenessCriterion`), whose proof avoids the
+  reduction to a section.
 
 ## Implementation notes
 
@@ -153,9 +157,10 @@ abbrev cohomologyTorsion (π : A) (m i : ℕ) (F : X.Modules) :
 
 variable [IsDomain A] [IsLocalRing A]
 
-/-- The inputs of the source's proof of [Stacks, Tag 0EXF] which this library does not carry.
+/-- The inputs of the source's section-based proof of [Stacks, Tag 0EXF].
 
-`moduleFinite` and `moduleFiniteUnit` are the conclusion of [Stacks, Tag 02O6] for `f`.
+`moduleFinite` and `moduleFiniteUnit` are the conclusion of [Stacks, Tag 02O6] for `f`, which
+the library proves (`moduleFinite_cohomologyOver`).
 `comparison` is the source's first half — the reduction to the case of a section, whose final
 step (invertibility of a determinant which is invertible at one point of each fibre) the source
 itself leaves to the reader — together with the derived comparison of its second half, read on
@@ -281,30 +286,22 @@ namespace Stacks.AlgebraicGeometry.FreenessOverDVR
 variable (A : Type u) [CommRing A] [IsDomain A] [IsDiscreteValuationRing A]
   {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
 
-/-- **Stacks, Tag 0EXF.** Let `f : X ⟶ Spec A` be proper with geometrically connected fibres over
-a discrete valuation ring `A`, let `η` be the generic point of `Spec A` and let `X_n ⊆ X` be the
-closed subscheme cut out by the `n`-th power of a uniformizer `π`. There is an integer `n`,
-independent of the module, such that every finite locally free `𝒪_X`-module which is free on
-`X_η` and on `X_n` is free.
+/-- **The conclusion of [Stacks, Tag 0EXF] from the section-based inputs.** Let
+`f : X ⟶ Spec A` be a morphism to the spectrum of a discrete valuation ring `A`, let `η` be the
+generic point of `Spec A` and let `X_n ⊆ X` be the closed subscheme cut out by the `n`-th power
+of a uniformizer `π`. Given `TrivialityInput A f π`, there is an integer `n`, independent of the
+module, such that every finite locally free `𝒪_X`-module which is free on `X_η` and on `X_n` is
+free.
 
 The integer produced is `e + 1 + k`, which is the source's `k + e + 1`: `k` is the Artin-Rees
 exponent carried by `TrivialityInput.comparison`, and `e` is an exponent annihilating the
-`π`-power torsion of `H⁰(X, 𝒪_X)` and `H¹(X, 𝒪_X)`, both of which depend only on `X`. -/
-@[stacks 0EXF "conditional on `TrivialityInput`, which carries the source's cited input \
-[Stacks, Tag 02O6] (finiteness of the cohomology of a proper morphism, open in this library), \
-the reduction to the case of a section — whose last step, \
-invertibility of a determinant invertible at one point of each fibre, the source itself leaves \
-to the reader — and the derived comparison `RΓ(X, 𝓔) ⊗^L A/π^m ≅ RΓ(X, 𝒪_X^r) ⊗^L A/π^m` read \
-on cohomology. Of the inputs of that comparison the library does carry the subsheaf of sections \
-supported on the special fibre ([Stacks, Tag 084L]), the quotients `𝓔/π^j 𝓔`, the Artin-Rees \
-exponent ([Stacks, Tag 01YA]), the two-term complex `(𝓔 --π^m--> 𝓔)` in `D(𝒪_X)` with its \
-distinguished triangle, and `RΓ(X, -) : D(𝒪_X) ⥤ D(A)`; what it lacks is the reduction formula \
-`Hⁱ(K ⊗^L A/π^m) = Hⁱ(K)/π^m ⊕ Hⁱ⁺¹(K)[π^m]`, which is a step of the source's proof and not a \
-tag. Proved here: the construction of both exponents and hence of `n`, the summand-counting \
-transfer of the exponent bound from `𝒪_X` to `𝓔` (`torsionExponentTransfer`), and the two \
-Nakayama steps that turn surjectivity modulo `π^{e+1}` into freeness. The hypotheses are \
-satisfiable: `exists_thickening_exponent_free_specPowerSeries` discharges all of them over \
-`k⟦X⟧`"]
+`π`-power torsion of `H⁰(X, 𝒪_X)` and `H¹(X, 𝒪_X)`, both of which depend only on `X`.
+
+[Stacks, Tag 0EXF] itself, with no input, is `exists_thickening_exponent_free`. This declaration
+stays conditional: the fields `moduleFinite` and `moduleFiniteUnit` follow from
+`moduleFinite_cohomologyOver`, but `comparison` (the reduction to a section and the derived
+comparison modulo `π^m`) is not proved in the library, and the statement assumes no properness of
+`f`, so it cannot be read off from `exists_thickening_exponent_free`, which needs `IsProper f`. -/
 theorem exists_thickening_exponent_free_of_free_generic_and_thickening
     {π : A} (hπ : Irreducible π) (h : TrivialityInput A f π) :
     ∃ n : ℕ, 0 < n ∧ ∀ E : X.Modules, E.IsFiniteLocallyFree →

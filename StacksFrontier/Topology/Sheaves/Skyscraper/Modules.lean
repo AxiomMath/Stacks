@@ -24,7 +24,9 @@ instance of the construction for sheaves valued in a fixed category.
 * `Stacks.Modules.skyscraperAbPresheaf` is the underlying presheaf of abelian groups, with
   sections `PLift (z ∈ U) → V` over `U`.
 * `Stacks.Modules.skyscraperPresheaf` is the skyscraper as a presheaf of modules.
-* `Stacks.Modules.skyscraper` is the skyscraper as a sheaf of modules.
+* `Stacks.Modules.skyscraper` is the skyscraper as a sheaf of modules, Stacks 009A (4).
+* `Stacks.Modules.IsSkyscraperSheaf` is the predicate of being a skyscraper sheaf of modules,
+  Stacks 009A (8).
 * `Stacks.Modules.skyscraperFunctor` is the skyscraper as a functor in the value `V`, and
   `Stacks.Modules.stalkSheafFunctor` is the stalk at `z` as a functor valued in `𝒪_z`-modules.
 
@@ -505,6 +507,20 @@ noncomputable def stalkSkyscraperAdjunction :
       homEquiv_naturality_right := fun {G V V'} φ ν => by
         refine SheafOfModules.hom_ext (PresheafOfModules.hom_ext fun U => ModuleCat.hom_ext
           (LinearMap.ext fun s => funext fun _ => rfl)) }
+
+/-- **Stacks 009A (8).** A sheaf `ℱ` of `𝒪_X`-modules is a *skyscraper sheaf* if there are a
+point `z` of `X` and an `𝒪_{X,z}`-module `V` with `ℱ ≅ i_{z,*} V` as sheaves of
+`𝒪_X`-modules. -/
+@[stacks 009A "(8)"]
+def IsSkyscraperSheaf
+    (F : SheafOfModules.{u} ((sheafCompose _ (forget₂ CommRingCat RingCat.{u})).obj R)) : Prop :=
+  ∃ (z : X) (V : ModuleCat.{u} ↑(TopCat.Presheaf.stalk R.obj z)),
+    Nonempty (F ≅ skyscraper R z V)
+
+/-- The skyscraper sheaf of modules at `z` with value `V` is a skyscraper sheaf. -/
+theorem isSkyscraperSheaf_skyscraper :
+    IsSkyscraperSheaf R (skyscraper R z V) :=
+  ⟨z, V, ⟨Iso.refl _⟩⟩
 
 end Stacks.Modules
 

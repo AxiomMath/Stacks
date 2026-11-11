@@ -48,8 +48,8 @@ this file.
 * `AlgebraicGeometry.Space.moduleHomOver`: the relative Hom functor of two `𝒪_X`-modules
   indexed by the algebraic spaces *over* `X`.  Every relative Hom functor here is this one
   restricted along a base change, which is what makes the comparisons natural.
-* `AlgebraicGeometry.Space.HomSituation.homFunctor`: **the relative Hom functor of
-  Stacks 08JT.**
+* `AlgebraicGeometry.Space.HomSituation.homFunctor`: the relative Hom functor of Stacks 08JT,
+  built from a given inhabitant of the coherence data of Stacks 03LU.
 * `AlgebraicGeometry.Space.HomSituation.baseChangedSituation`: **the base-changed situation of
   Stacks 08JW**, and `AlgebraicGeometry.Space.HomSituation.baseChangeFiberIso` the
   pasted-pullback identification `X'_T ≅ X_T` it rests on.
@@ -80,8 +80,11 @@ images, from which the inverse-image coherences follow (see
 `StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePushforwardCoherence.lean`).  That data
 is proved with no hypothesis by `AlgebraicGeometry.Space.modulePushforwardCoherence`, and the
 identification of the two relative Hom functors under a change of base uses it, so that
-identification assumes nothing.  The Hom functor itself still takes the data as a parameter,
-which lets a consumer that carries its own copy use that one.  Nothing else about the Hom
+identification assumes nothing.  `AlgebraicGeometry.Space.HomSituation.homFunctor` takes the
+data as a parameter, which lets a consumer that carries its own copy use that one; the Hom
+functor of Stacks 08JT at the inhabitant `AlgebraicGeometry.Space.modulePushforwardCoherence`
+is `AlgebraicGeometry.Space.HomSituation.homSchemeFunctor`, in
+`StacksFrontier/AlgebraicGeometry/Hom/HomFunctorEtaleDescent.lean`.  Nothing else about the Hom
 functor needs the data at all: the standing data, the Hom set at a test scheme and the
 pullback of a homomorphism are unconditional.
 
@@ -583,37 +586,32 @@ theorem homMap_comp (hc : ModulePushforwardCoherence B S hS) {V U T : s.SchemesO
     (modulePullbackTriangle B S hS (baseChangeMap_comp s.f g h).symm)
     (s.baseChangeComparison_comp hc g h) α
 
-/-- **Stacks 08JT.**  The relative Hom functor `Hom(F, G) : (Sch/base)ᵒᵖ ⥤ Sets`, whose value
-at a test scheme `T` over the base is `Hom_{𝒪_{X_T}}(F_T, G_T)` and whose action on a morphism
-of test schemes is pullback of homomorphisms.
+/-- The relative Hom functor `Hom(F, G) : (Sch/base)ᵒᵖ ⥤ Sets` of Stacks 08JT built from a given
+inhabitant `hc` of the pseudofunctoriality of the direct images of Stacks 03LU: its value at a
+test scheme `T` over the base is `Hom_{𝒪_{X_T}}(F_T, G_T)` and its action on a morphism of test
+schemes is pullback of homomorphisms.  The two functor laws are exactly the associativity
+coherence and the unit law that `hc` supplies.
 
-The hypothesis is the pseudofunctoriality of the direct images of Stacks 03LU; the two
-functor laws are exactly its associativity coherence and its unit law. -/
-@[stacks 08JT "the Hom functor, conditional on the pseudofunctoriality of the direct images \
-of Stacks 03LU"]
+The parameter is not an assumption: `AlgebraicGeometry.Space.modulePushforwardCoherence`
+inhabits it with no hypothesis, and the functor at that inhabitant is
+`AlgebraicGeometry.Space.HomSituation.homSchemeFunctor`. -/
 def homFunctor (hc : ModulePushforwardCoherence B S hS) :
     (s.SchemesOver)ᵒᵖ ⥤ Type (u + 1) :=
   (baseChangeOver s.f).op ⋙ moduleHomOver hc s.F s.G
 
-/-- **Stacks 08JT.**  The value of the relative Hom functor at a test scheme over the base is
-the set of `𝒪_{X_T}`-module homomorphisms `F_T ⟶ G_T`. -/
-@[stacks 08JT "the value of the functor, conditional on the pseudofunctoriality of the \
-direct images of Stacks 03LU"]
+/-- The value of the relative Hom functor at a test scheme over the base is the set of
+`𝒪_{X_T}`-module homomorphisms `F_T ⟶ G_T`, whatever inhabitant `hc` is supplied. -/
 theorem homFunctor_obj (hc : ModulePushforwardCoherence B S hS) (T : s.SchemesOver) :
     (s.homFunctor hc).obj (Opposite.op T) = s.homAt T :=
   rfl
 
-/-- **Stacks 08JT.**  The action of the relative Hom functor on a morphism of test schemes is
-pullback of homomorphisms. -/
-@[stacks 08JT "the action of the functor, conditional on the pseudofunctoriality of the \
-direct images of Stacks 03LU"]
+/-- The action of the relative Hom functor on a morphism of test schemes is pullback of
+homomorphisms, whatever inhabitant `hc` is supplied. -/
 theorem homFunctor_map (hc : ModulePushforwardCoherence B S hS) {U T : s.SchemesOver}
     (g : U ⟶ T) :
     (s.homFunctor hc).map (Opposite.op g) = TypeCat.ofHom (s.homMap g) := by
   rw [s.homMap_def g, s.baseChangeComparison_eq g]
   rfl
-
-
 
 /-! ### Base change of the base algebraic space, Stacks 08JW -/
 

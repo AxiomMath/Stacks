@@ -33,7 +33,8 @@ The Mittag-Leffler condition is asked for, not proved, so no declaration here ca
 `@[stacks 0DXI]` attribute.  The condition is proved, in every degree, for the adic quotient
 tower of a coherent module in
 `StacksFrontier/AlgebraicGeometry/FormalGeometry/PuncturedSpectrumCohomologyMittagLeffler.lean`,
-where the resulting unconditional forms of Tag 0DXI are registered.
+and Tag 0DXI itself, with the derived completion `RΓ(U, ℱ)^∧` on the left, is registered in
+`StacksFrontier/AlgebraicGeometry/FormalGeometry/PuncturedSpectrumDerivedCompletion.lean`.
 
 ## Main results
 
@@ -159,13 +160,15 @@ a countable tower the vanishing of that term is exactly what the conclusion asse
 statement is the general engine, for any tower satisfying the condition in the single degree
 `i - 1`; the condition for the adic quotient tower of a coherent module is proved downstream, in
 every degree, and
-`Stacks.Algebraization.isIso_toLimit_homology_puncturedSpectrumSections_of_isCoherent` — this
-statement with `hML` discharged and nothing else changed — is where Tag 0DXI is registered.
+`Stacks.Algebraization.isIso_toLimit_homology_puncturedSpectrumSections_of_isCoherent` is this
+statement with `hML` discharged and nothing else changed.
 
 By [Stacks, Tag 0BLX] `RΓ(U, ℱ^∧)` is the derived `I`-adic completion `RΓ(U, ℱ)^∧`, which is how
-the source names the left-hand side; this library has that identity only for an ideal sheaf with
-nilpotent local sections, which `I𝒪_U` is not, so the left-hand side is named by `ℒ` instead.
-See the module documentation. -/
+the source names the left-hand side. Tag 0DXI itself, with that left-hand side, is
+`Stacks.Algebraization.isIso_toLimit_homology_derivedCompletion_puncturedSpectrumSections`, which
+produces an `ℒ` together with `RΓ(U, ℒ) ≅ RΓ(U, ℱ)^∧` by
+`Stacks.Algebraization.exists_isDerivedLimit_and_iso_derivedCompletion_derivedSections`
+([Stacks, Tags 0A0K and 0BLX]). -/
 theorem exists_milnorTriangle_isIso_toLimit_homology_puncturedSpectrumSections
     [IsNoetherianRing A] (I : Ideal A)
     (F : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A)))
@@ -244,8 +247,10 @@ statement packaged as an `≅` and not the weaker assertion that the two modules
 isomorphic.
 
 Like that statement this one assumes the Mittag-Leffler condition and so carries no
-`@[stacks 0DXI]` attribute; the registered form, with the condition proved, is
-`Stacks.Algebraization.exists_homologyIso_limit_puncturedSpectrumSections_of_isCoherent`. -/
+`@[stacks 0DXI]` attribute; the form with the condition proved is
+`Stacks.Algebraization.exists_homologyIso_limit_puncturedSpectrumSections_of_isCoherent`, and the
+registered form of the tag is
+`Stacks.Algebraization.exists_homologyIso_limit_derivedCompletion_puncturedSpectrumSections`. -/
 theorem exists_homologyIso_limit_puncturedSpectrumSections
     [IsNoetherianRing A] (I : Ideal A)
     (F : SheafOfModules.{u} (structureSheafRing (puncturedSpectrumRingedSpace A)))

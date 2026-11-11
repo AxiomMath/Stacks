@@ -59,7 +59,9 @@ There are no new definitions.
 * `AlgebraicGeometry.Space.exists_affine_etale_surjective_cover_diagonalComplementQuotient`:
   **the choices (1)–(5) of [Stacks, Tag 072C]**, the last two for every `p` at once.
 * `AlgebraicGeometry.Space.exists_bound_affine_etale_surjective_cover_diagonalComplementQuotient`:
-  the same, together with the integer `max(d_p + p)` the tag states its vanishing above.
+  the same, together with an integer dominating `d_p + p` on the columns that can be nonzero;
+  bookkeeping, not the tag, whose vanishing is
+  `AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`.
 
 ## Implementation notes
 
@@ -83,7 +85,7 @@ whose existential `AlgebraicGeometry.Space.HasUniversallyBoundedFibers` is.
 **What is not proved here.** The *conclusion* of [Stacks, Tag 072C] — that the cohomology of
 every quasi-coherent module vanishes in degrees `≥ max(d_p + p)` — is not here but in
 `StacksFrontier.AlgebraicGeometry.Spaces.AlternatingCech.QuasiSeparatedVanishing`, as
-`AlgebraicGeometry.Space.isZero_sheafH_of_data_072C`, which takes the five choices as
+`AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`, which takes the five choices as
 hypotheses and is likewise stated over an arbitrary base scheme. What this file supplies is
 that those hypotheses can always be met.
 
@@ -202,7 +204,7 @@ integer bounding the degrees of its fibres, for every p -- the source's range 0 
 being dropped, which is stronger. The integer max(d_p + p) is formed at \
 AlgebraicGeometry.Space.exists_bound_affine_etale_surjective_cover_diagonalComplementQuotient; \
 the vanishing these choices feed is \
-AlgebraicGeometry.Space.isZero_sheafH_of_data_072C"]
+AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient"]
 theorem exists_affine_etale_surjective_cover_diagonalComplementQuotient
     (hqc : IsQuasiCompactSpace B S hS Y)
     (hqs : IsAbsolutelyQuasiSeparated B S hS hZ Y) :
@@ -245,23 +247,19 @@ theorem exists_affine_etale_surjective_cover_diagonalComplementQuotient
         (Functor.IsRepresentable.mk' (Iso.refl (yoneda.obj U))) hUsep))
 
 include hY in
-/-- **The integer `max(d_p + p)` of Stacks 072C.** Beside the five choices there is a single
-integer `N` dominating `d_p + p` for every `p` whose column can be nonzero: the `d` produced
-here is the threshold above which `W_q` has no points, got from the fibre bound of choice (3),
-the domination is asserted for the `p` with `p + 1 ≤ d`, and `N` is the maximum of `d_p + p`
-over those.
+/-- **An integer dominating `d_p + p`, beside the five choices.** On a quasi-compact and
+quasi-separated algebraic space there are choices (1)–(5) as in [Stacks, Tag 072C] together with
+a single integer `N` dominating `d_p + p` for every `p` whose column can be nonzero: the `d`
+produced here is the threshold above which `W_q` has no points, got from the fibre bound of
+choice (3), the domination is asserted for the `p` with `p + 1 ≤ d`, and `N` is the maximum of
+`d_p + p` over those.
 
-This is the integer at which [Stacks, Tag 072C] asserts the cohomology of every quasi-coherent
-module to vanish; that vanishing, from these choices, is
-`AlgebraicGeometry.Space.isZero_sheafH_of_data_072C`. What is proved here is that the choices
-(1)–(5) determine such an `N`. -/
-@[stacks 072C "the integer max(d_p + p), for Y a quasi-compact and quasi-separated algebraic \
-space over an arbitrary base scheme S: a single integer dominating d_p + p on the range where \
-the column p can be nonzero. The d of this statement is the emptiness threshold produced from \
-the fibre bound of choice (3) -- W_q has no points for q > d -- and the domination is asserted \
-for the p with p + 1 <= d. The tag's own bound, max(d_p + p) over 0 <= p <= d for d the fibre \
-bound of choice (3), is the hypothesis of \
-AlgebraicGeometry.Space.isZero_sheafH_of_data_072C, where the vanishing at it is proved"]
+This is bookkeeping for the tag, not the tag: its `d` is the emptiness threshold rather than the
+fibre bound of choice (3), and it states no vanishing.  [Stacks, Tag 072C] itself — the vanishing
+`H^q(X, ℱ) = 0` for `q ≥ max (d_p + p)` from any choices (1)–(5) — is
+`AlgebraicGeometry.Space.isZero_sheafH_of_boundsFibreDegrees_of_diagonalComplementQuotient`, and
+the choices exist by
+`AlgebraicGeometry.Space.exists_affine_etale_surjective_cover_diagonalComplementQuotient`. -/
 theorem exists_bound_affine_etale_surjective_cover_diagonalComplementQuotient
     (hqc : IsQuasiCompactSpace B S hS Y)
     (hqs : IsAbsolutelyQuasiSeparated B S hS hZ Y) :

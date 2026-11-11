@@ -206,9 +206,14 @@ theorem correspondsToRigEtaleMapAfterSourceCover_pullback_snd {X Y Z : FppfSheaf
     rw [hqr]
     exact chartPullbackMap_comp_snd B S hS f g (v y.1.1) (a y.1.1 y.1.2) (b y.1.1 y.2)
 
-/-- Let `f : X ⟶ Y` and `g : Z ⟶ Y` be morphisms of locally Noetherian formal algebraic spaces
-over `S`. If `f` is rig-étale and `g` is adic, then the base change `X ×_Y Z ⟶ Z` is
-rig-étale. -/
+/-- **Stacks 0GD1.** Let `f : X ⟶ Y` and `g : Z ⟶ Y` be morphisms of locally Noetherian formal
+algebraic spaces over `S`. If `f` is rig-étale and `g` is adic, then the base change
+`X ×_Y Z ⟶ Z` is rig-étale.
+
+The hypotheses are those of the source: `IsLocallyNoetherian` is Stacks 0AKY, `IsRigEtale` is
+Definition 0AQM and `IsAdicMorphism` is Definition 0AQ3. As in the source, the proof reduces by
+condition (4) of Stacks 0GCZ to the ring-level statement Stacks 0GCW on the fibre products of
+charts of Stacks 0GBD. -/
 @[stacks 0GD1]
 theorem isRigEtale_pullback_snd_of_isLocallyNoetherian {X Y Z : FppfSheaf B S hS}
     (f : X ⟶ Y) (g : Z ⟶ Y) (hX : IsLocallyNoetherian B S hS X)
@@ -219,8 +224,10 @@ theorem isRigEtale_pullback_snd_of_isLocallyNoetherian {X Y Z : FppfSheaf B S hS
     (hasPropertyOnEveryAffineEtaleDiagram_of_correspondsToRigEtaleMapAfterSourceCover B S hS _
       (correspondsToRigEtaleMapAfterSourceCover_pullback_snd B S hS f g hX hY hZ hf hg))
 
-/-- Let `f : X ⟶ Y` and `g : Y ⟶ Z` be morphisms of locally Noetherian formal algebraic spaces
-over `S`. If `g ∘ f` is rig-étale and `g` is an adic monomorphism, then `f` is rig-étale. -/
+/-- **Stacks 0GH4.** Let `f : X ⟶ Y` and `g : Y ⟶ Z` be morphisms of locally Noetherian formal
+algebraic spaces over `S`. If `g ∘ f` is rig-étale and `g` is an adic monomorphism, then `f` is
+rig-étale: as `g` is a monomorphism, `f` is the base change of `g ∘ f` by `g`, so Stacks 0GD1
+applies. -/
 @[stacks 0GH4]
 theorem isRigEtale_of_comp_of_isAdicMorphism_of_mono_of_isLocallyNoetherian
     {X Y Z : FppfSheaf B S hS} (f : X ⟶ Y) (g : Y ⟶ Z) (hX : IsLocallyNoetherian B S hS X)

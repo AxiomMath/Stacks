@@ -23,8 +23,8 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 receiving a surjective *finite* morphism from an affine scheme of the site is an affine scheme.
 
 It is the special case of the library's Stacks 07VS,
-`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_isFinite`, in which the source is
-representable.
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective`, in which the source
+is representable, and it is proved unconditionally as `AlgebraicGeometry.FormalSpace.is07VS`.
 
 **This is strictly weaker than `AlgebraicGeometry.FormalSpace.Is07VT`.** A finite morphism of
 algebraic spaces is universally closed by Stacks 0415
@@ -33,15 +33,13 @@ granted — that is `AlgebraicGeometry.FormalSpace.is07VS_of_is07VT` below. The 
 direction is *not* available: recovering finiteness from universal closedness is affineness of
 the morphism by Stacks 08GB followed by integrality by Stacks 0415, and then the passage from
 an integral morphism to a limit of finite ones, which is the conclusion of Stacks 09YA that the
-library's Stacks 07VT grants and the library's Stacks 07VS does not. Accordingly `Is07VS` is
-implied by the three hypotheses of the library's Stacks 07VS, which are themselves weaker than
-those of the library's Stacks 07VT: Stacks 07VR about finite morphisms in place of Stacks 09YA
-about integral ones, with Stacks 07SQ and the finite-presentation special case shared verbatim.
+library's Stacks 07VT grants and the proof of Stacks 07VS does not need.
 
 Every consumer in the formal-space tree takes this proposition rather than `Is07VT`, the one
 application of the grant in that tree being to a closed immersion, which is finite outright.
-Like `Is07VT` it is not *unconditionally* available: the three hypotheses of the library's
-Stacks 07VS are not inhabited in this library either. -/
+`Is07VT`, which implies this proposition, also holds: it follows from Stacks 07VT, proved
+outright as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`. -/
 abbrev Is07VS : Prop :=
   ∀ {F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u} {T : BigFppfOver B S hS} (c : yoneda.obj T ⟶ F),
     IsAlgebraicSpace B S hS F → IsAffine ((BigFppfOver.toScheme B S hS).obj T) →

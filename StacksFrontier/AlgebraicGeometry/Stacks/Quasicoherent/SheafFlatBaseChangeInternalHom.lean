@@ -61,8 +61,9 @@ is in `LQCoh^fbc(𝒪_𝒳)`.
 `G` is cartesian along the flat arrows between objects over affine schemes (step R2 of
 Stacks 0779), hence so is `SheafHom_{𝒪_𝒳}(F, G)`, `F` being of finite presentation; a module
 cartesian along those arrows is locally quasi-coherent and has the flat base change property. -/
-@[stacks 0771 "part (7): LQCoh^fbc is closed under SheafHom(F, -) of Mod(𝒪_𝒳) for F of finite \
-presentation in Mod(𝒪_𝒳)"]
+@[stacks 0771 "part (7): SheafHom(F, G) of Mod(𝒪_𝒳) lies in LQCoh^fbc(𝒪_𝒳) for F of finite \
+presentation in Mod(𝒪_𝒳) and G in LQCoh^fbc(𝒪_𝒳), with the flat base change property of 0762 \
+read on sheaves; modules at the module universe u of the schemes"]
 theorem lqcohSheafFbcFppfModules_fppfInternalHom (F G : fppfModules B S hS 𝒳)
     [F.IsFinitePresentationOnSite]
     (hG : lqcohSheafFbcFppfModules.{u, w, u} B E h S hS 𝒳 G) :

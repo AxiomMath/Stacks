@@ -26,7 +26,8 @@ vector is such an `m`.
 
 * `Matrix.ker_mulVecLin_eq_span_indicator`: the kernel is spanned by the
   weighted indicators of the isolated subsets on which diagonal dominance is an
-  equality.
+  equality. Stacks states this without symmetry, and as printed it is false:
+  `Matrix.not_forall_ker_mulVecLin_eq_span_indicator` is a counterexample.
 * `Matrix.dotProduct_mulVec_nonpos_of_positive_kernel`: the quadratic form of a
   symmetric matrix annihilating a strictly positive vector is nonpositive.
 * `Matrix.dotProduct_mulVec_eq_zero_iff_of_positive_kernel`: when no proper
@@ -56,8 +57,14 @@ namespace Matrix
 
 /-- The kernel of a symmetric matrix with nonnegative off-diagonal entries,
 diagonally dominant relative to a positive vector `m`, is spanned by the
-weighted indicator vectors of its isolated equality subsets. -/
-@[stacks 0C5V]
+weighted indicator vectors of its isolated equality subsets.
+
+Stacks states 0C5V without the hypothesis `A.IsSymm`, and as printed it is false: see
+`Matrix.not_forall_ker_mulVecLin_eq_span_indicator`. Adding `A.IsSymm` is a correction of the
+printed statement, not a weakening. The proof uses symmetry just to know that `a_ji = 0` whenever
+`i ∈ I`, `j ∉ I` and `a_ij = 0`, so a symmetric zero pattern of `A` would already suffice. The one
+use of 0C5V in Stacks, the second proof of 0C5X, concerns a symmetric matrix. -/
+@[stacks 0C5V "adds `A.IsSymm`: the printed statement is false without it; a correction"]
 public lemma ker_mulVecLin_eq_span_indicator {n : ℕ}
     (A : Matrix (Fin n) (Fin n) ℝ) (m : Fin n → ℝ)
     (hA : A.IsSymm)
@@ -194,6 +201,52 @@ public lemma ker_mulVecLin_eq_span_indicator {n : ℕ}
     exact key _ x (LinearMap.mem_ker.mp hx) rfl
   · rintro x ⟨I, rfl, hzero, heq⟩
     exact LinearMap.mem_ker.mpr (hind I hzero heq)
+
+/-- **Stacks 0C5V is false as printed.** Without symmetry of `A` the printed statement fails:
+for `A = [[-1, 1], [0, 0]]` and `m = (1, 1)` every hypothesis holds, and `I = {2}` satisfies the
+conditions (1) and (2) of 0C5V, but `A x_I = (1, 0) ≠ 0`. Here `Fin 2` indexes from `0`, so the
+source's `I = {2}` is `{1}`. The corrected statement is
+`Matrix.ker_mulVecLin_eq_span_indicator`, which adds `A.IsSymm`. -/
+@[stacks 0C5V "counterexample: the statement as printed is false without symmetry of `A`"]
+public theorem not_forall_ker_mulVecLin_eq_span_indicator :
+    ¬ ∀ (n : ℕ) (A : Matrix (Fin n) (Fin n) ℝ) (m : Fin n → ℝ),
+      (∀ i j, i ≠ j → 0 ≤ A i j) → (∀ i, 0 < m i) →
+      (∀ i, ∑ j ∈ Finset.univ.erase i, A i j * m j ≤ -A i i * m i) →
+      LinearMap.ker A.mulVecLin =
+        Submodule.span ℝ {x | ∃ I : Set (Fin n),
+          x = I.indicator m ∧
+          (∀ i ∈ I, ∀ j ∉ I, A i j = 0) ∧
+          (∀ i ∈ I, -A i i * m i = ∑ j ∈ Finset.univ.erase i, A i j * m j)} := by
+  intro h
+  let A : Matrix (Fin 2) (Fin 2) ℝ := Matrix.of ![![-1, 1], ![0, 0]]
+  let m : Fin 2 → ℝ := ![1, 1]
+  have hsum (f : Fin 2 → ℝ) (i : Fin 2) :
+      ∑ j ∈ Finset.univ.erase i, f j = f 0 + f 1 - f i := by
+    rw [Finset.sum_erase_eq_sub (Finset.mem_univ i), Fin.sum_univ_two]
+  have hoff : ∀ i j, i ≠ j → 0 ≤ A i j := by
+    intro i j hij
+    fin_cases i <;> fin_cases j <;> simp_all [A]
+  have hm : ∀ i, 0 < m i := by
+    intro i
+    fin_cases i <;> simp [m]
+  have hdom : ∀ i, ∑ j ∈ Finset.univ.erase i, A i j * m j ≤ -A i i * m i := by
+    intro i
+    rw [hsum]
+    fin_cases i <;> simp [A, m]
+  have hmem : ({1} : Set (Fin 2)).indicator m ∈ LinearMap.ker A.mulVecLin := by
+    rw [h 2 A m hoff hm hdom]
+    refine Submodule.subset_span ⟨{1}, rfl, ?_, ?_⟩
+    · intro i hi j hj
+      simp only [Set.mem_singleton_iff] at hi hj
+      subst hi
+      fin_cases j <;> simp_all [A]
+    · intro i hi
+      simp only [Set.mem_singleton_iff] at hi
+      subst hi
+      rw [hsum]
+      simp [A, m]
+  have h0 := congrFun (LinearMap.mem_ker.mp hmem) 0
+  simp [A, m, Matrix.mulVec, dotProduct, Fin.sum_univ_two] at h0
 
 /-! ### The quadratic form -/
 

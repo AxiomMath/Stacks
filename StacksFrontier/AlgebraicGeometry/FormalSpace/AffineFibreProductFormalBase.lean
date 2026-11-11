@@ -54,8 +54,6 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-- **Stacks 0AN3, clause (1).** The fibre product of two affine formal algebraic spaces over a
 separated formal algebraic space is an affine formal algebraic space. -/
-@[stacks 0AN3 "clause (1): the fibre product of two affine formal algebraic spaces over a \
-separated formal algebraic space, at the hypotheses of the source"]
 theorem isAffineFormalAlgebraicSpace_pullback_of_isFormalAlgebraicSpace
     {X Y Z : FppfSheaf B S hS} (p : X ⟶ Z) (q : Y ⟶ Z)
     (hZ : IsFormalAlgebraicSpace B S hS Z)

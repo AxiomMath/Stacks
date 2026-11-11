@@ -70,7 +70,10 @@ cohomology carries that limit of schemes to the colimit of the cohomology groups
 `AlgebraicGeometry.isLimitStrictHenselizationBaseChangeCone`, which is stated in the *other*
 model of the small étale site, the one built on `AlgebraicGeometry.BigEtaleSite`; the two models
 are not identified in this library, so it is not applied here. The third is not available at the
-shape Tag 03Q9 needs; see below.
+shape this file needs; see below. Tag 03Q9 itself is proved in this model by another route, in all
+three of its assertions, as `AlgebraicGeometry.stalkHigherDirectImageIso`,
+`AlgebraicGeometry.stalkDerivedPushforwardHomologyIso` and
+`AlgebraicGeometry.stalkDerivedPushforwardIso`.
 
 `smallEtaleHigherDirectImageStalkIsoOfIsColimit` therefore carries, as the single hypothesis
 `h03Q6`, a group together with a colimiting cocone of the diagram of the `H^n(X ×_Y V, F)`.

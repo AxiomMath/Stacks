@@ -30,15 +30,19 @@ nonzero then `L ≅ 𝒪_F`.
   a common chart.
 * `AlgebraicGeometry.Space.mono_of_ne_zero`: on an integral algebraic space a nonzero global
   section of an invertible module is a monomorphism `𝒪_F ⟶ L`.
-* `AlgebraicGeometry.Space.isTrivial_of_nontrivial_sections` is Stacks 0DMZ: an invertible
-  module with nonzero sections in degrees `1` and `-1` is trivial.
+* `AlgebraicGeometry.Space.isTrivial_of_nontrivial_sections`: on an integral algebraic space
+  whose global regular functions form a field, an invertible module with nonzero sections in
+  degrees `1` and `-1` is trivial.
 
 ## Implementation notes
 
 Stacks 0DMZ is stated for a proper integral algebraic space over a field, and uses properness
-only through Tag 0DMY, that the global regular functions then form a field.  Tag 0DMY is not
-available in this library, so that conclusion is carried as an explicit hypothesis and the base
-is an arbitrary scheme; the attribute on the main theorem discloses this.
+through Tag 0DMY, that the global regular functions then form a field.  The theorem here is
+stated over an arbitrary base for any integral space whose global regular functions form a
+field; Stacks 0DMZ itself is
+`AlgebraicGeometry.Space.isTrivial_of_nontrivial_sections_of_isProper`, which derives the field
+property from properness by
+`AlgebraicGeometry.Space.isField_globalFunctions_of_isProper_of_isIntegralSpace`.
 
 ## References
 
@@ -411,15 +415,15 @@ theorem isTrivial_of_mono_of_isField (hfield : IsField (globalFunctions B S hS F
 
 /-! ### Triviality of an invertible module with sections in degrees `1` and `-1` -/
 
-/-- **Stacks 0DMZ.**  Let `F` be an integral algebraic space whose ring `H⁰(F, 𝒪_F)` of global
-regular functions is a field, and let `L` be an invertible `𝒪_F`-module.  If `H⁰(F, L)` and
-`H⁰(F, L^{⊗ -1})` are both nonzero then `L ≅ 𝒪_F`.
+/-- **Triviality of an invertible module with sections in degrees `1` and `-1`.**  Let `F` be
+an integral algebraic space whose ring `H⁰(F, 𝒪_F)` of global regular functions is a field, and
+let `L` be an invertible `𝒪_F`-module.  If `H⁰(F, L)` and `H⁰(F, L^{⊗ -1})` are both nonzero
+then `L ≅ 𝒪_F`.
 
-The source states this for a proper integral algebraic space over a field `k`, and uses
-properness only through Tag 0DMY, that `H⁰(F, 𝒪_F)` is then a field.  That result is not
-available in this library, so it is carried here as the hypothesis `hfield`; the base is
-correspondingly an arbitrary scheme rather than the spectrum of a field. -/
-@[stacks 0DMZ "granted that H⁰(F, 𝒪_F) is a field, which Tag 0DMY draws from properness"]
+For a proper integral algebraic space over a field `k` the ring `H⁰(F, 𝒪_F)` is a field
+(`AlgebraicGeometry.Space.isField_globalFunctions_of_isProper_of_isIntegralSpace`, as in
+Tag 0DMY), and this theorem then gives Stacks 0DMZ,
+`AlgebraicGeometry.Space.isTrivial_of_nontrivial_sections_of_isProper`. -/
 theorem isTrivial_of_nontrivial_sections (hint : IsIntegralSpace B S hS F)
     (hfield : IsField (globalFunctions B S hS F))
     (L : SheafOfModules.{u} (modulesRingSheaf B S hS F hF))

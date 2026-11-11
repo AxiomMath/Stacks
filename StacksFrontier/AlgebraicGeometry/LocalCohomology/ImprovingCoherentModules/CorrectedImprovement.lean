@@ -5,6 +5,8 @@ public import StacksFrontier.AlgebraicGeometry.CoherentTFAE.Basic
 public import StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.ImprovementExistenceClosed
 public import StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.ImprovementExistenceCounterexample
 public import
+  StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.ImprovementPullback
+public import
   StacksFrontier.AlgebraicGeometry.LocalCohomology.ImprovingCoherentModules.LowDepthLocusClosure
 public import StacksFrontier.AlgebraicGeometry.Modules.RestrictStalkDepth
 public import StacksCore.Tactic.StacksAttribute
@@ -98,6 +100,9 @@ intrinsic form fails is
   source satisfies the corrected conditions.
 * `AlgebraicGeometry.exists_isImprovement_iff_two_le_depth_depthOneQuotient`: the existence
   clause of the source, corrected to a necessary and sufficient criterion.
+* `AlgebraicGeometry.exists_isImprovement_iff_and_unique_and_isImprovement_pullback`: the whole of
+  [Stacks, Tag 0DX5] in corrected form, in one statement: the existence criterion, uniqueness and
+  the Cohen–Macaulay pullback.
 
 ## Implementation notes
 
@@ -623,6 +628,60 @@ public theorem exists_isImprovement_iff_two_le_depth_depthOneQuotient (X : Schem
     by_cases hg : GeneralizesReached Z F x
     · exact hdep x hx hg ▸ hcrit x hx hr hg
     · exact hφ.2.2.2.2 x hx hg
+
+
+/-- **Stacks Project, Tag 0DX5, the whole lemma in corrected form.**  Let `X` be a Noetherian,
+universally catenary scheme whose local rings have `(S₁)` formal fibres, `Z ⊆ X` closed and `F` a
+coherent `𝒪_X`-module, and let `F'` be the depth-one quotient of `F` along `Z`
+([Stacks, Tag 0DX3]).  For maps `F ⟶ F''` satisfying conditions (1), (2) and (3) of the source
+(`AlgebraicGeometry.IsImprovement`, which includes coherence of `F''`):
+
+* **existence**, corrected: such a map exists if and only if `depth(F'_x) ≥ 2` at every point
+  `x ∈ Z` which generalizes a point as in (2) without being one.  The source asserts existence
+  unconditionally, which is false:
+  `Stacks.ImprovementCounterexample.not_exists_isImprovement_cexSheaf` refutes it at the source's
+  hypotheses, and the criterion fails there at `(u, v)`;
+* **uniqueness**, as printed: any two such maps are isomorphic by a unique isomorphism under `F`;
+* **the pullback**, as printed: for a Cohen–Macaulay morphism `f : Y ⟶ X` with `Y` Noetherian,
+  `f^*F ⟶ f^*F''` satisfies (1), (2) and (3) with respect to `f^{-1}(Z) ⊆ Y`.
+
+The three parts are `AlgebraicGeometry.exists_isImprovement_iff_two_le_depth_depthOneQuotient`,
+`AlgebraicGeometry.improvement_unique` and `AlgebraicGeometry.isImprovement_pullback`.  The
+correction is the one recorded for 0DX5 in `errata.md`. -/
+@[stacks 0DX5 "corrected form of the whole lemma, at exactly the source's hypotheses: the \
+existence clause is false as stated (refuted by \
+Stacks.ImprovementCounterexample.not_exists_isImprovement_cexSheaf) and is corrected to a \
+criterion, a map F -> F'' satisfying (1), (2) and (3) exists if and only if the depth-one quotient \
+F' of Tag 0DX3 has depth at least two at every point of Z which generalizes a \
+point as in (2) without being one; uniqueness up to a unique isomorphism under F, and the \
+assertion that the pullback along a Cohen-Macaulay morphism with Noetherian source satisfies \
+(1), (2) and (3) with respect to the inverse image of Z, as printed"]
+public theorem exists_isImprovement_iff_and_unique_and_isImprovement_pullback (X : Scheme.{u})
+    [IsNoetherian X] (Z : Set X) (hZ : IsClosed Z) (F : X.Modules) [F.IsCoherent]
+    (hX : Scheme.IsUniversallyCatenary X)
+    (hFibres : ∀ z : X, ∀ q : PrimeSpectrum (X.presheaf.stalk z),
+        HasSerreCondition
+          (X.completedLocalRing z ⊗[X.presheaf.stalk z] q.asIdeal.ResidueField) 1) :
+    ((∃ (G : X.Modules) (φ : F ⟶ G), IsImprovement Z φ) ↔
+      ∀ x : X, x ∈ Z → ¬ ReachedFromOutside Z F x → GeneralizesReached Z F x →
+        letI : Module (X.presheaf.stalk x)
+            (TopCat.Presheaf.stalk (C := Ab.{u})
+              (depthOneQuotient X Z hZ.stableUnderSpecialization F).val.presheaf x) :=
+          PresheafOfModules.instModuleCarrierStalkCommRingCatCarrierAbPresheafOpensCarrier
+            (R := X.presheaf) (depthOneQuotient X Z hZ.stableUnderSpecialization F).val x
+        (2 : ℕ∞) ≤ Module.depth (X.presheaf.stalk x)
+          (IsLocalRing.maximalIdeal (X.presheaf.stalk x))
+          (TopCat.Presheaf.stalk (C := Ab.{u})
+            (depthOneQuotient X Z hZ.stableUnderSpecialization F).val.presheaf x)) ∧
+    (∀ (G H : X.Modules) (φ : F ⟶ G) (ψ : F ⟶ H), IsImprovement Z φ → IsImprovement Z ψ →
+      ∃! e : G ≅ H, φ ≫ e.hom = ψ) ∧
+    (∀ (G : X.Modules) (φ : F ⟶ G), IsImprovement Z φ →
+      ∀ (Y : Scheme.{u}) [IsNoetherian Y] (f : Y ⟶ X)
+        (hfib : ∀ x : X, IsLocallyNoetherian (f.fiber x)), f.IsCohenMacaulay hfib →
+        IsImprovement (f.base ⁻¹' Z) ((Scheme.Modules.pullback f).map φ)) :=
+  ⟨exists_isImprovement_iff_two_le_depth_depthOneQuotient X Z hZ F hX hFibres,
+    fun G H φ ψ hφ hψ => improvement_unique X Z hZ F G H φ ψ hφ hψ,
+    fun _ φ hφ _ _ f hfib hcm => isImprovement_pullback φ hφ f hfib hcm⟩
 
 end AlgebraicGeometry
 

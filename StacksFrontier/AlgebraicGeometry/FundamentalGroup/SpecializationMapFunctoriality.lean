@@ -48,17 +48,16 @@ and the base-point change needed to compare the two descriptions of a fundamenta
 carried by a fibre-functor isomorphism inside
 `AlgebraicGeometry.IsSpecializationMap`.
 
-One input is taken as a hypothesis rather than proved, because this library cannot prove it:
-that base change along the inclusion of the closed geometric fibre `X_{s̄} ⟶ X ×_S Spec C` is an
-equivalence on finite étale covers, for a strictly henselian local ring `C` over `S` through
-whose closed point the geometric point `s̄` factors. That is Stacks 0A48 together with Stacks
-0A49 and 0BTW, and
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.ClosedGeometricFibre` reduces it to the
-essential-surjectivity half of Stacks 0GS2, which
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence` leaves open. It is
-an input to the *construction* of a specialization map (Stacks 0BUP), and the corresponding
-datum on the upper row is already part of `AlgebraicGeometry.IsSpecializationMap`, so it
-constrains none of the data this lemma quantifies over.
+One input is taken as the hypothesis `hclosedFibre`: that base change along the inclusion of
+the closed geometric fibre `X_{s̄} ⟶ X ×_S Spec C` is an equivalence on finite étale covers, for a
+strictly henselian local ring `C` over `S` through whose closed point the geometric point `s̄`
+factors (Stacks 0A48 with 0A49 and 0BTW). It is an input to the *construction* of a
+specialization map (Stacks 0BUP), and the corresponding datum on the upper row is already part of
+`AlgebraicGeometry.IsSpecializationMap`, so it constrains none of the data this lemma quantifies
+over. The library proves it as
+`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_fiberOverGeometricPointMap`, and
+`AlgebraicGeometry.exists_isSpecializationMap_comm_square` (Stacks 0C0K) is this lemma with the
+hypothesis discharged.
 
 ## References
 
@@ -94,7 +93,6 @@ private theorem algebraMap_residue_algebraMap_eq_map {R T : Type u} [CommRing R]
     (algebraMap R T) (IsLocalRing.maximalIdeal_comap (algebraMap R T)).symm r).symm
 
 set_option maxHeartbeats 400000 in
--- the proof builds several local `Algebra` instances on residue fields and separable closures
 /-- **Functoriality of the strict henselization** (Stacks 04GU), between strict henselizations
 taken with respect to the chosen separable closures of the two residue fields: a local
 homomorphism `R → S` of local rings induces a local `R`-algebra map `Rsh → Ssh`. The residue
@@ -293,28 +291,18 @@ private theorem exists_fiberFunctorIso_square {Y₀ Y₁ X₀ X₁ A B : Scheme.
 
 /-! ### Specialization maps in a commutative square -/
 
-/-- **Stacks Project, Tag 0C0K.** Consider a commutative square of schemes with `a : Y ⟶ X` on
-top, `g : Y ⟶ T` and `f : X ⟶ S` vertical and `b : T ⟶ S` on the bottom, where `f` and `g` are
-proper with geometrically connected fibres. Let `t'` and `t` be geometric points of `T` and let
-`sp : π₁(Y_{t'}) → π₁(Y_t)` be a specialization map. Then there is a specialization map
-`π₁(X_{s'}) → π₁(X_s)`, where `s'` and `s` are the images of `t'` and `t` in `S`, making the
-square of maps induced by the morphisms `Y_{t'} ⟶ X_{s'}` and `Y_t ⟶ X_s` of geometric fibres
-commute. -/
-@[stacks 0C0K "the whole statement — the specialization map on the bottom row and the \
-commutativity of the square of fundamental groups — granted the one input this library cannot \
-prove, carried as the hypothesis `hclosedFibre`: that base change along the inclusion of the \
-closed geometric fibre `X_s ⟶ X ×_S Spec C` is an equivalence on finite étale covers, for a \
-strictly henselian local ring `C` over `S` through whose closed point `s` factors. That is \
-Stacks 0A48 with 0A49 and 0BTW; \
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.ClosedGeometricFibre` reduces it to the \
-essential-surjectivity half of Stacks 0GS2, left open by \
-`StacksFrontier.AlgebraicGeometry.FundamentalGroup.FiniteEtaleProperEquivalence`. It is an \
-input to the construction of a specialization map (Stacks 0BUP) — the same datum for the upper row \
-is part of `AlgebraicGeometry.IsSpecializationMap` — and it restricts nothing about `a`, `b`, the \
-specialization `t' ⤳ t` or the schemes. Everything else is proved here: the strict \
-henselization `A` of the stalk at the image of `t`, the ring map `A → B` of Stacks 04GU, the \
-factorizations of the two geometric points of `S` through `Spec A`, connectedness of `X_A`, and \
-the base-point bookkeeping."]
+/-- Consider a commutative square of schemes with `a : Y ⟶ X` on top, `g : Y ⟶ T` and
+`f : X ⟶ S` vertical and `b : T ⟶ S` on the bottom, where `f` and `g` are proper with
+geometrically connected fibres. Let `t'` and `t` be geometric points of `T` and let
+`sp : π₁(Y_{t'}) → π₁(Y_t)` be a specialization map. Given the hypothesis `hclosedFibre` (base
+change along the closed geometric fibre `X_s ⟶ X ×_S Spec C` is an equivalence on finite étale
+covers, for every strictly henselian `C` over `S` through whose closed point `s` factors), there
+is a specialization map `π₁(X_{s'}) → π₁(X_s)`, where `s'` and `s` are the images of `t'` and `t`
+in `S`, making the square of maps induced by the morphisms `Y_{t'} ⟶ X_{s'}` and `Y_t ⟶ X_s` of
+geometric fibres commute. The hypothesis is proved by
+`AlgebraicGeometry.isEquivalence_finiteEtaleBaseChange_fiberOverGeometricPointMap`; the
+unconditional statement, Stacks 0C0K, is `AlgebraicGeometry.exists_isSpecializationMap_comm_square`.
+-/
 theorem exists_isSpecializationMap_of_square (a : Y ⟶ X) (g : Y ⟶ T) (f : X ⟶ S) (b : T ⟶ S)
     (hab : a ≫ f = g ≫ b) [IsProper f] [GeometricallyConnected f] [IsProper g]
     [GeometricallyConnected g] (t' t : GeometricPoint T)

@@ -14,9 +14,12 @@ import StacksFrontier.RingTheory.RelativeDimension.Semicontinuity
 
 A presentation `S = R[x_1, …, x_n]/(f_1, …, f_c)` of an `R`-algebra `S` by `n` variables and `c`
 relations is a relative global complete intersection when every nonempty fibre of
-`Spec(S) → Spec(R)` has dimension `n - c`. This file proves that the property is stable under an
-arbitrary base change of the base ring, under inverting one element of `S`, and under replacing `R`
-by a localization through which `R → S` factors. It also proves that if the fibres have dimension
+`Spec(S) → Spec(R)` has dimension `n - c`. This file proves that the base changed presentation
+`R'[x_1, …, x_n]/(f_1, …, f_c)` of `R' ⊗_R S`, the presentation
+`R[x_1, …, x_n, x_{n+1}]/(f_1, …, f_c, h x_{n+1} - 1)` of a principal localization `S_g`, and the
+presentation `R_M[x_1, …, x_n]/(f_1, …, f_c)` of `S` over a localization `R_M` through which
+`R → S` factors are again relative global complete intersections, and deduces the corresponding
+stability of the property of ring maps. It also proves that if the fibres have dimension
 `n - c` over `V(I)`, over one prime of `R`, or at one prime of `S`, then some principal
 localization `S_g = R[x_1, …, x_n, x_{n+1}]/(f_1, …, f_c, h x_{n+1} - 1)` is a relative global
 complete intersection.
@@ -28,8 +31,20 @@ complete intersection.
   `S_g = R[x_1, …, x_n, x_{n+1}]/(f_1, …, f_c, h x_{n+1} - 1)`.
 * `Algebra.Presentation.localizationAwayCompOfMulMem`: the same presentation of `S_g` with the
   relations `f_j` replaced by elements `f'_1, …, f'_c` of the kernel with `h I ⊆ (f'_1, …, f'_c)`.
+* `Algebra.Presentation.localizationBase`: for a presentation `S = R[x_1, …, x_n]/(f_1, …, f_c)`
+  and a localization `R_M` of `R` through which `R → S` factors, the presentation
+  `S = R_M[x_1, …, x_n]/(f_1, …, f_c)` over `R_M`.
 
 ## Main results
+
+* `Algebra.Presentation.IsRelativeGlobalCompleteIntersection.baseChange`,
+  `Algebra.Presentation.IsRelativeGlobalCompleteIntersection.localizationAwayComp`,
+  `Algebra.Presentation.IsRelativeGlobalCompleteIntersection.localizationBase`: if a presentation
+  `P` of `S` is a relative global complete intersection, then so are `P.baseChange R'`,
+  `P.localizationAwayComp h T` and `P.localizationBase M Rₘ`; together they are
+  `baseChange_and_localizationAwayComp_and_localizationBase` in the same namespace.
+* `Algebra.Presentation.IsRelativeGlobalCompleteIntersection.baseChange_ofAlgEquiv_isPushoutEquiv`:
+  the base changed presentation transported to an arbitrary pushout square.
 
 * `Algebra.IsRelativeGlobalCompleteIntersection.baseChange`: the base change of a relative global
   complete intersection along an arbitrary pushout square is a relative global complete
@@ -54,10 +69,15 @@ complete intersection.
 
 ## Implementation notes
 
-The conclusions are the property `Algebra.IsRelativeGlobalCompleteIntersection`, not the
-presentations that witness it. The three stability properties are the conjuncts of
-`baseChange_and_localization_away_and_localization_base`, with the auxiliary rings quantified
-inside the statement. These rings live in independent universes, so a projection of the
+The stability results come in two forms. The presentation-level ones, in the namespace
+`Algebra.Presentation.IsRelativeGlobalCompleteIntersection`, take a presentation `P` with
+`P.IsRelativeGlobalCompleteIntersection` and conclude that the named presentations built from it
+are relative global complete intersections, with `n`, `n + 1` or `n` variables and `c`, `c + 1` or
+`c` relations; they are the statement of Stacks 00SS. The class-level ones, in the namespace
+`Algebra.IsRelativeGlobalCompleteIntersection`, conclude only the property
+`Algebra.IsRelativeGlobalCompleteIntersection` of the new ring map. In both, the three parts are
+the conjuncts of one statement with the auxiliary rings quantified inside the statement. These
+rings live in independent universes, so a projection of the
 conjunction leaves the other universes undetermined; the three parts are therefore also stated
 separately.
 
@@ -293,24 +313,18 @@ end Stacks.CompleteIntersection.Stability
 
 namespace Algebra.IsRelativeGlobalCompleteIntersection
 
-/-- Let `S = R[x_1, …, x_n]/(f_1, …, f_c)` be a relative global complete intersection over `R`.
-Then
+/-- The three stability properties of the class `Algebra.IsRelativeGlobalCompleteIntersection`: if
+`S` is a relative global complete intersection over `R`, then
 
-1. for any ring map `R → R'` the base change `S' = R' ⊗_R S` is a relative global complete
-   intersection over `R'`, presented as `R'[x_1, …, x_n]/(f_1, …, f_c)`;
-2. for any `g ∈ S`, the image of some `h ∈ R[x_1, …, x_n]`, the localization `S_g` is a relative
-   global complete intersection over `R`, presented as
-   `R[x_1, …, x_n, x_{n+1}]/(f_1, …, f_c, hx_{n+1} - 1)`;
-3. if `R → S` factors through a localization `R_M` of `R`, then `S` is a relative global complete
-   intersection over `R_M`, presented as `R_M[x_1, …, x_n]/(f_1, …, f_c)`. -/
-@[stacks 00SS "The three parts are the three conjuncts, with the auxiliary rings quantified inside
-the statement so that each carries only its own data, and each part is available separately as
-`baseChange`, `of_isLocalizationAway` and `localization_base`. Part (1) is over an arbitrary
-pushout square `Algebra.IsPushout R S R' S'`, the orientation of the sibling 00SN, with nothing
-assumed about `R → R'`; part (2) over an arbitrary `IsLocalization.Away g S'`, the source's `h`
-restricting nothing since `R[x_1, …, x_n] → S` is surjective; part (3) over a localization at an
-arbitrary submonoid `M ⊆ R` rather than only at the powers of one `f ∈ R`, the factorization
-`R → Rₘ → S` being `[Algebra Rₘ S]` with `[IsScalarTower R Rₘ S]`. See the module docstring."]
+1. for any pushout square `Algebra.IsPushout R S R' S'`, `S'` is one over `R'`;
+2. for any `g ∈ S`, any localization `S'` of `S` away from `g` is one over `R`;
+3. if `R → S` factors through a localization `Rₘ` of `R`, then `S` is one over `Rₘ`.
+
+These are statements about the existence of some good presentation. The statement of Stacks 00SS
+about the specific presentations `R'[x_1, …, x_n]/(f_1, …, f_c)`,
+`R[x_1, …, x_n, x_{n+1}]/(f_1, …, f_c, hx_{n+1} - 1)` and `Rₘ[x_1, …, x_n]/(f_1, …, f_c)` is
+`baseChange_and_localizationAwayComp_and_localizationBase` in the namespace
+`Algebra.Presentation.IsRelativeGlobalCompleteIntersection`. -/
 public theorem baseChange_and_localization_away_and_localization_base (R : Type u) (S : Type v)
     [CommRing R] [CommRing S] [Algebra R S]
     [Algebra.IsRelativeGlobalCompleteIntersection R S] :
@@ -325,11 +339,10 @@ public theorem baseChange_and_localization_away_and_localization_base (R : Type 
   Stacks.CompleteIntersection.Stability.solution R S
 
 /-- The base change of a relative global complete intersection is a relative global complete
-intersection: if `S = R[x_1, …, x_n]/(f_1, …, f_c)` is one over `R` and
-`Algebra.IsPushout R S R' S'`, so that `S' = R' ⊗_R S = R'[x_1, …, x_n]/(f_1, …, f_c)`, then `S'`
-is a relative global complete intersection over `R'`. Nothing is assumed about `R → R'`. -/
-@[stacks 00SS "Part (1), over an arbitrary pushout square `Algebra.IsPushout R S R' S'` — the
-orientation and binders of the sibling 00SN, `Algebra.IsPushout.syntomic`."]
+intersection: if `S` is one over `R` and `Algebra.IsPushout R S R' S'`, then `S'` is one over `R'`.
+Nothing is assumed about `R → R'`. This is the class-level form; that the base changed presentation
+is a relative global complete intersection is
+`Algebra.Presentation.IsRelativeGlobalCompleteIntersection.baseChange`. -/
 public theorem baseChange (R : Type u) (S : Type v) [CommRing R] [CommRing S] [Algebra R S]
     (R' : Type u') (S' : Type v') [CommRing R'] [CommRing S'] [Algebra R R'] [Algebra R S']
     [Algebra S S'] [Algebra R' S'] [IsScalarTower R R' S'] [IsScalarTower R S S']
@@ -338,13 +351,10 @@ public theorem baseChange (R : Type u) (S : Type v) [CommRing R] [CommRing S] [A
   (baseChange_and_localization_away_and_localization_base.{u, v, u', v', v, v} R S).1 R' S'
 
 /-- A localization of a relative global complete intersection away from an element is a relative
-global complete intersection: if `S = R[x_1, …, x_n]/(f_1, …, f_c)` is one over `R`, `g ∈ S` is the
-image of `h ∈ R[x_1, …, x_n]`, and `S'` is the localization `S_g`, then
-`S' = R[x_1, …, x_n, x_{n+1}]/(f_1, …, f_c, hx_{n+1} - 1)` is a relative global complete
-intersection over `R`. -/
-@[stacks 00SS "Part (2), for an arbitrary localization away from `g`; the source's `h` restricts
-nothing, since `R[x_1, …, x_n] → S` is surjective. Binders as in
-`Algebra.FinitePresentation.of_isLocalizationAway`, the same statement for finite presentation."]
+global complete intersection: if `S` is one over `R` and `S'` is a localization of `S` away from
+`g ∈ S`, then `S'` is one over `R`. This is the class-level form; that the presentation
+`R[x_1, …, x_n, x_{n+1}]/(f_1, …, f_c, hx_{n+1} - 1)` of `S_g` is a relative global complete
+intersection is `Algebra.Presentation.IsRelativeGlobalCompleteIntersection.localizationAwayComp`. -/
 public theorem of_isLocalizationAway {R : Type u} {S : Type v} [CommRing R] [CommRing S]
     [Algebra R S] [Algebra.IsRelativeGlobalCompleteIntersection R S] (g : S) {S' : Type w}
     [CommRing S'] [Algebra S S'] [Algebra R S'] [IsScalarTower R S S'] [IsLocalization.Away g S'] :
@@ -352,12 +362,10 @@ public theorem of_isLocalizationAway {R : Type u} {S : Type v} [CommRing R] [Com
   (baseChange_and_localization_away_and_localization_base.{u, v, u, v, w, v} R S).2.1 g S'
 
 /-- A relative global complete intersection over `R` whose structure map factors through a
-localization `Rₘ` of `R` is a relative global complete intersection over `Rₘ`: if
-`S = R[x_1, …, x_n]/(f_1, …, f_c)` is one over `R` and `R → S` factors as `R → Rₘ → S`, then
-`S = Rₘ[x_1, …, x_n]/(f_1, …, f_c)` is a relative global complete intersection over `Rₘ`. -/
-@[stacks 00SS "Part (3), for a localization at an arbitrary submonoid `M ⊆ R` rather than only at
-the powers of one `f ∈ R`; the factorization `R → Rₘ → S` is `[Algebra Rₘ S]` with
-`[IsScalarTower R Rₘ S]`. Binders as in `Algebra.FormallySmooth.localization_base`."]
+localization `Rₘ` of `R` is a relative global complete intersection over `Rₘ`. This is the
+class-level form; that the presentation `Rₘ[x_1, …, x_n]/(f_1, …, f_c)` of `S` is a relative global
+complete intersection is
+`Algebra.Presentation.IsRelativeGlobalCompleteIntersection.localizationBase`. -/
 public theorem localization_base {R : Type u} [CommRing R] (M : Submonoid R) {S : Type v}
     [CommRing S] [Algebra R S] [Algebra.IsRelativeGlobalCompleteIntersection R S] {Rₘ : Type t}
     [CommRing Rₘ] [Algebra R Rₘ] [IsLocalization M Rₘ] [Algebra Rₘ S] [IsScalarTower R Rₘ S] :
@@ -433,6 +441,182 @@ noncomputable def localizationAwayComp : Algebra.Presentation R T (Unit ⊕ ι) 
         (rename Sum.inr h * X (Sum.inl ()) - 1)]
       exact Ideal.add_mem _ (Ideal.mem_sup_right hdiff)
         (Ideal.mem_sup_left (Ideal.mem_span_singleton_self _))
+
+end Algebra.Presentation
+
+/-! ### Stability of the presentations of a relative global complete intersection -/
+
+namespace Algebra.Presentation
+
+open Stacks.CompleteIntersection.Stability Syntomic.BaseChange
+
+attribute [local instance] Ideal.residueFieldAlgebra
+attribute [local instance] Ideal.isScalarTower_residueField
+attribute [local instance] isScalarTower_baseChange_fiber
+attribute [local instance] fiberAlgebra
+attribute [local instance] isScalarTower_residueField_fiber
+attribute [local instance] isPushout_fiber
+
+variable {R S : Type*} [CommRing R] [CommRing S] [Algebra R S] {ι σ : Type*}
+
+/-- If `R → S` factors through a localization `Rₘ` of `R`, then `S` is the base change of `S` along
+`R → Rₘ`, that is, `Rₘ ⊗_R S ≅ S`. -/
+theorem _root_.Algebra.IsPushout.of_isLocalization_base (M : Submonoid R) (Rₘ : Type*)
+    [CommRing Rₘ] [Algebra R Rₘ] [IsLocalization M Rₘ] [Algebra Rₘ S] [IsScalarTower R Rₘ S] :
+    Algebra.IsPushout R Rₘ S S := by
+  have : IsLocalization (Algebra.algebraMapSubmonoid S M) S := by
+    refine IsLocalization.of_le_isUnit ?_
+    rintro x ⟨y, hy, rfl⟩
+    rw [IsScalarTower.algebraMap_apply R Rₘ S]
+    exact (IsLocalization.map_units Rₘ ⟨y, hy⟩).map (algebraMap Rₘ S)
+  exact (Algebra.isPushout_of_isLocalization M Rₘ S S).symm
+
+/-- Given a presentation `S = R[x_1, …, x_n]/(f_1, …, f_c)` and a localization `Rₘ` of `R` through
+which `R → S` factors, the presentation `S = Rₘ[x_1, …, x_n]/(f_1, …, f_c)` of `S` over `Rₘ`, with
+the same variables `x_i` and the images of the same relations `f_j`. It is the base change
+`Rₘ ⊗_R S = Rₘ[x_1, …, x_n]/(f_1, …, f_c)` transported along `Rₘ ⊗_R S ≅ S`. -/
+noncomputable def localizationBase (P : Algebra.Presentation R S ι σ) (M : Submonoid R)
+    (Rₘ : Type*) [CommRing Rₘ] [Algebra R Rₘ] [IsLocalization M Rₘ] [Algebra Rₘ S]
+    [IsScalarTower R Rₘ S] : Algebra.Presentation Rₘ S ι σ :=
+  haveI := Algebra.IsPushout.of_isLocalization_base M Rₘ (S := S)
+  (P.baseChange Rₘ).ofAlgEquiv (Algebra.IsPushout.equiv R Rₘ S S)
+
+/-- The variables of `Algebra.Presentation.localizationBase` are those of the original
+presentation. -/
+@[simp]
+theorem localizationBase_val (P : Algebra.Presentation R S ι σ) (M : Submonoid R)
+    (Rₘ : Type*) [CommRing Rₘ] [Algebra R Rₘ] [IsLocalization M Rₘ] [Algebra Rₘ S]
+    [IsScalarTower R Rₘ S] (i : ι) : (P.localizationBase M Rₘ).val i = P.val i := by
+  have := Algebra.IsPushout.of_isLocalization_base M Rₘ (S := S)
+  change Algebra.IsPushout.equiv R Rₘ S S (1 ⊗ₜ[R] P.val i) = P.val i
+  rw [Algebra.IsPushout.equiv_tmul, map_one, one_mul, Algebra.algebraMap_self, RingHom.id_apply]
+
+/-- The relations of `Algebra.Presentation.localizationBase` are the images in `Rₘ[x_1, …, x_n]`
+of those of the original presentation. -/
+@[simp]
+theorem localizationBase_relation (P : Algebra.Presentation R S ι σ) (M : Submonoid R)
+    (Rₘ : Type*) [CommRing Rₘ] [Algebra R Rₘ] [IsLocalization M Rₘ] [Algebra Rₘ S]
+    [IsScalarTower R Rₘ S] (j : σ) :
+    (P.localizationBase M Rₘ).relation j = MvPolynomial.map (algebraMap R Rₘ) (P.relation j) :=
+  rfl
+
+namespace IsRelativeGlobalCompleteIntersection
+
+variable [Finite ι] [Finite σ] (P : Algebra.Presentation R S ι σ)
+  [P.IsRelativeGlobalCompleteIntersection]
+
+/-- Transporting a presentation which is a relative global complete intersection along an
+isomorphism of `R`-algebras gives a presentation which is a relative global complete
+intersection. -/
+theorem ofAlgEquiv {T : Type*} [CommRing T] [Algebra R T] (e : S ≃ₐ[R] T) :
+    (P.ofAlgEquiv e).IsRelativeGlobalCompleteIntersection := by
+  refine ⟨fun p _ hnt ↦ ?_⟩
+  let eF : p.Fiber S ≃ₐ[p.ResidueField] p.Fiber T := Algebra.TensorProduct.congr AlgEquiv.refl e
+  rw [← ringKrullDim_eq_of_ringEquiv eF.toRingEquiv]
+  exact ‹P.IsRelativeGlobalCompleteIntersection›.ringKrullDim_fiber_add_card_eq_card p
+    (eF.toEquiv.nontrivial_congr.mpr hnt)
+
+section BaseChange
+
+attribute [local instance] Algebra.TensorProduct.rightAlgebra
+
+/-- Stacks 00SS (1): if `S = R[x_1, …, x_n]/(f_1, …, f_c)` is a relative global complete
+intersection, then for any ring map `R → R'` the base change
+`R' ⊗_R S = R'[x_1, …, x_n]/(f_1, …, f_c)`, presented by `P.baseChange R'` with the same `n`
+variables and `c` relations, is a relative global complete intersection over `R'`. -/
+theorem baseChange (R' : Type*) [CommRing R'] [Algebra R R'] :
+    (P.baseChange R').IsRelativeGlobalCompleteIntersection := by
+  refine ⟨fun q _ hq ↦ ?_⟩
+  have : Nontrivial ((q.under R).Fiber S) :=
+    nontrivial_fiber R R' S (TensorProduct R R' S) (q.under R) q
+  have : Algebra.FinitePresentation (q.under R).ResidueField ((q.under R).Fiber S) :=
+    (P.baseChange (q.under R).ResidueField).finitePresentation_of_isFinite
+  rw [← ringKrullDim_fiber_eq R R' S (TensorProduct R R' S) (q.under R)
+    q]
+  exact ‹P.IsRelativeGlobalCompleteIntersection›.ringKrullDim_fiber_add_card_eq_card (q.under R)
+    ‹_›
+
+end BaseChange
+
+/-- Stacks 00SS (1) along an arbitrary pushout square: if `S = R[x_1, …, x_n]/(f_1, …, f_c)` is a
+relative global complete intersection and `S'` is a pushout of `R → S` along `R → R'`, then the
+presentation `S' ≅ R' ⊗_R S = R'[x_1, …, x_n]/(f_1, …, f_c)` is a relative global complete
+intersection over `R'`. -/
+theorem baseChange_ofAlgEquiv_isPushoutEquiv (R' S' : Type*) [CommRing R'] [CommRing S']
+    [Algebra R R'] [Algebra R S'] [Algebra S S'] [Algebra R' S'] [IsScalarTower R R' S']
+    [IsScalarTower R S S'] [Algebra.IsPushout R R' S S'] :
+    ((P.baseChange R').ofAlgEquiv
+      (Algebra.IsPushout.equiv R R' S S')).IsRelativeGlobalCompleteIntersection :=
+  have := baseChange P R'
+  ofAlgEquiv (P.baseChange R') _
+
+/-- Stacks 00SS (2): if `S = R[x_1, …, x_n]/(f_1, …, f_c)` is a relative global complete
+intersection and `g ∈ S` is the image of `h ∈ R[x_1, …, x_n]`, then the presentation
+`S_g = R[x_1, …, x_n, x_{n+1}]/(f_1, …, f_c, h x_{n+1} - 1)`, with `n + 1` variables and `c + 1`
+relations, is a relative global complete intersection over `R`. Here `S_g` is any localization `T`
+of `S` away from `g`. -/
+theorem localizationAwayComp (h : P.Ring) (T : Type*) [CommRing T] [Algebra S T] [Algebra R T]
+    [IsScalarTower R S T] [IsLocalization.Away (algebraMap P.Ring S h) T] :
+    (P.localizationAwayComp h T).IsRelativeGlobalCompleteIntersection := by
+  refine ⟨fun p _ hp ↦ ?_⟩
+  have := nontrivial_localizationAway_fiber (algebraMap P.Ring S h) T p
+  have := nontrivial_fiber_of_isLocalizationAway (algebraMap P.Ring S h) T p
+  have hdim : ringKrullDim (p.Fiber S) + ((Nat.card σ : ℕ) : WithBot ℕ∞) =
+      ((Nat.card ι : ℕ) : WithBot ℕ∞) :=
+    ‹P.IsRelativeGlobalCompleteIntersection›.ringKrullDim_fiber_add_card_eq_card p ‹_›
+  rw [ringKrullDim_eq_of_ringEquiv (fiberLocalizationAwayRingEquiv (algebraMap P.Ring S h) T p),
+    ringKrullDim_localizationAway_eq ((P.baseChange p.ResidueField).reindex
+      (Finite.equivFin ι).symm (Finite.equivFin σ).symm) hdim,
+    Nat.card_sum, Nat.card_sum, Nat.card_unique, Nat.add_comm 1, Nat.add_comm 1]
+  exact add_succ_natCast_eq_succ_natCast hdim
+
+/-- Stacks 00SS (3): if `S = R[x_1, …, x_n]/(f_1, …, f_c)` is a relative global complete
+intersection and `R → S` factors as `R → Rₘ → S` through a localization `Rₘ` of `R`, then the
+presentation `S = Rₘ[x_1, …, x_n]/(f_1, …, f_c)` with the same `n` variables and `c` relations is a
+relative global complete intersection over `Rₘ`. -/
+theorem localizationBase (M : Submonoid R) (Rₘ : Type*) [CommRing Rₘ] [Algebra R Rₘ]
+    [IsLocalization M Rₘ] [Algebra Rₘ S] [IsScalarTower R Rₘ S] :
+    (P.localizationBase M Rₘ).IsRelativeGlobalCompleteIntersection :=
+  have := baseChange P Rₘ
+  ofAlgEquiv (P.baseChange Rₘ) _
+
+/-- Let `S = R[x_1, …, x_n]/(f_1, …, f_c)` be a relative global complete intersection, presented
+by `P` with `n` variables and `c` relations. Then
+
+1. for any ring map `R → R'` the presentation `R' ⊗_R S = R'[x_1, …, x_n]/(f_1, …, f_c)` with `n`
+   variables and `c` relations is a relative global complete intersection over `R'`;
+2. for any `g ∈ S` which is the image of `h ∈ R[x_1, …, x_n]`, the presentation
+   `S_g = R[x_1, …, x_n, x_{n+1}]/(f_1, …, f_c, h x_{n+1} - 1)` with `n + 1` variables and `c + 1`
+   relations is a relative global complete intersection over `R`;
+3. if `R → S` factors as `R → Rₘ → S` through a localization `Rₘ` of `R`, the presentation
+   `S = Rₘ[x_1, …, x_n]/(f_1, …, f_c)` with `n` variables and `c` relations is a relative global
+   complete intersection over `Rₘ`. -/
+@[stacks 00SS "The given relative global complete intersection
+`S = R[x_1, …, x_n]/(f_1, …, f_c)` is a presentation `P` with
+`P.IsRelativeGlobalCompleteIntersection`, the numbers of variables and relations being
+`Nat.card ι` and `Nat.card σ`, and each conclusion is that the named presentation is a relative
+global complete intersection. (1) is `P.baseChange R'`, the presentation
+`R'[x_1, …, x_n]/(f_1, …, f_c)` of `R' ⊗_R S`; the version along an arbitrary pushout square is
+`baseChange_ofAlgEquiv_isPushoutEquiv`. (2) is `P.localizationAwayComp h T`, with variables
+`Unit ⊕ ι` and relations `Unit ⊕ σ`, the new relation being `h x_{n+1} - 1`, for any localization
+`T` of `S` away from the image `g` of `h`. (3) is `P.localizationBase M Rₘ`, with the same variables
+(`localizationBase_val`) and the images of the same relations (`localizationBase_relation`), for a
+localization `Rₘ` of `R` at an arbitrary submonoid `M`, not only at the powers of one `f ∈ R`; the
+factorization `R → Rₘ → S` is `[Algebra Rₘ S]` with `[IsScalarTower R Rₘ S]`. The auxiliary rings
+are quantified inside the statement; each part is also stated separately."]
+theorem baseChange_and_localizationAwayComp_and_localizationBase :
+    (∀ (R' : Type*) [CommRing R'] [Algebra R R'],
+        (P.baseChange R').IsRelativeGlobalCompleteIntersection) ∧
+      (∀ (h : P.Ring) (T : Type*) [CommRing T] [Algebra S T] [Algebra R T] [IsScalarTower R S T]
+        [IsLocalization.Away (algebraMap P.Ring S h) T],
+          (P.localizationAwayComp h T).IsRelativeGlobalCompleteIntersection) ∧
+      (∀ (M : Submonoid R) (Rₘ : Type*) [CommRing Rₘ] [Algebra R Rₘ] [IsLocalization M Rₘ]
+        [Algebra Rₘ S] [IsScalarTower R Rₘ S],
+          (P.localizationBase M Rₘ).IsRelativeGlobalCompleteIntersection) :=
+  ⟨fun R' _ _ ↦ baseChange P R', fun h T _ _ _ _ _ ↦ localizationAwayComp P h T,
+    fun M Rₘ _ _ _ _ _ ↦ localizationBase P M Rₘ⟩
+
+end IsRelativeGlobalCompleteIntersection
 
 end Algebra.Presentation
 

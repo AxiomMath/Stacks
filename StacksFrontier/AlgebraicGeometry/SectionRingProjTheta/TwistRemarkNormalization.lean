@@ -752,10 +752,11 @@ through the obvious identification `𝒪_Y(n) ≅ (Γ_*(X, 𝓛, 𝓛^{⊗ n}))~
 integer `n`. Since `projTheta` lives on `U(ψ)`, the right side is `θ_{𝓛^{⊗ n}}` pulled back along
 the inclusion `U(ψ) ⟶ X`, with `r_{L, ψ} : U(ψ) ⟶ Y` identified with `U(ψ) ⟶ X ⟶ Y` and the
 pullback along an open immersion with the restriction. -/
-@[stacks 01QK "assertion (i): the isomorphism f^*O_Y(n) -> L^n of Tag 01QI (the degree-n
-component of clause (2) of Tag 01PZ, defined on U(psi)) equals theta_{L^n}, theta being the
-constructed comparison of Tag 01QJ read on f^*O_Y(n) through the obvious identification
-O_Y(n) = (Gamma_*(X, L, L^n))~, for every integer n"]
+@[stacks 01QK "assertion (i), with no extra hypothesis: the isomorphism f^*O_Y(n) -> L^n of
+Tag 01QI (the degree-n component of clause (2) of Tag 01PZ, defined on U(psi)) equals
+theta_{L^n}, theta being the constructed comparison pullbackTildeComparison of Tag 01QJ read on
+f^*O_Y(n) through the obvious identification O_Y(n) = (Gamma_*(X, L, L^n))~, for every integer
+n"]
 theorem projTheta_app_eq_twistThetaInt (n : ℤ) :
     (Stacks.SectionRingProjMorphism.Theta.projTheta L).app n =
       ((Scheme.Modules.pullbackCongr (ι_comp_projHom_eq_glued L hL)).inv.app (twistY L n) ≫

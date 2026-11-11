@@ -72,28 +72,20 @@ by Tag 0630; and quasi-coherence on a scheme is stable under coproducts, which i
 `Stacks.AlgebraicGeometry.QuasicoherentColimits.isQuasicoherent_sigma` once the index type `ℕ` has
 been shrunk into the module universe.
 
-### No `@[stacks 0637]`
+### Where Tag 0637 is registered
 
 Tag 0637 is the displayed arrow `C_ZX ⟶ N_ZX` of the section on the normal cone, and the sentence
 carrying it asserts three things: that the canonical surjection of graded algebras **defines** a
 morphism `C_ZX ⟶ N_ZX`, that this morphism is a **closed immersion**, and that it is a morphism
 **of cones over `Z`**. The first is proved here, over `Z` and with its characterising property,
-and the attributes below are scoped to it. What is **not** established is:
-
-* **that the morphism is a closed immersion.** Over an affine open `U` of `Z` the morphism is the
-  spectrum of the map `Γ(U, Sym(𝒞_{Z/X})) ⟶ Γ(U, 𝒞_{Z/X,*})` on sections, so this is exactly
-  surjectivity of that map — i.e. the surjectivity clause of Tag 0632, which *is* proved, as
-  `Stacks.Conormal.epi_conormalSymmetricHom_app` of
-  `StacksFrontier.AlgebraicGeometry.Divisors.NormalCone.SymmetricQuotient` — together with the
-  statement that the relative spectrum of a surjection of quasi-coherent algebra sheaves is a
-  closed immersion. That last statement is what remains.
-* **that it is a morphism of cones** in the sense of `AlgebraicGeometry.AbstractCone.Hom`. The two
-  cone structures themselves are available — `Stacks.Conormal.normalConeCone` and
-  `Stacks.Conormal.normalBundleVectorBundle` in
-  `StacksFrontier.AlgebraicGeometry.Divisors.NormalCone.NormalBundle` — but a morphism of cones
-  carries in addition the degreewise comparison of the two gradings compatible with the
-  inclusions of the homogeneous pieces into the direct images, and the candidate for it,
-  `Stacks.Conormal.conormalSymmetricHom`, is not known to commute with those inclusions.
+and the attributes below are registered on it. The closed-immersion clause is
+`Stacks.Conormal.isClosedImmersion_normalConeToNormalBundle` of
+`StacksFrontier.AlgebraicGeometry.Chow.VirtualNormalClass.ConeEmbedding`: over an affine open the
+morphism is the spectrum of the map on sections, which is surjective by Tag 0632. The cone clause,
+together with the whole statement, is
+`Stacks.Conormal.isClosedImmersion_normalConeToNormalBundle_and_coneHom` of
+`StacksFrontier.AlgebraicGeometry.Divisors.NormalCone.NormalConeConeHom`, built on the morphism of
+cones `Stacks.Conormal.normalConeToNormalBundleConeHom`.
 
 ## References
 

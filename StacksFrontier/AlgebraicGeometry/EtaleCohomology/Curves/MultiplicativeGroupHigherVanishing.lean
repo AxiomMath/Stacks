@@ -55,7 +55,11 @@ groups zero, the left one by Stacks 03RL since `q - 1 ≥ 1`, the right one by S
 * `Stacks.EtaleCohomology.subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf`:
   **Stacks 03RK**.
 * `Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_smoothCurve`:
-  **Stacks 03RM**.
+  the argument of Stacks 03RM, with the divisor sequence and Stacks 03RJ, 03RG as inputs; with
+  these supplied it is
+  `Stacks.EtaleCohomology.subsingleton_sheafH_multiplicativeSheaf_of_smoothCurve`
+  (**Stacks 03RM**), in
+  `StacksFrontier.AlgebraicGeometry.EtaleCohomology.Curves.MultiplicativeGroupSmoothCurveVanishing`.
 
 ## Implementation notes
 
@@ -257,7 +261,7 @@ theorem subsingleton_sheafH_genericPointDirectImage_multiplicativeSheaf {k : Typ
 
 /-! ### Stacks 03RM: the cohomology of `𝐆_m` on a smooth curve -/
 
-/-- **Stacks Project, Tag 03RM.** Let `X` be a smooth curve over an algebraically closed field
+/-- **The argument of Stacks 03RM.** Let `X` be a smooth curve over an algebraically closed field
 `k`, let `η = Spec k(X)` be its generic point and `j : η ⟶ X` the inclusion of the generic
 point. Then
 
@@ -278,8 +282,6 @@ divisor sequence itself is carried as its second map `d` with `hzero` and `hSE` 
 its first map is the comparison morphism
 `Stacks.EtaleCohomology.multiplicativeDirectImageComparison` along `j`, which restricts an
 invertible global function on an étale `X`-scheme `U` to the generic fibre `U ×_X η`. -/
-@[stacks 03RM "vanishing of the degree ≥ 2 étale cohomology of 𝐆_m on a smooth curve over an
-algebraically closed field, over Tag 03RI, Tag 03RJ and Tag 03RG as hypotheses"]
 theorem subsingleton_sheafH_multiplicativeSheaf_smoothCurve {k : Type u} [Field k]
     [IsAlgClosed k] {X : Scheme.{u}} (g : X ⟶ Spec (.of k)) [IsCurve k g] [Smooth g]
     (d : (genericPointDirectImage.{u, u + 1} X).obj

@@ -22,9 +22,11 @@ and the lemma reduces to `sheafifyComposeIso` and the sheafification adjunction.
 
 ## Main results
 
-* `AlgebraicStructureType.exists_sheafification`: Stacks Tag 0087, both clauses — the
+* `AlgebraicStructureType.exists_sheafification_univ`: Stacks Tag 0087, both clauses — the
   underlying sheaf of sets of `F^#` is the sheafification of the underlying presheaf of
   sets of `F`, and every map from `F` to a `C`-valued sheaf factors uniquely through `F^#`.
+  The objects of `C` may live in any universe, so `C` can be `Type u`, `Grp.{u}`, `Ab.{u}`, ...
+* `AlgebraicStructureType.exists_sheafification`: its special case with `C : Type u`.
 
 Supporting constructions:
 
@@ -37,11 +39,13 @@ Supporting constructions:
 
 open CategoryTheory Limits TopologicalSpace
 
-universe u
+universe u w
 
 namespace AlgebraicStructureType
 
-variable (A : AlgebraicStructureType.{u, u})
+section
+
+variable (A : AlgebraicStructureType.{u, w})
 
 /-- Morphisms of `A.C` act as functions on the underlying sets, injectively because `A.F`
 is faithful.  This is the `FunLike` structure underlying `concreteCategory`. -/
@@ -75,9 +79,15 @@ on `X` with values in `C`.  There is a sheaf `P^#` with values in `C` and a morp
    `sheafify J (P ⋙ F)` to `P^# ⋙ F` under `P ⋙ F`, i.e. one satisfying
    `toSheafify J (P ⋙ F) ≫ e.hom = whiskerRight η F`;
 2. every morphism `ψ : P ⟶ G` into a `C`-valued sheaf `G` factors uniquely as
-   `P ⟶ P^# ⟶ G`. -/
-@[stacks 0087, ega "0 3.5.6" "algebraic structures", sga "4 II 6.4" "topological space site"]
-theorem exists_sheafification (X : TopCat.{u}) (P : (Opens X)ᵒᵖ ⥤ A.C) :
+   `P ⟶ P^# ⟶ G`.
+
+The objects of `C` live in an arbitrary universe `w`, while its homs and the target of `F`
+are `Type u`, the universe of the opens of `X`.  This covers the standard types of
+algebraic structure over `u`-sets (`Type u`, `Grp.{u}`, `Ab.{u}`, `RingCat.{u}`,
+`ModuleCat.{u} R`, ...), whose object types live in `Type (u + 1)`. -/
+@[stacks 0087 "C : Type w with Category.{u} C, F : C ⥤ Type u, X : TopCat.{u}",
+  ega "0 3.5.6" "algebraic structures", sga "4 II 6.4" "topological space site"]
+theorem exists_sheafification_univ (X : TopCat.{u}) (P : (Opens X)ᵒᵖ ⥤ A.C) :
     ∃ (Psharp : Sheaf (Opens.grothendieckTopology X) A.C) (η : P ⟶ Psharp.obj),
       (∃ e : sheafify (Opens.grothendieckTopology X) (P ⋙ A.F) ≅ Psharp.obj ⋙ A.F,
           toSheafify (Opens.grothendieckTopology X) (P ⋙ A.F) ≫ e.hom =
@@ -113,5 +123,22 @@ theorem exists_sheafification (X : TopCat.{u}) (P : (Opens X)ᵒᵖ ⥤ A.C) :
   -- Clause (2) is the bijectivity of the sheafification adjunction's `homEquiv`, whose
   -- forward direction is composition with `η = toSheafify J P`.
   exact ((sheafificationAdjunction J A.C).homEquiv P G).bijective.existsUnique ψ
+
+end
+
+/-- The special case of `exists_sheafification_univ` (Stacks Tag 0087) in which the objects
+of `C` live in the same universe `u` as its homs.  Then `C` is a small category with all
+`u`-small limits, hence thin by Freyd's theorem (`Mathlib/CategoryTheory/Limits/SmallComplete`),
+so this case does not cover the standard types of algebraic structure such as `Type u`,
+`Grp.{u}` or `Ab.{u}`; the general statement is `exists_sheafification_univ`. -/
+theorem exists_sheafification (A : AlgebraicStructureType.{u, u}) (X : TopCat.{u})
+    (P : (Opens X)ᵒᵖ ⥤ A.C) :
+    ∃ (Psharp : Sheaf (Opens.grothendieckTopology X) A.C) (η : P ⟶ Psharp.obj),
+      (∃ e : sheafify (Opens.grothendieckTopology X) (P ⋙ A.F) ≅ Psharp.obj ⋙ A.F,
+          toSheafify (Opens.grothendieckTopology X) (P ⋙ A.F) ≫ e.hom =
+            Functor.whiskerRight η A.F) ∧
+      ∀ (G : Sheaf (Opens.grothendieckTopology X) A.C) (ψ : P ⟶ G.obj),
+        ∃! χ : Psharp ⟶ G, η ≫ χ.hom = ψ :=
+  exists_sheafification_univ A X P
 
 end AlgebraicStructureType

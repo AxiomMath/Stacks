@@ -205,8 +205,10 @@ def corepresentableBySectionTensorFree (I : Type (max u r)) :
 sheaf of modules on the same index set**: `(⨁_I A) ⊗_A 𝒪 ≅ 𝒪^{(I)}`.
 
 Both sides corepresent the functor `F ↦ (I → Γ(C, F))`, and the isomorphism compares the two
-corepresenting objects. -/
-@[stacks 07UZ "the case of a free module: (⨁_I A) ⊗_A 𝒪_X is the free sheaf of modules on I"]
+corepresenting objects.  It is a step towards Stacks 07UZ, which is proved in full, and
+registered, as
+`AlgebraicGeometry.Space.CohomologyVanishingSituation.isIso_unit_tensorSheaf` and
+`AlgebraicGeometry.Space.CohomologyVanishingSituation.globalSectionsTensorLinearEquiv`. -/
 def sectionTensorFreeIso (I : Type (max u r)) :
     (sectionTensorSheafFunctor.{u, v, max u r, u} O).obj (freeGlobalModule O I) ≅
       SheafOfModules.free (R := ringSheafOfSite O) I :=

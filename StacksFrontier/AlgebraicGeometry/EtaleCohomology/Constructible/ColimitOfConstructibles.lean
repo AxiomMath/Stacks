@@ -37,35 +37,46 @@ Stacks 095N); only the sheaves-of-sets and the abelian forms are carried out her
 
 The same argument gives one of the two inclusions of Stacks 09YT: a cokernel of a map between
 finite direct sums of the sheaves `j_{U!}(Z/nZ)_U`, at quasi-compact quasi-separated étale
-objects `U` and positive integers `n`, is a constructible abelian sheaf.
+objects `U` and positive integers `n`, is a constructible abelian sheaf. Stacks 09YT itself, both
+inclusions, is `AlgebraicGeometry.isConstructibleAbelianSheaf_iff_hasFiniteZModShriekPresentation`
+and `AlgebraicGeometry.isConstructibleAbelianSheaf_iff_affineZModShriekPresentation` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.AbelianShriekPresentation`, where the
+tag is registered.
 
-## Hypotheses that are granted rather than proved
+## Inputs carried as binders
 
-Two statements of the source are quantified over as explicit hypotheses, because this library
-does not have them. They are named so that what each theorem below assumes is visible as a
-single binder, in the style of
-`Stacks.EtaleCohomology.isFiniteLocallyConstant_iff_finiteEtaleRepresentable_of_descent`.
+The theorems below quantify over the inputs of the source's proof as explicit hypotheses, named
+so that what each one assumes is visible as a single binder, in the style of
+`Stacks.EtaleCohomology.isFiniteLocallyConstant_iff_finiteEtaleRepresentable_of_descent`. Every
+one of these inputs is now a theorem of the library, and
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ModuleColimitOfConstructibles`
+discharges them: that module is where Stacks 03SA (1) and (3) are registered, as
+`AlgebraicGeometry.exists_isFilteredColimit_isConstructibleSetSheaf_of_qcqs` and
+`AlgebraicGeometry.exists_isFilteredColimit_isConstructibleModuleSheaf_of_qcqs`, and where the
+inclusion of Stacks 09YT is
+`AlgebraicGeometry.isConstructibleAbelianSheaf_of_hasFiniteZModShriekPresentation_of_qcqs`.
+Part (2) of Stacks 03SA is
+`AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_qcqs`. The binders,
+and the theorems now discharging them, are:
 
 * **Stacks 03S0**, that an étale morphism of quasi-compact quasi-separated schemes becomes
   finite étale on the strata of a partition of its target into constructible locally closed
   subschemes, as `AlgebraicGeometry.EtaleFiniteStratificationExists`. Part (1) of Stacks 03S8 is
   in the library, as `AlgebraicGeometry.isConstructibleSetSheaf_sheafifiedYoneda`, and carries
   exactly this hypothesis; so the sheaves-of-sets statement below carries Stacks 03S0 and not
-  Stacks 03S8.
-* **Stacks 03S8 for coefficients**, which the library does not have. For module coefficients it
-  is the hypothesis `hshriek` of
+  Stacks 03S8. It is proved as `AlgebraicGeometry.etaleFiniteStratificationExists`.
+* **Stacks 03S8 for coefficients.** For module coefficients it is the hypothesis `hshriek` of
   `AlgebraicGeometry.isConstructibleModuleSheaf_of_hasFiniteShriekPresentation`, reused verbatim
-  below rather than renamed. For abelian coefficients it is part (2) of the tag, at the finite
-  abelian groups `Z/nZ`, as `AlgebraicGeometry.AbelianShriekZModIsConstructible`.
-* **Stacks 093C** in the two spellings the étale presentations use. The module case of 093C is
-  proved in this library, as
-  `Stacks.Sites.isFilteredColimit_of_hasEnoughQuasiCompactObjects`, but for sheaves of modules
-  over a *sheaf of rings* on a site equipped with a
-  `Stacks.Sites.QuasiCompactObjectsSituation`, and neither that situation for the small étale
-  site nor the comparison of `Stacks.Sites.extensionByZeroUnit` with
-  `AlgebraicGeometry.moduleShriekConstant` exists here. The two spellings needed are
+  below rather than renamed, and proved as
+  `AlgebraicGeometry.isConstructibleModuleSheaf_moduleShriekConstant`. For abelian coefficients
+  it is part (2) of Stacks 03S8, at the finite abelian groups `Z/nZ`, as
+  `AlgebraicGeometry.AbelianShriekZModIsConstructible`, proved as
+  `AlgebraicGeometry.abelianShriekZModIsConstructible`.
+* **Stacks 093C** in the two spellings the étale presentations use,
   `AlgebraicGeometry.SetSheavesAreFilteredColimitsOfPresentations` and
-  `AlgebraicGeometry.ModuleSheavesAreFilteredColimitsOfPresentations`.
+  `AlgebraicGeometry.ModuleSheavesAreFilteredColimitsOfPresentations`, proved as
+  `AlgebraicGeometry.setSheavesAreFilteredColimitsOfPresentations` and
+  `AlgebraicGeometry.moduleSheavesAreFilteredColimitsOfPresentations`.
 
 ## Main definitions
 
@@ -77,12 +88,14 @@ single binder, in the style of
 
 ## Main results
 
-* `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleSetSheaf` — Stacks 03SA (1).
-* `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleModuleSheaf` — Stacks 03SA (3).
+* `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleSetSheaf` — the proof of
+  Stacks 03SA (1), over the binders `h093C` and `h03S0`.
+* `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleModuleSheaf` — the proof of
+  Stacks 03SA (3), over the binders `h093C` and `hshriek`.
 * `AlgebraicGeometry.isConstructibleAbelianSheaf_of_hasFiniteZModShriekPresentation` and
   `AlgebraicGeometry.isConstructibleAbelianSheaf_of_affineZModShriekPresentation` — the inclusion
   of the displayed cokernels of Stacks 09YT into the constructible abelian sheaves, in the
-  quasi-compact quasi-separated and in the affine form.
+  quasi-compact quasi-separated and in the affine form, over the binder `h03S8`.
 * `AlgebraicGeometry.isConstructibleSetSheaf_of_presentation` — the step of the proof of
   Stacks 03SA (1) that turns a presentation into constructibility; the module analogue is the
   library's `AlgebraicGeometry.isConstructibleModuleSheaf_of_hasFiniteShriekPresentation`.
@@ -111,10 +124,9 @@ The conclusions quantify over a diagram, a cocone whose point is literally the g
 Stacks 093C. `IsColimit` is data, so `Nonempty` is what makes the statement a proposition; no
 other part of either conclusion is behind a `Nonempty`.
 
-Stacks 03SA (3) does not use the quasi-compactness and quasi-separatedness of `X`: both granted
-inputs hold only for such an `X`, and given them the conclusion follows with no further
-geometric input, so the binders would be unused. The statement is therefore formally stronger
-than the tag, not weaker.
+The proof of Stacks 03SA (3) does not use the quasi-compactness and quasi-separatedness of `X`:
+both inputs hold only for such an `X`, and given them the conclusion follows with no further
+geometric input, so the binders would be unused.
 
 ## References
 
@@ -151,7 +163,8 @@ public abbrev IsQCQSEtaleObject (U : SmallEtale B X.obj X.property) : Prop :=
 becomes finite étale on the strata of a partition of its target into constructible locally closed
 subschemes. The conclusion is `AlgebraicGeometry.HasFiniteEtaleStratification`, the predicate that
 `AlgebraicGeometry.isConstructibleSetSheaf_sheafifiedYoneda` — this library's Stacks 03S8 (1) —
-also carries; it is a statement about the morphism alone and mentions no sheaf. -/
+also carries; it is a statement about the morphism alone and mentions no sheaf. It is proved as
+`AlgebraicGeometry.etaleFiniteStratificationExists`. -/
 public def EtaleFiniteStratificationExists : Prop :=
   ∀ (Y : B.Scheme) (U : SmallEtale B Y.obj Y.property), CompactSpace Y.obj →
     QuasiSeparatedSpace Y.obj → IsQCQSEtaleObject B Y U → HasFiniteEtaleStratification B Y U
@@ -223,7 +236,8 @@ public theorem isConstructibleSetSheaf_of_presentation
 small étale site of `X` is a filtered colimit of coequalizers of maps between finite coproducts
 of sheaves represented by quasi-compact quasi-separated étale objects.
 
-This library has no form of Stacks 093C for sheaves of sets on a site. -/
+It is proved as `AlgebraicGeometry.setSheavesAreFilteredColimitsOfPresentations` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.SetSheafPresentationColimits`. -/
 public def SetSheavesAreFilteredColimitsOfPresentations : Prop :=
   ∀ F : Sheaf (SmallEtale.topology B X.obj X.property) (Type (u + 1)),
     ∃ (I : Type (u + 1)) (_ : SmallCategory I) (_ : IsFiltered I)
@@ -231,18 +245,18 @@ public def SetSheavesAreFilteredColimitsOfPresentations : Prop :=
       (ι : D ⟶ (Functor.const I).obj F), Nonempty (IsColimit (Cocone.mk F ι)) ∧
         ∀ i, HasFiniteQCSRepresentableCoequalizerPresentation B X (D.obj i)
 
-/-- **Stacks 03SA (1).** Let `X` be a quasi-compact and quasi-separated scheme and `F` a sheaf of
-sets on `X_étale`. Then `F` is a filtered colimit of constructible sheaves of sets.
+/-- **The proof of Stacks 03SA (1), over its inputs.** Let `X` be a quasi-compact and
+quasi-separated scheme and `F` a sheaf of sets on `X_étale`. Then `F` is a filtered colimit of
+constructible sheaves of sets.
 
 This is the source's own proof: Stacks 093C writes `F` as a filtered colimit of coequalizers of
 maps between finite coproducts of representables at quasi-compact quasi-separated objects, and
 `AlgebraicGeometry.isConstructibleSetSheaf_of_presentation` says those coequalizers are
 constructible. Of the three cited inputs, Stacks 03S8 (1) and Stacks 03RZ (1) are discharged from
-the library; what remains as hypotheses is Stacks 093C, and Stacks 03S0, which Stacks 03S8 (1)
-itself carries. -/
-@[stacks 03SA "part (1), granted Stacks 093C (1) in the coequalizer spelling as the hypothesis \
-  h093C and Stacks 03S0 as the hypothesis h03S0; Stacks 03S8 (1) and Stacks 03RZ (1) are \
-  discharged from the library"]
+the library; the binders are Stacks 093C, and Stacks 03S0, which Stacks 03S8 (1) itself
+carries. Both are theorems of the library, and
+`AlgebraicGeometry.exists_isFilteredColimit_isConstructibleSetSheaf_of_qcqs` is this statement
+with them discharged. -/
 public theorem exists_isFilteredColimit_isConstructibleSetSheaf
     (h093C : SetSheavesAreFilteredColimitsOfPresentations B X)
     (h03S0 : EtaleFiniteStratificationExists B) (hXc : CompactSpace X.obj)
@@ -288,10 +302,8 @@ public instance SmallEtale.hasWeakSheafifyOver_moduleCatSelf (T : B.Scheme)
 site of `X` is a filtered colimit of cokernels of maps between finite direct sums of the sheaves
 `j_{U!}Λ` at quasi-compact quasi-separated étale objects `U`.
 
-`Stacks.Sites.isFilteredColimit_of_hasEnoughQuasiCompactObjects` is this library's Stacks 093C
-(2), for sheaves of modules over a sheaf of rings on a site with a
-`Stacks.Sites.QuasiCompactObjectsSituation`; transporting it here would need that situation for
-the small étale site and a comparison of the two extensions by zero, neither of which exists. -/
+It is proved as `AlgebraicGeometry.moduleSheavesAreFilteredColimitsOfPresentations` of
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.ModuleSheafPresentationColimits`. -/
 public def ModuleSheavesAreFilteredColimitsOfPresentations : Prop :=
   ∀ F : Sheaf (SmallEtale.topology B X.obj X.property) (ModuleCat.{u + 1} Λ),
     ∃ (I : Type (u + 1)) (_ : SmallCategory I) (_ : IsFiltered I)
@@ -300,19 +312,18 @@ public def ModuleSheavesAreFilteredColimitsOfPresentations : Prop :=
         ∀ i, HasFiniteShriekPresentation.{u, u + 1, u + 1} B X Λ
           (IsQCQSEtaleObject B X) (D.obj i)
 
-/-- **Stacks 03SA (3).** Let `X` be a quasi-compact and quasi-separated scheme, `Λ` a Noetherian
-ring and `F` a sheaf of `Λ`-modules on `X_étale`. Then `F` is a filtered colimit of constructible
-sheaves of `Λ`-modules.
+/-- **The proof of Stacks 03SA (3), over its inputs.** Let `X` be a quasi-compact and
+quasi-separated scheme, `Λ` a Noetherian ring and `F` a sheaf of `Λ`-modules on `X_étale`. Then `F`
+is a filtered colimit of constructible sheaves of `Λ`-modules.
 
 This is the source's own proof: Stacks 093C writes `F` as a filtered colimit of cokernels of maps
 between finite direct sums of the sheaves `j_{U!}Λ` at quasi-compact quasi-separated objects, and
 the library's Stacks 095N says those cokernels are constructible once the generators are — that is
 `AlgebraicGeometry.isConstructibleModuleSheaf_of_hasFiniteShriekPresentation`. Stacks 03RZ (3) is
-discharged from the library; what remains as hypotheses is Stacks 093C and the
-sheaves-of-modules case of Stacks 03S8. -/
-@[stacks 03SA "part (3), granted Stacks 093C (2) in the shriek spelling as the hypothesis h093C \
-  and the sheaves-of-modules case of Stacks 03S8 as the hypothesis hshriek, which is the same \
-  hypothesis the library's Stacks 095N carries; Stacks 03RZ (3) is discharged from the library"]
+discharged from the library; the binders are Stacks 093C and the sheaves-of-modules case of
+Stacks 03S8. Both are theorems of the library, and
+`AlgebraicGeometry.exists_isFilteredColimit_isConstructibleModuleSheaf_of_qcqs` is this
+statement with them discharged. -/
 public theorem exists_isFilteredColimit_isConstructibleModuleSheaf
     (h093C : ModuleSheavesAreFilteredColimitsOfPresentations B X Λ)
     (hshriek : ∀ U : SmallEtale B X.obj X.property, IsQCQSEtaleObject B X U →
@@ -338,10 +349,11 @@ public def abelianShriekZMod (n : ℕ) (U : SmallEtale B X.obj X.property) :
     ((constantSheaf (SmallEtale.topology B U.obj.left.obj U.obj.left.property)
       AddCommGrpCat.{u + 1}).obj (AddCommGrpCat.of (ULift.{u + 1} (ZMod n))))
 
-/-- **Stacks 03S8 (2) as a hypothesis**, at the finite abelian groups `Z/nZ`. For `j : U → Y` an
+/-- **The statement of Stacks 03S8 (2)**, at the finite abelian groups `Z/nZ`. For `j : U → Y` an
 étale morphism of quasi-compact quasi-separated schemes and `n` a positive integer, `j_!(Z/nZ)`
-is a constructible abelian sheaf. This is not proved in this library, for the same reason as
-part (1); `ZMod n` is finite precisely because `n` is positive. -/
+is a constructible abelian sheaf; `ZMod n` is finite precisely because `n` is positive. The
+library proves it as `AlgebraicGeometry.abelianShriekZModIsConstructible`, in a module above this
+one in the import order. -/
 public def AbelianShriekZModIsConstructible : Prop :=
   ∀ (Y : B.Scheme) (U : SmallEtale B Y.obj Y.property) (n : ℕ), 0 < n → CompactSpace Y.obj →
     QuasiSeparatedSpace Y.obj → IsQCQSEtaleObject B Y U →
@@ -396,33 +408,16 @@ public theorem isConstructibleAbelianSheaf_of_zModShriekPresentation
   exact ObjectProperty.prop_of_iso _ e
     (ObjectProperty.prop_cokernel _ f (hsum V b hV hb) (hsum U a hU ha))
 
-/-- **Stacks 09YT**, the inclusion of the displayed cokernels into the constructible abelian
-sheaves. Let `X` be quasi-compact and quasi-separated. Every abelian sheaf of the form
-`Coker(⨁_j j_{V_j!}(Z/m_jZ) → ⨁_i j_{U_i!}(Z/n_iZ))`, with the `V_j` and `U_i` quasi-compact
-quasi-separated objects of `X_étale` and the `m_j`, `n_i` positive, is a constructible abelian
-sheaf, granted Stacks 03S8 (2) for the summands.
+/-- **The inclusion of Stacks 09YT, over Stacks 03S8 (2).** The inclusion of the displayed
+cokernels into the constructible abelian sheaves. Let `X` be quasi-compact and quasi-separated.
+Every abelian sheaf of the form `Coker(⨁_j j_{V_j!}(Z/m_jZ) → ⨁_i j_{U_i!}(Z/n_iZ))`, with the `V_j`
+and `U_i` quasi-compact quasi-separated objects of `X_étale` and the `m_j`, `n_i` positive, is a
+constructible abelian sheaf, given Stacks 03S8 (2) for the summands as the binder `h03S8`, which
+`AlgebraicGeometry.abelianShriekZModIsConstructible` proves; the statement with it discharged is
+`AlgebraicGeometry.isConstructibleAbelianSheaf_of_hasFiniteZModShriekPresentation_of_qcqs`.
 
-The reverse inclusion — every constructible abelian sheaf has such a presentation — is the other
-half of the tag and is not proved here. The source deduces it from Stacks 095N at `Λ = Z/nZ`
-together with the omitted fact that on a quasi-compact `X` every constructible abelian sheaf is
-annihilated by some positive integer. Stacks 095N is now in the library, as
-`AlgebraicGeometry.isConstructibleModuleSheaf_iff_hasFiniteShriekPresentation`, but only for
-sheaves of modules over a single ring in the model `Sheaf J (ModuleCat Λ)`, and three separate
-things are missing for the reduction: the global annihilation statement, whose absence this
-library already records in
-`StacksFrontier.AlgebraicGeometry.EtaleCohomology.ProperBaseChange.PrimaryDevissage` as waiting on
-this very tag; a comparison between abelian sheaves annihilated by `n` and sheaves of
-`Z/nZ`-modules, which `CategoryTheory.Sheaf.coefficientEquivalence` cannot supply because it
-needs an equivalence of coefficient categories and `AddCommGrpCat` is not equivalent to
-`ModuleCat (ZMod n)`; and an identification of `AlgebraicGeometry.moduleShriekConstant` at
-`Z/nZ` with `AlgebraicGeometry.abelianShriekZMod`, which is not bookkeeping — the analogous
-comparison between extension by zero of modules and of the underlying abelian sheaves is *not*
-an isomorphism in general, by the counterexample
-`Stacks.SheafOfModules.lowerShriekForget_not_isomorphic`. -/
-@[stacks 09YT "the inclusion of the displayed cokernels at quasi-compact quasi-separated objects \
-  into the constructible abelian sheaves, granted Stacks 03S8 (2) at the finite groups Z/nZ as \
-  the hypothesis h03S8; the reverse inclusion needs Stacks 095N at Lambda = Z/nZ and is not \
-  proved here"]
+Stacks 09YT itself, both inclusions, is
+`AlgebraicGeometry.isConstructibleAbelianSheaf_iff_hasFiniteZModShriekPresentation`. -/
 public theorem isConstructibleAbelianSheaf_of_hasFiniteZModShriekPresentation
     (h03S8 : AbelianShriekZModIsConstructible B) (hXc : CompactSpace X.obj)
     (hXq : QuasiSeparatedSpace X.obj)
@@ -432,12 +427,13 @@ public theorem isConstructibleAbelianSheaf_of_hasFiniteZModShriekPresentation
   isConstructibleAbelianSheaf_of_zModShriekPresentation B X _
     (fun U n hU hn => h03S8 X U n hn hXc hXq hU) hF
 
-/-- **Stacks 09YT, the affine form of the same inclusion.** "In fact, we can even assume `U_i` and
-`V_j` affine": for this inclusion that is a weakening of the hypothesis, since an affine scheme is
-quasi-compact and quasi-separated, so the affine cokernels are constructible as well. -/
-@[stacks 09YT "the same inclusion for the affine form of the displayed cokernels (the tag's \
-  concluding sentence), granted Stacks 03S8 (2) at the finite groups Z/nZ as the hypothesis \
-  h03S8"]
+/-- **The affine form of the same inclusion, over Stacks 03S8 (2).** "In fact, we can even assume
+`U_i` and `V_j` affine": for this inclusion that is a weakening of the hypothesis, since an affine
+scheme is quasi-compact and quasi-separated, so the affine cokernels are constructible as well. The
+statement with `h03S8` discharged is
+`AlgebraicGeometry.isConstructibleAbelianSheaf_of_affineZModShriekPresentation_of_qcqs`, and
+Stacks 09YT in the affine form, both inclusions, is
+`AlgebraicGeometry.isConstructibleAbelianSheaf_iff_affineZModShriekPresentation`. -/
 public theorem isConstructibleAbelianSheaf_of_affineZModShriekPresentation
     (h03S8 : AbelianShriekZModIsConstructible B) (hXc : CompactSpace X.obj)
     (hXq : QuasiSeparatedSpace X.obj)

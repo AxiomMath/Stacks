@@ -11,10 +11,12 @@ A morphism of schemes is *birational* when it induces a bijection between the ge
 of the irreducible components of its source and those of its target, and an isomorphism on the
 local ring at each of those points of the source.
 
-Birationality of two *schemes*, rather than of a morphism, is the existence of an isomorphism
-between dense open subschemes; over a base it additionally requires that isomorphism to
-commute with the structure morphisms. Both are already in the library, as
-`AlgebraicGeometry.Scheme.Birational` and `AlgebraicGeometry.Scheme.BirationalOver`.
+Birationality of two *schemes*, rather than of a morphism, is the subject of
+`StacksFrontier.AlgebraicGeometry.Birational.IrreducibleDominantRat`, which defines it as Stacks
+does (Tag 0A20), by isomorphism in the category of irreducible schemes and dominant rational
+maps, and proves it equivalent to the library's `AlgebraicGeometry.Scheme.Birational` and
+`AlgebraicGeometry.Scheme.BirationalOver` (an isomorphism between dense open subschemes,
+compatible with the structure morphisms over a base).
 
 ## Main definitions
 
@@ -37,17 +39,10 @@ The source assumes that both schemes have finitely many irreducible components. 
 condition in the definition uses that finiteness, so the predicate is defined for arbitrary
 schemes; under the source's hypotheses it is exactly the stated notion.
 
-For irreducible schemes, a partial isomorphism between dense open subschemes is equivalently
-an isomorphism in the category whose morphisms are dominant rational maps. The library's
-definitions use the partial-isomorphism description and are meaningful without irreducibility
-hypotheses, so they are adopted here directly. `Scheme.Birational` already carries the tag for
-part (1) of 0A20; this module registers `Scheme.BirationalOver` as part (2).
-
 ## References
 
 * [EGA I, (2.2.9)]
 * [Stacks Project, Tag 01RO](https://stacks.math.columbia.edu/tag/01RO)
-* [Stacks Project, Tag 0A20](https://stacks.math.columbia.edu/tag/0A20)
 -/
 
 @[expose] public section
@@ -88,7 +83,5 @@ theorem isBirational_of_bijOn_of_isIso_stalkMap {X Y : Scheme.{u}} (f : X ⟶ Y)
     (hbij : Set.BijOn f (genericPoints X) (genericPoints Y))
     (hstalk : ∀ x : X, x ∈ genericPoints X → IsIso (f.stalkMap x)) :
     IsBirational f := ⟨hbij, hstalk⟩
-
-add_to_stacks 0A20 "(2)" AlgebraicGeometry.Scheme.BirationalOver
 
 end AlgebraicGeometry

@@ -60,6 +60,10 @@ every degree, so no bounded complex represents it.  The statement here asks for 
 bounded* complex, which is what Stacks tag 0GU0, the result the source collects for this clause,
 asserts.
 
+The partial statements in `ModificationProperties.lean` and `ModificationPropertiesOfRep.lean`
+are no longer registered under tag 0F9Y.  The erratum for clause (9) is recorded in `errata.md`
+(entry 0F9Y, last sentence, 2026-10-27).
+
 ## References
 
 * [Stacks Project, Tag 0F9Y](https://stacks.math.columbia.edu/tag/0F9Y)
@@ -126,8 +130,10 @@ clause (6) is tag 0F8X with the subscheme of tag 0GTZ for the pulled-back triple
 pulled-back triple together with the defining property of that subscheme, and clause (9) is tag
 0GU0.  Clause (9) asks for a locally bounded rather than a bounded complex; see the module
 docstring. -/
-@[stacks 0F9Y "with clause (9) concluding a locally bounded complex, as in Tag 0GU0; the \
-source's `bounded` fails for an infinite disjoint union"]
+@[stacks 0F9Y "the full statement in existential form: a proper b : X' ⟶ X and Q with \
+clauses (1)--(9). Clause (9) is stated in its corrected form, Q represented by a LOCALLY \
+BOUNDED complex of finite locally free modules (as tag 0GU0 gives): the printed 'bounded' is \
+false for an infinite disjoint union; see errata.md, entry 0F9Y (last sentence), 2026-10-27"]
 theorem exists_isProper_modification (S : ComplexAndDivisorSituation.{u, d}) :
     ∃ (X' : Scheme.{u}) (b : X' ⟶ S.X), IsProper b ∧
       IsIso (b.resLE S.divisorComplement (b ⁻¹ᵁ S.divisorComplement) le_rfl) ∧

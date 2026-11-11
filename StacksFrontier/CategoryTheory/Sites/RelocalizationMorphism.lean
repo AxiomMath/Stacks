@@ -59,9 +59,9 @@ with `Over.pullbackComp` and the hypothesis `c' ≫ f⁻¹b = a ≫ c`.
 * `MorphismOfTopoi.relocalizeCompPullbackIso` (Stacks 04IN): commutativity of the last square,
   `(f_c)⁻¹ ∘ j_{U'/U}⁻¹ = j_{V'/V}⁻¹ ∘ (f_{c'})⁻¹`.
 
-As in Stacks 04GZ, 04H0 and 04IR, the pushforward of a localization morphism is taken as data:
-a general category with pullbacks need not have a right adjoint to `Over.pullback a` (in a topos
-it does).
+As in `MorphismOfTopoi.overLocalization` and Stacks 04H0 and 04IR, the pushforward of a
+localization morphism is taken as data: a general category with pullbacks need not have a right
+adjoint to `Over.pullback a` (in a topos it does).
 
 Tags covered: 04IN.
 -/

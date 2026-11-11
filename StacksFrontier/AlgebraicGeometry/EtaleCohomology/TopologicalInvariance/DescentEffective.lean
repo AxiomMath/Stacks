@@ -503,7 +503,7 @@ This is `Stacks.Etale.affineEtalePullback_isEquivalence_of_essSurjAffine` with i
 discharged by `Stacks.Etale.essSurjAffineEtalePullback`. -/
 @[stacks 04E0 "the displayed correspondence, in full and unconditionally. Its three clauses are
 covered as follows. Preservation of affineness and full faithfulness are
-`Stacks.Etale.affineEtalePullback_fullyFaithful`, which carries the tag too. Essential
+`Stacks.Etale.affineEtalePullback_fullyFaithful`. Essential
 surjectivity -- the content the source proves, by induction on a bound for the degree of the
 fibres of an etale morphism of affine schemes, descending at each step by effectivity of
 descent -- is `Stacks.Etale.essSurjAffineEtalePullback`. This declaration is the equivalence the

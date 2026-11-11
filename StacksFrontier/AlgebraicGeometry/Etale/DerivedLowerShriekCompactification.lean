@@ -21,9 +21,12 @@ contains `X̄` because a finite morphism does not increase the size of a scheme.
 lower shriek of [Stacks, Tag 0F7H] is `Rf_! = R f̄_* ∘ j_!`; since `f̄` is finite its direct
 image is exact, so `R f̄_* = f̄_*`, and `f̄_* ∘ j_! = f_!` by [Stacks, Tag 0F52]. Hence `Rf_!`
 is the functor induced on unbounded derived categories by the direct image with compact support
-`f_!` of [Stacks, Tag 0F6R], which is the functor [Stacks, Tag 0F5M] derives. This is
-[Stacks, Tag 0GKM], and it is proved here both for abelian étale sheaves and for sheaves of
-`Λ`-modules, that is in `D(X_étale, Λ)`, for a ring `Λ`.
+`f_!` of [Stacks, Tag 0F6R], which is the functor [Stacks, Tag 0F5M] derives. This is the key
+step of [Stacks, Tag 0GKM], proved here, for the compactification produced by Zariski's main
+theorem, both for abelian étale sheaves and for sheaves of `Λ`-modules, that is in
+`D(X_étale, Λ)`, for a ring `Λ`. The statement of Tag 0GKM itself, for every compactification and
+for the functors `Rf_!` of Tag 0F7H on Mathlib's small étale sites, is in
+`StacksFrontier.AlgebraicGeometry.Etale.DerivedLowerShriekCompactificationComparison`.
 
 ## Main results
 
@@ -31,10 +34,11 @@ is the functor induced on unbounded derived categories by the direct image with 
   factorization of a quasi-finite separated morphism of a big étale site into an open immersion
   followed by a finite morphism, inside the site. This is [Stacks, Tag 05K0] transported along
   the inclusion of the site into schemes.
-* `AlgebraicGeometry.SmallEtale.exists_compactification_derivedLowerShriekIso` —
-  **[Stacks, Tag 0GKM]** for abelian étale sheaves.
-* `AlgebraicGeometry.SmallEtale.exists_compactification_moduleDerivedLowerShriekIso` —
-  **[Stacks, Tag 0GKM]** for sheaves of `Λ`-modules, that is in `D(X_étale, Λ)`.
+* `AlgebraicGeometry.SmallEtale.exists_compactification_derivedLowerShriekIso` — the
+  comparison `R f̄_* ∘ j_! ≅ f_!` for the compactification produced by Zariski's main theorem,
+  for abelian étale sheaves.
+* `AlgebraicGeometry.SmallEtale.exists_compactification_moduleDerivedLowerShriekIso` — the
+  same for sheaves of `Λ`-modules, that is in `D(X_étale, Λ)`.
 
 ## Implementation notes
 
@@ -220,7 +224,8 @@ end Abelian
 
 /-! ### Stacks 0GKM for abelian coefficients -/
 
-/-- **Stacks 0GKM** for abelian étale sheaves. Let `f : X ⟶ Y` be a quasi-finite separated
+/-- **The comparison of Stacks 0GKM for one compactification**, for abelian étale sheaves. Let
+`f : X ⟶ Y` be a quasi-finite separated
 morphism of a big étale site with `Y` quasi-compact and quasi-separated. Then `f` factors as an
 open immersion `j : X ⟶ X̄` followed by a finite morphism `f̄ : X̄ ⟶ Y`, and for that
 compactification the derived lower shriek `Rf_! = R f̄_* ∘ j_!` of Stacks 0F7H agrees with the
@@ -229,8 +234,9 @@ with compact support `f_!` of Stacks 0F6R, which is the functor Stacks 0F5M deri
 
 Quasi-finiteness is Stacks 02NG: locally quasi-finite, locally of finite type and quasi-compact
 together. No compactification is assumed; one is produced, by Zariski's main theorem
-Stacks 05K0. -/
-@[stacks 0GKM "abelian coefficients", ega "IV 18.12.13" "special case"]
+Stacks 05K0. The statement of Stacks 0GKM itself, for every compactification, is
+`AlgebraicGeometry.SmallEtale.nonempty_derivedLowerShriek_iso_mapDerivedCategory`. -/
+@[ega "IV 18.12.13" "special case"]
 public theorem exists_compactification_derivedLowerShriekIso (B : BigEtaleSite.{u})
     {X Y : B.Scheme} (f : X ⟶ Y)
     [IsSeparated (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)]
@@ -396,7 +402,8 @@ public theorem moduleDerivedLowerShriekAgrees
 
 end Module
 
-/-- **Stacks 0GKM** for coefficients in a ring `Λ`. Let `f : X ⟶ Y` be a quasi-finite separated
+/-- **The comparison of Stacks 0GKM for one compactification**, for coefficients in a ring `Λ`.
+Let `f : X ⟶ Y` be a quasi-finite separated
 morphism of a big étale site with `Y` quasi-compact and quasi-separated, and let `Λ` be a ring.
 Then `f` factors as an open immersion `j : X ⟶ X̄` followed by a finite morphism `f̄ : X̄ ⟶ Y`,
 and for that compactification the derived lower shriek `Rf_! = R f̄_* ∘ j_!` of Stacks 0F7H
@@ -405,8 +412,11 @@ with compact support `f_!`, which is the functor Stacks 0F5M derives.
 
 Quasi-finiteness is Stacks 02NG: locally quasi-finite, locally of finite type and quasi-compact
 together. No compactification is assumed; one is produced, by Zariski's main theorem
-Stacks 05K0. -/
-@[stacks 0GKM "coefficients in a ring Λ, i.e. in D(X_étale, Λ)", ega "IV 18.12.13" "special case"]
+Stacks 05K0. The statement of Stacks 0GKM itself, for every compactification and for the
+functors `Rf_!` of Stacks 0F7H, is
+`AlgebraicGeometry.SmallEtale.nonempty_derivedLowerShriek_iso_mapDerivedCategory` and
+`AlgebraicGeometry.SmallEtale.nonempty_derivedLowerShriekUnbounded_iso_mapDerivedCategory`. -/
+@[ega "IV 18.12.13" "special case"]
 public theorem exists_compactification_moduleDerivedLowerShriekIso (B : BigEtaleSite.{u})
     (Λ : Type u) [Ring Λ] {X Y : B.Scheme} (f : X ⟶ Y)
     [IsSeparated (B.inclusion.map f)] [LocallyQuasiFinite (B.inclusion.map f)]

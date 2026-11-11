@@ -47,10 +47,8 @@ come out as the display's own, because
 * `CommAlgCat.exists_distTriang_fundamentalVertex`: the same, in existential form.
 * `CommAlgCat.isIso_fundamentalMor₁_of_isZero_fundamentalVertex₃` and
   `CommAlgCat.nonempty_fundamentalVertex₁_iso_fundamentalVertex₂_of_isZero_fundamentalVertex₃`:
-  **[Stacks, Tag 08R3] for arbitrary ring maps**, read off that triangle. The two statements of
-  `StacksFrontier/Cotangent/Triangle/VanishingVertex.lean` take a distinguished triangle on the
-  display's vertices as data, because they are proved before the triangle exists; here it is
-  supplied.
+  **[Stacks, Tag 08R3] for arbitrary ring maps**, read off that triangle by the vanishing step
+  of `StacksFrontier/Cotangent/Triangle/VanishingVertex.lean`.
 
 ## References
 
@@ -372,31 +370,44 @@ theorem exists_distTriang_fundamentalVertex :
       Triangle.mk α β δ ∈ distTriang (DerivedCategory (ModuleCat.{u} C)) :=
   ⟨_, _, _, productFundamentalTriangle_distinguished A B C⟩
 
-/-! ### Lemma 08R3, with the triangle supplied -/
+/-! ### Lemma 08R3 -/
 
-/-- **Stacks Project, Tag 08R3.** Let `A → B → C` be ring maps with `L_{C/B} = 0`. Then the
-display's own first morphism `L_{B/A} ⊗^𝐋_B C ⟶ L_{C/A}` is an isomorphism, so that
-`L_{C/A} = L_{B/A} ⊗^𝐋_B C` in `D(C)`.
+/-- **Stacks Project, Tag 08R3.** Let `A → B → C` be ring maps such that `L_{C/B} = 0`. Then
+`L_{C/A} = L_{B/A} ⊗^𝐋_B C`: precisely, the first morphism `CommAlgCat.fundamentalMor₁` of the
+fundamental triangle, `L_{B/A} ⊗^𝐋_B C ⟶ L_{C/A}` in `D(C)`, is an isomorphism.
 
-The source's proof is that a distinguished triangle whose third vertex vanishes has invertible
-first morphism, which is `CommAlgCat.isIso_of_isZero_fundamentalVertex₃`; the triangle it is
-applied to is the display's own, `CommAlgCat.productFundamentalTriangle_distinguished`. -/
-@[stacks 08R3 "the lemma for arbitrary ring maps `A → B → C`. The source's hypothesis \
-  `L_{C/B} = 0` is the vanishing of `CommAlgCat.fundamentalVertex₃`, which IS `L_{C/B}` as an \
-  object of `D(C)`, and the conclusion is that the display's own first morphism \
-  `CommAlgCat.fundamentalMor₁` is an isomorphism, i.e. `L_{C/A} = L_{B/A} ⊗^𝐋_B C`. The \
-  distinguished triangle the source reads this off is \
-  `CommAlgCat.productFundamentalTriangle_distinguished`, Proposition 08QX"]
+Here `L_{C/B} = 0` is `IsZero (CommAlgCat.fundamentalVertex₃ B C)`, the vanishing in `D(C)` of the
+cotangent complex of `B → C`. The three rings `A`, `B`, `C` are taken in one universe `Type u`,
+as for the triangle of [Stacks, Tag 08QX].
+
+The proof is the source's: the fundamental triangle
+`CommAlgCat.productFundamentalTriangle_distinguished` (Proposition 08QX) is distinguished, and a
+distinguished triangle with vanishing third vertex has invertible first morphism
+(`CommAlgCat.isIso_of_isZero_fundamentalVertex₃`). -/
+@[stacks 08R3 "the lemma for arbitrary ring maps `A → B → C` with `A`, `B`, `C` in one universe: \
+  if `L_{C/B} = 0` in `D(C)` (`IsZero (CommAlgCat.fundamentalVertex₃ B C)`, the cotangent complex \
+  of `B → C`), then the first morphism \
+  `CommAlgCat.fundamentalMor₁ : L_{B/A} ⊗^𝐋_B C ⟶ L_{C/A}` of the fundamental triangle is an \
+  isomorphism, i.e. `L_{C/A} = L_{B/A} ⊗^𝐋_B C`. Proved from the distinguished triangle of \
+  Proposition 08QX, `CommAlgCat.productFundamentalTriangle_distinguished`"]
 theorem isIso_fundamentalMor₁_of_isZero_fundamentalVertex₃
     (h : IsZero (fundamentalVertex₃.{u, u, u + 1} B C)) :
     IsIso (fundamentalMor₁.{u} A B C) :=
   isIso_of_isZero_fundamentalVertex₃.{u, u, u + 1, u + 1} A B C
     (productFundamentalTriangle_distinguished A B C) h
 
-/-- **Stacks Project, Tag 08R3**, as the identification of the source. Let `A → B → C` be ring
-maps with `L_{C/B} = 0`. Then `L_{C/A} = L_{B/A} ⊗^𝐋_B C` in `D(C)`. -/
-@[stacks 08R3 "the equality `L_{C/A} = L_{B/A} ⊗^𝐋_B C` of the lemma, read as an isomorphism of \
-  the display's first and second vertices in `D(C)`, for arbitrary ring maps `A → B → C`"]
+/-- **Stacks Project, Tag 08R3**, as an isomorphism. Let `A → B → C` be ring maps such that
+`L_{C/B} = 0`. Then `L_{C/A} = L_{B/A} ⊗^𝐋_B C`, read as an isomorphism
+`L_{B/A} ⊗^𝐋_B C ≅ L_{C/A}` in `D(C)` between the first and second vertices of the fundamental
+triangle. The rings `A`, `B`, `C` are taken in one universe `Type u`. The isomorphism is the first
+morphism of the distinguished triangle of [Stacks, Tag 08QX],
+`CommAlgCat.productFundamentalTriangle_distinguished`; see
+`CommAlgCat.isIso_fundamentalMor₁_of_isZero_fundamentalVertex₃`. -/
+@[stacks 08R3 "the lemma for arbitrary ring maps `A → B → C` with `A`, `B`, `C` in one universe: \
+  if `L_{C/B} = 0` in `D(C)`, then `L_{C/A} = L_{B/A} ⊗^𝐋_B C`, read as an isomorphism \
+  `CommAlgCat.fundamentalVertex₁ A B C ≅ CommAlgCat.fundamentalVertex₂ A C` in `D(C)`. Proved \
+  from the distinguished triangle of Proposition 08QX, \
+  `CommAlgCat.productFundamentalTriangle_distinguished`"]
 theorem nonempty_fundamentalVertex₁_iso_fundamentalVertex₂_of_isZero_fundamentalVertex₃
     (h : IsZero (fundamentalVertex₃.{u, u, u + 1} B C)) :
     Nonempty (fundamentalVertex₁.{u, u, u + 1, u + 1} A B C ≅

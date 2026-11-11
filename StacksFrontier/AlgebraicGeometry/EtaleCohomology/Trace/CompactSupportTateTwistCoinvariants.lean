@@ -461,8 +461,8 @@ fundamental exact sequence, and the Tate twist by -1 as the source defines it, �
 composed with σ; the left-hand side is H²_c of Tag 0GJZ. Four inputs are explicit hypotheses \
 because this library has no statement for them: the sheaf ℱ_ρ attached to ρ, which is Tag 0DV5 \
 part (1), that is Tag 03RV and hence Tag 0245, so the sheaf is a variable and its link to ρ is \
-carried by the pairing; the Galois action on H²_c and its compatibility, Tag 03ST in degree two \
-and Tag 03Q9, of which only degree zero is available here; the fundamental exact sequence, Tags \
+carried by the pairing; the Galois action on H²_c and its compatibility, Tag 03ST in degree two, \
+of which only degree zero is available here, through Tag 03Q9; the fundamental exact sequence, Tags \
 03VJ, 0BTX and 0BNE, carried by the normal subgroup N and the isomorphism φ; and the trace \
 isomorphism H²_c(X_k̄, μ_n) = ℤ/nℤ quoted inside the source's proof, carried by the \
 nondegeneracy of the pairing. Tag 0F7I being absent, the compactification is an explicit \

@@ -149,8 +149,8 @@ attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 /-- The category of coherent `𝒪_𝒳`-modules is abelian, for a locally Noetherian algebraic stack
 `𝒳`. Its kernels are the `Q(Ker φ)` and its cokernels are computed in
 `Mod(𝒪_𝒳)` (`AlgebraicGeometry.Stack.FlatFppf.relKernelData_coherentModules`). -/
-@[stacks 0GR9 "the category Coh(O_X) of coherent modules on a locally Noetherian algebraic stack \
-  is abelian"]
+@[stacks 0GR9 "the category Coh(O_X) of coherent modules (Stacks 0GR6) on a locally Noetherian \
+  algebraic stack is abelian, with kernels Q(Ker φ) and cokernels computed in Mod(O_X)"]
 theorem nonempty_abelian_coh
     (h𝒳 : HasPropertyOnSomeSchemeAtlas B S hS (fun T : Scheme.{u} ↦ IsLocallyNoetherian T) 𝒳) :
     Nonempty (Abelian (Coh.{u, u, w} B S hS 𝒳)) :=

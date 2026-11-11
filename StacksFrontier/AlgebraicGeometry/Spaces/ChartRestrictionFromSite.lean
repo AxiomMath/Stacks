@@ -34,7 +34,9 @@ the relative flat locus of a morphism locally of finite presentation is open.
 * `AlgebraicGeometry.Space.isOpen_flatLocus_of_isSurjectiveChart` and
   `AlgebraicGeometry.Space.isOpenSubspace_flatLocusOpenSubspace_of_isSurjectiveChart`: the same
   two, with the local finiteness of the weakly associated points of the target read on one
-  surjective étale scheme chart.
+  surjective étale scheme chart.  This is Stacks 0DLR at its erratum: with condition (3) read on
+  the point space `|Y|` the statement is false
+  (`Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus`).
 
 ## References
 
@@ -138,10 +140,23 @@ theorem isOpenSubspace_flatLocusOpenSubspace_of_isFiniteTypeOnSite (f : X.1 ⟶ 
 /-- For a morphism `f : X ⟶ Y` of algebraic spaces locally of finite presentation and a module
 which is quasi-coherent and of finite type on the small étale site of `X`, the relative flat locus
 is open in the point space of `X` as soon as the weakly associated points of the scheme of one
-surjective étale chart of `Y` are locally finite there. -/
-@[stacks 0DLR "openness of the locus U, with all three conditions of the statement in the \
-source's own shape: the module quasi-coherent of finite type on the small etale site, and the \
-weakly associated points of the target locally finite on one surjective etale scheme chart"]
+surjective étale chart of `Y` are locally finite there.
+
+Condition (3) of the source asks that the weakly associated points of `Y` be locally finite in
+`|Y|`; the source's proof reads it as local finiteness on a surjective étale scheme chart, which can
+be stronger when `Y` is not decent.  With (3) on `|Y|` the statement is false:
+`Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus`
+exhibits a target with two weakly associated points over which the flat locus is not open.  The
+chart reading is therefore the correction of the statement, recorded in `errata.md`. -/
+@[stacks 0DLR "openness of the locus U, at the Stacks erratum: condition (3) of the source, local \
+finiteness of the weakly associated points of Y in |Y|, is replaced by local finiteness of the \
+weakly associated points of the scheme of one surjective etale chart of Y, which is how the \
+source's proof reads it and which implies (3). The tag as published, with (3) on |Y|, is false, \
+refuted (with a target which is not decent) by the theorem \
+Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus of \
+StacksFrontier/Examples/Flatness/NonOpenFlatLocusWeaklyAssociated.lean. Conditions (1) and (2) are \
+the source's: f locally of finite presentation, the module quasi-coherent of finite type on the \
+small etale site"]
 theorem isOpen_flatLocus_of_isSurjectiveChart (f : X.1 ⟶ Y)
     (F : Modules.{u, u} B S hS X.1 X.2) (hf : IsLocallyOfFinitePresentation B S hS f)
     (hqc : F.IsQuasicoherentOnSite) (hft : SheafOfModules.IsFiniteTypeOnSite F)
@@ -157,10 +172,22 @@ theorem isOpen_flatLocus_of_isSurjectiveChart (f : X.1 ⟶ Y)
 /-- For a morphism `f : X ⟶ Y` of algebraic spaces locally of finite presentation and a module
 which is quasi-coherent and of finite type on the small étale site of `X`, the relative flat locus
 cuts out an open subspace of `X` as soon as the weakly associated points of the scheme of one
-surjective étale chart of `Y` are locally finite there. -/
-@[stacks 0DLR "the locus U cuts out an open subspace of X in the sense of Tag 03BZ, with all \
-three conditions of the statement in the source's own shape, condition (3) read on one \
-surjective etale scheme chart"]
+surjective étale chart of `Y` are locally finite there.
+
+Condition (3) of the source asks that the weakly associated points of `Y` be locally finite in
+`|Y|`; the source's proof reads it as local finiteness on a surjective étale scheme chart, which can
+be stronger when `Y` is not decent.  With (3) on `|Y|` the statement is false:
+`Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus`
+exhibits a target with two weakly associated points over which the flat locus is not open.  The
+chart reading is therefore the correction of the statement, recorded in `errata.md`. -/
+@[stacks 0DLR "the locus U cuts out an open subspace of X in the sense of Tag 03BZ, at the Stacks \
+erratum: condition (3) of the source, local finiteness of the weakly associated points of Y in \
+|Y|, is replaced by local finiteness of the weakly associated points of the scheme of one \
+surjective etale chart of Y, which is how the source's proof reads it and which implies (3). The \
+tag as published, with (3) on |Y|, is false, refuted (with a target which is not decent) by the \
+theorem \
+Stacks.Examples.NonOpenFlatLocusWeaklyAssociated.exists_not_isOpen_flatLocus \
+of StacksFrontier/Examples/Flatness/NonOpenFlatLocusWeaklyAssociated.lean"]
 theorem isOpenSubspace_flatLocusOpenSubspace_of_isSurjectiveChart (f : X.1 ⟶ Y)
     (F : Modules.{u, u} B S hS X.1 X.2) (hf : IsLocallyOfFinitePresentation B S hS f)
     (hqc : F.IsQuasicoherentOnSite) (hft : SheafOfModules.IsFiniteTypeOnSite F)

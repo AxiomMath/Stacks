@@ -81,22 +81,23 @@ the coefficient universe. See the implementation notes for what else is and is n
 
 ## Implementation notes
 
-**What `Lπ_!` means here, and what Tag 08PU still needs.** The source states Tag 08PU as an
-isomorphism in `D(B)` between `L_{B/A}` and `Lπ_!` of a sheaf of *modules*. Neither the derived
-lower shriek on sheaves of modules nor the derived pullback `Li^*` of sheaves of modules exists
-in this tree — see the final implementation note of
-`StacksFrontier/Cotangent/PolynomialAlgebraSiteDifferentials.lean`, which records exactly that and
-supplies the flatness input instead. What is available is `Lπ_!` on abelian sheaves, read
-degreewise as the left derived functors of the `π_!` of Tag 08PF
-(`Stacks.ChaoticSite.abelianPointLowerShriek`). Accordingly the conclusion delivered is
-degreewise and at abelian coefficients. Two of the three steps of the source's chain are
-nevertheless present in full strength: `Li^* = i^*` is the freeness, hence flatness, of
-`Ω_{𝒪/A}` over `𝒪`, which is `CommAlgCat.polynomialRelativeDifferentials_isFlat` and, at the
-universe used here, `CommAlgCat.free_kaehlerDifferential_polynomialSite`; and the identification
-of `i^*Ω_{𝒪/A}` evaluated on the standard resolution with the simplicial module defining
-`L_{B/A}` is `CommAlgCat.standardResolutionCotangentMooreComplexIso`, an isomorphism of
-*complexes*, not merely of their homology. The missing step is the passage from the degreewise
-statement to an isomorphism in `D(B)`, which needs the module-level `Lπ_!` and `Li^*`.
+**What `Lπ_!` means here, and where the rest of Tag 08PU is.** The source states Tag 08PU as
+an isomorphism in `D(B)` between `L_{B/A}` and `Lπ_!` of a sheaf of *modules*. The results of
+this file use `Lπ_!` on abelian sheaves, read degreewise as the left derived functors of the
+`π_!` of Tag 08PF (`Stacks.ChaoticSite.abelianPointLowerShriek`), so the conclusions here are
+degreewise and at abelian coefficients. The identification of `i^*Ω_{𝒪/A}` evaluated on the
+standard resolution with the simplicial module defining `L_{B/A}` is
+`CommAlgCat.standardResolutionCotangentMooreComplexIso`, an isomorphism of *complexes*, not
+merely of their homology. The isomorphism in `D(B)` is
+`CommAlgCat.standardResolutionCotangentDerivedLowerShriekIso` of
+`StacksFrontier/Cotangent/PolynomialAlgebraSiteModuleShriekDerived.lean`. The step
+`Li^*Ω_{𝒪/A} = i^*Ω_{𝒪/A}`, whose input is the freeness
+`CommAlgCat.free_kaehlerDifferential_polynomialSite` (sheaf-level flatness:
+`CommAlgCat.polynomialRelativeDifferentials_isFlat`), is
+`CommAlgCat.smallPolynomialDerivedPullbackDifferentialsIso`, an isomorphism in `D(B̲)` on the
+small model, and the full chain of the tag in `D(Ab)` is
+`CommAlgCat.cotangentComplexIsoDerivedLowerShriekDerivedPullback`, both in
+`StacksFrontier/Cotangent/PolynomialAlgebraSiteDerivedPullbackDifferentials.lean`.
 
 **The `Type u` model of `i^*Ω_{𝒪/A}`.** The criterion of Tag 08Q9, hence the computation of
 `Lπ_!` on the small model, is stated for coefficients in `AddCommGrpCat.{u}`, the universe of
@@ -376,10 +377,13 @@ def polynomialCotangentModulePresheaf : (polynomialSite A B)ᵒᵖ ⥤ ModuleCat
 
 /-- **The differentials of each object of `C_{B/A}` are free over it.** Every object `(P, α)` of
 the site has `P` a polynomial algebra over `A`, so `Ω[P⁄A]` is free on the variables. This is the
-objectwise input that lets the argument of Tag 08PU replace `Li^*` by `i^*`; the sheaf-level
-statement is `CommAlgCat.polynomialRelativeDifferentials_isFlat`. -/
-@[stacks 08PU "the step Li^*Ω_{𝒪/A} = i^*Ω_{𝒪/A}: each Ω_{P/A} is a free `P`-module, hence \
-  Ω_{𝒪/A} is flat over 𝒪"]
+first sentence of the proof of Tag 08PU, the objectwise input to its step `Li^* = i^*`; the
+sheaf-level flatness is `CommAlgCat.polynomialRelativeDifferentials_isFlat`, and the step itself,
+`Li^*Ω_{𝒪/A} ≅ i^*Ω_{𝒪/A}` in `D(B̲)`, is `CommAlgCat.smallPolynomialDerivedPullbackDifferentialsIso`
+of `StacksFrontier/Cotangent/PolynomialAlgebraSiteDerivedPullbackDifferentials.lean`. -/
+@[stacks 08PU "the first sentence of the proof: for each object P → B of C_{B/A} the module \
+  Ω_{P/A} is a free P-module; this is the input to the step Li^*Ω_{𝒪/A} = i^*Ω_{𝒪/A}, which is \
+  CommAlgCat.smallPolynomialDerivedPullbackDifferentialsIso"]
 theorem free_kaehlerDifferential_polynomialSite (X : polynomialSite A B) :
     Module.Free (X.unop.obj.left : Type u) Ω[(X.unop.obj.left : Type u)⁄A] :=
   free_kaehlerDifferential_of_isPolynomialAlgebra A X.unop.property

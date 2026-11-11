@@ -6,9 +6,10 @@ public import StacksFrontier.RingTheory.Tor.BaseChange
 # Flat base change for Tor over rings in an arbitrary universe
 
 Let `S -> S'` be a flat ring map of commutative rings in an arbitrary universe `u`, and let `M`,
-`N` be `S`-modules. Then for every `i >= 0` the natural base-change map
-`Tor_i^S(M, N) (x)_S S' -> Tor_i^{S'}(M (x)_S S', N (x)_S S')` is an isomorphism of
-`S'`-modules (Stacks Tag `00M8`).
+`N` be `S`-modules. Base changing the chosen projective resolution of `N` gives an isomorphism of
+`S'`-modules `Tor_i^S(M, N) (x)_S S' ≅ Tor_i^{S'}(M (x)_S S', N (x)_S S')` for every `i >= 0`.
+That the natural map of Stacks 00M7 (2) is an isomorphism (Stacks Tag `00M8`) is
+`isIso_torBaseChangeComparison` in `StacksFrontier.RingTheory.Tor.BaseChangeComparison`.
 
 `StacksFrontier.RingTheory.Tor.BaseChange` proves this for rings in `Type`; the statements here are
 the same ones for rings in `Type u`, under names carrying the suffix `OfUniverse`, which is what
@@ -22,7 +23,7 @@ remaining a resolution.
 
 * `torBaseChangeIsoOfUniverse`: the base-change comparison
   `Tor_i^S(M, N) (x)_S S' ≅ Tor_i^{S'}(M (x)_S S', N (x)_S S')`.
-* `flat_base_change_tor_of_universe`: **Tag 00M8**, its underlying morphism is an isomorphism.
+* `flat_base_change_tor_of_universe`: its underlying morphism is an isomorphism.
 -/
 
 @[expose] public section
@@ -121,14 +122,10 @@ noncomputable def torBaseChangeIsoOfUniverse [Module.Flat S S'] (i : ℕ)
     ((torBaseChangeOfUniverse (S := S) (S' := S')).mapProjectiveResolution P) T' i).symm
 
 variable (S') in
-/-- **Flat base change for Tor** (Stacks Tag `00M8`), for rings in an arbitrary universe.
-
-Let `S -> S'` be a flat ring map of commutative rings (encoded as an `S`-algebra `S'` with
-`Module.Flat S S'`), and let `M`, `N` be `S`-modules. Then for every `i` the canonical
-base-change map `Tor_i^S(M, N) (x)_S S' -> Tor_i^{S'}(M (x)_S S', N (x)_S S')` — the underlying
-morphism `(torBaseChangeIsoOfUniverse i M N).hom` of the comparison — is an isomorphism of
-`S'`-modules. -/
-@[stacks 00M8]
+/-- For `S'` flat over `S`, the underlying morphism `(torBaseChangeIsoOfUniverse i M N).hom :
+Tor_i^S(M, N) (x)_S S' -> Tor_i^{S'}(M (x)_S S', N (x)_S S')` of the base-change isomorphism
+is an isomorphism. This holds by construction; Stacks Tag `00M8`, about the natural map that
+exists for every `S -> S'`, is `isIso_torBaseChangeComparison`. -/
 theorem flat_base_change_tor_of_universe [Module.Flat S S'] (i : ℕ) (M N : ModuleCat.{u} S) :
     IsIso (torBaseChangeIsoOfUniverse (S' := S') i M N).hom :=
   inferInstance

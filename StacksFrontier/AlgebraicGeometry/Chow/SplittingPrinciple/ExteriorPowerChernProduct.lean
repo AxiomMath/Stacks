@@ -44,9 +44,12 @@ laws — and `Stacks.Chow.ChowCohomologySeriesRing.UnitalSeries`, the series wit
 `c(⋀ⁿ ℰ)^{(-1)ⁿ}` is an honest `zpow` in that group and the alternating product is an honest
 `Finset.prod`. The degreewise statements of the neighbouring tags —
 `StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.DualChernClasses` for Stacks 0FA5 and
-`StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.TensorChernClasses` for Stacks 0FA6 — are
-written against cap products on Chow groups instead, where no such inverse exists; this tag
-cannot be stated that way, which is why the carried ring is used.
+`StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.TensorChernClasses` for Stacks 0FA6 for
+filtered modules — are written against cap products on Chow groups, where no such inverse
+exists, so this tag cannot be stated that way, which is why the carried ring is used. Stacks 0FA6
+is also proved in the Chow cohomology ring `A^*(X)`, as
+`Stacks.Chow.chernClass_tensorObj_one_chowCohomology` and
+`Stacks.Chow.chernClass_tensorObj_two_chowCohomology`; that statement needs no inverses.
 
 ## Main definitions
 

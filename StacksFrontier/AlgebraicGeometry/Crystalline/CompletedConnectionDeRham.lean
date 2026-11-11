@@ -60,8 +60,8 @@ differential is not `D`-linear — already the Leibniz rule forbids it — so it
 ## What is and is not proved
 
 **No `@[stacks 07LG]` attribute is placed in this module.**  [Stacks, Tag 07LG] is
-`Crystalline.GlobalCrystallineSituation.SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrystalDeRhamComputesCohomology.lean`,
+`Crystalline.GlobalCrystallineSituation.SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/CrystalDeRhamDerived07LG.lean`,
 stated for the pair `(M, ∇)` that the functor of [Stacks, Tag 07JG]
 (`...SmallSite.crystalPairFunctor`) attaches to a crystal in quasi-coherent modules, over the
 completed envelope of any surjective polynomial presentation.  What this module proves is
@@ -106,7 +106,7 @@ columns are the complex `M(0) → M(1) → ⋯` of
 `...SmallSite.computesCohomology_wholeSpaceSystem_of_isSurjectiveComparison` of
 `SmallSite/WholeSpaceSystemCohomology.lean`, and [Stacks, Tag 07LA] is
 `Crystalline.id_completedTensorCompletedForms_homotopic_zero`; both enter the proof of
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology`.
+`...SmallSite.crystalPairDeRhamDerivedPlusIso`.
 
 The graded family `Ω^i_D` is carried as a parameter `Om : ℕ → Type u` with its wedge product and
 its de Rham differential, subject to the Leibniz rule; the degree-one member `Om 1` is the module

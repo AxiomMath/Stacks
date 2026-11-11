@@ -349,14 +349,15 @@ def PullbackPreservesQuasicoherenceEverywhere (B : BigFppfSite.{u}) (S : Scheme.
     (hS : B.Contains S) : Prop :=
   ∀ {V W : AlgebraicSpaces B S hS} (g : V ⟶ W), HasLocalInverseImagePresentations B S hS g
 
-/-- **The kernel clause of Stacks 03DO for quasi-coherence on the small étale site**, carried as
-a hypothesis: the kernel of a quotient of a quasi-coherent module whose quotient module is
+/-- **The kernel clause of Stacks 03DO for quasi-coherence on the small étale site**, as a named
+predicate: the kernel of a quotient of a quasi-coherent module whose quotient module is
 quasi-coherent is itself quasi-coherent.
 
-This is the hypothesis `StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorDescent.lean` carries
+This is the hypothesis `StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorDescent.lean` states
 pointwise in the signatures of its main results; it is needed because the injectivity of
 Stacks 08IU applies the faithfulness clause of Stacks 04W8 to a homomorphism whose source is
-the kernel. -/
+the kernel.  It is proved as `AlgebraicGeometry.Space.kernelQuasicoherent` of
+`StacksFrontier/AlgebraicGeometry/Quot/QuotientDescentClauses.lean`. -/
 def KernelQuasicoherent (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S) : Prop :=
   ∀ {W : AlgebraicSpaces B S hS} (M : Modules.{u, u} B S hS W.1 W.2),
     M.IsQuasicoherentOnSite → ∀ K : Subobject M, (cokernel K.arrow).IsQuasicoherentOnSite →
@@ -408,22 +409,23 @@ def FinitePresentationOnSiteDescendsAlongFpqcCovering (B : BigFppfSite.{u}) (S :
       (∀ i, ((modulePullback B S hS (p i)).obj M).IsFinitePresentationOnSite) →
         M.IsFinitePresentationOnSite
 
-/-- **Remark 08IT, the half of the bijection of Stacks 08IU that this development does not
-carry**, as a hypothesis: for an fpqc covering `{p i : Z i ⟶ W}` of algebraic spaces over `X`
+/-- **The surjectivity half of the bijection of Stacks 08IU, read over a base**, as a named
+predicate: for an fpqc covering `{p i : Z i ⟶ W}` of algebraic spaces over `X`
 and a quasi-coherent module `a^*F` on `W`, a family of quotients of the `aZ i ^*F` with
 quasi-coherent quotient modules which agree on the fibre products `Z i ×_W Z j` is the family of
 restrictions of a quotient of `a^*F` with quasi-coherent quotient module.
 
 This is the fullness and the effectivity clauses of the fpqc descent of quasi-coherent modules,
 Stacks 04W8, together with the fpqc locality of surjectivity of a homomorphism, which is the
-last paragraph of Remark 08IT.  Of the three clauses of Stacks 04W8 only faithfulness is
-available in this development, and the effectivity of a quasi-coherent descent datum is proved
-for no covering; see the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Quot/QuotientFunctorDescent.lean`.
+last paragraph of Stacks 08IU.  The predicate asks for no quasi-coherence of `F` itself; when
+`a^*F` is quasi-coherent, as in Stacks 08IU, its conclusion is
+`AlgebraicGeometry.Space.descendsQuotientsAlongFpqcCovering_of_isQuasicoherentOnSite` of
+`StacksFrontier/AlgebraicGeometry/Quot/QuotientDescentClauses.lean`, and the bijection itself is
+`AlgebraicGeometry.Space.bijOn_quotientRestrict_of_isFpqcCovering`.
 
 The agreement condition is asked for on the fibre products, in the shape a descent datum has,
 and *not* on the members of a refining covering: upgrading agreement on a refining covering to
-agreement on the fibre product is the step of Remark 08IT that consumes the refining coverings
+agreement on the fibre product is the step of Stacks 08IU that consumes the refining coverings
 of Stacks 08IV, and it is proved below rather than assumed. -/
 def DescendsQuotientsAlongFpqcCovering (B : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) : Prop :=

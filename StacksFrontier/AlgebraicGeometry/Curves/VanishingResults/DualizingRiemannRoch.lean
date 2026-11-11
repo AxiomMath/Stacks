@@ -84,8 +84,9 @@ hypothesis `hsec` of
 — evaluates that difference as `r·deg(ℒ)` with `r = dim_{κ(ξ)} ω_ξ` the rank of `ω` at the
 generic point. So the count is `deg(ℒ)` exactly when `ω` has rank one, which is clause (2) of
 [Stacks, Tag 0BS2]; at the canonical dualizing sheaf that clause rests on the dualizing-complex
-property of `f^×(𝒪_{Spec k})`, which is [Stacks, Tag 0AU3] and is absent from this repository,
-so the rank is not available even there.
+property of `f^×(𝒪_{Spec k})`, which is clause (4)(a) of [Stacks, Section 0AU3]
+(`Stacks.Duality.isDualizingComplex_upperShriek_obj`, read at `f^× = f^!` for the proper `f`);
+that reading is not carried out here, so the rank is not used even there.
 
 ## Implementation notes
 

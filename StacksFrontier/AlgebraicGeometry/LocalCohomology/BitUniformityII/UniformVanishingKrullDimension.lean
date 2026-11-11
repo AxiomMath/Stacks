@@ -137,8 +137,9 @@ This is the conclusion of [Stacks, Tag 0GA3] with `e = t` replaced by `e = dim A
 the number of generators of `I` enters the statement. All seven conditions follow from condition
 (7), `exists_uniform_torMapVanishesAtSucc_quotientFactor_of_ringKrullDim`, by
 `tfae_of_isNoetherianRing_of_finite`. -/
-@[stacks 0GA4 "Tag 0GA3 with e = dim A for a local ring: all seven conditions of Tag 0G9V; the
-cd(A, I) question the remark raises is open in the source and is not stated"]
+@[stacks 0GA4 "Tag 0GA3 with e = dim A for a Noetherian local ring: all seven conditions of
+Tag 0G9V; the remark's question about e = cd(A, I) is left open by the source and asserts
+nothing"]
 theorem exists_uniform_vanishingConditions_quotientFactor_of_ringKrullDim
     [IsNoetherianRing A] [IsLocalRing A] (I : Ideal A) (d : ℕ) (hdim : ringKrullDim A = d) :
     ∃ N c : ℕ, ∀ n : ℕ, N ≤ n →

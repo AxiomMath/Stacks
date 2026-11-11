@@ -48,8 +48,9 @@ therefore live in a single universe, although `Algebra.PseudoCoherent` allows tw
 of the three and allow two universes.
 
 Pseudo-coherence of a localization away from an element is not proved by hand: the localization
-`Localization.Away r` is flat and of finite presentation, hence perfect by Stacks 067J, hence
-pseudo-coherent, and every other model of it is isomorphic to it (`Algebra.PseudoCoherent.equiv`).
+`Localization.Away r` is flat and of finite presentation, hence pseudo-coherent by Stacks 067J
+(`Algebra.PseudoCoherent.of_flat_of_finitePresentation`), and every other model of it is
+isomorphic to it (`Algebra.PseudoCoherent.equiv`).
 The same observation applies to an isomorphism, which is `Algebra.PseudoCoherent.of_ringEquiv`;
 it is what transports the statement between the arbitrary models of the two localizations in
 `RingHom.pseudoCoherent_localizationAwayPreserves`. `RingHom.RespectsIso` is not stated
@@ -129,14 +130,14 @@ public theorem pseudoCoherent_stableUnderComposition :
 /-! ### Flat maps of finite presentation -/
 
 /-- A localization away from an element is a pseudo-coherent ring map: the localization
-`Localization.Away r` is flat and of finite presentation, hence perfect by Stacks 067J, and `S` is
-isomorphic to it as an `R`-algebra. -/
+`Localization.Away r` is flat and of finite presentation, hence pseudo-coherent by Stacks 067J,
+and `S` is isomorphic to it as an `R`-algebra. -/
 public theorem _root_.Algebra.PseudoCoherent.of_isLocalizationAway {R : Type u} [CommRing R]
     (S : Type v) [CommRing S] [Algebra R S] (r : R) [IsLocalization.Away r S] :
     Algebra.PseudoCoherent R S := by
   have : Algebra.FinitePresentation R (Localization.Away r) :=
     IsLocalization.Away.finitePresentation r
-  exact (isPerfectRingMap_of_flat_of_finitePresentation R (Localization.Away r)).1.equiv
+  exact (Algebra.PseudoCoherent.of_flat_of_finitePresentation R (Localization.Away r)).equiv
     (IsLocalization.algEquiv (Submonoid.powers r) _ S)
 
 /-- An isomorphism of rings is a pseudo-coherent ring map: `R` is pseudo-coherent over itself by
@@ -144,7 +145,7 @@ Stacks 067J, and `e` is an isomorphism of `R`-algebras. -/
 public theorem _root_.Algebra.PseudoCoherent.of_ringEquiv {R : Type u} {S : Type v} [CommRing R]
     [CommRing S] (e : R ≃+* S) : @Algebra.PseudoCoherent R S _ _ e.toRingHom.toAlgebra := by
   algebraize [e.toRingHom]
-  exact (isPerfectRingMap_of_flat_of_finitePresentation R R).1.equiv
+  exact (Algebra.PseudoCoherent.of_flat_of_finitePresentation R R).equiv
     (AlgEquiv.ofRingEquiv (f := e) fun _ ↦ rfl)
 
 /-- `RingHom.PseudoCoherent` holds for every localization away from an element. -/

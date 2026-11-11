@@ -110,8 +110,10 @@ sheaves `Rⁱf_{fppf,*}F` of `Rf_{fppf,*}F` themselves `ε_*`-acyclic, so that `
 images, `AlgebraicGeometry.Stack.nonempty_etaleComparison_fppfModulesHigherDirectImage_iso`, and
 `AlgebraicGeometry.Stack.nonempty_homology_etaleComparison_totalDirectImage_iso` below. -/
 @[stacks 0771 "part (4)(a), total direct image Rf_*: Rf_{ét,*}(ε_*F) ≅ Rε_*(Rf_{fppf,*}F) in \
-  D⁺(𝒴_ét), for F in LQCoh^fbc and every 1-morphism f, modules at the module universe u of the \
-  schemes"]
+  D⁺(𝒴_ét), for F in LQCoh^fbc (flat base change property of 0762 read on sheaves) and every \
+  1-morphism f, so the source's quasi-compact and quasi-separated f is a special case; modules \
+  at the module universe u of the schemes. The higher direct images R^i f_* are \
+  nonempty_etaleComparison_fppfModulesHigherDirectImage_iso"]
 noncomputable def lqcohSheafFbcTotalDirectImageIso (f : 𝒳 ⟶ 𝒴) (F : StackModules B S hS .fppf 𝒳)
     (hF : lqcohSheafFbcFppfModules.{u, t, u} B E h S hS 𝒳 F) :
     (stackModuleDirectImage B S hS f .etale).rightDerivedFunctorPlus.obj

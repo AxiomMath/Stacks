@@ -53,8 +53,8 @@ cosimplicial direction, rests on the connections alone.
 ## What is and is not proved
 
 **No `@[stacks …]` attribute is placed here.**  [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.  The three connection fields are parameters of
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.  The three connection fields are parameters of
 every definition below; nothing in this module constructs a connection.  For a crystal, the pair on
 the same cosimplicial module with the base-change connections is
 `...SmallSite.crystalCosimplicialPair` of `SmallSite/CrystalCosimplicialPair.lean`.  What falls is

@@ -398,10 +398,6 @@ No hypothesis about extensions or colimits is left: the module is the single pus
 `AlgebraicGeometry.isStabilizedOpenExtension_unit` and coherent by
 `isCoherent_pushforward_restrict_depthOneQuotient`.  The two
 hypotheses are the source's, and both are necessary.  See the module documentation. -/
-@[stacks 0EI3 "existence along a closed subset, with no hypothesis about extensions or \
-colimits, and at the source's hypotheses: the dualizing hypothesis and the depth hypothesis on \
-immediate specializations, nothing else, the coherence of the single pushforward coming from \
-the source's Faltings criterion Tag 0EFD"]
 public theorem exists_isDepthTwoExtension_of_locallyHasDualizingComplex
     (X : Scheme.{u}) [IsNoetherian X] (T : Set X) (V : X.Opens) (hV : (V : Set X) = Tᶜ)
     (F : X.Modules) [F.IsCoherent]

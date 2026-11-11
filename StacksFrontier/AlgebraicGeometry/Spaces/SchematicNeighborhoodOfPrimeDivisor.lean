@@ -85,9 +85,9 @@ rational function of the given chart through
 needs the independence of `AlgebraicGeometry.Space.rationalFunctionsToTotalFractionRing` of the
 chart — a verification the source omits — which is
 `AlgebraicGeometry.Space.rationalFunctionsToTotalFractionRing_comp_eq`. The full statement of
-Stacks 0ENM, at the hypotheses of the source, is assembled from this lemma and that one in
-`AlgebraicGeometry.Space.PrimeDivisor.ord_eq_scheme_ord` of
-`StacksFrontier/AlgebraicGeometry/Spaces/OrderOfVanishingSchematicLocus.lean`.
+Stacks 0ENM, at the hypotheses of the source, is
+`AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_schematicLocus` of
+`StacksFrontier/AlgebraicGeometry/Spaces/SchematicLocusOrderOfVanishing.lean`.
 
 ## References
 
@@ -113,7 +113,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (Z : PrimeDivisor B S hS X)
 
 include hX hInt hN in
-/-- **Stacks 0ENM**, the shrinking step of the proof. If a prime divisor `Z` of a locally
+/-- **The shrinking step of the proof of Stacks 0ENM.** If a prime divisor `Z` of a locally
 Noetherian integral algebraic space `X` meets the schematic locus of `X`, then the generic point
 of `Z` has an elementary étale neighbourhood whose structure morphism is an open immersion and
 whose scheme is integral, locally Noetherian and of codimension one at the marked point.
@@ -122,10 +122,6 @@ The neighbourhood is the schematic locus itself: it is an open subspace represen
 `V` by Stacks 03JH, its point set is open in `|X|` and meets `|Z|`, hence contains the generic
 point `ξ` of `Z`, and the point `v ∈ V` over `ξ` has codimension one because `|V| → |X|` is an
 open embedding. -/
-@[stacks 0ENM "the shrinking step of the proof: from the hypothesis that the prime divisor meets
-  the schematic locus, an elementary étale neighbourhood of its generic point which is an open
-  immersion and whose scheme is integral, locally Noetherian and of codimension one at the
-  marked point"]
 theorem PrimeDivisor.exists_schematic_neighborhood
     (hmeet : (Z.support B S hS X ∩
       subspacePointSet B S hS X (schematicLocus B S hS X)).Nonempty) :

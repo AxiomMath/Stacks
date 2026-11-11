@@ -89,11 +89,16 @@ The canonical maps are obtained from `KaehlerDifferential.map` and
 
 ### Main results
 
-* `finrank_ker_sub_finrank_coker_kaehlerDifferential_map_sub_h1Cotangent_map`:
-  the finiteness and dimension formula for the two canonical maps.
+* `finrank_ker_sub_finrank_coker_kaehlerDifferential_map_sub_h1Cotangent_map_of_essFiniteType`:
+  the finiteness and dimension formula for the two canonical maps, for finitely generated
+  field extensions (`Algebra.EssFiniteType`).
+* `finrank_ker_sub_finrank_coker_kaehlerDifferential_map_sub_h1Cotangent_map`: the special
+  case of algebras of finite type, where both extensions are finite.
 
 ### Implementation notes
 
+A finitely generated field extension is expressed by `Algebra.EssFiniteType`, which is
+equivalent to `(⊤ : IntermediateField k k').FG` by `IntermediateField.fg_top_iff`.
 A cokernel is represented as the quotient of the codomain by the range. The alternating
 dimension identity is stated in the integers, so subtraction has its usual mathematical
 meaning rather than truncated natural-number subtraction.
@@ -595,17 +600,23 @@ K  → K'
 ↑    ↑
 k  → k'
 ```
-whose horizontal extensions are finitely generated, the kernels and cokernels of the canonical
-maps on Kähler differentials and first cotangent homology are finite-dimensional. The alternating
-sum of their dimensions is the difference of the transcendence degrees of the horizontal
-extensions. -/
+whose horizontal extensions `k'/k` and `K'/K` are finitely generated field extensions (possibly
+transcendental), the kernels and cokernels of the canonical maps
+`α : K' ⊗[K] Ω[K⁄k] → Ω[K'⁄k']` and `β : K' ⊗[K] H₁(L_{K/k}) → H₁(L_{K'/k'})` are
+finite-dimensional. The alternating sum of their dimensions is the difference of the
+transcendence degrees of the horizontal extensions.
+
+A finitely generated field extension is expressed by `Algebra.EssFiniteType`, following Mathlib;
+it is equivalent to `(⊤ : IntermediateField k k').FG` by `IntermediateField.fg_top_iff`. Both
+transcendence degrees are finite, so they are written as `Cardinal.toNat` of `Algebra.trdeg`. -/
 @[stacks 07E3, ega "0 21.7.1"]
-public theorem finrank_ker_sub_finrank_coker_kaehlerDifferential_map_sub_h1Cotangent_map
+public theorem
+    finrank_ker_sub_finrank_coker_kaehlerDifferential_map_sub_h1Cotangent_map_of_essFiniteType
     (k : Type u₁) (K : Type u₂) (k' : Type u₃) (K' : Type u₄)
     [Field k] [Field K] [Field k'] [Field K']
     [Algebra k K] [Algebra k k'] [Algebra K K'] [Algebra k' K'] [Algebra k K']
     [IsScalarTower k K K'] [IsScalarTower k k' K']
-    [Algebra.FiniteType k k'] [Algebra.FiniteType K K'] :
+    [Algebra.EssFiniteType k k'] [Algebra.EssFiniteType K K'] :
     let α := (KaehlerDifferential.map k k' K K').liftBaseChange K'
     let β := (Algebra.H1Cotangent.map k k' K K').liftBaseChange K'
     FiniteDimensional K' (LinearMap.ker α) ∧
@@ -706,6 +717,33 @@ public theorem finrank_ker_sub_finrank_coker_kaehlerDifferential_map_sub_h1Cotan
   rw [LinearMap.index_eq_finrank_sub] at hindexβ
   simp only [Module.finrank_tensorProduct, Module.finrank_self, one_mul] at hLower
   linarith [hk.2.2, hK.2.2]
+
+/-- The special case of
+`finrank_ker_sub_finrank_coker_kaehlerDifferential_map_sub_h1Cotangent_map_of_essFiniteType`
+in which `k'` and `K'` are of finite type as algebras over `k` and `K`. By Zariski's lemma these
+hypotheses force `k'/k` and `K'/K` to be finite extensions, so both transcendence degrees vanish
+here; the Stacks statement (Tag 07E3), for arbitrary finitely generated field extensions, is the
+`_of_essFiniteType` version. -/
+public theorem finrank_ker_sub_finrank_coker_kaehlerDifferential_map_sub_h1Cotangent_map
+    (k : Type u₁) (K : Type u₂) (k' : Type u₃) (K' : Type u₄)
+    [Field k] [Field K] [Field k'] [Field K']
+    [Algebra k K] [Algebra k k'] [Algebra K K'] [Algebra k' K'] [Algebra k K']
+    [IsScalarTower k K K'] [IsScalarTower k k' K']
+    [Algebra.FiniteType k k'] [Algebra.FiniteType K K'] :
+    let α := (KaehlerDifferential.map k k' K K').liftBaseChange K'
+    let β := (Algebra.H1Cotangent.map k k' K K').liftBaseChange K'
+    FiniteDimensional K' (LinearMap.ker α) ∧
+      FiniteDimensional K' (Ω[K'⁄k'] ⧸ LinearMap.range α) ∧
+      FiniteDimensional K' (LinearMap.ker β) ∧
+      FiniteDimensional K' (Algebra.H1Cotangent k' K' ⧸ LinearMap.range β) ∧
+      (Module.finrank K' (LinearMap.ker α) : ℤ) -
+          Module.finrank K' (Ω[K'⁄k'] ⧸ LinearMap.range α) -
+          Module.finrank K' (LinearMap.ker β) +
+          Module.finrank K' (Algebra.H1Cotangent k' K' ⧸ LinearMap.range β) =
+      (Cardinal.toNat (Algebra.trdeg k k') : ℤ) -
+          Cardinal.toNat (Algebra.trdeg K K') :=
+  finrank_ker_sub_finrank_coker_kaehlerDifferential_map_sub_h1Cotangent_map_of_essFiniteType
+    k K k' K'
 
 end
 

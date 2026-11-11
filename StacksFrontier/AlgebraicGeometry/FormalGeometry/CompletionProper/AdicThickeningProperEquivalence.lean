@@ -184,9 +184,9 @@ public theorem adicThickeningTransitionCompletionFunctor_obj_obj [IsNoetherianRi
 proper and `Xₙ = X ×_S Sₙ`. Then completion `ℱ ↦ (ℱ|_{Xₙ})` is an equivalence from the category
 of all coherent `𝒪_X`-modules to the category of systems `(ℱₙ, φₙ)` with `ℱₙ` a coherent
 `𝒪_{Xₙ}`-module and `φₙ : iₙ^*ℱₙ₊₁ ≅ ℱₙ` an isomorphism. -/
-@[stacks 088F "the special case of X proper over A, with the conditions on the supports \
-omitted: completion from all coherent O_X-modules to the systems of coherent O_{X_n}-modules F n \
-with isomorphisms phi n is an equivalence of categories"]
+@[stacks 088F "the remark's last sentence: for X proper over A, with the conditions on the \
+supports omitted, completion from all coherent O_X-modules to the systems of coherent \
+O_{X_n}-modules F n with isomorphisms phi n is an equivalence of categories"]
 public theorem isEquivalence_adicThickeningTransitionCompletionFunctor [IsNoetherianRing A]
     [IsAdicComplete I A] [IsProper f] :
     (adicThickeningTransitionCompletionFunctor A I f).IsEquivalence := by

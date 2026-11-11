@@ -22,8 +22,8 @@ fibre products by transport to direct images and then to their left adjoints.
 
 * `Stacks.EtaleCohomology.systemPushforward` — direct image along a transition morphism.
 * `Stacks.EtaleCohomology.systemPullback` — inverse image along a transition morphism.
-* `Stacks.EtaleCohomology.EtaleSheafSystem` — a system of sheaves on an inverse system of
-  schemes.
+* `Stacks.EtaleCohomology.EtaleSheafSystem` — sheaves on the members of an inverse system of
+  schemes with transition maps satisfying the cocycle condition.
 
 ## Main results
 
@@ -34,7 +34,8 @@ fibre products by transport to direct images and then to their left adjoints.
 
 The index set is only preordered and no condition is imposed on the transition morphisms, as in
 the source. The source's compatibility is the cocycle condition alone; it does not ask the map at
-an identity index to be the identity, and that condition is not imposed here either.
+an identity index to be the identity, and that condition is not imposed here either. The unital
+variant, which does impose it, is `Stacks.EtaleCohomology.UnitalEtaleSheafSystem`.
 
 The coefficient category is arbitrary, the source's sheaves of sets and sheaves of abelian groups
 being instances. The inverse image exists as soon as the direct image has a left adjoint, which is
@@ -105,8 +106,12 @@ public def systemPullbackComp {i j k : Iᵒᵖ} (a : i ⟶ j) (b : j ⟶ k) :
 /-- A *system of sheaves* on an inverse system of schemes `D`: a sheaf on the small étale site of
 each member, together with a map from the inverse image of the sheaf at an index to the sheaf at
 any larger index, compatible with composition of the transition morphisms through the canonical
-comparison `Stacks.EtaleCohomology.systemPullbackComp`. -/
-@[stacks 0EZL]
+comparison `Stacks.EtaleCohomology.systemPullbackComp`.
+
+As in the source, no condition is imposed on the map attached to an identity index. -/
+@[stacks 0EZL "a system of sheaves: sheaves on the small étale sites of the members and maps \
+  f_{i'i}^{-1}F_i ⟶ F_{i'} satisfying the cocycle condition, the only condition the source \
+  imposes; arbitrary coefficient category"]
 public structure EtaleSheafSystem where
   /-- The sheaf on the small étale site of each member of the system. -/
   obj : ∀ i : Iᵒᵖ, Sheaf (smallEtaleTopology (D.obj i)) A

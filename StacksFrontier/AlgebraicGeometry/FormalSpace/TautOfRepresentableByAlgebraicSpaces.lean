@@ -64,11 +64,6 @@ variable {A C : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
 /-- Let `φ : A ⟶ C` be a continuous homomorphism of weakly admissible topological rings over
 `S`, so that `Spf A` and `Spf C` are affine formal algebraic spaces. If `Spf (φ)` is of finite
 type, then `φ` is taut and `C` is topologically of finite type over `A`. -/
-@[stacks 0ANT "the implication (1) ⟹ (2): for a continuous homomorphism of weakly admissible \
-topological rings over `S` whose formal spectrum map is of finite type, the homomorphism is \
-taut and is topologically of finite type. That the two formal spectra are affine formal \
-algebraic spaces is Stacks 0AIF for a weakly admissible ring and belongs to the situation of \
-the lemma, whose condition (1) speaks of a finite type morphism of them."]
 theorem isTaut_and_isTopologicallyOfFiniteType_of_isFiniteType_formalSpectrumMap
     (hA : TopologicalRing.IsWeaklyAdmissible A) (hC : TopologicalRing.IsWeaklyAdmissible C)
     (D : QuotientSystem B S hS A) (E : QuotientSystem B S hS C) (f : ContinuousHom D E)

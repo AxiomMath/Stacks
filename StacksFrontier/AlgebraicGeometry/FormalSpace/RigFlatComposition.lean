@@ -39,7 +39,8 @@ latter, which the library was missing even though the composition law for formal
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.isRigFlat_comp`: **Stacks 0GH0**.
+* `AlgebraicGeometry.FormalSpace.isRigFlat_comp`: the composition law of Stacks 0GH0 for
+  arbitrary fppf sheaves, from the uniform transfer `TransfersCompositionOnAffineEtaleDiagrams`.
 * `AlgebraicGeometry.FormalSpace.isRigFlat_iff_hasPropertyOnEveryAffineEtaleDiagram`: Definition
   0GGX is condition (1) of Stacks 0ANG for rig-flatness as a property of arrows of `WAdm^Noeth`.
 * `AlgebraicGeometry.FormalSpace.formalSpectrumMap_comp_eq`: `Spf` turns `ContinuousHom.comp`
@@ -55,20 +56,24 @@ Stacks 0GH0 is the composite of two facts. At the level of topological rings, ri
 stable under composition in the sense of Remark 0GBK; this is Stacks 0GGV, carried by the
 library as `Rig.rigFlat_isStableUnderCompositionNoetherian`, whose locality input (Stacks 0GGU)
 is proved. Remark 0GBK then draws from such a stability bundle the geometric transfer:
-condition (1) of Stacks 0ANG passes from `f` and `g` to their composite. The library carries
-0GBK only as the ring-level bundle; the geometric half would mean manufacturing, from a chart of
-`X` and a chart of `Z`, a chart of the intermediate space `Y` through which the chart morphism
-factors, and descending the property along the resulting coverings. It is therefore taken as the
-hypothesis `TransfersCompositionOnAffineEtaleDiagrams`, quantified over *all* properties
-admitting a stability bundle and hence a statement about the generic machinery of Remark 0GBK
-rather than a restatement of the conclusion below; this is the arrangement of the rig-smooth
-variant Stacks 0GCS in `StacksFrontier.AlgebraicGeometry.FormalSpace.RigSmoothComposition`, from
-which the hypothesis is imported. What the theorem itself supplies is the passage between the
-predicate of Stacks 0GGX and that machinery, in both directions, together with the
-instantiation of the generic transfer at the rig-flat property furnished by Stacks 0GGV.
+condition (1) of Stacks 0ANG passes from `f` and `g` to their composite. For locally Noetherian
+formal algebraic spaces that transfer is proved, as
+`AlgebraicGeometry.FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_comp_of_isLocallyNoetherian`,
+and Stacks 0GH0 itself is
+`AlgebraicGeometry.FormalSpace.isRigFlat_comp_of_isLocallyNoetherian` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RigFlatCompositionLocallyNoetherian`.
 
-The locally Noetherian hypotheses on `X`, `Y`, `Z` are carried by the class of rings over which
-the chart condition quantifies, exactly as for Stacks 0GGX.
+`isRigFlat_comp` here is the same composition for arbitrary fppf sheaves `X`, `Y`, `Z`, with no
+locally Noetherian hypothesis; it takes the uniform transfer
+`TransfersCompositionOnAffineEtaleDiagrams`, quantified over *all* properties admitting a
+stability bundle, which is the arrangement of the rig-smooth variant Stacks 0GCS in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RigSmoothComposition`, from which the hypothesis is
+imported. What the file itself supplies is the passage between the predicate of Stacks 0GGX
+and that machinery, in both directions, together with the instantiation of the generic transfer
+at the rig-flat property furnished by Stacks 0GGV.
+
+In `isRigFlat_comp` the rings over which the chart condition quantifies are adic Noetherian,
+exactly as for Stacks 0GGX; the sheaves `X`, `Y`, `Z` themselves carry no hypothesis.
 
 Composability of continuous homomorphisms is not formal: the `overS` field has to be checked on
 every pair of weak ideals of definition `J` of the source and `K` of the target with
@@ -305,10 +310,10 @@ theorem isRigFlat_iff_hasPropertyOnEveryAffineEtaleDiagram (f : X ⟶ Y) :
     exact h U V a b t hU hV ⟨ha, haet⟩ ⟨hb, hbet⟩ hcomm A R
       ⟨hAadic, inferInstance⟩ ⟨hRadic, inferInstance⟩ hA D E eU eV g hg
 
-/-- **Stacks 0GH0.** A composite of rig-flat morphisms of locally Noetherian formal algebraic
-spaces is rig-flat: if `f : X ⟶ Y` and `g : Y ⟶ Z` are rig-flat, then so is `g ∘ f`. -/
-@[stacks 0GH0 "the composite is rig-flat, with the geometric half of Stacks 0GBK as a \
-hypothesis"]
+/-- A composite of rig-flat morphisms of fppf sheaves over `S` is rig-flat, given the uniform
+transfer `TransfersCompositionOnAffineEtaleDiagrams` of condition (1) of Stacks 0ANG along
+composition. For locally Noetherian formal algebraic spaces, the setting of Stacks 0GH0, no such
+transfer is needed: see `AlgebraicGeometry.FormalSpace.isRigFlat_comp_of_isLocallyNoetherian`. -/
 theorem isRigFlat_comp (htransfer : TransfersCompositionOnAffineEtaleDiagrams B S hS)
     (f : X ⟶ Y) (g : Y ⟶ Z) (hf : IsRigFlat B S hS f) (hg : IsRigFlat B S hS g) :
     IsRigFlat B S hS (f ≫ g) :=

@@ -24,14 +24,14 @@ wanted, together with the fact that nothing else glues to the same pair.
 ## Implementation notes
 
 The hypotheses are exactly those of
-`AlgebraicGeometry.Space.isPushout_algebraicSpaces_of_isThickening_of_isAffineHom'`, which is
-Stacks 07SY with no carried hypothesis, so neither statement here assumes anything beyond its
-geometric data.  Nothing mathematical is added: the morphism form is the universal property of
+`AlgebraicGeometry.Space.isPushout_algebraicSpaces_of_isThickening_of_isAffineHom'`, the
+statement of Stacks 07SY, so neither statement here assumes anything beyond its geometric
+data.  Nothing mathematical is added: the morphism form is the universal property of
 that pushout read in the full subcategory of presheaves cut out by `IsAlgebraicSpace`, and the
 section form is the morphism form transported along `CategoryTheory.yonedaEquiv`.
 
-Neither declaration carries `@[stacks 07SY]`.  That tag is already covered outright by
-`isPushout_algebraicSpaces_of_isThickening_of_isAffineHom'`, and a second carrier of the same
+Neither declaration carries `@[stacks 07SY]`.  That tag is carried by
+`isPushout_algebraicSpaces_of_isThickening_of_isAffineHom`, and a second carrier of the same
 assertion would say nothing the first does not.
 
 The algebraic space is taken as a presheaf together with a proof that it is one, rather than as an

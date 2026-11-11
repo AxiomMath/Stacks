@@ -29,7 +29,7 @@ complex of two complexes of modules with sections in `u` has sections in `u + 1`
 
 The collapsed case `RingedSite.{u, u, u}` with modules in `u` is the instance `v := u`,
 `w := u`, `m := u`, and is, in the namespace
-`StacksFrontier.CategoryTheory.Sites.Cohomology.StrictlyPerfect`,
+`StacksDraft.CategoryTheory.Sites.Cohomology.StrictlyPerfect`,
 `HomComplexOfAStrictlyPerfectComplex`, `InternalHomTermwiseSplit`,
 `StrictlyPerfectHomQuasiIso` and `InternalHomUnitSource`. The
 coproduct description of the terms, including the 08JH comparison, is only available there: it

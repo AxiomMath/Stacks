@@ -28,6 +28,11 @@ the lower row is a short exact sequence of first order thickenings of `(Sh(B), O
 `ℱ = ℱ'₂ ⊗ O` to `(Sh(C), O)`, and the canonical splitting
 `π : (Sh(C'₁), O'₁) ⟶ (Sh(C), O)` of the upper row.
 
+The faithful formalization of that situation is
+`Deformation.ToposThickening.FlatThickeningComplexSituation`, in the one-site presentation of
+`Deformation.ToposThickening.FirstOrderThickeningComplex`. This file records a three-site variant
+of it whose exactness condition on the rows is a different one, see below.
+
 This is the standing hypothesis of the comparison, in the deformation theory of `ℱ`, between
 the difference of the two flat lifts `π^*ℱ` and `h^*ℱ'₂` over `(Sh(C'₁), O'₁)` and the
 obstruction to lifting `ℱ` over `(Sh(C'₃), O'₃)`.
@@ -37,24 +42,30 @@ obstruction to lifting `ℱ` over `(Sh(C'₃), O'₃)`.
 * `Deformation.ToposThickening.MorphismOfThickenings.ofFirstOrder`: the commutative square of
   Stacks 08M7 assembled from two first order thickenings, their defining ideals and a morphism
   between them.
-* `Deformation.ToposThickening.ShortExactFlatThickeningSituation`: **Stacks 08VX**, the whole
-  situation.
-* `Deformation.ToposThickening.ShortExactFlatThickeningSituation.F`: **Stacks 08VX**, the
-  `O`-module `ℱ = ℱ'₂ ⊗ O`.
+* `Deformation.ToposThickening.ShortExactFlatThickeningSituation`: a variant of the situation
+  of Stacks 08VX whose rows satisfy a pullback-based exactness condition different from the
+  short exactness of Stacks 08ML; see its docstring. Situation 08VX itself is
+  `Deformation.ToposThickening.FlatThickeningComplexSituation`.
+* `Deformation.ToposThickening.ShortExactFlatThickeningSituation.F`: the `O`-module
+  `ℱ = ℱ'₂ ⊗ O` of the variant.
 
 ## Implementation notes
 
-The two rows are `Deformation.ToposThickening.FirstOrderThickeningSequence` of Stacks 08ML,
-which carries the three first order thickenings of a fixed ringed topos, their defining ideals
-and the two morphisms between them; that a row is short exact is
-`Deformation.ToposThickening.FirstOrderThickeningSequence.IsShortExactSequence` of the same
-tag. The three vertical squares are not recorded separately: each is the square of Stacks 08M7
-cut out of the two rows at one index by `MorphismOfThickenings.ofFirstOrder`, so that the
-defining ideals entering strictness are the rows' own ideals and not a second copy of them.
-Strictness is `Deformation.ToposThickening.MorphismOfThickenings.IsStrict` of Stacks 08M9,
-flatness of `f'ᵢ` is `AlgebraicGeometry.RingedToposHom.IsFlat` of Stacks 04JB, and flatness of
-`ℱ'₂` over `O_{B'₂}` is flatness in the sense of Stacks 03ER of `ℱ'₂` with its scalars
-restricted along the inverse-image form `(f'₂)⁻¹O_{B'₂} ⟶ O'₂` of the structure map of `f'₂`.
+The two rows are `Deformation.ToposThickening.FirstOrderThickeningSequence` of Stacks 08ML, which
+carries the three first order thickenings of a fixed ringed topos, their defining ideals and the two
+morphisms between them; the exactness imposed on a row is
+`Deformation.ToposThickening.FirstOrderThickeningSequence.IsShortExactSequence`, exactness of the
+sequence `f₁₂^*f₂₃^*I₃ ⟶ f₁₂^*I₂ ⟶ I₁` of module pullbacks. That is not the short exactness of
+`0 ⟶ I₃ ⟶ I₂ ⟶ I₁ ⟶ 0` as `O`-modules asked for by Stacks 08ML: the module pullbacks are not exact
+and change the modules involved (see the docstring of
+`Deformation.ToposThickening.ShortExactFlatThickeningSituation`). The three vertical squares are not
+recorded separately: each is the square of Stacks 08M7 cut out of the two rows at one index by
+`MorphismOfThickenings.ofFirstOrder`, so that the defining ideals entering strictness are the rows'
+own ideals and not a second copy of them. Strictness is
+`Deformation.ToposThickening.MorphismOfThickenings.IsStrict` of Stacks 08M9, flatness of `f'ᵢ` is
+`AlgebraicGeometry.RingedToposHom.IsFlat` of Stacks 04JB, and flatness of `ℱ'₂` over `O_{B'₂}` is
+flatness in the sense of Stacks 03ER of `ℱ'₂` with its scalars restricted along the inverse-image
+form `(f'₂)⁻¹O_{B'₂} ⟶ O'₂` of the structure map of `f'₂`.
 
 `ℱ` is not a field: it is defined, as the pullback `i₂^*ℱ'₂ = ℱ'₂ ⊗_{O'₂} O` of Stacks 03D6
 along the middle thickening of the upper row, which is what `ℱ'₂ ⊗ O` abbreviates.
@@ -167,12 +178,20 @@ variable {X : RingedTopos.{v, u, w}} {X₁ : RingedTopos.{v₁, u₁, w₁}}
   [HasWeakSheafify S₂.J AddCommGrpCat.{wS₂}]
   [S₂.J.WEqualsLocallyBijective AddCommGrpCat.{wS₂}]
 
-/-- **Stacks 08VX.** A short exact sequence of first order thickenings of a ringed topos
-`(Sh(C), O)` mapping to a short exact sequence of first order thickenings of a ringed topos
-`(Sh(B), O_B)`, by three strict flat deformations of one morphism `f : (Sh(C), O) ⟶
-(Sh(B), O_B)`, together with an `O'₂`-module flat over `O_{B'₂}` and the canonical splitting
-of the upper row. -/
-@[stacks 08VX "the situation"]
+/-- A variant of the situation of Stacks 08VX in the three-site presentation: a sequence of
+first order thickenings of a ringed topos `(Sh(C), O)` mapping to a sequence of first order
+thickenings of a ringed topos `(Sh(B), O_B)`, by three strict flat deformations of one morphism
+`f : (Sh(C), O) ⟶ (Sh(B), O_B)`, together with an `O'₂`-module flat over `O_{B'₂}` and the
+canonical splitting of the upper row.
+
+This is not Situation 08VX itself, whose faithful formalization is
+`Deformation.ToposThickening.FlatThickeningComplexSituation`. The exactness imposed on each row
+here is `Deformation.ToposThickening.FirstOrderThickeningSequence.IsShortExactSequence`, the
+exactness of `f₁₂^*f₂₃^*I₃ ⟶ f₁₂^*I₂ ⟶ I₁` with the module pullbacks `f^* = O'₁ ⊗ f⁻¹(-)`,
+whereas Stacks 08ML asks for exactness of `0 ⟶ I₃ ⟶ I₂ ⟶ I₁ ⟶ 0` as `O`-modules. The two
+differ: for `O'₃ = k[x]/(x²) ⟶ O'₂ = k[x, y]/(x, y)² ⟶ O'₁ = k[y]/(y²)` over `O = k` the
+sequence of ideals `0 ⟶ k ⟶ k² ⟶ k ⟶ 0` is exact, but `f₁₂^*f₂₃^*I₃ = k[y]/(y²)` maps to
+`f₁₂^*I₂ = k²` with a nonzero kernel, so this structure excludes that basic instance. -/
 structure ShortExactFlatThickeningSituation
     (upper : FirstOrderThickeningSequence X X₁ X₂ X₃)
     (lower : FirstOrderThickeningSequence S S₁ S₂ S₃) where
@@ -237,9 +256,9 @@ namespace ShortExactFlatThickeningSituation
 variable {upper : FirstOrderThickeningSequence X X₁ X₂ X₃}
   {lower : FirstOrderThickeningSequence S S₁ S₂ S₃}
 
-/-- **Stacks 08VX.** The `O`-module `ℱ = ℱ'₂ ⊗ O`: the pullback of `ℱ'₂` along the middle
-thickening of the upper row. -/
-@[stacks 08VX "the module `ℱ = ℱ'₂ ⊗ O`"]
+/-- The `O`-module `ℱ = ℱ'₂ ⊗ O` of the variant
+`Deformation.ToposThickening.ShortExactFlatThickeningSituation`: the pullback of `ℱ'₂` along
+the middle thickening of the upper row. -/
 noncomputable def F (D : ShortExactFlatThickeningSituation upper lower) :
     SheafOfModules.{w} (Stacks.SheafOfModules.Tensor.ringSheaf X.O) :=
   (upper.i₂.toModulesHom.pullbackModules).obj D.F'

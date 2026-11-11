@@ -24,7 +24,10 @@ displayed isomorphism are classes of ordinary internal Hom complexes: the left-h
 class of `ℋom^•_{𝒪_X}(i_* ℳ, 𝒦)` and the right-hand side is the class of
 `i_* ℋom^•_{𝒪_Z}(ℳ, ℰom(𝒪_Z, 𝒦))`. The identification of those two complexes is the internal
 form of the adjunction of [Stacks, Tag 0A75]; it is an underived statement, and it enters below as
-the hypothesis `hom`.
+the parameter `hom`. The library constructs it as
+`RingedSpaceModuleAdjunction.ClosedQuotientMorphismOfRingedSpaces.pushforwardSheafHomComplexIsoSite`,
+and the isomorphism of [Stacks, Tag 0E2I] as an isomorphism of functors on `D(𝒪_X)` is
+`RingedSpaceModuleAdjunction.ClosedQuotientMorphismOfRingedSpaces.derivedSheafHomPushforwardNatIso`.
 
 All names live in the namespace
 `RingedSpaceModuleAdjunction.ClosedQuotientMorphismOfRingedSpaces`.
@@ -45,8 +48,8 @@ All names live in the namespace
 * `isKInjective_mapHomologicalComplex_siteSheafHomExactSupport`: sheaf Hom with exact support
   preserves K-injectivity of complexes. This is [Stacks, Tag 08BJ] applied to the adjunction of
   [Stacks, Tag 0A75], whose left adjoint is exact by [Stacks, Tag 08KS].
-* `derivedSheafHomDerivedModulePushforwardIso`: the isomorphism of [Stacks, Tag 0E2I], granted
-  the underived identification of internal Hom complexes described above.
+* `derivedSheafHomDerivedModulePushforwardIso`: the isomorphism of [Stacks, Tag 0E2I] at a pair
+  of objects, built from any identification `hom` of internal Hom complexes as described above.
 
 ## Implementation notes
 
@@ -203,7 +206,7 @@ def derivedSheafHomExactSupportIsoOfIsKInjective
 `R ℋom_{𝒪_X}(Ri_* M, K) ≅ Ri_* R ℋom_{𝒪_Z}(M, R ℰom(𝒪_Z, K))`
 
 computed from a complex `N` representing `M` and a K-injective complex `I` representing `K`,
-granted the underived identification `hom` of internal Hom complexes, which says that for
+and from an identification `hom` of internal Hom complexes, which says that for
 complexes `ℳ` of `𝒪_Z`-modules and `𝒦` of `𝒪_X`-modules the pushforward of
 `ℋom^•_{𝒪_Z}(ℳ, ℰom(𝒪_Z, 𝒦))` is `ℋom^•_{𝒪_X}(i_* ℳ, 𝒦)`. That identification is the internal
 form of the adjunction of [Stacks, Tag 0A75].
@@ -263,13 +266,14 @@ def derivedSheafHomDerivedModulePushforwardIsoOfModels
         ((RingedSite.derivedSheafHomBifunctor S.closedSite).mapIso eM.op).app
           (S.siteDerivedSheafHomExactSupport.obj K))
 
-/-- **Stacks Project, Tag 0E2I.** For `M` in `D(𝒪_Z)` and `K` in `D(𝒪_X)`,
+/-- **The isomorphism of [Stacks, Tag 0E2I] at a pair of objects.** For `M` in `D(𝒪_Z)` and
+`K` in `D(𝒪_X)`,
 
 `R ℋom_{𝒪_X}(Ri_* M, K) ≅ Ri_* R ℋom_{𝒪_Z}(M, R ℰom(𝒪_Z, K))` in `D(𝒪_X)`,
 
-granted the underived identification `hom` of internal Hom complexes. The representatives used
-are the chosen K-injective models of `M` and `K`. -/
-@[stacks 0E2I "the derived isomorphism, granted the underived internal Hom identification"]
+built from an identification `hom` of internal Hom complexes, which the library supplies as
+`pushforwardSheafHomComplexIsoSite`. The representatives used are the chosen K-injective models
+of `M` and `K`. -/
 def derivedSheafHomDerivedModulePushforwardIso
     (hom : ∀ (N : CochainComplex
           (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf S.closedSite.O)) ℤ)

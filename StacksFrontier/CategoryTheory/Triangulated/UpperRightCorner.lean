@@ -1,7 +1,6 @@
 module
 
 public import Mathlib.CategoryTheory.Triangulated.Triangulated
-public import StacksCore.Tactic.StacksAttribute
 public import StacksFrontier.CategoryTheory.Triangulated.Elementary
 
 /-!
@@ -54,34 +53,21 @@ through the two biproduct inclusions. Each gives one of the two triangles, and t
 `M ⟶ C₂ ⟶ E` and `M ⟶ C₁ ⟶ E` are the second arrow `M ⟶ E` of the cone triangle, which is the
 commuting square.
 
-### Scope of the `@[stacks 09DK]` attributes
+### Relation to Stacks 09DK
 
-Tag 09DK is a displayed diagram in the section on fibre products of algebraic spaces and the
-cotangent complex, with no enclosing numbered statement; the assertion is the prose explaining
-it. That prose has three clauses, and the two carried here are the second and the third: that an
-object fitting into the upper right corner exists, by the nine diagram applied to the lower left
-square with a zero object in the empty spot, and that it may be taken to be the cone of the map
-out of the direct sum. Both are stated here at the generality of an arbitrary triangulated
-category, which is how the clause strings of the two attributes read.
-
-The first clause carries no attribute and is not proved here. It asserts that, for morphisms
-`X ⟶ B` and `Y ⟶ B` of algebraic spaces over a scheme `S` with `W = X ×_B Y` and projections
-`p : W ⟶ X` and `q : W ⟶ Y`, the middle row and the middle column are the fundamental triangles
-of Tag 08V1 for `W ⟶ X ⟶ B` and for `W ⟶ Y ⟶ B`, so that `M = L_{W/B}`, `C₁ = L_{W/X}`,
-`C₂ = L_{W/Y}`, `A₁ = Lp^*L_{X/B}` and `A₂ = Lq^*L_{Y/B}`. Nothing in this development states
-Tag 08V1: the fundamental triangle for a tower of ring maps is available, as Tag 08QX
-(`CommAlgCat.productFundamentalTriangle_distinguished` of
-`StacksFrontier.Cotangent.Triangle.ProductDescent`), but the chain from there to a morphism of
-ringed topoi runs on through Tags 08SV and 08SZ, of which 08SV is not proved — see the
-`No @[stacks 08SV]` section of
-`StacksFrontier.Cotangent.SheavesOfRings.InverseImageStandardResolution`.
-
-Naming the vertices is blocked independently of that, because Tag 08VD — the cotangent complex
-of a morphism of algebraic spaces — is not available either. `Sheaf.cotangentComplex` requires
-its sheaves of rings in `CommRingCat.{max u v w}` for a site with objects in `Type u` and
-morphisms in `Type v`, whereas `AlgebraicGeometry.Space.smallEtaleRingedTopos` is a
-`RingedTopos.{u, u + 1, u}`, whose structure sheaf is therefore one universe too low; lifting it
-is not done here.
+The diagram above is the abstract shape of the diagram of Tag 09DK, in the section on fibre
+products of algebraic spaces and the cotangent complex, and the two results here are the
+triangulated-category arguments its explanation gives: that an object fitting into the upper
+right corner exists, by the nine diagram of Tag 05R0 applied to the lower left square with a zero
+object in the empty spot, and that it may be taken to be the cone of the map out of the direct
+sum. They carry no `@[stacks 09DK]` attribute, because Tag 09DK is the diagram for the specific
+triangles of a fibre product: for morphisms `X ⟶ B` and `Y ⟶ B` of algebraic spaces with
+`W = X ×_B Y` and projections `p` and `q`, the middle row and the middle column are the
+fundamental triangles of Tag 08V1 for `W ⟶ X ⟶ B` and `W ⟶ Y ⟶ B`, on the cotangent complexes
+of Tag 08VD. That complete statement is `AlgebraicGeometry.Space.fibreProductCotangentCorner`
+and `AlgebraicGeometry.Space.fiberProductCotangentCorner` of
+`StacksFrontier.Cotangent.Spaces.FibreProductCorner`, which carry the tag and are built from
+`UpperRightCorner.ofBiprodCone`.
 
 ## References
 
@@ -146,17 +132,15 @@ variable [IsTriangulated D] {A₁ A₂ M C₁ C₂ : D}
   {α₁ : A₁ ⟶ M} {β₁ : M ⟶ C₁} {γ₁ : C₁ ⟶ A₁⟦(1 : ℤ)⟧}
   {α₂ : A₂ ⟶ M} {β₂ : M ⟶ C₂} {γ₂ : C₂ ⟶ A₂⟦(1 : ℤ)⟧}
 
-/-- **Stacks 09DK.** Two distinguished triangles sharing their middle vertex have an upper right
-corner: an object `E` turning both the top row `A₁ ⟶ C₂ ⟶ E` and the right column
-`A₂ ⟶ C₁ ⟶ E` of the diagram into distinguished triangles, with the remaining square
-commutative.
+/-- Two distinguished triangles sharing their middle vertex have an upper right corner: an
+object `E` turning both the top row `A₁ ⟶ C₂ ⟶ E` and the right column `A₂ ⟶ C₁ ⟶ E` of the
+diagram into distinguished triangles, with the remaining square commutative.
 
 This is the nine diagram of Tag 05R0 applied to the lower left square of the diagram, whose
 left column and bottom row are the contractible triangles `0 ⟶ A₁ ⟶ A₁` and `0 ⟶ A₂ ⟶ A₂`;
 the square commutes because both of its composites leave a zero object. The identity second
 arrow of each contractible triangle is what identifies the first arrow of the third row with
 `α₁ ≫ β₂` and the first arrow of the third column with `α₂ ≫ β₁`. -/
-@[stacks 09DK "existence of the upper right corner, in a triangulated category"]
 theorem nonempty_upperRightCorner (h₁ : Triangle.mk α₁ β₁ γ₁ ∈ distTriang D)
     (h₂ : Triangle.mk α₂ β₂ γ₂ ∈ distTriang D) :
     Nonempty (UpperRightCorner α₁ β₁ α₂ β₂) := by
@@ -167,8 +151,8 @@ theorem nonempty_upperRightCorner (h₁ : Triangle.mk α₁ β₁ γ₁ ∈ dist
   have hcol' : α₂ ≫ β₁ = c₁ := by simpa using hcol.symm
   exact ⟨E, w₂, c₂, w₃, c₃, hrow' ▸ hw, hcol' ▸ hc, hsquare.symm⟩
 
-/-- **Stacks 09DK.** Any cone of the map `A₁ ⊞ A₂ ⟶ M` out of the direct sum, with components
-the first arrows `α₁` and `α₂` of the two given triangles, is an upper right corner.
+/-- Any cone of the map `A₁ ⊞ A₂ ⟶ M` out of the direct sum, with components the first arrows
+`α₁` and `α₂` of the two given triangles, is an upper right corner.
 
 The two arrows into the cone come from the octahedron axiom for the two factorizations of
 `biprod.desc α₁ α₂` through the biproduct inclusions: factoring through `biprod.inr` has
@@ -176,7 +160,6 @@ The two arrows into the cone come from the octahedron axiom for the two factoriz
 the top row, and factoring through `biprod.inl` has `A₂` and `C₁`, so the octahedron is the
 right column. In each case the first arrow of the octahedron becomes the required composite
 after precomposition with the complementary inclusion. -/
-@[stacks 09DK "the cone of the direct sum as an upper right corner, in a triangulated category"]
 noncomputable def UpperRightCorner.ofBiprodCone (h₁ : Triangle.mk α₁ β₁ γ₁ ∈ distTriang D)
     (h₂ : Triangle.mk α₂ β₂ γ₂ ∈ distTriang D) {E : D} {ε : M ⟶ E}
     {ζ : E ⟶ (A₁ ⊞ A₂)⟦(1 : ℤ)⟧}
@@ -208,7 +191,7 @@ theorem UpperRightCorner.ofBiprodCone_obj (h₁ : Triangle.mk α₁ β₁ γ₁ 
     (UpperRightCorner.ofBiprodCone h₁ h₂ hE).obj = E :=
   rfl
 
-/-- **Stacks 09DK.** There is an upper right corner whose object is a cone of the map
+/-- There is an upper right corner whose object is a cone of the map
 `A₁ ⊞ A₂ ⟶ M` out of the direct sum. -/
 theorem exists_upperRightCorner_isCone (h₁ : Triangle.mk α₁ β₁ γ₁ ∈ distTriang D)
     (h₂ : Triangle.mk α₂ β₂ γ₂ ∈ distTriang D) :

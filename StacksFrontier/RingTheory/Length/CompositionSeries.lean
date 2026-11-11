@@ -111,7 +111,7 @@ lemma compositionSeriesOfMaximalChain_length
 
 /-! ### Main statements (parts (1)–(3) of Stacks 00J3) -/
 
-/-- **Stacks 00J3** (parts 1, 2, 3). For a finite-length `R`-module `M` and a
+/-- Parts (1)–(3) of Stacks 00J3. For a finite-length `R`-module `M` and a
 maximal chain `0 = M_0 ⊂ M_1 ⊂ … ⊂ M_n = M` of submodules, we have
 
 * `n = length_R(M)` (length is well-defined on maximal chains);
@@ -119,8 +119,8 @@ maximal chain `0 = M_0 ⊂ M_1 ⊂ … ⊂ M_n = M` of submodules, we have
 * each successive quotient is isomorphic to `R/𝔪` for some maximal ideal `𝔪`.
 
 Part (4) of Stacks 00J3, which counts the indices `i` with `𝔪_i = 𝔪` in terms of the length
-of a localization, is not covered by this statement. -/
-@[stacks 00J3]
+of a localization, is not covered by this statement; the full lemma is
+`length_eq_and_subQuot_isSimpleModule_and_exists_quot_maximal_and_ncard_eq_length`. -/
 theorem length_eq_and_subQuot_isSimpleModule_and_exists_quot_maximal
     {R : Type*} [CommRing R] {M : Type*} [AddCommGroup M] [Module R M]
     {n : ℕ} (M' : Fin (n + 1) → Submodule R M) (hchain : IsMaximalChainPrime M') :
@@ -145,4 +145,5 @@ theorem length_eq_and_subQuot_isSimpleModule_and_exists_quot_maximal
       subQuot_isSimpleModule_of_maximalChain hchain i
     obtain ⟨𝔪, hmax, he⟩ := isSimpleModule_iff_quot_maximal.mp hsimple
     exact ⟨𝔪, hmax, he⟩
+
 

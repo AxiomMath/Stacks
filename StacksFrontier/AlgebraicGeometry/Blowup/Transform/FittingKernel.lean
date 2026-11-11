@@ -310,7 +310,7 @@ private lemma restrictFreeHom_val {W V : C} (g : V ⟶ W)
 /-- A morphism whose target has a free basis over an object of the site splits over a smaller
 object as soon as the basis sections lift there: the restricted basis is again a basis, and the
 lifted sections provide a morphism inverting it. -/
-private lemma isSplitEpi_over_of_lift {M N : _root_.SheafOfModules.{t} R} (f : M ⟶ N)
+lemma isSplitEpi_over_of_lift {M N : _root_.SheafOfModules.{t} R} (f : M ⟶ N)
     {W V : C} (g : V ⟶ W) {ι : Type t}
     (e : SheafOfModules.free ι ⟶ N.over W) [IsIso e] (m : ι → M.val.obj (op V))
     (hm : ∀ j, f.val.app (op V) (m j) =

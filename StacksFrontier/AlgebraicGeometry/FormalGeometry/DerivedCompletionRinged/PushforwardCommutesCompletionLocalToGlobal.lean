@@ -257,12 +257,7 @@ of finite type because `ℐ` is, by \
 [Stacks, Tag 099J] between the two sheaves of ideals is proved from the construction rather \
 than assumed. The hypotheses are the source's: no object is excluded and no generating family \
 is assumed global; the source's own reduction to the globally generated case by localization on \
-the target site is the proof",
-  stacks 0A0I "Equation 52.7.0.1 as an invertibility of the **canonical** comparison map \
-`(Rf_*ℱ)^∧ ⟶ Rf_*(ℱ^∧)`, for an **arbitrary** object of `D(𝒪')`, at a sheaf of ideals of finite \
-type and the ideal sheaf `f^{-1}ℐ · 𝒪_X` that Section 52.7 builds out of it. The two sides of \
-the equation are therefore identified by the map [Stacks, Tag 0A0G] names, and not merely \
-abstractly isomorphic"]
+the target site is the proof"]
 theorem isIso_derivedCompletionPushforwardComparison_inverseImageIdealSheaf_of_isFiniteType
     (K : DerivedCategory (SheafOfModules.{u} ((Stacks.SheafOfModules.Tensor.ringSheaf X.O)))) :
     IsIso ((derivedCompletionPushforwardComparison f I (inverseImageIdealSheaf f I)

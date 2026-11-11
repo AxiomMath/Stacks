@@ -92,11 +92,11 @@ by Stacks 0AQ1 (2) since `X'` is locally of finite type over the locally Noether
 `f_{/T}` is rig-étale by Stacks 0AR2 since `U' ⟶ U` is an isomorphism.
 
 This is a new object and not a copy of
-`AlgebraicGeometry.FormalSpace.completionFiniteTypeModificationFunctor`: that functor is only
-defined when three hypotheses (`h0AIZ`, `hnoeth`, `hred`) are given, and this one needs none of
-them. When they are given, the two functors are equal
+`AlgebraicGeometry.FormalSpace.completionFiniteTypeModificationFunctor`: that functor takes
+three hypotheses (`h0AIZ`, `hnoeth`, `hred`), and this one needs none of them. When they are
+given, the two functors are equal
 (`completionFiniteTypeModificationFunctor_eq_completionModificationFunctor`). -/
-@[stacks 0AR5 "the completion functor with the source's hypotheses only: X a locally Noetherian \
+@[stacks 0AR5 "the completion functor under the source's hypotheses, X a locally Noetherian \
 algebraic space and T closed; the three conditions placing f_{/T} in the right-hand category \
 are proved by 0AIZ, 0AQ1 (2) and 0AR2"]
 def completionModificationFunctor {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}

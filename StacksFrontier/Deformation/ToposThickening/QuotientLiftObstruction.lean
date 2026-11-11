@@ -258,7 +258,7 @@ omit [S.J.HasSheafCompose (forget AddCommGrpCat)] [HasWeakSheafify S.J AddCommGr
   Stacks.SheafOfModules.isIso_pushforwardTensorMap_of_isClosedImmersion i
     hi.isClosedImmersion ⟨hi.surjective.imageSieve_mem⟩ _ M
 
-omit [HasSheafify X.J AddCommGrpCat] in
+omit [HasSheafify X.J AddCommGrpCat] [HasSheafify X'.J AddCommGrpCat] in
 include comm in
 /-- `Deformation.ToposThickening.baseIdealTensorToIdealTensor` unfolded into the composite of
 its factors. -/
@@ -288,7 +288,7 @@ theorem baseIdealTensorToIdealTensor_eq
       ((pushforwardModuleFunctor i.toToposHom (Stacks.SheafOfModules.Tensor.ringSheaf X.O)).obj M)
       (𝟙 _) := rfl
 
-omit [HasSheafify X.J AddCommGrpCat] in
+omit [HasSheafify X.J AddCommGrpCat] [HasSheafify X'.J AddCommGrpCat] in
 include comm in
 /-- **The comparison of `Deformation.ToposThickening.baseIdealTensorToIdealTensor` is natural** in
 the `O`-module. -/
@@ -444,7 +444,7 @@ theorem baseIdealTensorToIdealTensor_natural
   exact ((CommSq.mk h1.symm).horiz_comp ((CommSq.mk h2.symm).horiz_comp
     ((CommSq.mk h3.symm).horiz_comp ((CommSq.mk h4.symm).horiz_comp (CommSq.mk h56.symm))))).w.symm
 
-omit [HasSheafify X.J AddCommGrpCat] in
+omit [HasSheafify X.J AddCommGrpCat] [HasSheafify X'.J AddCommGrpCat] in
 include comm in
 /-- **The comparison is surjective** for a strict square: its only factor that is not an
 isomorphism is the canonical map of ideals `(f')^*𝒥 ⟶ I` tensored with `i_*𝓜`, which is surjective
@@ -782,7 +782,7 @@ theorem reductionTensorMap_quotientLiftPreimageπ :
 
 open Stacks.SheafOfModules.FlatSquareZero (ringMap reductionTensorMap multiplicationMap) in
 open Stacks.Sheaves.ToposPushforward (pushforwardCommRingFunctor pushforwardModuleFunctor) in
-omit [HasSheafify X.J AddCommGrpCat] in
+omit [HasSheafify X.J AddCommGrpCat] [HasSheafify X'.J AddCommGrpCat] in
 /-- **The comparison `i_*(f^*𝒥 ⊗ -) ⟶ I ⊗_O -` along `𝒦 ⟶ ℱ`**, preceded by the symmetry of the
 tensor product. -/
 theorem baseIdealTensorToIdealTensor_kernel :

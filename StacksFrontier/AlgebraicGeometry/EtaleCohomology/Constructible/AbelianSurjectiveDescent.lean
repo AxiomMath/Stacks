@@ -74,7 +74,7 @@ The third is not: Stacks 093C for torsion abelian sheaves at `Y`, as `h093C` in 
 proof in the library. The route above avoids it altogether, so the section is superseded by the
 unconditional equivalence and carries no tag.
 
-## The faithful restatement of Stacks 03SA (2)
+## Stacks 03SA (2) at the local torsion notion, over a presentation
 
 Stacks 03SA (2) is about a *torsion* abelian sheaf, and the source's torsion for a sheaf on a
 site is the **local** condition of Stacks 0DD7: every section is annihilated by a positive
@@ -95,7 +95,13 @@ cannot reach its hypothesis.
 `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_torsionSheafProperty`
 below is therefore the same statement re-indexed at `Stacks.Torsion.torsionSheafProperty`. The
 proof is unchanged: in the pointwise version the torsion hypothesis is consumed *only* by the
-hypothesis `h093C`, so re-indexing that hypothesis is the whole edit.
+hypothesis `h093C`, so re-indexing that hypothesis is the whole edit. It is the input of the
+source's route below.
+
+Stacks 03SA (2) itself, at `Stacks.Torsion.torsionSheafProperty` and with no binder beyond the
+tag's, is `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_qcqs` of
+`Constructible/LocalTorsionColimitOfConstructibles.lean`, which reduces it to part (3) without
+going through `h093C`.
 
 ## Main results
 
@@ -109,9 +115,8 @@ hypothesis `h093C`, so re-indexing that hypothesis is the whole edit.
 * `AlgebraicGeometry.isConstructibleModuleSheaf_int_of_uliftIntRestrictScalars` — the transport of
   constructibility from `ULift ℤ`-modules back to `ℤ`-modules.
 * `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_torsionSheafProperty`
-  — **Stacks 03SA (2)** at the faithful local torsion notion, granting
-  `AlgebraicGeometry.LocallyTorsionAbelianSheavesAreFilteredColimitsOfZModPresentations`, which
-  the library does not prove.
+  — the source's proof of Stacks 03SA (2) at the local torsion notion, over the presentation
+  `AlgebraicGeometry.LocallyTorsionAbelianSheavesAreFilteredColimitsOfZModPresentations`.
 * `AlgebraicGeometry.epi_of_epi_smallEtalePullback_abelian` — inverse image along a surjective
   morphism reflects epimorphisms of abelian sheaves.
 * `AlgebraicGeometry.exists_epi_of_isColimit_of_surjective_abelian` — the descent step of the
@@ -168,7 +173,7 @@ attribute [local instance] Cardinal.fact_isRegular_aleph0
 
 variable (B : BigEtaleSite.{u})
 
-/-! ### Stacks 03SA (2) at the faithful local torsion notion -/
+/-! ### Stacks 03SA (2) at the local torsion notion, over a presentation -/
 
 section Torsion
 
@@ -211,9 +216,9 @@ variable
   [∀ (T : B.Scheme) (V : SmallEtale B T.obj T.property),
     HasWeakSheafify ((SmallEtale.topology B T.obj T.property).over V) AddCommGrpCat.{u + 1}]
 
-/-- **The content of Stacks 03SA (2).** Let `X` be a quasi-compact and quasi-separated scheme and
-let `F` be a torsion abelian sheaf on `X_étale`. Then `F` is a filtered colimit of constructible
-abelian sheaves.
+/-- **The proof of Stacks 03SA (2) at local torsion, over its inputs.** Let `X` be a quasi-compact
+and quasi-separated scheme and let `F` be a torsion abelian sheaf on `X_étale`. Then `F` is a
+filtered colimit of constructible abelian sheaves.
 
 This is the faithful restatement of
 `AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf`
@@ -229,16 +234,18 @@ cokernels are constructible by the library's Stacks 09YT,
 `AlgebraicGeometry.isConstructibleAbelianSheaf_of_hasFiniteZModShriekPresentation`, which rests on
 Stacks 03RZ (2).
 
-Two statements of the source are hypotheses of this theorem rather than inputs it derives.
+Two statements of the source are binders of this theorem rather than inputs it derives.
 Stacks 03S8 (2) at the finite groups `ℤ/nℤ`, as `h03S8`, is a theorem of the library —
 `AlgebraicGeometry.abelianShriekZModIsConstructible` of
 `Constructible/AbelianShriekConstructible.lean` proves
-`AlgebraicGeometry.AbelianShriekZModIsConstructible` outright — so any caller can supply it.
-Stacks 093C for torsion abelian sheaves at the local torsion notion, as `h093C` in the spelling
-`AlgebraicGeometry.LocallyTorsionAbelianSheavesAreFilteredColimitsOfZModPresentations`, is not:
-the library has no proof of it, and no caller can supply it, so the tag is registered with that
-one hypothesis named in its clause string. -/
-@[stacks 03SA "part (2), at the faithful local torsion notion; 093C and 03S8 (2) granted"]
+`AlgebraicGeometry.AbelianShriekZModIsConstructible` outright. Stacks 093C for torsion abelian
+sheaves at the local torsion notion, as `h093C` in the spelling
+`AlgebraicGeometry.LocallyTorsionAbelianSheavesAreFilteredColimitsOfZModPresentations`, is not
+proved in that spelling.
+
+The conclusion with neither binder is
+`AlgebraicGeometry.exists_isFilteredColimit_isConstructibleAbelianSheaf_of_qcqs`, where
+Stacks 03SA (2) is registered. -/
 public theorem exists_isFilteredColimit_isConstructibleAbelianSheaf_of_torsionSheafProperty
     (h093C : LocallyTorsionAbelianSheavesAreFilteredColimitsOfZModPresentations B X)
     (h03S8 : AbelianShriekZModIsConstructible B) (hXc : CompactSpace X.obj)

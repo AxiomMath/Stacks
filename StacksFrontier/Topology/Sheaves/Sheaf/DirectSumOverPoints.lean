@@ -34,7 +34,7 @@ public import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Sheaves.SheafCondition.UniqueGluing
 
 /-!
-# Stacks 006Y — The direct-sum-over-points presheaf is not a sheaf in general
+# Stacks 006Y — The direct-sum-over-points presheaf
 
 Let `X` be a topological space and `M : X → Type u` a family of abelian
 groups indexed by the points of `X`. The presheaf
@@ -45,10 +45,15 @@ singleton cover the sheaf condition would force `F(X) = ∏ ℤ`, but by
 definition `F(X) = ⨁ ℤ`, and the constant family `(1, 1, …)` has infinite
 support so it does not arise from any element of the direct sum.
 
-(The Stacks example concludes with the remark that `F` *is* a sheaf when
-every open of `X` is quasi-compact; that converse is explicitly left as an
-exercise to the reader in the Stacks text, and is not part of the assertion
-of tag 006Y.)
+The Stacks example also asserts, leaving the proof as an exercise, that `F`
+*is* a sheaf when every open of `X` is quasi-compact. This is part of the
+assertion of tag 006Y and is proved here as
+`directSumOverPointsPresheaf_isSheaf_of_isCompact`: a compatible family on a
+cover of `U` glues pointwise, and the gluing has finite support because `U`
+is covered by finitely many members of the cover.
+
+The complete statement of tag 006Y, both clauses, is
+`directSumOverPointsPresheaf_not_isSheaf_in_general_and_isSheaf_of_isCompact`.
 -/
 
 @[expose] public section
@@ -142,7 +147,7 @@ theorem directSumOverPointsPresheaf_not_isSheaf_of_infinite_discrete {X : TopCat
   obtain ⟨x, hx⟩ := DFinsupp.exists_apply_eq_zero s'
   exact hm x.1 ((hval x.1).symm.trans hx)
 
-/-- **Stacks Tag 006Y.** Let `X` be a topological space and `M : X → Type u`
+/-- Clause (a) of Stacks Tag 006Y. Let `X` be a topological space and `M : X → Type u`
 be a family of abelian groups indexed by the points of `X`. The presheaf
 `U ↦ ⨁_{x ∈ U} M x` is **not** a sheaf in general: there exists a
 topological space `X` and a family `M` for which the presheaf fails to be
@@ -153,8 +158,10 @@ family `M_x = ULift ℤ`. The singleton sets `{n}` form an open cover of `X`,
 and the family of sections `s_n = (n ↦ 1)` is compatible (pairwise
 intersections are empty). However, any gluing would have to take value
 `1 ≠ 0` at every point of `X`, contradicting the finite-support property
-of the direct sum. -/
-@[stacks 006Y]
+of the direct sum.
+
+This is clause (a) of tag 006Y; the complete statement is
+`directSumOverPointsPresheaf_not_isSheaf_in_general_and_isSheaf_of_isCompact`. -/
 theorem directSumOverPointsPresheaf_not_isSheaf_in_general :
     ∃ (X : TopCat.{u}) (M : X → Type u) (_ : ∀ x, AddCommGroup (M x)),
       ¬ (directSumOverPointsPresheaf (X := X) M).IsSheaf := by
@@ -165,3 +172,61 @@ theorem directSumOverPointsPresheaf_not_isSheaf_in_general :
   refine ⟨X, M, fun _ => inferInstance, ?_⟩
   exact directSumOverPointsPresheaf_not_isSheaf_of_infinite_discrete M (fun _ => ULift.up 1)
     fun _ h => one_ne_zero (congrArg ULift.down h)
+
+/-- If every open subset of `X` is quasi-compact, then the presheaf `U ↦ ⨁_{x ∈ U} M x` is a
+sheaf, for every family `M` of abelian groups. A compatible family of sections on a cover of `U`
+determines a unique function on `U`, and that function has finite support because finitely many
+members of the cover already cover `U`. This is clause (b) of Stacks Tag 006Y. -/
+theorem directSumOverPointsPresheaf_isSheaf_of_isCompact {X : TopCat.{u}}
+    (hX : ∀ U : Opens X, IsCompact (U : Set X)) (M : X → Type u) [∀ x, AddCommGroup (M x)] :
+    (directSumOverPointsPresheaf M).IsSheaf := by
+  classical
+  rw [TopCat.Presheaf.isSheaf_iff_isSheafUniqueGluing_types]
+  intro ι U sf hcompat
+  let g : ∀ i, Π₀ y : (U i : Opens X), M y.1 := fun i => sf i
+  have hagree : ∀ i j (x : X) (hi : x ∈ U i) (hj : x ∈ U j),
+      g i ⟨x, hi⟩ = g j ⟨x, hj⟩ := fun i j x hi hj =>
+    congrArg (fun f : Π₀ y : (U i ⊓ U j : Opens X), M y.1 => f ⟨x, hi, hj⟩) (hcompat i j)
+  have hmem : ∀ x : (iSup U : Opens X), ∃ i, x.1 ∈ U i := fun x => Opens.mem_iSup.mp x.2
+  choose idx hidx using hmem
+  let s0 : ∀ x : (iSup U : Opens X), M x.1 := fun x => g (idx x) ⟨x.1, hidx x⟩
+  have hs0 : ∀ i (x : (iSup U : Opens X)) (hi : x.1 ∈ U i), s0 x = g i ⟨x.1, hi⟩ :=
+    fun i x hi => hagree _ _ _ _ _
+  obtain ⟨t, ht⟩ := (hX (iSup U)).elim_finite_subcover (fun i => (U i : Set X))
+    (fun i => (U i).isOpen) (fun x hx => Set.mem_iUnion.mpr (Opens.mem_iSup.mp hx))
+  let S : Set (iSup U : Opens X) := ⋃ i ∈ t,
+    (fun y : (U i : Opens X) => (⟨y.1, le_iSup U i y.2⟩ : (iSup U : Opens X))) ''
+      {y | g i y ≠ 0}
+  have hS : S.Finite := t.finite_toSet.biUnion fun i _ => (g i).finite_support.image _
+  have hsupp : ∀ x, x ∈ S ∨ s0 x = 0 := by
+    intro x
+    by_cases hx : s0 x = 0
+    · exact Or.inr hx
+    left
+    obtain ⟨i, hit, hi⟩ := Set.mem_iUnion₂.mp (ht x.2)
+    exact Set.mem_iUnion₂.mpr
+      ⟨i, hit, ⟨x.1, hi⟩, fun h => hx ((hs0 i x hi).trans h), Subtype.ext rfl⟩
+  let s : Π₀ x : (iSup U : Opens X), M x.1 :=
+    ⟨s0, Trunc.mk ⟨hS.toFinset.val, fun x =>
+      (hsupp x).imp_left fun h => Finset.mem_val.mpr (hS.mem_toFinset.mpr h)⟩⟩
+  refine ⟨s, fun i => ?_, fun s' hs' => ?_⟩
+  · refine DFinsupp.ext fun y => ?_
+    exact hs0 i ⟨y.1, le_iSup U i y.2⟩ y.2
+  · refine DFinsupp.ext fun x => ?_
+    obtain ⟨i, hi⟩ := Opens.mem_iSup.mp x.2
+    have h := congrArg (fun f : Π₀ y : (U i : Opens X), M y.1 => f ⟨x.1, hi⟩) (hs' i)
+    exact h.trans (hs0 i x hi).symm
+
+/-- **Stacks Tag 006Y.** Let `X` be a topological space and `M_x` an abelian group for each
+`x ∈ X`, and let `F` be the presheaf `U ↦ ⨁_{x ∈ U} M_x`. Then
+(a) `F` is not a sheaf in general: there are a space `X` and a family `M` for which `F` is not a
+sheaf (an infinite discrete space with `M_x = ℤ`);
+(b) if every open subset of `X` is quasi-compact, then `F` is a sheaf, for every family `M`. -/
+@[stacks 006Y]
+theorem directSumOverPointsPresheaf_not_isSheaf_in_general_and_isSheaf_of_isCompact :
+    (∃ (X : TopCat.{u}) (M : X → Type u) (_ : ∀ x, AddCommGroup (M x)),
+      ¬ (directSumOverPointsPresheaf (X := X) M).IsSheaf) ∧
+    ∀ X : TopCat.{u}, (∀ U : Opens X, IsCompact (U : Set X)) →
+      ∀ (M : X → Type u) [∀ x, AddCommGroup (M x)], (directSumOverPointsPresheaf M).IsSheaf :=
+  ⟨directSumOverPointsPresheaf_not_isSheaf_in_general,
+    fun _ hX M _ => directSumOverPointsPresheaf_isSheaf_of_isCompact hX M⟩

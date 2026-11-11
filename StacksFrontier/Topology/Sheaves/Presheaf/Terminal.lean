@@ -54,14 +54,16 @@ universe u
 open CategoryTheory CategoryTheory.Limits TopologicalSpace
 
 /-- The singleton presheaf on a topological space `X`: the constant functor at
-`PUnit` from `(Opens X)^op` to `Type u`. -/
-@[stacks 006H, ega "0 8.1.10" "special case"]
+`PUnit` from `(Opens X)^op` to `Type u`; this is the presheaf written `*` in Stacks 006H, whose
+final-object and uniqueness claims are registered on `singletonPresheaf_isTerminal` and
+`singletonPresheaf_uniqueUpToUniqueIso`. -/
+@[ega "0 8.1.10" "special case"]
 def singletonPresheaf (X : TopCat) : TopCat.Presheaf (Type u) X :=
   (Functor.const (Opens X)ᵒᵖ).obj PUnit.{u+1}
 
 /-- The singleton presheaf is a terminal object in the category of presheaves
 of sets on `X`. -/
-@[sga "4 VI 7.4.13.5" "special case"]
+@[stacks 006H "final object", sga "4 VI 7.4.13.5" "special case"]
 def singletonPresheaf_isTerminal (X : TopCat) :
     IsTerminal (singletonPresheaf.{u} X) :=
   IsTerminal.ofUniqueHom
@@ -70,7 +72,7 @@ def singletonPresheaf_isTerminal (X : TopCat) :
 
 /-- The singleton presheaf is unique up to unique isomorphism: for any terminal
 presheaf `F`, the type of isomorphisms `F ≅ *` is nonempty and a subsingleton. -/
-@[ega "0 8.1.10" "special case"]
+@[stacks 006H "unique up to unique isomorphism", ega "0 8.1.10" "special case"]
 theorem singletonPresheaf_uniqueUpToUniqueIso (X : TopCat)
     (F : TopCat.Presheaf (Type u) X) (hF : IsTerminal F) :
     Nonempty (F ≅ singletonPresheaf.{u} X) ∧

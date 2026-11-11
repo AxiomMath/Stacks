@@ -12,7 +12,7 @@ The proper base change theorem for étale cohomology and the results leading to 
 with no assumed inputs, in the modules `ClosedFibreProjectiveLineInjective`,
 `ProperPushforwardBaseChangeUnconditional` and `ProperBaseChangeTheoremUnconditional` of
 `StacksDraft.AlgebraicGeometry.EtaleCohomology.ProperBaseChange`. This file records the Stacks
-tags on those declarations.
+tags on those declarations, except Tag 0A3T, which is an attribute on its declaration.
 
 ## Main results
 
@@ -41,8 +41,6 @@ tags on those declarations.
 @[expose] public section
 
 add_to_stacks 0A5H Stacks.EtaleCohomology.subsingleton_H_closedFibre_projectiveLine_of_injective
-
-add_to_stacks 0A3T Stacks.EtaleCohomology.isIso_properGeometricFibreComparison_of_isProper
 
 add_to_stacks 0A3U Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isProper
 

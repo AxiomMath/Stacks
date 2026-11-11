@@ -12,15 +12,20 @@ on the base.
 
 ## Main results
 
-* `AlgebraicGeometry.mem_relativeSeminormalization_localization_iff` characterizes the localized
-  relative seminormalization as the localization of the original relative seminormalization.
+* `AlgebraicGeometry.isDominant_spec_localization_of_isDominant`: dominance of `Spec B → Spec A`
+  passes to `Spec(S⁻¹B) → Spec(S⁻¹A)`.
+* `AlgebraicGeometry.mem_relativeSeminormalization_localization_iff_fraction` characterizes the
+  localized relative seminormalization as the localization of the original relative
+  seminormalization.
 
 ## Implementation notes
 
 The equality of the two subalgebras is expressed elementwise in an arbitrary pair of localization
 rings, and the right-hand side is the usual fraction description of the localization of the
-original subalgebra. The dominance hypothesis for the localized map is an explicit argument,
-because it is an argument of the chosen relative seminormalization.
+original subalgebra. The localized relative seminormalization takes a proof that the localized
+map is dominant; the main theorem supplies the one derived from the dominance of the original
+map, and `AlgebraicGeometry.mem_relativeSeminormalization_localization_iff` accepts any such
+proof.
 
 Both inclusions go through the square-cube criterion
 `AlgebraicGeometry.universalHomeomorphism_and_residueFieldIso_iff_finite_adjoin_square_cube`. For
@@ -479,9 +484,45 @@ private theorem localized_subalgebra_range_iff_fraction
     rw [IsLocalization.map_mk']
     congr 1
 
+/-- If `Spec B → Spec A` is dominant, then so is `Spec(S⁻¹B) → Spec(S⁻¹A)` for every submonoid
+`S` of `A`: an element of the kernel of `S⁻¹A → S⁻¹B` is a fraction `a / s` with `t a` in the
+kernel of `A → B` for some `t ∈ S`, hence nilpotent. -/
+public theorem isDominant_spec_localization_of_isDominant
+    (A B Aₛ Bₛ : Type u) [CommRing A] [CommRing B] [CommRing Aₛ] [CommRing Bₛ]
+    [Algebra A B] (S : Submonoid A)
+    [Algebra A Aₛ] [IsLocalization S Aₛ]
+    [Algebra B Bₛ] [IsLocalization (S.map (algebraMap A B)) Bₛ]
+    [Algebra A Bₛ] [IsScalarTower A B Bₛ]
+    [Algebra Aₛ Bₛ] [IsScalarTower A Aₛ Bₛ]
+    (hdom : IsDominant
+      (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op)) :
+    IsDominant (Scheme.Spec.map (CommRingCat.ofHom (algebraMap Aₛ Bₛ)).op) := by
+  have hker : RingHom.ker (algebraMap A B) ≤ nilradical A := by
+    rw [← PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical]
+    exact (isDominant_iff _).mp hdom
+  rw [isDominant_iff]
+  change DenseRange (PrimeSpectrum.comap (algebraMap Aₛ Bₛ))
+  rw [PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical]
+  intro x hx
+  obtain ⟨⟨a, s⟩, rfl⟩ := IsLocalization.mk'_surjective S x
+  have ha : algebraMap Aₛ Bₛ (algebraMap A Aₛ a) = 0 := by
+    rw [← IsLocalization.mk'_spec Aₛ a s, map_mul, RingHom.mem_ker.mp hx, zero_mul]
+  rw [← IsScalarTower.algebraMap_apply, IsScalarTower.algebraMap_apply A B Bₛ,
+    IsLocalization.map_eq_zero_iff (S.map (algebraMap A B))] at ha
+  obtain ⟨⟨_, t, ht, rfl⟩, hta⟩ := ha
+  have hnil : algebraMap A Aₛ (t * a) ∈ nilradical Aₛ :=
+    mem_nilradical.mpr ((mem_nilradical.mp (hker (by simpa using hta))).map _)
+  obtain ⟨u, hu⟩ := IsLocalization.map_units Aₛ (⟨t, ht⟩ : S)
+  have haeq : algebraMap A Aₛ a = ↑u⁻¹ * algebraMap A Aₛ (t * a) := by
+    rw [map_mul, ← hu, ← mul_assoc, Units.inv_mul, one_mul]
+  change IsLocalization.mk' Aₛ a s ∈ nilradical Aₛ
+  rw [IsLocalization.mk'_eq_mul_mk'_one, haeq]
+  exact Ideal.mul_mem_right _ _ (Ideal.mul_mem_left _ _ hnil)
+
 /-- An element of the relative seminormalization after localization is exactly a fraction whose
-numerator belongs to the original relative seminormalization. -/
-@[stacks 0H3M]
+numerator belongs to the original relative seminormalization. The dominance of the localized map
+is taken as an argument here; `mem_relativeSeminormalization_localization_iff_fraction` derives it
+from the dominance of `Spec B → Spec A`. -/
 public theorem mem_relativeSeminormalization_localization_iff
     (A B Aₛ Bₛ : Type u) [CommRing A] [CommRing B] [CommRing Aₛ] [CommRing Bₛ]
     [Algebra A B] (S : Submonoid A)
@@ -684,6 +725,31 @@ public theorem mem_relativeSeminormalization_localization_iff
   have heq : x ∈ D ↔ x ∈ Set.range cB :=
     ⟨hrev x, by rintro ⟨z, rfl⟩; exact hmax z⟩
   exact heq.trans (localized_subalgebra_range_iff_fraction S E x)
+
+/-- Formation of the relative seminormalization commutes with localization: for a ring map
+`A → B` inducing a dominant morphism `Spec B → Spec A` and a submonoid `S` of `A`, the map
+`Spec(S⁻¹B) → Spec(S⁻¹A)` is dominant (`isDominant_spec_localization_of_isDominant`), and an
+element of `S⁻¹B` lies in `(S⁻¹B)'` exactly when it is a fraction `b / s` with `b ∈ B'` and
+`s ∈ S`, that is, `(S⁻¹B)' = S⁻¹B'`. -/
+@[stacks 0H3M "The equality `S⁻¹B' = (S⁻¹B)'` of subalgebras of `S⁻¹B`, stated elementwise
+for any localizations `S⁻¹A` and `S⁻¹B`; the dominance of the localized map, which `(S⁻¹B)'`
+requires, is derived from that of `Spec B → Spec A`."]
+public theorem mem_relativeSeminormalization_localization_iff_fraction
+    (A B Aₛ Bₛ : Type u) [CommRing A] [CommRing B] [CommRing Aₛ] [CommRing Bₛ]
+    [Algebra A B] (S : Submonoid A)
+    [Algebra A Aₛ] [IsLocalization S Aₛ]
+    [Algebra B Bₛ] [IsLocalization (S.map (algebraMap A B)) Bₛ]
+    [Algebra A Bₛ] [IsScalarTower A B Bₛ]
+    [Algebra Aₛ Bₛ] [IsScalarTower A Aₛ Bₛ]
+    (hdom : IsDominant
+      (Scheme.Spec.map (CommRingCat.ofHom (algebraMap A B)).op))
+    (x : Bₛ) :
+    x ∈ relativeSeminormalization Aₛ Bₛ
+        (isDominant_spec_localization_of_isDominant A B Aₛ Bₛ S hdom) ↔
+      ∃ (b : B), b ∈ relativeSeminormalization A B hdom ∧
+        ∃ s : S, x = IsLocalization.mk' Bₛ b
+          ⟨algebraMap A B s.1, Submonoid.mem_map.mpr ⟨s.1, s.2, rfl⟩⟩ :=
+  mem_relativeSeminormalization_localization_iff A B Aₛ Bₛ S hdom _ x
 
 end AlgebraicGeometry
 

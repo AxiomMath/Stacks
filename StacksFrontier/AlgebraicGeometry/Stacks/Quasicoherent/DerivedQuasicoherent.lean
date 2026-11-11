@@ -12,8 +12,9 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.ParasiticSer
 
 Let `𝒳` be an algebraic stack over a scheme `S` in a big fppf site.  Inside the category
 `Mod(𝒪_𝒳)` of modules on the associated fppf site sit two full subcategories: the locally
-quasi-coherent modules with the flat base change property (**Stacks 06WJ** and **Stacks 0762**,
-tested after restriction to the associated étale site), written `LQCoh^fbc(𝒪_𝒳)`, and the
+quasi-coherent modules with a flat base change property (**Stacks 06WJ**, and the condition
+`AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`, tested after restriction to the associated
+étale site), written `LQCoh^fbc(𝒪_𝒳)` here, and the
 parasitic modules of **Stacks 0773**.  Passing to complexes, `D_{LQCoh^fbc}(𝒪_𝒳)` is the full
 subcategory of `D(𝒪_𝒳)` of complexes all of whose cohomology modules are in `LQCoh^fbc(𝒪_𝒳)`,
 and `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)` is the full subcategory of complexes whose cohomology
@@ -24,9 +25,16 @@ sheaves* as the Verdier quotient
 
 `D_QCoh(𝒪_𝒳) = D_{LQCoh^fbc}(𝒪_𝒳) / D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`.
 
-That quotient is formed here as the localization of `D_{LQCoh^fbc}(𝒪_𝒳)` at the class of
-morphisms whose cone lies in `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`, which is the construction of a
-Verdier quotient.
+The quotient of this file is formed in the same way, as the localization of
+`D_{LQCoh^fbc}(𝒪_𝒳)` at the class of morphisms whose cone lies in
+`D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`, but from a different `LQCoh^fbc(𝒪_𝒳)`: the flat base change
+property used here, `AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`, asks the comparison map
+out of the pullback of *presheaves* of modules to be an isomorphism, while the property of
+**Stacks 0762** is about the pullback of *sheaves* of modules, its sheafification.  The quotient of
+Stacks 07B6 at the source's `LQCoh^fbc(𝒪_𝒳)` is
+`AlgebraicGeometry.Stack.derivedCategoryQuasicoherentSheaf`, with quotient functor
+`AlgebraicGeometry.Stack.toDerivedCategoryQuasicoherentSheaf`, in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/DerivedQuasicoherentCohomologySheaf.lean`.
 
 ## Main definitions
 
@@ -36,9 +44,10 @@ Verdier quotient.
   `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳) ⊆ D(𝒪_𝒳)`.
 * `AlgebraicGeometry.Stack.derivedQuasicoherentW`: the morphisms of `D_{LQCoh^fbc}(𝒪_𝒳)` whose
   cone is in `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`, the class the Verdier quotient inverts.
-* `AlgebraicGeometry.Stack.derivedCategoryQuasicoherent`: **Stacks 07B6**, the category
-  `D_QCoh(𝒪_𝒳)`, with `AlgebraicGeometry.Stack.toDerivedCategoryQuasicoherent` the quotient
-  functor out of `D_{LQCoh^fbc}(𝒪_𝒳)`.
+* `AlgebraicGeometry.Stack.derivedCategoryQuasicoherent`: the Verdier quotient of the shape of
+  **Stacks 07B6** formed from the presheaf-level `LQCoh^fbc(𝒪_𝒳)`, with
+  `AlgebraicGeometry.Stack.toDerivedCategoryQuasicoherent` the quotient functor out of
+  `D_{LQCoh^fbc}(𝒪_𝒳)`.
 
 ## Main results
 
@@ -103,9 +112,12 @@ abbrev fppfModules :=
 
 /-- The subcategory `LQCoh^fbc(𝒪_𝒳) ⊆ Mod(𝒪_𝒳)`: a module on the fppf site of an algebraic
 stack belongs to it when its restriction to the associated étale site is locally quasi-coherent
-(**Stacks 06WJ**) and has the flat base change property (**Stacks 0762**).  Restriction changes
-neither the presheaf of modules nor the presheaf of rings it is a module over, so the condition
-is tested on the same underlying presheaf of modules. -/
+(**Stacks 06WJ**) and has the flat base change property
+`AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`, whose comparison maps are out of the
+pullback of presheaves of modules.  Restriction changes neither the presheaf of modules nor the
+presheaf of rings it is a module over, so the condition is tested on the same underlying
+presheaf of modules.  The subcategory of the source, with the flat base change property of
+**Stacks 0762** read on sheaves of modules, is `AlgebraicGeometry.Stack.lqcFbcFppf`. -/
 abbrev locallyQuasicoherentFlatBaseChangeFppfModules :
     ObjectProperty (fppfModules B S hS 𝒳) :=
   fun F => IsLocallyQuasicoherentWithFlatBaseChange B E h S hS 𝒳.val.val.p
@@ -130,8 +142,9 @@ abbrev derivedParasiticLocallyQuasicoherentFlatBaseChange :
     (parasiticModules B S hS 𝒳 .fppf ⊓
       locallyQuasicoherentFlatBaseChangeFppfModules B E h S hS 𝒳)
 
-/-- The class of morphisms of `D_{LQCoh^fbc}(𝒪_𝒳)` which the Verdier quotient of **Stacks 07B6**
-inverts: those whose cone lies in `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`.  The cone is taken in the
+/-- The class of morphisms of `D_{LQCoh^fbc}(𝒪_𝒳)`, for the presheaf-level `LQCoh^fbc(𝒪_𝒳)`,
+which the Verdier quotient `AlgebraicGeometry.Stack.derivedCategoryQuasicoherent` inverts: those
+whose cone lies in `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`.  The cone is taken in the
 ambient derived category `D(𝒪_𝒳)`. -/
 abbrev derivedQuasicoherentW :
     MorphismProperty
@@ -140,20 +153,22 @@ abbrev derivedQuasicoherentW :
     (derivedParasiticLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳).trW
     (derivedLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳).ι
 
-/-- **Stacks 07B6.** The *derived category of `𝒪_𝒳`-modules with quasi-coherent cohomology
-sheaves* of an algebraic stack `𝒳`, that is the Verdier quotient
+/-- The Verdier quotient `D_{LQCoh^fbc}(𝒪_𝒳) / D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)` of an algebraic
+stack `𝒳` for the presheaf-level `LQCoh^fbc(𝒪_𝒳)` of
+`AlgebraicGeometry.Stack.locallyQuasicoherentFlatBaseChangeFppfModules`, realized as the
+localization of `D_{LQCoh^fbc}(𝒪_𝒳)` at the morphisms whose cone lies in
+`D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`.
 
-`D_QCoh(𝒪_𝒳) = D_{LQCoh^fbc}(𝒪_𝒳) / D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`,
-
-realized as the localization of `D_{LQCoh^fbc}(𝒪_𝒳)` at the morphisms whose cone lies in
-`D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`. -/
-@[stacks 07B6 "the Verdier quotient D_QCoh(𝒪_𝒳) = D_LQCoh^fbc(𝒪_𝒳) / D_(Parasitic ∩ \
-  LQCoh^fbc)(𝒪_𝒳)"]
+Its flat base change property is `AlgebraicGeometry.Stack.HasFlatBaseChangeProperty`, stated with
+the pullback of presheaves of modules, not the property of Stacks 0762.  The category
+`D_QCoh(𝒪_𝒳)` of **Stacks 07B6**, at the source's `LQCoh^fbc(𝒪_𝒳)`, is
+`AlgebraicGeometry.Stack.derivedCategoryQuasicoherentSheaf`. -/
 abbrev derivedCategoryQuasicoherent := (derivedQuasicoherentW B E h S hS 𝒳).Localization
 
-/-- **Stacks 07B6**, the quotient functor `D_{LQCoh^fbc}(𝒪_𝒳) ⟶ D_QCoh(𝒪_𝒳)` of the Verdier
-quotient. -/
-@[stacks 07B6 "the quotient functor onto D_QCoh(𝒪_𝒳)"]
+/-- The quotient functor out of `D_{LQCoh^fbc}(𝒪_𝒳)` onto
+`AlgebraicGeometry.Stack.derivedCategoryQuasicoherent`, for the presheaf-level
+`LQCoh^fbc(𝒪_𝒳)`.  The quotient functor of **Stacks 07B6**, at the source's `LQCoh^fbc(𝒪_𝒳)`, is
+`AlgebraicGeometry.Stack.toDerivedCategoryQuasicoherentSheaf`. -/
 abbrev toDerivedCategoryQuasicoherent :
     (derivedLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳).FullSubcategory ⥤
       derivedCategoryQuasicoherent B E h S hS 𝒳 :=
@@ -182,11 +197,11 @@ theorem inverseImage_derivedParasiticLocallyQuasicoherentFlatBaseChange :
   simp only [ObjectProperty.prop_inverseImage_iff]
   exact ⟨fun hX n => (hX n).1, fun hX n => ⟨hX n, X.property n⟩⟩
 
-/-- **The localization of Stacks 07B6 is the Verdier quotient by
-`D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`.**  Once `D_{LQCoh^fbc}(𝒪_𝒳)` is a triangulated subcategory of
-`D(𝒪_𝒳)`, a cone computed in `D(𝒪_𝒳)` of a morphism of `D_{LQCoh^fbc}(𝒪_𝒳)` is the image of a
-cone computed in `D_{LQCoh^fbc}(𝒪_𝒳)`, so the inverted class is the class attached to the
-subcategory `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)` of `D_{LQCoh^fbc}(𝒪_𝒳)`. -/
+/-- **The localization `AlgebraicGeometry.Stack.derivedCategoryQuasicoherent` is the Verdier
+quotient by `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`.**  Once `D_{LQCoh^fbc}(𝒪_𝒳)` is a triangulated
+subcategory of `D(𝒪_𝒳)`, a cone computed in `D(𝒪_𝒳)` of a morphism of `D_{LQCoh^fbc}(𝒪_𝒳)` is
+the image of a cone computed in `D_{LQCoh^fbc}(𝒪_𝒳)`, so the inverted class is the class attached
+to the subcategory `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)` of `D_{LQCoh^fbc}(𝒪_𝒳)`. -/
 theorem derivedQuasicoherentW_eq_trW
     [(derivedLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳).IsTriangulated]
     [(derivedParasiticLocallyQuasicoherentFlatBaseChange B E h S hS

@@ -109,9 +109,13 @@ lemma isFiberedInGroupoids (p : 𝒮 ⥤ 𝒞) [p.IsFiberedInSets] : p.IsFibered
 
 end Functor.IsFiberedInSets
 
-/-- A functor is fibred in sets, i.e. every morphism of the base has a unique lift with a
-prescribed target, if and only if it is fibred in groupoids and all of its fibre categories are
-discrete. -/
+/-- **Stacks 0043.** A functor is fibred in sets, i.e. every morphism of the base has a unique
+lift with a prescribed target, if and only if it is fibred in groupoids and all of its fibre
+categories are discrete. The right-hand side is Stacks' definition of a category fibred in sets
+(a category fibred in discrete categories); a category is discrete (`CategoryTheory.IsDiscrete`)
+when its only morphisms are identities. -/
+@[stacks 0043 "The defining property: `p` is fibred in sets iff it is fibred in groupoids (003T) \
+and every fibre category `p.Fiber U` is discrete."]
 lemma Functor.isFiberedInSets_iff (p : 𝒮 ⥤ 𝒞) :
     p.IsFiberedInSets ↔ p.IsFiberedInGroupoids ∧ ∀ U : 𝒞, IsDiscrete (p.Fiber U) := by
   refine ⟨fun h ↦ ⟨IsFiberedInSets.isFiberedInGroupoids p, fun U ↦ inferInstance⟩, ?_⟩

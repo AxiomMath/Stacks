@@ -15,8 +15,10 @@ scheme-level representation of Stacks 01O4 at each point of the base.  The proof
 three clauses of that representation which make up a
 `Stacks.AlgebraicGeometry.ProjRepresentsF1.F1Bundle`; this file states the bijection from a
 bundle, and then discharges the bundle from the source's degree-one generation hypothesis by
-`Stacks.AlgebraicGeometry.ProjRepresentsF1.f1Bundle`, which is where Stacks 085D part (1) is
-registered with its scheme-level input proved.
+`Stacks.AlgebraicGeometry.ProjRepresentsF1.f1Bundle`.  Stacks 085D itself is registered on the
+constructed relative Proj: part (1) is
+`AlgebraicGeometry.Space.RelativeProjSituation.relativeProjIsoF1OfGenerated`, parts (2) and (3)
+are in `StacksFrontier/AlgebraicGeometry/Spaces/RelativeProjTwistsGenerated.lean`.
 
 Parts (2) and (3) of Stacks 085D are assertions about the twists `𝒪_P(n)`.  The relative Proj
 of an algebraic space is presented in this library through its base changes
@@ -24,11 +26,14 @@ of an algebraic space is presented in this library through its base changes
 (`AlgebraicGeometry.Space.RelativeProjPoints`), and its twists through their base changes,
 which are the twists of Stacks 01NR on `Proj_T(f^*𝒜)`
 (`AlgebraicGeometry.Space.RelativeProjPoints.pointTwistData`, the base-change clause of
-Stacks 084D).  Both parts are étale local on `P`, and the source's proof is "see Stacks 01O4 for
-the case of schemes": so they are stated at every scheme point of the base, where they are the
-scheme-level surjectivity of `π^*𝒜_1 ⟶ 𝒪(1)`
+Stacks 084D).  This file records the base changes of the two parts to every scheme point of
+the base, where they are the scheme-level surjectivity of `π^*𝒜_1 ⟶ 𝒪(1)`
 (`Stacks.AlgebraicGeometry.RelativeProjDegreeOne.epi_psiTranspose`) and the invertibility and
-multiplication clauses of Stacks 01O4.
+multiplication clauses of Stacks 01O4.  The statements on the twists `𝒪_P(n)` of `P` itself,
+descended along an étale atlas, are
+`AlgebraicGeometry.Space.RelativeProjSituation.epi_psiTwistHom_one`,
+`AlgebraicGeometry.Space.RelativeProjSituation.isInvertibleModule_twistModule` and
+`AlgebraicGeometry.Space.RelativeProjSituation.isIso_mulSheaf_twistGradedAlgebra`.
 
 ## Main results
 
@@ -37,14 +42,14 @@ multiplication clauses of Stacks 01O4.
   `AlgebraicGeometry.Space.RelativeProjPoints.homEquivF1OfBundle`: the bijection from a bundle.
 * `AlgebraicGeometry.Space.RelativeProjPoints.pointEquivF1OfGenerated`,
   `AlgebraicGeometry.Space.RelativeProjPoints.pointEquivF1OfGenerated_natural` and
-  `AlgebraicGeometry.Space.RelativeProjPoints.homEquivF1OfGenerated`: **Stacks 085D, part (1)**,
-  under degree-one generation.
-* `AlgebraicGeometry.Space.RelativeProjPoints.epi_psiTranspose_pointTwistData_one`:
-  **Stacks 085D, part (2)**: the canonical map `π^*𝒜_1 ⟶ 𝒪_P(1)` is surjective.
+  `AlgebraicGeometry.Space.RelativeProjPoints.homEquivF1OfGenerated`: the bijection fibred over
+  the points of the base, under degree-one generation.
+* `AlgebraicGeometry.Space.RelativeProjPoints.epi_psiTranspose_pointTwistData_one`: after base
+  change to a scheme point of the base, the canonical map `π^*𝒜_1 ⟶ 𝒪(1)` is surjective.
 * `AlgebraicGeometry.Space.RelativeProjPoints.isInvertible_pointTwist` and
-  `AlgebraicGeometry.Space.RelativeProjPoints.isIso_mulSheaf_pointTwistAlgebra`:
-  **Stacks 085D, part (3)**: every `𝒪_P(n)` is invertible and the multiplication maps
-  `𝒪_P(n) ⊗ 𝒪_P(m) ⟶ 𝒪_P(n + m)` are isomorphisms.
+  `AlgebraicGeometry.Space.RelativeProjPoints.isIso_mulSheaf_pointTwistAlgebra`: after base
+  change to a scheme point of the base, every `𝒪(n)` is invertible and the multiplication maps
+  `𝒪(n) ⊗ 𝒪(m) ⟶ 𝒪(n + m)` are isomorphisms.
 
 ## References
 
@@ -157,7 +162,7 @@ variable (TA : TensorAlgebras.{u})
     (hgen : ∀ (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X),
       IsGeneratedInDegreeOne (d.algebra T f))
 
-/-! #### Stacks 085D part (1) at the source's hypotheses
+/-! #### The bijection at the source's hypotheses
 
 The scheme-level input is now discharged.  `Stacks.AlgebraicGeometry.ProjRepresentsF1.f1Bundle`
 builds, from the degree-one generation hypothesis of Stacks 01O4 and nothing else, the bundle of
@@ -169,7 +174,8 @@ point of the base turns `hgen` from a hypothesis that justified `rep` into the h
 *produces* it, and leaves the three declarations below standing on exactly the data of
 Stacks 084B and exactly the hypothesis of Stacks 085D. -/
 
-/-- **Stacks 085D, part (1), fibred over a point of the base.**
+/-- **The relative Proj represents the functor of triples over a point of the base, under
+degree-one generation.**
 
 For a quasi-coherent graded `𝒪_X`-algebra `𝒜` generated as an `𝒜₀`-algebra by `𝒜₁` and
 `P = Proj_X(𝒜)`, the `T'`-points of `P` lying over a point `f` of `X` at `T` are the strict
@@ -181,18 +187,6 @@ The relative Proj enters through its base changes to schemes, which is what Stac
 and all the source's proof uses.  The degree-one generation hypothesis `hgen` is the source's
 own, and it is the only hypothesis: the scheme-level representing bijections of Stacks 01O4 are
 built from it by `Stacks.AlgebraicGeometry.ProjRepresentsF1.f1Bundle`, not assumed. -/
-@[stacks 085D "part (1), over a point of the base: for a quasi-coherent graded O_X-algebra A \
-generated as an A_0-algebra by A_1 and P = Proj_X(A), the T'-points of P lying over a T-point f \
-of X are in bijection with the strict isomorphism classes of pairs (L, psi) -- L invertible on \
-the scheme of T' and psi : f^*A -> ⨁_{n >= 0} L^{tensor n} a graded algebra map surjective in \
-degree one -- that is, with the triples (f . r, L, psi) of F_1 over f. The scheme-level \
-representing bijections of Stacks 01O4 are proved from the degree-one generation, by \
-ProjRepresentsF1.f1Bundle. P is given, as throughout this library's relative Proj of algebraic \
-spaces, by its base changes T x_X P = Proj_T(f^*A) to the scheme points of X \
-(RelativeProjPoints, the second assertion of Stacks 084B); TA is the choice of tensor algebras \
-needed to write ⨁_{n >= 0} L^{tensor n}. Parts (2) and (3) are \
-epi_psiTranspose_pointTwistData_one, isInvertible_pointTwist and \
-isIso_mulSheaf_pointTwistAlgebra"]
 noncomputable def pointEquivF1OfGenerated (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X)
     {T' : BigFppfOver B S hS} (r : T' ⟶ T) :
     {u : yoneda.obj T' ⟶ P // u ≫ π = yoneda.map r ≫ f} ≃
@@ -200,16 +194,12 @@ noncomputable def pointEquivF1OfGenerated (T : BigFppfOver B S hS) (f : yoneda.o
   d.pointEquivF1OfBundle TA (tensorAlgebraPullbackIsos TA)
     (fun T f => f1Bundle (d.algebra T f) TA (hgen T f)) T f r
 
-/-- **Stacks 085D, part (1): the representing bijection is natural in the test object.**
+/-- **The bijection of `pointEquivF1OfGenerated` is natural in the test object.**
 
 Restricting a `T'`-point of `P` along `r' : T'' ⟶ T'` pulls back the class of triples it
 represents.  Only the degree-one generation hypothesis of the source enters; the scheme-level
 naturality it is read off is that of
 `Stacks.AlgebraicGeometry.ProjRepresentsF1.f1Bundle`. -/
-@[stacks 085D "part (1), naturality of the representing bijection in the test object, under \
-degree-one generation alone: restricting a T'-point of P along r' : T'' -> T' pulls back the \
-class of triples it represents, along the pullback-of-classes operation of the scheme-level \
-bijections that ProjRepresentsF1.f1Bundle builds from the degree-one generation"]
 theorem pointEquivF1OfGenerated_natural (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X)
     {T' T'' : BigFppfOver B S hS} (r : T' ⟶ T) (r' : T'' ⟶ T')
     (u : {u : yoneda.obj T' ⟶ P // u ≫ π = yoneda.map r ≫ f}) :
@@ -221,7 +211,8 @@ theorem pointEquivF1OfGenerated_natural (T : BigFppfOver B S hS) (f : yoneda.obj
   d.pointEquivF1OfBundle_natural TA (tensorAlgebraPullbackIsos TA)
     (fun T f => f1Bundle (d.algebra T f) TA (hgen T f)) T f r r' u
 
-/-- **Stacks 085D, part (1).** For a quasi-coherent graded `𝒪_X`-algebra `𝒜` generated as an
+/-- **The points of the relative Proj, fibred over the points of the base, under degree-one
+generation.** For a quasi-coherent graded `𝒪_X`-algebra `𝒜` generated as an
 `𝒜₀`-algebra by `𝒜₁`, the `T`-points of `P = Proj_X(𝒜)` are the strict isomorphism classes of
 triples `(f, ℒ, ψ)` of the functor `F₁`: a point `f` of `X` at `T`, an invertible module `ℒ` on
 the scheme of `T`, and a graded algebra map `f^*𝒜 ⟶ ⨁_{n ≥ 0} ℒ^{⊗ n}` surjective in degree one.
@@ -230,71 +221,54 @@ The decomposition of a point of `P` by its image in `X` matches the decompositio
 its first component, and over each point of `X` the two fibres agree by
 `AlgebraicGeometry.Space.RelativeProjPoints.pointEquivF1OfGenerated`.  Degree-one generation is
 the only hypothesis. -/
-@[stacks 085D "part (1): for a quasi-coherent graded O_X-algebra A generated as an \
-A_0-algebra by A_1, the T-points of P = Proj_X(A) are in bijection with the strict isomorphism \
-classes of triples (f, L, psi) of the functor F_1 -- a T-point f of X, an invertible module L \
-on the scheme of T, and a graded algebra map f^*A -> ⨁_{n >= 0} L^{tensor n} surjective in \
-degree one. The scheme-level representing bijections of Stacks 01O4 are proved from the \
-degree-one generation, by ProjRepresentsF1.f1Bundle. P is given by its base changes \
-T x_X P = Proj_T(f^*A) to the scheme points of X (RelativeProjPoints, the second assertion of \
-Stacks 084B). F_1 is given fibred over the points of X, with its functoriality in the test \
-object over each point (pointEquivF1OfGenerated_natural), because RelativeProjPoints does not \
-record the comparison g^*(f^*A) = (f . g)^*A between restrictions at different points"]
 noncomputable def homEquivF1OfGenerated (T : BigFppfOver B S hS) :
     (yoneda.obj T ⟶ P) ≃ Σ f : yoneda.obj T ⟶ X, F1 (d.algebra T f) TA (𝟙 _) :=
   d.homEquivF1OfBundle TA (tensorAlgebraPullbackIsos TA)
     (fun T f => f1Bundle (d.algebra T f) TA (hgen T f)) T
 
-/-! #### Stacks 085D parts (2) and (3), on the twists
+/-! #### The twists after base change to a scheme point
 
 The twists `𝒪_P(n)` and the canonical map `ψ : π^*𝒜 ⟶ ⨁_{n ≥ 0} 𝒪_P(n)` of Stacks 084D are
 given, at each scheme point `f : T ⟶ X` of the base, by their base changes to
 `T ×_X P = Proj_T(f^*𝒜)`: the canonical twist datum
 `AlgebraicGeometry.Space.RelativeProjPoints.pointTwistData` of Stacks 01NR there.  Surjectivity
 of a map of modules, invertibility of a module and bijectivity of a map of modules are étale
-local, so parts (2) and (3) on `P` say exactly that they hold after base change to every scheme
-point of the base.  At a scheme point they are the case of schemes, which is the source's whole
-proof ("see Constructions, Lemma 01O4"), applied to `f^*𝒜`, which is generated in degree one. -/
+local; at a scheme point they are the case of schemes, Stacks 01O4, applied to `f^*𝒜`, which is
+generated in degree one.  The three lemmas below are these base changes.  Stacks 085D (2) and (3)
+on the twists of `P` itself are
+`AlgebraicGeometry.Space.RelativeProjSituation.epi_psiTwistHom_one`,
+`AlgebraicGeometry.Space.RelativeProjSituation.isInvertibleModule_twistModule` and
+`AlgebraicGeometry.Space.RelativeProjSituation.isIso_mulSheaf_twistGradedAlgebra`. -/
 
 include hgen
 
-/-- **Stacks 085D, part (2).**  For a quasi-coherent graded `𝒪_X`-algebra `𝒜` generated as an
-`𝒜₀`-algebra by `𝒜₁` and `P = Proj_X(𝒜)`, the canonical map `π^*𝒜₁ ⟶ 𝒪_P(1)` is surjective:
-after base change to any scheme point `f : T ⟶ X` of the base it is the transpose
+/-- **The canonical map `π^*𝒜₁ ⟶ 𝒪(1)` after base change to a scheme point is surjective.**
+For a quasi-coherent graded `𝒪_X`-algebra `𝒜` generated as an `𝒜₀`-algebra by `𝒜₁` and
+`P = Proj_X(𝒜)`, after base change to a scheme point `f : T ⟶ X` of the base the map
+`π^*𝒜₁ ⟶ 𝒪_P(1)` is the transpose
 `π_T^*(f^*𝒜)₁ ⟶ 𝒪(1)` of the degree-one component of `ψ` on `Proj_T(f^*𝒜)`, and that is an
 epimorphism by `Stacks.AlgebraicGeometry.RelativeProjDegreeOne.epi_psiTranspose`. -/
-@[stacks 085D "part (2): for a quasi-coherent graded O_X-algebra A generated as an A_0-algebra \
-by A_1 and P = Proj_X(A), the canonical map pi^*A_1 -> O_P(1) is surjective, at every scheme \
-point f : T -> X of the base: the transpose pi_T^*(f^*A)_1 -> O(1) of the degree-one component \
-of psi on T x_X P = Proj_T(f^*A) is an epimorphism of sheaves of modules"]
 theorem epi_psiTranspose_pointTwistData_one (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X) :
     Epi (Stacks.AlgebraicGeometry.RelativeProjDegreeOne.psiTranspose (d.pointTwistData T f) 1) :=
   Stacks.AlgebraicGeometry.RelativeProjDegreeOne.epi_psiTranspose (d.pointTwistData T f)
     (hgen T f)
 
-/-- **Stacks 085D, part (3), invertibility.**  For a quasi-coherent graded `𝒪_X`-algebra `𝒜`
-generated as an `𝒜₀`-algebra by `𝒜₁` and `P = Proj_X(𝒜)`, each twist `𝒪_P(n)` is invertible:
-after base change to any scheme point `f : T ⟶ X` of the base it is the twist `𝒪(n)` of
+/-- **The twists after base change to a scheme point are invertible.**  For a quasi-coherent
+graded `𝒪_X`-algebra `𝒜` generated as an `𝒜₀`-algebra by `𝒜₁` and `P = Proj_X(𝒜)`, the base change
+of the twist `𝒪_P(n)` to a scheme point `f : T ⟶ X` of the base is the twist `𝒪(n)` of
 `Proj_T(f^*𝒜)`, which is invertible by Stacks 01O4,
 `Stacks.AlgebraicGeometry.TwistMapsInvertible.twistDataOfGradedAlgebra_isInvertible`. -/
-@[stacks 085D "part (3), invertibility: for a quasi-coherent graded O_X-algebra A generated as \
-an A_0-algebra by A_1 and P = Proj_X(A), every O_P(n), n in Z, is an invertible module, at every \
-scheme point f : T -> X of the base: the twist O(n) on T x_X P = Proj_T(f^*A) is invertible"]
 theorem isInvertible_pointTwist (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X) (n : ℤ) :
     AlgebraicGeometry.SheafOfModules.IsInvertible (relativeProj (d.algebra T f)).scheme.presheaf
       (relativeProj (d.algebra T f)).scheme.ringCatSheaf.2 (d.pointTwist T f n) :=
   Stacks.AlgebraicGeometry.TwistMapsInvertible.twistDataOfGradedAlgebra_isInvertible (hgen T f) n
 
-/-- **Stacks 085D, part (3), multiplication.**  For a quasi-coherent graded `𝒪_X`-algebra `𝒜`
-generated as an `𝒜₀`-algebra by `𝒜₁` and `P = Proj_X(𝒜)`, the multiplication maps induce
-isomorphisms `𝒪_P(n) ⊗_{𝒪_P} 𝒪_P(m) ⟶ 𝒪_P(n + m)` for all integers `n` and `m`: after base
-change to any scheme point `f : T ⟶ X` of the base they are the multiplication maps of the twists
+/-- **The multiplication of the twists after base change to a scheme point is an
+isomorphism.**  For a quasi-coherent graded `𝒪_X`-algebra `𝒜` generated as an `𝒜₀`-algebra by `𝒜₁`
+and `P = Proj_X(𝒜)`, after base change to a scheme point `f : T ⟶ X` of the base the maps
+`𝒪(n) ⊗ 𝒪(m) ⟶ 𝒪(n + m)`, for all integers `n` and `m`, are the multiplication maps of the twists
 of `Proj_T(f^*𝒜)`, which are isomorphisms by Stacks 01O4,
 `Stacks.AlgebraicGeometry.TwistMapsInvertible.isIso_mulSheaf_twistDataOfGradedAlgebra`. -/
-@[stacks 085D "part (3), multiplication: for a quasi-coherent graded O_X-algebra A generated as \
-an A_0-algebra by A_1 and P = Proj_X(A), the multiplication maps O_P(n) (x) O_P(m) -> O_P(n+m) \
-are isomorphisms for all integers n, m, at every scheme point f : T -> X of the base: the \
-multiplication of the twists on T x_X P = Proj_T(f^*A) is an isomorphism in all degrees"]
 theorem isIso_mulSheaf_pointTwistAlgebra (T : BigFppfOver B S hS) (f : yoneda.obj T ⟶ X)
     (n m : ℤ) :
     IsIso (_root_.SheafOfModules.GradedAlgebra.mulSheaf (d.pointTwistAlgebra T f) n m) :=

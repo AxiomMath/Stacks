@@ -75,32 +75,21 @@ the hypotheses the source's own proof makes.
   topology of `T`.
 * `Crystalline.GlobalCrystallineSituation.exists_isIso_smallSelfProductConormalComparison`,
   `exists_isIso_restrictedCrysDifferentialsConormalComparison` and
-  `isBasis_isIso_restrictedCrysDifferentialsConormalComparison` — **Stacks, Tag 07J1**, the
-  second assertion with no hypothesis on the open: every point of every open of `T` has a
-  neighbourhood inside it on which the comparison is an isomorphism, so those opens form a basis
-  of the topology of `T`.
+  `isBasis_isIso_restrictedCrysDifferentialsConormalComparison` — every point of every open of `T`
+  has a neighbourhood inside it on which the comparison is an isomorphism, so those opens form a
+  basis of the topology of `T`.
 
-## What is and is not proved
+## The second assertion as an isomorphism of sheaves
 
 The affine-local step is proved over an affine open of `T` lying over an affine open of `S`,
 which is where the source's proof establishes it — [Stacks, Tag 07J1] reduces to the affine case
-before invoking the ring-level statement.  Those are hypotheses of the source's *proof* and not
-of its statement, so they are discharged here against
-`Crystalline.exists_isAffineOpen_over_isAffineOpen`: the three results carrying the tag quantify
-over all opens of `T` and all points of them, and say the comparison is an isomorphism on a
-neighbourhood basis.  That is why the tag sits on them and not on the affine-local step.
-
-The identification is **not** assembled into an isomorphism of sheaves of `𝒪_T`-modules.  The
-obstruction is not this module: `K/K^{[2]}` is built open by open in
-`StacksFrontier/AlgebraicGeometry/Crystalline/SelfProductConormal.lean` because the divided second
-power exists in the library only for an ideal of a ring, as
-`Crystalline.secondDividedPowerIdeal` in
-`StacksFrontier/AlgebraicGeometry/Crystalline/ModuleDifferentials/Diagonal.lean`, and there is no
-divided power of a quasi-coherent subsheaf of the structure sheaf, hence no sheaf `K^{[2]}`, no
-quotient sheaf `K/K^{[2]}` and no morphism of sheaves to call an isomorphism.  A basis of opens
-on which the comparison is an isomorphism is what an equality of sheaves amounts to for the open
-by open presentation, and it is what `isBasis_isIso_restrictedCrysDifferentialsConormalComparison`
-states.
+before invoking the ring-level statement.  Those hypotheses are discharged against
+`Crystalline.exists_isAffineOpen_over_isAffineOpen` by the basis results above.  The isomorphism
+of sheaves of `𝒪_T`-modules `(Ω_{X/S})_T ≅ K/K^{[2]}` of the source, which carries the tag, is
+`Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIsoConormalSheaf` in
+`StacksFrontier/AlgebraicGeometry/Crystalline/SelfProductConormalSheaf.lean`: the conormal modules
+form a presheaf of `𝒪_T`-modules, `K/K^{[2]}` is the sheaf it generates, and the sheafified
+comparison is an isomorphism because the comparison is bijective on the basis found here.
 
 ## References
 
@@ -540,9 +529,8 @@ open `V` of `T` lying over an affine open of `S` the comparison map
 `Ω_{T/S,δ}(V) → K/K^{[2]}` of `smallSelfProductConormalComparison` — which is
 `(Ω_{X/S})_T(V) → K/K^{[2]}` by [Stacks, Tag 07IZ] — is bijective.  These are the hypotheses the
 source's proof makes, which works affine locally on `T`; they are not hypotheses of the source's
-statement, so the tag is carried not here but by
-`exists_isIso_smallSelfProductConormalComparison` below, which discharges them against
-`Crystalline.exists_isAffineOpen_over_isAffineOpen`. -/
+statement, and they are discharged in the isomorphism of sheaves that carries the tag,
+`Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIsoConormalSheaf`. -/
 theorem bijective_smallSelfProductConormalComparison (h : IsLimit (BinaryFan.mk pr₀ pr₁)) :
     Function.Bijective (smallSelfProductConormalComparison h V).hom :=
   bijective_smallSelfProductConormalComparison_of_ker_le h hV hle hVS
@@ -550,7 +538,8 @@ theorem bijective_smallSelfProductConormalComparison (h : IsLimit (BinaryFan.mk 
 
 include hV hle hVS in
 /-- **The affine-local step of the second assertion of [Stacks, Tag 07J1], as an isomorphism of
-modules.**  The tag is carried by `exists_isIso_smallSelfProductConormalComparison` below. -/
+modules.**  The tag is carried by the isomorphism of sheaves
+`Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIsoConormalSheaf`. -/
 theorem isIso_smallSelfProductConormalComparison (h : IsLimit (BinaryFan.mk pr₀ pr₁)) :
     IsIso (smallSelfProductConormalComparison h V) :=
   isIso_smallSelfProductConormalComparison_of_ker_le h hV hle hVS
@@ -560,7 +549,8 @@ include hV hle hVS in
 /-- **The affine-local step of the second assertion of [Stacks, Tag 07J1], read out of
 `(Ω_{X/S})_T`.**  The comparison map out of the restriction of the crystalline differentials to
 the opens of `T` is bijective over an affine open lying over an affine open of `S`.  The tag is
-carried by `exists_isIso_restrictedCrysDifferentialsConormalComparison` below. -/
+carried by the isomorphism of sheaves
+`Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIsoConormalSheaf`. -/
 theorem bijective_restrictedCrysDifferentialsConormalComparison
     (h : IsLimit (BinaryFan.mk pr₀ pr₁)) :
     Function.Bijective (restrictedCrysDifferentialsConormalComparison h V).hom :=
@@ -569,8 +559,8 @@ theorem bijective_restrictedCrysDifferentialsConormalComparison
 
 include hV hle hVS in
 /-- **The affine-local step of the second assertion of [Stacks, Tag 07J1], as an isomorphism out
-of `(Ω_{X/S})_T`.**  The tag is carried by
-`exists_isIso_restrictedCrysDifferentialsConormalComparison` below. -/
+of `(Ω_{X/S})_T`.**  The tag is carried by the isomorphism of sheaves
+`Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIsoConormalSheaf`. -/
 theorem isIso_restrictedCrysDifferentialsConormalComparison
     (h : IsLimit (BinaryFan.mk pr₀ pr₁)) :
     IsIso (restrictedCrysDifferentialsConormalComparison h V) :=
@@ -578,15 +568,13 @@ theorem isIso_restrictedCrysDifferentialsConormalComparison
     (restrictedCrysDifferentialsConormalComparison h V)).mpr
     (bijective_restrictedCrysDifferentialsConormalComparison hV hle hVS h)
 
-/-! ### The second assertion at the source's own hypotheses -/
+/-! ### The comparison is an isomorphism on a basis of opens -/
 
-/-- **Stacks Project, Tag 07J1, the second assertion, with no hypothesis on the open.**  Every
+/-- **The comparison of [Stacks, Tag 07J1] is an isomorphism near every point.**  Every
 point of every open `W` of `T` has an open neighbourhood `V ≤ W` on which the comparison map
 `Ω_{T/S,δ}(V) → K/K^{[2]}` is an isomorphism.  The affine opens of `T` lying over an affine open
 of `S` are such neighbourhoods, by `isIso_smallSelfProductConormalComparison`, and they form a
 basis of the topology of `T`, by `Crystalline.exists_isAffineOpen_over_isAffineOpen`. -/
-@[stacks 07J1 "second assertion: the comparison Ω_{T/S,δ} → K/K^{[2]} is an isomorphism on a \
-neighbourhood of every point of every open of T, with no hypothesis on the open"]
 theorem exists_isIso_smallSelfProductConormalComparison
     (h : IsLimit (BinaryFan.mk pr₀ pr₁)) {W : B.obj.thickening.target.scheme.Opens}
     {x : B.obj.thickening.target.scheme} (hx : x ∈ W) :
@@ -596,15 +584,12 @@ theorem exists_isIso_smallSelfProductConormalComparison
     exists_isAffineOpen_over_isAffineOpen B.obj.toBase.hom W x hx
   exact ⟨V, hxV, hVW, isIso_smallSelfProductConormalComparison hVaff hVpre hVSaff h⟩
 
-/-- **Stacks Project, Tag 07J1, the second assertion, with no hypothesis on the open.**  Every
+/-- **The comparison out of `(Ω_{X/S})_T` is an isomorphism near every point.**  Every
 point of every open `W` of `T` has an open neighbourhood `V ≤ W` on which the comparison map
-`(Ω_{X/S})_T(V) → K/K^{[2]}` is an isomorphism.  This is the second assertion read out of
-`(Ω_{X/S})_T` itself, through [Stacks, Tag 07IZ], and it carries no hypothesis the source does
-not: the affineness of the open of `T` and of an open of `S` below it, under which the source's
-own proof works, is discharged against
+`(Ω_{X/S})_T(V) → K/K^{[2]}` of [Stacks, Tag 07J1] is an isomorphism, read out of
+`(Ω_{X/S})_T` itself through [Stacks, Tag 07IZ]; the affineness of the open of `T` and of an open
+of `S` below it, under which the source's own proof works, is discharged against
 `Crystalline.exists_isAffineOpen_over_isAffineOpen`. -/
-@[stacks 07J1 "second assertion: (Ω_{X/S})_T = K/K^{[2]} on a neighbourhood of every point of \
-every open of T, with no hypothesis on the open"]
 theorem exists_isIso_restrictedCrysDifferentialsConormalComparison
     (h : IsLimit (BinaryFan.mk pr₀ pr₁)) {W : B.obj.thickening.target.scheme.Opens}
     {x : B.obj.thickening.target.scheme} (hx : x ∈ W) :
@@ -615,13 +600,11 @@ theorem exists_isIso_restrictedCrysDifferentialsConormalComparison
   exact ⟨V, hxV, hVW,
     isIso_restrictedCrysDifferentialsConormalComparison hVaff hVpre hVSaff h⟩
 
-/-- **Stacks Project, Tag 07J1, the second assertion, as a basis of the topology of `T`.**  The
-opens of `T` on which the comparison `(Ω_{X/S})_T → K/K^{[2]}` is an isomorphism form a basis of
-the topology of `T`.  The conormal module is built open by open, so there is no morphism of
-sheaves of `𝒪_T`-modules to call an isomorphism; a basis of opens on which the comparison is one
-is what the source's equality of sheaves amounts to for that presentation. -/
-@[stacks 07J1 "second assertion: the opens of T on which (Ω_{X/S})_T = K/K^{[2]} form a basis \
-of the topology of T"]
+/-- **The opens on which the comparison of [Stacks, Tag 07J1] is an isomorphism form a basis.**
+The opens of `T` on which the comparison `(Ω_{X/S})_T(V) → K/K^{[2]}` is an isomorphism form a
+basis of the topology of `T`.  This is what makes the sheafified comparison an isomorphism of
+sheaves of `𝒪_T`-modules,
+`Crystalline.GlobalCrystallineSituation.restrictedCrysDifferentialsSheafIsoConormalSheaf`. -/
 theorem isBasis_isIso_restrictedCrysDifferentialsConormalComparison
     (h : IsLimit (BinaryFan.mk pr₀ pr₁)) :
     TopologicalSpace.Opens.IsBasis

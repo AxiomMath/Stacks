@@ -7,7 +7,8 @@ public import StacksFrontier.AlgebraicGeometry.Groupoids.Basic
 
 Evaluating a groupoid scheme on a test scheme over the base yields an honest groupoid, whose
 objects are the generalized objects and whose arrows are the generalized arrows with prescribed
-source and target. Two squares of the composition diagram of a groupoid scheme are cartesian.
+source and target. The two lower squares and the top triangle (read as a square) of the
+composition diagram of a groupoid scheme are cartesian.
 
 ## Main definitions
 
@@ -19,6 +20,8 @@ source and target. Two squares of the composition diagram of a groupoid scheme a
 
 ## Main results
 
+* `Stacks.Groupoids.GroupoidScheme.fst_snd_isPullback` records the defining square of the
+  scheme of composable arrows as the lower-left square of the composition diagram.
 * `Stacks.Groupoids.GroupoidScheme.comp_source_isPullback` says that composition together with
   the second projection exhibits the scheme of composable arrows as the fibre product of the
   source map with itself.
@@ -37,6 +40,7 @@ by Yoneda; the argument is carried out in
 
 * [Stacks Project, Tag 0231](https://stacks.math.columbia.edu/tag/0231)
 * [Stacks Project, Tag 02YE](https://stacks.math.columbia.edu/tag/02YE)
+* [Stacks Project, Tag 04LF](https://stacks.math.columbia.edu/tag/04LF)
 -/
 
 @[expose] public section
@@ -138,6 +142,16 @@ private theorem pullback_lift_eq {C : Type*} [Category C] {X Y Z T : C} {f : X �
   subst ha hb
   exact pullback.hom_ext (pullback.lift_fst _ _ _) (pullback.lift_snd _ _ _)
 
+/-- The lower-left square of the composition diagram, formed by the two projections out of the
+scheme of composable arrows, the source map and the target map, is a pullback square: it is the
+defining square of the fibre product `R ×_{s, U, t} R`. -/
+@[stacks 04LF "diagram (04LF): the lower-left square (projections `pr₀`, `pr₁`, source and \
+target) is cartesian"]
+theorem fst_snd_isPullback {S : Scheme.{u}} (G : GroupoidScheme S) :
+    IsPullback (pullback.fst G.source G.target) (pullback.snd G.source G.target) G.source
+      G.target :=
+  IsPullback.of_hasPullback G.source G.target
+
 /-- The square formed by composition, the second projection, and two copies of the source map
 is a pullback square: a composable pair of arrows is determined by its first member together
 with its composite. -/
@@ -193,7 +207,9 @@ theorem comp_source_isPullback {S : Scheme.{u}} (G : GroupoidScheme S) :
 /-- The upper triangle in the composition diagram, viewed as a square with two copies of its
 apex, is a pullback square: a pair of arrows with the same target is the same thing as a
 composable pair together with its composite. -/
-@[stacks 02YE "the upper square", stacks 04LF "diagram (04LF): the lower-right square is cartesian"]
+@[stacks 02YE "the upper square",
+  stacks 04LF "diagram (04LF): the top triangle, read as a square with two copies of its apex \
+`U` (maps `pr₀`, `c`, and the target map twice), is cartesian"]
 theorem target_comp_isPullback {S : Scheme.{u}} (G : GroupoidScheme S) :
     IsPullback (pullback.fst G.source G.target) G.comp G.target G.target := by
   refine IsPullback.mk' G.target_comp.symm ?_ ?_

@@ -8,16 +8,18 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.ReducedInducedSubstackLoca
 /-!
 # Reduced induced substacks give the hypothesis of Stacks 06G2
 
-`StacksFrontier/AlgebraicGeometry/Stacks/FiniteTypePointsLocallyClosed.lean` carries the hypothesis
-`AlgebraicGeometry.Stack.HasReducedInducedSubstacks` for **Stacks 06G2**. This file derives that
-predicate from the two inputs `hOpen` and `hReduced` of
-`AlgebraicGeometry.Stack.exists_reducedInducedSubstack` (**Stacks 06FK**), together with
-**Stacks 06FV**, so it is the same gap as the one recorded there and not a second one.
+`StacksFrontier/AlgebraicGeometry/Stacks/FiniteTypePointsLocallyClosed.lean` follows the source's
+proof of **Stacks 06G2** relative to the predicate
+`AlgebraicGeometry.Stack.HasReducedInducedSubstacks`. This file derives that predicate from the
+two inputs `hOpen` and `hReduced` of `AlgebraicGeometry.Stack.exists_reducedInducedSubstack`
+(**Stacks 06FK**), together with **Stacks 06FV**. Stacks 06G2 itself is proved without the
+predicate, as `AlgebraicGeometry.Stack.nonempty_inter_and_closure_inter_finiteTypePoints`.
 
 ## Main results
 
 * `AlgebraicGeometry.Stack.hasReducedInducedSubstacks_of_openSubstacks_of_reducedStructures`:
-  the two inputs of **Stacks 06FK** give the hypothesis that **Stacks 06G2** carries.
+  the two inputs of **Stacks 06FK** give the predicate used by the source's proof of
+  **Stacks 06G2**.
 
 ## References
 
@@ -38,7 +40,7 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 variable {𝒳 : Stack.AlgebraicStacks.{u, w} B S hS}
 
-/-- **The construction of Stacks 06FK supplies the hypothesis that Stacks 06G2 carries.**
+/-- **Stacks 06FK supplies the predicate used by the source's proof of Stacks 06G2.**
 
 `AlgebraicGeometry.Stack.HasReducedInducedSubstacks` asks, for every locally closed `T ⊆ |𝒳|`,
 for a 1-morphism onto `T` which is locally of finite type; the immersion that

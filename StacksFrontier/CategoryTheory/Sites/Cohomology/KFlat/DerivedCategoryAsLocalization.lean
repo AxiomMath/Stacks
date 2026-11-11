@@ -43,7 +43,9 @@ and 03EV. Nothing else in this development needs that restriction.
 
 Stacks 0GSL is proved in `StacksFrontier.CategoryTheory.Triangulated.Localization`, as
 `CategoryTheory.ObjectProperty`'s
-`isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isLocalizedEquivalence`,
+`isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isTriangulated`
+(the part used here is
+`isSaturated_and_isCompatibleWithTriangulation_inverseImage_ι_and_isLocalizedEquivalence`),
 and the passage from a localized equivalence to a localization functor is Mathlib's
 `CategoryTheory.LocalizerMorphism.IsLocalizedEquivalence.isLocalization`.
 

@@ -10,17 +10,21 @@ public import StacksFrontier.AlgebraicGeometry.QuasiProjective.HProjective
 /-!
 # Non-effective descent data for projective schemes
 
-There is an étale covering `X → S` of schemes and a descent datum `(V/X, φ)` relative to it with
-`V → X` projective which does not descend to a scheme. This file states that assertion, carries
-the construction of the witness as a named hypothesis, and proves the reduction of the assertion
-to the form in which the construction delivers it.
+[Stacks, Tag 08KF] says: there is an étale covering `X → S` of schemes and a descent datum
+`(V/X, φ)` relative to it with `V → X` projective which does not descend to a scheme. The tag is
+proved, with no hypothesis, by
+`Stacks.Examples.NonEffectiveProjectiveDescent.exists_etale_descentData_projective_not_isEffective`
+in `StacksFrontier/AlgebraicGeometry/Examples/HironakaInvolution/NonEffectiveDescent.lean`, which
+formalizes the source's Hironaka-type construction on `ℙ³`. This file proves a different,
+independent statement: the passage from a non-effective H-projective descent datum along a finite
+étale covering *family* to one along a single étale morphism.
 
 ## Main results
 
 * `Stacks.Examples.NonEffectiveProjectiveDescent.exists_nonEffectiveDescentData_projective`:
-  **[Stacks, Tag 08KF]**, granted the construction of the witness. There are an étale covering
-  consisting of a single morphism `f : X ⟶ S` and a descent datum relative to `f` whose scheme
-  over `X` is projective over `X` and which is not effective.
+  from a finite étale covering family with an H-projective, non-effective descent datum
+  (`EtaleProjectiveNonEffectiveFamily`), a single étale covering morphism with a projective,
+  non-effective descent datum.
 * `Stacks.Examples.NonEffectiveProjectiveDescent.isProjectiveMorphism_sigmaMap`: a coproduct of
   finitely many H-projective morphisms is H-projective.
 * `Stacks.Examples.NonEffectiveProjectiveDescent.singleton_mem_etalePrecoverage_sigmaDesc`: the
@@ -40,9 +44,9 @@ condition for a family of morphisms, and the two agree on a one-member family by
 
 ### The reduction, which is proved
 
-The source's construction produces not one étale morphism but a *finite étale covering family*
-together with a descent datum relative to it whose members are H-projective. Passing from that to
-the shape the tag asserts is the content proved here, and it has three separate parts.
+A finite étale covering family together with a descent datum relative to it whose members are
+H-projective is turned into one étale morphism with a projective descent datum. This has three
+separate parts.
 
 * The covering. The morphism out of the coproduct of an étale covering family is an étale
   covering, because `AlgebraicGeometry.Etale` is Zariski local at the source and the ranges of the
@@ -61,35 +65,22 @@ the shape the tag asserts is the content proved here, and it has three separate 
   effective as soon as the corresponding datum for the morphism out of the coproduct is, so the
   contrapositive carries non-effectivity from the family to the single morphism.
 
-### What is carried as a hypothesis, and why
+### The family form, and the source
 
 `Stacks.Examples.NonEffectiveProjectiveDescent.EtaleProjectiveNonEffectiveFamily` asserts that
-some finite étale covering family carries an H-projective descent datum which is not effective.
-**Nothing in this repository proves it**, so the statement of the tag below is an implication. The
-source builds it from three results, and each is unavailable here for a different reason.
-
-* [Stacks, Tag 0D5E]: a field `k` and a family of curves over `𝔸¹_k` whose total space is not a
-  scheme. This repository has the *obstruction* only, as
-  `Stacks.Examples.CurveFamilyNotScheme.not_exists_scheme_of_no_dominating_closed_avoiding`: no
-  scheme carries the geometry the construction produces. The family itself is not constructed,
-  because its total space is obtained from a blowup of a cubic surface by Artin's contraction
-  theorem for algebraic spaces, which this repository does not have.
-* [Stacks, Tag 0E6F]: a family of curves becomes a scheme, H-projective over its base, after an
-  étale covering of the base. This repository carries no form of the statement.
-* [Stacks, Tag 02W5] for the big fppf site: descent data of schemes along a covering are the
-  sheaves which become representable over each member, representably exactly when effectively.
-  The general-site halves are proved, as
-  `CategoryTheory.GrothendieckTopology.locallyRepresentableEquivalence` and
-  `CategoryTheory.GrothendieckTopology.effectiveDescentData_toDescentData_iff`, but they live in
-  the descent data of a pseudofunctor on a site; identifying those with the scheme descent data of
-  `AlgebraicGeometry.DescentData` over `AlgebraicGeometry.BigFppfOver`, which is what the source
-  uses, is not available.
-
-Given the three, the witness is the source's: the non-schematic total space of the 0D5E family,
-read as a sheaf on the big fppf site over its base, is locally representable for the 0E6F covering
-by schemes H-projective over the covering members, so 02W5 turns it into an H-projective descent
-datum, and that datum is not effective because an effective one would descend to a scheme
-representing the total space.
+some finite étale covering family carries an H-projective descent datum which is not effective;
+`exists_nonEffectiveDescentData_projective` takes it as a hypothesis. It is not how the source
+proves [Stacks, Tag 08KF]. The source's proof (Examples, Section 08KE) is a Hironaka-type
+construction: the involution `[x : y : z : w] ↦ [y : x : w : z]` of `ℙ³` acts freely off two lines,
+the conics `C`, `D` are exchanged, the two orders of blowing up `C` and `D` glue to Hironaka's
+threefold, and the involution gives a descent datum along the étale quotient map which cannot be
+effective because of the rational equivalence `L₀ + g(L₀) ∼ 0`. It does not use the family of
+curves of [Stacks, Tag 0D5E] (proved in this repository, with `k = ℂ`, as
+`Stacks.Examples.CurveFamilyNotScheme.exists_curveFamily_total_not_scheme`); that route appears
+only in a comment of the source, through [Stacks, Tag 0E6F] (proved in this repository as
+`AlgebraicGeometry.CurveFamily.exists_etaleCovering_isPullback_isProjectiveMorphism`) and
+[Stacks, Tag 02W5]. The source's construction is the one formalized in
+`StacksFrontier/AlgebraicGeometry/Examples/HironakaInvolution/NonEffectiveDescent.lean`.
 
 ## References
 
@@ -184,23 +175,21 @@ theorem singleton_mem_etalePrecoverage_sigmaDesc {S : Scheme.{u}} {I : Type v} [
   obtain ⟨i, y, rfl⟩ := hcover s
   exact ⟨Sigma.ι X i y, by simp [← Scheme.Hom.comp_apply]⟩
 
-/-! ### The witness, as a named hypothesis -/
+/-! ### The family form -/
 
-/-- **The source's construction, as a named hypothesis.** There is a finite étale covering family
-of a scheme carrying a descent datum whose members are H-projective over the members of the family
-and which is not effective.
+/-- **A non-effective H-projective descent datum along a finite étale covering family.** There is
+a finite étale covering family of a scheme carrying a descent datum whose members are H-projective
+over the members of the family and which is not effective.
 
-This is a hypothesis and not a theorem: the datum is the one the source builds from the
-non-schematic total space of the family of curves of [Stacks, Tag 0D5E], and this repository
-constructs neither that family, nor the étale presentation of [Stacks, Tag 0E6F], nor the fppf
-case of the descent-data/sheaf comparison of [Stacks, Tag 02W5]. -/
+This is the input of `exists_nonEffectiveDescentData_projective`, not a statement of the source:
+[Stacks, Tag 08KF] is proved by a different construction, see the module docstring. -/
 def EtaleProjectiveNonEffectiveFamily : Prop :=
   ∃ (S : Scheme.{u}) (I : Type u) (_ : Finite I) (X : I → Scheme.{u}) (f : ∀ i, X i ⟶ S)
       (D : DescentData f),
     Presieve.ofArrows X f ∈ Scheme.etalePrecoverage S ∧
       (∀ i, IsProjectiveMorphism (D.obj i).hom) ∧ ¬ D.IsFamilyEffective
 
-/-! ### Tag 08KF, granted the construction -/
+/-! ### From a family to a single morphism -/
 
 /-- **A non-effective descent datum for the morphism out of the coproduct.** If a descent datum
 relative to a family is not effective, then neither is the corresponding descent datum relative to
@@ -228,16 +217,13 @@ theorem isProjective_familyCoproduct {S : Scheme.{u}} {I : Type v} [Finite I] [S
     (isProjectiveMorphism_sigmaMap (fun i ↦ (D.obj i).hom) hD)
   simp
 
-/-- **[Stacks, Tag 08KF], granted the construction of the witness.** There are an étale covering
-of a scheme consisting of a single morphism `f : X ⟶ S` and a descent datum relative to `f` whose
-scheme over `X` is projective over `X` and which is not effective in the category of schemes. -/
-@[stacks 08KF "THE EXISTENCE IS NOT ASSERTED. What is proved is the reduction of the tag to
-its family form: given an étale covering family whose members are H-projective over the
-base and whose descent datum is not family-effective, the coproduct is a single étale
-morphism, is projective, and its datum is not effective. The witness itself is carried as
-`EtaleProjectiveNonEffectiveFamily`, which is what the chain of Tags 0D5E (existence half,
-blocked on Artin contraction), 0E6F (no library carrier at all) and 02W5 (fppf case, only
-the general-site halves are proved) would produce"]
+/-- **From a non-effective H-projective datum along a finite étale family to one along a single
+étale morphism.** Given `EtaleProjectiveNonEffectiveFamily`, the morphism out of the coproduct of
+the family is an étale covering carrying a descent datum whose scheme is projective over it and
+which is not effective in the category of schemes. [Stacks, Tag 08KF] itself is proved without
+hypothesis by
+`Stacks.Examples.NonEffectiveProjectiveDescent.exists_etale_descentData_projective_not_isEffective`.
+-/
 theorem exists_nonEffectiveDescentData_projective
     (hW : EtaleProjectiveNonEffectiveFamily.{u}) :
     ∃ (S X : Scheme.{u}) (f : X ⟶ S)

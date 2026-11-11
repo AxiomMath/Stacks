@@ -899,7 +899,7 @@ theorem glueSpecialMap_comp_glueToBase :
     rfl
 
 /-- A commuting square of morphisms of schemes gives equal images of a point. -/
-private theorem apply_eq_of_comp_eq {A B C D : Scheme.{u}} {a : A ⟶ B} {b : B ⟶ D} {c : A ⟶ C}
+theorem apply_eq_of_comp_eq {A B C D : Scheme.{u}} {a : A ⟶ B} {b : B ⟶ D} {c : A ⟶ C}
     {d : C ⟶ D} (h : a ≫ b = c ≫ d) (x : A) : b (a x) = d (c x) := by
   rw [← Scheme.Hom.comp_apply, h, Scheme.Hom.comp_apply]
 

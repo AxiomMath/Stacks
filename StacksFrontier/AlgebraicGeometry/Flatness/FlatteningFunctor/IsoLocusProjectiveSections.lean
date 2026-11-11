@@ -398,23 +398,22 @@ end AlgebraicGeometry
 
 namespace Stacks.Flatness
 
-/-- **Stacks Project, Tag 05PF.** The isomorphism-after-base-change functor of a surjection
-`u : F ⟶ G` of quasi-coherent modules on an affine scheme `X` over an affine base `S`, whose
-source has projective module of global sections over `Γ(S, 𝒪_S)`, is represented by a closed
-immersion `Z ⟶ S`.
+/-- **The terminal case of the devissage of Tag 05PF.** The isomorphism-after-base-change
+functor of a surjection `u : F ⟶ G` of quasi-coherent modules on an affine scheme `X` over an
+affine base `S`, whose source has projective module of global sections over `Γ(S, 𝒪_S)`, is
+represented by a closed immersion `Z ⟶ S`.
 
 This is the situation in which the devissage of the source's proof terminates: the representing
 closed subscheme is cut out by the ideal of `Γ(S, 𝒪_S)` supplied by Tag 05PE, which after every
 base change vanishes exactly when `u` becomes an isomorphism.  The hypotheses of the source — that
 `f` and `F` be of finite presentation and that `F` be flat and pure relative to `S` — are what the
 source's étale localization uses to reduce the general case to this one; they are not needed once
-the situation is affine with projective sections, and are therefore absent here. -/
-@[stacks 05PF "representability by a closed immersion, for an affine situation whose source \
-module has projective global sections: this is the terminal case of the source's devissage, \
-Step 4 of its proof together with Tag 05PE. The étale localization of Steps 1-3, which reduces \
-the general case to this one, is \
-`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor`",
-  sga "3 VIB 6.2.3" "(i), special case",
+the situation is affine with projective sections, and are therefore absent here.  The étale
+localization reducing the general case to this one is
+`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor`, and Tag 05PF with
+both of its assertions is
+`Stacks.Flatness.exists_closedImmersion_representableBy_isomorphismFunctor_finitePresentation`. -/
+@[sga "3 VIB 6.2.3" "(i), special case",
   sga "3 VIII 6.4" "special case"]
 theorem isomorphismFunctor_representableBy_closedImmersion_of_projective_sections
     (D : ModuleMapBaseChangeSituation.{u}) [IsAffine D.X] [IsAffine D.S] [Epi D.hom]

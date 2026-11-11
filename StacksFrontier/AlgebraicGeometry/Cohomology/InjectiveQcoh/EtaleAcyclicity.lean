@@ -58,7 +58,9 @@ the source's `|_U`.  Everything is polymorphic in `u`.
 Three inputs are carried as explicit hypotheses; each is named in the part string of the
 attribute, so what is proved and what is assumed can be read off the statement itself.  None of
 them asserts more than the source's own proof establishes.  The first, `hchart`, is the
-hypothesis of Stacks 09TJ as formalized here and is passed through verbatim; the other two are
+hypothesis of the chart reduction
+`AlgebraicGeometry.Space.exists_filtered_colimit_artinian_pushforwards_retract` of Stacks 09TJ
+and is passed through verbatim; the other two are
 quantified over the properties of `U` and `p` that make them legitimate, so that the source's
 binders `hUqc`, `hUqs` and `hp` are consumed exactly where the source consumes them.
 
@@ -78,18 +80,19 @@ binders `hUqc`, `hUqs` and `hp` are consumed exactly where the source consumes t
   Stacks 09TF, which is formalized here as
   `AlgebraicGeometry.Space.isAffineHom_of_isArtinianRing` — followed by the Leray collapse of
   Stacks 0733 along that affine morphism and the vanishing of the higher cohomology of a
-  quasi-coherent module on the affine `Z_i ×_X U`.  Both of the last two are blocked on the same
-  keystone: the Leray collapse is formalized as
-  `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom`, Stacks 0D2U, itself carrying
-  `h03DW` and `h072Z`; and higher vanishing on an affine is the étale-site analogue of
-  Stacks 01XB, that is Stacks 03DW, equivalently Descent, Proposition 03DX (2).  Stacks 03DW,
-  03DX (2) and 03OJ are carried nowhere in this repository, as
-  `StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishing.lean` records about
-  itself.
+  quasi-coherent module on the affine `Z_i ×_X U`.  The Leray collapse along an affine morphism
+  is formalized, for a quasi-coherent module, as
+  `AlgebraicGeometry.Space.cohomologyCollapseIsoOfIsAffineHom`, Stacks 0D2U; higher vanishing on
+  an affine is the étale-site analogue of Stacks 01XB, that is Stacks 03DW, equivalently Descent,
+  Proposition 03DX (2), and on an affine étale chart it is
+  `AlgebraicGeometry.Space.isZero_rightDerived_evaluation_of_isAffineChart`.
 
-Stacks 09TJ is used in the conditional form in which it is formalized, so its own hypothesis
-`hchart` — the four inputs at the affine surjective étale chart of Stacks 03H6 — appears here
-unchanged and is not restated or strengthened.
+Stacks 09TJ is used through its chart reduction, so the hypothesis `hchart` of that reduction
+— the four inputs at the affine surjective étale chart of Stacks 03H6 — appears here unchanged
+and is not restated or strengthened.  Those four inputs are all proved, and Stacks 09TJ itself
+is `AlgebraicGeometry.Space.exists_filtered_colimit_artinian_pushforwards_retract_of_isNoetherian`;
+the unconditional form of Stacks 09TL, part (1), is
+`AlgebraicGeometry.Space.isZero_etaleRestrictionCohomology_of_injective_of_isNoetherian`.
 
 ### What is not covered
 

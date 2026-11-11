@@ -10,8 +10,10 @@ public import StacksFrontier.CategoryTheory.TwoFibreProduct.OverIso
 
 Fix a base category `C`. The 2-category of categories fibred in groupoids over `C` is
 `CategoryTheory.CatFiberedInGroupoids` (Stacks 02XS), and a 2-fibre product of a cospan in a
-`(2,1)`-category is a terminal object of the category of 2-commutative squares over that
-cospan (`CategoryTheory.Bicategory.IsTwoFibreProduct`, Stacks 003Q). This file exhibits such a
+`(2,1)`-category is a final object of the 2-category of 2-commutative squares over that
+cospan (`CategoryTheory.Bicategory.IsFinalTwoCommSq`, Stacks 003Q); its 1-truncated form is a
+terminal object of the quotient category (`CategoryTheory.Bicategory.IsTwoFibreProduct`). This file
+exhibits such a
 terminal square for a cospan of categories fibred in groupoids: its apex is the 2-fibre product
 over `C` of Stacks 0040 (`CategoryTheory.TwoFibreProductOver`), which is fibred in groupoids by
 Stacks 0041, and its universal property is the one proved in
@@ -43,6 +45,10 @@ instantiation used below.
 
 * `CategoryTheory.CatFiberedInGroupoids.isTwoFibreProduct_twoFibreProductSquare`: the canonical
   square is a 2-fibre product.
+* `CategoryTheory.CatFiberedInGroupoids.isFinalTwoCommSq_twoFibreProductSquare` and
+  `CategoryTheory.CatFiberedInGroupoids.isFinalTwoCommSq_of_isTwoFibreProduct`: the canonical
+  square, and every terminal object of the quotient category of squares, is a 2-fibre product in
+  the sense of Stacks 003Q, with the uniqueness of the 2-isomorphism of Stacks 003P (2).
 * `CategoryTheory.Bicategory.isEquivalence_of_isTwoFibreProduct`: a comparison 1-morphism
   between two 2-fibre products of one cospan of categories fibred in groupoids is an
   equivalence of the underlying categories.
@@ -270,6 +276,30 @@ theorem hom₂_ext_of_whiskerRight_isTwoFibreProduct
     · exact (whiskerRight_comp_eq η F.hom _).symm.trans
         ((hcancel F.isoSnd hsnd).trans (whiskerRight_comp_eq θ F.hom _))
   exact hom₂_ext_of_app fun z => F.hom.hom.toFunctor.map_injective (app_eq_of_eq hF z)
+
+/-- The legs of any 2-fibre product of a cospan of categories fibred in groupoids jointly detect
+2-cells, in the form `CategoryTheory.Bicategory.TwoCommSq.LegsDetectTwoCells`. -/
+theorem legsDetectTwoCells_of_isTwoFibreProduct {P : Bicategory.TwoCommSq f g}
+    (hP : Bicategory.IsTwoFibreProduct P) : P.LegsDetectTwoCells :=
+  fun _ _ _ _ _ hfst hsnd =>
+    hom₂_ext_of_whiskerRight_isTwoFibreProduct.{v₁, v₂, u₁, u₂} hP hfst hsnd
+
+/-- **In the 2-category of categories fibred in groupoids the two notions of 2-fibre product
+agree.** A terminal object of the quotient category of 2-commutative squares over a cospan is a
+final object of the 2-category of 2-commutative diagrams (Stacks 003Q), because its legs detect
+2-cells. -/
+noncomputable def isFinalTwoCommSq_of_isTwoFibreProduct {P : Bicategory.TwoCommSq f g}
+    (hP : Bicategory.IsTwoFibreProduct P) : Bicategory.IsFinalTwoCommSq P :=
+  Bicategory.isFinalTwoCommSq_of_legsDetect hP
+    (legsDetectTwoCells_of_isTwoFibreProduct.{v₁, v₂, u₁, u₂} hP)
+
+/-- **The canonical square is a 2-fibre product in the sense of Stacks 003Q** in the 2-category
+of categories fibred in groupoids: a final object of the 2-category of 2-commutative diagrams
+over the cospan. -/
+noncomputable def isFinalTwoCommSq_twoFibreProductSquare (f : X ⟶ Z) (g : Y ⟶ Z) :
+    Bicategory.IsFinalTwoCommSq (twoFibreProductSquare.{v₁, v₂, u₁, u₂} f g) :=
+  isFinalTwoCommSq_of_isTwoFibreProduct.{v₁, v₂, u₁, u₂}
+    (isTwoFibreProduct_twoFibreProductSquare.{v₁, v₂, u₁, u₂} f g)
 
 end CategoryTheory.CatFiberedInGroupoids
 

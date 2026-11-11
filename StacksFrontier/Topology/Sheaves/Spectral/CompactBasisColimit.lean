@@ -28,8 +28,9 @@ the statement is consumed.
 
 * `Stacks.QuasiCompactObjectsSituation`: a site together with a distinguished collection of
   its objects, with `HasEnoughObjects`, `ObjectsAreQuasiCompact` and
-  `CoverPullbacksAreQuasiCompact` recording the three conditions on that collection stated in
-  Stacks 0937.  Only the first two are used in this file.
+  `CoverPullbacksAreQuasiCompact` recording the three conditions of Stacks 0937 for the site of
+  all families generating a covering sieve; the third is a strengthening of the source's.  Only
+  the first two are used in this file.
 * `Stacks.HasFiniteRepresentableCoequalizerPresentation`: a sheaf is the coequalizer of two
   maps between finite coproducts of sheafified representables of distinguished objects.
 
@@ -120,13 +121,14 @@ def QuasiCompactObjectsSituation.ObjectsAreQuasiCompact {C : Type u} [Category.{
     (S : QuasiCompactObjectsSituation C) : Prop :=
   ∀ U : C, U ∈ S.objects → S.topology.IsQuasiCompactObject U
 
-/-- Condition (3) of Stacks Project, Tag 0937: for a cover whose source objects and target
-belong to the distinguished collection, every pairwise fibre product is quasi-compact.
+/-- A strengthening of condition (3) of Stacks Project, Tag 0937: for every family whose
+generated sieve is covering, whose source objects and target belong to the distinguished
+collection, every pairwise fibre product exists and is quasi-compact. Stacks 0937 quantifies only
+over the coverings of the site, whose fibre products exist by the site axioms; the faithful
+condition is `Stacks.Sites.CoveringsSituation.CoverPullbacksAreQuasiCompact`.
 
-The `HasPullback` conjunct records the existence implicit in the source. The second conjunct
-is quantified over the instance used to choose a pullback, so the condition does not depend
-on a global choice of pullbacks. -/
-@[stacks 0937 "condition (3)"]
+The second conjunct is quantified over the instance used to choose a pullback, so the condition
+does not depend on a global choice of pullbacks. -/
 def QuasiCompactObjectsSituation.CoverPullbacksAreQuasiCompact {C : Type u} [Category.{v} C]
     (S : QuasiCompactObjectsSituation C) : Prop :=
   ∀ (U : C) (𝒰 : PreZeroHypercover.{max u v} U),

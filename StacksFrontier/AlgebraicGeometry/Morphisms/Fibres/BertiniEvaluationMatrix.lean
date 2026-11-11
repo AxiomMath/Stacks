@@ -54,8 +54,9 @@ the parameter space and only conditionally on a fibrewise effective-Cartier hypo
 (`Stacks.Bertini.FamilyDivisors.flat_universalDivisor_restrict`), and the identification of the
 fibre of `q` through `w` with the divisor of the corresponding vector.
 
-Accordingly **no `@[stacks]` attribute is attached**: Tag 0FD6 keeps its registration on
-`Stacks.Bertini.FamilyDivisors.smooth_specializedDivisor_forGeneral`.
+Accordingly **no `@[stacks]` attribute is attached**: Tag 0FD6 is registered on
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`.
 
 ## Implementation notes
 

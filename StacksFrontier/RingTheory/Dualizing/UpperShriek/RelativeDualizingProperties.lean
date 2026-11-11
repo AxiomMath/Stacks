@@ -15,7 +15,7 @@ of `φ` as a ring map, and part (2) for a flat `φ`.
 
 ## Main results
 
-* `Dualizing.upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectRingMap` —
+* `Dualizing.upperShriekFunctor_unit_isIso_derivedHomothety_of_perfect` —
   **[Stacks, Tag 0BZW] (1)(c)**.
 * `Dualizing.upperShriekFunctor_unit_isIso_derivedHomothety_of_flat` — the same for a flat `φ`,
   as part (2) of the source restates it.
@@ -23,10 +23,10 @@ of `φ` as a ring map, and part (2) for a flat `φ`.
   **[Stacks, Tag 0BZW] (2)(b)**.
 
 The other parts of the tag are
-`Dualizing.upperShriekFunctor_unit_derivedCategoryBBounded_of_isPerfectRingMap` ((1)(a)),
-`PolynomialPresentation.relativeDualizingComplex_hasFiniteTorDimension_of_isPerfectRingMap`
-((1)(b)) and `PolynomialPresentation.relativeDualizingComplex_isRelativelyPerfect` ((2)(a)), both
-in the namespace `Dualizing`.
+`Dualizing.upperShriekFunctor_unit_derivedCategoryBBounded_of_perfect` ((1)(a)),
+`PolynomialPresentation.relativeDualizingComplex_hasFiniteTorDimension_of_perfect` ((1)(b)) and
+`PolynomialPresentation.relativeDualizingComplex_isRelativelyPerfect` ((2)(a)), both in the
+namespace `Dualizing`.
 
 ## Implementation notes
 
@@ -59,53 +59,34 @@ canonical map `A ⟶ RHom_A(ω_{A/R}, ω_{A/R})` of [Stacks, Tag 0A7C] — the d
 adjunction of [Stacks, Tag 0A63] at `ω_{A/R} = φ^!(R)` — is an isomorphism.
 
 The source's proof: a perfect ring map is perfect through the polynomial algebra `P` of every
-presentation ([Stacks, Tag 068Y], `RingHom.isPerfectModule_of_isPerfectRingMap`), perfectness
-survives the universe lift to the module universe in which upper shriek is formed
-(`StacksDraft.Perfect.isPerfectModule_ulift`), and then
+presentation ([Stacks, Tag 068Y], `Algebra.Perfect.exists_finite_projective_resolution` read
+through [Stacks, Tag 066Q]), perfectness survives the universe lift to the module universe in
+which upper shriek is formed (`StacksDraft.Perfect.isPerfectModule_ulift`), and then
 `Dualizing.upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectModule` reads
 `RHom_A(ω_{A/R}, ω_{A/R})` in `D(P)` as the double dual of `A` and concludes by
-[Stacks, Tag 07VI].
-
-Perfectness of `φ` is `RingHom.IsPerfectRingMap`, which carries the derived tensor product it is
-stated with, as in (1)(a).  Noetherianity of `A` is not needed by the proof. -/
+[Stacks, Tag 07VI].  Noetherianity of `A` is not needed by the proof. -/
 @[stacks 0BZW "(1)(c)"]
-theorem upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectRingMap [IsNoetherianRing R]
-    (p : PolynomialPresentation f)
-    (derivedTensor :
-      DerivedCategory (ModuleCat.{u} R) ⥤
-        DerivedCategory (ModuleCat.{u} R) ⥤ DerivedCategory (ModuleCat.{u} R))
-    (comparison : ∀ N : ModuleCat.{u} R,
-      DerivedCategory.Q ⋙
-          derivedTensor.flip.obj
-            ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N) ⟶
-        (StacksDraft.TorAmplitude.tensorModuleRight N).mapHomologicalComplex
-            (ComplexShape.up ℤ) ⋙ DerivedCategory.Q)
-    (isLeftDerived : ∀ N : ModuleCat.{u} R,
-      (derivedTensor.flip.obj
-          ((DerivedCategory.singleFunctor (ModuleCat.{u} R) 0).obj N)).IsLeftDerivedFunctor
-        (comparison N)
-        (HomologicalComplex.quasiIso (ModuleCat.{u} R) (ComplexShape.up ℤ)))
-    (hf : letI : Algebra R A := f.toAlgebra
-      RingHom.IsPerfectRingMap R A derivedTensor comparison isLeftDerived) :
+theorem upperShriekFunctor_unit_isIso_derivedHomothety_of_perfect [IsNoetherianRing R]
+    (p : PolynomialPresentation f) (hf : f.Perfect) :
     IsIso (derivedHomothety (StacksDraft.DerivedHom.derivedHomAdjunctionOverRing.{u, v} A)
       (StacksDraft.DerivedHom.derivedTensorUnit.{u, v} A)
       (StacksDraft.DerivedHom.derivedTensorUnitLeft.{u, v} A)
       (p.upperShriekFunctor.{u, v}.obj
         ((DerivedCategory.singleFunctor (ModuleCat.{max v u} R) 0).obj
           (ModuleCat.of R (ULift.{v} R))))) := by
-  let : Algebra R A := f.toAlgebra
+  algebraize [f]
   let : Module p.Poly A := Module.compHom A p.toRingHom
   have hperf : StacksDraft.Perfect.IsPerfectModule (R := p.Poly) A :=
-    RingHom.isPerfectModule_of_isPerfectRingMap derivedTensor comparison isLeftDerived hf
-      p.variableCount (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective
+    (StacksDraft.Perfect.isPerfectModule_iff_exists_finite_projective_resolution A).mpr
+      (Algebra.Perfect.exists_finite_projective_resolution
+        (AlgHom.mk p.toRingHom fun r ↦ congrArg (· r) p.commutes) p.surjective)
   exact upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectModule.{u, v} p
     (StacksDraft.Perfect.isPerfectModule_ulift A hperf)
 
 /-- **The endomorphism statement of [Stacks, Tag 0BZW] (1)(c) for a flat `φ`**, which is how part
 (2) of the source restates it.  A flat homomorphism of finite type of Noetherian rings is of finite
 presentation, hence a perfect ring map by [Stacks, Tag 067J]; that is the hypothesis of
-`Dualizing.upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectRingMap`, the canonical
-certified derived tensor product of the base being taken for the one it is stated with. -/
+`Dualizing.upperShriekFunctor_unit_isIso_derivedHomothety_of_perfect`. -/
 theorem upperShriekFunctor_unit_isIso_derivedHomothety_of_flat [IsNoetherianRing R]
     (p : PolynomialPresentation f) (hflat : f.Flat) :
     IsIso (derivedHomothety (StacksDraft.DerivedHom.derivedHomAdjunctionOverRing.{u, v} A)
@@ -119,11 +100,8 @@ theorem upperShriekFunctor_unit_isIso_derivedHomothety_of_flat [IsNoetherianRing
   let : Algebra.FiniteType R A := RingHom.finiteType_algebraMap.mp p.finiteType
   let : Algebra.FinitePresentation R A :=
     Algebra.FinitePresentation.of_finiteType.mp inferInstance
-  let D := StacksDraft.TorAmplitude.canonicalCertifiedDerivedTensoring R
-  exact upperShriekFunctor_unit_isIso_derivedHomothety_of_isPerfectRingMap.{u, v} p
-    D.tensor D.comparison D.isLeftDerived
-    ((RingHom.isPerfectRingMap_of_flat_of_finitePresentation R A).2 D.tensor D.comparison
-      D.isLeftDerived)
+  exact upperShriekFunctor_unit_isIso_derivedHomothety_of_perfect.{u, v} p
+    (RingHom.perfect_algebraMap.mpr (Algebra.Perfect.of_flat_of_finitePresentation R A))
 
 /-- **Stacks Project, Tag 0BZW (2)(b).**  Let `φ : R → A` be a flat homomorphism of finite type of
 Noetherian rings, presented by an arbitrary polynomial presentation `p`, and let `R → k` be a

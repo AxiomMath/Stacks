@@ -200,7 +200,7 @@ isomorphism for every object `K` of `D_QCoh(𝒪_Y)`.
 
 The same holds at any right adjoint of `Rf_*`, by
 `Stacks.Duality.isIso_compareWithPullback_of_perfect_of_isProper`. -/
-@[stacks 0A9U]
+@[stacks 0A9U "complete: X, Y Noetherian, f perfect and proper, every K in D_QCoh(𝒪_Y)"]
 theorem isIso_compareWithPullback_twistedInverseImage [IsNoetherian X] [IsNoetherian Y]
     [IsProper f] [AlgebraicGeometry.Perfect f] (K : quasiCoherentDerivedCategory Y) :
     IsIso (compareWithPullback f (isQuasicoherent_homology_derivedPushforward_of_qcqs f)

@@ -344,9 +344,9 @@ source asserts, see `CommAlgCat.derivedCotangentComplexBaseChangeFunctorialityIs
 -- an isomorphism between the two objects, with no claim about which morphism realizes it.
 -- Tag 08QQ is carried by `CommAlgCat.derivedCotangentComplexBaseChangeFunctorialityIso` and
 -- `CommAlgCat.derivedCotangentComplexBaseChangeFunctorialityIso_hom` below, which state the
--- lemma with the source's own arrow, and in `StacksFrontier.Cotangent.BaseChangeQuasiIso` by
--- `CommAlgCat.quasiIso_cotangentExtendScalarsComplexMap` and
--- `CommAlgCat.cotangentBaseChangeIso`.
+-- lemma with the source's own arrow, and in `StacksFrontier.Cotangent.BaseChangeQuasiIsoUnconditional`
+-- by `CommAlgCat.quasiIso_cotangentExtendScalarsComplexMap_unconditional` and
+-- `CommAlgCat.cotangentBaseChangeIsoUnconditional`.
 def derivedCotangentComplexBaseChangeIso
     (hTor : RingTheory.TorIndependence.TorIndependent A A' (B : Type u))
     (hφ : Function.Bijective (baseChangeUnit b)) :
@@ -380,8 +380,8 @@ The arrow is the source's. The cotangent complex is a bounded above complex of f
 (`CommAlgCat.derivedExtensionScalarsCotangentComplexIso`), and on that the functoriality map of
 [Stacks, Tag 08PN] after extension of scalars is
 `CommAlgCat.cotangentExtendScalarsComplexMap`, a quasi-isomorphism by
-`CommAlgCat.quasiIso_cotangentExtendScalarsComplexMap`. That the isomorphism built here is
-induced by the functoriality map and not merely some isomorphism between the two objects is
+`CommAlgCat.quasiIso_cotangentExtendScalarsComplexMap_unconditional`. That the isomorphism built
+here is induced by the functoriality map and not merely some isomorphism between the two objects is
 `CommAlgCat.derivedCotangentComplexBaseChangeFunctorialityIso_hom`. -/
 @[stacks 08QQ "the lemma, with the arrow the source names: under the source's own hypothesis \
   that the square induce a quasi-isomorphism B ⊗_A^L A' = B' — written out as vanishing of the \

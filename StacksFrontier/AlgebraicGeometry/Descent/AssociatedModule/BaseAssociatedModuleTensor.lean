@@ -86,8 +86,8 @@ public theorem pullbackToposGeneral_baseToZariskiRingedToposHom (τ : SiteKind) 
     (baseToZariskiRingedToposHom B S hS τ).pullbackToposGeneral =
       baseAssociatedModule B S hS τ := rfl
 
-/-- The morphism of ringed topos sites underlying the morphism of ringed sites is the one
-Stacks 070U is registered on. -/
+/-- The morphism of ringed topos sites underlying the morphism of ringed sites of Stacks 070U is
+`AlgebraicGeometry.BigFppfOver.baseToZariskiRingedToposHom`. -/
 public theorem toRingedToposSiteHom_baseToZariskiRingedSiteHom (τ : SiteKind) :
     (baseToZariskiRingedSiteHom B S hS τ).toRingedToposSiteHom =
       baseToZariskiRingedToposHom B S hS τ := rfl

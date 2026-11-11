@@ -29,6 +29,12 @@ sequences of `0 ⟶ Iⁿ F ⟶ F ⟶ F / Iⁿ F ⟶ 0` and their naturality in `
 
 ## Main definitions
 
+This file defines nothing.  The statements below use the following definitions of the imported
+module `StacksDraft.AlgebraicGeometry.Spaces.GrothendieckExistence.HomBijection.`
+`CohomologyAdicUniformBoundsSpace`, which also proves the three clauses (namespace
+`AlgebraicGeometry.Space.C1573`); this file restates them in the namespace
+`AlgebraicGeometry.Space` and registers them.
+
 * `AlgebraicGeometry.Space.C1573.idealQuotientTower`: the inverse system `n ↦ F / Iⁿ F`.
 * `AlgebraicGeometry.Space.C1573.cohomologyIdealQuotientTower`: the inverse system
   `n ↦ Hᵖ(X, F / Iⁿ F)` of `A`-modules.
@@ -71,24 +77,6 @@ attribute [local instance 5000] SheafOfModules.instAbelian
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesAbelian
   Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
 attribute [local instance] hasInjectiveResolutions_modules HasDerivedCategory.standard
-
-section Tower
-
-variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S}
-  {X : AlgebraicSpaces B S hS} {A : Type u} [CommRing A]
-  (φ : A →+* ↥(GlobalSectionRing
-    ((Stacks.SheafOfModules.Tensor.ringSheaf (smallEtaleRingedSite B S hS X.1 X.2).O))))
-  (F : Modules.{u, u} B S hS X.1 X.2) (I : Ideal A) (p : ℕ)
-
-end Tower
-
-section OverAffine
-
-variable {B : BigFppfSite.{u}} {S : Scheme.{u}} {hS : B.Contains S} {V : BigFppfOver B S hS}
-  [IsAffine ((BigFppfOver.toScheme B S hS).obj V)] {A : Type u} [CommRing A]
-  (α : A ≃+* Γ((BigFppfOver.toScheme B S hS).obj V, ⊤)) {X : AlgebraicSpaces B S hS}
-
-end OverAffine
 
 section Situation
 

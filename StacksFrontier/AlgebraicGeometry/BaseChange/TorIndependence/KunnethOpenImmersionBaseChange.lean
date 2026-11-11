@@ -11,12 +11,10 @@ Of the three comparisons the first proof of Tag 0FLQ chains together, the middle
 base-change comparison `La^* Rb_* M ⟶ Rp_* Lq^* M` of Lemma 36.22.5 (Tag 08IB), carried in
 `Stacks.Cohomology.DerivedKunneth.isIso_kunnethMap_of_projectionFormulas_of_baseChange` as the
 hypothesis `hbase`.  Tag 08IB in its stated generality — `f` quasi-compact and quasi-separated,
-the two factors Tor independent over the base, `E` with quasi-coherent cohomology — is not
-available in this repository: it reduces by Tag 0DJ9 to a Mayer–Vietoris induction that
-`StacksFrontier/AlgebraicGeometry/BaseChange/TorIndependence/GlobalBaseChange.lean` carries as the
-unproved `BaseChangeAffineOpenCase` and `BaseChangeMayerVietorisStep`.
+the two factors Tor independent over the base, `E` with quasi-coherent cohomology — is
+`AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent`, which this module does not import.
 
-What *is* available unconditionally is the case in which the base-change morphism is an open
+This module treats the elementary case in which the base-change morphism is an open
 immersion, `Stacks.Cohomology.DerivedBaseChange.isIso_derivedBaseChangeMap_of_isOpenImmersions`.
 Composed with the identification
 `Stacks.Cohomology.DerivedKunneth.kunnethBaseChangeLeg_eq_derivedBaseChangeMap`, it discharges
@@ -95,7 +93,8 @@ assumed of `b`, of `p`, or of `M`.
 
 This is `Stacks.Cohomology.DerivedBaseChange.isIso_derivedBaseChangeMap_of_isOpenImmersions`,
 read through `kunnethBaseChangeLeg_eq_derivedBaseChangeMap`.  It is the restricted case of
-Tag 08IB that this repository proves outright; the general statement is not available. -/
+Tag 08IB with no hypothesis on `b`, `p` or `M`; the general statement is
+`AlgebraicGeometry.derivedBaseChangeIsIsoOnQuasicoherent`. -/
 theorem isIso_kunnethBaseChangeLeg_of_isOpenImmersions
     [SheafedSpace.IsOpenImmersion a] [SheafedSpace.IsOpenImmersion q]
     (hsq : IsPullback q p b a)

@@ -6,12 +6,12 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.GrothendieckExistence.Stag
 public import StacksFrontier.AlgebraicGeometry.Spaces.GrothendieckExistence.StageTensorSectionsTransitionCompatibility
 
 /-!
-# [Stacks, Tag 0CX6]: `RΓ(X, E ⊗^𝐋 K)` and `RHom_X(E, K)` are perfect and commute with base change
+# `RΓ(X, E ⊗^𝐋 K)` and `RHom_X(E, K)` are perfect and commute with base change, for every `K`
 
-In Situation [Stacks, Tag 0CX4] let `K = DQ_X(L)` be the object of [Stacks, Tag 0CX5]
-(`AlgebraicGeometry.Space.FlatSheafExistenceSituation.derivedLimit_bounded`), for a coherator
-`DQ_X` and a presentation `L ⟶ ∏ Fₙ ⟶ ∏ Fₙ ⟶ L[1]` of `L = R lim_{D(𝒪_X)} Fₙ`. For every perfect
-`E` on `X`:
+In Situation [Stacks, Tag 0CX4] let `K = DQ_X(L)` for a coherator `DQ_X` and a derived limit
+`L = R lim_{D(𝒪_X)} Fₙ` given by a triangle `L ⟶ ∏ Fₙ ⟶ ∏ Fₙ ⟶ L[1]` (the object of
+[Stacks, Tag 0CX5], `AlgebraicGeometry.Space.FlatSheafExistenceSituation.derivedLimit_bounded`,
+which also proves that such `DQ_X` and `L` exist). For every perfect `E` on `X`:
 
 1. `M = RΓ(X, E ⊗^𝐋 K)` is perfect in `D(A)` and the canonical map
    `M ⊗^𝐋_A Aₙ ⟶ RΓ(Xₙ, E|_{Xₙ} ⊗^𝐋 Fₙ)` is an isomorphism;
@@ -26,6 +26,9 @@ The proof is
 two compatibilities of the transitions supplied by
 `AlgebraicGeometry.Space.FlatSheafExistenceSituation.stageTransitionCounitCompatible` and
 `AlgebraicGeometry.Space.FlatSheafExistenceSituation.stageTensorSectionsTransitionCompatible`.
+[Stacks, Tag 0CX6] itself, for the coherator and derived limit chosen from [Stacks, Tag 0CX5], is
+`FlatSheafExistenceSituation.ringIsPerfect_limitSections_and_isIso_baseChangeMap` in
+`StacksFrontier.AlgebraicGeometry.Spaces.GrothendieckExistence.PerfectSectionsOfLimitTheorem`.
 
 ## Main results
 
@@ -52,8 +55,9 @@ variable (D : FlatSheafExistenceSituation.{u})
   (adj : (spaceQuasicoherentProp D.B D.S D.containsLimitBase D.X.left).ι ⊣ DQ)
   (L : spaceDerivedCategory D.B D.S D.containsLimitBase D.X.left)
 
-/-- **[Stacks, Tag 0CX6].** In Situation [Stacks, Tag 0CX4] let `K = DQ_X(L)` be as in
-[Stacks, Tag 0CX5] (`AlgebraicGeometry.Space.FlatSheafExistenceSituation.derivedLimit_bounded`):
+/-- **[Stacks, Tag 0CX6] for every choice of `K`.** In Situation [Stacks, Tag 0CX4] let
+`K = DQ_X(L)` be as in [Stacks, Tag 0CX5]
+(`AlgebraicGeometry.Space.FlatSheafExistenceSituation.derivedLimit_bounded`):
 `DQ_X` is a coherator (`adj : ι ⊣ DQ_X`) and `p : L ⟶ ∏ (iₙ,* Fₙ)[0]` is the first map of a
 distinguished triangle `L ⟶ ∏ Fₙ ⟶ ∏ Fₙ ⟶ L[1]` whose middle map is `1 - transition`
 (`hp` is exactly the triangle of `CategoryTheory.Pretriangulated.IsDerivedLimit` with `p` bound),
@@ -66,13 +70,6 @@ so `L = R lim Fₙ`. Then for every perfect `E` on `X` and every `n`:
    the one induced from (1) at `E^∨` by Cohomology on Sites, Lemma 21.48.4 (Stacks 08JJ).
 
 Here `E|_{Xₙ}` is the derived pullback of `E` along `iₙ : Xₙ ⟶ X`. -/
-@[stacks 0CX6 "both parts in full, for every perfect E on X and every n, with K = DQ_X(L) \
-for every coherator DQ_X and every L presented as R lim (i_n,* F_n) by the IsDerivedLimit \
-triangle hp (as in derivedLimit_bounded, 0CX5): (1) RΓ(X, E ⊗^L K) is perfect in D(A) and \
-the canonical map RΓ(X, E ⊗^L K) ⊗^L_A A_n → RΓ(X_n, E|_{X_n} ⊗^L F_n) is an isomorphism; \
-(2) RHom_X(E, K) is perfect in D(A) and the canonical map RHom_X(E, K) ⊗^L_A A_n → \
-RHom_{X_n}(E|_{X_n}, F_n), the map induced from (1) at E^∨ by 08JJ / 21.48.4, is an \
-isomorphism; nothing is granted or assumed"]
 theorem perfectSections_of_derivedLimit
     (p : L ⟶ ∏ᶜ fun n : ℕ => D.derivedSystem.obj ⟨n⟩)
     (hp : ∃ δ : (∏ᶜ fun n : ℕ => D.derivedSystem.obj ⟨n⟩) ⟶ L⟦(1 : ℤ)⟧,

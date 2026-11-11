@@ -123,7 +123,7 @@ private lemma exists_limitIso_of_shift_inverse
       have h : k.unop ≤ j.unop := leOfHom f.unop
       have hf : f = (homOfLE h).op := Subsingleton.elim _ _
       subst f
-      change 𝟙 (limit G) ≫ g k.unop = g j.unop ≫ tr F h
+      show 𝟙 (limit G) ≫ g k.unop = g j.unop ≫ tr F h
       rw [Category.id_comp, hg k.unop (j.unop + c) (Nat.add_le_add_right h c),
         hg j.unop (j.unop + c) le_rfl]
       simp only [Category.assoc, ProIso.tr_trans] }⟩
@@ -133,13 +133,13 @@ private lemma exists_limitIso_of_shift_inverse
   · apply limit.hom_ext
     intro j
     rw [Category.assoc, hi j.unop]
-    change limMap φ ≫ limit.π G (op (j.unop + c)) ≫ b j.unop = _
+    show limMap φ ≫ limit.π G (op (j.unop + c)) ≫ b j.unop = _
     rw [← Category.assoc, limMap_π, Category.assoc, hφb]
     simp [tr]
   · apply limit.hom_ext
     intro j
     rw [Category.assoc, limMap_π, ← Category.assoc, hi j.unop]
-    change (limit.π G (op (j.unop + c)) ≫ b j.unop) ≫ φ.app j = _
+    show (limit.π G (op (j.unop + c)) ≫ b j.unop) ≫ φ.app j = _
     rw [Category.assoc, hbφ]
     simp [tr]
 
@@ -152,6 +152,30 @@ abbrev HasAdicComparison {A : Type u} [CommRing A] (I : Ideal A)
     (r : ∀ n, E →ₗ[A] En n)
     (f : ∀ n, (E ⧸ I ^ n • (⊤ : Submodule A E)) →ₗ[A] En n),
     (∀ n, t n n le_rfl = LinearMap.id) ∧
+    (∀ k m n (hkm : m ≤ k) (hmn : n ≤ m), (t m n hmn).comp (t k m hkm) =
+      t k n (hmn.trans hkm)) ∧
+    (∀ m n (h : n ≤ m), (t m n h).comp (r m) = r n) ∧
+    (∀ n, (f n).comp (I ^ n • (⊤ : Submodule A E)).mkQ = r n) ∧
+    (∀ m n (h : n ≤ m), (t m n h).comp (f m) =
+      (f n).comp (Submodule.factorPow I E h)) ∧
+    let Qs := Functor.ofOpSequence
+      (X := fun n => ModuleCat.of A (E ⧸ I ^ n • (⊤ : Submodule A E)))
+      (fun n => ModuleCat.ofHom (Submodule.factorPowSucc I E n))
+    let Es := Functor.ofOpSequence (X := fun n => ModuleCat.of A (En n))
+      (fun n => ModuleCat.ofHom (t (n + 1) n n.le_succ))
+    ∃ e : limit Qs ≅ limit Es, ∀ n, e.hom ≫ limit.π Es (op n) =
+      limit.π Qs (op n) ≫ ModuleCat.ofHom (f n)
+
+/-- The data `(t, r, f)` exhibit an adic comparison of `E` with the system `En`: `t` are
+transition maps of an inverse system on `En`, `r` are compatible maps from `E`, `f` factor them
+through the `I`-adic quotients of `E`, and the induced map of inverse limits is an isomorphism.
+`HasAdicComparison I E En` is the existence of such data. -/
+abbrev IsAdicComparison {A : Type u} [CommRing A] (I : Ideal A)
+    (E : Type v) [AddCommGroup E] [Module A E]
+    (En : ℕ → Type v) [∀ n, AddCommGroup (En n)] [∀ n, Module A (En n)]
+    (t : ∀ m n, n ≤ m → En m →ₗ[A] En n) (r : ∀ n, E →ₗ[A] En n)
+    (f : ∀ n, (E ⧸ I ^ n • (⊤ : Submodule A E)) →ₗ[A] En n) : Prop :=
+  (∀ n, t n n le_rfl = LinearMap.id) ∧
     (∀ k m n (hkm : m ≤ k) (hmn : n ≤ m), (t m n hmn).comp (t k m hkm) =
       t k n (hmn.trans hkm)) ∧
     (∀ m n (h : n ≤ m), (t m n h).comp (r m) = r n) ∧
@@ -187,7 +211,7 @@ private lemma transition_quotients {A : Type u} [CommRing A] (I : Ideal A)
 
 -- Transporting both systems requires simultaneous quotient and limit constructions.
 set_option backward.isDefEq.respectTransparency false in
-private lemma adicComparison_of_systems {A : Type u} [CommRing A] (I : Ideal A)
+private lemma adicComparison_of_systems_spec {A : Type u} [CommRing A] (I : Ideal A)
     (E : Type v) [AddCommGroup E] [Module A E]
     (En : ℕ → Type v) [∀ n, AddCommGroup (En n)] [∀ n, Module A (En n)]
     (F G : ℕᵒᵖ ⥤ ModuleCat.{v} A) (φ : F ⟶ G) [IsIso (limMap φ)]
@@ -195,7 +219,11 @@ private lemma adicComparison_of_systems {A : Type u} [CommRing A] (I : Ideal A)
     (hq : ∀ n, tr F (Nat.le_succ n) ≫ (q n).hom =
       (q (n + 1)).hom ≫ ModuleCat.ofHom (Submodule.factorPowSucc I E n))
     (e : ∀ n, G.obj (op n) ≅ ModuleCat.of A (En n)) :
-    HasAdicComparison I E En := by
+    ∃ (t : ∀ m n, n ≤ m → En m →ₗ[A] En n) (r : ∀ n, E →ₗ[A] En n)
+      (f : ∀ n, (E ⧸ I ^ n • (⊤ : Submodule A E)) →ₗ[A] En n),
+      (∀ m n (h : n ≤ m), t m n h = ((e m).inv ≫ tr G h ≫ (e n).hom).hom) ∧
+      (∀ n, f n = ((q n).inv ≫ φ.app (op n) ≫ (e n).hom).hom) ∧
+      IsAdicComparison I E En t r f := by
   let Qs := Functor.ofOpSequence
     (X := fun n => ModuleCat.of A (E ⧸ I ^ n • (⊤ : Submodule A E)))
     (fun n => ModuleCat.ofHom (Submodule.factorPowSucc I E n))
@@ -228,14 +256,14 @@ private lemma adicComparison_of_systems {A : Type u} [CommRing A] (I : Ideal A)
     rw [show tr Qs h = ModuleCat.ofHom (Submodule.factorPow I E h) from
       transition_quotients I E h, ht] at hn
     exact (congrArg ModuleCat.Hom.hom hn).symm
-  refine ⟨t, fun n => (f n).comp (I ^ n • (⊤ : Submodule A E)).mkQ, f,
-    ?_, ?_, ?_, fun n => rfl, hfn, ?_⟩
+  refine ⟨t, fun n => (f n).comp (I ^ n • (⊤ : Submodule A E)).mkQ, f, fun _ _ _ => rfl,
+    fun _ => rfl, ?_, ?_, ?_, fun n => rfl, hfn, ?_⟩
   · intro n
     ext x
     simp [t, tr]
   · intro k m n hkm hmn
     apply ModuleCat.hom_ext_iff.mp
-    change ((e k).inv ≫ tr G hkm ≫ (e m).hom) ≫
+    show ((e k).inv ≫ tr G hkm ≫ (e m).hom) ≫
         ((e m).inv ≫ tr G hmn ≫ (e n).hom) = _
     simp only [Category.assoc, Iso.hom_inv_id_assoc]
     rw [← Category.assoc (tr G hkm), ProIso.tr_trans]
@@ -246,12 +274,24 @@ private lemma adicComparison_of_systems {A : Type u} [CommRing A] (I : Ideal A)
       HasLimit.isoOfNatIso eIso
     refine ⟨l, ?_⟩
     intro n
-    change l.hom ≫ limit.π Es (op n) = limit.π Qs (op n) ≫ _
+    show l.hom ≫ limit.π Es (op n) = limit.π Qs (op n) ≫ _
     dsimp only [l, Iso.trans_hom, Iso.symm_hom, asIso_hom]
     rw [Category.assoc, Category.assoc, HasLimit.isoOfNatIso_hom_π,
       ← Category.assoc (limMap φ), limMap_π, ← Category.assoc,
       ← Category.assoc (HasLimit.isoOfNatIso qIso).inv, HasLimit.isoOfNatIso_inv_π]
     rfl
+
+private lemma adicComparison_of_systems {A : Type u} [CommRing A] (I : Ideal A)
+    (E : Type v) [AddCommGroup E] [Module A E]
+    (En : ℕ → Type v) [∀ n, AddCommGroup (En n)] [∀ n, Module A (En n)]
+    (F G : ℕᵒᵖ ⥤ ModuleCat.{v} A) (φ : F ⟶ G) [IsIso (limMap φ)]
+    (q : ∀ n, F.obj (op n) ≅ ModuleCat.of A (E ⧸ I ^ n • (⊤ : Submodule A E)))
+    (hq : ∀ n, tr F (Nat.le_succ n) ≫ (q n).hom =
+      (q (n + 1)).hom ≫ ModuleCat.ofHom (Submodule.factorPowSucc I E n))
+    (e : ∀ n, G.obj (op n) ≅ ModuleCat.of A (En n)) :
+    HasAdicComparison I E En := by
+  obtain ⟨t, r, f, -, -, h⟩ := adicComparison_of_systems_spec I E En F G φ q hq e
+  exact ⟨t, r, f, h⟩
 
 end Limits
 
@@ -302,7 +342,11 @@ universe uA uB v
 
 -- The comparison combines the Artin–Rees inverse maps with restriction of scalars.
 set_option backward.isDefEq.respectTransparency false in
-lemma adicComparison_of_complex
+/-- **Adic comparison for the homology of a complex, with the maps identified.** This is
+`adicComparison_of_complex` together with the values of the comparison data on classes: the map
+`r n` sends the class of a cycle `x` to the class of `x` modulo `J ^ n`, and the transition
+`t (n + 1) n` sends the class of a cycle modulo `J ^ (n + 1)` to its class modulo `J ^ n`. -/
+lemma adicComparison_of_complex_spec
     {A : Type uA} {B : Type uB} [CommRing A] [CommRing B] [Algebra A B]
     [IsNoetherianRing B]
     {K L T E : Type v} [AddCommGroup K] [Module B K] [Module.Finite B K]
@@ -316,14 +360,22 @@ lemma adicComparison_of_complex
     let H := β.ker ⧸ α.range.comap β.ker.subtype
     let Z (n : ℕ) := (J ^ n • (⊤ : Submodule B T)).comap β
     let Hn (n : ℕ) := Z n ⧸ (α.range ⊔ J ^ n • (⊤ : Submodule B L)).comap (Z n).subtype
-    (H ≃ₗ[B] E) → (∀ n, Hn n ≃ₗ[B] En n) → HasAdicComparison I E En := by
+    ∀ (e : H ≃ₗ[B] E) (en : ∀ n, Hn n ≃ₗ[B] En n),
+      ∃ (t : ∀ m n, n ≤ m → En m →ₗ[A] En n) (r : ∀ n, E →ₗ[A] En n)
+        (f : ∀ n, (E ⧸ I ^ n • (⊤ : Submodule A E)) →ₗ[A] En n),
+        (∀ n (x : β.ker) (y : Z n), (y : L) = x →
+          r n (e (Submodule.Quotient.mk x)) = en n (Submodule.Quotient.mk y)) ∧
+        (∀ n (x : Z (n + 1)) (y : Z n), (y : L) = x →
+          t (n + 1) n n.le_succ (en (n + 1) (Submodule.Quotient.mk x)) =
+            en n (Submodule.Quotient.mk y)) ∧
+        IsAdicComparison I E En t r f := by
   dsimp only
   intro e en
   let J := I.map (algebraMap A B)
   let H := β.ker ⧸ α.range.comap β.ker.subtype
   let Z (n : ℕ) := (J ^ n • (⊤ : Submodule B T)).comap β
   let Hn (n : ℕ) := Z n ⧸ (α.range ⊔ J ^ n • (⊤ : Submodule B L)).comap (Z n).subtype
-  obtain ⟨tl, t, qt, f, _, _, hqt, ht, hf, c, _, b, hb₁, hb₂, _⟩ :=
+  obtain ⟨tl, t, qt, f, htl, htt, hqt, ht, hf, c, _, b, hb₁, hb₂, _⟩ :=
     Stacks.AdicSystem.ArtinReesHomology.exists_uniform_adic_homology_comparison J α β hαβ
   have hfn (n : ℕ) : (t n).comp (f (n + 1)) = (f n).comp (qt n) := by
     apply LinearMap.ext
@@ -344,7 +396,7 @@ lemma adicComparison_of_complex
   let G := Gs ⋙ R
   let φ : F ⟶ G := NatTrans.ofOpSequence (fun n => R.map (ModuleCat.ofHom (f n))) (by
     intro n
-    change R.map (Fs.map _) ≫ R.map (ModuleCat.ofHom (f n)) =
+    show R.map (Fs.map _) ≫ R.map (ModuleCat.ofHom (f n)) =
       R.map (ModuleCat.ofHom (f (n + 1))) ≫ R.map (Gs.map _)
     simp only [Fs, Gs, Functor.ofOpSequence_map_homOfLE_succ, ← R.map_comp]
     exact congrArg R.map (ModuleCat.hom_ext (hfn n).symm))
@@ -377,20 +429,59 @@ lemma adicComparison_of_complex
   let (n : ℕ) : Module A (Hn n) := Module.compHom (Hn n) (algebraMap A B)
   let (n : ℕ) : IsScalarTower A B (Hn n) :=
     IsScalarTower.of_algebraMap_smul (fun _ _ => rfl)
-  apply adicComparison_of_systems I E En F G φ
-    (fun n => (q n).toModuleIso) _ (fun n => ((en n).restrictScalars A).toModuleIso)
-  intro n
-  change R.map (Fs.map _) ≫ _ = _
-  simp only [Fs, Functor.ofOpSequence_map_homOfLE_succ]
-  apply ModuleCat.hom_ext
-  ext ⟨x⟩
-  change q n (qt n (Submodule.Quotient.mk x)) =
-    Submodule.factorPowSucc I E n (q (n + 1) (Submodule.Quotient.mk x))
-  rw [hqt]
-  have hq (k : ℕ) : q k (Submodule.Quotient.mk x) = Submodule.Quotient.mk (e x) := by
+  have hqs : ∀ n, tr F (Nat.le_succ n) ≫ (q n).toModuleIso.hom =
+      (q (n + 1)).toModuleIso.hom ≫ ModuleCat.ofHom (Submodule.factorPowSucc I E n) := by
+    intro n
+    show R.map (Fs.map _) ≫ _ = _
+    simp only [Fs, Functor.ofOpSequence_map_homOfLE_succ]
+    apply ModuleCat.hom_ext
+    ext ⟨x⟩
+    show q n (qt n (Submodule.Quotient.mk x)) =
+      Submodule.factorPowSucc I E n (q (n + 1) (Submodule.Quotient.mk x))
+    rw [hqt]
+    have hq (k : ℕ) : q k (Submodule.Quotient.mk x) = Submodule.Quotient.mk (e x) := by
+      rfl
+    rw [hq, hq]
     rfl
-  rw [hq, hq]
-  rfl
+  obtain ⟨t', r', f', ht', hf', hcomp⟩ := adicComparison_of_systems_spec I E En F G φ
+    (fun n => (q n).toModuleIso) hqs (fun n => ((en n).restrictScalars A).toModuleIso)
+  refine ⟨t', r', f', ?_, ?_, hcomp⟩
+  · intro n x y hxy
+    rw [← hcomp.2.2.2.1 n, hf' n]
+    have hq' : (q n).symm (Submodule.Quotient.mk (e (Submodule.Quotient.mk x))) =
+        Submodule.Quotient.mk (Submodule.Quotient.mk x) :=
+      (q n).symm_apply_eq.mpr rfl
+    change en n (f n ((q n).symm (Submodule.Quotient.mk (e (Submodule.Quotient.mk x))))) = _
+    have hf'' : f n (Submodule.Quotient.mk (Submodule.Quotient.mk x)) =
+        tl n (Submodule.Quotient.mk x) := LinearMap.congr_fun (hf n) _
+    rw [hq', hf'', htl n x y hxy]
+  · intro n x y hxy
+    rw [ht' (n + 1) n n.le_succ]
+    change en n (tr Gs n.le_succ ((en (n + 1)).symm (en (n + 1) (Submodule.Quotient.mk x)))) = _
+    rw [LinearEquiv.symm_apply_apply]
+    simp only [tr, Gs, Functor.ofOpSequence_map_homOfLE_succ, ModuleCat.hom_ofHom]
+    exact congrArg (en n) (htt n x y hxy)
+
+/-- **Adic comparison for the homology of a complex.** -/
+lemma adicComparison_of_complex
+    {A : Type uA} {B : Type uB} [CommRing A] [CommRing B] [Algebra A B]
+    [IsNoetherianRing B]
+    {K L T E : Type v} [AddCommGroup K] [Module B K] [Module.Finite B K]
+    [AddCommGroup L] [Module B L] [Module.Finite B L]
+    [AddCommGroup T] [Module B T] [Module.Finite B T]
+    [AddCommGroup E] [Module B E] [Module A E] [IsScalarTower A B E]
+    (En : ℕ → Type v) [∀ n, AddCommGroup (En n)] [∀ n, Module B (En n)]
+    [∀ n, Module A (En n)] [∀ n, IsScalarTower A B (En n)]
+    (I : Ideal A) (α : K →ₗ[B] L) (β : L →ₗ[B] T) (hαβ : β.comp α = 0) :
+    let J := I.map (algebraMap A B)
+    let H := β.ker ⧸ α.range.comap β.ker.subtype
+    let Z (n : ℕ) := (J ^ n • (⊤ : Submodule B T)).comap β
+    let Hn (n : ℕ) := Z n ⧸ (α.range ⊔ J ^ n • (⊤ : Submodule B L)).comap (Z n).subtype
+    (H ≃ₗ[B] E) → (∀ n, Hn n ≃ₗ[B] En n) → HasAdicComparison I E En := by
+  dsimp only
+  intro e en
+  obtain ⟨t, r, f, -, -, h⟩ := adicComparison_of_complex_spec En I α β hαβ e en
+  exact ⟨t, r, f, h⟩
 
 end HomologyComparison
 

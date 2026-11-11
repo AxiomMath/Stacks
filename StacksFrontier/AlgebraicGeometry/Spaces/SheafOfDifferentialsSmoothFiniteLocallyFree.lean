@@ -33,21 +33,16 @@ finite local freeness of a module on the small étale site of an algebraic space
 Stacks 03DN along an étale morphism of algebraic spaces, descends the property from a surjective
 étale chart of `X` to `X`.
 
-One input of the source's proof is not available in this development and is carried as a
-hypothesis:
+The reduction takes one input of the source's proof as its argument `hsite`:
 
 * The comparison of Stacks 04CS between the differentials of a morphism of *schemes* on its
-  small Zariski site and on its small étale site.  Stacks 04CS is proved in the scheme's own
-  spelling —
-  `AlgebraicGeometry.SmallEtale.existsUnique_postcomp_associatedRelativeDifferentialsDerivation`
-  and `AlgebraicGeometry.SmallEtale.isIso_differentialsComparison_of_universal` of
-  `StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/`
-  `SmallEtaleDifferentialsCorepresentable.lean`
-  — but the transport of that identification onto the spaces-level sheaf of differentials of a
-  morphism of represented algebraic spaces is not available: the two statements name different
-  relative structures, vanishing on functions pulled back from opens of the target against
-  derivations relative to the inverse image `ψ⁻¹𝒪` on the small étale site.  That transport is
-  what is carried here, as `hsite`.
+  small Zariski site and on its small étale site, in the form in which finite local freeness
+  consumes it.  It is proved in
+  `StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSiteTransport.lean`, as
+  `AlgebraicGeometry.Space.sheafOfDifferentialsSchemeSiteComparison`, and Stacks 0CK5 with it
+  supplied is `AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_sheafOfDifferentials_of_isSmooth`
+  there.  The reduction is kept separate because that proof imports the scheme comparison of
+  Stacks 04CS, which this file does not need.
 
 Stacks 04CU itself — the identification `Ω_{X/Y}|_{U_étale} ≅ Ω_{U/V}` on a commuting square of
 étale charts, with the *spaces*-level `Ω_{U/V}` on the right — was carried here too, as a second
@@ -57,13 +52,14 @@ below uses.
 
 ## Main definitions
 
-* `AlgebraicGeometry.Space.SheafOfDifferentialsSchemeSiteComparison` is the one hypothesis, the
-  transport of finite local freeness across the two sites of a morphism of schemes of the site.
+* `AlgebraicGeometry.Space.SheafOfDifferentialsSchemeSiteComparison`: the transport of finite
+  local freeness across the two sites of a morphism of schemes of the site, which the reduction
+  takes as its argument.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_sheafOfDifferentials`: **Stacks 0CK5**,
-  granted that comparison.
+* `AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_sheafOfDifferentials`: the reduction of
+  Stacks 0CK5 to Stacks 02G1, with that comparison as its argument.
 
 ## Implementation notes
 
@@ -74,16 +70,16 @@ conclusion, a statement about one module on the small étale site of `X`, implie
 the differentials of an unrelated `ψ`.  Smoothness of `f` is what makes it applicable, through
 Stacks 02G1, and removing it leaves the proof with no way to produce its antecedent.
 
-It is carried as an implication rather than as an identification because its two sides live on
+It is stated as an implication rather than as an identification because its two sides live on
 different sites — the small Zariski site of the scheme `U` and the small étale site of `U` read
 as an algebraic space — so no isomorphism of the two modules can be written down without the
 associated-module functor of Stacks 03DU.  **It is not a restatement of
-`AlgebraicGeometry.Space.SchemeDifferentialsComparison`**, the canonical form of Stacks 04CS
-this tree carries, which is exactly that isomorphism: an identification of two modules is not a
-transport of a property of them, and deducing this hypothesis from that identification needs
-Stacks 03DX (2) for the associated-module functor, of which the tree has the free case alone,
-`AlgebraicGeometry.Space.SmallEtale.exists_sliceAssociatedModule_iso_free'`.  The two statements
-are therefore kept apart.
+`AlgebraicGeometry.Space.SchemeDifferentialsComparison`**, the canonical form of Stacks 04CS,
+which is exactly that isomorphism: an identification of two modules is not a transport of a
+property of them.  The implication is deduced from that identification in
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSiteTransport.lean`, through Stacks 05VG
+for finite local freeness at `τ = étale` and Stacks 03DM at the comparison equivalence of
+Stacks 03DX (2).
 
 The chart square is produced the way the second half of the proof of Stacks 04G9 produces one:
 an atlas of the target, lifted along `f` by Stacks 02X1,
@@ -131,8 +127,8 @@ outright, just below, as
 `AlgebraicGeometry.Space.sheafOfDifferentialsEtaleChartComparison`, from
 `AlgebraicGeometry.Space.sheafOfDifferentialsEtaleLocalizationIso`.  Its right-hand side is the
 spaces-level sheaf of differentials of the chart morphism, which is what that identification
-produces; the scheme-level comparison, Stacks 04CS, is a different statement and is the
-hypothesis that remains. -/
+produces; the scheme-level comparison, Stacks 04CS, is a different statement, proved in
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSiteTransport.lean`. -/
 abbrev SheafOfDifferentialsEtaleChartComparison {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) :
     Prop :=
   ∀ (U V : BigFppfOver B S hS) (a : yoneda.obj U ⟶ X.1) (b : yoneda.obj V ⟶ Y.1) (ψ : U ⟶ V),
@@ -165,9 +161,10 @@ differentials of the scheme morphism `ψ` on the small Zariski site gives finite
 of the sheaf of differentials of `ψ` read as a morphism of algebraic spaces, on the small étale
 site.
 
-Both sides are Stacks 03DL(2); only the site changes.  Nothing in this development compares the
-two, so this is the one input of Stacks 0CK5 that it does not prove.  The statement mentions no
-particular morphism of algebraic spaces.
+Both sides are Stacks 03DL(2); only the site changes.  It is proved as
+`AlgebraicGeometry.Space.sheafOfDifferentialsSchemeSiteComparison` in
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSiteTransport.lean`.  The statement
+mentions no particular morphism of algebraic spaces.
 
 It is **not** a restatement of `AlgebraicGeometry.Space.SchemeDifferentialsComparison`, the
 canonical form of Stacks 04CS carried by this tree; the implementation notes of this module say
@@ -179,9 +176,12 @@ abbrev SheafOfDifferentialsSchemeSiteComparison : Prop :=
     SheafOfModules.IsFiniteLocallyFreeOnSite
       (sheafOfDifferentials B S hS (schemeSpaceMap ψ))
 
-/-- **Stacks 0CK5.** The sheaf of differentials `Ω_{X/Y}` of a smooth morphism `f : X ⟶ Y` of
-algebraic spaces over a scheme `S` is finite locally free on the small étale site of `X`,
-granted the comparison `AlgebraicGeometry.Space.SheafOfDifferentialsSchemeSiteComparison`.
+/-- **The reduction of Stacks 0CK5 to Stacks 02G1.** The sheaf of differentials `Ω_{X/Y}` of a
+smooth morphism `f : X ⟶ Y` of algebraic spaces over a scheme `S` is finite locally free on the
+small étale site of `X`, given the comparison
+`AlgebraicGeometry.Space.SheafOfDifferentialsSchemeSiteComparison`.  That comparison is proved,
+and Stacks 0CK5 itself is
+`AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_sheafOfDifferentials_of_isSmooth`.
 
 An atlas of the target lifts along `f`, by Stacks 02X1, to a commuting square of étale charts
 whose chart of the source is surjective on points.  Smoothness of `f` is the every-chart
@@ -193,10 +193,6 @@ Stacks 04CU — `AlgebraicGeometry.Space.sheafOfDifferentialsEtaleChartCompariso
 and no longer assumed — to the restriction of `Ω_{X/Y}` to the chart, and the clause of
 Stacks 03DN along an étale morphism of algebraic spaces descends it from that surjective chart
 to `X`. -/
-@[stacks 0CK5 "granted as `hsite` the comparison of 04CS transporting finite local freeness of
-  the differentials of a morphism of schemes of the site from its small Zariski site to its small
-  étale site.  The identification Ω_{X/Y}|_{U_étale} ≅ Ω_{U/V} of 04CU over a commuting square of
-  étale charts is not granted: it is proved here"]
 theorem isFiniteLocallyFreeOnSite_sheafOfDifferentials {X Y : AlgebraicSpaces B S hS}
     (f : X ⟶ Y) (hf : IsSmooth B S hS f.hom)
     (hsite : SheafOfDifferentialsSchemeSiteComparison B S hS) :

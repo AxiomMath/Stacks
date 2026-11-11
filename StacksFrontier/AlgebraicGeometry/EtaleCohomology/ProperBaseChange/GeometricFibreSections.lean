@@ -9,7 +9,7 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.SmallEtaleStalkBa
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Sections over a geometric fibre, and Stacks 0A3T over a strictly henselian local base
+# Sections over a geometric fibre, and the comparison map of Stacks 0A3T
 
 Let `f : X ⟶ S` be a morphism of schemes and `x : Spec Ω ⟶ S` a geometric point, `Ω` a
 separably closed field. The fibre of `f` at `x` is `X_x = X ×_S Spec Ω`, and a sheaf of sets `F`
@@ -27,9 +27,7 @@ global sections of a direct image are the global sections of the sheaf itself.
 The same initiality holds over the spectrum of a strictly henselian local ring `R`, for a
 geometric point above the closed point: an étale `Spec R`-scheme with a lift of that point has a
 section through the lift, and only one. So over such a base the stalk of a direct image is the
-set of global sections upstairs, and the chain of Tag 0A3T can be run: restriction to the closed
-fibre by [Stacks, Tag 0A3S], then extension of the separably closed residue field to `Ω` by
-[Stacks, Tag 0A3I].
+set of global sections upstairs.
 
 ## Main definitions
 
@@ -65,10 +63,10 @@ fibre by [Stacks, Tag 0A3S], then extension of the separably closed residue fiel
 * `Stacks.EtaleCohomology.pushforwardSheafFiberClosedPointIsoClosedFibreGamma` and
   `Stacks.EtaleCohomology.pushforwardSheafFiberClosedPointIsoGeometricFibreGamma` — for `f`
   proper over a strictly henselian local base, the stalk of `f_*F` at such a point is the set of
-  global sections over the closed fibre, respectively over the geometric fibre. Both carry the
-  hypothesis `hcompat` of [Stacks, Tag 0A3S].
-* `Stacks.EtaleCohomology.closedFibreBaseChange_fst_comp_closedFibreInclusion` — the scheme
-  whose sections the previous isomorphism computes is the geometric fibre:
+  global sections over the closed fibre, respectively over the geometric fibre, given the
+  hypothesis `hcompat` of the henselian-local form of [Stacks, Tag 0A3S].
+* `Stacks.EtaleCohomology.closedFibreBaseChange_fst_comp_closedFibreInclusion` — the base
+  change of the closed fibre along a residue field extension is the geometric fibre:
   `(X ×_{Spec R} Spec κ(R)) ×_{Spec κ(R)} Spec Ω` projects to `X` as `X ×_{Spec R} Spec Ω` does.
 * `Stacks.EtaleCohomology.properGeometricFibreComparison` — the comparison map of Tag 0A3T for
   an arbitrary base, and `isIso_properGeometricFibreComparison_of_isIso`, its bijectivity
@@ -76,38 +74,10 @@ fibre by [Stacks, Tag 0A3S], then extension of the separably closed residue fiel
 
 ## Implementation notes
 
-**No tag attribute for Tag 0A3T is attached, and its bijectivity over an arbitrary base is not
-asserted.** The proof of the tag is the composite of Tag 03Q9 for sheaves of sets, which
-identifies `(f_*F)_x` with the sections of `p⁻¹F` over `X ×_S Spec(O^{sh}_{S,x})`, with
-Tag 0A3S for the proper morphism `X ×_S Spec(O^{sh}_{S,x}) ⟶ Spec(O^{sh}_{S,x})` over the
-strictly henselian local base, and with Tag 0A3I for the extension of the separably closed
-residue field of that base to `Ω`. All three are run here, in
-`pushforwardSheafFiberClosedPointIsoGeometricFibreGamma`, *for a base that is already the
-spectrum of a strictly henselian local ring*: there Tag 03Q9 is the initiality above and needs
-nothing, Tag 0A3S is
-`isIso_globalSectionsComparison_closedFibre_of_henselianLocalRing` and contributes its
-hypothesis `hcompat`, and Tag 0A3I is
-`globalSectionsSmallEtaleInverseImageIso_of_isSepClosed`.
-
-Two inputs are therefore still owed for an arbitrary base.
-
-The first is Tag 03Q9 itself, for sheaves of sets: the reduction of an arbitrary base `S` to
-`Spec(O^{sh}_{S,x})`, which is what the restricted form proved here does *not* supply — over a
-strictly henselian local base the strict henselization is the base and the reduction is vacuous.
-In the source it rests on Tag 03Q6, that étale cohomology commutes with the limit of the affine
-étale neighbourhoods of the point, and through it on Tag 09YQ; neither is formalized. The
-geometry of that limit is available, as
-`AlgebraicGeometry.strictHenselizationConeIsLimit`, but the statement about sections is not.
-
-The second is the surjectivity half of Tag 09ZF, which Tag 0A3S consumes and which rests on
-Tag 09Z0 and Tag 09Z3; it is carried as `hcompat`, asking that every global section of
-`F|_{X₀}` admit a presenting family of sections of `F` over objects of the small étale site
-covering `X` which agree on the pairwise fibre products.
-
-The comparison map of the tag over an arbitrary base is `properGeometricFibreComparison`, and
-`isIso_properGeometricFibreComparison_of_isIso` reduces its bijectivity to the base change map
-`Stacks.EtaleCohomology.smallEtaleSetBaseChange` of the cartesian square defining `X_x` being an
-isomorphism, which is the assertion of Tag 0A3U at a geometric point.
+The bijectivity of `properGeometricFibreComparison` for `f` proper, **[Stacks, Tag 0A3T]**, is
+`Stacks.EtaleCohomology.isIso_properGeometricFibreComparison_of_isProper`, in the module
+`ProperPushforwardBaseChangeUnconditional` of this directory, which carries the tag; it goes
+through the reduction `isIso_properGeometricFibreComparison_of_isIso` of this file and Tag 0A3U.
 
 ## References
 
@@ -252,8 +222,8 @@ the base change map of the cartesian square, read on global sections over `Spec 
 identification of the stalk at `x` with the global sections of the inverse image and of the
 global sections of a direct image with the global sections upstairs.
 
-Tag 0A3T asserts that this map is bijective when `f` is proper. That is not proved here; see the
-implementation notes. -/
+For `f` proper this map is bijective, [Stacks, Tag 0A3T]:
+`Stacks.EtaleCohomology.isIso_properGeometricFibreComparison_of_isProper`. -/
 @[sga "4 XII 5.2"]
 def properGeometricFibreComparison :
     (smallEtaleBaseChange f).sheafPushforwardContinuous (Type (max (u + 1) v))
@@ -427,9 +397,10 @@ above the closed point, `(f_*F)_x = Γ(X₀, F|_{X₀})` with `X₀ = X ×_{Spec
 naturally in the sheaf of sets `F`.
 
 The first factor is Tag 03Q9 for sheaves of sets over a strictly henselian base, which is
-unconditional; the second is [Stacks, Tag 0A3S], whose surjectivity half is the carried
-hypothesis `hcompat` of
-`Stacks.EtaleCohomology.isIso_globalSectionsComparison_closedFibre_of_henselianLocalRing`. -/
+unconditional; the second is [Stacks, Tag 0A3S] in the form
+`Stacks.EtaleCohomology.isIso_globalSectionsComparison_closedFibre_of_henselianLocalRing`, which
+takes the hypothesis `hcompat`. Tag 0A3S itself is proved without it, as
+`Stacks.EtaleCohomology.isIso_globalSectionsComparison_closedFibre_of_isProper`. -/
 def pushforwardSheafFiberClosedPointIsoClosedFibreGamma [IsProper f]
     (hcompat : ∀ (F : Sheaf (Scheme.smallEtaleTopology X) (Type (max (u + 1) v)))
       (t : ((smallEtaleInverseImage.{u, v} (closedFibreInclusion R f)).obj F).obj.obj
@@ -486,15 +457,14 @@ extension of `κ(R)` and `x` a geometric point of `Spec R` above the closed poin
 `(f_*F)_x = Γ(X_Ω, F|_{X_Ω})` with `X_Ω = (X ×_{Spec R} Spec κ(R)) ×_{Spec κ(R)} Spec Ω`,
 naturally in the sheaf of sets `F`.
 
-This is the whole of the proof of [Stacks, Tag 0A3T] except for the reduction of a general base
-to the strict henselization, which is Tag 03Q9 and is absent: Tag 03Q9 over the already strictly
-henselian base is `pushforwardSheafFiberClosedPointIsoGamma`, Tag 0A3S is the hypothesis
-`hcompat`, and the extension of the separably closed residue field to `Ω` is [Stacks, Tag 0A3I].
-That the right-hand side is the geometric fibre of `f` at `x` is
-`closedFibreBaseChange_fst_comp_closedFibreInclusion`, for `x` the composite point. -/
-@[stacks 0A3T "conditional on the base being `Spec R` for a strictly henselian local ring `R`, \
-the reduction of a general base to the strict henselization being Tag 03Q9 for sheaves of sets, \
-which is absent; and carrying `hcompat`, the hypothesis of the library's Tag 0A3S"]
+This is the chain of the proof of [Stacks, Tag 0A3T] run over a strictly henselian local base:
+Tag 03Q9 there is `pushforwardSheafFiberClosedPointIsoGamma`, Tag 0A3S enters through
+`pushforwardSheafFiberClosedPointIsoClosedFibreGamma` with its hypothesis `hcompat`, and the
+extension of the separably closed residue field to `Ω` is [Stacks, Tag 0A3I]. That the
+right-hand side is the geometric fibre of `f` at `x` is
+`closedFibreBaseChange_fst_comp_closedFibreInclusion`, for `x` the composite point. Tag 0A3T
+itself, for an arbitrary base and with no hypothesis, is
+`Stacks.EtaleCohomology.isIso_properGeometricFibreComparison_of_isProper`. -/
 def pushforwardSheafFiberClosedPointIsoGeometricFibreGamma [IsProper f]
     (hcompat : ∀ (F : Sheaf (Scheme.smallEtaleTopology X) (Type (max (u + 1) v)))
       (t : ((smallEtaleInverseImage.{u, v} (closedFibreInclusion R f)).obj F).obj.obj

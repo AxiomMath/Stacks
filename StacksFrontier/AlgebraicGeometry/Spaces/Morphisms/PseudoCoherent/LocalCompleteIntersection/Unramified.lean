@@ -48,8 +48,10 @@ public theorem isLocallyOfFiniteType_of_isLocalCompleteIntersection {f : X ⟶ Y
   locallyOfFiniteType_of_isLocalCompleteIntersectionMorphism (hf U V a b h ha hb hsq)
 
 /-- A local complete intersection morphism of algebraic spaces over `S` is unramified if and
-only if it is formally unramified. -/
-@[stacks 06CB "the equivalence: unramified iff formally unramified"]
+only if it is formally unramified.  This is the first assertion of Stacks 06CB, which is stated
+in full, together with the finite local freeness of the conormal sheaf, as
+`unramified_iff_formallyUnramified_and_isFiniteLocallyFreeOnSite_conormalSheaf` in
+`StacksFrontier/AlgebraicGeometry/Spaces/Morphisms/PseudoCoherent/LocalCompleteIntersection/`. -/
 public theorem isUnramified_iff_formallyUnramified_of_isLocalCompleteIntersection
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y) {f : X ⟶ Y}
     (hf : IsLocalCompleteIntersection B S hS f) :

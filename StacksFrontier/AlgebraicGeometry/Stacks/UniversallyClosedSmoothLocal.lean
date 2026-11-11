@@ -47,8 +47,10 @@ which is locally of finite presentation over `𝒴`, and to closedness of the ba
 `n`-space over one smooth surjective chart of `𝒴`, for every `n ≥ 0`. Three of its implications
 are proved here, together with three steps of the proof of the two converse ones: closedness of a
 base change descends along an immersion of the base, the implication (3) implies (2) at a target
-represented by a scheme, and the reduction of (2) implies (1) to such a target. See the
-implementation notes for what the two converse implications still need.
+represented by a scheme, and the reduction of (2) implies (1) to such a target. The converse
+implications and the full equivalence are proved in
+`StacksFrontier/AlgebraicGeometry/Stacks/UniversallyClosedSmoothLocalQuasiCompact.lean`, as
+`AlgebraicGeometry.Stack.AlgebraicStacks.universallyClosed_tfae_of_isQuasiCompactMorphism`.
 
 ## Main results
 
@@ -89,31 +91,23 @@ along the composite `𝐀^n_V ⟶ V ⟶ 𝒴`, which is how it is written here. 
 scheme of the site is again a scheme of the site because its structure morphism is affine and
 locally of finite type, hence quasi-compact.
 
-The two converse implications of Stacks 0H2A are *not* proved here, and both are short of one
-and the same input: the separation lemma of **Stacks 0H29** for algebraic stacks.
-
-(2) implies (1) is the limit argument. Its two ends are available: the reduction to a target
-represented by a scheme is
+The two converse implications of Stacks 0H2A need, beyond this file, the separation lemma of
+**Stacks 0H29** for algebraic stacks,
+`AlgebraicGeometry.Stack.exists_affine_finitePresentation_separation`, which is downstream of
+this file; they are proved in
+`StacksFrontier/AlgebraicGeometry/Stacks/UniversallyClosedSmoothLocalQuasiCompact.lean`. The steps
+proved here feed them. The reduction of (2) implies (1) to a target represented by a scheme is
 `universallyClosed_of_forall_schemeStack_target_of_isClosed_affine_lfp` below, built from clause
 (2) base changing along a 1-morphism locally of finite presentation and the smooth-surjective
-descent of universal closedness; and the scheme-level engine of Stacks 0H29 is
-`AlgebraicGeometry.exists_affine_locallyFinitePresentation_separation_isClosed`, the
-closed-subset form of **Stacks 05BD**, while the two point-set steps which read its conclusion
-back up to the stack are `AlgebraicGeometry.Stack.AlgebraicStacks`
-`.image_preimage_eq_preimage_image_of_isTwoFibreProduct` and
-`.image_closure_image_subset_of_isTwoFibreProduct`. What is missing is Stacks 0H29 for algebraic
-stacks itself, and the input it needs is the identification, at the level of the 2-category of
-algebraic stacks, of the fibre product of two objects of the site with the 2-fibre product of
-the stacks they represent: the engine's closed subset lives in a fibre product of *schemes*,
-while hypothesis (2) speaks about closed subsets of a 2-fibre product of *stacks*. Only the
-presheaf-level shadow of that identification exists, namely
-`AlgebraicGeometry.Stack.isPullback_representingMap_twoFibreProduct`.
+descent of universal closedness; it takes the target-represented-by-a-scheme case as a
+hypothesis, and the unconditional implication is `AlgebraicGeometry.Stack.AlgebraicStacks`
+`.universallyClosed_of_isQuasiCompactMorphism_of_isClosed_affine_lfp`.
 
-(3) implies (1) factors through (2) implies (1), and its own step is proved here. The immersion
-`Z ⟶ 𝐀ⁿ_V` of **Stacks 04II** induces an immersion of the represented stacks by
-`isImmersion_schemeStackMap` below, which transports the scheme-level immersion using that being
-an immersion is fppf local on the target for morphisms of algebraic spaces (**Stacks 042U**) and
-stable under base change; feeding it to `isClosed_baseChange_of_isImmersion` gives
+For (3) implies (1), the immersion `Z ⟶ 𝐀ⁿ_V` of **Stacks 04II** induces an immersion of the
+represented stacks by `isImmersion_schemeStackMap` below, which transports the scheme-level
+immersion using that being an immersion is fppf local on the target for morphisms of algebraic
+spaces (**Stacks 042U**) and stable under base change; feeding it to
+`isClosed_baseChange_of_isImmersion` gives
 `isClosed_baseChange_schemeStackMap_of_forall_isClosed_baseChange_affineSpaceChart`, which is
 clause (2) at a target represented by a scheme for the bases that clause (3) reaches, namely the
 quasi-affine ones locally of finite type over the chart.
@@ -529,7 +523,6 @@ change of `ι` is an immersion by Stacks 045C at the immersion property, hence a
 embedding on points by **Stacks 0H20**; the square is cartesian on points by **Stacks 04XH**; and
 `isClosedMap_of_isEmbedding_of_cartesian` concludes. Only the embedding property of Stacks 0H20
 is used, not the local closedness of the range. -/
-@[stacks 0H2A "closedness of a base change descends along an immersion of the base"]
 theorem isClosed_baseChange_of_isImmersion
     {𝒬 𝒞 ℬ : Stack.AlgebraicStacks.{u, w} B S hS} (F : 𝒬 ⟶ ℬ) (ι : 𝒞 ⟶ ℬ)
     (hι : IsImmersion B S hS ι) (hF : IsClosed B S hS F) :
@@ -754,8 +747,6 @@ the base change of `f` along the 1-morphism that `p` induces is closed on points
 By **Stacks 04II** such a `Z` immerses over `W` into affine `n`-space over `W` for some `n`. That
 immersion of schemes induces an immersion of the represented algebraic stacks, and closedness of
 a base change descends along an immersion of the base. -/
-@[stacks 0H2A "(3) implies (2), the step at a target represented by a scheme, stated at the
-hypotheses of Tag 04II: a quasi-affine source and a morphism locally of finite type"]
 theorem isClosed_baseChange_schemeStackMap_of_forall_isClosed_baseChange_affineSpaceChart
     {𝒳 : Stack.AlgebraicStacks.{u, w} B S hS} {W : BigFppfOver B S hS}
     (f : 𝒳 ⟶ Stack.schemeStack.{u, w} B S hS W)
@@ -798,8 +789,6 @@ along a 1-morphism locally of finite presentation is closed on points, and let `
 locally of finite presentation. Then the same holds for the base change of `f` along `b`: a
 1-morphism `Stack.schemeStack Z ⟶ 𝒴'` locally of finite presentation composes with `b` to one
 locally of finite presentation, and base changing twice is base changing once. -/
-@[stacks 0H2A "clause (2) is inherited by a base change along a 1-morphism locally of finite
-presentation"]
 theorem isClosed_baseChange_affine_isLocallyOfFinitePresentation_baseChange
     {𝒳 𝒴 𝒴' : Stack.AlgebraicStacks.{u, w} B S hS} (f : 𝒳 ⟶ 𝒴) (b : 𝒴' ⟶ 𝒴)
     (hb : IsLocallyOfFinitePresentation B S hS b)
@@ -819,9 +808,12 @@ the site, then it implies universal closedness for an arbitrary target.
 
 Every algebraic stack over `S` has a smooth surjective chart by a scheme of the site, universal
 closedness descends along it, and it is locally of finite presentation by Stacks 0DNP, so clause
-(2) for `f` gives clause (2) for the base change of `f` to that chart. -/
-@[stacks 0H2A "(2) implies (1), the reduction to a target represented by a scheme; the
-remaining input is Tag 0H29 for algebraic stacks, carried as `hred`"]
+(2) for `f` gives clause (2) for the base change of `f` to that chart.
+
+The case of a target represented by a scheme is taken as the hypothesis `hred`; the
+unconditional implication, for a quasi-compact `f` as in the source, is
+`AlgebraicGeometry.Stack.AlgebraicStacks`
+`.universallyClosed_of_isQuasiCompactMorphism_of_isClosed_affine_lfp`. -/
 theorem universallyClosed_of_forall_schemeStack_target_of_isClosed_affine_lfp
     (hred : ∀ (V : BigFppfOver B S hS) (𝒲 : Stack.AlgebraicStacks.{u, w} B S hS)
       (f' : 𝒲 ⟶ Stack.schemeStack.{u, w} B S hS V),

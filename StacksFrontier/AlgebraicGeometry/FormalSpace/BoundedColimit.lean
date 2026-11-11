@@ -37,7 +37,7 @@ unbounded cofinality, and it goes through the same
   under which `AlgebraicGeometry.FormalSpace.satisfiesSetTheoreticCondition_of_countable_colimit`
   holds, countability being one way of meeting it.
 
-## Why the condition is a hypothesis of Stacks 0GVM
+## Why the condition is a hypothesis of the colimit step of Stacks 0GVM
 
 The condition is not an invention of this library: Stacks 0AI7 defines an affine formal
 algebraic space as a sheaf isomorphic to a directed colimit of affine schemes along thickenings

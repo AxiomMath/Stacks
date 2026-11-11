@@ -40,7 +40,8 @@ and both clauses hold at every closed point of that line.
 * `AlgebraicGeometry.ProjectiveSpaceOfModule.identityParameterPoint_notMem_badParameterLocus`:
   `[id_V]` is not bad.
 * `AlgebraicGeometry.ProjectiveSpaceOfModule.exists_isOpen_forall_closedPoint_line_isGood`:
-  both clauses hold along a general line through `[id_V]`.
+  both clauses hold along a general line through `[id_V]`, once the bad locus is known to be an
+  irreducible closed subset of codimension at least two.
 
 ## Implementation notes
 
@@ -53,35 +54,28 @@ corank two, as in that lemma. This is strictly stronger than the existence of on
 strictly weaker than the statement for every line, both of which the source's "for a general
 line" excludes; the lines it produces sweep out a dense open subset of `𝐏`.
 
-**What is carried.** The source proves the two clauses by showing that the bad locus `B` is
-closed of dimension at most `dim 𝐏 - 2` and then quoting Tag 0B2T. The closedness and the
-dimension bound are the hypothesis `hB` and `hcodim` here: everything the source's proof does
-between its first and last steps, namely the incidence variety
-`T = {(x, y, [g]) : x ∈ X, y ∈ Y, r_g(x) = y}` over `X × Y` and the analysis of the determinant
-hypersurface `𝐏 ∖ PGL(V)`. The incidence variety needs the family of projective transformations
-over the parameter space in the source's product form, which the library does not have. The
-family over `𝐏` itself does exist —
-`AlgebraicGeometry.ProjectiveSpaceOfModule.universalEndSheafProjection`, the rational map
-`𝐏(V ⊗ 𝒪_𝐏(1)) ⊇ U(ψ) → 𝐏(V ⊗ 𝒪_𝐏)` of Tag 0B2W over `𝐏` — but neither total space is
-identified with `𝐏 × 𝐏(V)` and its fibre over `[g]` is not compared with
-`AlgebraicGeometry.ProjectiveSpaceOfModule.endProjection`, which is the fibrewise form over a
-single point `[g]`, so the incidence variety cannot be cut out of it. What is *not* carried is
-the source's `[id_V] ∉ B`, which it leaves to "by assumption": it is proved here.
-
-The carried hypothesis is slightly stronger than the source's intermediate claim: it asks the
-bad locus to be an *irreducible* closed subset, whereas the source only asserts that it is
-closed. The reason is that Tag 0B2T is available for an irreducible closed subset, which is
-what its source statement is about; a closed subset of codimension at least two is a finite
-union of such, and reducing to the components needs the decomposition of a closed subset of a
-Noetherian space into irreducible components, which is not combined with Tag 0B2T here.
+**The bad-locus bound is an input here.** The source proves the two clauses by showing that
+the bad locus `B` is closed of dimension at most `dim 𝐏 - 2` and then quoting Tag 0B2T. This file
+contains the first and the last of those steps — `[id_V] ∉ B`, which the source leaves to "by
+assumption", is proved — and takes the bound on `B` as the hypotheses `hB` and `hcodim`. The bound
+itself is proved downstream, from the incidence correspondence
+`T = {(x, y, [g]) : x ∈ X, y ∈ Y, r_g(x) = y}` and the analysis of the determinant hypersurface
+`𝐏 ∖ PGL(V)`, in
+`…ProjectiveSpaceOfModule.exists_isClosed_two_le_codimension_badParameterLocus_subset` of
+`StacksFrontier.AlgebraicGeometry.Intersection.Projections.TransitionDominant`, as a closed superset
+of the bad locus that need not be irreducible; Tag 0B1S itself is
+`…ProjectiveSpaceOfModule.exists_isOpen_forall_closedPoint_line_subset_endDomain_intersectProperly`
+of `StacksFrontier.AlgebraicGeometry.Intersection.Projections.GeneralLineIntersectProperly`.
 
 **Clause (2).** `AlgebraicGeometry.IntersectProperly` (Tag 0AZQ) is a predicate on irreducible
 closed subsets, and `r_g(X)` is one — the image of the proper `X` under a morphism over the
-ground field — but the library has closedness of such an image only for the linear projection,
-as `AlgebraicGeometry.ProjectiveSpaceOfModule.isClosed_image_projection`, and not for `r_g`. So
-clause (2) is spelled as the dimension criterion that defines `IntersectProperly`, read on the
-image set; `AlgebraicGeometry.ProjectiveSpaceOfModule.isGoodEndomorphism_iff_intersectProperly`
-checks that the two agree whenever the image is the underlying set of a closed subvariety.
+ground field — but its closedness and irreducibility,
+`AlgebraicGeometry.ProjectiveSpaceOfModule.isClosed_endProjectionImage` and
+`AlgebraicGeometry.ProjectiveSpaceOfModule.isIrreducible_endProjectionImage`, are proved downstream
+of this file. So clause (2) is spelled here as the dimension criterion that defines
+`IntersectProperly`, read on the image set;
+`AlgebraicGeometry.ProjectiveSpaceOfModule.isGoodEndomorphism_iff_intersectProperly` checks that
+the two agree whenever the image is the underlying set of a closed subvariety.
 
 **Representatives.** Goodness is a property of an endomorphism, and the bad locus collects the
 points of `𝐏` having a bad representative; the conclusion therefore asserts the clauses for
@@ -89,9 +83,6 @@ points of `𝐏` having a bad representative; the conclusion therefore asserts t
 `[g]` is `AlgebraicGeometry.ProjectiveSpaceOfModule.endDomain_smul` and
 `AlgebraicGeometry.ProjectiveSpaceOfModule.endProjection_smul_apply`, the latter on closed
 points; quantifying over representatives avoids relying on the missing global form.
-
-The hypotheses `X ≠ 𝐏(V)` and `X ∩ Y ≠ ∅` of the source are recorded and not used: they enter
-only the two steps that `hB` and `hcodim` stand for.
 
 ## References
 
@@ -255,27 +246,17 @@ public theorem identityParameterPoint_notMem_badParameterLocus [Nontrivial V]
   · rw [endProjectionImage_of_eq_smul_id k V hgc]
     exact hXY
 
-/-- **Stacks Project, Tag 0B1S.** With `X, Y` closed subvarieties of `𝐏(V)` which intersect
-properly, `X ≠ 𝐏(V)` and `X ∩ Y ≠ ∅`, suppose the bad locus in the parameter space
-`𝐏 = 𝐏((End V)ᵛ)` is a closed subvariety `B` of codimension at least two. Then for a general
-line `ℓ ⊆ 𝐏` through `[id_V]` — that is, for a line through `[id_V]` and any closed point of a
-nonempty Zariski open subset of `𝐏` — every representative `g` of every closed point of `ℓ`
-satisfies `X ⊆ U(g)` and makes `r_g(X)` intersect `Y` properly. -/
-@[stacks 0B1S "both clauses (1) X ⊆ U(g) and (2) g(X) intersects Y properly, along a general \
-line through [id_V]; 'general' is read as in Tag 0B2T, namely that there is a nonempty Zariski \
-open subset of the parameter space 𝐏 = 𝐏((End V)ᵛ) each of whose closed points lies with \
-[id_V] on such a line; carrying as hypotheses that the bad locus is an irreducible closed \
-subset of 𝐏 (stronger than the source's 'B is closed', irreducibility being what the \
-formalization of Tag 0B2T asks of it) of codimension at least two (the source's \
-dim(B) ≤ dim(𝐏) - 2), which together are everything the source's proof establishes between \
-those two steps and need the family of projective transformations over 𝐏 in the source's \
-product form 𝐏 × 𝐏(V), which is not available: the family over 𝐏 itself is \
-AlgebraicGeometry.ProjectiveSpaceOfModule.universalEndSheafProjection, but neither of its \
-total spaces is identified with 𝐏 × 𝐏(V) and its fibre over [g] is not compared with r_g; \
-the source's own '[id_V] ∉ B by assumption' is proved rather than carried; clause \
-(2) is the dimension criterion defining Tag 0AZQ read on the image set r_g(X), which agrees \
-with IntersectProperly whenever that image is the underlying set of a closed subvariety; the \
-hypotheses X ≠ 𝐏(V) and X ∩ Y ≠ ∅ are recorded and unused, entering only the carried steps"]
+/-- **The genericity step of Tag 0B1S, for an irreducible bad locus.** With `X, Y` closed
+subvarieties of `𝐏(V)` which intersect properly, if the bad locus in the parameter space
+`𝐏 = 𝐏((End V)ᵛ)` is an irreducible closed subset `B` of codimension at least two, then for the
+line through `[id_V]` and any closed point of a nonempty Zariski open subset of `𝐏`, every
+representative `g` of every closed point of that line is good.
+
+This is the last step of the source's proof (Tag 0B2T applied to `B`), with the bound on `B`
+supplied by the caller. Tag 0B1S itself, with no hypothesis on the bad locus, is
+`…ProjectiveSpaceOfModule.exists_isOpen_forall_closedPoint_line_subset_endDomain_intersectProperly`
+of `StacksFrontier.AlgebraicGeometry.Intersection.Projections.GeneralLineIntersectProperly`. The
+hypotheses `X ≠ 𝐏(V)` and `X ∩ Y ≠ ∅` are not used here. -/
 public theorem exists_isOpen_forall_closedPoint_line_isGood [Nontrivial V]
     (X Y : IrreducibleCloseds (projectiveSpaceOfModule k V)) (hXY : IntersectProperly X Y)
     (_hXne : (X : Set (projectiveSpaceOfModule k V)) ≠ Set.univ)

@@ -10,21 +10,25 @@ public import Mathlib.CategoryTheory.Limits.Preserves.Over
 # Surjectivity alone suffices for local finite presentation
 
 A morphism of schemes `f : X ⟶ S` is locally of finite presentation as soon as every morphism
-to `X` over `S` out of a cofiltered limit of affine schemes over `S` factors through some stage
+to `X` over `S` out of a directed limit of affine schemes over `S` factors through some stage
 of the system. Injectivity of the comparison map `colim Mor_S(T_i, X) ⟶ Mor_S(T, X)` is not
 needed: in the limit characterisation of Stacks 01ZC, parts (2) and (3), surjectivity is enough.
 
 ## Main results
 
-* `AlgebraicGeometry.locallyOfFinitePresentation_of_affineLimit_surjective` — Stacks 0CM0.
+* `AlgebraicGeometry.locallyOfFinitePresentation_of_directedAffineLimit_surjective` — Stacks 0CM0:
+  surjectivity tested on directed inverse systems of affine schemes over `S`.
+* `AlgebraicGeometry.locallyOfFinitePresentation_of_affineLimit_surjective` — the corollary with
+  surjectivity tested on every cofiltered index category, a stronger hypothesis.
 
 ## Implementation notes
 
 Surjectivity is phrased elementwise in the category of schemes over the base: each morphism out
 of the limit cone's vertex factors through one projection. That is exactly surjectivity of the
 canonical map out of the filtered colimit of relative morphism sets, without naming the colimit.
-The index categories are cofiltered categories in the universe of the schemes, as in the
-affine-limit characterisation of local finite presentation.
+In the Stacks statement the index categories are the opposites of directed posets in the
+universe of the schemes; the cofiltered form quantifies over more systems, so its hypothesis
+implies the directed one.
 
 The proof reduces to the ring-theoretic criterion. Given affine opens `V ⊆ S` and `U ⊆ X` with
 `f U ⊆ V`, local finite presentation asks that `Γ(S, V) ⟶ Γ(X, U)` be of finite presentation,
@@ -197,14 +201,17 @@ namespace AlgebraicGeometry
 /-- If every map to `X` out of the limit of a **directed** inverse system of affine schemes over
 `S` descends to a finite stage, then `X ⟶ S` is locally of finite presentation.
 
-This is the sharp form of the criterion: the index categories are the opposites of directed
-posets in the universe of the schemes, rather than arbitrary cofiltered categories, which is all
-the ring-theoretic criterion of Stacks 00QO ever needs. Limit preservation in the sense of
+This is Stacks 0CM0: the index categories are the opposites of directed posets in the universe
+of the schemes, the directed inverse systems of the source, rather than arbitrary cofiltered
+categories, which is all the ring-theoretic criterion of Stacks 00QO ever needs. Limit
+preservation in the sense of
 `AlgebraicGeometry.ExtendingFunctors.PreservesAffineLimits` is tested on exactly these index
 categories, so it is this form and not
 `AlgebraicGeometry.locallyOfFinitePresentation_of_affineLimit_surjective` that applies to a
 functor known to be limit preserving in that sense. -/
-@[ega "IV 17.3.2" "partial", ega "IV 8.14.2" "partial", sga "3 XI 3.2" "partial"]
+@[stacks 0CM0 "if every morphism to `X` over `S` out of the limit of a directed inverse system \
+  of affine schemes over `S` factors through a stage, then `f` is locally of finite \
+  presentation", ega "IV 17.3.2" "partial", ega "IV 8.14.2" "partial", sga "3 XI 3.2" "partial"]
 public theorem locallyOfFinitePresentation_of_directedAffineLimit_surjective
     {X S : Scheme.{u}} (f : X ⟶ S)
     (hsurj : ∀ (Λ : Type u) [PartialOrder Λ] [Nonempty Λ] [IsDirectedOrder Λ]
@@ -222,8 +229,13 @@ public theorem locallyOfFinitePresentation_of_directedAffineLimit_surjective
     exact FinitePresentationLimit.factorChart f hsurj hV hU hVU D c hc g)
 
 /-- If every map from a cofiltered limit of affine schemes over `S` to `X`
-descends to a finite stage, then `X ⟶ S` is locally of finite presentation. -/
-@[stacks 0CM0, sga "3 XI 3.2" "partial"]
+descends to a finite stage, then `X ⟶ S` is locally of finite presentation.
+
+This is a corollary of Stacks 0CM0, which is
+`AlgebraicGeometry.locallyOfFinitePresentation_of_directedAffineLimit_surjective`: the hypothesis
+here quantifies over every cofiltered index category, a stronger assumption than the source's
+directed inverse systems, and is specialised to the opposites of directed posets. -/
+@[sga "3 XI 3.2" "partial"]
 public theorem locallyOfFinitePresentation_of_affineLimit_surjective
     {X S : Scheme.{u}} (f : X ⟶ S)
     (hsurj : ∀ (I : Type u) [Category.{u} I] [IsCofiltered I]

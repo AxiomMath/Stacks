@@ -213,24 +213,11 @@ lemma isUnit_iff_addVal_eq_zero (x : sv.integerSubring) : IsUnit x ↔ sv.addVal
       Subtype.ext (mul_inv_cancel₀ hxne)
     exact IsUnit.of_mul_eq_one _ hmul1
 
-/-- **Stacks 00IG** (`lemma-valuation-valuation-ring`).
-Let `(Γ, ≥)` be a totally ordered abelian group, `K` a field, and `v : Kˣ → Γ` a
-group homomorphism with `v(a + b) ≥ min (v a) (v b)` for `a, b, a + b` nonzero.
-Then `A = {x ∈ K | x = 0 ∨ v x ≥ 0}` is a valuation ring with value group
-`Im(v) ⊆ Γ`, with maximal ideal `m = {x ∈ K | x = 0 ∨ v x > 0}` and group of units
-`A* = {x ∈ Kˣ | v x = 0}`.
-
-Formalized here: `ValuationRing A`, the unit-group description and the
-maximal-ideal description. **The value-group clause is not formalized.** The
-fourth conjunct below only records that `Set.range v` is an additive subgroup of
-`Γ`, which is a triviality about any group homomorphism; it does not relate `A`'s
-own value group `Kˣ/A*` to `Im(v)`. Stating that identification needs `A` as a
-`ValuationSubring K` (so that `IsFractionRing A K` and
-`ValuationRing.valuation A K` are available), whereas `integerSubring` is a bare
-`Subring`. The `@[stacks 00IG]` attribute is qualified accordingly. -/
-@[stacks 00IG "Valuation ring, unit group and maximal ideal only. The value-group \
-clause Kˣ/A* ≅ Im(v) is NOT formalized: the fourth conjunct merely says Set.range v \
-is a subgroup of Γ."]
+/-- Valuation ring, unit group and maximal ideal of `A = {x ∈ K | x = 0 ∨ v x ≥ 0}`
+(the first three clauses of Stacks 00IG), together with the fact that `Set.range v` is
+an additive subgroup of `Γ`. The complete statement of Stacks 00IG, including the
+identification of the value group `Kˣ/A*` of `A` with `Im(v)` as ordered groups, is
+`StacksValuation.isValuationRing_valueGroup`. -/
 theorem isValuationRing :
     -- `A` is a valuation ring.
     ValuationRing sv.integerSubring ∧
@@ -253,6 +240,170 @@ theorem isValuationRing :
     exact ⟨ua * ub, sv.map_mul' ua ub⟩
   · rintro _ ⟨ua, rfl⟩
     exact ⟨ua⁻¹, sv.toFun_inv ua⟩
+
+/-- The image `Im(v) ⊆ Γ` of a Stacks-00IG valuation, as an additive subgroup of `Γ`. -/
+def valueSubgroup : AddSubgroup Γ where
+  carrier := Set.range sv.toFun
+  zero_mem' := ⟨1, sv.toFun_one⟩
+  add_mem' := by
+    rintro _ _ ⟨a, rfl⟩ ⟨b, rfl⟩
+    exact ⟨a * b, sv.map_mul' a b⟩
+  neg_mem' := by
+    rintro _ ⟨a, rfl⟩
+    exact ⟨a⁻¹, sv.toFun_inv a⟩
+
+/-- `v : Kˣ → Im(v)`, written multiplicatively. -/
+def toValueSubgroup : Kˣ →* Multiplicative sv.valueSubgroup where
+  toFun x := Multiplicative.ofAdd ⟨sv.toFun x, x, rfl⟩
+  map_one' := Multiplicative.toAdd.injective (Subtype.ext sv.toFun_one)
+  map_mul' x y := Multiplicative.toAdd.injective (Subtype.ext (sv.map_mul' x y))
+
+/-- `v : Kˣ → Im(v)` is surjective. -/
+lemma toValueSubgroup_surjective : Function.Surjective sv.toValueSubgroup := by
+  rintro ⟨_, x, rfl⟩
+  exact ⟨x, rfl⟩
+
+/-- The value of `toValueSubgroup x` in `Γ` is `v x`. -/
+lemma toAdd_toValueSubgroup (x : Kˣ) :
+    ((Multiplicative.toAdd (sv.toValueSubgroup x) : sv.valueSubgroup) : Γ) = sv.toFun x := rfl
+
+/-- Every `x : K` satisfies `x ∈ A` or `x⁻¹ ∈ A`. -/
+lemma mem_or_inv_mem_integerSubring (x : K) :
+    x ∈ sv.integerSubring ∨ x⁻¹ ∈ sv.integerSubring := by
+  by_cases hx : x = 0
+  · exact Or.inl (by rw [hx]; exact zero_mem sv.integerSubring)
+  · rcases le_total 0 (sv.toFun (Units.mk0 x hx)) with h | h
+    · exact Or.inl ((sv.mem_integerSubring_iff x).mpr (Or.inr ⟨hx, h⟩))
+    · refine Or.inr ((sv.mem_integerSubring_iff _).mpr (Or.inr ⟨inv_ne_zero hx, ?_⟩))
+      have hu : Units.mk0 x⁻¹ (inv_ne_zero hx) = (Units.mk0 x hx)⁻¹ := Units.ext (by simp)
+      rw [hu, sv.toFun_inv]
+      exact neg_nonneg.mpr h
+
+/-- `A = {x ∈ K | x = 0 ∨ v x ≥ 0}`, as a valuation subring of `K`. -/
+noncomputable def valuationSubring : ValuationSubring K :=
+  ValuationSubring.ofSubring sv.integerSubring sv.mem_or_inv_mem_integerSubring
+
+/-- The underlying subring of `sv.valuationSubring` is `sv.integerSubring`. -/
+lemma valuationSubring_toSubring : sv.valuationSubring.toSubring = sv.integerSubring := rfl
+
+/-- For `x, y ∈ Kˣ`, the class of `x` is `≤` the class of `y` in the value group `K / A*`
+(i.e. `x / y ∈ A`) iff `v y ≤ v x`. -/
+lemma valuation_le_valuation_iff (x y : Kˣ) :
+    sv.valuationSubring.valuation (x : K) ≤ sv.valuationSubring.valuation (y : K) ↔
+      sv.toFun y ≤ sv.toFun x := by
+  rw [ValuationSubring.valuation_le_iff]
+  have hval : sv.toFun (x / y) = sv.toFun x - sv.toFun y := by
+    rw [div_eq_mul_inv, sv.map_mul', sv.toFun_inv, sub_eq_add_neg]
+  have hmem : ((x / y : Kˣ) : K) ∈ sv.integerSubring ↔ sv.toFun y ≤ sv.toFun x := by
+    rw [sv.mem_integerSubring_iff, ← sub_nonneg, ← hval]
+    refine ⟨fun h ↦ ?_, fun h ↦ Or.inr ⟨(x / y).ne_zero, by rwa [Units.mk0_val]⟩⟩
+    rcases h with h | ⟨_, hv⟩
+    · exact absurd h (x / y).ne_zero
+    · rwa [Units.mk0_val] at hv
+  rw [← hmem]
+  constructor
+  · rintro ⟨a, ha⟩
+    have : ((x / y : Kˣ) : K) = a := by
+      rw [Units.val_div_eq_div_val, ← ha, mul_div_cancel_right₀ _ y.ne_zero]
+    rw [this]
+    exact a.2
+  · intro h
+    exact ⟨⟨_, h⟩, by simp⟩
+
+/-- The map `Kˣ → (K / A*)ˣ = Kˣ / A*` sending `x` to its class. -/
+noncomputable def toValueGroupUnits : Kˣ →* sv.valuationSubring.ValueGroupˣ :=
+  Units.map (sv.valuationSubring.valuation : K →* sv.valuationSubring.ValueGroup)
+
+lemma coe_toValueGroupUnits (x : Kˣ) :
+    (sv.toValueGroupUnits x : sv.valuationSubring.ValueGroup) =
+      sv.valuationSubring.valuation (x : K) := rfl
+
+lemma toValueGroupUnits_surjective : Function.Surjective sv.toValueGroupUnits := by
+  intro u
+  obtain ⟨x, hx⟩ := sv.valuationSubring.valuation_surjective (u : sv.valuationSubring.ValueGroup)
+  have hx0 : x ≠ 0 := by
+    rintro rfl
+    rw [Valuation.map_zero] at hx
+    exact u.ne_zero hx.symm
+  exact ⟨Units.mk0 x hx0, Units.ext hx⟩
+
+lemma toValueGroupUnits_le_iff (x y : Kˣ) :
+    sv.toValueGroupUnits x ≤ sv.toValueGroupUnits y ↔ sv.toFun y ≤ sv.toFun x := by
+  rw [← Units.val_le_val, coe_toValueGroupUnits, coe_toValueGroupUnits,
+    sv.valuation_le_valuation_iff]
+
+lemma ker_toValueGroupUnits : sv.toValueGroupUnits.ker = sv.toValueSubgroup.ker := by
+  ext x
+  simp only [MonoidHom.mem_ker]
+  rw [← map_one sv.toValueGroupUnits, le_antisymm_iff, sv.toValueGroupUnits_le_iff,
+    sv.toValueGroupUnits_le_iff, ← le_antisymm_iff, sv.toFun_one]
+  constructor
+  · intro h
+    exact Multiplicative.toAdd.injective (Subtype.ext h.symm)
+  · intro h
+    exact (congrArg (fun z ↦ ((Multiplicative.toAdd z : sv.valueSubgroup) : Γ)) h).symm
+
+/-- The isomorphism `Kˣ / A* ≅ Im(v)` induced by `v`, from the value group of `A`
+(the nonzero part `(K / A*)ˣ` of `ValuationRing.ValueGroup`) to `Im(v)`, written
+multiplicatively. -/
+noncomputable def valueGroupEquiv :
+    sv.valuationSubring.ValueGroupˣ ≃* Multiplicative sv.valueSubgroup :=
+  ((QuotientGroup.quotientKerEquivOfSurjective _ sv.toValueGroupUnits_surjective).symm.trans
+    (QuotientGroup.quotientMulEquivOfEq sv.ker_toValueGroupUnits)).trans
+    (QuotientGroup.quotientKerEquivOfSurjective _ sv.toValueSubgroup_surjective)
+
+/-- `valueGroupEquiv` sends the class of `x ∈ Kˣ` to `v x`. -/
+lemma valueGroupEquiv_toValueGroupUnits (x : Kˣ) :
+    sv.valueGroupEquiv (sv.toValueGroupUnits x) = sv.toValueSubgroup x := by
+  have h : (QuotientGroup.quotientKerEquivOfSurjective _ sv.toValueGroupUnits_surjective).symm
+      (sv.toValueGroupUnits x) = (x : Kˣ ⧸ sv.toValueGroupUnits.ker) :=
+    (MulEquiv.symm_apply_eq _).mpr rfl
+  simp only [valueGroupEquiv, MulEquiv.trans_apply, h]
+  rfl
+
+/-- **Stacks 00IG** (`lemma-valuation-valuation-ring`).
+Let `(Γ, ≥)` be a totally ordered abelian group, `K` a field, and `v : Kˣ → Γ` a
+group homomorphism with `v(a + b) ≥ min (v a) (v b)` for `a, b, a + b` nonzero.
+Then `A = {x ∈ K | x = 0 ∨ v x ≥ 0}` is a valuation ring with value group
+`Im(v) ⊆ Γ`, with maximal ideal `m = {x ∈ K | x = 0 ∨ v x > 0}` and group of units
+`A* = {x ∈ Kˣ | v x = 0}`.
+
+The value group of `A` (Stacks 00ID/00IE) is `Kˣ/A*`; in the library it is the
+nonzero part `(ValuationRing.ValueGroup A K)ˣ` of `K / A*`, written multiplicatively
+and ordered by `[x] ≤ [y] ↔ x / y ∈ A` (the reverse of the additive order `≥` of
+Stacks). The last clause gives a group isomorphism `e : Kˣ/A* ≅ Im(v)` induced by `v`
+(it sends the class of `x` to `v x`), which is an isomorphism of ordered groups for
+these conventions. Here `A` is `sv.valuationSubring`, whose underlying subring is
+`sv.integerSubring`. -/
+@[stacks 00IG "The value group Kˣ/A* is (ValuationRing.ValueGroup A K)ˣ, multiplicative \
+and ordered by [x] ≤ [y] iff x/y ∈ A; the isomorphism with Im(v) sends the class of x to v x."]
+theorem isValuationRing_valueGroup :
+    -- `A` is a valuation ring.
+    ValuationRing sv.integerSubring ∧
+    -- The group of units of `A` is `{x | v x = 0}`.
+    (∀ x : sv.integerSubring, IsUnit x ↔ sv.addVal (x : K) = 0) ∧
+    -- The maximal ideal of `A` is `m = {x | v x > 0}`.
+    (∀ x : sv.integerSubring,
+      x ∈ IsLocalRing.maximalIdeal sv.integerSubring ↔ 0 < sv.addVal (x : K)) ∧
+    -- `sv.valuationSubring` is `A`, as a valuation subring of `K`.
+    sv.valuationSubring.toSubring = sv.integerSubring ∧
+    -- The value group `Kˣ/A*` of `A` is isomorphic to `Im(v) ⊆ Γ` as an ordered group,
+    -- by the isomorphism induced by `v`.
+    ∃ e : sv.valuationSubring.ValueGroupˣ ≃* Multiplicative sv.valueSubgroup,
+      (∀ x : Kˣ, ((Multiplicative.toAdd
+          (e (Units.map (sv.valuationSubring.valuation : K →* sv.valuationSubring.ValueGroup)
+            x)) : sv.valueSubgroup) : Γ) = sv.toFun x) ∧
+      ∀ a b : sv.valuationSubring.ValueGroupˣ,
+        a ≤ b ↔ Multiplicative.toAdd (e b) ≤ Multiplicative.toAdd (e a) := by
+  obtain ⟨h1, h2, h3, -⟩ := sv.isValuationRing
+  refine ⟨h1, h2, h3, rfl, sv.valueGroupEquiv, fun x ↦ ?_, fun a b ↦ ?_⟩
+  · exact congrArg Subtype.val (congrArg Multiplicative.toAdd
+      (sv.valueGroupEquiv_toValueGroupUnits x))
+  · obtain ⟨x, rfl⟩ := sv.toValueGroupUnits_surjective a
+    obtain ⟨y, rfl⟩ := sv.toValueGroupUnits_surjective b
+    rw [sv.toValueGroupUnits_le_iff, sv.valueGroupEquiv_toValueGroupUnits,
+      sv.valueGroupEquiv_toValueGroupUnits]
+    exact Iff.rfl
 
 end StacksValuation
 

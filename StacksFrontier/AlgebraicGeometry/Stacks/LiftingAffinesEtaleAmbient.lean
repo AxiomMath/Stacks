@@ -57,7 +57,8 @@ coherence `i^*γ ∘ α = f^*β` of the morphism of smooth lifts, inverted. The 
 flatness conditions on `x'` and `y'` come from their smoothness.
 
 This supersedes `AlgebraicGeometry.Stack.EtaleSmoothLift.isEtale_ambient`, which carries the
-étale clause of Stacks 0CJC as its hypothesis `hCJC`.
+étale clause of Stacks 0CJC as its hypothesis `hCJC` and is kept, untagged, as that conditional
+form; `isEtale_of_isTwoFibreProduct_of_isThickening` proves `hCJC`.
 
 **Inherited caveat.** Thickenings of algebraic stacks are
 `AlgebraicGeometry.Stack.IsThickening` (**Stacks 0BPP**, part (1)), which omits the

@@ -63,8 +63,7 @@ theorem hasPropertyOnEveryEtaleDiagram_of_hasEtaleSmoothLocalProperty
   intro U V hU hV a b h η hk
   let C := AlgebraicStacks.twoFibreProductSquare B S hS f b
   have hg' : HasEtaleSmoothLocalProperty B S hS P C.snd :=
-    hasEtaleSmoothLocalProperty_baseChange.{u, w} B S hS P hP B.contains_terminal
-      (existsEtalePresentationOfIsAbsolutelyDM.{u, w} B S hS B.contains_terminal) f b hf
+    hasEtaleSmoothLocalProperty_baseChange.{u, w} B S hS P hP f b hf
   let Cu := CatFiberedInGroupoids.twoFibreProductSquare.{u, u, u + 1, u + 1} f.hom b.hom
   have hCu : Bicategory.IsTwoFibreProduct Cu :=
     CatFiberedInGroupoids.isTwoFibreProduct_twoFibreProductSquare.{u, u, u + 1, u + 1} _ _

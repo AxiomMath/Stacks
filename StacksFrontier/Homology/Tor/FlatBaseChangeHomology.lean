@@ -27,6 +27,10 @@ over `A ⊗[R] R'` and `B'` flat over `R' ⊗[R] B` — the composite of the two
 `D(A) ⥤ D(A') ⥤ D(C')` and the single derived base change `D(A) ⥤ D(C)` followed by extension of
 scalars along `C → C'` have naturally isomorphic cohomology in every degree.
 
+These are derived extensions of scalars along ring maps out of `A`, not the derived tensor
+products over the base rings of Stacks 0DJD; that statement is
+`RingTheory.TorIndependence.baseChangeCohomologyIsoOfFlat`.
+
 ## Main definitions
 
 There are no new definitions.
@@ -192,11 +196,17 @@ private theorem flat_tensorProductMap
   convert (h₁.comp h₂).comp h₃ using 1
   ext a <;> simp [TorChangeOfRings.tensorProductMap, e, b]
 
-/-- **Stacks 0DJD.** Under the flatness hypotheses of Tag 08HW, the cohomology of
-`(M ⊗ᴸ_A A') ⊗ᴸ_{R'} B'` is canonically and naturally isomorphic, as a module over
-`A' ⊗[R'] B'`, to the extension of scalars of the cohomology of `M ⊗ᴸ_R B` along
-`A ⊗[R] B → A' ⊗[R'] B'`. -/
-@[stacks 0DJD, no_expose]
+/-- Under the flatness hypotheses of Tag 08HW, the cohomology of
+`(M ⊗ᴸ_A A') ⊗ᴸ_{A'} (A' ⊗[R'] B')` is canonically and naturally isomorphic, as a module over
+`C' = A' ⊗[R'] B'`, to the extension of scalars along `C = A ⊗[R] B → C'` of the cohomology of
+`M ⊗ᴸ_A (A ⊗[R] B)`.
+
+Both sides are derived extensions of scalars along ring maps out of `A`, so this is *not* the
+statement of Stacks 0DJD: there the derived tensor products are taken over the base rings,
+`(M ⊗ᴸ_A A') ⊗ᴸ_{R'} B'` and `M ⊗ᴸ_R B`, which differ from the ones here unless the algebras are
+Tor independent over the base. Stacks 0DJD itself is
+`RingTheory.TorIndependence.baseChangeCohomologyIsoOfFlat`. -/
+@[no_expose]
 public def derivedBaseChangeHomologyIso_of_flat
     (R R' A B A' B' : Type u)
     [CommRing R] [CommRing R'] [CommRing A] [CommRing B] [CommRing A'] [CommRing B']

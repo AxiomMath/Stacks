@@ -81,12 +81,10 @@ available here as
 factors `c₁(L_{d+1})` as the Gysin class of such a divisor followed by proper pushforward
 (Stacks 02T9, available here as
 `Stacks.Chow.properChowPushforward_gysinHomomorphismOfInvertible`), and induces on the
-dimension. In bivariant form these steps are composites: the Gysin bivariant class of Stacks 0B79
-is `Stacks.Chow.gysinBivariantClass`, but no composite of bivariant classes is constructed in
-this repository — composition exists only as the
-characterization `Stacks.Chow.IsBivariantClassComposition`, which pins a composite down
-uniquely without producing one. So the product `c₁(L_1) ∘ ⋯ ∘ c₁(L_{d+1})` has no term in this
-repository to be equated with zero.
+dimension. That induction, and with it the equality `c₁(L_1) ∘ ⋯ ∘ c₁(L_{d+1}) = 0` in
+`A^{d+1}(X)` of the source, is
+`Stacks.Chow.firstChernClassProduct_eq_zero_of_topologicalKrullDim_le`, where the product is the
+composite of bivariant first Chern classes `Stacks.Chow.firstChernClassProduct`.
 
 ### The product of first Chern classes is taken as the iterated cap operation
 
@@ -219,16 +217,6 @@ The operation goes `CH_{k + r}(X) ⟶ CH_k(X)` with `r = Os.length ≥ d + 1`. F
 target vanishes, and for `k ≥ 0` the source has degree `k + r ≥ d + 1 > d` and vanishes. So the
 proof is a delta-dimension count, not the induction on `d` of the source, and it establishes the
 same vanishing for every additive map of that bidegree. -/
-@[stacks 0FDX "the cap-product form on the test scheme X itself: a product of d+1 or more \
-first Chern class cap operators annihilates every Chow class of X, for X locally of finite \
-type over a Jacobson base whose dimension function vanishes at closed points and of \
-topological dimension at most d. The product of first Chern classes is the iterated cap \
-operation Stacks.Chow.iteratedChernCapOnChow on an arbitrary list of Stacks.Chow.ChernCapOperator, \
-not a composite of bivariant classes: no such composite is constructed in this library, so the \
-equality in A^{d+1}(X) that the source states has no term here. The ample invertible module of \
-the source is not assumed, being used there only to reach Stacks 0AYM. Proved by a \
-delta-dimension count — CH_k(X) is zero outside 0 ≤ k ≤ d — rather than by the induction on d \
-of the source, so the same vanishing holds for every additive map of that bidegree"]
 theorem iteratedChernCapOnChow_eq_zero_of_topologicalKrullDim_le {X : Scheme.{u}} (p : X ⟶ C.S)
     [LocallyOfFiniteType p] {d : ℕ} (hd : topologicalKrullDim X ≤ (d : WithBot ℕ∞))
     (Os : List (ChernCapOperator C p)) (hlen : d + 1 ≤ Os.length) (k : ℤ)
@@ -273,19 +261,6 @@ the product being the tower `Stacks.Chow.firstChernCapTower` of the cap products
 
 The degree count: if `n - r < 0` the target `A_{n-r}(X)` vanishes, and otherwise
 `n ≥ r ≥ d + 1 > d`, so the source `A_n(X)` vanishes. -/
-@[stacks 0FDX "the conclusion for the product of the first Chern classes of the GIVEN \
-invertible modules L_1, …, L_{d+1} on X: that product annihilates every Chow class of X, for X \
-locally of finite type over a Jacobson base whose dimension function vanishes at closed points \
-and of topological dimension at most d. The product is read as the composite of the \
-Chow-group cap products Stacks.Chow.firstChernCapStep of the modules themselves — \
-Stacks.Chow.firstChernCapTower — and NOT as an equality in A^{d+1}(X): no composite of \
-bivariant classes is constructed in this library, so the source's conclusion has no term here. \
-Carried: Stacks 02TI for each module, as the hypotheses InvertibleChernCapDescends, which by \
-Stacks.Chow.firstChernClassCapFactorsThroughRationalEquivalence_iff are implied by the mere \
-existence of the descended cap products and so are not a weakening. The ample invertible module \
-of the source is not assumed, being used there only to reach Stacks 0AYM. Proved by a \
-delta-dimension count — CH_k(X) is zero outside 0 ≤ k ≤ d — rather than by the induction on d \
-of the source"]
 theorem firstChernCapTower_eq_zero_of_topologicalKrullDim_le {X : Scheme.{u}} (p : X ⟶ C.S)
     [LocallyOfFiniteType p] {d : ℕ} (hd : topologicalKrullDim X ≤ (d : WithBot ℕ∞)) (n : ℤ)
     (L : ℕ → X.Modules)
@@ -306,13 +281,6 @@ to the test scheme `X` itself, this is the conclusion of Stacks 0FDX read on tha
 For a test scheme `T` of dimension at most `d` the source group `CH_k(T)` vanishes unless
 `0 ≤ k ≤ d`, and in that range the target group has degree `k - p ≤ d - (d + 1) < 0`, so it
 vanishes by nonnegativity of the delta-dimension. -/
-@[stacks 0FDX "the conclusion read on the test schemes of dimension at most d: every \
-bivariant class of degree at least d+1 caps every Chow class of such a test scheme to zero, \
-for a Jacobson base whose dimension function vanishes at closed points. This covers the test \
-scheme X itself but not the test schemes of dimension larger than d, so it does not give the \
-equality c = 0 in A^{d+1}(X) that the source states; and the class c is arbitrary of that \
-degree rather than a composite of first Chern classes, no composite of bivariant classes \
-being constructed in this library"]
 theorem BivariantClass.cap_eq_zero_of_topologicalKrullDim_le (G : GysinSystem C)
     {X Y : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sY : Y ⟶ C.S)
     [LocallyOfFiniteType sY] (f : X ⟶ Y) [LocallyOfFiniteType f] (hf : f ≫ sY = sX) {p : ℤ}

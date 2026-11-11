@@ -50,8 +50,11 @@ nonzero rational function on an integral scheme of delta-dimension `k + 2`.
 The integral case is the statement of Stacks 02TI for the scheme `W` and the cycle `div_W(f)`:
 `div_W(f)` is rationally equivalent to zero on `W` by Stacks 02RW. So quantifying the conclusion
 over all schemes over the base makes the reduction an equivalence rather than an implication, and
-no hypothesis is carried by anything below. What is still missing is Stacks 02TH, and through it
-the key formula of Stacks 0AYC and the tame symbol reciprocity of Stacks 0EAX.
+no hypothesis is carried by anything below. The integral case itself is
+`Stacks.Chow.firstChernCapKillsPrincipalDivisor` in
+`StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.ChernCapFactors`, proved from Stacks 02TH and the
+key formula of Stacks 0AYC; Stacks 02TI itself, with no hypothesis, is
+`Stacks.Chow.firstChernCapFactorsEverywhere` there, which carries the `@[stacks 02TI]` attribute.
 
 ### The two inputs of the reduction
 
@@ -224,9 +227,9 @@ a nonzero rational function on an integral scheme of delta-dimension `k + 2`.
 
 The reverse implication is the reduction step of the source's proof of Stacks 02TI; the forward
 implication holds because `div_Z(f)` is rationally equivalent to zero on `Z` itself, which is
-Stacks 02RW. So the delivered content of this tag is the reduction, and what remains of the tag is
-its integral case — the source's appeal to Stacks 02TH. -/
-@[stacks 02TI "the vanishing reduced to one principal divisor on an integral scheme"]
+Stacks 02RW. This is the reduction step of the source's proof; the integral case is
+`Stacks.Chow.firstChernCapKillsPrincipalDivisor`, and the two are joined into Stacks 02TI by
+`Stacks.Chow.firstChernCapFactorsEverywhere`, which carries the tag. -/
 theorem firstChernCapFactorsEverywhere_iff_killsPrincipalDivisor :
     FirstChernCapFactorsEverywhere C k ↔ FirstChernCapKillsPrincipalDivisor C k := by
   refine ⟨fun hall Z q _ _ _ hq M _ f hf β hβ => ?_, fun h X p _ L _ α hα => ?_⟩

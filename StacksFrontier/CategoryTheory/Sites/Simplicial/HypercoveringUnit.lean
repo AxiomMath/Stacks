@@ -418,7 +418,7 @@ attribute [local instance] HasDerivedCategory.standard
 variable {C : Type u} [SmallCategory C] [HasEqualizers C] [HasPullbacks C] (J : Pretopology C)
   (H : HypercoveringOfTerminal.{u, u} J)
 
-/-- **Stacks 0D8G**, granted the one input the library does not have. For a site `C` with
+/-- The form of Stacks 0D8G taking the `Ra_*`-acyclicity input as a hypothesis. For a site `C` with
 equalizers and fibre products, a hypercovering `K` of it, and the augmentation
 `a : Sh((C/K)_total) ⟶ Sh(C)` of Stacks 0D8B, the canonical map `E ⟶ R a_* a⁻¹ E` is an
 isomorphism for every object `E` of the unbounded derived category of abelian sheaves on `C`.
@@ -434,13 +434,9 @@ Stacks 0D8E in its abelian form for this very augmentation. The one hypothesis l
 `.inverseImageComputesDerivedPushforward_of_hypercoveringOfTerminal`, and
 `CategoryTheory.SimplicialSemiRepresentable`
 `.isIso_derivedAugmentationUnit_app_of_hypercovering_unconditional` is this statement with it
-discharged. It remains a binder here only because that proof rests on the resolution of
-Stacks 0D78 and on Stacks 01GE, which sit far above this module in the import order; this module
-defines `InverseImageComputesDerivedPushforward` itself. -/
-@[stacks 0D8G "the Ra_*-acyclicity of a⁻¹ of a K-injective complex taken as an explicit input; it
-is discharged for a hypercovering in
-...SimplicialSemiRepresentable.isIso_derivedAugmentationUnit_app_of_hypercovering_unconditional,
-which carries the tag unconditionally"]
+discharged; that theorem carries the Stacks 0D8G registration. It remains a binder here only
+because that proof rests on the resolution of Stacks 0D78 and on Stacks 01GE, which sit far above
+this module in the import order. -/
 theorem isIso_derivedAugmentationUnit_app_of_hypercovering'
     (hacyclic : Augmentation.InverseImageComputesDerivedPushforward
       (hypercoveringSituation J H) (Cat.of C) J.toGrothendieck (hypercoveringAugmentation J H))

@@ -42,8 +42,6 @@ namespace Stacks.ClosedImmersion
 
 /-- The map of underlying topological spaces of a closed immersion of schemes remains a closed
 embedding after forgetting the scheme structure down to presheafed spaces. -/
-@[stacks 0E2K "the closed-embedding half of the closed quotient of ringed spaces underlying \
-  a closed immersion"]
 theorem isClosedEmbedding_base_toShHom {Z X : Scheme.{u}} (i : Z ⟶ X)
     [AlgebraicGeometry.IsClosedImmersion i] :
     Topology.IsClosedEmbedding
@@ -53,8 +51,6 @@ theorem isClosedEmbedding_base_toShHom {Z X : Scheme.{u}} (i : Z ⟶ X)
 
 /-- The structure-sheaf comorphism `𝒪_X ⟶ i_* 𝒪_Z` of a closed immersion of schemes is locally
 surjective. -/
-@[stacks 0E2K "the surjectivity half of the closed quotient of ringed spaces underlying a \
-  closed immersion"]
 theorem isLocallySurjective_c_toShHom {Z X : Scheme.{u}} (i : Z ⟶ X)
     [AlgebraicGeometry.IsClosedImmersion i] :
     TopCat.Presheaf.IsLocallySurjective

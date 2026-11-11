@@ -114,12 +114,14 @@ theorem mk_span_obj_le (A : Gens c K) {ν : Cardinal.{t}} (hν : ℵ₀ ≤ ν) 
     (hι : #ι ≤ ν) (hHom : ∀ i j : ι, #(c i ⟶ c j) ≤ ν)
     (hR : ∀ i : ι, #(R.obj.obj (op (c i))) ≤ ν) (n : ℤ) (i : ι) :
     #((span A n).obj (op (c i))) ≤ ν := by
+  rw [span_obj]
   refine mk_span_le _ hν (hR i) ?_
   let D := Σ (i' : ι), Σ (_ : {s : (K.X n).val.obj (op (c i')) // ⟨n, i', s⟩ ∈ A}),
     (c i ⟶ c i')
   let F : D → (K.X n).val.obj (op (c i)) := fun d => (K.X n).val.map d.2.2.op d.2.1.1
   have hsub : genSet A n (op (c i)) ⊆ Set.range F := by
-    rintro x ⟨i', s, f, hs, rfl⟩
+    intro x hx
+    obtain ⟨i', s, f, hs, rfl⟩ := mem_genSet_iff.1 hx
     exact ⟨⟨i', ⟨s, hs⟩, f⟩, rfl⟩
   refine mk_le_of_subset_range hsub ?_
   refine mk_sigma_le_of_le hν hι (fun i' => mk_sigma_le_of_le hν ?_ (fun _ => hHom i i'))
@@ -134,6 +136,13 @@ def dClosure (A : Gens c K) : Gens c K :=
   A ∪ {g | ∃ (m : ℤ) (s : (K.X m).val.obj (op (c g.2.1))), ⟨m, g.2.1, s⟩ ∈ A ∧
       g.2.2 = (K.d m g.1).val.app _ s} ∪ {g | g.2.2 = 0}
 
+/-- A section over an object of the family lies in the differential closure iff it is a
+generator, the differential of a generator over the same object, or zero. -/
+theorem mk_mem_dClosure_iff {A : Gens c K} {n : ℤ} {i : ι} {x : (K.X n).val.obj (op (c i))} :
+    ⟨n, i, x⟩ ∈ dClosure A ↔ (⟨n, i, x⟩ ∈ A ∨ ∃ (m : ℤ) (s : (K.X m).val.obj (op (c i))),
+      ⟨m, i, s⟩ ∈ A ∧ x = (K.d m n).val.app (op (c i)) s) ∨ x = 0 :=
+  Iff.rfl
+
 /-- A set of generators is contained in its differential closure. -/
 theorem subset_dClosure (A : Gens c K) : A ⊆ dClosure A :=
   fun _ h => Or.inl (Or.inl h)
@@ -142,57 +151,56 @@ theorem subset_dClosure (A : Gens c K) : A ⊆ dClosure A :=
 the differential. -/
 theorem isDClosed_dClosure (A : Gens c K) : IsDClosed (dClosure A) := by
   intro m n i s hs
-  rcases hs with (hA | ⟨m', s', hs', hss'⟩) | h0
+  rw [mk_mem_dClosure_iff] at hs ⊢
+  rcases hs with (hA | ⟨m', s', -, rfl⟩) | rfl
   · exact Or.inl (Or.inr ⟨m, s, hA, rfl⟩)
   · refine Or.inr ?_
-    change (K.d m n).val.app (op (c i)) s = 0
-    change s = (K.d m' m).val.app _ s' at hss'
-    rw [hss', ← _root_.SheafOfModules.comp_val_app_apply, K.d_comp_d,
+    rw [← _root_.SheafOfModules.comp_val_app_apply, K.d_comp_d,
       _root_.SheafOfModules.zero_val_app_apply]
-  · refine Or.inr ?_
-    change (K.d m n).val.app (op (c i)) s = 0
-    change s = 0 at h0
-    rw [h0, map_zero]
+  · exact Or.inr (map_zero _)
 
 /-- The differential closure of a set of generators bounded by an infinite cardinal `ν` is bounded
 by `ν` when the family is. -/
 theorem mk_dClosure_le (A : Gens c K) {ν : Cardinal.{t}} (hν : ℵ₀ ≤ ν) (hA : #A ≤ ν)
     (hι : #ι ≤ ν) : #(dClosure A) ≤ ν := by
-  have h1 : #({g : GenType c K | ∃ (m : ℤ) (s : (K.X m).val.obj (op (c g.2.1))),
-      ⟨m, g.2.1, s⟩ ∈ A ∧ g.2.2 = (K.d m g.1).val.app _ s} : Set (GenType c K)) ≤ ν := by
-    let F : A × ULift.{t} ℤ → GenType c K := fun p =>
-      ⟨p.2.down, p.1.1.2.1, (K.d p.1.1.1 p.2.down).val.app _ p.1.1.2.2⟩
-    refine mk_le_of_subset_range (F := F) ?_ (mk_prod_le_of_le hν hA (mk_uLift_int_le hν))
-    rintro ⟨n, i, x⟩ ⟨m, s, hs, hx⟩
-    change x = (K.d m n).val.app _ s at hx
-    exact ⟨(⟨⟨m, i, s⟩, hs⟩, ⟨n⟩), by simp only [F]; rw [hx]⟩
-  have h2 : #({g : GenType c K | g.2.2 = 0} : Set (GenType c K)) ≤ ν := by
-    let F : ULift.{t} ℤ × ι → GenType c K := fun p => ⟨p.1.down, p.2, 0⟩
-    refine mk_le_of_subset_range (F := F) ?_ (mk_prod_le_of_le hν (mk_uLift_int_le hν) hι)
+  let D : A × ULift.{t} ℤ → GenType c K := fun p =>
+    ⟨p.2.down, p.1.1.2.1, (K.d p.1.1.1 p.2.down).val.app _ p.1.1.2.2⟩
+  let Z : ULift.{t} ℤ × ι → GenType c K := fun p => ⟨p.1.down, p.2, 0⟩
+  have hsub : dClosure A ⊆ A ∪ Set.range D ∪ Set.range Z := by
     rintro ⟨n, i, x⟩ hx
-    change x = 0 at hx
-    subst hx
-    exact ⟨(⟨n⟩, i), rfl⟩
-  refine (Cardinal.mk_union_le _ _).trans (Cardinal.add_le_of_le hν ?_ h2)
-  exact (Cardinal.mk_union_le _ _).trans (Cardinal.add_le_of_le hν hA h1)
+    obtain (hA | ⟨m, s, hs, rfl⟩) | rfl := mk_mem_dClosure_iff.1 hx
+    · exact Or.inl (Or.inl hA)
+    · exact Or.inl (Or.inr ⟨(⟨⟨m, i, s⟩, hs⟩, ⟨n⟩), rfl⟩)
+    · exact Or.inr ⟨(⟨n⟩, i), rfl⟩
+  refine (Cardinal.mk_le_mk_of_subset hsub).trans ((Cardinal.mk_union_le _ _).trans
+    (Cardinal.add_le_of_le hν ((Cardinal.mk_union_le _ _).trans
+      (Cardinal.add_le_of_le hν hA ?_)) ?_))
+  · exact Cardinal.mk_range_le.trans (mk_prod_le_of_le hν hA (mk_uLift_int_le hν))
+  · exact Cardinal.mk_range_le.trans (mk_prod_le_of_le hν (mk_uLift_int_le hν) hι)
 
-/-- The sections of the span, over an object of the family, which are boundaries in `K`. -/
-abbrev BoundaryIndex (A : Gens c K) :=
-  {p : Σ n : ℤ, Σ i : ι, (span A (n + 1)).obj (op (c i)) //
-    ∃ t : (K.X p.1).val.obj (op (c p.2.1)),
-      (K.d p.1 (p.1 + 1)).val.app (op (c p.2.1)) t = p.2.2.1}
+/-- A section of the span, over an object of the family, which is a boundary in `K`. -/
+structure BoundaryIndex (A : Gens c K) where
+  /-- The degree of the primitive. -/
+  deg : ℤ
+  /-- The index of the object of the family. -/
+  idx : ι
+  /-- The section of the span, in degree `deg + 1`. -/
+  sec : (span A (deg + 1)).obj (op (c idx))
+  /-- The section is a boundary. -/
+  exists_d_eq : ∃ t : (K.X deg).val.obj (op (c idx)),
+    (K.d deg (deg + 1)).val.app (op (c idx)) t = sec.1
 
 /-- **A chosen primitive of every section of the span, over an object of the family, which is a
 boundary in `K`.** -/
 def witnesses (A : Gens c K) : Gens c K :=
-  Set.range (fun x : BoundaryIndex A => (⟨x.1.1, x.1.2.1, x.2.choose⟩ : GenType c K))
+  Set.range (fun x : BoundaryIndex A => (⟨x.deg, x.idx, x.exists_d_eq.choose⟩ : GenType c K))
 
 /-- A section of the span which is a boundary has a primitive among the witnesses. -/
 theorem exists_mem_witnesses (A : Gens c K) (j : ℤ) (i : ι) (s : (K.X (j + 1)).val.obj (op (c i)))
     (hs : s ∈ (span A (j + 1)).obj (op (c i)))
     (hb : ∃ t, (K.d j (j + 1)).val.app (op (c i)) t = s) :
     ∃ t, (⟨j, i, t⟩ : GenType c K) ∈ witnesses A ∧ (K.d j (j + 1)).val.app (op (c i)) t = s :=
-  ⟨hb.choose, ⟨⟨⟨j, i, ⟨s, hs⟩⟩, hb⟩, rfl⟩, hb.choose_spec⟩
+  ⟨hb.choose, ⟨⟨j, i, ⟨s, hs⟩, hb⟩, rfl⟩, hb.choose_spec⟩
 
 /-- One enlargement step: add the primitives, then the differentials and the zero sections. -/
 def step (A : Gens c K) : Gens c K := dClosure (A ∪ witnesses A)
@@ -204,6 +212,11 @@ def seq (A₀ : Gens c K) : ℕ → Gens c K
 
 /-- **The enlargement of a set of generators**: the union of the enlargement steps. -/
 def enlargement (A₀ : Gens c K) : Gens c K := ⋃ k, seq A₀ k
+
+/-- A generator lies in the enlargement iff it lies in one of the enlargement steps. -/
+theorem mem_enlargement_iff {A₀ : Gens c K} {g : GenType c K} :
+    g ∈ enlargement A₀ ↔ ∃ k, g ∈ seq A₀ k :=
+  Set.mem_iUnion
 
 /-- Each enlargement step after the first is one step applied to the previous one. -/
 theorem seq_succ (A₀ : Gens c K) (k : ℕ) : seq A₀ (k + 1) = step (seq A₀ k) := rfl
@@ -227,7 +240,7 @@ theorem monotone_seq (A₀ : Gens c K) : Monotone (seq A₀) :=
 
 /-- The starting generators are contained in their enlargement. -/
 theorem subset_enlargement (A₀ : Gens c K) : A₀ ⊆ enlargement A₀ :=
-  fun _ h => Set.mem_iUnion.2 ⟨0, subset_dClosure _ h⟩
+  fun _ h => mem_enlargement_iff.2 ⟨0, subset_dClosure _ h⟩
 
 /-- Every enlargement step is stable under the differential. -/
 theorem isDClosed_seq (A₀ : Gens c K) : ∀ k, IsDClosed (seq A₀ k)
@@ -237,14 +250,14 @@ theorem isDClosed_seq (A₀ : Gens c K) : ∀ k, IsDClosed (seq A₀ k)
 /-- **The enlargement is stable under the differential.** -/
 theorem isDClosed_enlargement (A₀ : Gens c K) : IsDClosed (enlargement A₀) := by
   intro m n i s hs
-  obtain ⟨k, hk⟩ := Set.mem_iUnion.1 hs
-  exact Set.mem_iUnion.2 ⟨k, isDClosed_seq A₀ k m n i s hk⟩
+  obtain ⟨k, hk⟩ := mem_enlargement_iff.1 hs
+  exact mem_enlargement_iff.2 ⟨k, isDClosed_seq A₀ k m n i s hk⟩
 
 /-- The generating sections of the enlargement are the union of those of the steps. -/
 theorem genSet_enlargement (A₀ : Gens c K) (n : ℤ) (V : Cᵒᵖ) :
     genSet (enlargement A₀) n V = ⋃ k, genSet (seq A₀ k) n V := by
   ext x
-  simp only [genSet, enlargement, Set.mem_iUnion, Set.mem_ofPred_eq]
+  simp only [mem_genSet_iff, mem_enlargement_iff, Set.mem_iUnion]
   constructor
   · rintro ⟨i, s, f, ⟨k, hk⟩, rfl⟩
     exact ⟨k, i, s, f, hk, rfl⟩
@@ -254,20 +267,18 @@ theorem genSet_enlargement (A₀ : Gens c K) (n : ℤ) (V : Cᵒᵖ) :
 /-- The generating sections are monotone in the set of generators. -/
 theorem genSet_mono {A B : Gens c K} (h : A ⊆ B) (n : ℤ) (V : Cᵒᵖ) :
     genSet A n V ⊆ genSet B n V := by
-  rintro x ⟨i, s, f, hs, rfl⟩
-  exact ⟨i, s, f, h hs, rfl⟩
+  intro x hx
+  obtain ⟨i, s, f, hs, rfl⟩ := mem_genSet_iff.1 hx
+  exact mem_genSet_iff.2 ⟨i, s, f, h hs, rfl⟩
 
 /-- A section of the span of the enlargement lies in the span of one of the steps. -/
 theorem exists_mem_span_seq (A₀ : Gens c K) {n : ℤ} {V : Cᵒᵖ} {x : (K.X n).val.obj V}
     (hx : x ∈ (span (enlargement A₀) n).obj V) : ∃ k, x ∈ (span (seq A₀ k) n).obj V := by
-  have key : (span (enlargement A₀) n).obj V =
-      ⨆ k, Submodule.span (R.obj.obj V) (genSet (seq A₀ k) n V) := by
-    change Submodule.span _ _ = _
-    rw [genSet_enlargement, Submodule.span_iUnion]
   have hmono : Monotone (fun k => Submodule.span (R.obj.obj V) (genSet (seq A₀ k) n V)) :=
     fun a b hab => Submodule.span_mono (genSet_mono (monotone_seq A₀ hab) n V)
-  rw [key] at hx
-  exact (Submodule.mem_iSup_of_directed _ hmono.directed_le).1 hx
+  simp only [span_obj] at hx ⊢
+  rwa [genSet_enlargement, Submodule.span_iUnion,
+    Submodule.mem_iSup_of_directed _ hmono.directed_le] at hx
 
 /-- **Every section of the span of the enlargement over an object of the family which is a
 boundary in `K` is the boundary of a section of the local closure.** -/
@@ -278,7 +289,7 @@ theorem exists_mem_closure_d_eq_of_enlargement (A₀ : Gens c K) (j n : ℤ) (hj
   subst hjn
   obtain ⟨k, hk⟩ := exists_mem_span_seq A₀ hs
   obtain ⟨t, ht, hdt⟩ := exists_mem_witnesses (seq A₀ k) j i s hk hb
-  refine ⟨t, mem_closure_of_mem _ (Set.mem_iUnion.2 ⟨k + 1, ?_⟩), hdt⟩
+  refine ⟨t, mem_closure_of_mem _ (mem_enlargement_iff.2 ⟨k + 1, ?_⟩), hdt⟩
   rw [seq_succ]
   exact witnesses_subset_step _ ht
 
@@ -287,13 +298,15 @@ section Bounds
 variable {ν : Cardinal.{t}} (hν : ℵ₀ ≤ ν) (hι : #ι ≤ ν) (hHom : ∀ i j : ι, #(c i ⟶ c j) ≤ ν)
   (hR : ∀ i : ι, #(R.obj.obj (op (c i))) ≤ ν)
 
+include hν hι hHom hR in
 /-- The witnesses of a set of generators bounded by `ν` are bounded by `ν`. -/
-theorem mk_witnesses_le (hν : ℵ₀ ≤ ν) (hι : #ι ≤ ν) (hHom : ∀ i j : ι, #(c i ⟶ c j) ≤ ν)
-    (hR : ∀ i : ι, #(R.obj.obj (op (c i))) ≤ ν) (A : Gens c K) (hA : #A ≤ ν) :
-    #(witnesses A) ≤ ν := by
-  refine Cardinal.mk_range_le.trans ((Cardinal.mk_subtype_le _).trans ?_)
-  exact mk_sigma_int_le hν (fun n => mk_sigma_le_of_le hν hι
-    (fun i => mk_span_obj_le A hν hA hι hHom hR (n + 1) i))
+theorem mk_witnesses_le (A : Gens c K) (hA : #A ≤ ν) : #(witnesses A) ≤ ν := by
+  refine Cardinal.mk_range_le.trans ((Cardinal.mk_le_of_injective (f := fun x : BoundaryIndex A =>
+    (⟨x.deg, x.idx, x.sec⟩ : Σ n : ℤ, Σ i : ι, (span A (n + 1)).obj (op (c i)))) ?_).trans ?_)
+  · rintro ⟨_, _, _, _⟩ ⟨_, _, _, _⟩ ⟨⟩
+    rfl
+  · exact mk_sigma_int_le hν (fun n => mk_sigma_le_of_le hν hι
+      (fun i => mk_span_obj_le A hν hA hι hHom hR (n + 1) i))
 
 include hν hι hHom hR in
 /-- Every enlargement step of a set of generators bounded by `ν` is bounded by `ν`. -/
@@ -311,7 +324,7 @@ theorem mk_enlargement_le (A₀ : Gens c K) (hA₀ : #A₀ ≤ ν) : #(enlargeme
   refine mk_le_of_subset_range (F := F) ?_ (mk_sigma_le_of_le hν ?_ fun k =>
     mk_seq_le hν hι hHom hR A₀ hA₀ _)
   · intro g hg
-    obtain ⟨k, hk⟩ := Set.mem_iUnion.1 hg
+    obtain ⟨k, hk⟩ := mem_enlargement_iff.1 hg
     exact ⟨⟨⟨k⟩, ⟨g, hk⟩⟩, rfl⟩
   · rwa [Cardinal.mk_uLift, Cardinal.mk_nat, Cardinal.lift_aleph0]
 

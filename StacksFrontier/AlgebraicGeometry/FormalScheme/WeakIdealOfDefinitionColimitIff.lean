@@ -123,7 +123,7 @@ theorem isColimitOfThickenings_iff (𝔛 : McQuillanFormalScheme.{u}) :
 thickenings, as in Stacks 0AIU, in fppf sheaves if and only if `𝔛` has a fundamental system of
 weak ideals of definition cut out by their sections over the weakly affine formal opens. -/
 @[stacks 0AIV "h_𝔛 is a colimit of schemes along thickenings as in Lemma 0AIU (colimit in fppf \
-sheaves) if and only if there exists a fundamental system of weak ideals of definition, \
+sheaves) exactly when there exists a fundamental system of weak ideals of definition, \
 CORRECTED: the weak ideals of definition are those cut out by their sections over the affine \
 formal opens, the ones to which the correspondence ℐ ↦ (𝔛, 𝒪_𝔛/ℐ) applies (it fails for an \
 arbitrary ideal sheaf)"]

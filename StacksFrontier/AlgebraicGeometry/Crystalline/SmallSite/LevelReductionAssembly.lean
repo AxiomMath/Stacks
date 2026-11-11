@@ -69,7 +69,7 @@ of `Crystalline.levelTensorProj`, and the recipe of the tag — the field `compa
 **No `@[stacks]` attribute is placed in this module.**  [Stacks, Tag 07JG], [Stacks, Tag 07JH] and
 [Stacks, Tag 07LG] are `...SmallSite.crystalPairFunctor`,
 `...SmallSite.crystalPairFunctor_isEquivalence` and
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology`, built directly from the whole-space
+`...SmallSite.crystalPairDeRhamDerivedPlusIso`, built directly from the whole-space
 system of [Stacks, Tag 07JN] and not through the datum of this module. `Functor.IsEquivalence` of
 the functor of this module is not mentioned below; by `...SmallSite.faithful_functor07JG_iff` even
 its faithfulness is the faithfulness half of the conclusion of [Stacks, Tag 07JH], whose remaining

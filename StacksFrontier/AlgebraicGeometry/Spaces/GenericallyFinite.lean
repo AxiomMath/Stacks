@@ -94,8 +94,8 @@ shrunk, using Stacks 02NW, until both the affine atlas of the base change and it
 are finite over it; the atlas is then finite over the base change by fppf descent, so the base
 change is a scheme by Stacks 07S6 and an affine one by Stacks 01ZT, Chevalley's theorem on
 finite surjections onto a scheme. The source's own route through Stacks 07VS — affineness of
-the target of a finite surjection of algebraic spaces — is avoided, that statement not being
-available.
+the target of a finite surjection of algebraic spaces, proved in this library as
+`AlgebraicGeometry.Space.isAffineSpace_target_of_isFinite_of_isSurjective` — is not taken here.
 
 The pointed pair of étale charts at a point is produced by lifting an atlas of the target
 along the morphism (Stacks 02X1) and choosing a field-valued point of the source chart above

@@ -663,7 +663,6 @@ theorem
 /-- **Stacks 0AN5**, the implication from its condition (2) to its condition (1): if the formal
 spectrum of a continuous homomorphism of weakly admissible topological rings over `S` is
 representable by objects of the site, then it is representable by algebraic spaces over `S`. -/
-@[stacks 0AN5 "(2) implies (1)"]
 theorem isRepresentableByAlgebraicSpacesULift_formalSpectrumMap
     {A C : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
     [IsLinearTopology A A] [CommRing C] [TopologicalSpace C]

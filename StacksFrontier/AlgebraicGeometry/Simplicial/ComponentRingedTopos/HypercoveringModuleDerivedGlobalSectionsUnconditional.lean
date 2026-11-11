@@ -53,7 +53,8 @@ of the derived unit `E ⟶ Ra_*La^*E` followed by the factorisation of Stacks 08
 * `AlgebraicGeometry.RingedToposHom.derivedLinearGlobalSectionsPullbackIso`:
   `RΓ(D, E) = RΓ(C, Lf^*E)` in `D(Γ(O_D))` once `E ⟶ Rf_*Lf^*E` is invertible.
 * `Stacks.CategoryTheory.Hypercovering.derivedLinearGlobalSectionsPullbackIsoOfHypercovering`:
-  **Stacks 0DA1**.
+  **Stacks 0DA1**, under exactly the source's hypotheses. It and its `_hom_app` are the
+  declarations registered for the tag.
 * `Stacks.CategoryTheory.Hypercovering.derivedGlobalSectionsPullbackIsoOfHypercoveringOfTerminal`:
   the same isomorphism read in `D(Ab)`, the module structure of global sections forgotten. It is
   the declaration `derivedGlobalSectionsPullbackIsoOfHypercovering` of
@@ -200,7 +201,15 @@ naturally in `E` in the unbounded derived category `D(O_C)`. Here `RΓ(C, -)` ta
 `D(Γ(C, O_C))`, and the right hand side, which lives in `D(Γ((C/K)_total, O))`, is read in
 `D(Γ(C, O_C))` through restriction of scalars along the ring map `Γ(C, O_C) ⟶ Γ((C/K)_total, O)`
 induced by `a`. Nothing is assumed beyond the hypercovering conditions on `K`. The forward map is
-pinned to the canonical one by `derivedLinearGlobalSectionsPullbackIsoOfHypercovering_hom_app`. -/
+pinned to the canonical one by `derivedLinearGlobalSectionsPullbackIsoOfHypercovering_hom_app`.
+
+This is the complete statement of the tag, and it supersedes the conditional
+`derivedGlobalSectionsPullbackIsoOfHypercovering` of `HypercoveringModuleDerivedGlobalSections`,
+which no longer carries the tag: that isomorphism is read only in `D(Ab)` and takes as
+hypotheses `hunit` (the module form of Stacks 0D8E), `hacyclic` (`a^*` of a K-injective complex
+computes `Ra_*`) and `hΓ` (the underived identity `Γ(C, a_*F) = Γ((C/K)_total, F)`). All three
+are theorems, and `derivedGlobalSectionsPullbackIsoOfHypercoveringOfTerminal` below is that
+isomorphism with them supplied. -/
 @[stacks 0DA1]
 def derivedLinearGlobalSectionsPullbackIsoOfHypercovering :
     RingedTopos.derivedLinearGlobalSections

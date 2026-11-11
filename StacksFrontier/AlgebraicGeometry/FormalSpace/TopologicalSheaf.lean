@@ -21,9 +21,31 @@ public import StacksFrontier.Topology.Limits.Defs
 # Sheaves of topological spaces on a site
 
 Sheaves valued in topological spaces are the coefficient category for formal algebraic spaces
-in the sense of EGA.  This file records that such sheaves have all limits, that the inclusion
-into presheaves creates them, and that sheafification exists: every presheaf of topological
-spaces admits a weak sheafification, obtained by bounding the size of the sections.
+in the sense of EGA.  This file records the content of Stacks 0AI4 for presheaves of
+topological spaces on a site `C`:
+
+* `Sh(C, Top)` has limits, computed sectionwise, and the inclusion into presheaves creates them
+  (`CategoryTheory.Sheaf.hasLimitsOfSize`, `CategoryTheory.Sheaf.createsLimits`);
+* every map from a fixed presheaf to a sheaf factors through a subsheaf of bounded size
+  (`exists_bounded_subsheaf_factorization`, with the size `sheafSize`);
+* sheafification exists, as the left adjoint given by the adjoint functor theorem
+  (`hasWeakSheafify_topCat`);
+* for a point `p` of the site given by `u : C ⥤ Sets` (Stacks 00Y5), the presheaf
+  `U ↦ Map(u(U), M)` with the product topology is a sheaf (`isSheaf_mappingPresheaf`) and
+  `F_p = (F^#)_p` (`isIso_elementColimit_map_toSheafify_topCat`), both in
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.TopologicalSheafPoint`. These two are stated
+  directly for a functor `u` satisfying conditions (1) and (2) of Stacks 00Y5, not for Mathlib's
+  `GrothendieckTopology.Point`, which additionally assumes the category of neighbourhoods
+  cofiltered.
+
+## Implementation notes
+
+Stacks remarks that the same arguments work for presheaves of topological abelian groups,
+topological rings and topological modules. Those variants (limits, the size bound, existence of
+sheafification, the sheaf `U ↦ Map(u(U), M)` and `F_p = (F^#)_p`) are proved in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.TopologicalAlgebraicSheaf`, for Mathlib's
+`TopModuleCat R` and `TopCommRingCat` and for `TopAddCommGrpCat` (topological `ℤ`-modules), by
+the general argument of `StacksFrontier.CategoryTheory.Sites.SheafificationOfClosedSubobjects`.
 
 ## References
 
@@ -62,13 +84,6 @@ add_to_stacks 0AI4 "limits" CategoryTheory.Sheaf.createsLimits
 add_to_sga "3 IV 4.4.1" "more general" CategoryTheory.Sheaf.createsLimits
 add_to_sga "4 II 4.1" "more general" CategoryTheory.Sheaf.createsLimits
 add_to_ega "0 3.2.6" "more general" CategoryTheory.Sheaf.createsLimits
-
-end
-
-section
-
-add_to_stacks 0AI4 "point_mapping_sheaf"
-  CategoryTheory.GrothendieckTopology.Point.isSheaf_skyscraperPresheaf
 
 end
 
@@ -435,13 +450,6 @@ public noncomputable instance hasWeakSheafify_topCat :
     change (f' ≫ e.inv) ≫ (e.hom ≫ m.hom) = f
     simp [hf']
   exact isRightAdjoint_of_preservesLimits_of_solutionSetCondition G hG
-
-end
-
-section
-
-add_to_stacks 0AI4 "stalk_preservation"
-    CategoryTheory.GrothendieckTopology.Point.W_isInvertedBy_presheafFiber
 
 end
 

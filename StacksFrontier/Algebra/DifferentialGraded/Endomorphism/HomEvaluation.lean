@@ -100,9 +100,10 @@ variable {R : Type u} [CommRing R]
 
 namespace DifferentialGradedAlgebra
 
-/-- **Stacks 0FQ3.** Every left differential graded action of `A` on a complex `X` of `R`-modules
-is the action of a left differential graded `A`-module whose underlying complex is identified with
-`X`. -/
+/-- Every left differential graded action of `A` on a complex `X` of `R`-modules is the action of
+a left differential graded `A`-module whose underlying complex is identified with `X`. This is the
+existence half of Tag 0FQ3, which is stated as
+`DifferentialGraded.LeftModule.toEndomorphismHom_spec_surjective_eq_iff`. -/
 theorem LeftAction.exists_leftModule (A : DifferentialGradedAlgebra.{u, v} R)
     (X : CochainComplex (ModuleCat.{u} R) ℤ) (s : A.LeftAction X) :
     ∃ (L : DifferentialGraded.LeftModule A)

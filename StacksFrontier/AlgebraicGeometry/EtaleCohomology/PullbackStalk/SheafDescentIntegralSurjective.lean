@@ -21,16 +21,16 @@ hypothesis of that criterion.
   `AlgebraicGeometry.smallEtaleSheafDescentFunctor_isEquivalence_pullback_snd_fst_comp`: the two
   split projections along which descent is effective.
 * `AlgebraicGeometry.smallEtaleSheafDescentFunctor_isEquivalence_of_surjective_integral`: descent
-  along an integral surjection is effective, granted the dévissage of [Stacks, Tag 0GF1].
+  along an integral surjection is effective, given the dévissage of [Stacks, Tag 0GF1] as a
+  hypothesis.
 
 ## Implementation notes
 
-The dévissage of [Stacks, Tag 0GF1] is not available: the source proves it from the present
-lemma and from [Stacks, Tag 0GF0], so it cannot be used to prove the present lemma without
-circularity, and the source's own argument for the present lemma (an equalizer construction, its
-compatibility with base change, and a comparison of stalks at geometric points) is not
-formalized. It is therefore carried as an explicit hypothesis, stated for the integral branch of
-the criterion only.
+The last result takes the integral branch of the base-change criterion [Stacks, Tag 0GF1] as an
+explicit hypothesis. The form of [Stacks, Tag 0GEZ] without that hypothesis is
+`AlgebraicGeometry.smallEtaleSheafDescentFunctor_isEquivalence_of_surjective_integral_unconditional`
+in `SheafDescentIntegralSurjectiveGeneral`, stated for the canonical descent functor
+`AlgebraicGeometry.smallEtaleSheafDescentFunctorGeneral`.
 
 ## References
 
@@ -73,18 +73,6 @@ public theorem smallEtaleSheafDescentFunctor_isEquivalence_iff_pullback_fst_self
   smallEtaleSheafDescentFunctor_isEquivalence_iff_baseChange B f f (𝟙 X) (Category.id_comp f)
 
 /-- An integral surjection is an effective descent morphism for small étale sheaves. -/
-@[stacks 0GEZ "conditional.  Carried as the hypothesis `devissage`: the integral branch of the
-base-change criterion [Stacks, Tag 0GF1], namely that descent along a morphism is effective once
-it is effective after base change along a surjective integral morphism `g` and after base change
-along `pullback.fst g g ≫ g`.  Proved here: an integral surjection `f` satisfies every hypothesis
-of that criterion for the covering `g = f`, because the two base changes of `f` that occur there
-are split -- by the diagonal and by the graph of the first projection -- so that descent is
-effective along them.  NOT proved: that the source's equalizer construction is a quasi-inverse.
-The construction itself is `AlgebraicGeometry.smallEtaleDescentSheaf`, with its comparison
-`AlgebraicGeometry.smallEtaleDescentComparison`, and the stalkwise criterion [Stacks, Tag 03PU]
-is available as `AlgebraicGeometry.isIso_of_bijective_etaleStalkMap`; what is missing is the
-compatibility of the construction with base change [Stacks, Tag 0EYP], which the library carries
-only conditionally on a presentation of an integral morphism by finite ones."]
 public theorem smallEtaleSheafDescentFunctor_isEquivalence_of_surjective_integral
     (B : BigEtaleSite.{u}) {X Y : B.Scheme} (f : X ⟶ Y)
     [Surjective (B.inclusion.map f)] [IsIntegralHom (B.inclusion.map f)]

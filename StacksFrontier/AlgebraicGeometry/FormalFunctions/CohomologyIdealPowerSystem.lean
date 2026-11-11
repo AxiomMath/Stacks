@@ -32,7 +32,9 @@ consumes.
 ## Main results
 
 * `Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology`: parts (2) at `n = 0` and
-  (3) of [Stacks, Tag 02OA], granted [Stacks, Tag 02O8] in general form.
+  (3) of [Stacks, Tag 02OA], granted [Stacks, Tag 02O8] in general form. The tag itself, all five
+  parts with no hypothesis beyond the source's, is
+  `Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_of_isProper`.
 
 ## Implementation notes
 
@@ -412,17 +414,14 @@ def cohomologyIdealPowerSystem :
 module `⨁ₙ Hᵖ(X, Iⁿℱ)` is a finite module over the Rees algebra `B = ⨁ₙ Iⁿ`, the graded module
 structure being the one carried by `cohomologyIdealPowerSystem`.
 
-This is *not* proved here. Its proof in the source is [Stacks, Tag 0897] part (1) applied to the
-finite type graded `⨁ₙ Iⁿ𝒪_X`-module `⨁ₙ Iⁿℱ`, and Tag 0897 is absent from this branch (it
-rests on the coherence of higher direct images, [Stacks, Tag 02O5], which is unproved -- see the
-implementation notes of `StacksFrontier/AlgebraicGeometry/HigherDirectImageCoherent/Basic.lean`).
-What the present file supplies is that the statement is now *expressible*: before
-`cohomologyIdealPowerSystem` there was no graded `⨁ₙ Iⁿ`-module `⨁ₙ Hᵖ(X, Iⁿℱ)` in the tree to
-be finite over anything. -/
+It is not proved in this file. [Stacks, Tag 02O8] is
+`Stacks.Cohomology.FormalFunctions.isCohomologyReesFinite`, in a file importing this one,
+through [Stacks, Tag 0897] part (1) applied to the finite type graded `⨁ₙ Iⁿ𝒪_X`-module
+`⨁ₙ Iⁿℱ`. -/
 abbrev IsCohomologyReesFinite : Prop :=
   (cohomologyIdealPowerSystem I X F p).IsReesFinite
 
-/-- **[Stacks, Tag 02OA], part (2) in the case `n = 0` and part (3).**
+/-- **Part (2) in the case `n = 0` and part (3) of [Stacks, Tag 02OA], granted [Stacks, Tag 02O8].**
 
 For `A` Noetherian, `f : X → Spec A` proper and `ℱ` coherent there is one integer `c ≥ 0` such
 that
@@ -437,13 +436,13 @@ neither is the case `n > 0` of part (2), which needs a compatibility between the
 and the multiplication maps that `Stacks.RingTheory.IdealPowerSystem` deliberately does not
 assume.
 
-The hypothesis `h02O8` is [Stacks, Tag 02O8] -- a *different* Stacks tag, absent from this
-branch -- carried in general form: it is quantified over every Noetherian base ring, every
-ideal of it, every proper scheme over it, every coherent module and every degree, and is
-instantiated inside the proof at the data of this statement. See `IsCohomologyReesFinite` for
-why it is absent and what is new about its being statable. -/
-@[stacks 02OA "parts (2) at n = 0 and (3); parts (1), (4), (5) and part (2) \
-  for n > 0 are not proved here"]
+The hypothesis `h02O8` is [Stacks, Tag 02O8] carried in general form: it is quantified over
+every Noetherian base ring, every ideal of it, every proper scheme over it, every coherent
+module and every degree, and is instantiated inside the proof at the data of this statement.
+Tag 02O8 is `Stacks.Cohomology.FormalFunctions.isCohomologyReesFinite`, proved in a file that
+imports this one. [Stacks, Tag 02OA] itself, all five parts with that hypothesis discharged, is
+`Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_of_isProper`, where the tag is
+registered. -/
 theorem exists_uniform_bound_cohomology [IsNoetherianRing A]
     (hX : AlgebraicGeometry.IsProper X.hom) (hF : SheafOfModules.IsCoherent F) (p : ℕ)
     (h02O8 : ∀ (A' : Type u) [CommRing A'] [IsNoetherianRing A'] (I' : Ideal A')

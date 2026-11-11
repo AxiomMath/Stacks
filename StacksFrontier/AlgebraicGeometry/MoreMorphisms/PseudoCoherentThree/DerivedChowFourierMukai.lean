@@ -39,37 +39,38 @@ proves the comparison of [Stacks, Tag 0CSK]: for `K ∈ D(𝒪_X)` and `E ∈ D(
   the standard derived direct image and the standard derived pullback, at an open of the target
   of a morphism of schemes.  This is the step of the source proof that "forming the total direct
   image commutes with localization".
-* `AlgebraicGeometry.chowDatum_derivedPushforward_tensor_restrict_iso`: **the comparison of
-  [Stacks, Tag 0CSK]**, on the two hypotheses recorded below.
+* `AlgebraicGeometry.chowDatum_derivedPushforward_tensor_restrict_iso`: the chain of
+  isomorphisms of the source proof of [Stacks, Tag 0CSK], with the two steps described below
+  entering as arguments.
 
-## What is carried, and why
+[Stacks, Tag 0CSK] itself, at the source's hypothesis `K ∈ D_QCoh(𝒪_X)` and with every clause
+of its conclusion, is `AlgebraicGeometry.chowDatum_fourierMukai`, in
+`StacksFrontier/AlgebraicGeometry/MoreMorphisms/PseudoCoherentThree/DerivedChowFourierMukaiQCoh.lean`;
+the derived comparison there is
+`AlgebraicGeometry.chowDatum_derivedPushforward_tensor_restrict_iso_of_isDQCoh`, which supplies
+both arguments of the chain below.
 
-Two inputs of the source proof are taken as named hypotheses of
-`AlgebraicGeometry.chowDatum_derivedPushforward_tensor_restrict_iso`.  Everything else is proved.
+## The two steps taken as arguments
 
-*The projection formula for a general target complex,* `hproj`.  The source's step 4 is
-[Stacks, Tag 08EU] at the closed immersion `i : W ⟶ q ⁻¹ᵁ V`:
-`M ⊗^𝐋 Ri_*𝒪_W ≅ Ri_*(Li^*M)`.  This library carries [Stacks, Tag 08EU] only at
-`M = 𝒪[0]` — `Stacks.Cohomology.DerivedProjectionFormula.isIso_projectionFormulaMap_unitObject`,
-whose own restriction string says so — and the dévissage of a general `M` to that case is not
-available.  Since `M` here is `Lp^*K` restricted, and `K` is arbitrary, that case does not apply,
-so the isomorphism is a hypothesis.  It is stated with the direct image on the *right* of the
-tensor product, which is the orientation the source's expression `Lp^*K ⊗^𝐋 E` forces; the
-projection-formula map of [Stacks, Tag 0B53] has it on the left, so the two differ by the
-commutativity of `⊗^𝐋`, which is also not carried.
+`AlgebraicGeometry.chowDatum_derivedPushforward_tensor_restrict_iso` is stated for an arbitrary
+`K ∈ D(𝒪_X)`, and two steps of the source proof enter it as arguments; both are proved in the
+library at the source's hypotheses, in `DerivedChowFourierMukaiQCoh`.
 
-*Clause (5) of [Stacks, Tag 0CSJ] in its restricted form,* `hE`.  The lemma
-`AlgebraicGeometry.exists_chowDatum_isPseudoCoherent_of_isNoetherian` produces `E` together with
-a *global* isomorphism `E ≅ (iZ)_*𝒪_Z[0]` on `T`, which is stronger than the source's clause (5);
-what the proof uses is its restriction to `q ⁻¹ᵁ V`, namely `Lj^*E ≅ Ri_*𝒪_W[0]`.  Deducing the
-latter from the former needs three further identifications — [Stacks, Tag 08FE] at the square of
-`iZ` and the open `q ⁻¹ᵁ V`, exactness of direct image along a closed immersion, and the unit
-comparison `Lj^*(𝒪_T[0]) ≅ 𝒪_W[0]` which the 08EU file records as unavailable — so clause (5) is
-taken in the restricted form in which the source states and uses it.
+*The projection formula,* `hproj`.  The source's step 4 is [Stacks, Tag 08EU] at the closed
+immersion `i : W ⟶ q ⁻¹ᵁ V`: `M ⊗^𝐋 Ri_*𝒪_W ≅ Ri_*(Li^*M)` with `M` the restriction of `Lp^*K`.
+For `K ∈ D_QCoh(𝒪_X)` this is `AlgebraicGeometry.derivedProjectionFormulaUnitRightIso`, built
+from `Stacks.Cohomology.ProjectionFormulaQCoh.isIso_projectionFormulaMap_of_isDQCoh` and the
+commutativity and unit constraints of [Stacks, Tag 0FPT].
 
-No quasi-coherence of `K` is assumed.  The source takes `K ∈ D_QCoh(𝒪_X)`, and uses that only
-through [Stacks, Tag 08EU]; with the projection formula carried as a hypothesis the statement
-holds for an arbitrary `K ∈ D(𝒪_X)`, which is more general.
+*Clause (5) of [Stacks, Tag 0CSJ] in its restricted form,* `hE`: `Lj^*E ≅ Ri_*𝒪_W[0]`.  From
+clause (5) as [Stacks, Tag 0CSJ] states it this is
+`AlgebraicGeometry.DerivedChow.pushforwardUnitRestrictIso`, which composes
+[Stacks, Tag 08FE], the identification of direct image along an affine morphism with its derived
+direct image, and the unit comparison
+`Stacks.Cohomology.DerivedPullbackUnit.derivedPullbackUnitIso`.
+
+The chain uses the quasi-coherence of `K` nowhere else, which is why it is stated for an
+arbitrary `K`.
 
 ## Implementation notes
 
@@ -328,8 +329,10 @@ theorem chowDatumGraphIso_comp_ι (hW : (iZ ≫ p) ⁻¹ᵁ U = (iZ ≫ q) ⁻¹
 
 /-- **[Stacks, Tag 0CSK], first assertion: `U ⟶ V` is a closed immersion.**  It is the inverse of
 an isomorphism, a transport along an equality of opens, and the closed immersion `c|_V`. -/
-@[stacks 0CSK "the morphism U ⟶ V of the statement is a closed immersion; the derived \
-comparison is chowDatum_derivedPushforward_tensor_restrict_iso"]
+@[stacks 0CSK "the morphism U ⟶ V of the statement is a closed immersion; finite presentation \
+of U ⟶ V is finitePresentation_chowDatumMorphism_of_locallyOfFinitePresentation, the derived \
+comparison for K in D_QCoh(O_X) is chowDatum_derivedPushforward_tensor_restrict_iso_of_isDQCoh, \
+and the whole statement is chowDatum_fourierMukai"]
 theorem isClosedImmersion_chowDatumMorphism (hb : IsIso ((iZ ≫ p) ∣_ U))
     (hc : IsClosedImmersion ((iZ ≫ q) ∣_ V))
     (hW : (iZ ≫ p) ⁻¹ᵁ U = (iZ ≫ q) ⁻¹ᵁ V) :
@@ -339,13 +342,12 @@ theorem isClosedImmersion_chowDatumMorphism (hb : IsIso ((iZ ≫ p) ∣_ U))
   unfold chowDatumMorphism
   infer_instance
 
-/-- **[Stacks, Tag 0CSK], first assertion: `U ⟶ V` is of finite presentation.**  The two
-factorization identities show that `U ⟶ V` is a morphism over the base `S`, and
-[Stacks, Tag 02FV] then deduces finite presentation of `U ⟶ V` from finite presentation of
-`U ⟶ S` and of `V ⟶ S`. -/
-@[stacks 0CSK "the morphism U ⟶ V of the statement is of finite presentation, given that U and \
-V are of finite presentation over the base; the derived comparison is \
-chowDatum_derivedPushforward_tensor_restrict_iso"]
+/-- **`U ⟶ V` is of finite presentation when `U` and `V` are.**  The two factorization
+identities show that `U ⟶ V` is a morphism over the base `S`, and [Stacks, Tag 02FV] then
+deduces finite presentation of `U ⟶ V` from finite presentation of `U ⟶ S` and of `V ⟶ S`;
+this is the argument of the source proof of [Stacks, Tag 0CSK].  The form at the hypotheses of
+that tag, asking only local finite presentation of `X` over the base, is
+`AlgebraicGeometry.finitePresentation_chowDatumMorphism_of_locallyOfFinitePresentation`. -/
 theorem finitePresentation_chowDatumMorphism {S : Scheme.{u}} (f : X ⟶ S) (g : P ⟶ S)
     (hpq : p ≫ f = q ≫ g) (hb : IsIso ((iZ ≫ p) ∣_ U))
     (hW : (iZ ≫ p) ⁻¹ᵁ U = (iZ ≫ q) ⁻¹ᵁ V)
@@ -378,41 +380,30 @@ variable {X P T Z : Scheme.{u}} (p : T ⟶ X) (q : T ⟶ P) (iZ : Z ⟶ T) (U : 
   (E : DerivedCategory (SheafOfModules.{u} (structureSheafRing T.toRingedSpace)))
   (K : DerivedCategory (SheafOfModules.{u} (structureSheafRing X.toRingedSpace)))
 
-/-- **[Stacks, Tag 0CSK], the derived comparison.**  In the situation of Chow's lemma in the
-derived category — `p : T ⟶ X` and `q : T ⟶ P` the two projections of `T = X ×_A P`,
-`iZ : Z ⟶ T` the closed subscheme, `b = iZ ≫ p` an isomorphism over the open `U ⊆ X`,
-`c = iZ ≫ q` a closed immersion over the open `V ⊆ P`, and `b ⁻¹ᵁ U = c ⁻¹ᵁ V` — for every
-`E ∈ D(𝒪_T)` and every `K ∈ D(𝒪_X)`
+/-- **The chain of isomorphisms of the source proof of [Stacks, Tag 0CSK].**  In the situation
+of Chow's lemma in the derived category — `p : T ⟶ X` and `q : T ⟶ P` the two projections of
+`T = X ×_A P`, `iZ : Z ⟶ T` the closed subscheme, `b = iZ ≫ p` an isomorphism over the open
+`U ⊆ X`, and `b ⁻¹ᵁ U = c ⁻¹ᵁ V` for `c = iZ ≫ q` and an open `V ⊆ P` — for every
+`E ∈ D(𝒪_T)` and every `K ∈ D(𝒪_X)`, given
 
-`Rq_*(Lp^*K ⊗^𝐋 E)|_V ≅ R(c ∘ (b|_U)⁻¹)_*(K|_U)`.
+* `hE`, clause (5) of [Stacks, Tag 0CSJ] in its restricted form: the restriction of `E` to
+  `q ⁻¹ᵁ V` is the derived direct image of the structure sheaf of `W = c ⁻¹ᵁ V` along the closed
+  immersion `i = iZ ∣_ (q ⁻¹ᵁ V)`, and
+* `hproj`, [Stacks, Tag 08EU] at `i` and at the restriction of `Lp^*K`,
 
-The two hypotheses are the inputs the source cites and this library does not carry: `hE` is
-clause (5) of [Stacks, Tag 0CSJ], that the restriction of `E` to `q ⁻¹ᵁ V` is the direct image of
-the structure sheaf of `W = c ⁻¹ᵁ V` along the closed immersion `i = iZ ∣_ (q ⁻¹ᵁ V)`; and
-`hproj` is [Stacks, Tag 08EU] at `i` and at the target complex `Lp^*K` restricted, which is the
-projection formula at a *general* complex, the case the library's [Stacks, Tag 08EU] excludes.
+one has `Rq_*(Lp^*K ⊗^𝐋 E)|_V ≅ R(c ∘ (b|_U)⁻¹)_*(K|_U)`.
 
-Everything else is proved: the localization of the direct image is [Stacks, Tag 08FE], here
+Both arguments are supplied, at the source's hypothesis `K ∈ D_QCoh(𝒪_X)`, by
+`AlgebraicGeometry.chowDatum_derivedPushforward_tensor_restrict_iso_of_isDQCoh`
+(through `AlgebraicGeometry.DerivedChow.pushforwardUnitRestrictIso` and
+`AlgebraicGeometry.derivedProjectionFormulaUnitRightIso`); [Stacks, Tag 0CSK] in full is
+`AlgebraicGeometry.chowDatum_fourierMukai`.
+
+The steps of the chain: the localization of the direct image is [Stacks, Tag 08FE], here
 `AlgebraicGeometry.DerivedChow.derivedPushforwardRestrictOpenIso`; the monoidality of derived
 pullback is [Stacks, Tag 079U]; the two composition isomorphisms are [Stacks, Tag 0D5S] and
 [Stacks, Tag 0D5T]; and the final identification uses that `b|_U` is an isomorphism, so that the
 unit of the derived adjunction of [Stacks, Tag 079W] along it is invertible. -/
-@[stacks 0CSK "the derived comparison Rq_*(Lp^*K ⊗ᴸ E)|_V ≅ R(U → V)_*(K|_U), for arbitrary K in \
-D(O_X) — more general than the source, which takes K in D_QCoh(O_X) — carrying two inputs as \
-named hypotheses. (i) hproj is Tag 08EU, the projection formula, at the closed immersion \
-i : W ⟶ q⁻¹V and at a GENERAL target complex: this library carries Tag 08EU only at the unit \
-object (see the restriction on isIso_projectionFormulaMap_unitObject) and the source's \
-devissage to that case is not available; it is also stated with the direct image on the right \
-of the tensor product, so it differs from the Tag 0B53 map by the commutativity of ⊗ᴸ, which is \
-likewise not carried. (ii) hE is clause (5) of Tag 0CSJ in the restricted form the source uses, \
-that E restricted to q⁻¹V is Ri_*O_W: the library's Tag 0CSJ gives the stronger global form \
-E ≅ (iZ)_*O_Z[0], but descending it to q⁻¹V needs exactness of direct image along a closed \
-immersion and the unit comparison Lj^*(O_T[0]) ≅ O_W[0], which the Tag 08EU file records as \
-unavailable. Everything else is proved here: Tag 08FE (localization of the total direct image, \
-proved in this file for the standard functors), Tag 079U, Tags 0D5S and 0D5T, and the \
-invertibility of the derived adjunction unit along the isomorphism b|_U. The two geometric \
-assertions of the statement, that U ⟶ V is a closed immersion and is of finite presentation, \
-are isClosedImmersion_chowDatumMorphism and finitePresentation_chowDatumMorphism"]
 theorem chowDatum_derivedPushforward_tensor_restrict_iso
     (hE : (derivedPullback (ofScheme (q ⁻¹ᵁ V).ι)).obj E ≅
       (derivedPushforward (ofScheme (iZ ∣_ (q ⁻¹ᵁ V)))).obj

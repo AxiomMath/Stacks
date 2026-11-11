@@ -196,7 +196,12 @@ theorem descentEffectiveAlongProperSurjective : DescentEffectiveAlongProperSurje
 /-- Let `f : X ⟶ Y` be a morphism of algebraic spaces over `S` which is surjective and integral, or
 surjective and proper, or surjective, flat and locally of finite presentation. Then the functor
 from sheaves on the spaces-étale site of `Y` to descent data for étale sheaves with respect to
-`{X ⟶ Y}` is an equivalence of categories. -/
+`{X ⟶ Y}` is an equivalence of categories.
+
+The proof applies the three-case analysis
+`Space.isEquivalence_toDescentData_singleton_of_isSurjectiveDescentMorphism`, which is untagged,
+to Stacks 0GFV (`Space.isEquivalence_toDescentData_singleton_of_relativelyRepresentable_comp`)
+and to the proper case (`Space.descentEffectiveAlongProperSurjective`). -/
 @[stacks 0GFW]
 theorem isEquivalence_toDescentData_singleton_of_isSurjectiveIntegralProperOrFlatLfp
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)

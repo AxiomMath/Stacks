@@ -26,7 +26,7 @@ is flat over `Z`.
 
 * `AlgebraicGeometry.Space.faithfullyFlat_etaleLocalRingMap_of_isFlatAt`: the canonical
   homomorphism of étale local rings of a morphism flat *at a point* is faithfully flat there.
-  This is the pointwise form of Stacks 03MK,
+  This is the pointwise form of the corollary of Stacks 04NG and 00HR,
   `AlgebraicGeometry.Space.faithfullyFlat_etaleLocalRingMap`.
 * `AlgebraicGeometry.Space.isFlatOverAtGeometricPoint_modulePullback_iff_of_isFlatAt`:
   **Stacks 05VY, the pointwise equivalence**, at a geometric point of `X`.
@@ -108,11 +108,11 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
 
 /-! ### Faithful flatness of the étale local rings at a point of flatness -/
 
-/-- **Stacks 03MK at a point.**  The canonical homomorphism of étale local rings
+/-- **Stacks 04NG and 00HR at a point.**  The canonical homomorphism of étale local rings
 `𝒪_{G, f ∘ x̄} ⟶ 𝒪_{F, x̄}` induced by a morphism `f : F ⟶ G` of algebraic spaces which is flat
 at the image point of a geometric point `x̄` of its source is faithfully flat.
 
-It is flat by Stacks 04NG and it is a local homomorphism of local rings, so Stacks 03MK in the
+It is flat by Stacks 04NG and it is a local homomorphism of local rings, so Stacks 00HR in the
 ring-level form `RingHom.Flat.faithfullyFlat_of_isLocalHom` applies.  This is the pointwise
 refinement of `AlgebraicGeometry.Space.faithfullyFlat_etaleLocalRingMap`, which asks `f` to be
 flat everywhere. -/

@@ -65,14 +65,10 @@ public theorem exists_isAmple_of_isProjectiveMorphism {X S : Scheme.{u}} (f : X 
 
 /-! ### The hypothesis standing for Tag 02NS -/
 
-/-- **A carried hypothesis: [Stacks, Tag 02NS] for the blowup of a finite-type ideal sheaf.**
+/-- **[Stacks, Tag 02NS] for the blowup of a finite-type ideal sheaf, as a proposition.**
 The blowup morphism of a quasi-coherent ideal sheaf of finite type is quasi-projective.
 
-Its content beyond what this development has is part (2) of the tag, that `𝒪_{X'}(1)` is a
-relatively ample invertible module on the blowup: finite type and quasi-compactness come from
-properness of the blowup, which is available as
-`AlgebraicGeometry.isProper_blowUpToBase_of_fg`.  Part (2) is carried here only over an
-unconstructed twist-transition datum, which is [Stacks, Tag 01NO]. -/
+It is proved as `AlgebraicGeometry.blowUpIsQuasiProjective`. -/
 public def BlowUpIsQuasiProjective : Prop :=
   ∀ ⦃X : Scheme.{u}⦄ (I : X.IdealSheafData), Scheme.IdealSheafData.IsFiniteType I →
     IsQuasiProjective (blowUpToBase I)
@@ -86,7 +82,7 @@ public theorem isFiniteType_of_isLocallyNoetherian {X : Scheme.{u}} [IsLocallyNo
 
 /-- **The structure morphism of a sequence of normalized blowups is H-projective.**  Each stage
 carries an ample invertible module because it is H-projective over the base; over such a stage
-the blowup step is H-projective by the carried Tag 02NS, and the normalization step is
+the blowup step is H-projective by Tag 02NS, given as `h02NS`, and the normalization step is
 H-projective because it is finite. -/
 public theorem NormalizedBlowUpSeq.isProjectiveMorphism (h02NS : BlowUpIsQuasiProjective.{u})
     {S X : Scheme.{u}} {f : X ⟶ S} (hseq : NormalizedBlowUpSeq S X f)
@@ -117,10 +113,10 @@ public theorem NormalizedBlowUpSeq.isProjectiveMorphism (h02NS : BlowUpIsQuasiPr
       isProjectiveMorphism_of_isFinite _ N hNample
     exact (hnorm.comp hblow).comp ih
 
-/-! ### The hypotheses standing for Tags 0AXF (1), 02KH, 0AB7 and Step 4 of Tag 0BG0 -/
+/-! ### Propositions for Tags 0AXF (1), 02KH, 0AB7 and Step 4 of Tag 0BG0 -/
 
 open GlueingNearPoint in
-/-- **A carried hypothesis: the first conclusion of [Stacks, Tag 0AXF].**  For two modifications
+/-- **The first conclusion of [Stacks, Tag 0AXF], as a proposition.**  For two modifications
 `f : X ⟶ Spec(A)` and `g ≫ f : X' ⟶ Spec(A)` of the spectrum of a two-dimensional normal local
 Nagata domain, with `X` and `X'` normal, the Leray sequence
 `0 ⟶ H¹(X, 𝒪_X) ⟶ H¹(X', 𝒪_{X'}) ⟶ H⁰(X, R¹g_*𝒪_{X'}) ⟶ 0`
@@ -131,9 +127,8 @@ Both follow from the exactness of that one sequence, so this is a weakening of t
 conclusion, not a strengthening.  The tag's second and third conclusions are available here, as
 `topologicalKrullDim_supp_rightDerived_one_pushforward_le_zero` and
 `nonempty_generatingSections_rightDerived_one_pushforward` in the namespace
-`AlgebraicGeometry.SemistableReduction.TwoModifications`; the first is not, its right-hand
-exactness resting on [Stacks, Tag 02V7] in fibre dimension one, hence on
-[Stacks, Tags 02OD and 02O5]. -/
+`AlgebraicGeometry.SemistableReduction.TwoModifications`; this proposition is proved, for a
+two-dimensional base, as `AlgebraicGeometry.lerayFirstCohomologyExact_of_ringKrullDim_eq_two`. -/
 public def LerayFirstCohomologyExact (A : Type u) [CommRing A] [IsDomain A] : Prop :=
   ∀ ⦃X X' : Scheme.{u}⦄ (f : X ⟶ Spec (.of A)) (g : X' ⟶ X), IsNormal X → IsNormal X' →
     IsModification f → IsModification (g ≫ f) →
@@ -142,14 +137,13 @@ public def LerayFirstCohomologyExact (A : Type u) [CommRing A] [IsDomain A] : Pr
           Subsingleton (((Scheme.Modules.pushforward g).rightDerived 1).obj
             (SheafOfModules.unit X'.ringCatSheaf)).sections)
 
-/-- **A carried hypothesis: [Stacks, Tag 02KH], flat base change for the first higher direct
-image.**  If `g : X' ⟶ X` is proper and `Y` is its base change along the flat morphism
+/-- **[Stacks, Tag 02KH], flat base change for the first higher direct image, as a
+proposition.**  If `g : X' ⟶ X` is proper and `Y` is its base change along the flat morphism
 `Spec 𝒪_{X, x} ⟶ X`, then the vanishing of `R¹g_*𝒪_{X'}` forces the vanishing of
 `H¹(Y, 𝒪_Y)`: flat base change identifies the stalk of `R¹g_*𝒪_{X'}` at `x` with
 `H¹(Y, 𝒪_Y)`, the base `Spec 𝒪_{X, x}` being affine.
 
-Tag 02KH is carried in this development only in degree zero, or as a vanishing criterion for
-projective space, so it does not give this. -/
+It is proved as `AlgebraicGeometry.flatBaseChangeFirstCohomologyVanishing`. -/
 public def FlatBaseChangeFirstCohomologyVanishing : Prop :=
   ∀ ⦃X X' Y : Scheme.{u}⦄ (x : X) (g : X' ⟶ X) (p : Y ⟶ Spec (X.presheaf.stalk x))
     (q : Y ⟶ X'), IsPullback q p g (X.fromSpecStalk x) → IsProper g →
@@ -158,18 +152,18 @@ public def FlatBaseChangeFirstCohomologyVanishing : Prop :=
       IsZeroFirstStructureSheafCohomology Y
 
 open GlueingNearPoint in
-/-- **A carried hypothesis: a normal modification of a two-dimensional normal local ring is an
-isomorphism over the punctured spectrum.**  The punctured spectrum of such a ring is a
+/-- **A normal modification of a two-dimensional normal local ring is an isomorphism over the
+punctured spectrum, as a proposition.**  The punctured spectrum of such a ring is a
 one-dimensional normal scheme, over which a proper birational morphism is an isomorphism by
 [Stacks, Tag 0AB7] together with
-`AlgebraicGeometry.isIso_of_isIntegralHom_of_isBirational_of_isNormal`; neither the reduction to
-the one-dimensional case nor the gluing of the local isomorphisms is in this development.
+`AlgebraicGeometry.isIso_of_isIntegralHom_of_isBirational_of_isNormal`.  It is proved, for a
+base of dimension at most two, as `AlgebraicGeometry.normalModificationIsIsoAwayFromClosedPoint`.
 
 This is the isomorphism half of the hypothesis
 `AlgebraicGeometry.ModificationIsFinitePresentationAway` of
 `AlgebraicGeometry.definesRationalSingularity_stalk`, quantified over the base.  Its
-finite-presentation half is *not* carried: a modification is of finite type over the Noetherian
-base `Spec 𝒪_{X, x}`, hence of finite presentation, and that is proved below. -/
+finite-presentation half is not part of this proposition: a modification is of finite type over
+the Noetherian base `Spec 𝒪_{X, x}`, hence of finite presentation, and that is proved below. -/
 public def NormalModificationIsIsoAwayFromClosedPoint (A : Type u) [CommRing A]
     [IsDomain A] : Prop :=
   ∀ ⦃X : Scheme.{u}⦄ (f : X ⟶ Spec (.of A)), IsNormal X → IsModification f →
@@ -179,14 +173,18 @@ public def NormalModificationIsIsoAwayFromClosedPoint (A : Type u) [CommRing A]
         IsIso ((Over.pullback ((X.fromSpecStalk x) ⁻¹ᵁ puncturedOpen hx).ι).obj (Over.mk p)).hom
 
 open GlueingNearPoint in
-/-- **A carried hypothesis: Step 4 of the source's proof of [Stacks, Tag 0BG0].**  If a proper
+/-- **Step 4 of the source's proof of [Stacks, Tag 0BG0], as a proposition.**  If a proper
 morphism `g : X' ⟶ X` has a normal base change `Y` along `Spec 𝒪_{X, x} ⟶ X`, with `X` normal and
 a modification of `Spec(A)`, then `X'` is normal and `g ≫ f` is again a modification.
 
-This is the hypothesis `AlgebraicGeometry.SpreadOutIsNormalModification` of
-`AlgebraicGeometry.definesRationalSingularity_stalk`, quantified over the base.  The source's
-reason: the local rings of `X'` are those of `X` at the points outside `x` and those of `Y` at
-the points above `x`, and both `X` and `Y` are normal. -/
+This is `AlgebraicGeometry.SpreadOutIsNormalModification` quantified over the base.  As stated it
+is false, for every `A`: the source's Step 4 takes `Y` to be a normal *modification* of
+`Spec 𝒪_{X, x}`, and this proposition asks only that `Y` be normal.  For `X = Spec(A)`, `f = 𝟙`,
+`x` a closed point and `X' = Spec(A) ⊔ Spec κ(x)` mapping by the identity and the closed point,
+`g` is finite, an isomorphism over `X ∖ {x}`, and its base change
+`Y = Spec 𝒪_{X, x} ⊔ Spec κ(x)` is normal, but `X'` is not integral.  The form of Step 4 that
+asks, as the source does, that `Y ⟶ Spec 𝒪_{X, x}` be a modification is
+`AlgebraicGeometry.isNormal_and_isModification_of_isPullback_fromSpecStalk`. -/
 public def SpreadOutIsNormalModificationOverSpec (A : Type u) [CommRing A] [IsDomain A] : Prop :=
   ∀ ⦃X : Scheme.{u}⦄ (f : X ⟶ Spec (.of A)), IsNormal X → IsModification f →
     ∀ (x : X) (hx : IsClosed ({x} : Set X)),
@@ -251,41 +249,34 @@ public def vanishingSituationOfModification (A : Type u) [CommRing A] [IsLocalRi
 
 /-! ### Tag 0B4P -/
 
-/-- **Stacks Project, Tag 0B4P.**  Let `A` be a local normal Nagata domain of dimension two for
-which reduction to rational singularities is possible.  Then there is a finite sequence of
-normalized blowups at closed points `X = Xₙ → ⋯ → X₁ → X₀ = Spec(A)` whose total space `X` is
-normal, whose structure morphism is a projective modification, and such that the local ring of
-`X` at every closed point defines a rational singularity.
+/-- The argument of [Stacks, Tag 0B4P] over five propositions taken as hypotheses: for a local
+normal Nagata domain `A` of dimension two for which reduction to rational singularities is
+possible, there is a finite sequence of normalized blowups at closed points
+`X = Xₙ → ⋯ → X₁ → X₀ = Spec(A)` whose total space `X` is normal, whose structure morphism is a
+projective modification, and such that the local ring of `X` at every closed point defines a
+rational singularity.
 
-What is proved here is the shape of the source's argument.  Step 1 is
-`AlgebraicGeometry.exists_maximal_length_normal_modification`; Step 2 replaces the maximal
-modification by a sequence of normalized blowups dominating it, which is Tag 0BBT in the form
-`AlgebraicGeometry.exists_normalizedBlowUpSeq_isModification_dominating`, and the replacement
-stays maximal because the first cohomology injects along the domination.  Step 3 fixes a closed
-point `x` of the sequence and a normal modification `Y ⟶ Spec 𝒪_{X, x}`, spreads it out to a
-proper `g : X' ⟶ X` which is an isomorphism away from `x` — Tag 0B3X, available unconditionally
-as `AlgebraicGeometry.exists_isPullback_fromSpecStalk_of_isProper` — and concludes from
-maximality that the Leray map `H¹(X, 𝒪_X) ⟶ H¹(X', 𝒪_{X'})` is onto, so that `R¹g_*𝒪_{X'}` has
-no global sections; being generated by global sections, by the third conclusion of Tag 0AXF, it
-vanishes, and flat base change carries the vanishing to `Y`.  The projectivity clause is proved
-in full from the carried Tag 02NS, through the H-forms of Tags 0BCL (2), 087S (2) and 01WE, all
-of which are unconditional here. -/
-@[stacks 0B4P "the whole conclusion — the sequence, its normality, its being a modification, its \
-H-projectivity, and the rational singularity of the local ring at every closed point — over five \
-named hypotheses, none of them this tag.  `LerayFirstCohomologyExact` is the first conclusion of \
-Tag 0AXF, the Leray short exact sequence, absent from this development because its right-hand \
-exactness rests on Tag 02V7 in fibre dimension one and hence on Tags 02OD and 02O5.  \
-`FlatBaseChangeFirstCohomologyVanishing` is Tag 02KH for the first higher direct image, carried \
-here only in degree zero or as a vanishing criterion for projective space.  \
-`BlowUpIsQuasiProjective` is Tag 02NS, whose missing content is part (2), relative ampleness of \
-the twist, carried here only over an unconstructed twist-transition datum, Tag 01NO.  \
-`NormalModificationIsIsoAwayFromClosedPoint` and `SpreadOutIsNormalModificationOverSpec` are the \
-isomorphism halves of the hypotheses `ModificationIsFinitePresentationAway` and \
-`SpreadOutIsNormalModification` of `definesRationalSingularity_stalk`, quantified over the base: \
-Tag 0AB7 at the punctured spectrum \
-of a two-dimensional normal local ring, and Step 4 of the source's proof of Tag 0BG0.  Proved: \
-Step 1, the domination of Tag 0BBT, the maximality transfer, the spreading out of Tag 0B3X, the \
-third conclusion of Tag 0AXF, and the entire projectivity clause"]
+Step 1 is `AlgebraicGeometry.exists_maximal_length_normal_modification`; Step 2 replaces the
+maximal modification by a sequence of normalized blowups dominating it, which is Tag 0BBT in the
+form `AlgebraicGeometry.exists_normalizedBlowUpSeq_isModification_dominating`, and the
+replacement stays maximal because the first cohomology injects along the domination.  Step 3
+fixes a closed point `x` of the sequence and a normal modification `Y ⟶ Spec 𝒪_{X, x}`, spreads
+it out to a proper `g : X' ⟶ X` which is an isomorphism away from `x` (Tag 0B3X, as
+`AlgebraicGeometry.exists_isPullback_fromSpecStalk_of_isProper`) and concludes from maximality
+that the Leray map `H¹(X, 𝒪_X) ⟶ H¹(X', 𝒪_{X'})` is onto, so that `R¹g_*𝒪_{X'}` has no global
+sections; being generated by global sections, by the third conclusion of Tag 0AXF, it vanishes,
+and flat base change carries the vanishing to `Y`.
+
+The hypotheses `h0AXF`, `h02KH`, `h02NS` and `h0AB7` are proved in this development, as
+`AlgebraicGeometry.lerayFirstCohomologyExact_of_ringKrullDim_eq_two`,
+`AlgebraicGeometry.flatBaseChangeFirstCohomologyVanishing`,
+`AlgebraicGeometry.blowUpIsQuasiProjective` and
+`AlgebraicGeometry.normalModificationIsIsoAwayFromClosedPoint`; [Stacks, Tag 0B4P] itself is
+`AlgebraicGeometry.exists_normalizedBlowUpSeq_definesRationalSingularity_stalk_unconditional`,
+which discharges them and replaces `hStep4` by
+`AlgebraicGeometry.isNormal_and_isModification_of_isPullback_fromSpecStalk`.  The hypothesis
+`hStep4` is false as stated (see `AlgebraicGeometry.SpreadOutIsNormalModificationOverSpec`), so
+this theorem records the shape of the argument and is not a proof of the tag. -/
 public theorem exists_normalizedBlowUpSeq_definesRationalSingularity_stalk
     (A : Type u) [CommRing A] [IsLocalRing A] [IsNormalDomain A]
     (hNagata : IsNagataRing A) (hdim : ringKrullDim A = 2)

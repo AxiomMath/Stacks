@@ -316,8 +316,8 @@ lemma α'_g' : X.α' ≫ X.g' = 0 := by
 @[reassoc (attr := simp)]
 lemma g'_f' : X.g' ≫ X.f' = 0 := by
   rw [← cancel_mono (Abelian.image.ι X.α.asHom),
-    ← cancel_epi (Abelian.factorThruImage X.α.asHom), assoc, factorThruImage_g'_assoc,
-    liftCycles_homologyπ_f'_ι, X.g_f, zero_comp, comp_zero]
+    ← cancel_epi (Abelian.factorThruImage X.α.asHom), assoc,
+    factorThruImage_g'_assoc, liftCycles_homologyπ_f'_ι, X.g_f, zero_comp, comp_zero]
 
 /-- `α' ∘ f' = 0`, since `α ∘ f = 0`. -/
 @[reassoc (attr := simp)]

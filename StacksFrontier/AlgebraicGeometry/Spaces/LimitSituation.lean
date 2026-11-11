@@ -14,9 +14,10 @@ algebraic spaces over `S` with affine transition morphisms whose stages are quas
 and quasi-separated, its limit `X`, and a chosen index `0`. This file records that situation
 as a structure, together with the facts about it that follow from Stacks 07SF.
 
-It also proves part (3) of Stacks 01Z4, the descent of a covering by opens along a limit of
-schemes with affine transition morphisms, which is the part of that tag neither Mathlib nor
-this development carried.
+It also proves parts (2) and (3) of Stacks 01Z4 in the form the source states them: the
+descent of an equality of inverse images of quasi-compact opens given at two different stages,
+and the descent of a covering by opens, along a limit of schemes with affine transition
+morphisms.
 
 ## Main definitions
 
@@ -30,6 +31,9 @@ this development carried.
 
 ## Main results
 
+* `AlgebraicGeometry.exists_map_preimage_eq_map_preimage_of_preimage_eq` is **part (2) of
+  Stacks 01Z4**: quasi-compact opens of two stages `X_i` and `X_{i'}` with the same inverse
+  image in the limit have the same inverse image in some stage mapping to both.
 * `AlgebraicGeometry.exists_iSup_map_preimage_eq_top` is **part (3) of Stacks 01Z4**: if the
   inverse images in the limit of a family of opens of one stage cover the limit, then their
   inverse images in some earlier stage cover that stage.
@@ -42,11 +46,16 @@ this development carried.
 
 ## Implementation notes
 
-*Part (3) of Stacks 01Z4.* Mathlib carries parts (1) and (2) of that tag, as
-`AlgebraicGeometry.exists_preimage_eq` and
-`AlgebraicGeometry.exists_map_preimage_eq_map_preimage`, and
-`AlgebraicGeometry.exists_preimage_eq'` and `AlgebraicGeometry.exists_map_eq_top'` carry the
-same content with the index morphism universe freed. Part (3) is an immediate consequence of
+*Parts (2) and (3) of Stacks 01Z4.* Mathlib carries part (1) of that tag as
+`AlgebraicGeometry.exists_preimage_eq`, and tags part (2) on
+`AlgebraicGeometry.exists_map_preimage_eq_map_preimage`, whose two opens lie in one stage,
+while the source allows two stages `i` and `i'`. The two-stage statement follows by first
+pulling both opens back to a common stage below `i` and `i'`, where they stay quasi-compact
+because affine morphisms are quasi-compact; it is
+`AlgebraicGeometry.exists_map_preimage_eq_map_preimage_of_preimage_eq` below.
+`AlgebraicGeometry.exists_preimage_eq'`, `AlgebraicGeometry.exists_map_preimage_eq_map_preimage'`
+and `AlgebraicGeometry.exists_map_eq_top'` carry the Mathlib content with the index morphism
+universe freed. Part (3) is an immediate consequence of
 `AlgebraicGeometry.exists_map_eq_top'`, since a preimage of opens commutes with suprema, so a
 family covers exactly when its supremum is everything, and the statement for one open is the
 statement for a family. Mathlib tags parts (1) and (2) but leaves `exists_map_eq_top`
@@ -155,6 +164,31 @@ namespace AlgebraicGeometry
 
 /-! ### Descending a covering by opens along a limit of schemes -/
 
+/-- **Stacks 01Z4, part (2).** Let `X = lim X_i` be the limit of a cofiltered inverse system
+of schemes with affine transition morphisms. If quasi-compact opens `U ⊆ X_i` and
+`V ⊆ X_{i'}` have the same inverse image in `X`, then there are transition morphisms
+`X_j ⟶ X_i` and `X_j ⟶ X_{i'}` along which `U` and `V` have the same inverse image in `X_j`.
+
+The source asks the stages to be quasi-compact and quasi-separated as well (Situation 086P);
+that is not used. Both opens are first pulled back to a stage `k` mapping to `i` and `i'`
+(`CategoryTheory.IsCofilteredOrEmpty.cone_objs`), where they are again quasi-compact since affine
+morphisms are quasi-compact, and the single-stage case
+`AlgebraicGeometry.exists_map_preimage_eq_map_preimage'` applies there. -/
+@[stacks 01Z4 "(2)"]
+theorem exists_map_preimage_eq_map_preimage_of_preimage_eq {I : Type u} [Category.{v} I]
+    [IsCofiltered I] (D : I ⥤ Scheme.{u}) (c : Cone D) (hc : IsLimit c)
+    [∀ {i j : I} (f : i ⟶ j), IsAffineHom (D.map f)] {i i' : I} {U : (D.obj i).Opens}
+    {V : (D.obj i').Opens} (hU : IsCompact (U : Set (D.obj i)))
+    (hV : IsCompact (V : Set (D.obj i'))) (H : c.π.app i ⁻¹ᵁ U = c.π.app i' ⁻¹ᵁ V) :
+    ∃ (j : I) (f : j ⟶ i) (f' : j ⟶ i'), D.map f ⁻¹ᵁ U = D.map f' ⁻¹ᵁ V := by
+  obtain ⟨k, g, g', -⟩ := IsCofilteredOrEmpty.cone_objs i i'
+  have H' : c.π.app k ⁻¹ᵁ D.map g ⁻¹ᵁ U = c.π.app k ⁻¹ᵁ D.map g' ⁻¹ᵁ V := by
+    simpa only [← Scheme.Hom.comp_preimage, c.w] using H
+  obtain ⟨j, f, hj⟩ := exists_map_preimage_eq_map_preimage' D c hc
+    (QuasiCompact.isCompact_preimage _ U.isOpen hU)
+    (QuasiCompact.isCompact_preimage _ V.isOpen hV) H'
+  exact ⟨j, f ≫ g, f ≫ g', by simpa only [Functor.map_comp, Scheme.Hom.comp_preimage] using hj⟩
+
 /-- **Stacks 01Z4, part (3).** Let `X = lim X_i` be the limit of a cofiltered inverse system
 of quasi-compact schemes with affine transition morphisms. If a family of opens of a stage
 `X_i` has inverse images in `X` covering `X`, then for some transition morphism
@@ -168,7 +202,7 @@ Situation 086P provides, is that every stage is quasi-compact.
 The single-open case is Mathlib's `AlgebraicGeometry.exists_map_eq_top`, used here through
 `AlgebraicGeometry.exists_map_eq_top'`, its index-morphism-universe-free form, and the step
 from one open to a family is `AlgebraicGeometry.Scheme.Hom.preimage_iSup`. Mathlib records the
-tag for parts (1) and (2) only, on `AlgebraicGeometry.exists_preimage_eq` and
+tag for parts (1) and (2) on `AlgebraicGeometry.exists_preimage_eq` and
 `AlgebraicGeometry.exists_map_preimage_eq_map_preimage`; its `exists_map_eq_top` carries no
 tag, so part (3) is recorded here. -/
 @[stacks 01Z4 "(3)"]

@@ -97,8 +97,9 @@ the whole statement is the completion of one isomorphism of uncompleted divided 
   envelope.
 
 No tag attribute is placed.  [Stacks, Tag 07L2] is the statement about the rings, already
-tagged on `Crystalline.exists_ringEquiv_pAdicCompletedDividedPowerPolynomial`; the statement
-about the forms is a step inside the proof of [Stacks, Tag 07LG] and is not itself a tag.
+tagged on `Crystalline.existsUnique_ringEquiv_pAdicCompletedDividedPowerPolynomial_dpow`;
+the statement about the forms is a step inside the proof of [Stacks, Tag 07LG] and is not itself
+a tag.
 
 ## References
 

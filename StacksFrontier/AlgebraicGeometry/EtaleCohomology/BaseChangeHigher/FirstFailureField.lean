@@ -83,9 +83,11 @@ three of the four) arbitrary degrees, so that none of them is the conclusion of
   content of Tag 04DZ, is never proved.
 * `h09YQ` is hypothesis (2), passage to a cofiltered limit of quasi-compact quasi-separated
   bases with affine transition morphisms, and is [Stacks, Tag 09YQ] in its relative form. The
-  development has only the affine case, `Colimits/AffineEtaleCohomologyColimit.lean`, tagged
-  `09YQ "the affine case"`, and already carries the general statement as a named hypothesis
-  `h09YQ` in `CohomologicalDimensionLimits.lean`.
+  development proves the absolute form,
+  `Stacks.EtaleCohomology.SmallEtaleLimitCohomology.isCohomologyColimit_of_isLimit` in
+  `Colimits/SmallEtaleColimitUnconditional.lean`, and from it the transport of vanishing to a
+  directed limit, `AlgebraicGeometry.Scheme.subsingleton_sheafH_of_isLimit_of_forall_subsingleton`
+  in `CohomologicalDimension/DirectedLimit.lean`; the relative form needed here is not derived.
 * `hLeray` is hypothesis (3), the closed subscheme / quasi-compact open complement step, whose
   proof in the source runs through the relative Leray spectral sequence of [Stacks, Tag 0734]
   for abelian sheaves on small étale sites. The development carries that spectral sequence only

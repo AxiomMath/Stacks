@@ -30,7 +30,7 @@ whose fibre over `f x` is the single point `x`.
 
 ## References
 
-* [Stacks Project, Lemma 37.22.3 (Tag 0570)](https://stacks.math.columbia.edu/tag/0570)
+* [Stacks Project, Lemma 37.23.4 (Tag 0570)](https://stacks.math.columbia.edu/tag/0570)
 * [EGA IV, Proposition 17.16.1]
 -/
 

@@ -31,23 +31,29 @@ cartesian square together with a closed immersion into its corner, and the twist
 * `AlgebraicGeometry.Space.ProjectiveSpaceImmersion.twist`: the twist
   `L = i^* O_{P^n_Y}(1)`.
 * `AlgebraicGeometry.Space.tensorPow`: the tensor powers `L^{⊗ d}` of an `𝒪_Z`-module.
-* `AlgebraicGeometry.Space.ChartwiseEventualTwistVanishing`: the hypothesis `h02O1`, the same
-  eventual vanishing after base change to an étale scheme chart of the target.
+* `AlgebraicGeometry.Space.ChartwiseEventualTwistVanishing`: the same eventual vanishing after
+  base change to every étale scheme chart of the target, with one bound for all charts.
 
 ## Main results
 
 * `AlgebraicGeometry.Space.ProjectiveSpaceImmersion.relativelyRepresentable_proj` and
   `…relativelyRepresentable_hom`: the projection `P^n_Y ⟶ Y` and the composite `f : X ⟶ Y` are
   representable.
-* `AlgebraicGeometry.Space.exists_isZero_rightDerived_modulePushforward_tensor_twist`:
-  **Stacks 08AQ, with the scheme case carried as `h02O1`.**
+* `AlgebraicGeometry.Space.exists_isZero_rightDerived_modulePushforward_tensor_twist`: the
+  étale-local reduction of the proof of Stacks 08AQ, from chartwise vanishing to vanishing of
+  `R^p f_*`.
+
+Stacks 08AQ itself is
+`AlgebraicGeometry.Space.exists_twistBound_isZero_rightDerived_modulePushforward`, in
+`StacksFrontier/AlgebraicGeometry/Spaces/ProjectiveTwistHigherDirectImageVanishingNoetherian.lean`,
+which builds on this file and proves the scheme case.
 
 ## Implementation notes
 
-*The reduction that is proved.*  The source's proof is one sentence: the assertion is étale
-local on `Y`, so one reduces to `Y` the spectrum of a Noetherian ring, where `X` is a scheme and
-Cohomology of Schemes, Lemma 30.16.2 (Stacks 02O1) applies.  The étale-local reduction is what
-is proved here, by the two inputs the source names.  Equation 69.3.0.1 (Stacks 071Z),
+*The reduction.*  The source's proof is one sentence: the assertion is étale local on `Y`, so
+one reduces to `Y` the spectrum of a Noetherian ring, where `X` is a scheme and Cohomology of
+Schemes, Lemma 30.16.2 (Stacks 02O1) applies.  The étale-local reduction is proved here, by the
+two inputs the source names.  Equation 69.3.0.1 (Stacks 071Z),
 `AlgebraicGeometry.Space.moduleHigherPushforwardChartBaseChangeIso`, identifies the restriction
 of `R^p f_*` to an étale scheme chart `V` of `Y` with `R^p f'_*` of the restriction along the
 base change `f' : V ×_Y X ⟶ V`, and a module on the small étale site of `Y` is zero as soon as
@@ -55,10 +61,9 @@ all those restrictions are, by
 `AlgebraicGeometry.Space.isZero_iff_forall_isZero_etaleModulePullback_chartToSpace`.  The two
 are combined by `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_chartwise`,
 which is the same reduction already used for Stacks 073H in
-`StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishing.lean`.  Because a single
-`d₀` has to serve every chart, the bound is quantified outside the chart in
-`ChartwiseEventualTwistVanishing`; no quasi-compactness is then needed to combine bounds, and
-none is used.
+`StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishing.lean`.  The scheme case,
+over one affine Noetherian chart (Stacks 03DW and the affine case of Stacks 02O1), is in
+`StacksFrontier/AlgebraicGeometry/Spaces/ProjectiveTwistHigherDirectImageVanishingNoetherian.lean`.
 
 *Representability is proved, not assumed.*  Stacks 071Z applies to a representable morphism, and
 the source does not pause over this.  Here it is discharged: `i` is representable because a
@@ -67,25 +72,6 @@ closed immersion of algebraic spaces is by definition
 the base change of the morphism of schemes `P^n_S ⟶ S` along `Y ⟶ S`
 (`CategoryTheory.Functor.relativelyRepresentable.map` and the base-change stability of
 representability), and representable morphisms compose.
-
-*What `h02O1` is.*  It is the conclusion after base change to an étale scheme chart of `Y`:
-there the base is a scheme, which is the situation Stacks 02O1 is about.  It is therefore the
-source's own reduction target rather than the conclusion itself; it is not, however, a small
-piece of side-work, for two reasons.  Stacks 02O1 is proved only conditionally, in
-`StacksFrontier/AlgebraicGeometry/RelativeAmpleTwistVanishing/Basic.lean`, under the hypothesis
-`Stacks.AlgebraicGeometry.RelativeAmpleTwistVanishing.VanishingOverAffineBase`, which is
-absolute Serre vanishing over an affine base; and that statement is about
-`AlgebraicGeometry.Scheme.Modules`, on the Zariski site,
-whereas the higher direct images here live on the small étale sites.  Crossing between them is
-Stacks 03DW, the keystone recorded in the implementation notes of
-`StacksFrontier/AlgebraicGeometry/Spaces/AffineHigherPushforwardVanishing.lean` and carried as
-`h03DW` there, and it is not available in this repository.  Discharging `h02O1` therefore needs
-both of those, and the hypothesis is carried rather than proved.
-
-*Where `Y` Noetherian and `F` coherent are used.*  Nowhere in the reduction; they are the
-source's hypotheses and are what would discharge `h02O1`, so they are stated.  The source states
-the conclusion for a coherent `F`, and coherence of a twist is available
-(`AlgebraicGeometry.Space.isCoherent_tensorModule`, Stacks 07UE) but is not needed here.
 
 *The twist.*  `O_{P^n_Y}(1)` is the inverse image of `O_{P^n_S}(1)` along the coordinate
 projection, so `L = i^* O_{P^n_Y}(1)` is the inverse image of
@@ -236,43 +222,36 @@ noncomputable def tensorPow {Z : AlgebraicSpaces B S hS}
 
 /-! ### Stacks 08AQ, reduced to the scheme case along étale scheme charts -/
 
-/-- The hypothesis `h02O1` of
+/-- The hypothesis of
 `AlgebraicGeometry.Space.exists_isZero_rightDerived_modulePushforward_tensor_twist`: a single
 `d₀` such that for every `d ≥ d₀`, every `p > 0` and every étale scheme chart `V` of `Y`, the
 base change `f' : V ×_Y X ⟶ V` has vanishing degree-`p` higher direct image on the restriction
 of `F ⊗ L^{⊗ d}`.
 
-Over the chart the base is a scheme, so this is the situation of Stacks 02O1; see the
-implementation notes of this file for what discharging it would take. -/
+Over the chart the base is a scheme, so this is the situation of Stacks 02O1. -/
 def ChartwiseEventualTwistVanishing {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
     (hf : yoneda.relativelyRepresentable f.hom)
     (F L : Modules.{u, u} B S hS X.1 X.2) : Prop :=
   ∃ d₀ : ℕ, ∀ d : ℕ, d₀ ≤ d → ∀ p : ℕ, 0 < p →
     ChartwiseIsZeroHigherDirectImage B S hS f hf (F ⊗ tensorPow B S hS L d) p
 
-/-- **Stacks 08AQ, with the scheme case carried as `h02O1`.**
+/-- The étale-local reduction step in the proof of Stacks 08AQ, not Stacks 08AQ itself: if the
+eventual vanishing holds after base change to every étale scheme chart of `Y`, with one bound `d₀`
+for all charts, then `R^p f_*(F ⊗ L^{⊗ d}) = 0` for all `d ≥ d₀` and all `p > 0`.
 
-Let `i : X ⟶ P^n_Y` be a closed immersion of algebraic spaces over `S` with `Y` Noetherian, let
-`f : X ⟶ Y` be the composite with the projection and let `L = i^* O_{P^n_Y}(1)`.  For a coherent
-`𝒪_X`-module `F` there is a `d₀` such that
-
-`R^p f_*(F ⊗ L^{⊗ d}) = 0` for all `d ≥ d₀` and all `p > 0`.
-
-The source's proof is the étale-local reduction on `Y`, and that is what is proved: Equation
-69.3.0.1 (Stacks 071Z) identifies the restriction of `R^p f_*` to an étale scheme chart of `Y`
-with the corresponding higher direct image of the base change, and a module on the small étale
-site of `Y` vanishes as soon as all those restrictions do.  Representability of `f`, which
+Equation 69.3.0.1 (Stacks 071Z) identifies the restriction of `R^p f_*` to an étale scheme chart
+of `Y` with the corresponding higher direct image of the base change, and a module on the small
+étale site of `Y` vanishes as soon as all those restrictions do.  Representability of `f`, which
 Stacks 071Z needs, is supplied by
-`AlgebraicGeometry.Space.ProjectiveSpaceImmersion.relativelyRepresentable_hom`.  What remains is
-the conclusion over a scheme chart, which is where the source cites Stacks 02O1; it is carried
-as `h02O1` and is not proved.  Noetherianity of `Y` and coherence of `F` are the source's
-hypotheses and are what would discharge `h02O1`; the reduction itself uses neither. -/
-@[stacks 08AQ "the étale-local reduction of the source's proof, by Stacks 071Z, with \
-representability of the composite proved; the scheme case, where the source cites Stacks 02O1, \
-is carried as the hypothesis h02O1 and is not proved — note that h02O1 is this same eventual \
-vanishing after base change to an étale scheme chart of Y, so it is the source's reduction \
-target rather than side-work, and discharging it needs both the conditional repository form of \
-Stacks 02O1 and the étale-versus-Zariski comparison Stacks 03DW"]
+`AlgebraicGeometry.Space.ProjectiveSpaceImmersion.relativelyRepresentable_hom`.
+
+Stacks 08AQ itself, with exactly the source's hypotheses, is
+`AlgebraicGeometry.Space.exists_twistBound_isZero_rightDerived_modulePushforward` in
+`StacksFrontier/AlgebraicGeometry/Spaces/ProjectiveTwistHigherDirectImageVanishingNoetherian.lean`,
+which proves the scheme case over a single affine Noetherian chart and carries no chartwise
+input.  This lemma takes the chartwise vanishing as its argument `h02O1`, which is the conclusion
+itself restated over the étale charts of `Y`; the arguments `hY` and `hF` are those of the source
+and are not used by the reduction. -/
 theorem exists_isZero_rightDerived_modulePushforward_tensor_twist
     (hZ : B.Contains (⊤_ Scheme.{u})) (n : ℕ)
     (hP : B.Contains (projectiveSpaceOver n S)) {X Y : AlgebraicSpaces B S hS}

@@ -65,10 +65,14 @@ diagrammatic order and with no sign.
 The source's "additive" is `Preadditive C`, `HasZeroObject C` and `HasBinaryBiproducts C`; the
 zero object and the biproducts are what make `K(C)` pretriangulated.
 
-The source's `K^{+}(C)`, `K^{-}(C)` and `K^b(C)` need no separate definition: each is a full
-subcategory of `K(C)` stable under the operations of a triangulated category, and the
-distinguished triangles of a full subcategory are the triangles whose image in `K(C)` is
-distinguished (tag 05RQ).
+For the source's `K^{+}(C)`, `K^{-}(C)` and `K^b(C)` (`HomotopyCategory.Plus`,
+`HomotopyCategory.Minus`, `HomotopyCategory.Bounded`), each a full triangulated subcategory of
+`K(C)` (tag 05RQ) whose distinguished triangles are the triangles with distinguished image in
+`K(C)`, the same characterization, now by termwise split exact sequences of bounded below,
+bounded above, resp. bounded complexes, is
+`HomotopyCategory.Plus.distinguished_iff_iso_trianglehOfDegreewiseSplit`,
+`HomotopyCategory.Minus.distinguished_iff_iso_trianglehOfDegreewiseSplit` and
+`HomotopyCategory.Bounded.distinguished_iff_iso_trianglehOfDegreewiseSplit`, further below.
 
 ## References
 
@@ -122,6 +126,7 @@ namespace CochainComplex
 variable {C : Type*} [Category* C] [Preadditive C] [HasBinaryBiproducts C]
 
 /-- The property of bounded cochain complexes. -/
+@[stacks 013H "(4) bounded complexes"]
 def bounded (C : Type*) [Category* C] [Preadditive C] : ObjectProperty (CochainComplex C ℤ) :=
   fun K ↦ ∃ a b, K.IsStrictlyGE a ∧ K.IsStrictlyLE b
 
@@ -131,6 +136,11 @@ lemma bounded_iff (K : CochainComplex C ℤ) :
     CochainComplex.bounded C K ↔ ∃ a b, K.IsStrictlyGE a ∧ K.IsStrictlyLE b := by
   unfold CochainComplex.bounded
   exact Iff.rfl
+
+/-- `Compᵇ(C)`: the full subcategory of `CochainComplex C ℤ` consisting of the bounded
+complexes. -/
+@[stacks 013H "(5) Compᵇ(A), the full subcategory of bounded complexes"]
+abbrev Bounded (C : Type*) [Category* C] [Preadditive C] := (bounded C).FullSubcategory
 
 end CochainComplex
 
@@ -175,7 +185,7 @@ lemma isTriangulatedClosed₃_strictMap_quotient [HasZeroObject C] [HasBinaryBip
 
 /-- The property of objects in the homotopy category represented by bounded-above
 cochain complexes. -/
-@[sga "4 XVII 2.2.10" "partial"]
+@[stacks 013H "(7) K⁻(A), as a property of objects of K(A)", sga "4 XVII 2.2.10" "partial"]
 def minus : ObjectProperty (HomotopyCategory C (.up ℤ)) :=
   (CochainComplex.minus C).strictMap (quotient _ _)
 
@@ -221,7 +231,7 @@ instance [HasZeroObject C] [HasBinaryBiproducts C] : (minus C).IsTriangulated wh
   toIsTriangulatedClosed₂ := .of_isTriangulatedClosed₃
 
 /-- The homotopy category of bounded-above cochain complexes. -/
-@[sga "4 XVII 2.2.10" "special case"]
+@[stacks 013H "(7) K⁻(A)", sga "4 XVII 2.2.10" "special case"]
 abbrev Minus := (minus C).FullSubcategory
 
 namespace Minus
@@ -233,7 +243,7 @@ end Minus
 
 /-- The property of objects in the homotopy category represented by bounded
 cochain complexes. -/
-@[sga "4 XVII 2.2.10" "partial"]
+@[stacks 013H "(7) Kᵇ(A), as a property of objects of K(A)", sga "4 XVII 2.2.10" "partial"]
 def bounded : ObjectProperty (HomotopyCategory C (.up ℤ)) :=
   (CochainComplex.bounded C).strictMap (quotient _ _)
 
@@ -281,7 +291,7 @@ instance [HasZeroObject C] [HasBinaryBiproducts C] : (bounded C).IsTriangulated 
   toIsTriangulatedClosed₂ := .of_isTriangulatedClosed₃
 
 /-- The homotopy category of bounded cochain complexes. -/
-@[sga "4 XVII 2.2.10" "special case"]
+@[stacks 013H "(7) Kᵇ(A)", sga "4 XVII 2.2.10" "special case"]
 abbrev Bounded := (bounded C).FullSubcategory
 
 namespace Bounded
@@ -647,6 +657,180 @@ end
 
 section
 
+/-!
+# Distinguished triangles of `K⁺(C)`, `K⁻(C)` and `K^b(C)`
+
+[Stacks, Tag 014Q] defines the distinguished triangles of `K(C)` as the triangles isomorphic to
+the triangle associated to a termwise split exact sequence of complexes, and gives the "same
+definition" for `K⁺(C)`, `K⁻(C)` and `K^b(C)`: there the termwise split exact sequence is one of
+bounded below, bounded above, resp. bounded complexes. This section proves that, for each of the
+three bounded homotopy categories, its distinguished triangles (those of its pretriangulated
+structure as a full triangulated subcategory of `K(C)`) are exactly the triangles isomorphic to
+the triangle associated to a termwise split exact sequence of complexes of the corresponding
+kind.
+
+An isomorphism of triangles of the full subcategory is the same as an isomorphism of their
+images in `K(C)`, the inclusion being fully faithful; the statements use the latter, which
+avoids lifting the triangle of the sequence to the subcategory.
+
+The forward direction keeps the outer terms of the triangle as they are
+(`HomotopyCategory.exists_trianglehOfDegreewiseSplit_of_distinguished`, tag 0G6C); the middle
+term of a termwise split sequence is degreewise a direct sum of the outer ones, so it is bounded
+on the same side as they are.
+-/
+
+@[expose] public section
+
+open CategoryTheory Limits Pretriangulated
+
+/-- The middle object of a split short complex is zero when its two outer objects are. -/
+lemma CategoryTheory.ShortComplex.Splitting.isZero_X₂ {D : Type*} [Category* D] [Preadditive D]
+    {S : ShortComplex D} (σ : S.Splitting) (h₁ : IsZero S.X₁) (h₃ : IsZero S.X₃) :
+    IsZero S.X₂ := by
+  rw [IsZero.iff_id_eq_zero, ← σ.id, h₁.eq_of_tgt σ.r 0, h₃.eq_of_tgt S.g 0, zero_comp,
+    zero_comp, add_zero]
+
+namespace CochainComplex
+
+variable {C : Type*} [Category* C] [Preadditive C]
+
+/-- The middle term of a termwise split exact sequence of cochain complexes is strictly `≥ a`
+when its outer terms are. -/
+lemma isStrictlyGE_X₂_of_degreewiseSplit (S : ShortComplex (CochainComplex C ℤ))
+    (σ : ∀ n, (S.map (HomologicalComplex.eval C (ComplexShape.up ℤ) n)).Splitting) (a : ℤ)
+    [S.X₁.IsStrictlyGE a] [S.X₃.IsStrictlyGE a] : S.X₂.IsStrictlyGE a := by
+  rw [isStrictlyGE_iff]
+  intro i hi
+  exact (σ i).isZero_X₂ (S.X₁.isZero_of_isStrictlyGE a i) (S.X₃.isZero_of_isStrictlyGE a i)
+
+/-- The middle term of a termwise split exact sequence of cochain complexes is strictly `≤ b`
+when its outer terms are. -/
+lemma isStrictlyLE_X₂_of_degreewiseSplit (S : ShortComplex (CochainComplex C ℤ))
+    (σ : ∀ n, (S.map (HomologicalComplex.eval C (ComplexShape.up ℤ) n)).Splitting) (b : ℤ)
+    [S.X₁.IsStrictlyLE b] [S.X₃.IsStrictlyLE b] : S.X₂.IsStrictlyLE b := by
+  rw [isStrictlyLE_iff]
+  intro i hi
+  exact (σ i).isZero_X₂ (S.X₁.isZero_of_isStrictlyLE b i) (S.X₃.isZero_of_isStrictlyLE b i)
+
+end CochainComplex
+
+namespace HomotopyCategory
+
+open CochainComplex
+
+variable {C : Type*} [Category* C] [Preadditive C] [HasZeroObject C] [HasBinaryBiproducts C]
+
+/-- A distinguished triangle of `K(C)` is isomorphic to the triangle associated to a termwise
+split exact sequence of complexes whose first and third terms are the complexes underlying the
+first and third objects of the triangle. -/
+lemma exists_iso_trianglehOfDegreewiseSplit_of_distinguished
+    (T : Triangle (HomotopyCategory C (ComplexShape.up ℤ))) (hT : T ∈ distTriang _) :
+    ∃ (S : ShortComplex (CochainComplex C ℤ))
+      (σ : ∀ n, (S.map (HomologicalComplex.eval C (ComplexShape.up ℤ) n)).Splitting),
+      S.X₁ = T.obj₁.as ∧ S.X₃ = T.obj₃.as ∧ Nonempty (T ≅ trianglehOfDegreewiseSplit S σ) := by
+  obtain ⟨X₁, X₂, X₃, a, b, c⟩ := T
+  obtain ⟨A, rfl⟩ := X₁.quotient_obj_surjective
+  obtain ⟨K, rfl⟩ := X₃.quotient_obj_surjective
+  obtain ⟨B', f, g, w, σ, e, h₁, -, -⟩ :=
+    exists_trianglehOfDegreewiseSplit_of_distinguished a b c hT
+  refine ⟨_, σ, rfl, rfl, ⟨isoTriangleOfIso₁₂ _ _ hT (trianglehOfDegreewiseSplit_distinguished _ σ)
+    (Iso.refl _) e ?_⟩⟩
+  exact h₁.trans (Category.id_comp _).symm
+
+/-- **Stacks 014Q for `K⁺(C)`.** Let `C` be an additive category. A triangle of the homotopy
+category `K⁺(C)` of bounded below complexes is distinguished if and only if it is isomorphic to
+the triangle associated to a termwise split exact sequence `0 → X^• → Y^• → Z^• → 0` of bounded
+below complexes, i.e. a short complex `S` of bounded below cochain complexes with a splitting
+`σ n` of each degreewise evaluation. The isomorphism is taken in `K(C)`, into which `K⁺(C)`
+embeds fully faithfully. -/
+@[stacks 014Q "the same definition for K⁺(A): distinguished iff isomorphic to the triangle of \
+a termwise split exact sequence of bounded below complexes"]
+theorem Plus.distinguished_iff_iso_trianglehOfDegreewiseSplit (T : Triangle (Plus C)) :
+    T ∈ distTriang (Plus C) ↔ ∃ (S : ShortComplex (CochainComplex C ℤ))
+      (σ : ∀ n, (S.map (HomologicalComplex.eval C (ComplexShape.up ℤ) n)).Splitting),
+      CochainComplex.plus C S.X₁ ∧ CochainComplex.plus C S.X₂ ∧ CochainComplex.plus C S.X₃ ∧
+        Nonempty ((Plus.ι C).mapTriangle.obj T ≅ trianglehOfDegreewiseSplit S σ) := by
+  refine ⟨fun hT ↦ ?_, fun ⟨S, σ, _, _, _, ⟨e⟩⟩ ↦
+    isomorphic_distinguished _ (trianglehOfDegreewiseSplit_distinguished S σ) _ e⟩
+  obtain ⟨S, σ, h₁, h₃, he⟩ := exists_iso_trianglehOfDegreewiseSplit_of_distinguished _ hT
+  have p₁ : CochainComplex.plus C S.X₁ := by
+    rw [h₁]; exact (plus_quotient_obj_iff _).1 T.obj₁.property
+  have p₃ : CochainComplex.plus C S.X₃ := by
+    rw [h₃]; exact (plus_quotient_obj_iff _).1 T.obj₃.property
+  obtain ⟨a₁, _⟩ := p₁
+  obtain ⟨a₃, _⟩ := p₃
+  have := S.X₁.isStrictlyGE_of_ge (min a₁ a₃) a₁ (min_le_left _ _)
+  have := S.X₃.isStrictlyGE_of_ge (min a₁ a₃) a₃ (min_le_right _ _)
+  exact ⟨S, σ, ⟨a₁, inferInstance⟩, ⟨_, isStrictlyGE_X₂_of_degreewiseSplit S σ (min a₁ a₃)⟩,
+    ⟨a₃, inferInstance⟩, he⟩
+
+/-- **Stacks 014Q for `K⁻(C)`.** Let `C` be an additive category. A triangle of the homotopy
+category `K⁻(C)` of bounded above complexes is distinguished if and only if it is isomorphic to
+the triangle associated to a termwise split exact sequence `0 → X^• → Y^• → Z^• → 0` of bounded
+above complexes, i.e. a short complex `S` of bounded above cochain complexes with a splitting
+`σ n` of each degreewise evaluation. The isomorphism is taken in `K(C)`, into which `K⁻(C)`
+embeds fully faithfully. -/
+@[stacks 014Q "the same definition for K⁻(A): distinguished iff isomorphic to the triangle of \
+a termwise split exact sequence of bounded above complexes"]
+theorem Minus.distinguished_iff_iso_trianglehOfDegreewiseSplit (T : Triangle (Minus C)) :
+    T ∈ distTriang (Minus C) ↔ ∃ (S : ShortComplex (CochainComplex C ℤ))
+      (σ : ∀ n, (S.map (HomologicalComplex.eval C (ComplexShape.up ℤ) n)).Splitting),
+      CochainComplex.minus C S.X₁ ∧ CochainComplex.minus C S.X₂ ∧ CochainComplex.minus C S.X₃ ∧
+        Nonempty ((Minus.ι C).mapTriangle.obj T ≅ trianglehOfDegreewiseSplit S σ) := by
+  refine ⟨fun hT ↦ ?_, fun ⟨S, σ, _, _, _, ⟨e⟩⟩ ↦
+    isomorphic_distinguished _ (trianglehOfDegreewiseSplit_distinguished S σ) _ e⟩
+  obtain ⟨S, σ, h₁, h₃, he⟩ := exists_iso_trianglehOfDegreewiseSplit_of_distinguished _ hT
+  have p₁ : CochainComplex.minus C S.X₁ := by
+    rw [h₁]; exact (minus_quotient_obj_iff _).1 T.obj₁.property
+  have p₃ : CochainComplex.minus C S.X₃ := by
+    rw [h₃]; exact (minus_quotient_obj_iff _).1 T.obj₃.property
+  obtain ⟨b₁, _⟩ := p₁
+  obtain ⟨b₃, _⟩ := p₃
+  have := S.X₁.isStrictlyLE_of_le b₁ (max b₁ b₃) (le_max_left _ _)
+  have := S.X₃.isStrictlyLE_of_le b₃ (max b₁ b₃) (le_max_right _ _)
+  exact ⟨S, σ, ⟨b₁, inferInstance⟩, ⟨_, isStrictlyLE_X₂_of_degreewiseSplit S σ (max b₁ b₃)⟩,
+    ⟨b₃, inferInstance⟩, he⟩
+
+/-- **Stacks 014Q for `K^b(C)`.** Let `C` be an additive category. A triangle of the homotopy
+category `K^b(C)` of bounded complexes is distinguished if and only if it is isomorphic to the
+triangle associated to a termwise split exact sequence `0 → X^• → Y^• → Z^• → 0` of bounded
+complexes, i.e. a short complex `S` of bounded cochain complexes with a splitting `σ n` of each
+degreewise evaluation. The isomorphism is taken in `K(C)`, into which `K^b(C)` embeds fully
+faithfully. -/
+@[stacks 014Q "the same definition for K^b(A): distinguished iff isomorphic to the triangle of \
+a termwise split exact sequence of bounded complexes"]
+theorem Bounded.distinguished_iff_iso_trianglehOfDegreewiseSplit (T : Triangle (Bounded C)) :
+    T ∈ distTriang (Bounded C) ↔ ∃ (S : ShortComplex (CochainComplex C ℤ))
+      (σ : ∀ n, (S.map (HomologicalComplex.eval C (ComplexShape.up ℤ) n)).Splitting),
+      CochainComplex.bounded C S.X₁ ∧ CochainComplex.bounded C S.X₂ ∧
+        CochainComplex.bounded C S.X₃ ∧
+        Nonempty ((Bounded.ι C).mapTriangle.obj T ≅ trianglehOfDegreewiseSplit S σ) := by
+  refine ⟨fun hT ↦ ?_, fun ⟨S, σ, _, _, _, ⟨e⟩⟩ ↦
+    isomorphic_distinguished _ (trianglehOfDegreewiseSplit_distinguished S σ) _ e⟩
+  obtain ⟨S, σ, h₁, h₃, he⟩ := exists_iso_trianglehOfDegreewiseSplit_of_distinguished _ hT
+  have p₁ : CochainComplex.bounded C S.X₁ := by
+    rw [h₁]; exact (bounded_quotient_obj_iff _).1 T.obj₁.property
+  have p₃ : CochainComplex.bounded C S.X₃ := by
+    rw [h₃]; exact (bounded_quotient_obj_iff _).1 T.obj₃.property
+  obtain ⟨a₁, b₁, _, _⟩ := p₁
+  obtain ⟨a₃, b₃, _, _⟩ := p₃
+  have := S.X₁.isStrictlyGE_of_ge (min a₁ a₃) a₁ (min_le_left _ _)
+  have := S.X₃.isStrictlyGE_of_ge (min a₁ a₃) a₃ (min_le_right _ _)
+  have := S.X₁.isStrictlyLE_of_le b₁ (max b₁ b₃) (le_max_left _ _)
+  have := S.X₃.isStrictlyLE_of_le b₃ (max b₁ b₃) (le_max_right _ _)
+  exact ⟨S, σ, ⟨a₁, b₁, inferInstance, inferInstance⟩,
+    ⟨_, _, isStrictlyGE_X₂_of_degreewiseSplit S σ (min a₁ a₃),
+      isStrictlyLE_X₂_of_degreewiseSplit S σ (max b₁ b₃)⟩,
+    ⟨a₃, b₃, inferInstance, inferInstance⟩, he⟩
+
+end HomotopyCategory
+
+end
+
+end
+
+section
+
 @[expose] public section
 
 set_option backward.isDefEq.respectTransparency false
@@ -750,6 +934,20 @@ structure TermwiseSplitInj (X Y : Cpx A) where
   proj_hom : ∀ n, hom.f n ≫ proj n = 0
   /-- Completeness: `id_{Y^n} = α^n ∘ retr^n + incl^n ∘ proj^n`. -/
   total : ∀ n, retr n ≫ hom.f n + proj n ≫ incl n = 𝟙 (Y.X n)
+
+/-- The underlying morphism of a `TermwiseSplitInj` is a termwise split injection in the sense
+of [Stacks, Tag 014G]: in each degree the recorded data form a biproduct bicone exhibiting
+`Y^n ≅ X^n ⊞ (compl n)` with `α^n` as the first inclusion. -/
+lemma TermwiseSplitInj.isDegreewiseSummandInclusion {X Y : Cpx A} (α : TermwiseSplitInj X Y) :
+    α.hom.IsDegreewiseSummandInclusion :=
+  (HomologicalComplex.Hom.isDegreewiseSummandInclusion_iff α.hom).2 fun n => by
+    let b : Limits.BinaryBicone (X.X n) (α.compl n) :=
+      { pt := Y.X n, fst := α.retr n, snd := α.proj n, inl := α.hom.f n, inr := α.incl n
+        inl_fst := α.retr_hom n, inl_snd := α.proj_hom n, inr_fst := α.retr_incl n
+        inr_snd := α.proj_incl n }
+    refine ⟨α.compl n,
+      Limits.biprod.uniqueUpToIso _ _ (Limits.isBinaryBilimitOfTotal b (α.total n)), ?_⟩
+    apply Limits.biprod.hom_ext <;> simp [b, α.retr_hom n, α.proj_hom n]
 
 /-! ## Definition 4 (Termwise split exact sequence and its associated triangle, Tags 014I, 011J).
 -/
@@ -1374,3 +1572,17 @@ add_to_sga "4 XVII 1.1.1" "distinguished <=> split"
 
 add_to_sga "4½ Etat_0 1.2.4" "ρ essentially surjective"
   HomotopyCategory.distinguished_iff_iso_trianglehOfDegreewiseSplit
+
+add_to_stacks 013H "(1) Comp(A), the category of cochain complexes" CochainComplex
+
+add_to_stacks 013H "(2) bounded below complexes" CochainComplex.plus
+
+add_to_stacks 013H "(5) Comp⁺(A), the full subcategory of bounded below complexes"
+  CochainComplex.Plus
+
+add_to_stacks 013H "(6) K(A), with homotopy classes of maps as morphisms (at `ComplexShape.up ℤ`)"
+  HomotopyCategory
+
+add_to_stacks 013H "(7) K⁺(A), as a property of objects of K(A)" HomotopyCategory.plus
+
+add_to_stacks 013H "(7) K⁺(A)" HomotopyCategory.Plus

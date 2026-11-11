@@ -218,15 +218,19 @@ theorem PoincareDualityPushforwardSetup.pullback_evenCup
   simp only [ExternallyGradedAlgebra.evenCup, LinearMap.compr₂_apply]
   rw [S.pullback_degreeCast, S.pullback_mul]
 
-/-- **Stacks Project, Tag 0FGU.** Granted axiom `(C)(a)`, that `γ(f^!β) = f^*γ(β)`, and the
-diagonal description `α · β = Δ^!(α × β)` of the intersection product, axiom `(C)(c)`, that
-`γ(α · β) = γ(α) ∪ γ(β)`, is equivalent to compatibility of the cycle class map with exterior
-products, that is `γ(α × β) = pr₁^*γ(α) ∪ pr₂^*γ(β)`.
+/-- For a cycle class map `γ` from a `ChowCycleData` compatible with the Gysin pullback,
+`γ(f^!β) = f^*γ(β)`, and a product satisfying `α · β = Δ^!(α × β)`, compatibility with the
+product, `γ(α · β) = γ(α) ∪ γ(β)`, is equivalent to `γ(α × β) = pr₁^*γ(α) ∪ pr₂^*γ(β)`.
 
-This is the equivalence of the remark in the classical setting: cohomology is the graded algebra
-of a Poincaré duality setup, cycles are a `ChowCycleData`, and the exterior product is the one
-defined by `α × β = pr₁^!α · pr₂^!β`, so that identity of the remark is not a hypothesis here. -/
-@[stacks 0FGU "axiom (C)(c) as compatibility with exterior products"]
+The exterior product here is `ChowCycleData.externalProduct`, which is defined as
+`pr₁^!α · pr₂^!β`, so this is a formal equivalence over abstract cycle data and says nothing about
+the exterior product of cycles. The statements of Remark 0FGU for the actual Chow groups are
+`Stacks.Chow.codimensionIntersectionProduct_eq_codimensionGysin_diag`,
+`Stacks.Chow.codimensionExteriorProduct_eq_codimensionIntersectionProduct`,
+`Stacks.WeilCohomology.cycleClass_mul_iff_cycleClass_codimensionExteriorProduct` (for the data
+of a classical Weil cohomology theory) and
+`Stacks.WeilCohomology.WeilData.cycleClassMul_iff_cycleClass_codimensionExteriorProduct` (for
+the data of Section 45.9). -/
 theorem cycleClass_mul_iff_cycleClass_externalProduct'
     [HasBinaryProducts ((SmoothProjective k).FullSubcategory)]
     (S : PoincareDualityPushforwardSetup.{u, v, w} k F) (Ch : ChowCycleData.{u, t} k)

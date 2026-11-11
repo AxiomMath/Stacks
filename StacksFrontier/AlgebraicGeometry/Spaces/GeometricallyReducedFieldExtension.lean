@@ -22,8 +22,11 @@ at a point above it.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isGeometricallyReduced_tfae` is Stacks 0E03, the six equivalent
-  tests for geometric reducedness.
+* `AlgebraicGeometry.Space.isGeometricallyReduced_tfae`: the six equivalent tests for geometric
+  reducedness of Stacks 0E03, phrased on the base changes `U ×_{Spec k} Spec k'` of the étale
+  scheme charts `U → X`. The statement in terms of the base changes `X_{k'}` themselves is
+  `AlgebraicGeometry.Space.isGeometricallyReduced_tfae_isReduced_baseChange`, in
+  `StacksFrontier.AlgebraicGeometry.Spaces.GeometricallyReducedBaseChange`.
 * `AlgebraicGeometry.Space.isGeometricallyReducedAt_relocalizeRestrict_iff` and
   `AlgebraicGeometry.Space.isGeometricallyReduced_relocalizeRestrict_iff` are Stacks 0E04,
   the pointwise and the global invariance of geometric reducedness under a field extension.
@@ -40,13 +43,10 @@ The base change of `X` along `k ⊆ k'` is the restriction of `X` to the smaller
 A point of `X_{k'}` lies over a point of `X` when it is carried to it by
 `AlgebraicGeometry.Space.pointsOfRelocalizeRestrict`, the map `|X_{k'}| → |X|`.
 
-Reducedness of `X_{k'}` in Stacks 0E03 is stated as reducedness of the base change along
-`k ⊆ k'` of every étale scheme chart of `X`, which is what reducedness of the algebraic space
-`X_{k'}` amounts to: the étale scheme charts of `X_{k'}` are exactly the base changes of those
-of `X`. Stating it this way lets the extension field range over *all* of `Type u`, as the
-source intends, rather than only over those whose spectrum lies in the chosen big fppf site.
-The exponential characteristic is used in place of the source's `p > 0`, so the statement also
-covers characteristic zero, where it degenerates to Stacks 0E02 because `k^{1/p} = k`.
+The chart form of Stacks 0E03 reduces the statement for `X` to the scheme statement for its
+étale charts, and lets the extension field range over all of `Type u`. The exponential
+characteristic is used in place of the source's `p > 0`, so the statement also covers
+characteristic zero, where it degenerates to Stacks 0E02 because `k^{1/p} = k`.
 
 The base-changed chart of Stacks 0E04 is `U ×_{Spec k} Spec k'`, formed in the big fppf site;
 `CategoryTheory.OverShriek.restrictYonedaIso` identifies the presheaf it represents with the
@@ -74,12 +74,17 @@ namespace AlgebraicGeometry.Space
 
 /-! ### The characterizations in terms of base change -/
 
-/-- **Stacks 0E03.** Let `k` be a field of exponential characteristic `p` and let `X` be an
-algebraic space over `k`. Then `X` is geometrically reduced over `k` if and only if `X_{k'}`
-is reduced for every field extension `k'/k`, if and only if `X_{k'}` is reduced for every
-finite purely inseparable extension `k'/k`, if and only if each of `X_{k^{1/p}}`,
-`X_{k^{perf}}` and `X_{k̄}` is reduced. -/
-@[stacks 0E03]
+/-- Chart form of Stacks 0E03. Let `k` be a field of exponential characteristic `p` and let `X`
+be an algebraic space over `k`. Then `X` is geometrically reduced over `k` if and only if, for
+every étale scheme chart `U → X`, the scheme `U ×_{Spec k} Spec k'` is reduced for every field
+extension `k'/k`, if and only if this holds for every finite purely inseparable extension
+`k'/k`, if and only if it holds for each of `k' = k^{1/p}`, `k^{perf}` and `k̄`.
+
+Reducedness of the base change `X_{k'}` itself is equivalent to the chart condition by
+`AlgebraicGeometry.Space.hasEtaleLocalProperty_isReduced_relocalizeRestrict_iff`; the statement
+in terms of `X_{k'}` is `AlgebraicGeometry.Space.isGeometricallyReduced_tfae_isReduced_baseChange`.
+This form lets `k'` range over all fields of `Type u`, not only those whose spectrum lies in the
+chosen big fppf site. -/
 theorem isGeometricallyReduced_tfae (k : Type u) [Field k] (p : ℕ) [ExpChar k p]
     (B : BigFppfSite.{u}) (hk : B.Contains (Spec (.of k)))
     (X : (BigFppfOver B (Spec (.of k)) hk)ᵒᵖ ⥤ Type u)

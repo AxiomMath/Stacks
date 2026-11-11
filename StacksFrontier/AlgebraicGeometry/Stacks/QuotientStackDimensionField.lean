@@ -27,7 +27,6 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.FiniteTypeFppfDescent
 public import StacksFrontier.AlgebraicGeometry.Stacks.NoetherianAlgebraicStack
 public import StacksFrontier.AlgebraicGeometry.Stacks.PointsQuotientOfSpaceAtlas
 public import StacksFrontier.AlgebraicGeometry.Stacks.QuotientStackChartRelativeDimension
-public import StacksFrontier.AlgebraicGeometry.Stacks.QuotientStackDimension
 public import StacksFrontier.AlgebraicGeometry.Stacks.SmoothLocalMorphismEveryConverse
 public import StacksFrontier.AlgebraicGeometry.Stacks.SmoothLocalMorphismRelative
 public import StacksFrontier.AlgebraicGeometry.Stacks.SmoothQuotientStack
@@ -190,7 +189,10 @@ private theorem exists_lt_dimensionSubNat_iff (b : EInt) (d : ℕ) :
 theorem dimensionSubNat_iSup {ι : Sort v} (δ : ι → WithBot ℕ∞) (d : ℕ) :
     dimensionSubNat (⨆ i, δ i) d = ⨆ i, dimensionSubNat (δ i) d := by
   refine le_antisymm (le_iSup_iff_forall_lt.mpr fun b hb => ?_)
-    (iSup_le fun i => dimensionSubNat_mono d (le_iSup δ i))
+    (iSup_le fun i => le_of_forall_lt fun b hb => ?_)
+  swap
+  · obtain ⟨c, hc⟩ := exists_lt_dimensionSubNat_iff b d
+    exact (hc _).mpr (((hc _).mp hb).trans_le (le_iSup δ i))
   obtain ⟨c, hc⟩ := exists_lt_dimensionSubNat_iff b d
   obtain ⟨i, hi⟩ := lt_iSup_iff.mp ((hc _).mp hb)
   exact ⟨i, (hc _).mpr hi⟩

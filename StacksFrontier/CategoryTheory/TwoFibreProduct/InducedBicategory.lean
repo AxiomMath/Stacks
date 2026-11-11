@@ -37,9 +37,13 @@ sub-2-category.
 ## Main results
 
 * `CategoryTheory.Bicategory.isTwoFibreProduct_of_underlying`: a full sub-2-category inherits
-  the 2-fibre products of the ambient one (Stacks 003Q).
+  the 1-truncated 2-fibre products of the ambient one.
 * `CategoryTheory.Bicategory.isTwoFibreProduct_underlying`: the converse, in the presence of a
   witness that the cospan has a 2-fibre product of the ambient bicategory underneath it.
+* `CategoryTheory.Bicategory.isFinalTwoCommSq_of_underlying` and
+  `CategoryTheory.Bicategory.legsDetectTwoCells_of_underlying`: the same inheritance for the
+  2-fibre products of Stacks 003Q (final objects, with the uniqueness of the 2-isomorphism), and
+  for the detection of 2-cells by the two legs.
 
 ## Implementation notes
 
@@ -176,9 +180,10 @@ theorem TwoCommSq.homUnderlying_homOfUnderlying {T S : TwoCommSq f g}
     exact congrArg (_root_.Quotient.mk (TwoCommSq.PreHom.setoid T.underlying S.underlying))
       (TwoCommSq.PreHom.underlying_ofUnderlying a)
 
-/-- **A full sub-2-category inherits the 2-fibre products of the ambient one.** If the square of
-`C` underlying a 2-commutative square of an induced bicategory is a 2-fibre product
-(Stacks 003Q), then so is the square itself: the comparison morphism out of any test square is
+/-- **A full sub-2-category inherits the 1-truncated 2-fibre products of the ambient one.** If the
+square of `C` underlying a 2-commutative square of an induced bicategory is a terminal object of
+the quotient category of squares (`CategoryTheory.Bicategory.IsTwoFibreProduct`), then so is the
+square itself: the comparison morphism out of any test square is
 the one supplied downstairs, read upstairs, and it is unique because reading a morphism
 downstairs is injective. -/
 noncomputable def isTwoFibreProduct_of_underlying {P : TwoCommSq f g}
@@ -187,6 +192,40 @@ noncomputable def isTwoFibreProduct_of_underlying {P : TwoCommSq f g}
     (fun T m => by
       rw [← hP.hom_ext (TwoCommSq.homUnderlying m) (hP.from T.underlying),
         TwoCommSq.homOfUnderlying_homUnderlying])
+
+/-- The 2-morphisms of pre-morphisms of squares (Stacks 003O (4)) of an induced bicategory are
+those of the underlying pre-morphisms: the induced bicategory has all 2-morphisms of `C`. -/
+def TwoCommSq.PreHom.hom₂UnderlyingEquiv {T S : TwoCommSq f g} (a b : TwoCommSq.PreHom T S) :
+    a.Hom₂ b ≃ a.underlying.Hom₂ b.underlying where
+  toFun δ :=
+    { hom := δ.hom.hom
+      isoFst_hom_comp := congrArg InducedBicategory.Hom₂.hom δ.isoFst_hom_comp
+      isoSnd_hom_comp := congrArg InducedBicategory.Hom₂.hom δ.isoSnd_hom_comp }
+  invFun δ :=
+    { hom := InducedBicategory.mkHom₂ δ.hom
+      isoFst_hom_comp := InducedBicategory.hom₂_ext δ.isoFst_hom_comp
+      isoSnd_hom_comp := InducedBicategory.hom₂_ext δ.isoSnd_hom_comp }
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+/-- **A full sub-2-category inherits the 2-fibre products of the ambient one, in the sense of
+Stacks 003Q.** If the square of `C` underlying a 2-commutative square of an induced bicategory is
+a final object of the 2-category of 2-commutative diagrams, then so is the square itself: the
+1-morphisms and the 2-morphisms of Stacks 003O upstairs are exactly those downstairs. -/
+noncomputable def isFinalTwoCommSq_of_underlying {P : TwoCommSq f g}
+    (hP : IsFinalTwoCommSq P.underlying) : IsFinalTwoCommSq P where
+  preHom T := TwoCommSq.PreHom.ofUnderlying (hP.preHom T.underlying)
+  uniqueHom₂ a b :=
+    letI := hP.uniqueHom₂ a.underlying b.underlying
+    (TwoCommSq.PreHom.hom₂UnderlyingEquiv a b).unique
+
+/-- Detection of 2-cells by the legs passes from the square underlying a 2-commutative square of
+an induced bicategory to the square itself. -/
+theorem legsDetectTwoCells_of_underlying {P : TwoCommSq f g}
+    (hd : P.underlying.LegsDetectTwoCells) : P.LegsDetectTwoCells :=
+  fun _ a b η θ hfst hsnd => InducedBicategory.hom₂_ext
+    (hd (a := a.hom) (b := b.hom) η.hom θ.hom (congrArg InducedBicategory.Hom₂.hom hfst)
+      (congrArg InducedBicategory.Hom₂.hom hsnd))
 
 /-- **A 2-fibre product in a full sub-2-category closed under the construction has a 2-fibre
 product underneath it.** Let `P` be a 2-fibre product of a cospan of an induced bicategory and

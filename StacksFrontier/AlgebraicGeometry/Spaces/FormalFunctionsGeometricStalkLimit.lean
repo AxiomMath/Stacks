@@ -485,7 +485,9 @@ as modules over `𝒪_{Y, ȳ} ^∧`: there is an isomorphism of modules over
 whose `n`-th component on the image of the stalk is the map `(R ᵖ f_* F)_ȳ ⟶ H ᵖ (X_n, F_n)`, and
 which is linear over the completion `R ^∧`, acting on `lim_n H ᵖ (X_n, F_n)` through
 `R ^∧ ⟶ R / 𝔪 ⁿ`. -/
-@[stacks 08B1]
+@[stacks 08B1 "Y locally Noetherian, f proper, F coherent: the restriction maps assemble into \
+an isomorphism (R^p f_* F)_ȳ^∧ ≅ lim_n H^p(X_n, F_n) of modules over the completion of 𝒪_{Y,ȳ}, \
+deduced from Tag 08AZ by flat base change to Spec 𝒪_{Y,ȳ}"]
 theorem completionIsoLimitOfQuotientsOverCompletion_geometricStalk (hf : IsProper B S hS f.hom)
     (F : Modules.{u, u} B S hS X.1 X.2) (hF : IsCoherent B S hS X.1 X.2 F) (p : ℕ) :
     CompletionIsoLimitOfQuotientsOverCompletion (maximalIdeal Γ((BigFppfOver.toScheme B S hS).obj

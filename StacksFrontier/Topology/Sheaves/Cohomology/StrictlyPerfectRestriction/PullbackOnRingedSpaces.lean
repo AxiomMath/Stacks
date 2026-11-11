@@ -28,14 +28,17 @@ carries direct summands of finite free `𝒪_Y`-modules to direct summands of fi
 
 ## Implementation notes
 
-`StacksDraft.Ch20.Sec46.Tag09U6` already carries the `@[stacks 09U6]` attribute, but it is
-stated at `AlgebraicGeometry.RingedSpace.{0, 0}` and in terms of another vocabulary (the `Modules`
+This file carries the `@[stacks 09U6]` attribute. An older, self-contained universe-0
+statement, `Stacks.Cohomology.StrictlyPerfectPullback.pullback_isStrictlyPerfect` in
+`StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfectRestriction.PullbackOverASite`, is stated
+at `AlgebraicGeometry.RingedSpace.{0, 0}` and in terms of another vocabulary (the `Modules`
 and `pullback` of `StacksFrontier.Topology.Sheaves.RingedSpace.ModuleFunctors`, and
 `Stacks.Cohomology.StrictlyPerfectPullback.IsStrictlyPerfect`), none of which is
 the vocabulary of the strictly-perfect development. The consumers here need the statement at
 `RingedSpace.{u, u}` for `StrictlyPerfect.OXMod` / `StrictlyPerfect.IsStrictlyPerfect` of
-`StacksDraft.Ch20.Sec46.Tag08C5` and for `RingedSpaceModuleAdjunction.modulePullback`, so the
-lemma is reproved here against those definitions. The mathematical argument of `Tag09U6` carries
+`StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfect.FiniteFreeSummands` and for
+`RingedSpaceModuleAdjunction.modulePullback`, so the lemma is proved here against those
+definitions. The mathematical argument of the universe-0 statement carries
 over unchanged; what does not carry over is the bookkeeping, for two reasons.
 
 First, `StrictlyPerfect.finiteFree Y n` is `⨁ (fun _ : Fin n => StrictlyPerfect.structureModule Y)`
@@ -45,8 +48,8 @@ not apply directly. Instead `modulePullbackFiniteFreeIso` is assembled from
 hence preserves finite biproducts -- together with `modulePullbackStructureModuleIso`, which is
 Mathlib's `SheafOfModules.pullbackObjUnitToUnit` (an isomorphism precisely because
 `TopologicalSpace.Opens.map f.hom.base` is a final functor, which is why
-`StacksDraft.Ch20.Sec46.Tag09U6` is imported: it is the only file in scope here declaring that
-finality as an instance).
+`StacksFrontier.Topology.Sheaves.Cohomology.StrictlyPerfectRestriction.PullbackOverASite` is
+imported: it is the file in scope here declaring that finality as an instance).
 
 Second, `StrictlyPerfect.OXMod.{u} X` and `SheafOfModules.{u} (structureSheafRing X)` are equal by
 `rfl` but not by `instances`-transparency unification, and the finite-biproduct instances of
@@ -129,7 +132,13 @@ theorem isDirectSummandOfFiniteFree_modulePullback (M : OXMod.{u} Y)
 
 Boundedness is preserved because `f^*` preserves zero morphisms and so carries a zero object to a
 zero object, hence cannot create a nonzero term; the termwise condition is
-`Stacks.StrictlyPerfect.Pullback.isDirectSummandOfFiniteFree_modulePullback`. -/
+`Stacks.StrictlyPerfect.Pullback.isDirectSummandOfFiniteFree_modulePullback`.
+
+This is the full lemma: `f` is an arbitrary morphism of ringed spaces, `f^*` is the pullback of
+sheaves of modules (`f^{-1}G ⊗_{f^{-1}O_Y} O_X`), and strictly perfect is Definition 20.46.1
+(tag 08C4): finitely many nonzero terms, each a direct summand of a finite free module. -/
+@[stacks 09U6 "for every morphism of ringed spaces f : X ⟶ Y (rings and sections in one universe), \
+  the termwise pullback f^* of a strictly perfect complex of O_Y-modules is strictly perfect"]
 theorem isStrictlyPerfect_modulePullback (K : CochainComplex (OXMod.{u} Y) ℤ)
     (hK : IsStrictlyPerfect K) :
     IsStrictlyPerfect

@@ -28,7 +28,13 @@ fibres. This file proves it.
   a point of `T` at which `F_T` is flat in dimensions `≥ d` has an open neighbourhood over
   which `H_r` holds for some `r ≤ c`, which is the local surjectivity.
 * `FreeAtGenericPointsSituation.flatDimensionFunctor_iso_coproduct_freeAtGenericPointsFunctor`:
-  **Stacks 05UE**, the decomposition itself, as an isomorphism of Zariski sheaves over `S`.
+  the decomposition, as an isomorphism of Zariski sheaves over `S` out of the sheafification
+  of `F_d`.
+
+The registration of **Stacks 05UE** is
+`FreeAtGenericPointsSituation.exists_isSheaf_flatDimensionFunctor_and_iso_coproduct` in
+`StacksFrontier.AlgebraicGeometry.Flatness.Flattening.GenericRankCoproductSheaf`: the
+decomposition for `F_d` itself, which is a Zariski sheaf by Stacks 05MV.
 
 ## Implementation notes
 
@@ -286,8 +292,9 @@ isomorphism after sheafification, and sheafification preserves coproducts.
 
 Sheafifying the left-hand side too is not a weakening: `F_d` is an fpqc sheaf by Stacks 05MV,
 a fortiori a Zariski sheaf, so it is isomorphic to its own sheafification. It is written
-sheafified here only so that the statement takes no input from that tag. -/
-@[stacks 05UE]
+sheafified here only so that the statement takes no input from that tag; the Stacks 05UE
+registration is on `exists_isSheaf_flatDimensionFunctor_and_iso_coproduct` (in
+`GenericRankCoproductSheaf`), which uses that tag to state the decomposition for `F_d` itself. -/
 theorem flatDimensionFunctor_iso_coproduct_freeAtGenericPointsFunctor [IsAffine D.X]
     [IsAffine D.S] [D.F.IsFinitePresentation] {d : ℕ} (hd : RelativeDimension D.f d) :
     ∃ c : ℕ, Nonempty

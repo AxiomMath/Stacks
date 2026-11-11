@@ -62,9 +62,11 @@ because it agrees with an invertible rational map over a dense open, and
 [Stacks, Tag 0C5R](https://stacks.math.columbia.edu/tag/0C5R) then exhibits it as a sequence of
 blowups at closed points.
 
-Tag 0C5H is available in this library as
-`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap`, but only granted
-three inputs, and two of them are threaded through here as explicit hypotheses:
+Tag 0C5H is proved in this library, with every input discharged, as
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap_of_dim_two`, but that
+file depends on this one through its imports. What is used here is the argument
+`Stacks.ResolutionOfSurfaces.exists_pointBlowupChain_resolving_partialMap`, which takes three
+inputs as arguments, and two of them are threaded through here as explicit hypotheses:
 `descent`, the local splitting of [Stacks, Tag 0AGT], and `reduction`, the enlargement of the
 domain of the rational map to a cofinite open resting on
 [Stacks, Tag 0BX7](https://stacks.math.columbia.edu/tag/0BX7) bundled with the dominating

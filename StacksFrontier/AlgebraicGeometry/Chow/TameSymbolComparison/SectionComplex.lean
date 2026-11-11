@@ -13,11 +13,16 @@ Stacks 0EAY at `i = 1`,
 
 `⨁_{δ(x) = j + 2} K^M_2(κ(x)) ⟶ ⨁_{δ(x) = j + 1} K^M_1(κ(x)) ⟶ ⨁_{δ(x) = j} K^M_0(κ(x))`,
 
-are `Stacks.Chow.sectionTameArrow` (the tame symbol of Section 42.5 of the one-dimensional local
-rings `𝒪_{closure {x}, x'}`) and `Stacks.Chow.sectionOrdArrow` (their order of vanishing). The
-remark says: "When `i = 1` and `j` arbitrary, this [that the composition is zero] follows from
-Lemma 0EAX." This file proves it:
+are, in this file, `Stacks.Chow.sectionTameArrow` (built from the symbol `d_A` of Stacks 02Q1 of
+the one-dimensional local rings `𝒪_{closure {x}, x'}`) and `Stacks.Chow.sectionOrdArrow` (their
+order of vanishing). The remark says: "When `i = 1` and `j` arbitrary, this [that the composition
+is zero] follows from Lemma 0EAX." This file proves it for these arrows:
 `Stacks.Chow.sectionOrdArrow_comp_sectionTameArrow_eq_zero`.
+
+The tame symbol of Section 42.5 is the recipe of Stacks 0EAQ, not `d_A`; the two agree
+(`Stacks.Chow.regularModuleSymbol_eq_tameSymbolValue`), and the statement for the first arrow built
+from the recipe itself is `Stacks.Chow.sectionOrdArrow_comp_sectionFormulaTameArrow_eq_zero`, in
+`StacksFrontier.AlgebraicGeometry.Chow.TameSymbolComparison.FormulaArrows`.
 
 ## The argument
 
@@ -464,16 +469,22 @@ theorem finsum_sectionOrdTameTerm_eq_zero (j : ℤ)
 
 /-- **Stacks 0EAY: at `i = 1` the composition of the two displayed arrows is zero.** For a
 locally Noetherian scheme `X` with a dimension function `δ` and every `j`, the arrow
-`⨁_{δ(x) = j + 2} K^M_2(κ(x)) → ⨁_{δ(x) = j + 1} K^M_1(κ(x))` built from the tame symbols of
-Section 42.5 of the one-dimensional local rings `𝒪_{closure {x}, x'}`, followed by the arrow
+`⨁_{δ(x) = j + 2} K^M_2(κ(x)) → ⨁_{δ(x) = j + 1} K^M_1(κ(x))` built from the symbols `d_A` of
+Stacks 02Q1 of the one-dimensional local rings `𝒪_{closure {x}, x'}`, followed by the arrow
 `⨁_{δ(x) = j + 1} K^M_1(κ(x)) → ⨁_{δ(x) = j} K^M_0(κ(x))` built from their orders of vanishing, is
 zero. As the remark says, this follows from Lemma 0EAX
-(`AlgebraicGeometry.sum_localMilnorBoundaryOrder_eq_zero`). -/
+(`AlgebraicGeometry.sum_localMilnorBoundaryOrder_eq_zero`). Since `d_A` is the tame symbol of
+Section 42.5 (`Stacks.Chow.regularModuleSymbol_eq_tameSymbolValue`), this gives the remark's claim
+for the arrows built from the recipe of Stacks 0EAQ,
+`Stacks.Chow.sectionOrdArrow_comp_sectionFormulaTameArrow_eq_zero`. -/
 @[stacks 0EAY "the remark's closing sentence for the arrows of a Noetherian (here: locally \
 Noetherian) scheme X with a dimension function δ: when i = 1 and j is arbitrary the composition \
 ⊕_{δ(x) = j + 2} K^M_2(κ(x)) ⟶ ⊕_{δ(x) = j + 1} K^M_1(κ(x)) ⟶ ⊕_{δ(x) = j} K^M_0(κ(x)) of the \
-two displayed arrows, built from the tame symbols ∂_A of Section 42.5 of the one-dimensional local \
-rings A = 𝒪_{closure {x}, x'}, is zero; the proof runs through Lemma 0EAX at the two-dimensional \
+two displayed arrows, the first built from the symbols d_A of Stacks 02Q1 (Appendix A) of the \
+one-dimensional local rings A = 𝒪_{closure {x}, x'}, is zero (d_A is the tame symbol of Section \
+42.5 by Stacks.Chow.regularModuleSymbol_eq_tameSymbolValue; the statement for the arrow built from \
+the recipe of Stacks 0EAQ is Stacks.Chow.sectionOrdArrow_comp_sectionFormulaTameArrow_eq_zero); \
+the proof runs through Lemma 0EAX at the two-dimensional \
 local rings 𝒪_{closure {x}, y}. The remark's statement that it is not clear the composition is \
 zero in general is not a claim, and the citation [Kato-Milnor-K] for excellent X is not \
 formalized"]

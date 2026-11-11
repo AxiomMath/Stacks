@@ -422,9 +422,6 @@ admissibility with a countable fundamental system of open ideals by definition, 
 completion along an étale ring map is two clauses of **Stacks 0ANB**, and closure under isomorphism
 is `TopologicalRing.isCountablyWeaklyAdmissible_of_ringEquiv`. The charts of `X` and `Y` are
 presented by rings of the class because `X` and `Y` are locally countably indexed. -/
-@[stacks 0ANG "condition (3) implies condition (1), for a morphism of locally countably \
-indexed formal algebraic spaces and a local property of WAdm^count, as the source states it: \
-hP and hPiso together are Situation 0CBA's notion of a local property"]
 theorem hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_isLocallyCountablyIndexed
     (P : ∀ {R₁ R₂ : Type u} [CommRing R₁] [TopologicalSpace R₁] [IsTopologicalRing R₁]
       [CommRing R₂] [TopologicalSpace R₂] [IsTopologicalRing R₂], (R₁ →+* R₂) → Prop)

@@ -35,8 +35,9 @@ proves the last two, so that only the conclusion of Stacks 07UR stays a hypothes
 * `AlgebraicGeometry.Space.property_idealPushforward_of_property_of_lt'` and
   `AlgebraicGeometry.Space.forall_property_idealPushforward'`: the minimal-subspace step and the
   Noetherian induction over closed subspaces.
-* `AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree'`: **Stacks 08AN**, with
-  the conclusion of Stacks 07UR the one argument beside the source's list.
+* `AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree'`: the dévissage of
+  Stacks 08AN with the conclusion of Stacks 07UR as an argument.  Stacks 08AN itself is
+  `AlgebraicGeometry.Space.property_of_isCoherent_of_integralWitness`.
 
 ## References
 
@@ -223,7 +224,7 @@ theorem forall_property_idealPushforward' (hZtop : B.Contains (⊤_ Scheme.{u}))
       intro N hN hNlt
       have hNT : moduleSupportSet B S hS X N ⊂ (T : Set (points B S hS X.1)) :=
         hNlt.trans_le hsub
-      exact property_of_moduleSupportSet_subset B S hS X hdev P hzero hext
+      exact property_of_moduleSupportSet_subset B S hS hZtop X hX hdev P hzero hext
         (moduleSupportSet B S hS X N)
         (IH ⟨moduleSupportSet B S hS X N, isClosed_moduleSupportSet B S hS X N hN⟩
           (SetLike.coe_ssubset_coe.mp hNT))
@@ -259,10 +260,6 @@ Stacks 07UH from `AlgebraicGeometry.Space.idealPushforwardCoherent`.
 The hypothesis `hzero` is not in the source's list and cannot be dropped, for the reason recorded
 at Stacks 07US: on an algebraic space with no points the property `fun _ => False` satisfies the
 source's three conditions while the zero module is coherent and does not have it. -/
-@[stacks 08AN "the dévissage principle in its higher-rank form: the Noetherian induction, the \
-minimal-subspace step, the support of a nonzero ideal direct image, the ideal-intersection \
-paragraph and 07UQ in the shape the step consumes, from 07US, 07UR and 07UQ. The one argument \
-beside the source's list is the conclusion of 07UR for every coherent module on X"]
 theorem property_of_integralWitness_and_twoOutOfThree' (hZtop : B.Contains (⊤_ Scheme.{u}))
     (X : AlgebraicSpaces B S hS) (hX : IsNoetherian B S hS hZtop X.1)
     (hdev : ∀ M : Modules.{u, u} B S hS X.1 X.2, IsCoherent B S hS X.1 X.2 M →

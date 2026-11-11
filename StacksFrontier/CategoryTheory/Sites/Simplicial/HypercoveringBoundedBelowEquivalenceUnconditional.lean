@@ -79,15 +79,6 @@ open CategoryTheory CategoryTheory.Limits CategoryTheory.Pretriangulated
 
 universe u
 
-namespace CategoryTheory.SimplicialSiteSituation.Augmentation
-
-attribute [local instance] HasDerivedCategory.standard
-
-variable (S : SimplicialSiteSituation.{u}) (D : Cat.{u, u}) (K : GrothendieckTopology D)
-  (a : Augmentation S D K)
-
-end CategoryTheory.SimplicialSiteSituation.Augmentation
-
 namespace Stacks.CategoryTheory.Hypercovering
 
 open CategoryTheory CategoryTheory.SimplicialSiteSituation
@@ -96,16 +87,7 @@ attribute [local instance] HasDerivedCategory.standard
 
 variable {C : Type u} [SmallCategory C] [HasEqualizers C] [HasPullbacks C] (J : Pretopology C)
   (H : HypercoveringOfTerminal.{u, u} J)
-  (hunit : IsIso (Augmentation.abelianTotalAdjunction (hypercoveringSituation J H) (Cat.of C)
-    J.toGrothendieck (hypercoveringAugmentation J H)).unit)
-  (hacyclic : Augmentation.InverseImageComputesDerivedPushforward
-    (hypercoveringSituation J H) (Cat.of C) J.toGrothendieck (hypercoveringAugmentation J H))
-  (hsurj : ∀ G : Sheaf (hypercoveringSituation J H).totalTopology AddCommGrpCat.{u},
-    (hypercoveringSituation J H).IsCartesianAbSheaf G →
-      (Augmentation.totalInverseImageAb (hypercoveringSituation J H) (Cat.of C)
-        J.toGrothendieck (hypercoveringAugmentation J H)).essImage G)
 
-include hunit hacyclic hsurj in
 /-- **Stacks 0D8I.** For a site `C` with
 equalizers and fibre products, a hypercovering `K` of it, the augmentation `a` of Stacks 0D8B and
 the weak Serre subcategory `𝒜 ⊂ Ab((C/K)_total)` of cartesian abelian sheaves of Stacks 0D7J, the

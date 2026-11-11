@@ -17,8 +17,8 @@ global sections is a standard smooth ring homomorphism.
 ## Main definitions
 
 * `AlgebraicGeometry.Smooth` is the predicate that a morphism of schemes is smooth.
-* `AlgebraicGeometry.SmoothOfRelativeDimension` is the property that a scheme morphism is smooth
-  of a specified relative dimension.
+* `AlgebraicGeometry.SmoothOfRelativeDimension` is the property that a scheme morphism is
+  locally standard smooth of a specified relative dimension.
 * `AlgebraicGeometry.IsStandardSmooth` is the predicate that a morphism of affine schemes is
   standard smooth.
 
@@ -32,9 +32,12 @@ global sections is a standard smooth ring homomorphism.
 ## Implementation notes
 
 The existing class `AlgebraicGeometry.Smooth` gives the standard affine-local formulation of
-smoothness for scheme morphisms, and `AlgebraicGeometry.SmoothOfRelativeDimension` its refinement
-by standard smooth maps of a fixed dimension; both are adopted as the formalizations of the
-corresponding notions.
+smoothness for scheme morphisms and is adopted as the formalization of that notion.
+`AlgebraicGeometry.SmoothOfRelativeDimension` refines it by standard smooth maps of a fixed
+dimension; Stacks' own notion (Tag 02G2: smooth with `Ω_{X/S}` finite locally free of rank `d`) is
+`AlgebraicGeometry.IsSmoothOfRelativeDimension`, and the two are identified by
+`AlgebraicGeometry.smoothOfRelativeDimension_iff_isSmoothOfRelativeDimension`, both in
+`StacksFrontier.AlgebraicGeometry.Morphisms.Smooth.RelativeDimension`.
 
 Affine schemes are canonically isomorphic to the spectra of their rings of global sections. Thus
 standard smoothness is expressed by applying `RingHom.IsStandardSmooth` to the map on global
@@ -67,7 +70,6 @@ add_to_sga "3 XI 1.6" AlgebraicGeometry.Smooth
 add_to_sga "7 XIV 2.1" "partial" AlgebraicGeometry.Smooth
 add_to_ega "IV 17.3.1" AlgebraicGeometry.Smooth
 
-add_to_stacks 02G2 AlgebraicGeometry.SmoothOfRelativeDimension
 add_to_sga "1 II 1.5" "special case" AlgebraicGeometry.SmoothOfRelativeDimension
 add_to_sga "4 XVII 6.3.8" "partial" AlgebraicGeometry.SmoothOfRelativeDimension
 add_to_sga "7 XIV 2.1" "partial" AlgebraicGeometry.SmoothOfRelativeDimension

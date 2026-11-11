@@ -19,8 +19,9 @@ Let `X` be a scheme proper over a field `k` and let `K` be an object of `D_QCoh(
 
 This file proves the implication (1) ⇒ (2) of that equivalence, at the source's own hypotheses:
 `X` proper over `k` and `K` in `D^b_Coh(𝒪_X)`, with no further assumption. The converse
-(2) ⇒ (1) is not part of what this file proves; the implementation note "The converse" below
-records, tag by tag, what the source's two routes to it require.
+(2) ⇒ (1) and the equivalence are in
+`StacksFrontier/AlgebraicGeometry/DerivedVarieties/CoherentCharacterizationConverse.lean`, whose
+`derivedCategoryBBounded_iff_cardinalSum_rank_ext_lt_aleph0` carries the tag.
 
 `StacksFrontier/AlgebraicGeometry/DerivedVarieties/CoherentCharacterization.lean` states the same
 implication with the two inputs of its route through [Stacks, Tag 0FYC] — finiteness of each
@@ -48,7 +49,8 @@ All in the namespace `Stacks.AlgebraicGeometry.DerivedVarieties.CoherentCharacte
 * `cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded'` and
   `hasFiniteTotalExt_of_derivedCategoryBBounded'`: **[Stacks, Tag 0FYD], the implication
   (1) ⇒ (2)**, the two previous statements with the model quantifier discharged, so that nothing
-  but `X` proper over `k` and `K` in `D^b_Coh(𝒪_X)` is assumed. These carry the tag.
+  but `X` proper over `k` and `K` in `D^b_Coh(𝒪_X)` is assumed. They are the forward half of the
+  equivalence `derivedCategoryBBounded_iff_cardinalSum_rank_ext_lt_aleph0`.
 
 ## Implementation notes
 
@@ -90,22 +92,10 @@ universal property of a right derived functor. `isZero_homology_derivedModuleGlo
 the consequence used, that a vanishing cohomology module of the one is a vanishing
 hypercohomology group of the other.
 
-**The converse, (2) ⇒ (1).** The source gives two routes, and each needs a result this library
-does not carry.
-
-* The proper-case route is through More on Morphisms [Stacks, Tag 0GET], whose conclusion is
-  that `K` is `Spec k`-perfect; Derived Categories of Schemes [Stacks, Tag 0DI1] then identifies
-  that with `D^b_Coh(𝒪_X)`, and the library does carry 0DI1 in the form
-  `AlgebraicGeometry.isPerfectRelativeTo_canonical_iff_boundedCoherent`. The library's 0GET,
-  `AlgebraicGeometry.eventually_subsingleton_ext_of_derivedGlobalSections_isPerfect`, proves the
-  vanishing that the tag's hypothesis produces — that `Ext^i_X(G, K)` and `Hom(G⟦-i⟧, K)` vanish
-  for `i ≪ 0` — and not relative perfectness, which in the source's proof rests on
-  [Stacks, Tag 0GES], on the implication (2) ⇒ (1) of [Stacks, Tag 0GEH], and on condition (1)
-  of [Stacks, Tag 0GEQ].
-* The projective-case route assumes `X` projective over `k`, pushes forward along a closed
-  immersion `i : X → ℙⁿ_k` and concludes by the implication (4) ⇒ (1) of [Stacks, Tag 0FYB],
-  whose proof runs through the Beilinson equivalence over the upper triangular algebra of
-  [Stacks, Tag 0CS9] and through regularity of `ℙⁿ_k`.
+**The converse, (2) ⇒ (1).** It is proved in
+`StacksFrontier/AlgebraicGeometry/DerivedVarieties/CoherentCharacterizationConverse.lean`, along the
+source's local argument through [Stacks, Tags 0CSJ, 09IQ and 0CSK] and the exceptional sequence
+of `ℙᵐ_k`.
 
 **Spellings.** `D^b_Coh(𝒪_X)` is `DerivedCategoryB.derivedCategoryBBounded` at the coherence
 predicate; `Ext^i_X(E, K)` is `DerivedCategory.Ext`, that is `Hom_{D(𝒪_X)}(E, K⟦i⟧)`;
@@ -517,8 +507,6 @@ The hypotheses are the source's and no others: `X` proper over the field `k`, an
 with coherent cohomology. In particular no model of derived global sections appears — this is
 `cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded_of_model` at the canonical model
 `canonicalDerivedSections`, whose existence is instance search. -/
-@[stacks 0FYD "the implication (1) ⇒ (2), for X proper over a field; no model of RΓ in the \
-statement"]
 theorem cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded'
     (hK : DerivedCategoryB.derivedCategoryBBounded
       (fun M : X.left.Modules => M.IsCoherent) K)
@@ -530,8 +518,6 @@ theorem cardinalSum_rank_ext_lt_aleph0_of_derivedCategoryBBounded'
 
 /-- **Stacks Project, Tag 0FYD, the implication (1) ⇒ (2), in the `HasFiniteTotalExt`
 spelling**, with no model of derived global sections in the statement. -/
-@[stacks 0FYD "the implication (1) ⇒ (2), as HasFiniteTotalExt, for X proper over a field; no \
-model of RΓ in the statement"]
 theorem hasFiniteTotalExt_of_derivedCategoryBBounded'
     (hK : DerivedCategoryB.derivedCategoryBBounded
       (fun M : X.left.Modules => M.IsCoherent) K)

@@ -67,6 +67,8 @@ theorem UpperShriekCharts.hasUpperShriekCharts {E : quasiCoherentDerivedCategory
 /-- **Stacks Project, Tag 0AA3 (Lemma 48.17.7).** In Situation 48.16.1 let `f : X ⟶ Y` be a
 morphism of `FTS S`. If `K` is a dualizing complex for `Y`, then `f^!K` is a dualizing complex for
 `X`. Here `f^!` is computed at an arbitrary compactification `j`. -/
+@[stacks 0AA3 "f^! is the library's upper shriek functor of Tag 0A9Y at an arbitrary \
+  compactification j of f; the only hypothesis is that K is a dualizing complex on Y"]
 theorem isDualizingComplex_upperShriek_obj
     (K : quasiCoherentDerivedCategory Y.left) (hK : IsDualizingComplex K.obj) :
     IsDualizingComplex ((upperShriek f j).obj K).obj :=

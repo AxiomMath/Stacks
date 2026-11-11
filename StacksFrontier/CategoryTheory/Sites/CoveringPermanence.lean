@@ -51,9 +51,11 @@ what identifies the matching object `(cosk_k sk_k K)_{k + 1}` with `Hom(∂Δ[k 
 
 * `IsCovering.comp` / `IsCoveringOver.comp`, `IsCovering.pullback` /
   `IsCoveringOver.pullback` and `IsCovering.prod_map` / `IsCoveringOver.prod_map` are the
-  three parts of Tag 01G4, in `SR(C)` and in `SR(C, X)`. `IsCovering.of_isPullback` and
-  `IsCoveringOver.of_isPullback` are the base-change part for an arbitrary fibre product
-  square, which is the form the later proofs use.
+  three parts of Tag 01G4, in `SR(C)` and in `SR(C, X)`, for a site given by a pretopology on
+  a category with fibre products. Tag 01G4 over an arbitrary site, where `C` need not have
+  fibre products, is proved in `StacksFrontier.CategoryTheory.Sites.Hypercovering.SiteCovering`.
+  `IsCovering.of_isPullback` and `IsCoveringOver.of_isPullback` are the base-change part for
+  an arbitrary fibre product square, which is the form the later proofs use.
 * `isCoveringOver_homFromSSetMap_app_zero_of_oneMoreSimplex` is Tag 01GM: when `V` is obtained
   from a subcomplex `U` by adjoining a single `n`-simplex, with all new simplices in degrees
   above `n` degenerate, restriction is a covering. The proof writes `V` as the pushout
@@ -186,9 +188,9 @@ theorem IsCoveringOver.of_isIso (J : Pretopology C) {X : C}
   rw [isCoveringOver_iff_isCovering]
   exact IsCovering.of_isIso J _
 
-/-- **Stacks Project, Tag 01G4, part (1).** The composition of two covering morphisms of
-semi-representable objects is a covering morphism. -/
-@[stacks 01G4 "part (1), for `SR(C)`"]
+/-- The composition of two covering morphisms of semi-representable objects is a covering
+morphism (Tag 01G4, part (1)), for a site given by a pretopology on a category with fibre
+products. The statement over an arbitrary site is `IsSiteCovering.comp`. -/
 theorem IsCovering.comp (J : Pretopology C)
     [Precoverage.IsStableUnderComposition J.toPrecoverage]
     {U V W : FormalCoproduct.{w} C} {f : U ⟶ V} {g : V ⟶ W}
@@ -207,9 +209,9 @@ theorem IsCovering.comp (J : Pretopology C)
     subst j
     exact .mk' ⟨i, hj⟩ rfl (by simp)
 
-/-- **Stacks Project, Tag 01G4, part (1).** The composition of two covering morphisms of
-semi-representable objects over `X` is a covering morphism. -/
-@[stacks 01G4 "part (1), for `SR(C, X)`"]
+/-- The composition of two covering morphisms of semi-representable objects over `X` is a
+covering morphism (Tag 01G4, part (1)), for a site given by a pretopology on a category with
+fibre products. The statement over an arbitrary site is `IsSiteCoveringOver.comp`. -/
 theorem IsCoveringOver.comp (J : Pretopology C)
     [Precoverage.IsStableUnderComposition J.toPrecoverage] {X : C}
     {U V W : FormalCoproduct.{w} (Over X)} {f : U ⟶ V} {g : V ⟶ W}
@@ -346,9 +348,10 @@ noncomputable abbrev pullbackConeFamilyOver {X : C} {U V W : FormalCoproduct.{w}
     PullbackCone (f.φ i.1.1 ≫ eqToHom (congrArg V.obj i.2)) (g.φ i.1.2) :=
   overPullbackCone (f.φ i.1.1 ≫ eqToHom (congrArg V.obj i.2)) (g.φ i.1.2)
 
-/-- **Stacks Project, Tag 01G4, part (2).** The base change of a covering morphism of
-semi-representable objects along any morphism exists and is a covering morphism. -/
-@[stacks 01G4 "part (2), for `SR(C)`"]
+/-- The componentwise base change of a covering morphism of semi-representable objects along
+any morphism, built from the chosen fibre products of `C`, is a covering morphism (Tag 01G4,
+part (2)), for a site given by a pretopology on a category with fibre products. The statement
+over an arbitrary site is `IsSiteCovering.exists_hasPullback_pullback_snd`. -/
 theorem IsCovering.pullback (J : Pretopology C) {U V W : FormalCoproduct.{w} C}
     (f : U ⟶ V) (g : W ⟶ V) (hf : IsCovering J f) :
     IsCovering J (pullbackFormalCoproduct.snd f g (pullbackConeFamily f g)) := by
@@ -369,9 +372,10 @@ theorem IsCovering.pullback (J : Pretopology C) {U V W : FormalCoproduct.{w} C}
   · rintro Y a ⟨⟨i, hi⟩⟩
     exact .mk' ⟨⟨⟨i, k⟩, hi⟩, rfl⟩ rfl (by simp)
 
-/-- **Stacks Project, Tag 01G4, part (2).** The base change of a covering morphism of
-semi-representable objects over `X` along any morphism exists and is a covering morphism. -/
-@[stacks 01G4 "part (2), for `SR(C, X)`"]
+/-- The componentwise base change of a covering morphism of semi-representable objects over
+`X` along any morphism, built from the chosen fibre products of `C`, is a covering morphism
+(Tag 01G4, part (2)), for a site given by a pretopology on a category with fibre products. The
+statement over an arbitrary site is `IsSiteCoveringOver.exists_hasPullback_pullback_snd`. -/
 theorem IsCoveringOver.pullback (J : Pretopology C) {X : C}
     {U V W : FormalCoproduct.{w} (Over X)} (f : U ⟶ V) (g : W ⟶ V) (hf : IsCoveringOver J f) :
     IsCoveringOver J (pullbackFormalCoproduct.snd f g (pullbackConeFamilyOver f g)) := by
@@ -430,9 +434,10 @@ theorem isPullback_prod_snd [HasBinaryProducts C] {B K L : C} (g : K ⟶ L) :
     simpa using congrArg (fun q ↦ q ≫ prod.fst) h₂
   · exact ⟨prod.lift (b ≫ prod.fst) a, by simp, prod.hom_ext (by simp) (by simpa using hab)⟩
 
-/-- **Stacks Project, Tag 01G4, part (3).** The product of two covering morphisms of
-semi-representable objects is a covering morphism. -/
-@[stacks 01G4 "part (3), for `SR(C)`"]
+/-- The product of two covering morphisms of semi-representable objects is a covering
+morphism (Tag 01G4, part (3)), for a site given by a pretopology on a category with fibre
+products. The statement over an arbitrary site with products of pairs is
+`IsSiteCovering.prod_map`. -/
 theorem IsCovering.prod_map (J : Pretopology C)
     [Precoverage.IsStableUnderComposition J.toPrecoverage]
     [HasBinaryProducts (FormalCoproduct.{w} C)]
@@ -443,9 +448,9 @@ theorem IsCovering.prod_map (J : Pretopology C)
   exact (IsCovering.of_isPullback J (IsPullback.of_prod_fst_with_id f K) hf).comp J
     (IsCovering.of_isPullback J (isPullback_prod_snd (B := B) g) hg)
 
-/-- **Stacks Project, Tag 01G4, part (3).** The product of two covering morphisms of
-semi-representable objects over `X` is a covering morphism. -/
-@[stacks 01G4 "part (3), for `SR(C, X)`"]
+/-- The product of two covering morphisms of semi-representable objects over `X` is a
+covering morphism (Tag 01G4, part (3)), for a site given by a pretopology on a category with
+fibre products. The statement over an arbitrary site is `IsSiteCoveringOver.prod_map`. -/
 theorem IsCoveringOver.prod_map (J : Pretopology C)
     [Precoverage.IsStableUnderComposition J.toPrecoverage] {X : C}
     [HasBinaryProducts (FormalCoproduct.{w} (Over X))]

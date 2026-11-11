@@ -21,7 +21,7 @@ The route is the stability of the situation under `M ↦ IᵏM`
 two assertions of [Stacks, Tag 0EFX] at the closed point hold for the module `IᵏM`, and
 `Stacks.LocalCohomology.isIso_limitLift_localCohomologyAdicCone_of_stableImage` turns them into
 invertibility of the limit comparison in degree `s`. That gives the assertion **for every `k`**;
-the registered statement then exhibits one integer `m₀` which witnesses part (1) and part (5)
+the main statement then exhibits one integer `m₀` which witnesses part (1) and part (5)
 simultaneously, part (1) being
 `Stacks.LocalCohomology.exists_forall_injective_localCohomologyAdicProjection_of_proZero` fed by
 the pro-zero assertion of [Stacks, Tag 0EFX] at the closed point.
@@ -31,7 +31,7 @@ the pro-zero assertion of [Stacks, Tag 0EFX] at the closed point.
 For the module `IᵏM` the tower of adic quotients has `n`-th term `IᵏM/Iⁿ(IᵏM)`, and
 `Iⁿ(IᵏM) = I^{n+k}M` inside `M` (`Stacks.Algebraization.map_subtype_pow_smul_top`). So the
 tower is the source's system `{IᵏM/IⁿM}_{n ≥ k}` read along the cofinal shift `n ↦ n + k`, and
-the two limits agree. The same reading is used by the registrant of part (3),
+the two limits agree. The same reading is used for part (3) at `T = {𝔪}`,
 `Stacks.LocalCohomology.isMittagLefflerCategorical_homologyAdicQuotientLocalCohomology_smul`.
 
 ## Main results
@@ -50,8 +50,9 @@ coreflection-model readings of parts (1), (4) and (6) live in
 `StacksFrontier/AlgebraicGeometry/Algebraization/BootstrapCanonicalAdicLimit.lean`.
 
 The source's `T` is an arbitrary specialization-stable subset of `V(I)`; `T = {𝔪}` over a local
-ring is one such, and the general case rests on [Stacks, Tag 0EFX], whose state in the library is
-recorded in `StacksFrontier/AlgebraicGeometry/Algebraization/BootstrapClosedPointProZero.lean`.
+ring is one such. The complete [Stacks, Tag 0EFY], at a general specialization-stable `T` and with
+one `m₀` for all seven parts, is
+`Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`.
 
 ## References
 
@@ -129,9 +130,8 @@ The source's `T` is an arbitrary specialization-stable subset of `V(I)`, and the
 rests on [Stacks, Tag 0EFX] for that `T`, which is proved in
 `StacksFrontier/AlgebraicGeometry/Algebraization/BootstrapUniformStableImage.lean`; parts (1), (3)
 and (5) at a general locus, at one and the same `m₀`, are
-`Stacks.Algebraization.exists_forall_injective_and_isMittagLeffler_and_isIso_limitLift`. -/
-@[stacks 0EFY "part (5) at T = {𝔪} over a Noetherian local ring in Situation 0EFU, at the very \
-m₀ that part (1) produces: Hˢ_𝔪(I^{m₀}M) ⟶ lim Hˢ_𝔪(I^{m₀}M/IⁿM) is an isomorphism"]
+`Stacks.Algebraization.exists_forall_injective_and_isMittagLeffler_and_isIso_limitLift`, and all
+seven parts there are `Stacks.Algebraization.exists_bound_adicLocalCohomologyComparisons`. -/
 public theorem exists_forall_injective_and_isIso_limitLift_localCohomologyAdicCone_closedPoint
     [IsLocalRing S.A] (hT : S.T = {closedPoint S.A}) :
     ∃ m₀ : ℕ,

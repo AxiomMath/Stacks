@@ -89,9 +89,11 @@ and target is all of the arrow space
 groupoid composition — composition of automorphisms of `x`, by Stacks 04T4 (4) — by
 `AlgebraicGeometry.GroupoidInAlgebraicSpaces.stabilizer_mul_comp_arrow`. The groupoid of the
 trivial action of that group on `U` is the self-intersection groupoid itself
-(`AlgebraicGeometry.GroupoidInAlgebraicSpaces.trivialActionIso`), and a quotient stack only
-depends on a groupoid through its underlying groupoid in presheaves, so the equivalence proved
-here transports.
+(`AlgebraicGeometry.GroupoidInAlgebraicSpaces.trivialActionIso`), and a quotient stack depends
+on a groupoid through its underlying groupoid in presheaves alone, so the equivalence proved here
+transports. That stabilizer is `Isom_𝒳(x, x)` with the group law of Stacks 06PP, as group
+algebraic spaces over `U`, by `AlgebraicGeometry.Stack.sectionAutomorphismStabilizerIso` of
+`StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionAutomorphismGroup`.
 
 The identification of the arrow object with `Isom_𝒳(x, x)` is
 `AlgebraicGeometry.Stack.nonempty_equivalenceOver_relation_isomSpaceOverSpace`
@@ -285,7 +287,7 @@ theorem source_eq_target_selfIntersectionPresentation
     (h𝒳 : IsAlgebraicStack.{u, w} B S hS 𝒳.val) (π : 𝒳 ⟶ 𝒴) (hx : x ≫ π ≅ 𝟙 𝒴) :
     (selfIntersectionPresentation eU eR h𝒳).groupoid.source =
       (selfIntersectionPresentation eU eR h𝒳).groupoid.target := by
-  change (ObjectProperty.homMk (relationSourceMap eU eR) : R ⟶ U) =
+  show (ObjectProperty.homMk (relationSourceMap eU eR) : R ⟶ U) =
     ObjectProperty.homMk (relationTargetMap eU eR)
   rw [relationSourceMap_eq_relationTargetMap eU eR π hx]
 
@@ -306,11 +308,12 @@ The source states the equivalence at the quotient stack of the trivial action of
 `G = Isom_𝒳(x, x)`. That is this equivalence: the self-intersection groupoid has equal source and
 target (`source_eq_target_selfIntersectionPresentation`), hence is the groupoid of the trivial
 action of its stabilizer group of **Stacks 0447** on the object space, and that stabilizer is
-`Isom_𝒳(x, x)` over the object space. The passage is
-`exists_grpObj_nonempty_equivalenceOver_quotientStackOfAction_of_section_of_isGerbeOver`, in the
-namespace `AlgebraicGeometry.Stack.AlgebraicStacks` of
-`StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionClassifyingStack`, where the whole of Stacks
-06QG is assembled. -/
+`Isom_𝒳(x, x)` with its group law of Stacks 06PP
+(`AlgebraicGeometry.Stack.sectionAutomorphismStabilizerIso`). The passage is
+`exists_equivalenceOver_gerbeSectionClassifyingFunctor_of_isGerbeOver`, in the namespace
+`AlgebraicGeometry.Stack.AlgebraicStacks` of
+`StacksFrontier.AlgebraicGeometry.Stacks.GerbeSectionCanonicalEquivalence`, where the whole of
+Stacks 06QG is assembled. -/
 @[stacks 06QG "part (1): the canonical 1-morphism out of the quotient stack of the \
 self-intersection groupoid is an equivalence"]
 theorem nonempty_isEquivalenceOver_canonicalMap_of_section_of_isGerbeOver

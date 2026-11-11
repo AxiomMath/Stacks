@@ -330,9 +330,6 @@ theorem isDualBundleFlatPullback_iff (β : ∀ m : ℤ, chowGroup C sX m)
 /-- **The piecewise flat pullback does not depend on the decomposition.** Over any decomposition
 `X = ∐ U_i` into open and closed pieces on which `ℱ` has constant rank, the piecewise flat
 pullback `Stacks.Chow.dualBundleFlatPullback` is the canonical flat pullback `p^*`. -/
-@[stacks 0FAA "the flat pullback p^* of the statement: the flat pullback along a projection of \
-locally constant relative dimension, assembled over a decomposition of X into open and closed \
-pieces of constant rank, does not depend on the decomposition"]
 theorem dualBundleFlatPullback_eq_canonical {I : Type u} (U : I → X.Opens)
     (hU : IsClopenDecomposition U) (ρ : I → ℕ)
     (hρ : ∀ i, AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u}
@@ -359,8 +356,6 @@ theorem flatPullbackChowOfRelativeDimension_restrict_id_heq {A : Scheme.{u}} (q 
 degree `d` part of `p^*β` is `p^*(β_{d-r})` for the flat pullback
 `p^* : A_{d-r}(X) ⟶ A_d(𝐕(ℱ^∨))` of Stacks 02S1 along the projection, which is flat of
 relative dimension `r`. -/
-@[stacks 0FAA "the flat pullback p^* of the statement: when the module has constant rank r, \
-p^* is the flat pullback of relative dimension r along the projection (Tag 02S1)"]
 theorem canonicalDualBundleFlatPullback_eq_dualBundlePullback (r : ℕ)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} F r]
     (β : ∀ m : ℤ, chowGroup C sX m) (d : ℤ) :
@@ -404,8 +399,10 @@ and `p' : N' ⟶ X`, `p : N ⟶ X` the projections. For `α ∈ A_k(X)`,
 
   `i_*(p')^*α = p^*(c_top(ℰ) ∩ α)`  in  `∏_d A_d(N)`.
 
-The ranks are only locally constant, so `p` and `p'` have locally constant relative dimension and
-both sides live in `∏_d A_d(N)`. Here `(p')^*` and `p^*` are the flat pullbacks
+The ranks may vary from component to component (they are locally constant), so `p` and `p'` have
+locally constant relative dimension and both sides live in `∏_d A_d(N)`. The morphism `i` is a
+closed immersion by `Stacks.Chow.isClosedImmersion_subbundleEmbedding_of_shortExact`, proved from
+the short exact sequence. Here `(p')^*` and `p^*` are the flat pullbacks
 `Stacks.Chow.canonicalDualBundleFlatPullback`: the unique families whose restriction over every
 open of constant rank `r` is the flat pullback of relative dimension `r` of Stacks 02S1
 (`Stacks.Chow.isDualBundleFlatPullback_iff`), equal to that flat pullback when the rank is

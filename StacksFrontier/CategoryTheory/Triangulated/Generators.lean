@@ -97,8 +97,9 @@ This file collects four facts about these notions.
 
 ## Main results
 
-* `CategoryTheory.ObjectProperty.triangEnvelopeIter_eq_iSup_retractClosure_extensionProductIter`:
-  boundedly many shifts suffice in `⟨P⟩ₙ`.
+* `CategoryTheory.ObjectProperty.triangEnvelopeIter_eq_and_triangEnvelopeIter_add`: the
+  descriptions of `⟨P⟩ₙ` of [Stacks, Tag 0FX9], including that boundedly many shifts suffice
+  (`CategoryTheory.ObjectProperty.triangEnvelopeIter_eq_iSup_retractClosure_extensionProductIter`).
 * `CategoryTheory.ObjectProperty.triangEnvelope_eq_iSup_and_isSaturated_and_le_iff`: `⟨P⟩` is the
   union over `n` and `m` of the `smd(add(P[-m, m])^{⋆ n})`, it is closed under isomorphisms,
   saturated and a triangulated subcategory, and it is contained in every strictly full, saturated
@@ -130,25 +131,27 @@ The source's `smd` is `ObjectProperty.retractClosure`, `add` is
 `ObjectProperty.binaryProductsClosure`, and `⋆` iterated `n` times is
 `ObjectProperty.extensionProductIter`.
 
-*Boundedly many shifts.* The source's lemma is a chain of four descriptions of `⟨E⟩ₙ`; three of
-them are already available, so what is proved here is the fourth.
+*Boundedly many shifts.* The source's lemma is a chain of descriptions of `⟨E⟩ₙ`, all collected in
+`triangEnvelopeIter_eq_and_triangEnvelopeIter_add`. Most of them come from Mathlib:
 `⟨E⟩ₙ = smd(⟨E⟩₁ ⋆ … ⋆ ⟨E⟩₁) = smd(⟨E⟩₁^{⋆n})` is how `ObjectProperty.triangEnvelopeIter` is
-defined (`triangEnvelopeIter_zero`, `triangEnvelopeIter_succ`, `extensionProductIter_succ`), and
-`⟨E⟩_{n + n'} = smd(⟨E⟩ₙ ⋆ ⟨E⟩_{n'})` is `ObjectProperty.triangEnvelopeIter_add`. Here
-`[IsTriangulated C]` is *not* assumed, since the union description uses only that each closure
-operation is finitary, not the octahedron axiom. The inner closure under retracts present in the
-definition of `triangEnvelopeIter` is absent from the union description; it is removed at the
-outset by Mathlib's `ObjectProperty.retractClosure_extensionProductIter_retractClosure`
-([Stacks, Tag 0FX2]), after which the two sides differ only in the property being closed. Two of
-the closure operations commute with *arbitrary* suprema for a formal reason, membership in a
-supremum being an existential statement over the index: the closure under retracts
-(`retractClosure_iSup`) and the extension product in each variable separately
-(`extensionProduct_iSup_left`, `extensionProduct_iSup_right`). What directedness of the index is
-for is the passage from a supremum over pairs of indices to one over the diagonal, needed because
-an extension involves two objects at once (`iSup_iSup_eq_iSup_diag`); and it is what makes the
-closure under finite direct sums commute with the supremum (`limitsClosure_iSup`), that being the
-one operation whose finitariness rests on finiteness of a diagram rather than on an existential
-quantifier.
+defined, together with the source's recursive definition of the levels in either bracketing
+(`triangEnvelopeIter_zero`, `triangEnvelopeIter_succ`, `triangEnvelopeIter_succ'`), and
+`⟨E⟩_{n + n'} = smd(⟨E⟩ₙ ⋆ ⟨E⟩_{n'})` is `ObjectProperty.triangEnvelopeIter_add`;
+`triangEnvelopeIter_succ'` and `triangEnvelopeIter_add` use the octahedron axiom. The union
+description, proved here as `triangEnvelopeIter_eq_iSup_retractClosure_extensionProductIter`, does
+*not* assume `[IsTriangulated C]`, since it uses only that each closure operation is finitary. The
+inner closure under retracts present in the definition of `triangEnvelopeIter` is absent from the
+union description; it is removed at the outset by Mathlib's
+`ObjectProperty.retractClosure_extensionProductIter_retractClosure` ([Stacks, Tag 0FX2]), after
+which the two sides differ only in the property being closed. Two of the closure operations commute
+with *arbitrary* suprema for a formal reason, membership in a supremum being an existential
+statement over the index: the closure under retracts (`retractClosure_iSup`) and the extension
+product in each variable separately (`extensionProduct_iSup_left`, `extensionProduct_iSup_right`).
+What directedness of the index is for is the passage from a supremum over pairs of indices to one
+over the diagonal, needed because an extension involves two objects at once
+(`iSup_iSup_eq_iSup_diag`); and it is what makes the closure under finite direct sums commute with
+the supremum (`limitsClosure_iSup`), that being the one operation whose finitariness rests on
+finiteness of a diagram rather than on an existential quantifier.
 
 *Saturated versus stable under retracts.* Reading `smd` as retract closure rather than as literal
 summand closure costs nothing: in a pretriangulated category a strictly full subcategory is
@@ -371,8 +374,9 @@ private lemma retractClosure_extensionProductIter_binaryProductsClosure_iSup {ι
 reachable from `P` by shifts, finite direct sums, retracts and at most `n` extensions form
 the increasing union, over `m : ℕ`, of the objects reachable in the same way but using only
 the shifts of `P` in the range `[-m, m]`. In the notation of the Stacks project, for
-`n ≥ 1` we have `⟨E⟩ₙ = ⋃_{m ≥ 1} smd(add(E[-m, m])^{⋆ n})`. -/
-@[stacks 0FX9]
+`n ≥ 1` we have `⟨E⟩ₙ = ⋃_{m ≥ 1} smd(add(E[-m, m])^{⋆ n})`, the right-hand equality of
+[Stacks, Tag 0FX9], which holds without the octahedron axiom; the complete lemma is
+`triangEnvelopeIter_eq_and_triangEnvelopeIter_add`. -/
 public theorem triangEnvelopeIter_eq_iSup_retractClosure_extensionProductIter
     (P : ObjectProperty C) (n : ℕ) :
     P.triangEnvelopeIter n =
@@ -382,6 +386,46 @@ public theorem triangEnvelopeIter_eq_iSup_retractClosure_extensionProductIter
     ← iSup_biSup_shift_Icc_eq_shiftClosure P]
   exact retractClosure_extensionProductIter_binaryProductsClosure_iSup
     (monotone_biSup_Icc_natCast _) n
+
+/-- The descriptions of the levels of the triangulated envelope, [Stacks, Tag 0FX9]. Write
+`⟨P⟩ₙ₊₁ = P.triangEnvelopeIter n` (Mathlib counts extensions, so its index is one less than the
+source's). Then
+
+* `⟨P⟩₁ = smd(add(P[-∞, ∞]))` and `⟨P⟩ₙ₊₁ = smd(⟨P⟩₁ ⋆ ⟨P⟩ₙ)`: these are the source's definition
+  of the levels, so `P.triangEnvelopeIter` is the source's `⟨E⟩` for `P = {E}`;
+* `⟨P⟩ₙ₊₁ = smd(⟨P⟩ₙ ⋆ ⟨P⟩₁)` as well, so the bracketing of `⟨P⟩₁ ⋆ … ⋆ ⟨P⟩₁` is immaterial;
+* `⟨P⟩ₙ₊₁ = smd(⟨P⟩₁^{⋆ (n + 1)})`, the left and middle equalities of the source's display;
+* `⟨P⟩ₙ₊₁ = ⋃_{m} smd(add(P[-m, m])^{⋆ (n + 1)})`, the right-hand equality of the display,
+  with `P[-m, m]` spelled `⨆ i ∈ Set.Icc (-m) m, P.isoClosure.shift i`;
+* `⟨P⟩_{(n + 1) + (n' + 1)} = smd(⟨P⟩ₙ₊₁ ⋆ ⟨P⟩ₙ'₊₁)`, the second claim of the source.
+
+The source's ranges `n, n' ≥ 1` and `m ≥ 1` are `n, n', m : ℕ` here, the same unions since the
+families are monotone. An arbitrary property of objects `P` replaces the single object `E`; the
+source's statement is the case `P = ObjectProperty.singleton E`. `[IsTriangulated C]` is the
+source's "triangulated": the octahedron axiom gives the associativity of `⋆`
+([Stacks, Tag 0FX1]) used in the second and last conjuncts. -/
+@[stacks 0FX9]
+public theorem triangEnvelopeIter_eq_and_triangEnvelopeIter_add [IsTriangulated C]
+    (P : ObjectProperty C) :
+    P.triangEnvelopeIter 0 = (P.shiftClosure ℤ).binaryProductsClosure.retractClosure ∧
+    (∀ n : ℕ, P.triangEnvelopeIter (n + 1) =
+      (extensionProduct (P.triangEnvelopeIter 0) (P.triangEnvelopeIter n)).retractClosure) ∧
+    (∀ n : ℕ, P.triangEnvelopeIter (n + 1) =
+      (extensionProduct (P.triangEnvelopeIter n) (P.triangEnvelopeIter 0)).retractClosure) ∧
+    (∀ n : ℕ, P.triangEnvelopeIter n =
+      ((P.triangEnvelopeIter 0).extensionProductIter n).retractClosure) ∧
+    (∀ n : ℕ, P.triangEnvelopeIter n =
+      ⨆ m : ℕ, ((⨆ i ∈ Set.Icc (-(m : ℤ)) (m : ℤ),
+        P.isoClosure.shift i).binaryProductsClosure.extensionProductIter n).retractClosure) ∧
+    ∀ n n' : ℕ, P.triangEnvelopeIter (n + n' + 1) =
+      (extensionProduct (P.triangEnvelopeIter n) (P.triangEnvelopeIter n')).retractClosure := by
+  refine ⟨P.triangEnvelopeIter_zero, fun n ↦ ?_, fun n ↦ ?_, fun n ↦ ?_,
+    triangEnvelopeIter_eq_iSup_retractClosure_extensionProductIter P, fun n n' ↦ ?_⟩
+  · rw [triangEnvelopeIter_succ, triangEnvelopeIter_zero]
+  · rw [triangEnvelopeIter_succ', triangEnvelopeIter_zero]
+  · rw [triangEnvelopeIter_zero]
+  · rw [show n + n' + 1 = (n + 1) + n' by omega]
+    exact P.triangEnvelopeIter_add rfl
 
 end BoundedShifts
 

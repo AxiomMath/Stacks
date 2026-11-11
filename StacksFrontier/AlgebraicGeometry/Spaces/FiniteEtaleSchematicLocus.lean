@@ -56,11 +56,10 @@ it is used only through the cartesian square above: the atlas of the subspace is
 of the finite morphism `q` along the inclusion of the subspace, so it is finite, and hence so is
 its own kernel pair.
 
-Openness of the subspace is Tag 07TW, whose three statements in the library carry the effective
-descent of immersions along surjective étale morphisms as a hypothesis. That hypothesis is not
-needed here: only the open-immersion case is used, and effective descent of open immersions is
-`AlgebraicGeometry.Space.isEffectiveDescentAlongSurjectiveEtale_isOpenImmersion`, which is
-proved outright.
+Openness of the subspace is Tag 07TW, whose three statements are proved in the library in
+`StacksFrontier/AlgebraicGeometry/Descent/ImmersionEtaleDescent.lean`. Only the open-immersion
+case is used here, and for it the effective descent of open immersions,
+`AlgebraicGeometry.Space.isEffectiveDescentAlongSurjectiveEtale_isOpenImmersion`, suffices.
 
 ## References
 

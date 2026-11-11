@@ -20,9 +20,13 @@ applies and the canonical base change map `f⁻¹ g_* F ⟶ h_* e⁻¹ F` of a c
 
 ## Main results
 
-* `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed` — **Tag 0EZY** in the
-  case of `X` locally of finite type over the separably closed field, which contains the
-  source's finite-type case.
+* `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed` — the case of Tag 0EZY
+  of `X` locally of finite type over the separably closed field, deduced from Tag 0EZX with the
+  bijectivity on sections over the étale `X`-schemes of the covering kept as the hypothesis
+  `hlocal`. That hypothesis is discharged in
+  `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed_locallyOfFiniteType`, and
+  Tag 0EZY itself, for an arbitrary `X`, is
+  `Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed_of_quasiCompact`.
 
 ## Implementation notes
 
@@ -34,12 +38,13 @@ also closed, hence quasi-compact, and connected, hence geometrically connected o
 
 The source reduces the general case to the finite-type case by writing an affine `X` as a
 cofiltered limit of affine schemes of finite type over `Spec k` and appealing to Tag 0EZT part
-(1), the compatibility of the base change map with such limits. Tag 0EZT has no carrier in the
-library, so only the finite-type case is asserted here.
+(1). The general case is proved by a stalkwise argument instead, in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/PushforwardBaseChangeSepClosedFieldGeneral.lean`.
 
-The chain of identifications of sections which Tag 0EZX feeds on rests on Tag 0A3H read through
-Tag 03EF, which is not available in that form; exactly as for Tags 0EZX, 0EYS and 0EZZ it is
-carried as the declared hypothesis `hlocal`.
+The bijectivity on sections which Tag 0EZX feeds on is the hypothesis `hlocal` of the theorem
+below; it is proved as `Stacks.EtaleCohomology.local_baseChange_compatible`, by which
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed_locallyOfFiniteType` removes
+it.
 
 ## References
 
@@ -128,22 +133,16 @@ private theorem exists_etaleLocalFactorization_of_isSepClosed (k : Type u) [Fiel
 
 variable {X Y T : Scheme.{u}}
 
-/-- **Stacks Project, Tag 0EZY**, in the case of `X` locally of finite type over the separably
-closed field. Let `k` be a separably closed field and let `f : X ⟶ Spec k` be locally of finite
-type. Then in a cartesian square over `f` the canonical base change map `f⁻¹ g_* F ⟶ h_* e⁻¹ F`
-is an isomorphism for every sheaf of sets `F` on the small étale site of `T`. -/
-@[stacks 0EZY "the case of `X` of finite type over the separably closed field, stated for `X`
-locally of finite type. What is proved unconditionally is the covering condition of Tag 0EZX:
-an affine open of an étale `X`-scheme is Noetherian, hence locally connected by Tag 04MF, so
-the connected component of any of its points is an open quasi-compact subscheme, and over a
-separably closed field a connected scheme is geometrically connected by Tag 0363; flatness of
-`f` is automatic over a field. The source's reduction of the general case to this one -- write
-an affine `X` as a cofiltered limit of affine finite-type `Spec k`-schemes and use the
-compatibility of the base change map with such limits -- is Tag 0EZT part (1), which has no
-carrier in the library, so the general case is not asserted. The chain of identifications of
-sections on which Tag 0EZX feeds rests on Tag 0A3H read through Tag 03EF, a separate cited tag
-unavailable in that form, and is carried -- exactly as in Tags 0EZX, 0EYS and 0EZZ -- as the
-declared hypothesis `hlocal`."]
+/-- **Base change for pushforward over a separably closed field, `X` locally of finite type,
+from the bijectivity on sections over the covering.** Let `k` be a separably closed field and
+let `f : X ⟶ Spec k` be locally of finite type. If, in a cartesian square over `f`, the base
+change map `f⁻¹ g_* F ⟶ h_* e⁻¹ F` is bijective on sections over every étale `X`-scheme carrying
+a flat quasi-compact factorization with geometrically connected fibres (`hlocal`), then it is
+an isomorphism. The hypothesis `hlocal` is always satisfied, by
+`Stacks.EtaleCohomology.local_baseChange_compatible`, which gives
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed_locallyOfFiniteType`; and
+Stacks Tag 0EZY for an arbitrary `X` is
+`Stacks.EtaleCohomology.isIso_smallEtaleSetBaseChange_of_isSepClosed_of_quasiCompact`. -/
 theorem isIso_smallEtaleSetBaseChange_of_isSepClosed (k : Type u) [Field k] [IsSepClosed k]
     (f : X ⟶ Spec (.of k)) [LocallyOfFiniteType f] (h : Y ⟶ X) (e : Y ⟶ T)
     (g : T ⟶ Spec (.of k)) (sq : IsPullback h e f g)

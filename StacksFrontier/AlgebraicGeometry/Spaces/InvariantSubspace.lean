@@ -87,10 +87,14 @@ closed immersions from `Stacks.Descent.isClosedImmersion_isLocalAtTarget_fpqc` a
 immersions from `Stacks.Descent.isLocalAtTarget_fpqcPrecoverage` together with Mathlib's fppf
 descent of open immersions.
 
-The three statements of Stacks 07TW carry the tag with a comment recording that hypothesis:
-what is proved here is the tag's assertion *under* effective descent for immersions, not the
-unconditional one. Once that descent is available the hypothesis can be dropped from all
-three, and the comments with it.
+The three statements of Stacks 07TW are proved here *under* effective descent for immersions.
+That descent is
+`AlgebraicGeometry.Space.isEffectiveDescentAlongSurjectiveEtale_isImmersion`, and the three
+statements with the hypothesis supplied, which carry the tag, are
+`AlgebraicGeometry.Space.invariantLocallyClosedSubschemeEquiv_of_isAlgebraicSpace`,
+`AlgebraicGeometry.Space.closed_iff_of_isAlgebraicSpace` and
+`AlgebraicGeometry.Space.open_iff_of_isAlgebraicSpace` in
+`StacksFrontier/AlgebraicGeometry/Descent/ImmersionEtaleDescent.lean`.
 
 The sheaf condition of `AlgebraicGeometry.Space.invariantSubspace` reduces to the statement
 that factoring through an immersion is local for the fppf topology. That is obtained without
@@ -911,7 +915,6 @@ pullback along `φ`.
 The hypothesis `hdesc` is effective descent of immersions along surjective étale morphisms of
 the site, Stacks 02W8 in the form Stacks 03I2 consumes; see
 `AlgebraicGeometry.Space.IsEffectiveDescentAlongSurjectiveEtale`. -/
-@[stacks 07TW "bijection; conditional on effective descent for immersions"]
 noncomputable def invariantLocallyClosedSubschemeEquiv
     (hdesc : IsEffectiveDescentAlongSurjectiveEtale B S hS
       (@AlgebraicGeometry.IsImmersion.{u}))
@@ -935,7 +938,6 @@ noncomputable def invariantLocallyClosedSubschemeEquiv
 include hs he in
 /-- **Stacks 07TW**, closedness: the subspace of `X` corresponding to an invariant subscheme
 of the chart is closed exactly when that subscheme is closed in the chart. -/
-@[stacks 07TW "closedness; conditional on effective descent for immersions"]
 theorem closed_iff
     (hdesc : IsEffectiveDescentAlongSurjectiveEtale B S hS
       (@AlgebraicGeometry.IsImmersion.{u}))
@@ -949,7 +951,6 @@ theorem closed_iff
 include hs he in
 /-- **Stacks 07TW**, openness: the subspace of `X` corresponding to an invariant subscheme of
 the chart is open exactly when that subscheme is open in the chart. -/
-@[stacks 07TW "openness; conditional on effective descent for immersions"]
 theorem open_iff
     (hdesc : IsEffectiveDescentAlongSurjectiveEtale B S hS
       (@AlgebraicGeometry.IsImmersion.{u}))

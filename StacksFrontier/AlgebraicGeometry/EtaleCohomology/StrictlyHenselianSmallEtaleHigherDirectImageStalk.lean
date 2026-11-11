@@ -39,20 +39,16 @@ that initial neighbourhood. Over a base at which the neighbourhood category does
 implementation notes of
 `StacksFrontier/AlgebraicGeometry/EtaleCohomology/SmallEtaleHigherDirectImageStalk.lean`.
 
-**Why this is not a second registration of the tag.** The strictly henselian component of
-[Stacks, Tag 03Q9] is already registered as
-`Stacks.StrictlyHenselian.higherDirectImageEtaleStalkIso`, but in the *other* model of the small
-étale site, the one built on `AlgebraicGeometry.BigEtaleSite`; the two models are not identified
-in this library. The statement below is the one usable in Mathlib's
-`AlgebraicGeometry.Scheme.Etale` model, which is where
-`Stacks.EtaleCohomology.smallEtaleStalkAb` and
-`Stacks.EtaleCohomology.etaleAbelianDirectImage` live and where the consumers of Tag 03Q9 are. It
-carries no tag of its own, for the same reason that the in-model Tag 03Q8,
-`Stacks.EtaleCohomology.smallEtaleHigherDirectImageSheafificationIso`, carries none: the tag is
-registered where its own model is. The general form in this model,
-`Stacks.EtaleCohomology.smallEtaleHigherDirectImageStalkIsoSectionsOfIsInitial`, does carry a
-component of the tag; its hypothesis is that the étale neighbourhoods of the geometric point have
-an initial object, of which a strictly henselian local base is one case.
+**Why this is not a second registration of the tag.** [Stacks, Tag 03Q9] is registered in this
+model, over an arbitrary base and for `f` quasi-compact and quasi-separated, as
+`AlgebraicGeometry.stalkHigherDirectImageIso` (with its complex and derived-category forms
+`AlgebraicGeometry.stalkDerivedPushforwardHomologyIso` and
+`AlgebraicGeometry.stalkDerivedPushforwardIso`). The statement below is the degenerate case of a
+strictly henselian local base, where the right hand side is `H^n(X_étale, F)` itself and no
+hypothesis on `f` is needed; it carries no tag of its own. The form over any base at which the
+étale neighbourhoods of the geometric point have an initial object, of which a strictly henselian
+local base is one case, is
+`Stacks.EtaleCohomology.smallEtaleHigherDirectImageStalkIsoSectionsOfIsInitial`.
 
 **The residue field.** The geometric point is taken with `IsAlgClosed Ω` rather than
 `IsSepClosed Ω`: the initiality input routes through

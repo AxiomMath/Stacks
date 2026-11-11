@@ -39,8 +39,11 @@ It was split from `StacksFrontier.RingTheory.Etale.Basic`, which re-exports it t
 
 ## Main results
 
-* `Algebra.formallyEtale_iff_etale`: a finitely presented algebra is étale if and only if it is
-  formally étale.
+* `Algebra.existsUnique_lift_iff_finitePresentation_and_subsingleton`: a finitely presented
+  algebra has the unique infinitesimal lifting property if and only if `H₁(NL_{S/R}) = 0` and
+  `Ω_{S/R} = 0`, that is, formally étale is étale in the sense of the source's Definition 00U1.
+* `Algebra.formallyEtale_iff_etale`: a finitely presented algebra is `Algebra.Etale` if and only if
+  it is `Algebra.FormallyEtale` (a restatement of Mathlib's definition).
 * `Algebra.FormallyEtale.colimit`: a filtered colimit of formally étale algebras is formally
   étale.
 * `RingHom.Etale.quasiFinite`: an étale ring map is quasi-finite.
@@ -114,13 +117,42 @@ open scoped TensorProduct
 
 /-! ### Formally étale ring maps -/
 
-/-- A finitely presented algebra is étale if and only if it is formally étale. -/
-@[stacks 00UR, ega "IV 17.3.2" "(ii), étale case", ega "IV 17.3.1" "étale case, ring maps"]
+/-- A finitely presented algebra is `Algebra.Etale` if and only if it is `Algebra.FormallyEtale`.
+Mathlib defines `Algebra.Etale` as `Algebra.FormallyEtale` together with finite presentation, so
+this is a restatement of that definition; the comparison of the lifting property with the source's
+Definition 00U1 is `Algebra.existsUnique_lift_iff_finitePresentation_and_subsingleton`. -/
+@[ega "IV 17.3.2" "(ii), étale case", ega "IV 17.3.1" "étale case, ring maps"]
 theorem Algebra.formallyEtale_iff_etale
     (R : Type*) (S : Type*) [CommRing R] [CommRing S] [Algebra R S]
     (hfp : Algebra.FinitePresentation R S) :
     Algebra.FormallyEtale R S ↔ Algebra.Etale R S :=
   ⟨fun hf => ⟨hf, hfp⟩, fun h => h.1⟩
+
+/-- Let `R → S` be a ring map of finite presentation. Then `S` is formally étale over `R` in the
+sense of unique infinitesimal lifting (for every `R`-algebra `A`, every ideal `I ⊆ A` with
+`I ^ 2 = 0` and every `R`-algebra map `f : S → A ⧸ I` there is exactly one `R`-algebra map
+`g : S → A` with `A → A ⧸ I` composed with `g` equal to `f`) if and only if `R → S` is étale: of
+finite presentation with `H₁(NL_{S/R}) = 0` and `Ω_{S/R} = 0`. -/
+@[stacks 00UR "Formally étale (1) is the unique-lifting property of Definition 00UQ, stated for
+test rings `A` in the universe `max u v` of `R` and `S` (`Ideal.Quotient.mkₐ R I` is
+`A → A ⧸ I`; an `R`-algebra map `g` makes the lower triangle commute). Étale (2) is
+Definition 00U1 verbatim: finite presentation, and `NL_{S/R}` quasi-isomorphic to zero, which the
+source spells out as `H₁(NL_{S/R}) = 0` (`Algebra.H1Cotangent R S`) and `Ω_{S/R} = 0`."]
+theorem Algebra.existsUnique_lift_iff_finitePresentation_and_subsingleton.{u, v}
+    {R : Type u} {S : Type v} [CommRing R] [CommRing S] [Algebra R S]
+    (hfp : Algebra.FinitePresentation R S) :
+    (∀ ⦃A : Type (max u v)⦄ [CommRing A] [Algebra R A] (I : Ideal A), I ^ 2 = ⊥ →
+        ∀ f : S →ₐ[R] A ⧸ I, ∃! g : S →ₐ[R] A, (Ideal.Quotient.mkₐ R I).comp g = f) ↔
+      Algebra.FinitePresentation R S ∧ Subsingleton (Algebra.H1Cotangent R S) ∧
+        Subsingleton Ω[S⁄R] := by
+  constructor
+  · intro h
+    have : Algebra.FormallyEtale R S := Algebra.FormallyEtale.iff_comp_bijective.mpr
+      fun A _ _ I hI => (Function.bijective_iff_existsUnique _).mpr (h I hI)
+    exact ⟨hfp, inferInstance, inferInstance⟩
+  · rintro ⟨-, h₁, hΩ⟩ A _ _ I hI
+    have : Algebra.FormallyEtale R S := ⟨hΩ, h₁⟩
+    exact (Function.bijective_iff_existsUnique _).mp (Algebra.FormallyEtale.comp_bijective R S I hI)
 
 add_to_stacks 04EG "For a multiplicative subset `M ⊆ R` the ring map `R → M⁻¹R` is formally
   étale, stated for an arbitrary ring `Rₘ` realising the localization rather than for a chosen
@@ -402,7 +434,8 @@ open Stacks.Cotangent.H1BaseChange in
 @[stacks 00U2 "(5). Stated for `Algebra.etaleLocus`, hence without the tag's hypothesis that
 `R → S` be of finite presentation, which neither the conclusion nor the proof uses; with that
 hypothesis the two loci are the tag's. The base change is the abstract `Algebra.IsPushout`. See
-the module docstring, which also records where in Mathlib the other ten items live."]
+the module docstring. All eleven items of the tag, this one included, are stated together in
+`Algebra.Etale.results_on_etale_ring_maps`."]
 theorem Algebra.etaleLocus_eq_of_isPushout
     (R S : Type*) [CommRing R] [CommRing S] [Algebra R S]
     (R' S' : Type*) [CommRing R'] [CommRing S'] [Algebra R R'] [Algebra S S'] [Algebra R' S']

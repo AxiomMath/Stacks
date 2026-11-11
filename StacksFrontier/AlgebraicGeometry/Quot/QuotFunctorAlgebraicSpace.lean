@@ -18,8 +18,8 @@ universe above the sections of an algebraic space. The conclusion of Stacks 09TU
 statement about an `AlgebraicGeometry.Space.QuotSitePresheafModel`, a presheaf of `Type u` whose
 universe lift is the Quot presheaf — exactly as for the Hilbert functor of Stacks 0CZY, whose
 models are `AlgebraicGeometry.Space.HilbertPresheafModel`. This file is about those models: it
-produces one, over `B`, from the size bound that makes the conclusion of Stacks 09TU statable,
-and it shows that the conclusion does not depend on which model is produced.
+produces one, over `B`, from a size bound on the sets of quotients, and it shows that the
+conclusion does not depend on which model is produced.
 
 ## Main definitions
 
@@ -32,11 +32,10 @@ and it shows that the conclusion does not depend on which model is produced.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.QuotSituation.exists_quotSitePresheafModel_of_small`: **Stacks 09TU,
-  the size clause** — when the set of quotients over every scheme of the site is small, the Quot
-  presheaf has a model in the universe of the site whose sections over each scheme are the
-  quotients themselves and whose canonical morphism to `B` is the one of Stacks 09TR. This is the
-  form in which the two clauses of Stacks 09TU can be asserted at all.
+* `AlgebraicGeometry.Space.QuotSituation.exists_quotSitePresheafModel_of_small`: an auxiliary step
+  towards Stacks 09TU — when the set of quotients over every scheme of the site is small, the
+  Quot presheaf has a model in the universe of the site whose sections over each scheme are the
+  quotients themselves and whose canonical morphism to `B` is the one of Stacks 09TR.
 * `AlgebraicGeometry.Space.QuotSitePresheafModel.whiskerRight_toBase`: the universe lift of the
   morphism to the base of a model is the canonical morphism to the base of the Quot presheaf, so
   a model is automatically a model *over* `B`.
@@ -49,46 +48,17 @@ and it shows that the conclusion does not depend on which model is produced.
   clauses of the conclusion of Stacks 09TU hold for one model exactly when they hold for any
   other, so that conclusion is a statement about `F/X/B` and not about a choice of model.
 
-## What is and is not proved
+## Where Stacks 09TU is proved
 
-**The size clause is proved; the two geometric clauses are not.** Stacks 09TU has the shape
-
-> there is a model `M` of `Quot_{F/X/B}` such that (i) `M` is an algebraic space and (ii) the
-> morphism `M ⟶ B` is locally of finite presentation.
-
-What is proved here is the existence of a model `M` over `B` under the smallness hypothesis — the
-hypothesis which the source does not state because its set-theoretic conventions supply it, and
-without which the quantifier "there is a model" has nothing to range over — together with the
-well-posedness of (i) and (ii): they are invariant under the choice of model. Neither (i) nor
-(ii) is established, and neither is assumed: no statement below has an undischarged geometric
-hypothesis.
-
-**What the two geometric clauses need.** The source's proof is in five steps. The Quot functor is
-an fppf sheaf (Stacks 09TT), which is formalized as
-`AlgebraicGeometry.Space.QuotSituation.quotSitePresheaf_isSheaf`, itself conditional on the
-descent of quotients along a covering of a test scheme; one passes to the associated stack in
-groupoids, where the implication (1) ⟹ (3) of Stacks 04SZ — formalized as
-`AlgebraicGeometry.Stack.AlgebraicStack.isRepresentableByAlgebraicSpace_of_isStackInSetoids` —
-reduces the two clauses to algebraicity of that stack; the 1-morphism
-`Quot_{F/X/B} ⟶ Coh_{X/B}` of Stacks 0DP6, whose data is constructed in
-`StacksFrontier/AlgebraicGeometry/Quot/QuotToCoherentStack.lean`, together with the algebraicity of
-`Coh_{X/B}` (Stacks 09DS) and Stacks 05UM — formalized as
-`AlgebraicGeometry.Stack.isAlgebraicStack_source_of_isRepresentableByAlgebraicSpaces` — reduces
-algebraicity of the stack to representability of that 1-morphism by algebraic spaces; and its
-fibre over an object
-`(h, 𝒢)` of `Coh_{X/B}` over a scheme `T` is the functor of surjections `F_{T'} ⟶ 𝒢_{T'}`, an
-open subfunctor by Stacks 09TP — formalized as
-`AlgebraicGeometry.Space.ModuleMapSituation.exists_isOpenSubspace_isSurjectiveAt_iff` — of the
-relative Hom space of Stacks 08K6.
-
-The two inputs absent from this development are therefore the algebraicity of the stack of
-coherent modules (Stacks 09DS) and the relative Hom *space* (Stacks 08K6): the relative Hom
-*functor* of Stacks 08JT is built in `StacksFrontier/AlgebraicGeometry/Quot/RelativeHom.lean` and
-the predicate asserting that it is an algebraic space affine over the base is
-`AlgebraicGeometry.Space.HomSituation.IsAffineFinitePresentationAlgebraicSpaceOverBase`, but no
-proof of it is available. A third gap is structural rather than a missing tag: `Coh_{X/B}` is not a
-category in this development — `AlgebraicGeometry.Space.CoherentCategoryData` is a specification
-with no value — so the 2-fibre product that the fourth step forms cannot yet be written down.
+This file only prepares the statement. The smallness hypothesis of
+`AlgebraicGeometry.Space.QuotSituation.exists_quotSitePresheafModel_of_small` is not part of
+Stacks 09TU: it holds for every `F/X/B`, which is
+`AlgebraicGeometry.Space.QuotSituation.exists_quotSitePresheafModel` in
+`StacksFrontier/AlgebraicGeometry/Quot/QuotFunctorModelSmall.lean`. Stacks 09TU itself, both of its
+assertions for `f` of finite presentation and separated, is
+`AlgebraicGeometry.Space.QuotSituation.isAlgebraicSpace_and_isLocallyOfFinitePresentation_quot`
+in `StacksFrontier/AlgebraicGeometry/Quot/QuotFunctorAlgebraicSpaceSeparated.lean`, through the
+source's proof (Stacks 09TT, 04SZ, 0DP6, 09DS, 05UM, 09TP and 08K6).
 
 ## References
 
@@ -230,27 +200,24 @@ theorem isAlgebraicSpace_and_lfp_of_model (M M' : QuotSitePresheafModel D)
 
 end QuotSitePresheafModel
 
-/-! ### The size clause of Stacks 09TU -/
+/-! ### A model of the Quot presheaf from a size bound -/
 
 namespace QuotSituation
 
 variable (D : QuotSituation B S hS)
 
-/-- **Stacks 09TU, the size clause.** Assume that over every scheme `T` of the big fppf site of
-`S` the set of pairs consisting of a morphism `T ⟶ B` and a quotient of `F_T` which is
-quasi-coherent, of finite presentation, flat over `T` and with support proper over `T` is small.
-Then the Quot presheaf of Stacks 09TR has a model in the universe of the site: a presheaf of
-`Type u` whose sections over every scheme of the site are exactly those pairs and whose canonical
-morphism to `B` is the one of Stacks 09TR.
+/-- **A model of the Quot presheaf from a size bound** (an auxiliary step towards Stacks 09TU).
+Assume that over every scheme `T` of the big fppf site of `S` the set of pairs consisting of a
+morphism `T ⟶ B` and a quotient of `F_T` which is quasi-coherent, of finite presentation, flat
+over `T` and with support proper over `T` is small. Then the Quot presheaf of Stacks 09TR has a
+model in the universe of the site: a presheaf of `Type u` whose sections over every scheme of the
+site are exactly those pairs and whose canonical morphism to `B` is the one of Stacks 09TR.
 
-This is the clause of Stacks 09TU which makes its two geometric clauses statable — an algebraic
-space takes values in the universe of the site, whereas quotients are recorded by subobjects and
-so live one universe up — and it is the content the source leaves to its set-theoretic
-conventions. The two geometric clauses, algebraicity of the model and local finite presentation
-of its morphism to `B`, are not proved; by
-`AlgebraicGeometry.Space.QuotSitePresheafModel.isAlgebraicSpace_and_lfp_of_model` they hold for
-the model produced here exactly when they hold for any model at all. -/
-@[stacks 09TU "the size clause: a model of the Quot presheaf in the universe of the site"]
+This is what makes the two assertions of Stacks 09TU statable — an algebraic space takes values
+in the universe of the site, whereas quotients are recorded by subobjects and so live one
+universe up. The smallness hypothesis always holds, so a model always exists
+(`AlgebraicGeometry.Space.QuotSituation.exists_quotSitePresheafModel`); Stacks 09TU itself is
+`AlgebraicGeometry.Space.QuotSituation.isAlgebraicSpace_and_isLocallyOfFinitePresentation_quot`. -/
 theorem exists_quotSitePresheafModel_of_small
     (hsmall : ∀ T : BigFppfOver B S hS, Small.{u} (QuotFamilyOver D T)) :
     ∃ M : QuotSitePresheafModel D,

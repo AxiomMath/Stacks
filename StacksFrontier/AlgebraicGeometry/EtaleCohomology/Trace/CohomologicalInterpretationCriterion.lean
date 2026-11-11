@@ -181,8 +181,9 @@ Over a coefficient ring with torsion-free additive group the determinant identit
 `L(X, ℱ) = ∏_i det(1 - π_X^* T |_{H_c^i(X_k̄, ℱ)}) ^ ((-1) ^ (i + 1))`
 holds if and only if the trace identity
 `∑_{d ∣ n} d ∑_{deg x = d} tr((π_x^{n / d})^* |_{ℱ_x̄}) = ∑_i (-1) ^ i tr((π_X^n)^* |_{H_c^i})`
-holds for every `n ≥ 1`. -/
-@[stacks 03V0 "the determinant identity, equivalent to the trace identity in the proof"]
+holds for every `n ≥ 1`. This is the reduction in the proof of Stacks, Tag 03V0; the theorem
+itself is
+`LAdicSheaf.nonempty_compactificationOf_and_rationalLFunction_eq_gradedCharSeries`. -/
 public theorem lFunction_eq_alternatingCharSeries_iff [IsAddTorsionFree Λ] :
     D.lFunction = alternatingCharSeries deg rk B ↔ D.TraceFormula deg rk B :=
   ⟨D.traceFormula_of_lFunction_eq deg rk B, D.lFunction_eq_alternatingCharSeries deg rk B⟩

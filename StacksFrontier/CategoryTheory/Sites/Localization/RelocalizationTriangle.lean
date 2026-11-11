@@ -186,3 +186,30 @@ theorem leftAdjointIso_hom_app_comp_map_comp_counit {T : Sheaf (J.over V) A} {Z 
 
 end Sheaf
 
+section Pushforward
+
+variable (A : Type*) [Category A]
+  [∀ F : (Over V)ᵒᵖ ⥤ A, (Over.forget V).op.HasPointwiseRightKanExtension F]
+  [∀ F : (Over U)ᵒᵖ ⥤ A, (Over.forget U).op.HasPointwiseRightKanExtension F]
+  [∀ F : (Over V)ᵒᵖ ⥤ A, (Over.map f).op.HasPointwiseRightKanExtension F]
+
+/-- (Direct image, natural isomorphism.)
+`j_{V*} ≅ j_{U*} ∘ j_*` as functors `Sheaf (J.over V) A ⥤ Sheaf J A`.
+
+Each direct image is the right adjoint `sheafPushforwardCocontinuous` of the inverse image of a
+continuous and cocontinuous functor (`Functor.sheafAdjunctionCocontinuous`); the composite
+`j_{U*} ∘ j_*` is right adjoint to `j^{-1} ∘ j_U^{-1}`, which is `j_V^{-1}` by
+`inverseImage_eq`, so the two are identified by uniqueness of right adjoints. -/
+@[stacks 03EH "j_{V*} = j_{U*} ∘ j_*"]
+noncomputable def rightAdjointIso :
+    (Over.forget V).sheafPushforwardCocontinuous A (J.over V) J ≅
+      (Over.map f).sheafPushforwardCocontinuous A (J.over V) (J.over U) ⋙
+        (Over.forget U).sheafPushforwardCocontinuous A (J.over U) J :=
+  Adjunction.rightAdjointUniq
+    (((Over.forget V).sheafAdjunctionCocontinuous A (J.over V) J).ofNatIsoLeft
+      (eqToIso (inverseImage_eq J f A)))
+    (((Over.forget U).sheafAdjunctionCocontinuous A (J.over U) J).comp
+      ((Over.map f).sheafAdjunctionCocontinuous A (J.over V) (J.over U)))
+
+end Pushforward
+

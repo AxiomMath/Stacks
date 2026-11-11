@@ -9,8 +9,12 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ReducedFactorThroughClosed
 /-!
 # Coherence of the higher direct images along a proper morphism of algebraic spaces
 
-This file proves **Stacks 08AR**: for a proper morphism `f : X ⟶ Y` of algebraic spaces over `S`
-with `Y` locally Noetherian and a coherent `𝒪_X`-module `𝓕`, every `R^i f_* 𝓕` is coherent.
+This file gives the source's proof of **Stacks 08AR**: for a proper morphism `f : X ⟶ Y` of
+algebraic spaces over `S` with `Y` locally Noetherian and a coherent `𝒪_X`-module `𝓕`, every
+`R^i f_* 𝓕` is coherent.  The registered form of Stacks 08AR is
+`AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_isProper`
+(`StacksFrontier/AlgebraicGeometry/Spaces/ProperHigherDirectImageCoherent.lean`), which has the
+same statement and reaches it through finiteness of the cohomology over affine charts.
 
 The source's proof reduces to a Noetherian affine base and applies the dévissage of Stacks 08AN
 on the source to the property that all higher direct images are coherent; that reduction and
@@ -30,7 +34,8 @@ closed subspace `Z ⊆ X'` with `|Z|` irreducible, a coherent module with scheme
   support lies in `Z` because `𝒢` is a direct image from `Z` (Stacks 07U0, minimality), and
   contains `Z` because `Z` is reduced and its points lie in the support of `𝒢`
   (Stacks 07U0 part (4) and the reduced lifting criterion).
-* `AlgebraicGeometry.Space.isCoherent_rightDerived_of_isProper`: Stacks 08AR.
+* `AlgebraicGeometry.Space.isCoherent_rightDerived_of_isProper`: Stacks 08AR, by the dévissage on
+  the source.
 
 ## References
 
@@ -105,8 +110,9 @@ locally Noetherian, and let `𝓕` be a coherent `𝒪_X`-module.  Then `R^i f_*
 This is `AlgebraicGeometry.Space.isCoherent_rightDerived_of_isProper_of_witness` (the reduction to
 a Noetherian affine base and the dévissage of Stacks 08AN on the source), with the integral
 witness supplied by
-`AlgebraicGeometry.Space.hasCoherentWitnessOnIntegralSubspaces_of_isProper_of_isAffine`. -/
-@[stacks 08AR]
+`AlgebraicGeometry.Space.hasCoherentWitnessOnIntegralSubspaces_of_isProper_of_isAffine`.
+The statement is that of `AlgebraicGeometry.Space.isCoherent_higherDirectImage_of_isProper`,
+which carries the `@[stacks 08AR]` registration. -/
 theorem isCoherent_rightDerived_of_isProper {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y)
     (hf : IsProper B S hS f.hom)
     (hY : HasEtaleLocalProperty B S hS Y.1 (fun V : Scheme.{u} ↦ IsLocallyNoetherian V))

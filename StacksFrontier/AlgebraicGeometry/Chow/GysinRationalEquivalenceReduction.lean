@@ -13,21 +13,26 @@ scheme `i : D = Z(s) ⟶ X`. Stacks 02TO asserts that the Gysin map
 
   `i^* : Z_{k+1}(X) ⟶ A_k(D)`
 
-kills every `(k+1)`-cycle rationally equivalent to zero. That assertion is carried as the
-hypothesis `Stacks.Chow.GysinOfInvertibleFactorsThroughRationalEquivalence` in
-`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceInvertible`, because the source's
-proof consumes five lemmas that this repository does not have.
+kills every `(k+1)`-cycle rationally equivalent to zero. That assertion is the `Prop`
+`Stacks.Chow.GysinOfInvertibleFactorsThroughRationalEquivalence` of
+`StacksFrontier.AlgebraicGeometry.Chow.GysinRationalEquivalenceInvertible`; it is proved, with no
+hypothesis, as `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence` in
+`StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.GysinComponentDischarge`, by way of the reduction
+in this file.
 
 This file removes the part of that proof which is bookkeeping rather than geometry. A cycle
 rationally equivalent to zero is, by Stacks 02RW, a *locally finite* sum
 `α = ∑_j i_{j,*} div_{W_j}(f_j)` over integral closed subschemes `W_j ⊆ X` of delta-dimension
 `k + 2`. The theorem below shows that the vanishing for `α` follows from the vanishing for each
-summand separately, so the one datum still missing is the single-component statement
+summand separately, so the one datum left to prove is the single-component statement
 
   `i^*(i_{V,*} div_V(f)) ∼ 0`  on `D`, with witnesses inside `i^{-1}(V)`,
 
 for *one* integral closed subscheme `V ⊆ X` of delta-dimension `k + 2` and *one* nonzero rational
-function `f` on `V`. That is `Stacks.Chow.GysinKillsPrincipalDivisorOnComponent`.
+function `f` on `V`. That is `Stacks.Chow.GysinKillsPrincipalDivisorOnComponent`; for the first
+Chern class rule of `L` it is proved as
+`Stacks.Chow.gysinOfInvertibleKillsPrincipalDivisorOnComponent` in
+`StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.GysinComponentDischarge`.
 
 ## Main definitions
 
@@ -35,15 +40,15 @@ function `f` on `V`. That is `Stacks.Chow.GysinKillsPrincipalDivisorOnComponent`
   map of an arbitrary first Chern class component rule.
 * `Stacks.Chow.GysinOfInvertibleKillsPrincipalDivisorOnComponent` — the same datum for the Gysin
   map of an invertible module and a section, with no component rule in sight.
-* `Stacks.Chow.gysinHomomorphismOnChowOfInvertibleOfComponents` — **the map
-  `i^* : A_{k+1}(X) ⟶ A_k(D)` of Stacks 02TO**, granted that datum and nothing else.
+* `Stacks.Chow.gysinHomomorphismOnChowOfInvertibleOfComponents` — the map
+  `i^* : A_{k+1}(X) ⟶ A_k(D)` of Stacks 02TO, built from that datum.
 
 ## Main results
 
 * `Stacks.Chow.gysinFactorsThroughRationalEquivalence_of_components` — the single-component datum
   implies `Stacks.Chow.GysinFactorsThroughRationalEquivalence`.
-* `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence_of_components` — **the vanishing
-  of Stacks 02TO follows from the single-component datum**.
+* `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence_of_components` — the vanishing
+  of Stacks 02TO follows from the single-component datum.
 * `Stacks.Chow.gysinKillsPrincipalDivisor_of_factorsThroughRationalEquivalence` — conversely, the
   vanishing gives the single-component statement with the carrier forgotten. So the carrier is the
   only thing the datum asserts beyond an instance of the conclusion.
@@ -83,16 +88,16 @@ implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.CycleAdditivity`.
 (`Stacks.Chow.support_gysinComponentCycle_subset`), and the family `{i^{-1}(W_j)}` is locally
 finite because `{W_j}` is and `i` is continuous.
 
-### Stacks 02TO, and what it is granted
+### Where Stacks 02TO itself is
 
-The covering set of Stacks 02TO is the vanishing together with the descended map
-`i^* : A_{k+1}(X) ⟶ A_k(D)` it produces, and both are below:
-`Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence_of_components` is the vanishing
-and `Stacks.Chow.gysinHomomorphismOnChowOfInvertibleOfComponents` is the map, each granted the
-single-component datum `Stacks.Chow.GysinOfInvertibleKillsPrincipalDivisorOnComponent` and nothing
-else. That datum is the case the source's proof reduces to — `X` integral and `α = div(f)` — which
-the source settles with Stacks 02TM, 02TI and 02SP. The reduction *to* that case, which the source
-performs with Stacks 02TA and 02S2, is proved here, so neither of those is granted.
+The declarations below derive the vanishing and the descended map
+`i^* : A_{k+1}(X) ⟶ A_k(D)` from the single-component datum
+`Stacks.Chow.GysinOfInvertibleKillsPrincipalDivisorOnComponent`, which is the case the source's
+proof reduces to — `X` integral and `α = div(f)`. That datum is proved in
+`StacksFrontier.AlgebraicGeometry.Chow.KeyFormula.GysinComponentDischarge`, where Stacks 02TO is
+registered with no hypothesis: `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence`
+is the vanishing and `Stacks.Chow.gysinChowOfInvertible` is the descended map. The declarations
+here are the steps of that proof and carry no Stacks attribute.
 
 ## References
 
@@ -187,44 +192,38 @@ theorem gysinFactorsThroughRationalEquivalence_of_components
 
 /-! ### The same thing with no component rule -/
 
-/-- **The one geometric input the vanishing of Stacks 02TO still needs**, for the Gysin map of an
+/-- **The single-component input to the vanishing of Stacks 02TO**, for the Gysin map of an
 invertible module `L` and a section `s`: the single-component datum
 `Stacks.Chow.GysinKillsPrincipalDivisorOnComponent` at the first Chern class component rule of
-`L`. -/
+`L`. It is proved as `Stacks.Chow.gysinOfInvertibleKillsPrincipalDivisorOnComponent`. -/
 abbrev GysinOfInvertibleKillsPrincipalDivisorOnComponent : Prop :=
   GysinKillsPrincipalDivisorOnComponent C p k L s (firstChernComponentClass C p k L)
 
-/-- **Stacks 02TO from its single-component case.** If the Gysin map of the zero scheme of `s`
-kills the pushforward of the principal divisor of a rational function on each single integral
-closed subscheme of delta-dimension `k + 2`, with witnesses over that subscheme, then it kills
-every `(k+1)`-cycle rationally equivalent to zero — which is the vanishing of Stacks 02TO, and
+/-- **The reduction of Stacks 02TO to its single-component case.** If the Gysin map of the zero
+scheme of `s` kills the pushforward of the principal divisor of a rational function on each single
+integral closed subscheme of delta-dimension `k + 2`, with witnesses over that subscheme, then it
+kills every `(k+1)`-cycle rationally equivalent to zero — which is the vanishing of Stacks 02TO, and
 therefore, by `Stacks.Chow.gysinHomomorphismOnChowOfInvertibleOfComponents`, the descended map
-`i^* : A_{k+1}(X) ⟶ A_k(D)`. -/
-@[stacks 02TO "the Gysin map factors through rational equivalence, granted the single-component \
-case the source's proof reduces to — the Gysin map kills the pushforward of div_V(f) for one \
-integral V and one rational function f, which the source settles with Stacks 02TM, 02TI and \
-02SP. The reduction to that case, which the source performs with Stacks 02TA and 02S2, is \
-proved"]
+`i^* : A_{k+1}(X) ⟶ A_k(D)`. The datum is proved, and Stacks 02TO stated with no hypothesis, as
+`Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence`. -/
 theorem gysinOfInvertibleFactorsThroughRationalEquivalence_of_components
     (h : GysinOfInvertibleKillsPrincipalDivisorOnComponent C p k L s) :
     GysinOfInvertibleFactorsThroughRationalEquivalence C p k L s :=
   gysinFactorsThroughRationalEquivalence_of_components C p k L s
     (firstChernComponentClass C p k L) h
 
-/-- **Stacks 02TO.** The Gysin homomorphism of the zero scheme of a global section of an
-invertible module, descended to Chow groups,
+/-- The Gysin homomorphism of the zero scheme of a global section of an invertible module,
+descended to Chow groups,
 
   `i^* : A_{k+1}(X) ⟶ A_k(D)`,
 
-granted the single-component datum. This is
+built from the single-component datum; with that datum proved it is
+`Stacks.Chow.gysinChowOfInvertible`, the form of Stacks 02TO with no hypothesis. This is
 `Stacks.Chow.gysinHomomorphismOnChowOfInvertible` with its vanishing hypothesis supplied by
 `Stacks.Chow.gysinOfInvertibleFactorsThroughRationalEquivalence_of_components`, so it is a
 function of `L`, `s` and that datum alone, and
 `Stacks.Chow.eq_gysinHomomorphismOnChowOfInvertible` says it is the only homomorphism of Chow
 groups agreeing with the Gysin map on cycle representatives. -/
-@[stacks 02TO "the descended map i^* : A_{k+1}(X) ⟶ A_k(D), granted the single-component case \
-the source's proof reduces to, as in \
-`gysinOfInvertibleFactorsThroughRationalEquivalence_of_components`"]
 def gysinHomomorphismOnChowOfInvertibleOfComponents
     (h : GysinOfInvertibleKillsPrincipalDivisorOnComponent C p k L s) :
     chowGroup C p (k + 1) →+
@@ -232,8 +231,8 @@ def gysinHomomorphismOnChowOfInvertibleOfComponents
   gysinHomomorphismOnChowOfInvertible C p k L s
     (gysinOfInvertibleFactorsThroughRationalEquivalence_of_components C p k L s h)
 
-/-- **Stacks 02TO.** The descended Gysin map agrees with the Gysin homomorphism of Stacks 02T8 on
-cycle representatives, which is the formula that determines it. -/
+/-- The descended Gysin map agrees with the Gysin homomorphism of Stacks 02T8 on cycle
+representatives, which is the formula that determines it. -/
 @[simp]
 theorem gysinHomomorphismOnChowOfInvertibleOfComponents_mk
     (h : GysinOfInvertibleKillsPrincipalDivisorOnComponent C p k L s)

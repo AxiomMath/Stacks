@@ -92,8 +92,11 @@ This is the assertion of Stacks 0GMJ that the source obtains from `R^ν = R ×_{
 citing Stacks 04ZN, and the proof here is that citation: the cartesian source square is the field
 `AlgebraicGeometry.Stack.NormalizationGroupoid.isPullback_source` of the normalized groupoid, and
 Stacks 04ZN is
-`AlgebraicGeometry.Stack.isTwoFibreProduct_functorialitySquare_of_isPullback`. -/
-@[stacks 0GMJ "the fibre product with a presenting chart is the normalization of the chart"]
+`AlgebraicGeometry.Stack.isTwoFibreProduct_functorialitySquare_of_isPullback`.
+
+This is one step of the proof of Stacks 0GMJ, at the presenting chart only and with the
+normalized groupoid as data; Stacks 0GMJ, for every smooth morphism from a scheme, is
+`AlgebraicStacks.isIntegralHom_normalization_and_isTwoFibreProduct_normSpace`. -/
 noncomputable def isTwoFibreProduct_normalizationChartSquare
     (N : NormalizationGroupoid C S hS G) :
     Bicategory.IsTwoFibreProduct (functorialitySquare N.hom) :=

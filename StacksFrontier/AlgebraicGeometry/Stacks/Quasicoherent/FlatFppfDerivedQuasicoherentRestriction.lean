@@ -13,7 +13,7 @@ public import StacksFrontier.Algebra.Homology.DerivedCategory.DerivedCategoryBIs
 import StacksCore.Tactic.StacksAttribute
 
 /-!
-# Stacks 07B9 (2)(a) and (2)(c): `g^*` and `Lg_!` between `D_{LQCoh^fbc}` and `D_QCoh`
+# Stacks 07B9 (2)(a), (2)(b) and (2)(c): `g^*` and `Lg_!` between `D_{LQCoh^fbc}` and `D_QCoh`
 
 Let `𝒳` be an algebraic stack, `g` the morphism of ringed topoi of **Stacks 0788** for the
 flat-fppf site, with `g^*` restriction to the flat objects and `Lg_!` its left adjoint
@@ -22,6 +22,12 @@ flat-fppf site, with `g^*` restriction to the flat objects and `Lg_!` its left a
 
 * (2)(a), `AlgebraicGeometry.Stack.FlatFppf.derivedCategoryB_derivedModuleRestriction`: `g^*`
   carries `D_{LQCoh^fbc}(𝒪_𝒳)` into `D_QCoh(𝒪_{𝒳_{flat,fppf}})`, by Stacks 07B1 (2)(b).
+* (2)(b), `AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff_derivedParasitic`:
+  for `K` in `D_{LQCoh^fbc}(𝒪_𝒳)`, `g^*K = 0` exactly when `K` lies in
+  `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`, by Stacks 07AR.  The older
+  `AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff` has the same shape but
+  reads `LQCoh^fbc` with the presheaf form of the flat base change property, which is stronger
+  than Stacks 0762, so it does not state (2)(b).
 * (2)(c), over its input Stacks 07B3 (2),
   `AlgebraicGeometry.Stack.FlatFppf.derivedCategoryB_derivedModuleLowerShriek_of_single`: `Lg_!`
   carries `D_QCoh(𝒪_{𝒳_{flat,fppf}})` into `D_{LQCoh^fbc}(𝒪_𝒳)` as soon as it carries the

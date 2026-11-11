@@ -101,8 +101,6 @@ include hseq in
 finite locally free `𝒪_X`-modules, of arbitrary ranks, the morphism
 `i : N' = Spec_X(Sym((𝒩')^∨)) ⟶ N = Spec_X(Sym(𝒩^∨))` is a closed immersion: it is the base change
 of the zero section of `𝐕(ℰ^∨)`, a section of a separated morphism. -/
-@[stacks 0FAA "the closed embedding i : N' = Spec_X(Sym((N')^dual)) -> N = Spec_X(Sym(N^dual)) \
-of the statement, for a short exact sequence of finite locally free modules of arbitrary ranks"]
 theorem isClosedImmersion_subbundleEmbedding_of_shortExact :
     IsClosedImmersion (subbundleEmbedding N' N inc) := by
   have := isAffineHom_vectorBundleToBase X (dualSheaf E)

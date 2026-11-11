@@ -23,9 +23,9 @@ decomposition `X = X_0 ⨿ X_1 ⨿ X_2 ⨿ …` of [Stacks, Tag 0B37].
 
 ## Main results
 
-* `Stacks.SheafOfModules.rankDecomposition`: **Tag 0B37**, the decomposition itself. The rank
-  is locally constant, each `X_i` is open and closed, the `X_i` are pairwise disjoint and cover
-  `X`, and `E` is finite locally free of rank `i` on `X_i`.
+* `Stacks.SheafOfModules.rankDecomposition`: the decomposition itself. The rank is locally
+  constant, each `X_i` is open and closed, the `X_i` are pairwise disjoint and cover `X`, and `E`
+  is finite locally free of rank `i` on `X_i`.
 * `Stacks.SheafOfModules.exists_free_nbhd_of_rank_eq`: on an open on which the rank is
   constant equal to `r`, every point has a neighbourhood inside that open over which `E` is
   free on an index type of cardinality `r`. This is the content of the last clause, stated for
@@ -58,9 +58,12 @@ The members of a trivialising family for `E` which miss `Y` are irrelevant here,
 statement is pointwise on `Y`; the member through a given point of `Y` cuts `Y` in an open on
 which `E` is free, and the index type of that presentation computes the rank at the point.
 
-The remaining content of the section is not formalised here: the exact structure on `Vect(X)`
-and its `K`-group, the rank homomorphism `K_0(Vect(X)) → Map_cont(X, Z)`, the invertible sheaf
-`det(E)` which is `⋀^i(E|_{X_i})` on `X_i`, and `det : K_0(Vect(X)) → Pic(X)`.
+The rest of [Stacks, Tag 0B37] — the exact structure on `Vect(X)` and its `K`-group, the rank
+homomorphism `K_0(Vect(X)) → Map_cont(X, Z)`, the invertible sheaf `det(E)` which is
+`⋀^i(E|_{X_i})` on `X_i`, and `det : K_0(Vect(X)) → Pic(X)` — is in
+`StacksFrontier.Algebra.Category.ModuleCat.Sheaf.RankDeterminant`, whose
+`Stacks.SheafOfModules.rank_and_determinant_of_vect` carries the tag and bundles this
+decomposition with the rest.
 
 ## References
 
@@ -175,14 +178,12 @@ theorem exists_free_nbhd_of_rank_eq (r : ℕ) (Y : Opens X)
   rw [← finiteLocallyFreeRank_eq_card F hO q hq k x hk]
   exact hY x hx
 
-/-- **Stacks Project, Tag 0B37: the rank decomposition.** A finite locally free sheaf of modules
-`E` on a ringed space whose structure stalks are all nonzero has locally constant rank, so the
-loci `X_i` where the rank is `i` are open and closed, pairwise disjoint and cover `X`, and `E` is
-finite locally free of rank `i` on `X_i`. -/
-@[stacks 0B37 "the locally constant rank and the clopen rank decomposition \
-X = X_0 ⊔ X_1 ⊔ … with E finite locally free of rank i on X_i; the exact category Vect(X) and \
-its K-group, the rank homomorphism K_0(Vect(X)) → Map_cont(X, Z), the invertible sheaf det(E) \
-and the homomorphism det : K_0(Vect(X)) → Pic(X) are not covered", ega "0 5.4.1" "partial"]
+/-- **The rank decomposition.** A finite locally free sheaf of modules `E` on a ringed space whose
+structure stalks are all nonzero has locally constant rank, so the loci `X_i` where the rank is
+`i` are open and closed, pairwise disjoint and cover `X`, and `E` is finite locally free of rank
+`i` on `X_i`. This is the decomposition clause of [Stacks, Tag 0B37]; the complete statement of
+the tag is `Stacks.SheafOfModules.rank_and_determinant_of_vect`. -/
+@[ega "0 5.4.1" "partial"]
 theorem rankDecomposition :
     IsLocallyConstant (⇑(finiteLocallyFreeRank F hO)) ∧
       (∀ i : ℕ, IsClopen (rankStratum F hO i : Set X)) ∧

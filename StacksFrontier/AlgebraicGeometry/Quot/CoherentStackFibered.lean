@@ -47,49 +47,39 @@ determine the comparison of its left factor.
   of `Coh_{X/Y}` to the *test schemes over `Y`* is fibred in groupoids.  This is the whole
   content; the assertion of the source follows by composing with the projection of the test
   schemes to the schemes of the site.
-* `AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids`: **Stacks 08W5**, the
-  projection of `Coh_{X/Y}` to the schemes of the big fppf site is fibred in groupoids.
+* `AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids`: the projection of
+  `Coh_{X/Y}` to the schemes of the big fppf site is fibred in groupoids, for a value of
+  `AlgebraicGeometry.Space.ModulePullbackStability`.  Stacks 08W5 itself, with no such
+  hypothesis, is `AlgebraicGeometry.Space.CoherentSituation.projection_isFiberedInGroupoids` of
+  `StacksFrontier/AlgebraicGeometry/Quot/CoherentStackCanonical.lean`.
 
 ## Implementation notes
 
-**The category of Stacks 08KB is taken as a hypothesis, as it is where it is introduced.**
-Stacks 08KB names `Coh_{X/Y}` a category by designation and verifies nothing, so
+**The category of Stacks 08KB is a parameter.**  The specification
+`AlgebraicGeometry.Space.CoherentCategoryData` of
 `StacksFrontier/AlgebraicGeometry/Quot/CoherentStack.lean` records the category structure together
 with its projection and the identification of its hom-sets, identities, composition and
-projection as the *specification* `AlgebraicGeometry.Space.CoherentCategoryData`, and constructs
-no value of it.  A statement about the functor `p` of Stacks 08W5 is therefore a statement about
-`AlgebraicGeometry.Space.CoherentCategoryData.projection`, for a value of that specification
-supplied as a hypothesis, over the coherence data
-`AlgebraicGeometry.Space.ModulePushforwardCoherence` of Stacks 03LU that the identities and the
-composition of `Coh_{X/Y}` already need.  Because the specification pins the hom-sets,
-identities, composition and projection, this is a statement about the functor of the source and
-not about some other functor on the same objects.
+projection with those of the source.  The statements here are about
+`AlgebraicGeometry.Space.CoherentCategoryData.projection` for a value of that specification;
+because the specification pins the hom-sets, identities, composition and projection, they are
+statements about the functor of the source and not about some other functor on the same objects.
+A value is constructed as `AlgebraicGeometry.Space.CoherentSituation.categoryData` of
+`StacksFrontier/AlgebraicGeometry/Quot/CoherentStackCategory.lean`.
 
-**The three base-change assertions of the lifting half are hypotheses, and they are the one
-place where this file falls short of the source.**  `AlgebraicGeometry.Space.CoherentObject`
-asks of its module that it be quasi-coherent, of finite presentation, flat over the test scheme
-and of proper support, and the lifting half of Stacks 08W5 needs each of those to be inherited
-by an inverse image.  The source cites Stacks 03DO clause (7) for finite presentation (whence
-quasi-coherence), Stacks 05VW for flatness and Stacks 0CZJ for proper support.  None of the
-three is available in this development:
-
-* Stacks 03DO clause (7) is proved here for a morphism of *ringed topoi* as
-  `Stacks.Sheaves.FinitePresentation.isFinitePresentation_pullbackModules`, but for Mathlib's
-  `SheafOfModules.IsFinitePresentation`, and the modules of Stacks 08KB carry
-  `SheafOfModules.IsFinitePresentationOnSite`; the two notions are not identified here.
-* Stacks 05VW would have to be proved for `AlgebraicGeometry.Space.IsFlatOver`, which is the
-  chartwise condition of Stacks 05VU on *every* commuting square of étale scheme charts, and a
-  chart of the base change does not factor through a chart of the original space.
-* Stacks 0CZJ would have to compare the support of an inverse image with the inverse image of
-  the support, and the support of Stacks 04KA is defined by geometric stalks, for which this
-  development has no computation along a morphism of algebraic spaces that is not étale.  Its
-  geometric half is available: `AlgebraicGeometry.Space.isProperOver_preimage` is Stacks 0CZF.
-
-They are therefore carried as the single hypothesis
-`AlgebraicGeometry.Space.ModulePullbackStability`, each of its three fields being the assertion
-of its tag at the generality of the source.  This is the same device as the one by which
-`StacksFrontier/AlgebraicGeometry/Spaces/SmallEtaleModulePushforwardCoherence.lean` carries
-Stacks 03LU, and no tag attribute sits on it.
+**The three base-change assertions of the lifting half are a parameter here.**
+`AlgebraicGeometry.Space.CoherentObject` asks of its module that it be quasi-coherent, of finite
+presentation, flat over the test scheme and of proper support, and the lifting half of
+Stacks 08W5 needs each of those to be inherited by an inverse image.  The source cites
+Stacks 03DO clause (7) for finite presentation (whence quasi-coherence), Stacks 05VW for flatness
+and Stacks 0CZJ for proper support.  This file takes the three as the single structure
+`AlgebraicGeometry.Space.ModulePullbackStability`, whose flatness field is Stacks 05VW for a
+quasi-coherent module.  All three are proved, with the flatness assertion for a module of finite
+presentation (the generality the objects of `Coh_{X/Y}` need), as
+`AlgebraicGeometry.Space.modulePullbackStabilityOfFinitePresentation` of
+`StacksFrontier/AlgebraicGeometry/Quot/CoherentStackFinitePresentationStability.lean`, and
+`StacksFrontier/AlgebraicGeometry/Quot/CoherentStackFiberedUnconditional.lean` rebuilds the
+statements of this file on that structure, so that Stacks 08W5 is proved with no hypothesis as
+`AlgebraicGeometry.Space.CoherentSituation.projection_isFiberedInGroupoids`.
 
 **The statement of the source is over the schemes of the site, and so is the one below.**  The
 functor `p` of Stacks 08W5 lands in `(Sch/S)_fppf`, whereas
@@ -208,8 +198,10 @@ half of Stacks 08W5 cites: finite presentation is inherited by an inverse image 
 clause (7)), flatness over the target is inherited in a cartesian square (Stacks 05VW), and so is
 properness of the support over the target (Stacks 0CZJ).
 
-Each field is the assertion of its tag at the generality of the source.  None of the three is
-available in this development; see the implementation notes of the file. -/
+Each field is the assertion of its tag at the generality of the source.  The finite-presentation
+and proper-support fields, and the flatness field for a module of finite presentation, are proved
+as `AlgebraicGeometry.Space.modulePullbackStabilityOfFinitePresentation`; see the implementation
+notes of the file. -/
 structure ModulePullbackStability (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     where
   /-- **Stacks 03DO, clause (7).**  The inverse image of a module of finite presentation along a
@@ -454,9 +446,9 @@ theorem coherentProjection_isFiberedInGroupoids_schemesOver
 
 /-! ### Stacks 08W5 -/
 
-/-- **Stacks 08W5.**  In the situation of Stacks 08KB the projection
-`p : Coh_{X/Y} ⟶ (Sch/S)_fppf`, which sends an object `(T, g, F)` to its test scheme `T`, is
-fibred in groupoids.
+/-- In the situation of Stacks 08KB the projection `p : Coh_{X/Y} ⟶ (Sch/S)_fppf`, which sends
+an object `(T, g, F)` to its test scheme `T`, is fibred in groupoids, for a value `hst` of
+`AlgebraicGeometry.Space.ModulePullbackStability`.
 
 The projection of `Coh_{X/Y}` to the test schemes over `Y` is fibred in groupoids by
 `AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids_schemesOver`, the projection of
@@ -464,14 +456,11 @@ the test schemes over `Y` to the schemes of the site is fibred in groupoids by
 `CategoryTheory.Functor.IsFiberedInGroupoids.costructuredArrow_proj`, and Stacks 09WW composes
 the two.
 
-**This carrier is conditional, and so asserts less than the tag.** Stacks 08W5 is
-unconditional; the `hst : ModulePullbackStability B S hS` hypothesis stands in for three cited
-results that the library does not yet carry — 05VW (flatness under base change), 0CZJ (proper
-support under base change) and clause (7) of 03DO (finite presentation of a pullback) — each
-stated in that structure at the generality of its own source page. The attribute is qualified
-accordingly, and no unqualified 08W5 claim is made here. Discharging those three fields turns
-this into the tag itself with no change to the statement below. -/
-@[stacks 08W5 "conditional on the three cited base-change stability results 05VW, 0CZJ and 03DO(7)"]
+Stacks 08W5 itself is proved with no such hypothesis as
+`AlgebraicGeometry.Space.CoherentSituation.projection_isFiberedInGroupoids`, through
+`AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids'` and the proved
+`AlgebraicGeometry.Space.modulePullbackStabilityOfFinitePresentation`; this variant is kept for
+the consumers that carry `hst`. -/
 theorem coherentProjection_isFiberedInGroupoids
     (hc : ModulePushforwardCoherence B S hS) (hst : ModulePullbackStability B S hS)
     {D : CoherentSituation B S hS} (cd : CoherentCategoryData hc D) :

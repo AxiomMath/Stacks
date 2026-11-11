@@ -17,10 +17,15 @@ category cofibered in groupoids, and defines the deformation category of a fixed
 `X ⟶ Y` of schemes over the residue field as the slice over that morphism, viewed as a family
 over the residue-field object.
 
-This file records the second assertion of Stacks Tag 0E3U: once the category of all flat
-families of morphisms of schemes is known to satisfy the Rim-Schlessinger condition, the
+This file proves the second assertion of Stacks Tag 0E3U from the first: once the category of
+all flat families of morphisms of schemes satisfies the Rim-Schlessinger condition, the
 deformation category of a fixed morphism of schemes over the residue field is a deformation
-category, that is, a predeformation category satisfying (RS).
+category, that is, a predeformation category satisfying (RS). The first assertion is
+`Deformation.Examples.satisfiesRS_schemeMorphismFamilyFunctor`, proved in
+`StacksFrontier.Deformation.Examples.Geometric.SchemeMorphismsRimSchlessingerSquares`, and the two
+are combined, with no hypothesis, as
+`Deformation.Examples.isDeformationCategory_schemeMorphismDeformationCategoryProjection` in
+`StacksFrontier.Deformation.Examples.Geometric.SchemeMorphismsRimSchlessingerUnconditional`.
 
 ## Main definitions
 
@@ -31,18 +36,17 @@ category, that is, a predeformation category satisfying (RS).
 
 * `Deformation.Examples.isDeformationCategory_schemeMorphismDeformationCategory`: the
   deformation category of a morphism of schemes over the residue field is a deformation
-  category, given the Rim-Schlessinger condition for the ambient category of flat families.
+  category whenever the ambient category of flat families satisfies the Rim-Schlessinger
+  condition.
 
 ## Implementation notes
 
-The (RS) condition for the ambient category of flat families of morphisms of schemes — the
-first assertion of Stacks Tag 0E3U — is carried here as an explicit hypothesis rather than
-proved. Its proof rests on the identification of the category of schemes flat over a fibre
-product of Artinian local algebras with the fibre product of the categories of schemes flat
-over the two factors, which is the flat clause of Stacks Tag 07RX and is not available in this
-library.
+The (RS) condition for the ambient category of flat families of morphisms of schemes is taken
+here as an explicit hypothesis, so that this file does not depend on the gluing argument proving
+it; that argument, resting on the flat clause of Stacks Tag 07RX, is in
+`StacksFrontier.Deformation.Examples.Geometric.SchemeMorphismsRimSchlessingerSquares`.
 
-Granting that hypothesis, the passage to the slice is the localization argument of Stacks Tag
+Given that hypothesis, the passage to the slice is the localization argument of Stacks Tag
 06JC. It is applied in the form whose hypothesis on the chosen object is that its base is
 terminal rather than that its base is literally `Deformation.residueFieldObject`: the base of
 the special fibre of a morphism of schemes over the residue field is
@@ -91,13 +95,13 @@ theorem schemeMorphismDeformationCategoryProjection_map {X Y : Scheme.{v}} (f : 
     (hf : f ≫ pY = pX) {P Q : schemeMorphismDeformationCategory f pX pY hf} (g : P ⟶ Q) :
     (schemeMorphismDeformationCategoryProjection f pX pY hf).map g = g.left.base := rfl
 
-/-- The second assertion of Stacks Tag 0E3U. Granting the Rim-Schlessinger condition for the
-category of all flat families of morphisms of schemes over `𝒞_Λ`, the deformation category of
-a fixed morphism `X ⟶ Y` of schemes over the residue field is a deformation category: a
-predeformation category satisfying (RS). -/
-@[stacks 0E3U "the in-particular assertion only: granting (RS) for Example 0E3T as the \
-hypothesis hRS, the deformation category Def_{X ⟶ Y} of a morphism of schemes X ⟶ Y over k \
-is a deformation category. (RS) for Example 0E3T itself is NOT proved here"]
+/-- The deformation category of a fixed morphism `X ⟶ Y` of schemes over the residue field is
+a deformation category (a predeformation category satisfying (RS)) whenever the category of all
+flat families of morphisms of schemes over `𝒞_Λ` satisfies the Rim-Schlessinger condition.
+
+The hypothesis is proved as `Deformation.Examples.satisfiesRS_schemeMorphismFamilyFunctor`, and
+the resulting unconditional statement, Stacks Tag 0E3U, is
+`Deformation.Examples.isDeformationCategory_schemeMorphismDeformationCategoryProjection`. -/
 theorem isDeformationCategory_schemeMorphismDeformationCategory
     (hRS : SatisfiesRS (schemeMorphismFamilyFunctor.{u, v} (Λ := Λ) (k := k)))
     {X Y : Scheme.{v}} (f : X ⟶ Y)

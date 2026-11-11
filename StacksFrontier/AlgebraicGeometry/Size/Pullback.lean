@@ -15,7 +15,7 @@ import Mathlib.AlgebraicGeometry.PullbackCarrier
 /-!
 # Size of a fibre product of schemes (Stacks 04T6)
 
-The *size* of a scheme (`AlgebraicGeometry.Scheme.size`, Stacks 000I) is the maximum of `ℵ₀`,
+The *size* of a scheme (`AlgebraicGeometry.Scheme.size`, Stacks Section 000H) is the maximum of `ℵ₀`,
 the number of its affine opens, and the cardinalities of its rings of sections over affine
 opens. This file shows that size does not grow under fibre products:
 `size (X ×_S Y) ≤ max (size X) (size Y)`.

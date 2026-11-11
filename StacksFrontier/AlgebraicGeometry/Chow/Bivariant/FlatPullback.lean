@@ -17,11 +17,12 @@ flat morphism of relative dimension `r` between schemes locally of finite type o
 where `f' : T ×_Y X ⟶ T` is the base change of `f` along `g`, is a bivariant class of degree
 `-r` for `f`.
 
-This file supplies the rule and the one of the three naturality conditions of Stacks 0B76 that
-this repository can discharge: the flat-pullback condition, which is the part of the source proof
-carried by Stacks 02RD. It also supplies the substrate that condition needs — flat pullback on
-Chow groups through a commuting square of flat morphisms, and the composition rule of Stacks 02RD
-on Chow groups rather than on cycles.
+This file supplies the rule and the flat-pullback condition of Stacks 0B76 for it, the part of
+the source proof carried by Stacks 02RD. It also supplies the substrate that condition needs —
+flat pullback on Chow groups through a commuting square of flat morphisms, and the composition
+rule of Stacks 02RD on Chow groups rather than on cycles. The class of Stacks 0B78 itself is
+assembled in `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullbackProperPushforward` and
+`StacksFrontier.AlgebraicGeometry.Chow.Bivariant.FlatPullbackChowClass`.
 
 ## Main definitions
 
@@ -43,24 +44,19 @@ on Chow groups rather than on cycles.
 
 ## Implementation notes
 
-### Why the rule needs a hypothesis to be written down at all
+### Why the rule is stated over a descent hypothesis
 
 The rule pulls back along the base change of `f`, so writing it down needs an instance of Stacks
-02S1 for that morphism at every test scheme and every degree. Stacks 02S1 is not formalized in
-this repository and is carried as a hypothesis everywhere in this development; see the
-implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullback`. It is a
-`Prop`, and the rule recorded in `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.Basic` is that a
-`Prop` is quantified rather than parameterized, so the declarations below quantify over all the
-instances at once, in the shape `Stacks.Chow.ProperPushforwardDescends` of
+02S1 for that morphism at every test scheme and every degree. The declarations below quantify
+over all the instances at once, in the shape `Stacks.Chow.ProperPushforwardDescends` of
 `StacksFrontier.AlgebraicGeometry.Chow.BivariantComposition.Basic` uses for Stacks 02S2. The
-hypothesis is written out rather than named, so that it is exactly — definitionally — the
-statement that `Stacks.Chow.FlatPullbackDescends` of
-`StacksFrontier.AlgebraicGeometry.Chow.BivariantDisjoint.PieceRestriction` already names: a consumer
-holding that may pass it here directly, and no second name for one `Prop` is created. As with
-Stacks 02S2 there, the quantification is a hypothesis of the enclosing declarations and is
-**not** put inside `Stacks.Chow.IsBivariantFlatPullback`: inside, it would weaken the
-characterization, and were Stacks 02S1 uninhabited the characterization would be vacuously true
-and the uniqueness theorem would say nothing.
+quantification is written out rather than named, so that it is exactly — definitionally — the
+statement `Stacks.Chow.FlatPullbackDescends` of
+`StacksFrontier.AlgebraicGeometry.Chow.BivariantDisjoint.PieceRestriction`. That statement is
+Stacks 02S1, and it is a theorem of this repository, `Stacks.Chow.flatPullbackDescends` of
+`StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.RationalEquivalenceDescent`, which a consumer
+passes here. The quantification is a hypothesis of the enclosing declarations and is **not** put
+inside `Stacks.Chow.IsBivariantFlatPullback`: inside, it would weaken the characterization.
 
 Quantifying over every degree also does real work in the proof of the flat-pullback condition:
 the comparison there is between flat pullback at two degrees that are the same integer written two
@@ -75,47 +71,19 @@ so the rule is flat pullback followed by `Stacks.Chow.chowGroupDegreeEquiv`, and
 flat-pullback condition is a heterogeneous equality, as the field of
 `Stacks.Chow.BivariantClass` is.
 
-### What is still missing
+### Where the class is assembled
 
 Constructing the class of Stacks 0B78 is filling the three naturality fields of
-`Stacks.Chow.BivariantClass` for `Stacks.Chow.flatPullbackBivariantCap`. The source proof invokes
-Stacks 02S1, 02RD, 02RG and 02TA-for-divisors in the form of Stacks 0B71, one for each field plus
-one to define the map, and only Stacks 02RD is available here:
-
-* **Flat** (Stacks 02RD). Done:
-  `Stacks.Chow.flatPullbackBivariantCap_flat_naturality`. The base change of `f` over the smaller
-  test scheme followed by the test morphism, and the base change of the test morphism followed by
-  the base change of `f` over the larger one, are the same morphism, because the two squares
-  paste; so Stacks 02RD traverses the square both ways and the two pullbacks agree.
-* **Proper** (Stacks 02RG). Not done: the condition asks flat pullback to commute with proper
-  pushforward in the cartesian square formed by the two base changes of `f` and the proper test
-  morphism with its base change, and this repository has Stacks 02RG only when both flat legs are
-  isomorphisms — `Stacks.Chow.flatPullbackChow_chowPushforwardOfIso` of
-  `StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.IsomorphismBaseChange` — or when the flat leg
-  is the inclusion of an open subscheme,
-  `Stacks.Chow.chowGroupOpensRestrict_properChowPushforward` of
-  `StacksFrontier.AlgebraicGeometry.Chow.BivariantDisjoint.RestrictPushforward`. Neither covers the
-  base change of a general flat `f`. The same gap stops the proper pushforward of a bivariant
-  class, Stacks 0EPK, at its flat field; see the implementation notes of
-  `StacksFrontier.AlgebraicGeometry.Chow.Bivariant.ProperPushforward`.
-* **Gysin** (Stacks 0B71). Not done. The identity to prove is Stacks 0B71 for the base change of
-  `f`, available here only under the integral-component hypothesis
-  `Stacks.Chow.GysinCompatibleWithFlatPullback` of
-  `StacksFrontier.AlgebraicGeometry.Chow.Gysin42.FlatPullback`, which cannot be derived from the
-  `Stacks.Chow.GysinSystem` parameter of `Stacks.Chow.BivariantClass`: that file exhibits a
-  counterexample. Granted it, the remaining work is to identify the base change of the zero
-  scheme of a section with the zero scheme of the pulled-back section compatibly with the rule;
-  the condition of Stacks 0B76 hands that identification over, so unlike the Gysin field of
-  Stacks 0EPK this half is not blocked by Stacks 0B6Y.
-
-### No bare `@[stacks 0B78]`
-
-The content of Stacks 0B78 is that the rule *is* a bivariant class. That is not proved here,
-because two of its three conditions rest on tags this repository does not carry, so no
-declaration below carries the bare tag; the one that does carry it names the condition it
-discharges. The rule itself is a genuine definition with a genuine body, not a choice from an
-existence statement, so a later file that proves Stacks 02RG and Stacks 0B71 can assemble the
-class from it without redefining anything.
+`Stacks.Chow.BivariantClass` for `Stacks.Chow.flatPullbackBivariantCap`. The source proof
+invokes Stacks 02S1, 02RD, 02RG and 0B71. This file proves the flat field from Stacks 02RD,
+`Stacks.Chow.flatPullbackBivariantCap_flat_naturality`. The other two, and the class itself, are
+in later files: the proper field from Stacks 02RG,
+`Stacks.Chow.flatPullbackBivariantCap_proper_naturality_unconditional`, the Gysin field from
+Stacks 0B71 with the identification of Remark 0B6Y,
+`Stacks.Chow.gysinSystemOfInvertible_flatPullbackNaturalityAtZeroSchemeComparison`, and the
+class, `Stacks.Chow.flatPullbackBivariantClassOfInvertible` and
+`Stacks.Chow.flatPullbackBivariantChowClass`, which carry `@[stacks 0B78]`. No declaration in
+this file carries the tag: each states one step of the proof, not the lemma.
 
 ## References
 
@@ -281,7 +249,8 @@ variable (C : ChowSituation.{u}) {X Y : Scheme.{u}} (sX : X ⟶ C.S) [LocallyOfF
 degree `k - (-r)`, which is the degree a bivariant class of degree `-r` produces.
 
 The base change is flat of relative dimension `r` by Stacks 02NK, and its flat pullback descends
-to Chow groups by the bundled Stacks 02S1 hypothesis `Stacks.Chow.FlatPullbackDescends`. -/
+to Chow groups by the bundled Stacks 02S1 statement `Stacks.Chow.FlatPullbackDescends`, which is
+the theorem `Stacks.Chow.flatPullbackDescends`. -/
 def flatPullbackBivariantCap {T : Scheme.{u}} (g : T ⟶ Y) [LocallyOfFiniteType g] (k : ℤ) :
     chowGroup C (g ≫ sY) k →+ chowGroup C (pullback.fst f g ≫ sX) (k - -(r : ℤ)) :=
   (chowGroupDegreeEquiv C (pullback.fst f g ≫ sX)
@@ -312,7 +281,7 @@ theorem flatPullbackBivariantCap_heq {T : Scheme.{u}} (g : T ⟶ Y) [LocallyOfFi
   rw [flatPullbackBivariantCap_apply]
   exact chowGroupDegreeEquiv_heq C (pullback.fst f g ≫ sX) _ _
 
-/-- **Stacks 0B78.** The flat-pullback condition of Stacks 0B76 for the rule of Stacks 0B78: the
+/-- The flat-pullback condition of Stacks 0B76 for the rule of Stacks 0B78: the
 rule `α ↦ (f')^* α` commutes with flat pullback of fixed relative dimension along a morphism
 `h : T' ⟶ T` of test schemes.
 
@@ -321,11 +290,6 @@ change of `f` over `T`, are the same morphism `T' ×_Y X ⟶ T`, because the two
 paste; Stacks 02RD then traverses that morphism both ways. The two sides land in degrees
 `(k + s) - (-r)` and `(k - (-r)) + s`, so the identity is a heterogeneous equality, exactly as
 the corresponding field of `Stacks.Chow.BivariantClass` is. -/
-@[stacks 0B78 "the flat-pullback condition of Stacks 0B76 for the flat-pullback rule, from \
-Stacks 02RD, with the Stacks 02S1 descent hypothesis bundled; the rule is \
-`Stacks.Chow.flatPullbackBivariantCap`, and it is not assembled into a term of \
-`Stacks.Chow.BivariantClass` here because the proper condition is Stacks 02RG and the Gysin \
-condition is Stacks 0B71, neither of which this repository carries"]
 theorem flatPullbackBivariantCap_flat_naturality {T T' : Scheme.{u}} (g : T ⟶ Y)
     [LocallyOfFiniteType g] (h : T' ⟶ T) [LocallyOfFiniteType h] [Flat h] (s : ℕ)
     (hs : AlgebraicGeometry.RelativeDimension h s)

@@ -2,7 +2,6 @@ module
 
 public import StacksFrontier.AlgebraicGeometry.Spaces.Perfect.SupportedOnComplement
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.Perfect.PerfectObjects
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Perfectness of the derived direct image of a supported perfect object
@@ -13,12 +12,15 @@ scheme `S`, set `T = |X| \ |U|`, and let `E` be a perfect object of `D(𝒪_V)` 
 
 The source's proof is two sentences: perfectness is a local condition on `X_étale`, so it
 suffices to check it after restricting to `U` and to `V`; on `V` the restriction is `E` itself
-by Stacks 08GG, and on `U` it vanishes because `E` vanishes on `V \ j^{-1}T`.  That passage is
-what is carried out here, from three named hypotheses standing for the three inputs the library
-does not have — see the implementation notes, which say precisely what each one is and why it
-is missing.  The two facts about perfectness the passage needs, namely that a zero object of
-`D(𝒪)` is perfect and that perfectness transports along an isomorphism, are *not* in the
-library for a ringed site; they are proved here, unconditionally and with all universes free.
+by Stacks 08GG, and on `U` it vanishes because `E` vanishes on `V \ j^{-1}T`.  This file carries
+out that deduction from its three inputs, taken as hypotheses, and proves the two facts about
+perfectness the deduction needs, namely that a zero object of `D(𝒪)` is perfect and that
+perfectness transports along an isomorphism, for a ringed site, unconditionally and with all
+universes free.  The three inputs are now proved, in `SupportedPushforwardPerfect.lean` and
+`PerfectEtaleLocalSliceRestriction.lean`, and Stacks 08HK itself is registered as
+`AlgebraicGeometry.Space.isPerfect_rightAdjoint_edsDerivedRestrictEtale_of_cohomologySupportedOn`
+and, for the derived direct image `AlgebraicGeometry.derivedModulePushforward`, as
+`AlgebraicGeometry.Space.isPerfect_derivedModulePushforward_of_cohomologySupportedOn`.
 
 ## Main results
 
@@ -27,8 +29,8 @@ library for a ringed site; they are proved here, unconditionally and with all un
 * `AlgebraicGeometry.RingedSite.isPerfect_of_isZero`: a zero object of `D(𝒪)` is perfect.
 * `AlgebraicGeometry.RingedSite.IsPerfect.of_iso`: perfectness transports along an isomorphism
   of `D(𝒪)`.
-* `AlgebraicGeometry.Space.isPerfect_derivedPushforward_of_cohomologySupportedOn`:
-  **Stacks 08HK**, granted the three inputs described below.
+* `AlgebraicGeometry.Space.isPerfect_derivedPushforward_of_cohomologySupportedOn`: the source's
+  deduction of Stacks 08HK from its three inputs, each a hypothesis.
 
 ## Implementation notes
 
@@ -52,36 +54,19 @@ adjoint together with its adjunction is unique up to a unique compatible isomorp
 pins both the functor and the counit `(Rj_*E)|_V ⟶ E` that clause (2)(b) of Stacks 08GG is
 about; it does not weaken the statement.
 
-*The three missing inputs, each a named hypothesis.*  None of the three is proved anywhere in
-the library, and each is stated as an implication *from* the support hypothesis, exactly as
-`hvan` and `h2b` are in `SupportedOnComplement.lean`, so that the source's support hypothesis
-is really consumed and is not left dangling.
+*The three inputs, each a named hypothesis.*  Each is stated as an implication *from* the
+support hypothesis where it uses it, so that the source's support hypothesis is really consumed.
+All three are proved elsewhere in the library:
 
 1. `hlocal` is that perfectness is local on `X_étale` along the covering `{U ⟶ X, j : V ⟶ X}`,
-   which is the first sentence of the source's proof.  The library's statement of it is
-   `AlgebraicGeometry.RingedSite.isPerfect_of_locally`, Stacks 08G5 read through Stacks 08G6
-   part (1), and it is **inapplicable here for a universe reason, not for want of a covering**:
-   it is stated for a `RingedSite.{u, u, 0}`, whereas
-   `AlgebraicGeometry.Space.smallEtaleRingedSite` is a `RingedSite.{u + 1, u, u}`, whose objects
-   lie one universe above its morphisms.  The restriction is inherited from Stacks 08FR
-   (`Stacks.SheafOfModules.exists_coveringSieve_quasiIso_of_derivedIso`), which turns a derived
-   isomorphism into an honest map of complexes and is available only when the objects and the
-   morphisms of the site share a universe.  So Stacks 08G6 part (1), and with it every
-   local-to-global statement about perfectness, is currently unreachable for an algebraic space,
-   and the covering `{U, V}` of `X_étale` would not help.
+   which is the first sentence of the source's proof; it is
+   `AlgebraicGeometry.Space.isPerfect_of_isPerfect_eds`.
 2. `h2b` is clause (2)(b) of Stacks 08GG, that the counit `(Rj_*E)|_V ⟶ E` is an isomorphism
-   for `E` supported on `j^{-1}T`.  `SupportedOnComplement.lean` proves clauses (1)(a), (1)(b)
-   and (2)(c) and records in its own notes that clauses (2)(a) and (2)(b) are *not* proved:
-   the source obtains them by base changing the square to `V`, where `j` acquires a section,
-   and that reduction is not carried by the library.  Clause (2)(c), which *is* proved there,
-   takes (2)(b) as a hypothesis too.
-3. `hUzero` is that the restriction of `Rj_*E` to `U` vanishes.  The source gets it from
-   `E|_{V ∖ j^{-1}T} = 0` and Stacks 08GE.  The first half is the step
-   `Hⁱ(E|_Y) = Hⁱ(E)|_Y` together with Stacks 04K5, and `SupportedOnComplement.lean` records
-   that it is unavailable because Mathlib proves no commutation of
-   `CategoryTheory.Functor.mapDerivedCategory` with the homology functors; that is the same gap
-   its hypothesis `hvan` stands for.  Stacks 08GE itself is proved, as
-   `AlgebraicGeometry.Space.derivedModulePushforwardEtaleRestrictIso`.
+   for `E` supported on `j^{-1}T`; it is
+   `AlgebraicGeometry.Space.isIso_counit_edsEtale_rightAdjoint_of_cohomologySupportedOn`.
+3. `hUzero` is that the restriction of `Rj_*E` to `U` vanishes, which the source gets from
+   `E|_{V ∖ j^{-1}T} = 0` and Stacks 08GE; it is
+   `AlgebraicGeometry.Space.isZero_edsDerivedRestrictOpen_rightAdjoint_of_cohomologySupportedOn`.
 
 *What is proved here.*  Given the three, the deduction is the source's: `hUzero` and
 `isPerfect_of_isZero` make the restriction to `U` perfect, `h2b` and `IsPerfect.of_iso` carry
@@ -217,39 +202,16 @@ variable {RpushD : DerivedCategory (Modules.{u, u} B S hS (edsEtale B S hS hsq).
     (edsEtale B S hS hsq).2) ⥤ DerivedCategory (Modules.{u, u} B S hS W.1 W.2)}
   (adjPush : edsDerivedRestrictEtale B S hS hsq ⊣ RpushD)
 
-/-- **Stacks 08HK.**  Let `S` be a scheme, let `(U ⊆ X, j : V ⟶ X)` be an elementary
-distinguished square of algebraic spaces over `S`, and set `T = |X| \ |U|`.  Let `E` be a
-perfect object of `D(𝒪_V)` supported on `j^{-1}T`.  Then `Rj_*E` is a perfect object of
-`D(𝒪_X)`.
+/-- **The source's deduction of Stacks 08HK from its three inputs.**  For an elementary
+distinguished square `(U ⊆ X, j : V ⟶ X)` with `T = |X| \ |U|`, a right adjoint `RpushD` of
+derived restriction to `V`, and a perfect `E` in `D(𝒪_V)` supported on `j^{-1}T`: if
+perfectness is local along the square (`hlocal`), the counit `(Rj_*E)|_V ⟶ E` is an isomorphism
+(`h2b`, clause (2)(b) of Stacks 08GG) and `(Rj_*E)|_U` vanishes (`hUzero`), then `Rj_*E` is
+perfect.  Both `h2b` and `hUzero` are stated as implications from the support hypothesis.
 
-This is the source's own two-sentence proof, granted its three inputs, each of which is a named
-hypothesis here because the library does not have it: `hlocal` is that perfectness is local on
-`X_étale`, `h2b` is clause (2)(b) of Stacks 08GG, and `hUzero` is the vanishing of the
-restriction of `Rj_*E` to `U`.  The implementation notes of this file say exactly what each one
-is and why it is missing.  Both `h2b` and `hUzero` are stated as implications from the support
-hypothesis, which is where the support hypothesis of the source is used.
-
-The two facts about perfectness the passage needs — that a zero object of `D(𝒪)` is perfect and
-that perfectness transports along an isomorphism — are proved in this file for a ringed site,
-unconditionally. -/
-@[stacks 08HK "Rj_*E is a perfect object of D(O_X) for E perfect on V and supported on
-j^{-1}T. CONDITIONAL on three named hypotheses, NONE of which is proved in the library, and
-which together are the whole of the source's argument apart from the two perfectness facts
-proved in this file. (i) hlocal: perfectness is local on X_etale along {U, V}, the first
-sentence of the source's proof. The library's form of it, isPerfect_of_locally (Tag 08G5
-through Tag 08G6 part (1)), is stated for a RingedSite.{u, u, 0} and the small etale ringed
-site of an algebraic space is a RingedSite.{u + 1, u, u}, so it does not apply; the obstruction
-is inherited from Tag 08FR, which needs the objects and the morphisms of the site in one
-universe, and is NOT a missing covering. (ii) h2b: clause (2)(b) of Tag 08GG, that the counit
-(Rj_*E)|_V to E is an isomorphism for supported E. SupportedOnComplement.lean proves clauses
-(1)(a), (1)(b) and (2)(c) and records that (2)(a) and (2)(b) are unproved, the source getting
-them by a base change of the square to V that the library does not carry. (iii) hUzero: the
-vanishing of (Rj_*E)|_U, which the source gets from E|_{V minus j^{-1}T} = 0 and Tag 08GE; the
-first half needs H^i(E|_Y) = H^i(E)|_Y, unavailable because Mathlib proves no commutation of
-Functor.mapDerivedCategory with the homology functors, the same gap as the hypothesis hvan
-there. Tag 08GE itself is proved. What IS proved: the source's deduction, with h2b and hUzero
-taking the support hypothesis as antecedent so that it is genuinely consumed. Rj_* enters as a
-right adjoint of derived restriction together with its adjunction, as in Tag 08HA"]
+The three inputs are proved, so Stacks 08HK holds outright; it is registered as
+`AlgebraicGeometry.Space.isPerfect_rightAdjoint_edsDerivedRestrictEtale_of_cohomologySupportedOn`
+and `AlgebraicGeometry.Space.isPerfect_derivedModulePushforward_of_cohomologySupportedOn`. -/
 theorem isPerfect_derivedPushforward_of_cohomologySupportedOn
     (E : DerivedCategory (Modules.{u, u} B S hS (edsEtale B S hS hsq).1
       (edsEtale B S hS hsq).2))

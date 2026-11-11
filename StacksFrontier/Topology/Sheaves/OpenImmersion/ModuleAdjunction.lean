@@ -38,28 +38,36 @@ public import Mathlib.Tactic.NormNum.RealSqrt
 import StacksCore.Tactic.EgaSgaAttribute
 
 /-!
-# Extension by zero is left adjoint to restriction
+# Left adjoints of restriction to an open subspace
 
 Let `(X, O)` be a ringed space and let `j : (U, O|_U) → (X, O)` be the inclusion of an open
-subspace.  The extension-by-zero functors `j_{p!}` on presheaves of `O|_U`-modules and `j_!` on
-sheaves of `O|_U`-modules are left adjoint to the restriction functors `j^{-1}`.  Both are pullback
-functors along the identity comparison morphism `O|_U → j^{-1} O`, and the adjunctions are
-`PresheafOfModules.pullbackPushforwardAdjunction` and
-`SheafOfModules.pullbackPushforwardAdjunction`.
+subspace. This file names the restriction functors `j^{-1}` on presheaves and on sheaves of modules
+and Mathlib's abstract left adjoints of them, `PresheafOfModules.pullback` and
+`SheafOfModules.pullback` along the identity comparison morphism `O|_U → j^{-1} O`. Mathlib defines
+these left adjoints as a chosen left adjoint of the pushforward (`(pushforward φ).leftAdjoint`), so
+the adjunctions below hold by construction.
+
+They are the functors used by the files that import this one. Stacks 00A7 itself, about the
+*explicit* extension by zero `j_{p!}F(V) = F(V)` for `V ⊆ U`, `0` otherwise, and its
+sheafification `j_!`, is formalized in
+`StacksFrontier.Topology.Sheaves.OpenImmersion.ModuleExtensionByZeroExplicit`
+(`ExtensionByZeroModules.extendByZeroAdjunction`,
+`ExtensionByZeroModules.jShriekExplicitAdjunction`,
+`ExtensionByZeroModules.isZero_stalk_jShriekExplicit`,
+`ExtensionByZeroModules.stalkJShriekExplicitLinearEquiv` and
+`ExtensionByZeroModules.jShriekExplicitCompJStarIso`); that file also identifies the explicit
+construction with Mathlib's abstract left adjoint.
 
 ## Main definitions
 
-* `jpShriek`, `jShriek00A7`: the extension-by-zero functors `j_{p!}` and `j_!`.
+* `jpShriek`, `jShriek00A7`: Mathlib's abstract left adjoints of restriction (they are
+  isomorphic to the extension-by-zero functors `j_{p!}` and `j_!`, see above).
 * `restPMod`, `restMod`: the restriction functors on presheaves and on sheaves of modules.
 
 ## Main results
 
-* `jpShriekAdjunction`: `j_{p!}` is left adjoint to restriction of presheaves of modules.
-* `jShriekAdjunction`: `j_!` is left adjoint to restriction of sheaves of modules.
-
-## References
-
-* [Stacks Project, Tag 00A7](https://stacks.math.columbia.edu/tag/00A7)
+* `jpShriekAdjunction`: `jpShriek` is left adjoint to restriction of presheaves of modules.
+* `jShriekAdjunction`: `jShriek00A7` is left adjoint to restriction of sheaves of modules.
 -/
 
 @[expose] public section
@@ -95,7 +103,9 @@ noncomputable def restPMod :
     PresheafOfModules.{u} (OXpre X) ⥤ PresheafOfModules.{u} (OUpre X U) :=
   PresheafOfModules.pushforward (phiPre X U)
 
-/-- The extension-by-zero functor `j_{p!} : PMod(O|_U) ⥤ PMod(O)`. -/
+/-- The left adjoint `PMod(O|_U) ⥤ PMod(O)` of restriction, Mathlib's abstract
+`PresheafOfModules.pullback` (defined as a chosen left adjoint). It is isomorphic to the explicit
+extension by zero `j_{p!}` of Stacks 00A4, but this is not part of its definition. -/
 @[sga "4 IV 11.3.1" "special case"]
 noncomputable def jpShriek :
     PresheafOfModules.{u} (OUpre X U) ⥤ PresheafOfModules.{u} (OXpre X) :=
@@ -133,7 +143,9 @@ noncomputable def restMod :
 
 -- isDefEq transparency bump: infer jFun through sheaf-of-rings defs
 set_option backward.isDefEq.respectTransparency.types false in
-/-- The extension-by-zero functor `j_! : Mod(O|_U) ⥤ Mod(O)`. -/
+/-- The left adjoint `Mod(O|_U) ⥤ Mod(O)` of restriction, Mathlib's abstract
+`SheafOfModules.pullback` (defined as a chosen left adjoint). It is isomorphic to the extension by
+zero `j_!` of Stacks 00A4, but this is not part of its definition. -/
 @[sga "2 I 1.7" "special case",
   sga "4 IV 11.3.1" "special case",
   sga "4 IV 14.2",
@@ -146,18 +158,20 @@ noncomputable def jShriek00A7 :
 
 /-! ### The adjunctions -/
 
-/-- The adjunction exhibiting the extension-by-zero functor `j_{p!}` on presheaves of modules as a
-left adjoint of the restriction functor `j^{-1}`. -/
-@[stacks 00A7 "(1)", sga "4 IV 11.3.1" "presheaves on a space"]
+/-- The adjunction between Mathlib's abstract left adjoint `jpShriek` and restriction of presheaves
+of modules; it holds by the definition of `jpShriek`. For Stacks 00A7 (1), about the explicit
+extension by zero, see `ExtensionByZeroModules.extendByZeroAdjunction`. -/
+@[sga "4 IV 11.3.1" "presheaves on a space"]
 noncomputable def jpShriekAdjunction : jpShriek X U ⊣ restPMod X U :=
   PresheafOfModules.pullbackPushforwardAdjunction _
 
 -- isDefEq transparency bump: infer jFun through sheaf-of-rings defs
 set_option backward.isDefEq.respectTransparency.types false in
-/-- The adjunction exhibiting the extension-by-zero functor `j_!` on sheaves of modules as a left
-adjoint of the restriction functor `j^{-1}`. -/
-@[stacks 00A7 "(2)",
-  sga "4 IV 11.3.1" "ringed space, open U",
+/-- The adjunction between Mathlib's abstract left adjoint `jShriek00A7` and restriction of sheaves
+of modules; it holds by the definition of `jShriek00A7`. For Stacks 00A7 (2), about the
+sheafification of the explicit extension by zero, see
+`ExtensionByZeroModules.jShriekExplicitAdjunction`. -/
+@[sga "4 IV 11.3.1" "ringed space, open U",
   sga "4 XVII 5.1.1" "ringed spaces, modules",
   sga "2 I 1.7" "special case",
   sga "4 IV 14.2" "partial"]
@@ -166,8 +180,8 @@ noncomputable def jShriekAdjunction : jShriek00A7 X U ⊣ restMod X U :=
 
 -- isDefEq transparency bump: infer jFun through sheaf-of-rings defs
 set_option backward.isDefEq.respectTransparency.types false in
-/-- The extension-by-zero functors `j_{p!}` and `j_!` are left adjoint to the restriction
-functors on presheaves and on sheaves of modules. -/
+/-- Mathlib's abstract left adjoints `jpShriek` and `jShriek00A7` are left adjoint to the
+restriction functors on presheaves and on sheaves of modules (by their definition). -/
 @[sga "2 I 1.7" "special case",
   sga "4 IV 11.3.1" "special case",
   sga "4 IV 14.2" "partial",

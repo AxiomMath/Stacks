@@ -44,7 +44,9 @@ whose image in `[U/R]` lies in the essential image of `i`.
   and its open and closed companions: for `i : 𝒵 ⟶ [U/R]` an immersion (respectively open,
   respectively closed immersion) of algebraic stacks, the locus of `U` whose image in `[U/R]` is
   in the essential image of `i` is an `R`-invariant locally closed (respectively open,
-  respectively closed) subspace of `U`.
+  respectively closed) subspace of `U`. These are the subspace steps of Stacks 0505, which is
+  `AlgebraicGeometry.Stack.exists_isInvariantLocallyClosed_groupoidPresentation_of_isImmersion`
+  of `StacksFrontier.AlgebraicGeometry.Stacks.ImmersionQuotientStackPresentation`.
 
 ## References
 
@@ -307,11 +309,11 @@ theorem exists_isClosedImmersion_representingMap_of_isClosedImmersion_quotientSt
 scheme `S` of a big fppf site, and let `i : 𝒵 ⟶ [U/R]` be an immersion which is representable by
 algebraic spaces. Then the locus of `U` whose image in `[U/R]` lies in the essential image of `i`
 is an `R`-invariant locally closed subspace `Z ⊆ U`; it is the range of an immersion of algebraic
-spaces `m : U' ⟶ U`. -/
-@[stacks 0505 "the R-invariant locally closed subspace Z of U cut out by an immersion into \
-[U/R], together with its pointwise description as the locus of U whose image in [U/R] lies in \
-the essential image of i; nothing carried -- the projection m of the 2-fibre product of \
-Stacks 04Y6 and its immersion property are produced here rather than assumed"]
+spaces `m : U' ⟶ U`.
+
+This is the subspace step of Stacks 0505. The full statement, with the presentation
+`[Z/R_Z] ⟶ 𝒵` and the 2-commutative triangle, is
+`AlgebraicGeometry.Stack.exists_isInvariantLocallyClosed_groupoidPresentation_of_isImmersion`. -/
 theorem exists_isInvariantLocallyClosed_range_of_isImmersion_quotientStack
     (G : GroupoidInAlgebraicSpaces C S hS A)
     {𝒵 : CatFiberedInGroupoids.{u, u + 1, u + 1, u + 1} (BigFppfOver C S hS)}
@@ -333,8 +335,6 @@ theorem exists_isInvariantLocallyClosed_range_of_isImmersion_quotientStack
 /-- The open-immersion case of
 `AlgebraicGeometry.Stack.exists_isInvariantLocallyClosed_range_of_isImmersion_quotientStack`: the
 locus is an `R`-invariant open subspace of `U`. -/
-@[stacks 0505 "the R-invariant open subspace of U, for an open immersion into [U/R]; nothing \
-carried"]
 theorem exists_isInvariantOpen_range_of_isOpenImmersion_quotientStack
     (G : GroupoidInAlgebraicSpaces C S hS A)
     {𝒵 : CatFiberedInGroupoids.{u, u + 1, u + 1, u + 1} (BigFppfOver C S hS)}
@@ -356,8 +356,6 @@ theorem exists_isInvariantOpen_range_of_isOpenImmersion_quotientStack
 /-- The closed-immersion case of
 `AlgebraicGeometry.Stack.exists_isInvariantLocallyClosed_range_of_isImmersion_quotientStack`: the
 locus is an `R`-invariant closed subspace of `U`. -/
-@[stacks 0505 "the R-invariant closed subspace of U, for a closed immersion into [U/R]; \
-nothing carried"]
 theorem exists_isInvariantClosed_range_of_isClosedImmersion_quotientStack
     (G : GroupoidInAlgebraicSpaces C S hS A)
     {𝒵 : CatFiberedInGroupoids.{u, u + 1, u + 1, u + 1} (BigFppfOver C S hS)}

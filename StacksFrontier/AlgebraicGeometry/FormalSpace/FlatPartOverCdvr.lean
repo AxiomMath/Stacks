@@ -51,8 +51,12 @@ universal property is then read off from the étale covering `{Xᵢ ×_X Y ⟶ Y
   `AlgebraicGeometry.FormalSpace.FlatPartsDescend`,
   `AlgebraicGeometry.FormalSpace.FactorizationDescendsAlongAffineEtaleCover`,
   `AlgebraicGeometry.FormalSpace.HasFlatAffineCoverOfFlat` and
-  `AlgebraicGeometry.FormalSpace.FlatnessLocalityInputs`: the five inputs of Stacks 0GD8 that
-  this library does not carry, each named once together with the Stacks tag it is.
+  `AlgebraicGeometry.FormalSpace.FlatnessLocalityInputs`: five inputs of the proof of Stacks
+  0GD8, each named once together with the Stacks tags it uses. The first four are theorems of
+  the library, proved in `StacksFrontier.AlgebraicGeometry.FormalSpace.FlatPartOverCdvrAffine` and
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.FlatPartOverCdvrDescent`. The fifth,
+  `FlatnessLocalityInputs`, is stated over every fppf sheaf mapping to `Spf A` and cannot hold
+  when `Spf A` is affine; see its docstring.
 
 ## Main results
 
@@ -61,8 +65,12 @@ universal property is then read off from the étale covering `{Xᵢ ×_X Y ⟶ Y
 * `Algebra.exists_flat_quotient_of_isDiscreteValuationRing`: the affine half of **Stacks
   0GD8** at the level of rings — the quotient by the `A`-torsion is a flat quotient of `B`
   through which every `A`-algebra homomorphism from `B` into a flat `A`-algebra factors.
-* `AlgebraicGeometry.FormalSpace.exists_flat_isClosedImmersion_of_isLocallyNoetherian`:
-  **Stacks 0GD8**.
+* `AlgebraicGeometry.FormalSpace.exists_flat_isClosedImmersion_of_isLocallyNoetherian`: the
+  assembly of the proof of Stacks 0GD8 from the five inputs, taken as hypotheses. Its
+  hypotheses `hSpfAaffine` and `hloc` cannot hold together, so it is vacuous and is not a
+  formalization of Stacks 0GD8. **Stacks 0GD8** itself is
+  `AlgebraicGeometry.FormalSpace.exists_flatPart_of_isLocallyNoetherian_of_isAdicComplete`, in
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.FlatPartOverCdvrFull`, which supplies the inputs.
 
 ## Implementation notes
 
@@ -78,52 +86,34 @@ is. Completeness of `A` plays no role in the source's argument either; it is par
 standing hypothesis of Section 0GD7 and is carried in the statement of the geometric theorem
 for faithfulness.
 
-### No unrestricted `@[stacks 0GD8]`
+### The five inputs
 
 `AlgebraicGeometry.FormalSpace.exists_flat_isClosedImmersion_of_isLocallyNoetherian` states
-both halves of the source's conclusion — flatness of `X'` over `A` and the factorization of
-every flat `Y ⟶ X` through it — but it is not unconditional: five inputs of the source's proof
-are explicit hypotheses because this library does not carry them. They are the following, and
-none of them mentions the conclusion.
+both halves of the source's conclusion and takes five inputs of the source's proof as
+hypotheses; none of them mentions the conclusion.
 
-* `hpart` is the affine half **as a statement about formal spectra**. Its ring-theoretic
-  content is proved here; what is missing is its geometric realization, namely that the
-  quotient of an adic Noetherian topological ring by an ideal carries an adic Noetherian
-  quotient topology, that the quotient has a quotient system over `S` presenting it (a
-  condition on the size of the site, which cannot be derived), and that a surjective continuous
-  homomorphism induces a closed immersion of formal spectra in the sense of Stacks 0ANP — no
-  declaration in this library concludes `IsClosedImmersion` of a `formalSpectrumMap`, nor
-  `IsFlat` of one from flatness of the presenting homomorphism, the latter being a use of
-  Stacks 0GCD.
-* `hdesc` is the gluing step, Stacks 02WW together with Bootstrap, Lemma 046J and Spaces,
-  Lemma 03KD. Its conclusion asserts only that the local closed subspaces glue to a closed
-  immersion whose sources form an atlas; it asserts nothing about flatness and nothing about a
-  universal property. The library carries 02WW only as the quotient sheaf of a relation
-  (`AlgebraicGeometry.Space.uliftQuotientMap`) with the étale-equivalence-relation hypothesis
-  undischarged, carries 046J only conditionally on Stacks 0AMP and Stacks 0421, and carries
-  03KD only for presheaves of `Type u`.
-* `hfac` is the descent of a factorization through a closed immersion along an affine étale
-  covering of the source, which is Stacks 03KD again together with the monomorphism property
-  of Stacks 0AQB. It is pure sheaf descent and mentions neither `A` nor flatness.
-* `hrefine` is the construction of the covering `{Xᵢ ×_X Y ⟶ Y}` of a test object: that the
-  fibre products are formal algebraic spaces is Stacks 0AJ3, that they admit Noetherian affine
-  coverings refining the atlas uses Stacks 0AJ2 and Stacks 0AQ8, and that they stay flat over
-  `A` is Stacks 0GCG, since the projections to `Y` are representable and étale. The library
-  carries Stacks 0GCG as
-  `AlgebraicGeometry.FormalSpace.isFlat_of_hasPropertyULift_flatPropertyULift` and carries none
-  of the others.
-* `hloc` bundles the four hypotheses of
-  `AlgebraicGeometry.FormalSpace.isFlat_tfae`, this library's form of **Stacks 0GCD**, with
-  the source of the morphism quantified over, since the morphism whose flatness is concluded is
-  built during the proof. These are Stacks 0AJ3, the covering refinement of Stacks 0AJ2 and
-  the two locality axioms of Stacks 0GC9 read through Stacks 0AN8 and Stacks 0AN9.
+* `hpart`, the affine half as a statement about formal spectra, is
+  `AlgebraicGeometry.FormalSpace.hasAffineFlatParts`.
+* `hdesc`, the gluing step (Stacks 02WW with Bootstrap, Lemma 046J and Spaces, Lemma 03KD),
+  is `AlgebraicGeometry.FormalSpace.flatPartsDescend`.
+* `hfac`, the descent of a factorization through a closed immersion along an affine étale
+  covering of the source (Stacks 03KD with the monomorphism property of Stacks 0AQB), is
+  `AlgebraicGeometry.FormalSpace.factorizationDescendsAlongAffineEtaleCover`.
+* `hrefine`, the covering `{Xᵢ ×_X Y ⟶ Y}` of a test object (Stacks 0AJ3, Stacks 0AJ2,
+  Stacks 0AQ8 and Stacks 0GCG), is `AlgebraicGeometry.FormalSpace.hasFlatAffineCoverOfFlat`.
+* `hloc` bundles the four hypotheses of `AlgebraicGeometry.FormalSpace.isFlat_tfae`, this
+  library's form of **Stacks 0GCD**, with the source of the morphism quantified over. As
+  stated, its first conjunct quantifies over every fppf sheaf `X'` mapping to `Spf A`, not only
+  formal algebraic spaces, and together with `hSpfAaffine` it is unsatisfiable (see the
+  docstring of `AlgebraicGeometry.FormalSpace.FlatnessLocalityInputs`). The unconditional proof
+  of Stacks 0GD8 does not use it: it reads flatness of `X'` over `A` off the atlas by the
+  affine flat parts through Remark 0ANI instead.
 
-What the proof does with them is the assembly: it reads the atlas off the locally Noetherian
-hypothesis, produces the affine flat parts, checks that they are mutually compatible in the
-form the gluing step consumes, glues, exhibits the glued space as locally Noetherian through
-the atlas by the flat parts, deduces flatness over `A` from condition (4) of Stacks 0GCD read
-on that atlas, and assembles the factorization of a test object from the factorizations of the
-members of its covering.
+What the proof here does with them is the assembly: it reads the atlas off the locally
+Noetherian hypothesis, produces the affine flat parts, glues, exhibits the glued space as
+locally Noetherian through the atlas by the flat parts, deduces flatness over `A` from
+condition (4) of Stacks 0GCD read on that atlas, and assembles the factorization of a test
+object from the factorizations of the members of its covering.
 
 ## References
 
@@ -255,23 +245,18 @@ variable (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
   {A : Type u} [CommRing A] [TopologicalSpace A] [IsTopologicalRing A]
   (D : QuotientSystem B S hS A)
 
-/-! ### The inputs this library does not carry -/
+/-! ### The inputs of the proof -/
 
 /-- The affine half of **Stacks 0GD8** as a statement about formal spectra: every Noetherian
 affine formal algebraic space `U` representable étale over `X` carries a closed immersion
 `Z ⟶ U` with `Z` Noetherian affine and flat over `A`, through which every Noetherian affine
 formal algebraic space flat over `A` and mapping to `U` factors.
 
-The ring-theoretic content of this statement is proved in this file:
-`Algebra.exists_flat_quotient_of_isDiscreteValuationRing` produces the quotient of the
-presenting ring by its `A`-torsion, which is flat over `A` and receives every homomorphism
-into a flat `A`-algebra. What is missing is its geometric realization. The library has no
-declaration giving the quotient of an adic Noetherian topological ring an adic Noetherian
-quotient topology, none producing a `QuotientSystem` for such a quotient — a condition on the
-size of the site, which cannot be derived — none concluding `IsClosedImmersion` of a
-`formalSpectrumMap` from surjectivity of the presenting homomorphism in the sense of **Stacks
-0ANP**, and none concluding `IsFlat` of a `formalSpectrumMap` from flatness of the presenting
-homomorphism, which is a use of **Stacks 0GCD**. -/
+Its ring-theoretic content is `Algebra.exists_flat_quotient_of_isDiscreteValuationRing`
+in this file: the quotient of the presenting ring by its `A`-torsion is flat over `A` and
+receives every homomorphism into a flat `A`-algebra. The statement itself is proved, for a
+discrete valuation ring `A` with an adic topology, as
+`AlgebraicGeometry.FormalSpace.hasAffineFlatParts`. -/
 abbrev HasAffineFlatParts {X : FppfSheaf B S hS} (p : X ⟶ formalSpectrum D) : Prop :=
   ∀ (U : FppfSheaf B S hS) (v : U ⟶ X), IsAffineFormalAlgebraicSpace B S hS U →
     IsNoetherian B S hS U → IsRepresentableEtale B S hS v →
@@ -290,11 +275,10 @@ that a Noetherian affine formal algebraic space flat over `A` mapping to `Uᵢ` 
 This is Spaces, Theorem **02WW** — `X'` is the quotient of `∐ Zᵢ` by the étale equivalence
 relation `∐ Zᵢ ×_X Zⱼ` — together with Bootstrap, Lemma **046J**, which makes `X' ⟶ X`
 representable by algebraic spaces, and Spaces, Lemma **03KD**, which makes it a closed
-immersion. The library carries 02WW only as the quotient sheaf of a relation, with the
-étale-equivalence-relation hypothesis undischarged, carries 046J only conditionally on Stacks
-0AMP and Stacks 0421, and carries 03KD only for presheaves valued in `Type u`. The conclusion
-asserts nothing about flatness and nothing about a universal property; those are deduced from
-it in `exists_flat_isClosedImmersion_of_isLocallyNoetherian`. -/
+immersion. The conclusion asserts nothing about flatness and nothing about a universal
+property; those are deduced from it in `exists_flat_isClosedImmersion_of_isLocallyNoetherian`.
+It is proved, for `X` a formal algebraic space, as
+`AlgebraicGeometry.FormalSpace.flatPartsDescend`, with `X'` the image sheaf of `∐ Zᵢ ⟶ X`. -/
 abbrev FlatPartsDescend {X : FppfSheaf B S hS} (p : X ⟶ formalSpectrum D) : Prop :=
   ∀ {I : Type (u + 1)} (U : I → FppfSheaf B S hS) (u : ∀ i, U i ⟶ X),
     IsAffineEtaleCover B S hS U u →
@@ -315,7 +299,8 @@ the source: if every member of a covering of `Y` maps to `X'` compatibly with `q
 `q` itself factors through the closed immersion `ι : X' ⟶ X`. This is Spaces, Lemma **03KD**
 together with the monomorphism property of **Stacks 0AQB**, which is what makes the local
 factorizations agree on overlaps and glue. It is pure sheaf descent: neither `A` nor flatness
-occurs in it. -/
+occurs in it. It is proved as
+`AlgebraicGeometry.FormalSpace.factorizationDescendsAlongAffineEtaleCover`. -/
 abbrev FactorizationDescendsAlongAffineEtaleCover : Prop :=
   ∀ {X' X Y : FppfSheaf B S hS} (ι : X' ⟶ X) (q : Y ⟶ X), IsClosedImmersion B S hS ι →
     ∀ {J : Type (u + 1)} (W : J → FppfSheaf B S hS) (w : ∀ j, W j ⟶ Y),
@@ -331,9 +316,8 @@ In the source these are the charts of the fibre products `Xᵢ ×_X Y`. That tho
 algebraic spaces is **Stacks 0AJ3**, that they admit Noetherian affine coverings refining the
 given one uses **Stacks 0AJ2** and **Stacks 0AQ8**, and that they are flat over `A` is
 **Stacks 0GCG**, since the projection `Xᵢ ×_X Y ⟶ Y` is representable and étale, hence flat.
-The library carries Stacks 0GCG in
-`AlgebraicGeometry.FormalSpace.isFlat_of_hasPropertyULift_flatPropertyULift`, and carries none
-of the others. -/
+It is proved, for `X` a formal algebraic space, as
+`AlgebraicGeometry.FormalSpace.hasFlatAffineCoverOfFlat`. -/
 abbrev HasFlatAffineCoverOfFlat {X : FppfSheaf B S hS} (p : X ⟶ formalSpectrum D) : Prop :=
   ∀ {I : Type (u + 1)} (U : I → FppfSheaf B S hS) (u : ∀ i, U i ⟶ X),
     IsAffineEtaleCover B S hS U u →
@@ -350,7 +334,17 @@ is concluded in Stacks 0GD8 is produced during the proof, so the inputs cannot b
 fixed morphism. They are **Stacks 0AJ3** that a fibre product with an affine étale chart is a
 formal algebraic space, the covering refinement of **Stacks 0AJ2**, and the two locality axioms
 of **Stacks 0GC9** read on affine formal algebraic spaces through **Stacks 0AN8** and **Stacks
-0AN9**. -/
+0AN9**.
+
+**This hypothesis cannot hold when `Spf A` is affine.** Its first conjunct quantifies over
+*every* fppf sheaf `X'` with a map `f` to `formalSpectrum D`, not only over formal algebraic
+spaces. Taking `V = formalSpectrum D` and `v = 𝟙`, which is representable étale by
+`AlgebraicGeometry.FormalSpace.isRepresentableEtale_id`, it says that `pullback (𝟙 _) f ≅ X'`
+is a formal algebraic space whenever `formalSpectrum D` is affine. That is false: a formal
+algebraic space satisfies the set-theoretic condition of Definition 0AIM, an epimorphism from
+the sheaf of a single object of the site, which the coproduct of `Type u`-many copies of
+`Spf A` (mapping to `Spf A` by the codiagonal) does not admit. The restriction of the
+quantifier to formal algebraic `X'` would have sufficed for its one use. -/
 abbrev FlatnessLocalityInputs : Prop :=
   (∀ {X' : FppfSheaf B S hS} (f : X' ⟶ formalSpectrum D) (V : FppfSheaf B S hS)
       (v : V ⟶ formalSpectrum D), IsAffineFormalAlgebraicSpace B S hS V →
@@ -374,8 +368,18 @@ private theorem hasPropertyOnAffineChartMap_of_isFlat {U V : FppfSheaf B S hS} (
   (isFlat_iff_hasPropertyOnEveryAffineEtaleDiagram B S hS t).mp ht U V (𝟙 U) (𝟙 V) t hU hV
     (isRepresentableEtale_id B S hS U) (isRepresentableEtale_id B S hS V) (by simp)
 
-/-- **Stacks 0GD8.** Let `A` be a complete discrete valuation ring and let `X` be a locally
-Noetherian formal algebraic space over `S` with a structure morphism `p : X ⟶ Spf A`. Then
+/-- **An assembly of the proof of Stacks 0GD8 from five inputs; vacuous as stated.** This is
+not a formalization of Stacks 0GD8: its hypotheses `hSpfAaffine` and `hloc` cannot hold
+together, since the first conjunct of `hloc` (`FlatnessLocalityInputs`) is stated over every
+fppf sheaf mapping to `Spf A` and, with `Spf A` affine, would make every such sheaf a formal
+algebraic space (see the docstring of `AlgebraicGeometry.FormalSpace.FlatnessLocalityInputs`).
+It is kept as a record of the assembly. Stacks 0GD8, unconditional, is
+`AlgebraicGeometry.FormalSpace.exists_flatPart_of_isLocallyNoetherian_of_isAdicComplete`.
+
+Let `A` be a complete discrete
+valuation ring and let `X` be a locally Noetherian formal algebraic space over `S` with a
+structure morphism `p : X ⟶ Spf A`, and grant the five inputs `hpart`, `hdesc`, `hfac`,
+`hrefine` and `hloc` of the source's proof. Then
 there is a closed immersion `ι : X' ⟶ X` of formal algebraic spaces with `X'` locally
 Noetherian and flat over `A` such that every morphism `q : Y ⟶ X` with `Y` a locally
 Noetherian formal algebraic space flat over `A` factors through `ι`.
@@ -389,29 +393,10 @@ Noetherian, and reading condition (4) of Stacks 0GCD on it gives flatness of `X'
 For the universal property, `hrefine` covers a test object `Y` by Noetherian affine formal
 algebraic spaces which are flat over `A` and map to the charts of `X`; each of them factors
 through the corresponding flat part and hence through `X'`, and `hfac` glues those
-factorizations. -/
-@[stacks 0GD8 "both halves of the conclusion — the closed immersion with `X'` flat over `A`, \
-and the factorization of every locally Noetherian `Y ⟶ X` flat over `A` through it — with the \
-five inputs this library does not carry as named hypotheses. `hpart` is the affine half as a \
-statement about formal spectra: its ring-theoretic content, that the quotient of the \
-presenting ring by its `A`-torsion is flat over `A` and receives every homomorphism into a \
-flat `A`-algebra, is proved here as \
-`Algebra.exists_flat_quotient_of_isDiscreteValuationRing`, while its geometric realization \
-needs the adic Noetherian quotient topology, a `QuotientSystem` for the quotient, Stacks 0ANP \
-for a closed immersion out of a surjective presenting homomorphism and Stacks 0GCD for \
-flatness out of a flat one, none of which this library carries. `hdesc` is the gluing step, \
-Stacks 02WW with Bootstrap 046J and Spaces 03KD, carried in this library only as the quotient \
-sheaf of a relation with the étale-equivalence-relation hypothesis undischarged, 046J only \
-conditionally on Stacks 0AMP and Stacks 0421, and 03KD only for presheaves of `Type u`. \
-`hfac` is the descent of a factorization through a closed immersion along an affine étale \
-covering, Stacks 03KD with the monomorphism property of Stacks 0AQB. `hrefine` is the \
-covering of a test object by the charts of the fibre products with the atlas, which is Stacks \
-0AJ3, the refinement of Stacks 0AJ2, Stacks 0AQ8 and Stacks 0GCG. `hloc` bundles the four \
-hypotheses of `isFlat_tfae`, this library's Stacks 0GCD, namely Stacks 0AJ3, the refinement \
-of Stacks 0AJ2 and the locality axioms of Stacks 0GC9 read through Stacks 0AN8 and Stacks \
-0AN9. Completeness of `A` is carried for faithfulness; the source's argument uses only that \
-`A` is a discrete valuation ring, and the ring-theoretic half proved here needs only that it \
-is a Bézout domain"]
+factorizations.
+
+Stacks 0GD8 itself, with the inputs supplied, is
+`AlgebraicGeometry.FormalSpace.exists_flatPart_of_isLocallyNoetherian_of_isAdicComplete`. -/
 theorem exists_flat_isClosedImmersion_of_isLocallyNoetherian
     [IsDomain A] [IsDiscreteValuationRing A] [IsNoetherianRing A]
     (_hAadic : TopologicalRing.IsAdic A)

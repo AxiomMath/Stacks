@@ -13,8 +13,9 @@ homomorphism of graded rings, so by Stacks 07ZI it is defined on all of `Proj B`
 closed immersion `Proj B ⟶ Proj A`; here that morphism is even an isomorphism. Nevertheless the
 comparison map `θ₁ : r_ψ^*𝒪_{Proj A}(1) ⟶ 𝒪_{Proj B}(1)` of Tag 01MY is not an isomorphism: the
 global section `x` of `𝒪_{Proj A}(1)` is nonzero at every point, because the annihilator of `x`
-is `(x)`, while `θ₁` sends it to the section `ψ x = 0`. So the comparison maps of Stacks 07ZI (3)
-and Stacks 085H (3) are not isomorphisms in general, even when `𝒜 ⟶ ℬ` is surjective.
+is `(x)`, while `θ₁` sends it to the section `ψ x = 0`. So the comparison maps of Stacks 01N0 (3),
+Stacks 07ZI (3) and Stacks 085H (3) are not isomorphisms in general, even when `𝒜 ⟶ ℬ` is
+surjective.
 
 ## Main results
 
@@ -28,9 +29,13 @@ and Stacks 085H (3) are not isomorphisms in general, even when `𝒜 ⟶ ℬ` is
   homogeneous element of degree `k` that is nonzero at some point of `Proj 𝒜`.
 * `Stacks.AlgebraicGeometry.ProjTwistCompare.NotIsoExample.not_isIso_twistMap`: `θ₁` is not an
   isomorphism.
+* `Stacks.AlgebraicGeometry.ProjTwistCompare.NotIsoExample`
+  `.surjective_and_not_isIso_projMapData_twistMap`: the second half of Stacks 01N0 (3): `ψ` is
+  surjective in every degree, and `θ₁` of Tag 01MY's bundle is not an isomorphism.
 
 ## References
 
+* [Stacks Project, Tag 01N0](https://stacks.math.columbia.edu/tag/01N0)
 * [Stacks Project, Tag 07ZI](https://stacks.math.columbia.edu/tag/07ZI)
 * [Stacks Project, Tag 085H](https://stacks.math.columbia.edu/tag/085H)
 * [Stacks Project, Tag 01MY](https://stacks.math.columbia.edu/tag/01MY)
@@ -474,6 +479,25 @@ theorem not_isIso_twistMap : ¬ IsIso (twistMap (gradA R) (gradB R) (psi R) ((1 
         two_pos).base pt)
   exact not_isIso_twistMap_of_map_eq_zero (irrelevant_le_map R) 1 ⟨xA R, xA_mem R⟩ (psi_xA R) w
     (mk_xA_ne_zero R w)
+
+/-- **Stacks 01N0 (3), the maps `θ` are not isomorphisms in general, even for a surjective
+`ψ`.** The quotient map `ψ : R[x, y]/(x²) ⟶ R[x, y]/(x)`, with `deg x = 1` and `deg y = 2` over a
+nonzero ring `R`, is surjective in every degree (so it satisfies the hypothesis of Tag 01N0) and
+surjective as a ring map, while the comparison map `θ₁` of Tag 01MY's bundle `projMapData` is not
+an isomorphism. The surjectivity of every `θ_n` under the hypothesis of Tag 01N0 is
+`Stacks.AlgebraicGeometry.ProjTwistEpi.epi_projMapData_twistMap_of_eventually_surjective`. -/
+@[stacks 01N0 "part (3), second half: the maps θ are not isomorphisms in general, even if A → B \
+is surjective: A = R[x,y]/(x²) with deg x = 1, deg y = 2 over a nonzero ring R, B = A/(x); ψ is \
+surjective in every degree and as a ring map, and θ₁ is not an isomorphism"]
+theorem surjective_and_not_isIso_projMapData_twistMap :
+    (∀ d, Function.Surjective (GradedRingHom.gradedAddHom (psi R) d)) ∧
+      Function.Surjective (psi R) ∧
+      ¬ IsIso ((projMapData (gradA R) (gradB R) (psi R)).twistMap ((1 : ℕ) : ℤ)) := by
+  refine ⟨fun d b => ?_, surjective_psi R, ?_⟩
+  · obtain ⟨a, ha, hab⟩ := surjOn_psi R d b.2
+    exact ⟨⟨a, ha⟩, Subtype.ext (by rw [GradedRingHom.gradedAddHom_apply_coe]; exact hab)⟩
+  · rw [projMapData_twistMap]
+    exact not_isIso_twistMap R
 
 end Counterexample
 

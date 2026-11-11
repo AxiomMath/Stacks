@@ -72,18 +72,23 @@ conditions are stated with the module structure on the stalk spelled out, as in
 `AlgebraicGeometry.IsDepthTwoExtension`, so that they fit the existing depth results without
 transport.
 
-Existence carries the two hypotheses that `AlgebraicGeometry.exists_isDepthTwoExtension` carries,
-because this library does not have them: `hdepthOutside`, which is [Stacks, Tag 0EY0] part (3),
-and `hext`, which asks for the extension of the depth-one quotient across `T'` by sections over
-the opens whose complement lies in `T'` — the colimit of pushforwards, stabilized, which is
+Existence here, `AlgebraicGeometry.exists_isNestedImprovement`, carries the two hypotheses that
+`AlgebraicGeometry.exists_isDepthTwoExtension` carries: `hdepthOutside`, which is [Stacks, Tag 0EY0]
+part (3), and `hext`, which asks for the extension of the depth-one quotient across `T'` by sections
+over the opens whose complement lies in `T'` — the colimit of pushforwards, stabilized, which is
 `AlgebraicGeometry.IsStabilizedOpenExtension`.  The source derives the coherence of that colimit
 from Faltings' finiteness criterion [Stacks, Tag 0EFD] applied to a dualizing complex, using both
-the hypothesis that `X` locally has one and the hypothesis on immediate specializations into
-`T'`; those two hypotheses of the source enter its argument only through that finiteness, so, as
-in `AlgebraicGeometry.exists_isDepthTwoExtension`, neither appears below and the statement is
+the hypothesis that `X` locally has one and the hypothesis on immediate specializations into `T'`;
+those two hypotheses of the source enter its argument only through that finiteness, so, as in
+`AlgebraicGeometry.exists_isDepthTwoExtension`, neither appears below and the statement is
 correspondingly stronger.  The depth-one quotient of `F` along `T` already has depth at least one
-along `T'`, so `hext` is asked of it directly rather than of its own depth-one quotient along
-`T'`, which is the same module.
+along `T'`, so `hext` is asked of it directly rather than of its own depth-one quotient along `T'`,
+which is the same module.  Neither input is missing from this library: `hdepthOutside` is
+`AlgebraicGeometry.two_le_depth_stalk_of_isIso_unit_outside`, and existence at the source's own
+hypotheses, a dualizing complex and the condition on immediate specializations, is
+`AlgebraicGeometry.exists_isNestedImprovement_of_hasDualizingComplex`; the whole of [Stacks, Tag
+0EI4] in one statement is
+`AlgebraicGeometry.existsUnique_isNestedImprovement_and_pullback_of_hasDualizingComplex`.
 
 The assertion about the pullback along a Cohen-Macaulay morphism is proved clause by clause and
 then bundled, so that each clause records the hypotheses it alone needs.  Coherence of the target
@@ -236,8 +241,6 @@ same pair of subsets are isomorphic by a unique isomorphism compatible with the 
 Each one factors through the depth-one quotient of its source along `T` by a depth-two extension
 along `T'`, so the comparison is the one of [Stacks, Tag 0EI3], transported across the
 epimorphism onto the depth-one quotient. -/
-@[stacks 0EI4 "uniqueness, unconditionally: no dualizing complex is needed, no condition on \
-immediate specializations is used, and the inclusion T' ⊆ T is not needed either"]
 public theorem nestedImprovement_unique (X : Scheme.{u}) [IsNoetherian X]
     (T T' : Set X) (hT : StableUnderSpecialization T)
     (F G H : X.Modules) [F.IsCoherent] (φ : F ⟶ G) (ψ : F ⟶ H)
@@ -264,14 +267,12 @@ least two at the points of `T'`.
 
 The map is the depth-one quotient of `F` along `T` followed by a depth-two extension of that
 quotient along `T'`, which is the source's construction.  The hypotheses `hdepthOutside` and
-`hext` are the two inputs of the source's existence proof which this library does not have; they
+`hext` are the two inputs of the source's existence proof isolated as hypotheses here; they
 subsume what the source extracts from the dualizing complex and from the condition on immediate
-specializations into `T'`, so neither of those two hypotheses of the source appears here.  See
-the implementation notes of this module. -/
-@[stacks 0EI4 "existence, conditional on a coherent stabilized open extension of the depth-one \
-quotient along T' and on Tag 0EY0 part (3); as for Tag 0EI3 in this library, those two \
-hypotheses replace the dualizing complex and the condition on immediate specializations, which \
-are therefore not assumed"]
+specializations into `T'`, so neither of those two hypotheses of the source appears here.  Both
+inputs are theorems of this library, and existence at the source's hypotheses is
+`AlgebraicGeometry.exists_isNestedImprovement_of_hasDualizingComplex`.  See the implementation
+notes of this module. -/
 public theorem exists_isNestedImprovement (X : Scheme.{u}) [IsNoetherian X]
     (T T' : Set X) (hTT' : T' ⊆ T) (hT : StableUnderSpecialization T)
     (F : X.Modules) [F.IsCoherent]
@@ -404,8 +405,6 @@ pullback of an improvement along a morphism with locally Noetherian source is ag
 
 A pullback of a coherent module needs only a locally Noetherian source, so neither flatness nor
 Cohen-Macaulayness of the morphism is used. -/
-@[stacks 0EI4 "coherence of the target of the pullback, in the assertion about the pullback \
-along a Cohen-Macaulay morphism"]
 public theorem isCoherent_pullback_of_isNestedImprovement {X Y : Scheme.{u}}
     [IsLocallyNoetherian Y] (f : Y ⟶ X) {T T' : Set X} {F G : X.Modules} (φ : F ⟶ G)
     (hφ : IsNestedImprovement T T' φ) :
@@ -419,8 +418,6 @@ the inverse image of `T`.
 
 The stalk of a pullback is the base change of the stalk, so a bijective stalk map stays
 bijective; no hypothesis on the morphism is used. -/
-@[stacks 0EI4 "condition (1) for the pullback: the isomorphism away from the inverse image of T, \
-in the assertion about the pullback along a Cohen-Macaulay morphism"]
 public theorem isIso_stalk_pullback_of_isNestedImprovement {X Y : Scheme.{u}} (f : Y ⟶ X)
     {T T' : Set X} {F G : X.Modules} (φ : F ⟶ G) (hφ : IsNestedImprovement T T' φ)
     (y : Y) (hy : y ∉ f.base ⁻¹' T) :
@@ -436,8 +433,6 @@ inverse image of `T'`.
 Only the flatness half of the Cohen-Macaulay hypothesis is used: the depth of the base change of
 a stalk along a flat local homomorphism is the depth of the stalk plus the depth of the fibre, so
 the bound downstairs is inherited. -/
-@[stacks 0EI4 "the depth bound of condition (2) for the pullback, in the assertion about the \
-pullback along a Cohen-Macaulay morphism"]
 public theorem one_le_depth_stalk_pullback_of_isNestedImprovement {X Y : Scheme.{u}}
     [IsNoetherian X] [IsNoetherian Y] {T T' : Set X} {F G : X.Modules} (φ : F ⟶ G)
     (hφ : IsNestedImprovement T T' φ) (f : Y ⟶ X)
@@ -463,8 +458,6 @@ least two at every point of the inverse image of `T'`.
 
 Only the flatness half of the Cohen-Macaulay hypothesis is used, by the same depth formula along
 a flat local homomorphism. -/
-@[stacks 0EI4 "condition (3) for the pullback, in the assertion about the pullback along a \
-Cohen-Macaulay morphism"]
 public theorem two_le_depth_stalk_pullback_of_isNestedImprovement {X Y : Scheme.{u}}
     [IsNoetherian X] [IsNoetherian Y] {T T' : Set X} {F G : X.Modules} (φ : F ⟶ G)
     (hφ : IsNestedImprovement T T' φ) (f : Y ⟶ X)
@@ -563,8 +556,6 @@ Cohen-Macaulay hypothesis only the flatness half is used, for the two depth boun
 for the change in depth along a flat local homomorphism [Stacks, Tag 0338]; the fibre never has to
 be identified.  Surjectivity in condition (2) is epimorphy on a stalk, which is the vanishing of
 the stalk of the cokernel, and the pullback preserves cokernels and kills the zero module. -/
-@[stacks 0EI4 "the assertion about the pullback along a Cohen-Macaulay morphism: the pullback \
-satisfies conditions (1), (2) and (3) with respect to the inverse images of the two subsets"]
 public theorem isNestedImprovement_pullback {X Y : Scheme.{u}} [IsNoetherian X] [IsNoetherian Y]
     {T T' : Set X} {F G : X.Modules} (φ : F ⟶ G) (hφ : IsNestedImprovement T T' φ) (f : Y ⟶ X)
     (hfib : ∀ x : X, IsLocallyNoetherian (f.fiber x)) (hcm : f.IsCohenMacaulay hfib) :

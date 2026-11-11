@@ -5,26 +5,25 @@ public import StacksFrontier.Topology.Noetherian.Defs
 /-!
 # Images of (locally) Noetherian spaces (Stacks 04Z8)
 
-Stacks 04Z8 has two parts. Part (1), that the continuous image of a Noetherian topological
-space is Noetherian, is `TopologicalSpace.NoetherianSpace.range` in Mathlib and is therefore
-not restated here.
+Stacks 04Z8: for a continuous map `f : X → Y`, (1) if `X` is Noetherian then `f(X)` is
+Noetherian, and (2) if `X` is locally Noetherian and `f` is open then `f(X)` is locally
+Noetherian. The full statement, both parts, is
+`TopologicalSpace.NoetherianSpace.range_and_isLocallyNoetherianSpace_range`.
 
-Part (2), that the image of a locally Noetherian space under a continuous *open* map is
-locally Noetherian, is genuinely new: Mathlib has no notion of a locally Noetherian
-topological space at all, so the statement is made against the predicate
-`TopologicalSpace.IsLocallyNoetherianSpace`, which unfolds to "every point has a Noetherian
-open neighbourhood". Openness of `f` is needed, not merely continuity: the image of a
-Noetherian open neighbourhood `U` of `x` has to be an open neighbourhood of `f x` inside
-`Set.range f`.
+Part (1) is Mathlib's `TopologicalSpace.NoetherianSpace.range`. For part (2), Mathlib has no
+notion of a locally Noetherian topological space, so the statement is made against the
+predicate `TopologicalSpace.IsLocallyNoetherianSpace` ("every point has a Noetherian open
+neighbourhood"); it is `TopologicalSpace.IsLocallyNoetherianSpace.range_of_isOpenMap`.
+Openness of `f` is needed, not merely continuity: the image of a Noetherian open neighbourhood
+`U` of `x` has to be an open neighbourhood of `f x` inside `Set.range f`.
 -/
 
 @[expose] public section
 
 namespace TopologicalSpace
 
-/-- **Stacks 04Z8 (2).** The image of a locally Noetherian space under a continuous open map
-is locally Noetherian. -/
-@[stacks 04Z8 "(2)"]
+/-- The image of a locally Noetherian space under a continuous open map is locally
+Noetherian. -/
 theorem IsLocallyNoetherianSpace.range_of_isOpenMap {X Y : Type*}
     [TopologicalSpace X] [TopologicalSpace Y] (hX : IsLocallyNoetherianSpace X)
     (f : X → Y) (hf : Continuous f) (hopen : IsOpenMap f) :
@@ -56,12 +55,27 @@ theorem IsLocallyNoetherianSpace.of_homeomorph {X Y : Type*}
     (noetherianSpace_iff_of_homeomorph (e.image h.choose)).mp h.choose_spec.2.2⟩
 
 /-- A continuous open surjection from a locally Noetherian space has locally Noetherian
-target: the target is the range of the map, which is locally Noetherian by Stacks 04Z8 (2). -/
+target: the target is the range of the map, which is locally Noetherian by
+`IsLocallyNoetherianSpace.range_of_isOpenMap`. -/
 theorem IsLocallyNoetherianSpace.of_isOpenMap_surjective {X Y : Type*}
     [TopologicalSpace X] [TopologicalSpace Y] (hX : IsLocallyNoetherianSpace X) (f : X → Y)
     (hf : Continuous f) (hopen : IsOpenMap f) (hsurj : Function.Surjective f) :
     IsLocallyNoetherianSpace Y :=
   (hX.range_of_isOpenMap f hf hopen).of_homeomorph
     ((Homeomorph.setCongr hsurj.range_eq).trans (Homeomorph.Set.univ Y))
+
+/-- **Stacks 04Z8.** Let `f : X → Y` be a continuous map of topological spaces.
+(1) If `X` is Noetherian, then `f(X)` is Noetherian.
+(2) If `X` is locally Noetherian and `f` is open, then `f(X)` is locally Noetherian.
+
+Here `f(X)` is `Set.range f` with the subspace topology. -/
+@[stacks 04Z8 "Both parts: (1) is Mathlib's `TopologicalSpace.NoetherianSpace.range`, (2) is
+`TopologicalSpace.IsLocallyNoetherianSpace.range_of_isOpenMap`."]
+theorem NoetherianSpace.range_and_isLocallyNoetherianSpace_range {X Y : Type*}
+    [TopologicalSpace X] [TopologicalSpace Y] (f : X → Y) (hf : Continuous f) :
+    (NoetherianSpace X → NoetherianSpace (Set.range f)) ∧
+      (IsLocallyNoetherianSpace X → IsOpenMap f → IsLocallyNoetherianSpace (Set.range f)) :=
+  ⟨fun _ ↦ NoetherianSpace.range f hf,
+    fun hX hopen ↦ hX.range_of_isOpenMap f hf hopen⟩
 
 end TopologicalSpace

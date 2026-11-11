@@ -14,19 +14,23 @@ Let `(S, δ)` be the base situation of chapter 42 of the Stacks Project and let 
 
 for the element of `A⁽ᵖ⁾(Z ⟶ X)` whose component in a degree `i < p` is the ordinary Chern class
 `c_i(E) ∈ Aⁱ(X)` and whose component in a degree `i ≥ p` is the localized Chern class
-`c_i(Z ⟶ X, E) ∈ Aⁱ(Z ⟶ X)`. This file defines that element and computes its components.
+`c_i(Z ⟶ X, E) ∈ Aⁱ(Z ⟶ X)`. This file defines a generic packager: the element of `A⁽ᵖ⁾(Z ⟶ X)`
+assembled from arbitrary families `c` and `cloc` of classes in those degrees, and computes its
+components. The class of Remark 0FBC itself, for the Chern classes of `E` and the localized Chern
+classes of Stacks 0FB2, is `Stacks.Chow.LocalizedSituation.totalLocalizedChern`.
 
 ## Main definitions
 
 * `Stacks.Chow.LocalizedChernSituation.ofLe` — the same situation at a larger cutoff.
-* `Stacks.Chow.totalLocalizedChernClass` — the class `c⁽ᵖ⁾(Z ⟶ X, E)`, Stacks 0FBC.
+* `Stacks.Chow.totalLocalizedChernClass` — the element of `A⁽ᵖ⁾(Z ⟶ X)` with given components
+  `c i` below the cutoff and `cloc i` from the cutoff onward.
 
 ## Main results
 
 * `Stacks.Chow.IsFiniteLocallyFreeOfRankLT.mono` — a rank bound weakens as the bound grows.
 * `Stacks.Chow.totalLocalizedChernClass_fst_of_nonneg`,
   `Stacks.Chow.totalLocalizedChernClass_fst_of_neg`,
-  `Stacks.Chow.totalLocalizedChernClass_snd` — the graded pieces of `c⁽ᵖ⁾(Z ⟶ X, E)`.
+  `Stacks.Chow.totalLocalizedChernClass_snd` — the graded pieces of the packaged class.
 
 ## Implementation notes
 
@@ -90,35 +94,26 @@ variable (T : LocalizedChernSituation.{u}) (G : GysinSystem T.base)
   (cloc : (i : {i : ℤ // (T.p : ℤ) ≤ i}) →
     BivariantClass T.base G (T.i ≫ T.a) T.a T.i rfl i.1)
 
-/-- **Stacks 0FBC.** The total localized Chern class
-
-  `c⁽ᵖ⁾(Z ⟶ X, E) = 1 + c₁(E) + … + c_{p-1}(E) + c_p(Z ⟶ X, E) + c_{p+1}(Z ⟶ X, E) + …`
-
-of a situation for localized Chern classes: the element of `A⁽ᵖ⁾(Z ⟶ X)` whose component in a
-degree `0 ≤ i < p` is the ordinary Chern class `c i` of `E`, whose component in a degree `i ≥ p`
-is the localized Chern class `cloc i`, and whose components in the negative degrees vanish. -/
-@[stacks 0FBC]
+/-- The element of `A⁽ᵖ⁾(Z ⟶ X)` assembled from given families of classes: its component in a
+degree `0 ≤ i < p` is `c i ∈ Aⁱ(X)`, its component in a degree `i ≥ p` is `cloc i ∈ Aⁱ(Z ⟶ X)`,
+and its components in the negative degrees vanish. This is a generic packager for the shape of
+the display of Stacks 0FBC; the specific class `c⁽ᵖ⁾(Z ⟶ X, E)` of that remark is
+`Stacks.Chow.LocalizedSituation.totalLocalizedChern`. -/
 def totalLocalizedChernClass :
     localizedBivariantGrading T.base G (T.i ≫ T.a) T.a T.i rfl T.p :=
   ⟨fun i => if h : 0 ≤ i.1 then c ⟨i.1, h⟩ else 0, cloc⟩
 
-/-- In a degree `0 ≤ i < p` the component of `c⁽ᵖ⁾(Z ⟶ X, E)` is the ordinary Chern class
-`c_i(E)` of `E`; in degree `0` that is `c₀(E) = 1`. -/
-@[stacks 0FBC "the graded pieces in the degrees below the cutoff"]
+/-- In a degree `0 ≤ i < p` the component of the packaged class is `c i`. -/
 theorem totalLocalizedChernClass_fst_of_nonneg {i : ℤ} (hi : i < (T.p : ℤ)) (h0 : 0 ≤ i) :
     (totalLocalizedChernClass T G c cloc).1 ⟨i, hi⟩ = c ⟨i, h0⟩ :=
   dite_eq_left h0
 
-/-- In a negative degree the component of `c⁽ᵖ⁾(Z ⟶ X, E)` vanishes, the source's display having
-no term there. -/
-@[stacks 0FBC "the vanishing of the graded pieces in the negative degrees"]
+/-- In a negative degree the component of the packaged class vanishes. -/
 theorem totalLocalizedChernClass_fst_of_neg {i : ℤ} (hi : i < (T.p : ℤ)) (h0 : i < 0) :
     (totalLocalizedChernClass T G c cloc).1 ⟨i, hi⟩ = 0 :=
   dite_eq_right (not_le.mpr h0)
 
-/-- In a degree `i ≥ p` the component of `c⁽ᵖ⁾(Z ⟶ X, E)` is the localized Chern class
-`c_i(Z ⟶ X, E)`. -/
-@[stacks 0FBC "the graded pieces in the degrees from the cutoff onward"]
+/-- In a degree `i ≥ p` the component of the packaged class is `cloc i`. -/
 theorem totalLocalizedChernClass_snd (i : {i : ℤ // (T.p : ℤ) ≤ i}) :
     (totalLocalizedChernClass T G c cloc).2 i = cloc i :=
   rfl

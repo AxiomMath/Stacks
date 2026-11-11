@@ -26,9 +26,10 @@ companion map produced by an affine morphism.
   of Stacks 0CW8.
 * `AlgebraicGeometry.Space.ModuleMapSituation.affinePushforwardBaseChange` — the morphism
   `g_T : X ×_Y T ⟶ X' ×_Y T` of base-change spaces induced by `g`.
-* `AlgebraicGeometry.Space.ModuleMapSituation.PushforwardIdentifiesBaseChange` — the input the
-  proof of Stacks 0CW8 takes from the affine base-change clause of Stacks 07U8 and from
-  Stacks 08AI, at one test scheme.
+* `AlgebraicGeometry.Space.ModuleMapSituation.PushforwardIdentifiesBaseChange` — the two steps
+  of the proof of Stacks 0CW8, the affine base-change clause of Stacks 07U8 and Stacks 08AI, at
+  one test scheme; they are proved in
+  `StacksFrontier.AlgebraicGeometry.Spaces.ModuleMapSituationAffinePushforward`.
 * `AlgebraicGeometry.Space.AffineAdjointData` — the data of Stacks 0CW7, and its two
   situations `sourceSituation` (for `u`) and `adjointSituation` (for `v`).
 * `AlgebraicGeometry.Space.AffineAdjointData.AdjointAfterBaseChange` — the input the proof of
@@ -39,43 +40,41 @@ companion map produced by an affine morphism.
 
 * `AlgebraicGeometry.Space.ModuleMapSituation.isoFunctor_affinePushforward_eq`,
   `injFunctor_affinePushforward_eq`, `surjFunctor_affinePushforward_eq`,
-  `zeroFunctor_affinePushforward_eq` — Stacks 0CW8.
-* `AlgebraicGeometry.Space.AffineAdjointData.zeroFunctor_adjointSituation_eq` — Stacks 0CW7,
-  part (1).
-* `AlgebraicGeometry.Space.AffineAdjointData.surjFunctor_adjointSituation_eq` — Stacks 0CW7,
-  part (2).
+  `zeroFunctor_affinePushforward_eq` — Stacks 0CW8 from the two steps of its proof at every test
+  scheme; Stacks 0CW8 itself is
+  `AlgebraicGeometry.Space.ModuleMapSituation.isoFunctor_affinePushforward_eq_unconditional` and
+  its companions in `StacksFrontier.AlgebraicGeometry.Spaces.ModuleMapSituationAffinePushforward`.
+* `AlgebraicGeometry.Space.AffineAdjointData.zeroFunctor_adjointSituation_eq` and
+  `AlgebraicGeometry.Space.AffineAdjointData.surjFunctor_adjointSituation_eq` — the two parts of
+  Stacks 0CW7 from the base-change inputs `AdjointAfterBaseChange` and
+  `ClosedImmersionSurjectivityInput` taken as hypotheses.  Stacks 0CW7 itself, with `i` affine
+  (resp. a closed immersion) and both inputs proved, is
+  `AlgebraicGeometry.Space.AffineAdjointData.zeroFunctor_adjointSituation_eq_of_isAffineHom` and
+  `AlgebraicGeometry.Space.AffineAdjointData.surjFunctor_adjointSituation_eq_of_isClosedImmersion`
+  in `StacksFrontier.AlgebraicGeometry.Spaces.ModuleMapSituationAffineAdjoint`.
 
 ## Implementation notes
 
-### What is assumed, and why
+### The conditional form, and where the hypotheses are discharged
 
 The source's proof of Stacks 0CW8 is two sentences.  The first, "`g_{T,*}u_T = u'_T` by
 Cohomology of Spaces, Lemma 07U8", is the affine base-change clause of Stacks 07U8; the
 second, "`g_{T,*}` is a faithful, exact functor reflecting isomorphisms, injective maps and
-surjective maps", is how the source uses Stacks 08AI.  Neither is available here: the module
-carrying Stacks 07U8 in this repository,
-`StacksFrontier.AlgebraicGeometry.Spaces.AffineDirectImageQuasicoherent`, proves only the
-quasi-coherence clause, and the module carrying Stacks 08AI,
-`StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentDirectImageAffine`, carries only the
-functor of its first sentence and records the equivalence as unproved and blocked on
-Stacks 03M3.  So both enter as hypotheses, named for the results they are, in the pattern that
-`AlgebraicGeometry.Space.AffinePushforwardEquivalence` and
-`Stacks.Chow.ProperPushforwardDescends` already set in this repository.  Everything the source
-leaves to the reader — that the four pointwise comparisons assemble into equalities of
-subterminal functors, and that the pulled-back maps are the ones being compared — is proved.
+surjective maps", is how the source uses Stacks 08AI.  This module proves the four equalities
+from these two steps, bundled at one test scheme as
+`AlgebraicGeometry.Space.ModuleMapSituation.PushforwardIdentifiesBaseChange` (and its variant
+`PushforwardIdentifiesBaseChange'` for the situation `affinePushforward'`): everything the
+source leaves to the reader, that the four pointwise comparisons assemble into equalities of
+subterminal functors and that the pulled-back maps are the ones being compared, is proved here.
 
-The hypotheses are kept as weak as the proof allows.  The base-change clause enters only as an
-isomorphism in the arrow category, which is what naturality of the comparison of Stacks 07U8
-at `u` supplies and all that is used; the reflection clause enters only at the two modules
-concerned, not as a statement about the functor.
-
-### Why the affineness of `g_T` is not proved here
-
-Affineness of the base change of an affine morphism is Stacks 03WI,
-`AlgebraicGeometry.Space.IsAffineHom.of_isPullback`, and it is what justifies applying
-Stacks 08AI to `g_T`.  Nothing below consumes it: the reflection properties of `g_{T,*}` are
-hypotheses, so the affineness that would justify them is the reader's check on the hypothesis
-and not a step of a proof here.
+Both steps are proved in
+`StacksFrontier.AlgebraicGeometry.Spaces.ModuleMapSituationAffinePushforward`: the base-change
+isomorphism of Stacks 07U8 for the cartesian square of `g_T`, the affineness of `g_T`
+(Stacks 03WI) and the detection of the four conditions by the direct image along an affine
+morphism (`StacksFrontier.AlgebraicGeometry.Spaces.ModuleAffinePushforwardExactness`).  That
+module states Stacks 0CW8 with exactly the source's hypotheses, as
+`AlgebraicGeometry.Space.ModuleMapSituation.isoFunctor_affinePushforward_eq_unconditional` and
+its three companions, and carries the tag.
 
 ### The universe
 
@@ -235,11 +234,12 @@ def affinePushforwardBaseChange (comm : g ≫ f' = D.f) (T : D.SchemesOver) :
       rw [Category.assoc, comm]
       exact (AlgebraicSpaces.isPullback_fiberProduct B S hS D.f T.hom).w)
 
-/-- **The two inputs that the proof of Stacks 0CW8 imports**, at one test scheme `T`: the
+/-- **The two steps of the proof of Stacks 0CW8**, at one test scheme `T`: the
 direct image along `g_T` carries the base change `u_T` to the base change `u'_T`, which is the
 affine base-change clause of Stacks 07U8; and that direct image reflects and preserves
 isomorphisms, monomorphisms, epimorphisms and vanishing at the two modules concerned, which is
-how the source uses Stacks 08AI for the affine morphism `g_T`. -/
+how the source uses Stacks 08AI for the affine morphism `g_T`.  Both hold at every test scheme:
+this is `AlgebraicGeometry.Space.ModuleMapSituation.pushforwardIdentifiesBaseChange`. -/
 def PushforwardIdentifiesBaseChange (h07U8 : SchemeTargetAffinePushforwardQuasicoherent B S hS)
     (hg : IsAffineHom B S hS g.hom) (comm : g ≫ f' = D.f) (T : D.SchemesOver) : Prop :=
   Nonempty
@@ -260,11 +260,12 @@ def PushforwardIdentifiesBaseChange (h07U8 : SchemeTargetAffinePushforwardQuasic
           (D.baseChangeHom (modulePullbackSystem B S hS) T) = 0) ↔
         D.baseChangeHom (modulePullbackSystem B S hS) T = 0)
 
-/-- **The two inputs that the proof of Stacks 0CW8 imports**, at one test scheme `T`: the
+/-- **The two steps of the proof of Stacks 0CW8**, at one test scheme `T`: the
 direct image along `g_T` carries the base change `u_T` to the base change `u'_T`, which is the
 affine base-change clause of Stacks 07U8; and that direct image reflects and preserves
 isomorphisms, monomorphisms, epimorphisms and vanishing at the two modules concerned, which is
-how the source uses Stacks 08AI for the affine morphism `g_T`. -/
+how the source uses Stacks 08AI for the affine morphism `g_T`.  This is
+`PushforwardIdentifiesBaseChange` for the situation `affinePushforward'`. -/
 def PushforwardIdentifiesBaseChange' (hg : IsAffineHom B S hS g.hom)
     (comm : g ≫ f' = D.f) (T : D.SchemesOver) : Prop :=
   Nonempty
@@ -290,15 +291,16 @@ section
 variable (h07U8 : SchemeTargetAffinePushforwardQuasicoherent B S hS)
   (hg : IsAffineHom B S hS g.hom) (comm : g ≫ f' = D.f)
 
-/-- **Stacks 0CW8**, pointwise for the isomorphism condition: the base change of `u' = g_*u`
-to a test scheme is an isomorphism exactly when the base change of `u` is. -/
+/-- Stacks 0CW8 from the two steps of its proof, pointwise for the isomorphism condition: the
+base change of `u' = g_*u` to a test scheme is an isomorphism exactly when the base change of
+`u` is. -/
 theorem isIsoAt_affinePushforward_iff (T : D.SchemesOver)
     (hT : D.PushforwardIdentifiesBaseChange g f' h07U8 hg comm T) :
     (D.affinePushforward g f' h07U8 hg).IsIsoAt (modulePullbackSystem B S hS) T ↔
       D.IsIsoAt (modulePullbackSystem B S hS) T :=
   (isIso_iff_of_arrowIso hT.1.some).trans hT.2.1
 
-/-- **Stacks 0CW8**, pointwise for the injectivity condition. -/
+/-- Stacks 0CW8 from the two steps of its proof, pointwise for the injectivity condition. -/
 theorem isUniversallyInjectiveAt_affinePushforward_iff (T : D.SchemesOver)
     (hT : ∀ T' : D.SchemesOver, D.PushforwardIdentifiesBaseChange g f' h07U8 hg comm T') :
     (D.affinePushforward g f' h07U8 hg).IsUniversallyInjectiveAt
@@ -307,21 +309,22 @@ theorem isUniversallyInjectiveAt_affinePushforward_iff (T : D.SchemesOver)
   forall_congr' fun T' => forall_congr' fun _ =>
     (mono_iff_of_arrowIso (hT T').1.some).trans (hT T').2.2.1
 
-/-- **Stacks 0CW8**, pointwise for the surjectivity condition. -/
+/-- Stacks 0CW8 from the two steps of its proof, pointwise for the surjectivity condition. -/
 theorem isSurjectiveAt_affinePushforward_iff (T : D.SchemesOver)
     (hT : D.PushforwardIdentifiesBaseChange g f' h07U8 hg comm T) :
     (D.affinePushforward g f' h07U8 hg).IsSurjectiveAt (modulePullbackSystem B S hS) T ↔
       D.IsSurjectiveAt (modulePullbackSystem B S hS) T :=
   (epi_iff_of_arrowIso hT.1.some).trans hT.2.2.2.1
 
-/-- **Stacks 0CW8**, pointwise for the vanishing condition. -/
+/-- Stacks 0CW8 from the two steps of its proof, pointwise for the vanishing condition. -/
 theorem isZeroAt_affinePushforward_iff (T : D.SchemesOver)
     (hT : D.PushforwardIdentifiesBaseChange g f' h07U8 hg comm T) :
     (D.affinePushforward g f' h07U8 hg).IsZeroAt (modulePullbackSystem B S hS) T ↔
       D.IsZeroAt (modulePullbackSystem B S hS) T :=
   (eq_zero_iff_of_arrowIso hT.1.some).trans hT.2.2.2.2
 
-/-- **Stacks 0CW8**, `F_{u,iso} = F_{u',iso}`. -/
+/-- Stacks 0CW8 from the two steps of its proof at every test scheme, `F_{u,iso} = F_{u',iso}`;
+Stacks 0CW8 itself is `isoFunctor_affinePushforward_eq_unconditional`. -/
 theorem isoFunctor_affinePushforward_eq
     (hT : ∀ T : D.SchemesOver, D.PushforwardIdentifiesBaseChange g f' h07U8 hg comm T) :
     (D.affinePushforward g f' h07U8 hg).isoFunctor (modulePullbackSystem B S hS) =
@@ -332,7 +335,8 @@ theorem isoFunctor_affinePushforward_eq
     (fun k hQ => D.isIsoAt_of_hom (modulePullbackSystem B S hS) k hQ)
     fun T => D.isIsoAt_affinePushforward_iff g f' h07U8 hg comm T (hT T)
 
-/-- **Stacks 0CW8**, `F_{u,inj} = F_{u',inj}`. -/
+/-- Stacks 0CW8 from the two steps of its proof at every test scheme, `F_{u,inj} = F_{u',inj}`;
+Stacks 0CW8 itself is `injFunctor_affinePushforward_eq_unconditional`. -/
 theorem injFunctor_affinePushforward_eq
     (hT : ∀ T : D.SchemesOver, D.PushforwardIdentifiesBaseChange g f' h07U8 hg comm T) :
     (D.affinePushforward g f' h07U8 hg).injFunctor (modulePullbackSystem B S hS) =
@@ -343,7 +347,8 @@ theorem injFunctor_affinePushforward_eq
     (fun k hQ => D.isUniversallyInjectiveAt_of_hom (modulePullbackSystem B S hS) k hQ)
     fun T => D.isUniversallyInjectiveAt_affinePushforward_iff g f' h07U8 hg comm T hT
 
-/-- **Stacks 0CW8**, `F_{u,surj} = F_{u',surj}`. -/
+/-- Stacks 0CW8 from the two steps of its proof at every test scheme, `F_{u,surj} = F_{u',surj}`;
+Stacks 0CW8 itself is `surjFunctor_affinePushforward_eq_unconditional`. -/
 theorem surjFunctor_affinePushforward_eq
     (hT : ∀ T : D.SchemesOver, D.PushforwardIdentifiesBaseChange g f' h07U8 hg comm T) :
     (D.affinePushforward g f' h07U8 hg).surjFunctor (modulePullbackSystem B S hS) =
@@ -354,7 +359,8 @@ theorem surjFunctor_affinePushforward_eq
     (fun k hQ => D.isSurjectiveAt_of_hom (modulePullbackSystem B S hS) k hQ)
     fun T => D.isSurjectiveAt_affinePushforward_iff g f' h07U8 hg comm T (hT T)
 
-/-- **Stacks 0CW8**, `F_{u,zero} = F_{u',zero}`. -/
+/-- Stacks 0CW8 from the two steps of its proof at every test scheme, `F_{u,zero} = F_{u',zero}`;
+Stacks 0CW8 itself is `zeroFunctor_affinePushforward_eq_unconditional`. -/
 theorem zeroFunctor_affinePushforward_eq
     (hT : ∀ T : D.SchemesOver, D.PushforwardIdentifiesBaseChange g f' h07U8 hg comm T) :
     (D.affinePushforward g f' h07U8 hg).zeroFunctor (modulePullbackSystem B S hS) =
@@ -369,17 +375,16 @@ end
 
 variable (hg : IsAffineHom B S hS g.hom) (comm : g ≫ f' = D.f)
 
-/-- **Stacks 0CW8**, pointwise for the isomorphism condition: the base change of `u' = g_*u`
-to a test scheme is an isomorphism exactly when the base change of `u` is. -/
-@[stacks 0CW8 "the isomorphism locus, pointwise"]
+/-- Stacks 0CW8 from the two steps of its proof, pointwise for the isomorphism condition: the
+base change of `u' = g_*u` to a test scheme is an isomorphism exactly when the base change of
+`u` is. -/
 theorem isIsoAt_affinePushforward_iff' (T : D.SchemesOver)
     (hT : D.PushforwardIdentifiesBaseChange' g f' hg comm T) :
     (D.affinePushforward' g f' hg).IsIsoAt (modulePullbackSystem B S hS) T ↔
       D.IsIsoAt (modulePullbackSystem B S hS) T :=
   (isIso_iff_of_arrowIso hT.1.some).trans hT.2.1
 
-/-- **Stacks 0CW8**, pointwise for the injectivity condition. -/
-@[stacks 0CW8 "the universal-injectivity locus, pointwise"]
+/-- Stacks 0CW8 from the two steps of its proof, pointwise for the injectivity condition. -/
 theorem isUniversallyInjectiveAt_affinePushforward_iff' (T : D.SchemesOver)
     (hT : ∀ T' : D.SchemesOver, D.PushforwardIdentifiesBaseChange' g f' hg comm T') :
     (D.affinePushforward' g f' hg).IsUniversallyInjectiveAt
@@ -388,24 +393,22 @@ theorem isUniversallyInjectiveAt_affinePushforward_iff' (T : D.SchemesOver)
   forall_congr' fun T' => forall_congr' fun _ =>
     (mono_iff_of_arrowIso (hT T').1.some).trans (hT T').2.2.1
 
-/-- **Stacks 0CW8**, pointwise for the surjectivity condition. -/
-@[stacks 0CW8 "the surjectivity locus, pointwise"]
+/-- Stacks 0CW8 from the two steps of its proof, pointwise for the surjectivity condition. -/
 theorem isSurjectiveAt_affinePushforward_iff' (T : D.SchemesOver)
     (hT : D.PushforwardIdentifiesBaseChange' g f' hg comm T) :
     (D.affinePushforward' g f' hg).IsSurjectiveAt (modulePullbackSystem B S hS) T ↔
       D.IsSurjectiveAt (modulePullbackSystem B S hS) T :=
   (epi_iff_of_arrowIso hT.1.some).trans hT.2.2.2.1
 
-/-- **Stacks 0CW8**, pointwise for the vanishing condition. -/
-@[stacks 0CW8 "the vanishing locus, pointwise"]
+/-- Stacks 0CW8 from the two steps of its proof, pointwise for the vanishing condition. -/
 theorem isZeroAt_affinePushforward_iff' (T : D.SchemesOver)
     (hT : D.PushforwardIdentifiesBaseChange' g f' hg comm T) :
     (D.affinePushforward' g f' hg).IsZeroAt (modulePullbackSystem B S hS) T ↔
       D.IsZeroAt (modulePullbackSystem B S hS) T :=
   (eq_zero_iff_of_arrowIso hT.1.some).trans hT.2.2.2.2
 
-/-- **Stacks 0CW8**, `F_{u,iso} = F_{u',iso}`. -/
-@[stacks 0CW8 "F_iso"]
+/-- Stacks 0CW8 from the two steps of its proof at every test scheme, `F_{u,iso} = F_{u',iso}`;
+Stacks 0CW8 itself is `isoFunctor_affinePushforward_eq_unconditional`. -/
 theorem isoFunctor_affinePushforward_eq'
     (hT : ∀ T : D.SchemesOver, D.PushforwardIdentifiesBaseChange' g f' hg comm T) :
     (D.affinePushforward' g f' hg).isoFunctor (modulePullbackSystem B S hS) =
@@ -416,8 +419,8 @@ theorem isoFunctor_affinePushforward_eq'
     (fun k hQ => D.isIsoAt_of_hom (modulePullbackSystem B S hS) k hQ)
     fun T => D.isIsoAt_affinePushforward_iff' g f' hg comm T (hT T)
 
-/-- **Stacks 0CW8**, `F_{u,inj} = F_{u',inj}`. -/
-@[stacks 0CW8 "F_inj"]
+/-- Stacks 0CW8 from the two steps of its proof at every test scheme, `F_{u,inj} = F_{u',inj}`;
+Stacks 0CW8 itself is `injFunctor_affinePushforward_eq_unconditional`. -/
 theorem injFunctor_affinePushforward_eq'
     (hT : ∀ T : D.SchemesOver, D.PushforwardIdentifiesBaseChange' g f' hg comm T) :
     (D.affinePushforward' g f' hg).injFunctor (modulePullbackSystem B S hS) =
@@ -428,8 +431,8 @@ theorem injFunctor_affinePushforward_eq'
     (fun k hQ => D.isUniversallyInjectiveAt_of_hom (modulePullbackSystem B S hS) k hQ)
     fun T => D.isUniversallyInjectiveAt_affinePushforward_iff' g f' hg comm T hT
 
-/-- **Stacks 0CW8**, `F_{u,surj} = F_{u',surj}`. -/
-@[stacks 0CW8 "F_surj"]
+/-- Stacks 0CW8 from the two steps of its proof at every test scheme, `F_{u,surj} = F_{u',surj}`;
+Stacks 0CW8 itself is `surjFunctor_affinePushforward_eq_unconditional`. -/
 theorem surjFunctor_affinePushforward_eq'
     (hT : ∀ T : D.SchemesOver, D.PushforwardIdentifiesBaseChange' g f' hg comm T) :
     (D.affinePushforward' g f' hg).surjFunctor (modulePullbackSystem B S hS) =
@@ -440,8 +443,8 @@ theorem surjFunctor_affinePushforward_eq'
     (fun k hQ => D.isSurjectiveAt_of_hom (modulePullbackSystem B S hS) k hQ)
     fun T => D.isSurjectiveAt_affinePushforward_iff' g f' hg comm T (hT T)
 
-/-- **Stacks 0CW8**, `F_{u,zero} = F_{u',zero}`. -/
-@[stacks 0CW8 "F_zero"]
+/-- Stacks 0CW8 from the two steps of its proof at every test scheme, `F_{u,zero} = F_{u',zero}`;
+Stacks 0CW8 itself is `zeroFunctor_affinePushforward_eq_unconditional`. -/
 theorem zeroFunctor_affinePushforward_eq'
     (hT : ∀ T : D.SchemesOver, D.PushforwardIdentifiesBaseChange' g f' hg comm T) :
     (D.affinePushforward' g f' hg).zeroFunctor (modulePullbackSystem B S hS) =
@@ -456,8 +459,9 @@ end ModuleMapSituation
 
 /-! ### Stacks 0CW7: a map whose target is an affine direct image -/
 
-/-- The data of Stacks 0CW7: a morphism `f : X ⟶ Y` of algebraic spaces, an affine morphism
-`i : Z ⟶ X`, a quasi-coherent `𝒪_X`-module `F`, a quasi-coherent `𝒪_Z`-module `H`, and a map
+/-- The data of Stacks 0CW7: a morphism `f : X ⟶ Y` of algebraic spaces, a morphism
+`i : Z ⟶ X` (its affineness, which the source assumes, is a hypothesis of the theorems that use
+it, not a field), a quasi-coherent `𝒪_X`-module `F`, a quasi-coherent `𝒪_Z`-module `H`, and a map
 `v : i^*F ⟶ H`.
 
 The map `u : F ⟶ i_*H` of the source is the adjoint of `v`, so it is not part of the data;
@@ -562,12 +566,12 @@ def AdjointAfterBaseChange
 variable (hqcF : ((modulePullback B S hS A.i).obj A.F).IsQuasicoherentOnSite)
   (hqcH : ((modulePushforward B S hS A.i).obj A.H).IsQuasicoherentOnSite)
 
-/-- **Stacks 0CW7, part (1)**, pointwise: the base change of `u` to a test scheme vanishes
-exactly when the base change of its adjoint `v` does.
+/-- The pointwise step of Stacks 0CW7, part (1), from the input
+`AlgebraicGeometry.Space.AffineAdjointData.AdjointAfterBaseChange` taken as a hypothesis: the
+base change of `u` to a test scheme vanishes exactly when the base change of its adjoint `v` does.
 
 An adjunction between preadditive categories whose right adjoint is additive carries `0` to
 `0` and is a bijection, so it carries nothing else to `0`. -/
-@[stacks 0CW7 "part (1), pointwise"]
 theorem isZeroAt_adjointSituation_iff (T : (A.sourceSituation hqcH).SchemesOver)
     (hT : A.AdjointAfterBaseChange hqcF hqcH T) :
     (A.adjointSituation hqcF).IsZeroAt (modulePullbackSystem B S hS) T ↔
@@ -598,8 +602,11 @@ theorem isZeroAt_adjointSituation_iff (T : (A.sourceSituation hqcH).SchemesOver)
     have haw : a.hom ≫ w = 0 := hequiv.1 (hadj.symm.trans hzb)
     exact (Iso.cancel_iso_hom_left a _ _).1 (haw.trans comp_zero.symm)
 
-/-- **Stacks 0CW7, part (1)**: `F_{v,zero} = F_{u,zero}`. -/
-@[stacks 0CW7 "part (1)"]
+/-- Stacks 0CW7, part (1), `F_{v,zero} = F_{u,zero}`, from the base-change input
+`AlgebraicGeometry.Space.AffineAdjointData.AdjointAfterBaseChange` taken as a hypothesis at every
+test scheme.  This puts no affineness on `i`; Stacks 0CW7 itself, for an affine `i` with the input
+proved from Stacks 07U8, is
+`AlgebraicGeometry.Space.AffineAdjointData.zeroFunctor_adjointSituation_eq_of_isAffineHom`. -/
 theorem zeroFunctor_adjointSituation_eq
     (hT : ∀ T : (A.sourceSituation hqcH).SchemesOver, A.AdjointAfterBaseChange hqcF hqcH T) :
     (A.adjointSituation hqcF).zeroFunctor (modulePullbackSystem B S hS) =
@@ -612,8 +619,9 @@ theorem zeroFunctor_adjointSituation_eq
 /-- **The extra input that part (2) of the proof of Stacks 0CW7 imports** at one test scheme,
 for a closed immersion `i`: the base change `i_T` is again a closed immersion (Stacks 03WI for
 closed immersions), the unit `F_T ⟶ i_{T,*}i_T^*F_T` is surjective (Stacks 04CJ, part (1)),
-and `i_{T,*}` preserves surjections (the exactness assertion of Stacks 04CJ, part (3), which
-this repository does not carry). -/
+and `i_{T,*}` preserves surjections (the exactness assertion of Stacks 04CJ, part (3)).  For the
+base change of a closed immersion all three are proved, as
+`AlgebraicGeometry.Space.AffineAdjointData.closedImmersionSurjectivityInput`. -/
 def ClosedImmersionSurjectivityInput
     (hqcF : ((modulePullback B S hS A.i).obj A.F).IsQuasicoherentOnSite)
     (hqcH : ((modulePushforward B S hS A.i).obj A.H).IsQuasicoherentOnSite)
@@ -625,14 +633,16 @@ def ClosedImmersionSurjectivityInput
       ((modulePullback B S hS ((A.sourceSituation hqcH).baseChangeProjection T)).obj A.F)) ∧
     (modulePushforward B S hS iT).PreservesEpimorphisms
 
-/-- **Stacks 0CW7, part (2)**, pointwise: for a closed immersion, the base change of `u` to a
-test scheme is surjective exactly when the base change of its adjoint `v` is.
+/-- The pointwise step of Stacks 0CW7, part (2), from the inputs
+`AlgebraicGeometry.Space.AffineAdjointData.IsAdjointAfterBaseChange` and
+`AlgebraicGeometry.Space.AffineAdjointData.ClosedImmersionSurjectivityInput` taken as hypotheses:
+the base change of `u` to a test scheme is surjective exactly when the base change of its adjoint
+`v` is.
 
 Forward, the factorisation `u_T = unit ≫ i_{T,*}(v_T)` makes `i_{T,*}(v_T)` an epimorphism,
 and the direct image along a closed immersion is fully faithful
 (`AlgebraicGeometry.Space.fullyFaithfulModulePushforward`), hence faithful, hence reflects
 epimorphisms.  Backward, the unit is an epimorphism and the direct image preserves them. -/
-@[stacks 0CW7 "part (2), pointwise"]
 theorem isSurjectiveAt_adjointSituation_iff (T : (A.sourceSituation hqcH).SchemesOver)
     (hT : ∃ iT : (A.adjointSituation hqcF).baseChangeSpace T ⟶
         (A.sourceSituation hqcH).baseChangeSpace T,
@@ -661,8 +671,10 @@ theorem isSurjectiveAt_adjointSituation_iff (T : (A.sourceSituation hqcH).Scheme
   have h1 : Epi w ↔ Epi (a.hom ≫ w) := (epi_comp_iff_of_epi a.hom w).symm
   exact h1.trans (h2.trans (h3.trans h4))
 
-/-- **Stacks 0CW7, part (2)**: for a closed immersion, `F_{v,surj} = F_{u,surj}`. -/
-@[stacks 0CW7 "part (2)"]
+/-- Stacks 0CW7, part (2), `F_{v,surj} = F_{u,surj}`, from the base-change inputs taken as
+hypotheses at every test scheme.  This puts no closed-immersion hypothesis on `i`; Stacks 0CW7
+itself, for a closed immersion `i` with the inputs proved, is
+`AlgebraicGeometry.Space.AffineAdjointData.surjFunctor_adjointSituation_eq_of_isClosedImmersion`. -/
 theorem surjFunctor_adjointSituation_eq
     (hT : ∀ T : (A.sourceSituation hqcH).SchemesOver,
       ∃ iT : (A.adjointSituation hqcF).baseChangeSpace T ⟶

@@ -305,7 +305,9 @@ end Coproduct
 
 /-- **Stacks 0935, part (2).** For a sheaf of rings, sections of sheaves of modules over a
 quasi-compact object preserve arbitrary direct sums. -/
-@[stacks 0935 "part (2)", ega "IV 16.8.11" "(i), special case"]
+@[stacks 0935 "part (2), as stated: for a sheaf of rings, the sections functor at a quasi-compact
+  object, from sheaves of modules to abelian groups, commutes with direct sums over an arbitrary
+  index type", ega "IV 16.8.11" "(i), special case"]
 theorem sheafOfModules_sections_preserves_coproducts
     {C : Type u} [Category.{v} C] (J : GrothendieckTopology C)
     (R : Sheaf J RingCat.{r}) (W : C) (hW : J.IsQuasiCompactObject W) (ι : Type w) :

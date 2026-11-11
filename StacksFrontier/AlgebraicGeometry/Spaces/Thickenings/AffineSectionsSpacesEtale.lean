@@ -33,7 +33,15 @@ regular functions, `AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isC
   `surjective_globalFunctionsMap_spacesBaseChange_projection_of_isThickening`.
 * `AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isThickening`: **Stacks 05ZQ**, with
   the source's quantifier over an arbitrary affine object of the spaces-étale site of the closed
-  subspace.
+  subspace, with nothing granted. This is the sole declaration registered under 05ZQ.
+
+The former conditional siblings in
+`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/AffineSections.lean`,
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_projection_of_isThickening` and
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isFirstOrderThickening`, which take the
+hypotheses `h07VR`, `h07SQ` and `hFinitePresentation` of the library's Stacks 07VS, are now
+unregistered steps; the proof here uses neither, the closed-immersion case of Stacks 07VT
+replacing Stacks 07VS.
 
 ## References
 
@@ -113,9 +121,15 @@ in the statement, so no part of Stacks 05ZH is granted. The object `U` and the i
 the `CategoryTheory.Functor.objPreimage` and `CategoryTheory.Functor.objObjPreimageIso` of that
 essential surjectivity. Affineness of `V` transported across the isomorphism makes
 `AlgebraicGeometry.Space.surjective_globalFunctionsMap_spacesBaseChange_projection_of_isThickening`
-apply at `U`, and pullback along an isomorphism is bijective on global regular functions. -/
+apply at `U`, and pullback along an isomorphism is bijective on global regular functions.
+
+This is the sole 05ZQ registration. The former conditional siblings
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_projection_of_isThickening` and
+`AlgebraicGeometry.Space.surjective_globalFunctionsMap_of_isFirstOrderThickening`, which grant
+the hypotheses of Stacks 07VS, are unregistered steps. -/
 @[stacks 05ZQ "for a thickening of arbitrary order and an arbitrary affine object `V` of the \
-spaces-étale site of the closed subspace. The source's `Γ(U, 𝒪_{X'})`, the sections of \
+spaces-étale site of the closed subspace, with no hypothesis granted (Stacks 05ZH and the \
+closed-immersion case of Stacks 07VT are proved, not assumed). The source's `Γ(U, 𝒪_{X'})`, the sections of \
 `𝒪_{X'}` read on the site of the closed subspace through Stacks 05ZM, is stated as \
 `Γ(U', 𝒪_{U'})` for the object `U'` of the ambient space's site with `V ≅ X ×_{X'} U'` given by \
 essential surjectivity of base change, and the map is pullback along `V ≅ X ×_{X'} U' ⟶ U'`"]

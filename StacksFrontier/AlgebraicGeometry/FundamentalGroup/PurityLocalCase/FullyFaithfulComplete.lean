@@ -18,8 +18,17 @@ Stacks 0EK5, which both proceed by replacing `A` by its `𝔪`-adic completion a
 Stacks 0EL8 together with one of the two completion criteria of the chapter *Algebraic and
 Formal Geometry*, Stacks 0EKS and Stacks 0EKT.
 
-Both tags are obtained here with the hypothesis that `A` is `f`-adically complete in place of
-the reduction to the completion, which is not carried out; see "What is and is not proved".
+The statements here are the earlier, restricted forms of Stacks 0BM6, Stacks 0EK5 and
+Stacks 0BLJ, with the hypothesis that `A` is `f`-adically complete in place of the reduction to
+the completion; see "What is and is not proved". The three tags in full, for an arbitrary
+Noetherian local ring and with no further hypotheses, are in
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/PurityLocalCase/FullyFaithfulPunctured.lean`:
+`…LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_annihilated_of_henselian`,
+`…LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_dualizingComplex` and
+`…LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_`
+`henselianLocalRing_or`.
+The declarations below are kept for their consumers in
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/PurityLocalCase/LiftFromHypersurface.lean`.
 
 ## Main results
 
@@ -27,16 +36,18 @@ the reduction to the completion, which is not carried out; see "What is and is n
   — full faithfulness of `FÉt_U ⟶ FÉt_{U₀}` from full faithfulness of completion along
   `(f)𝒪_U`.
 * `AlgebraicGeometry.LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_annihilated`
-  — **Stacks 0BM6** for an `f`-adically complete `A`: the local cohomology hypothesis.
+  — the case of Stacks 0BM6 with `A` in addition `f`-adically complete.
 * `AlgebraicGeometry.LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_depth`
-  — **Stacks 0EK5** for an `f`-adically complete `A`, under hypothesis (c)(ii): the dualizing
-  complex and the depth-plus-dimension hypothesis.
+  — the case of Stacks 0EK5 under hypothesis (c)(ii), with `A` in addition `f`-adically
+  complete.
 * `…LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_three_le_depth`
-  — **Stacks 0BLJ** for an `f`-adically complete `A`: depth at least `3` and a henselian pair.
+  — the case of Stacks 0BLJ with `A` in addition `f`-adically complete.
 
 ## What is and is not proved
 
-All three tags are carried in restricted form, and the attributes say so.
+These are restricted forms of the three tags; the tags themselves are registered on the
+unrestricted statements of `FullyFaithfulPunctured.lean`, which carry out the reduction below
+and need none of the general hypotheses listed at the end of this section.
 
 * `A` is assumed `f`-adically complete. The source's proofs reduce to that case by replacing `A`
   by its `𝔪`-adic completion `Â`: Stacks 0BLI descends full faithfulness from `Â` to `A`, and
@@ -47,11 +58,14 @@ All three tags are carried in restricted form, and the attributes say so.
   `StacksFrontier/AlgebraicGeometry/LocalCohomology/FinitenessLocalCohomology/`, but the reduction
   itself — identifying the categorical pullback that Stacks 0BLI speaks of
   with the punctured spectra of the local Lefschetz situation of `Â`, and transporting the
-  annihilation and depth hypotheses along the completion — is not performed here. It is the one
-  gap between these statements and the three tags.
+  annihilation and depth hypotheses along the completion — is not performed in this file; it is
+  `…LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_isAdicCompleteCase`, with
+  `…LocalLefschetzSituation.annihilated_completion` and
+  `…LocalLefschetzSituation.depthDim_completion`, in
+  `StacksFrontier/AlgebraicGeometry/FundamentalGroup/PurityLocalCase/CompletionReduction.lean`.
 * For Stacks 0EK5 only branch (ii) of its hypothesis (c) is treated. Branch (c)(i), the
-  `(S₂)`-plus-dimension form, is not reduced to (ii); that reduction is the argument of the
-  source through Stacks 0339, 0A80, 0AW6 and 0AWY.
+  `(S₂)`-plus-dimension form, is not reduced to (ii) here; that reduction is
+  `…LocalLefschetzSituation.two_lt_depth_add_ringKrullDim_of_propertySkRing_away`.
 * Stacks 0BLJ carries nothing of its own: its proof, the passage from depth at least `3` to the
   vanishing of `H¹_𝔪(A)` and `H²_𝔪(A)` through Stacks 0AVZ, is supplied unconditionally, and
   its henselian hypothesis is stated in the general henselian-pair form. Its one restriction is
@@ -59,9 +73,11 @@ All three tags are carried in restricted form, and the attributes say so.
 
 Three hypotheses are carried, each inherited verbatim from the result that needs it and each a
 statement about arbitrary rings or arbitrary schemes, never about `A`, `f`, `U` or `U₀`:
-`hEKP` (the chain (1) ⇒ (4) of Stacks 0EKP, the hypothesis of Stacks 0EKS and Stacks 0EKT here)
-and `h0GN2` and `halgebra` (the two hypotheses of Stacks 0EL8 here). The henselian hypothesis of
-each tag is stated but unused: it is what the omitted reduction to the complete case consumes.
+`hEKP` (the chain (1) ⇒ (4) of Stacks 0EKP, the hypothesis of an earlier form of Stacks 0EKS and
+Stacks 0EKT) and `h0GN2` and `halgebra` (the two hypotheses of an earlier form of Stacks 0EL8).
+The library now proves Stacks 0EKS, Stacks 0EKT and Stacks 0EL8 without them, and the statements
+of `FullyFaithfulPunctured.lean` use those forms. The henselian hypothesis of each statement here
+is stated but unused: it is what the omitted reduction to the complete case consumes.
 
 ## Implementation notes
 
@@ -224,7 +240,8 @@ public theorem fullyFaithful_finiteEtaleRestriction_of_completionFullyFaithful
   fullyFaithful_aux S (complementZeroLocus S.A (maximalIdeal S.A))
     S.UOpen_eq_complementZeroLocus.symm hcompletion h0GN2 halgebra
 
-/-- **[Stacks, Tag 0BM6]** in the case where `A` is in addition `f`-adically complete. In the
+/-- **The case of [Stacks, Tag 0BM6] where `A` is in addition `f`-adically complete.** The tag
+in full is `fullyFaithful_finiteEtaleRestriction_of_annihilated_of_henselian`. In the
 local Lefschetz situation assume that `H¹_𝔪(A)` and `H²_𝔪(A)` are annihilated by a power of `f`
 and that `A` is henselian — or more generally that the pair `(A, (f))` is henselian. If moreover
 `A` is `f`-adically complete, then `FÉt_U ⟶ FÉt_{U₀}` is fully faithful.
@@ -233,7 +250,8 @@ The `f`-adic completeness of `A` is the one hypothesis beyond the tag's own. The
 obtains it by replacing `A` with its `𝔪`-adic completion, which is Stacks 0BLI, available here as
 `AlgebraicGeometry.LocalLefschetzSituation.fullyFaithful_finiteEtaleRestriction_of_completion`,
 together with Stacks 0ALZ for the inheritance of the annihilation hypothesis; that reduction is
-*not* carried out here, so the statement is the tag restricted to an `f`-adically complete `A`.
+not carried out in this declaration, so the statement is the tag restricted to an `f`-adically
+complete `A`.
 The henselian hypothesis `hS` is the tag's hypothesis (2); it is exactly what the omitted
 reduction consumes, so it is stated but not used below.
 
@@ -251,10 +269,6 @@ needs it and each stated about arbitrary rings or arbitrary schemes:
 
 None of the three mentions `A`, `f`, `U` or `U₀`, and none is about finite étale covers of a
 punctured spectrum. -/
-@[stacks 0BM6 "the case where `A` is in addition `f`-adically complete, the reduction to that \
-case (Stacks 0BLI together with Stacks 0ALZ) not being carried out; granted hEKP (the chain \
-(1) ⇒ (4) of Stacks 0EKP), h0GN2 (Stacks 0GN2) and halgebra, all three carried as general \
-hypotheses about other rings and other schemes"]
 public theorem fullyFaithful_finiteEtaleRestriction_of_annihilated
     (S : LocalLefschetzSituation.{u})
     (hS : HenselianLocalRing S.A ∨ HenselianPair S.A S.principalIdeal)
@@ -303,34 +317,31 @@ public theorem fullyFaithful_finiteEtaleRestriction_of_annihilated
     (Stacks.Algebraization.completionFullyFaithful_of_isAdicComplete_of_annihilated
       S.A (maximalIdeal S.A) S.f S.f_mem_maximalIdeal hcomplete h1 h2 hEKP) h0GN2 halgebra
 
-/-- **[Stacks, Tag 0EK5]** under hypothesis (c)(ii), in the case where `A` is in addition
-`f`-adically complete. In the local Lefschetz situation assume that `A` has a dualizing complex,
-that the pair `(A, (f))` is henselian, and that `depth(A_𝔭) + dim(A/𝔭) > 2` for every prime
-`𝔭 ⊂ A` with `f ∉ 𝔭`. If moreover `A` is `f`-adically complete, then `FÉt_U ⟶ FÉt_{U₀}` is
-fully faithful.
+/-- **The case of [Stacks, Tag 0EK5] under hypothesis (c)(ii) where `A` is in addition
+`f`-adically complete.** The tag in full is
+`fullyFaithful_finiteEtaleRestriction_of_dualizingComplex`. In the local Lefschetz situation
+assume that `A` has a dualizing complex, that the pair `(A, (f))` is henselian, and that
+`depth(A_𝔭) + dim(A/𝔭) > 2` for every prime `𝔭 ⊂ A` with `f ∉ 𝔭`. If moreover `A` is
+`f`-adically complete, then `FÉt_U ⟶ FÉt_{U₀}` is fully faithful.
 
-Two restrictions of the tag are recorded in the attribute.
+Two restrictions of the tag apply.
 
 * Hypothesis (c) of the tag is a disjunction, and only branch (ii) — the depth-plus-dimension
   inequality — is treated. Branch (c)(i) is not: deducing (ii) from it is the
-  `(S₂)`-plus-dimension argument of the source, which goes through Stacks 0339, 0A80, 0AW6 and
-  0AWY and is not carried out here.
+  `(S₂)`-plus-dimension argument of the source,
+  `two_lt_depth_add_ringKrullDim_of_propertySkRing_away`, not applied here.
 * The `f`-adic completeness of `A` is the one hypothesis beyond the tag's own. The source
   obtains it by replacing `A` by its `𝔪`-adic completion, which is Stacks 0BLI, available here
   as `…fullyFaithful_finiteEtaleRestriction_of_completion`, together with Stacks 0EHW for the
-  inheritance of (c)(ii); that reduction is not carried out here. The henselian hypothesis `hS`
-  is the tag's hypothesis (b) and is exactly what the omitted reduction consumes, so it is
-  stated but not used below.
+  inheritance of (c)(ii); that reduction is not carried out in this declaration. The henselian
+  hypothesis `hS` is the tag's hypothesis (b) and is exactly what the omitted reduction
+  consumes, so it is stated but not used below.
 
 The carried hypotheses `hEKP`, `h0GN2` and `halgebra` are the ones discussed on
 `fullyFaithful_finiteEtaleRestriction_of_annihilated`; here `hEKP` arrives through
 `Stacks.Algebraization.completionFullyFaithful_of_isAdicComplete_of_depth` (Stacks 0EKT) rather
 than through Stacks 0EKS. None of the three mentions `A`, `f`, `U` or `U₀`, and none is about
 finite étale covers. -/
-@[stacks 0EK5 "under hypothesis (c)(ii), the depth-plus-dimension form, and in the case where \
-`A` is in addition `f`-adically complete; branch (c)(i) and the reduction to the complete case \
-are not carried out, and hEKP (the chain (1) ⇒ (4) of Stacks 0EKP), h0GN2 (Stacks 0GN2) and \
-halgebra are granted as general hypotheses about other rings and other schemes"]
 public theorem fullyFaithful_finiteEtaleRestriction_of_depth
     (S : LocalLefschetzSituation.{u})
     (hS : HenselianPair S.A S.principalIdeal)
@@ -385,9 +396,11 @@ public theorem fullyFaithful_finiteEtaleRestriction_of_depth
   rw [ringKrullDim_quotient_localization_of_maximalIdeal_le S.A q hq p.asIdeal]
   exact hdepth p hp
 
-/-- **[Stacks, Tag 0BLJ]** in the case where `A` is in addition `f`-adically complete. In the
-local Lefschetz situation assume that `A` has depth at least `3` and that the pair `(A, (f))` is
-henselian. Then `FÉt_U ⟶ FÉt_{U₀}` is fully faithful.
+/-- **The case of [Stacks, Tag 0BLJ] where `A` is in addition `f`-adically complete.** The tag
+in full is `fullyFaithful_finiteEtaleRestriction_of_three_le_depth_of_henselianLocalRing_or`.
+In the local Lefschetz situation assume that `A` has depth at least `3` and that the pair
+`(A, (f))` is henselian. If moreover `A` is `f`-adically complete, then `FÉt_U ⟶ FÉt_{U₀}` is
+fully faithful.
 
 This is the source's two-line proof: depth at least `3` forces `H¹_𝔪(A) = H²_𝔪(A) = 0` by
 [Stacks, Tag 0AVZ], so the annihilation hypothesis of Stacks 0BM6 holds with any exponent and
@@ -400,12 +413,6 @@ are nothing beyond them: `A` is assumed `f`-adically complete, the reduction to 
 (Stacks 0BLI with Stacks 0ALZ) not being carried out, and `hEKP`, `h0GN2` and `halgebra` are
 carried as discussed there. None of the three mentions `A`, `f`, `U` or `U₀`. The depth
 hypothesis itself is consumed here, not carried. -/
-@[stacks 0BLJ "the case where `A` is in addition `f`-adically complete, inherited from the form \
-in which Stacks 0BM6 is available here: the reduction to that case (Stacks 0BLI together with \
-Stacks 0ALZ) is not carried out; granted hEKP (the chain (1) ⇒ (4) of Stacks 0EKP), h0GN2 \
-(Stacks 0GN2) and halgebra, all three carried as general hypotheses about other rings and other \
-schemes. The passage from the depth hypothesis to the vanishing of `H¹_𝔪(A)` and `H²_𝔪(A)`, \
-which is the source's own proof, is supplied unconditionally from Stacks 0AVZ"]
 public theorem fullyFaithful_finiteEtaleRestriction_of_three_le_depth
     (S : LocalLefschetzSituation.{u})
     (hS : HenselianPair S.A S.principalIdeal)

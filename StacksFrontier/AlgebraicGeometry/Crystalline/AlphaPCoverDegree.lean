@@ -125,8 +125,8 @@ proof uses the following.
 3. *The local step over a chain open.*  `...SmallSite.chainConeAnnihilation_isChainOpen07Q9` of
    `SmallSite/AlphaPCover07Q9Main.lean` computes both crystalline cohomologies over a chain open
    by the de Rham complexes of the divided power envelopes, by [Stacks, Proposition 60.21.3,
-   Tag 07LG] — `...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-   `SmallSite/CrystalDeRhamComputesCohomology.lean` — and kills the cone of the row-zero map by
+   Tag 07LG] — `...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+   `SmallSite/CrystalDeRhamDerived07LG.lean` — and kills the cone of the row-zero map by
    `p ^ n`, the row-zero map being the composite of the `n` maps of [Stacks, Tag 07N1], each split
    up to `p` (`...SmallSite.smul_id_homology_chainRowZero07Q9` of
    `SmallSite/ChainRowZero07Q9.lean`).  [Stacks, Tag 07N1] for the completed envelope `D ⟶ D'`

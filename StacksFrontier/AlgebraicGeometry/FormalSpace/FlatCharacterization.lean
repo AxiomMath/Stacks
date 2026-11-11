@@ -43,7 +43,11 @@ variant of Remark 0ANI. Conditions (1) and (2) agree because condition (2) *is* 
 
 * `AlgebraicGeometry.FormalSpace.isFlat_iff_hasPropertyOnEveryAffineEtaleDiagram`: Definition
   0GCC is the chart-tested condition of Stacks 0ANG for Noetherian adic rings and flatness.
-* `AlgebraicGeometry.FormalSpace.isFlat_tfae`: **Stacks 0GCD**.
+* `AlgebraicGeometry.FormalSpace.isFlat_tfae`: the four conditions of Stacks 0GCD are
+  equivalent for a morphism into a formal algebraic space, given the inputs `hpb`, `hasc`,
+  `hdesc` and `href`. Stacks 0GCD itself, under exactly the source's hypotheses, is
+  `AlgebraicGeometry.FormalSpace.isFlat_tfae_of_isLocallyNoetherian` of
+  `StacksFrontier.AlgebraicGeometry.FormalSpace.FlatCharacterizationLocallyNoetherian`.
 
 The implication from condition (2) to condition (3) of **Stacks 0ANG**, used below, is
 `AlgebraicGeometry.FormalSpace.hasPropertyAfterSourceCover_of_afterTargetCover` of
@@ -72,17 +76,22 @@ and after refinement by coverings of its members
 condition (4) is through `Yⱼ` itself, by the first projection, and the square commutes by the
 universal property of the fibre product.
 
-Four inputs of the source are explicit hypotheses because the library does not carry them, and
-none of them is a conjunct of any of the four conditions. Stacks 0AJ3, that the fibre product
+In `isFlat_tfae` four inputs of the source are explicit hypotheses, and none of them is a
+conjunct of any of the four conditions. For locally Noetherian `X` and `Y` the library now
+proves all of them, and
+`AlgebraicGeometry.FormalSpace.isFlat_tfae_of_isLocallyNoetherian` states Stacks 0GCD without
+them. Stacks 0AJ3, that the fibre product
 of a chart of `Y` with `f` is a formal algebraic space, is `hpb`; it is what the implication
 from (2) to (3) needs in order to produce the inner coverings. The refinement of a covering as
 in condition (4) against a square as in condition (2), which uses Stacks 0AJ2 and
 quasi-compactness of an affine formal algebraic space, is `href`. The two locality axioms of
 Situation 0CBA for flatness, which hold by Stacks 0GC9 for arrows of `WAdm^{Noeth}` but have to
 be transported to morphisms of affine formal algebraic spaces through Stacks 0AN8 and Stacks
-0AN9, are `hasc` and `hdesc`; the library carries that transport only for a morphism already
-presented by an étale ring map, which is why the geometric form of the axioms is a hypothesis
-rather than a consequence of Stacks 0GC9.
+0AN9, are `hasc` and `hdesc`. For locally Noetherian spaces Stacks 0AJ3 is
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_pullback_chart_of_isFormalAlgebraicSpace`,
+and the refinement and the locality axioms are carried out in
+`FormalSpace.hasPropertyOnEveryAffineEtaleDiagram_of_afterSourceCover_of_isLocallyNoetherian`
+(Remark 0ANI).
 
 ## References
 
@@ -145,23 +154,20 @@ theorem isFlat_iff_hasPropertyOnEveryAffineEtaleDiagram {X Y : FppfSheaf B S hS}
     exact hf U V a b t hU hV ⟨ha, hae⟩ ⟨hb, hbe⟩ hsq A R ⟨hAadic, inferInstance⟩
       ⟨hRadic, inferInstance⟩ hA D E eU eV g hg
 
-/-- **Stacks 0GCD.** For a morphism `f : X ⟶ Y` of locally Noetherian formal algebraic spaces
-over `S`, flatness of `f` in the sense of Definition 0GCC, the condition that every affine
-representable étale square over `f` carry a flat map of Noetherian adic topological rings, the
-existence of an affine étale covering of `Y` together with affine étale coverings of the fibre
-products of its members with `X` on which that condition holds, and the existence of an affine
-étale covering of `X` whose members factor flatly through affine representable étale charts of
-`Y`, are all equivalent.
+/-- **The four conditions of Stacks 0GCD, under explicit inputs.** For a morphism
+`f : X ⟶ Y` into a formal algebraic space `Y`, flatness of `f` in the sense of Definition 0GCC,
+the condition that every affine representable étale square over `f` carry a flat map of
+Noetherian adic topological rings, the existence of an affine étale covering of `Y` together
+with affine étale coverings of the fibre products of its members with `X` on which that
+condition holds, and the existence of an affine étale covering of `X` whose members factor
+flatly through affine representable étale charts of `Y`, are all equivalent, given the
+hypotheses `hpb`, `href`, `hasc` and `hdesc`. These carry Stacks 0AJ3, the covering refinement
+of Stacks 0AJ2, and the locality axioms of Situation 0CBA read through Stacks 0AN8 and Stacks
+0AN9.
 
-The first two conditions agree by Definition 0GCC, as in the source's own proof; the last three
-are the three conditions of Stacks 0ANG for the class of Noetherian adic topological rings and
-flatness, which is a local property of such arrows by Stacks 0GC9. The hypotheses `hpb`,
-`href`, `hasc` and `hdesc` carry Stacks 0AJ3, the covering refinement of Stacks 0AJ2, and the
-locality axioms of Situation 0CBA read through Stacks 0AN8 and Stacks 0AN9. -/
-@[stacks 0GCD "conditions (1) and (2) agree by Definition 0GCC, as the source's proof states; \
-Stacks 0AJ3, the covering refinement of Stacks 0AJ2 and the locality axioms of Stacks 0GC9 read \
-through Stacks 0AN8 and Stacks 0AN9 are carried as the hypotheses `hpb`, `href`, `hasc` and \
-`hdesc`"]
+Stacks 0GCD itself, for locally Noetherian `X` and `Y` and with none of these inputs, is
+`AlgebraicGeometry.FormalSpace.isFlat_tfae_of_isLocallyNoetherian`, where each input is proved.
+This form is kept for its callers, which supply the inputs directly. -/
 theorem isFlat_tfae {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hY : IsFormalAlgebraicSpace B S hS Y)
     (hpb : ∀ (V : FppfSheaf B S hS) (v : V ⟶ Y), IsAffineFormalAlgebraicSpace B S hS V →

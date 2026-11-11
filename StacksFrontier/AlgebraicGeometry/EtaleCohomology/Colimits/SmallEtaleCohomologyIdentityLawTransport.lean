@@ -44,11 +44,14 @@ degree.
 * `Stacks.EtaleCohomology.etaleCohomologyRestrictionMap_comparison_eq_self` — for a morphism
   `g : X ⟶ X` whose base change on the small étale site is isomorphic to the identity functor,
   restriction along `g` followed by the canonical comparison `g^{-1}ℱ ≅ ℱ` is the identity on
-  `H^n(X, ℱ)`, for *every* abelian sheaf `ℱ`. This is the generalisation to an arbitrary sheaf of
-  the step of the baffling theorem
+  `H^n(X, ℱ)`, for *every* abelian sheaf `ℱ`: [Stacks, Tag 03SP]. This is the generalisation to
+  an arbitrary sheaf of the step of the baffling theorem
   `Stacks.EtaleCohomology.absoluteFrobenius_etaleCohomologyRestrictionMap_eq_id`, which states it
   for the constant sheaf, and like it is proved from
   `Stacks.Homology.ext_mapExactFunctor_of_isoId`.
+* `Stacks.EtaleCohomology.etaleCohomologyPullbackMap_eq_etaleCohomologyRestrictionMap` — the
+  map induced on cohomology by the unit `F ⟶ g^{-1}F`, read through `e`, is the canonical
+  pullback map, so it does not depend on `e`.
 * `Stacks.EtaleCohomology.hasSheafIdentityLaw_directImageSystem` — **the instance that matters**:
   the system of direct images satisfies the sheaf-level identity law.
 * `hasCohomologyIdentityLaw_of_hasSheafIdentityLaw` (in the namespace
@@ -95,9 +98,10 @@ universe in which `Ext`-groups are computed, as in
 of the index type and `w`, `w'` are the universes of the coefficient category, as in
 `Stacks.EtaleCohomology.EtaleSheafSystem`. The two groups are declared in separate sections.
 
-No `@[stacks]` attribute is placed: what is proved here is one input of the colimit statement of
-[Stacks, Tag 09YQ], and the registration of that tag is assembled where its inputs are all
-discharged.
+The only `@[stacks]` attribute placed here is [Stacks, Tag 03SP], on
+`Stacks.EtaleCohomology.etaleCohomologyRestrictionMap_comparison_eq_self`, which states it with the
+canonical pullback map. The rest of the file is one input of the colimit statement of
+[Stacks, Tag 09YQ], whose registration is assembled where its inputs are all discharged.
 
 ## References
 
@@ -106,7 +110,7 @@ discharged.
 * [Stacks Project, Tag 0EZL](https://stacks.math.columbia.edu/tag/0EZL)
 * [Stacks Project, Tag 03SP](https://stacks.math.columbia.edu/tag/03SP)
 
-Tags covered: none.
+Tags covered: 03SP.
 -/
 
 @[expose] public noncomputable section
@@ -122,11 +126,14 @@ section Comparison
 
 universe u v w
 
-/-- **Restriction along `g : X ⟶ X` is the identity on cohomology, for every sheaf**, as soon as
-base change by `g` on the small étale site is isomorphic to the identity functor: the canonical
-map on étale cohomology attached to `g`, followed by the canonical comparison `g^{-1}ℱ ≅ ℱ` of
-`Stacks.EtaleCohomology.etaleSheafPullbackComparison`, sends every class of `H^n(X, ℱ)` to
-itself.
+/-- **Stacks Project, Tag 03SP.** Let `X` be a scheme and `g : X ⟶ X` a morphism such that
+every étale `X`-scheme `U` is isomorphic over `X` to its base change `U ×_{g} X`, functorially in
+`U` (the natural isomorphism `e : 𝟭 X.Etale ≅ smallEtaleBaseChange g`). Then `g` induces the
+identity on cohomology, for every abelian sheaf `ℱ` and in every degree `n`: the canonical
+pullback map `Stacks.EtaleCohomology.etaleCohomologyRestrictionMap g` on étale cohomology, which
+is attached to `g` alone and does not depend on `e`, followed by the canonical comparison
+`g^{-1}ℱ ≅ ℱ` of `Stacks.EtaleCohomology.etaleSheafPullbackComparison`, sends every class of
+`H^n(X, ℱ)` to itself.
 
 For `ℱ` a constant sheaf and `g` the absolute Frobenius this is the baffling theorem
 `Stacks.EtaleCohomology.absoluteFrobenius_etaleCohomologyRestrictionMap_eq_id`
@@ -135,6 +142,7 @@ For `ℱ` a constant sheaf and `g` the absolute Frobenius this is the baffling t
 comparison on the constant sheaf `ℤ` — `etaleAbelianInverseImageConstantIso_hom_app` — is needed
 to see the two comparisons in the restriction map and in the statement as the components of one
 isomorphism. -/
+@[stacks 03SP "g induces the identity on cohomology, for any sheaf"]
 theorem etaleCohomologyRestrictionMap_comparison_eq_self {X : Scheme.{u}} (g : X ⟶ X)
     (e : 𝟭 X.Etale ≅ smallEtaleBaseChange g)
     [HasSheafify X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}]
@@ -163,6 +171,28 @@ theorem etaleCohomologyRestrictionMap_comparison_eq_self {X : Scheme.{u}} (g : X
     Ext.comp_assoc_of_third_deg_zero, hinv]
   exact Stacks.Homology.ext_mapExactFunctor_of_isoId
     (etaleAbelianInverseImage.{u, v} g) (etaleSheafPullbackComparison.{u, v} X g e) _ n _ x
+
+/-- The map `Stacks.EtaleCohomology.etaleCohomologyPullbackMap` on cohomology, induced by the unit
+`F ⟶ g^{-1}F` read through the identification `e` of base change by `g` with the identity
+functor, is the canonical pullback map `Stacks.EtaleCohomology.etaleCohomologyRestrictionMap g`
+attached to `g` alone. In particular it does not depend on `e`. Both maps are left inverse to the
+isomorphism induced by the comparison `g^{-1}F ≅ F`. -/
+theorem etaleCohomologyPullbackMap_eq_etaleCohomologyRestrictionMap {X : Scheme.{u}}
+    (g : X ⟶ X) (e : 𝟭 X.Etale ≅ smallEtaleBaseChange g)
+    [HasSheafify X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}]
+    [HasExt.{w} (Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v})]
+    (F : Sheaf X.smallEtaleTopology AddCommGrpCat.{max (u + 1) v}) (n : ℕ) :
+    etaleCohomologyPullbackMap.{u, v, w} X g e F n =
+      etaleCohomologyRestrictionMap.{u, v, w} g F n := by
+  ext x
+  have hinv : ∀ y, Sheaf.H.map ((etaleSheafPullbackComparison.{u, v} X g e).inv.app F) n
+      (Sheaf.H.map ((etaleSheafPullbackComparison.{u, v} X g e).hom.app F) n y) = y := fun y => by
+    rw [← Sheaf.H.map_comp_apply, Iso.hom_inv_id_app, Sheaf.H.map_id_apply]
+  rw [← hinv (etaleCohomologyPullbackMap.{u, v, w} X g e F n x),
+    ← hinv (etaleCohomologyRestrictionMap.{u, v, w} g F n x),
+    etaleCohomologyRestrictionMap_comparison_eq_self.{u, v, w} g e F n x]
+  exact congrArg _
+    (DFunLike.congr_fun (etaleCohomologyPullbackMap_comp_comparison.{u, v, w} X g e F n) x)
 
 end Comparison
 

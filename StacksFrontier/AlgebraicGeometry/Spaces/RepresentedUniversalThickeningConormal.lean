@@ -104,6 +104,12 @@ of `AlgebraicGeometry.Space.conormalSheaf` and only then transported to the fold
 
 ## What this leaves owed
 
+The comparison `AlgebraicGeometry.Space.RepresentableConormalSheafComparison` itself is proved,
+by another route, as `AlgebraicGeometry.Space.representableConormalSheafComparison`, from
+`AlgebraicGeometry.Space.isFiniteLocallyFreeOnSite_conormalSheaf_of_scheme` of
+`StacksFrontier/AlgebraicGeometry/Spaces/Thickenings/RepresentableConormal.lean`; what follows is
+what this file's own route would still need.
+
 This identifies the space-level thickening with the scheme-level one and reads the conormal sheaf
 at a *represented* closed subspace of a *representable* algebraic space.  It is not clause (2) of
 `AlgebraicGeometry.Space.RepresentableConormalSheafComparison`.  What remains between the two is

@@ -13,22 +13,28 @@ public import StacksFrontier.AlgebraicGeometry.Variety.Defs.Basic
 /-!
 # Birational varieties and their function fields
 
-Two varieties over a field `k` are birational over `k` exactly when their function fields are
-isomorphic as extensions of `k`, exactly when they have isomorphic nonempty open subvarieties, and
-exactly when some nonempty open subvariety of one admits a birational morphism to the other.
+Two varieties over a field `k` which are birational over `k` in the sense of Mathlib's
+`AlgebraicGeometry.Scheme.BirationalOver`, that is which have isomorphic dense open subschemes over
+`Spec k`, are exactly those whose rings of rational functions are isomorphic as `k`-algebras,
+exactly those with isomorphic nonempty open subvarieties, and exactly those for which some nonempty
+open subvariety of one admits a birational morphism to the other.
 
 ## Main results
 
-* `AlgebraicGeometry.birationalOver_tfae_functionField` gives the four equivalent
-  characterizations of birational varieties.
+* `AlgebraicGeometry.birationalOver_tfae_functionField` gives these four equivalent conditions.
 
 ## Implementation notes
 
-The four entries of the `List.TFAE` follow the order of the source. The function field is the ring
-of rational functions, whose algebra structure over `k` is induced by the structure morphism to
-`Spec k` followed by the restriction of global sections to rational functions. Isomorphisms and
-morphisms of open subvarieties are required explicitly to commute with the structure morphisms to
-`Spec k`.
+The ring of rational functions is `Stacks.Chow.rationalFunctions`, whose algebra structure over `k`
+is induced by the structure morphism to `Spec k` followed by the restriction of global sections to
+rational functions. Isomorphisms and morphisms of open subvarieties are required explicitly to
+commute with the structure morphisms to `Spec k`.
+
+The first entry, `AlgebraicGeometry.Scheme.BirationalOver`, is not the birationality of
+Stacks 0A20 (2), isomorphism in the category of varieties and dominant rational maps. Stacks 0BXP,
+with that first entry, is `AlgebraicGeometry.Variety.nonempty_iso_tfae` in
+`StacksFrontier.AlgebraicGeometry.Variety.RationalMap.BirationalVariety`, which is derived from the
+equivalences proved here.
 
 ## References
 
@@ -246,11 +252,15 @@ private theorem birational_of_open_iso {X Y : Scheme.{u}} [IsIntegral X] [IsInte
     have : IsIso g := inferInstance
     exact CategoryTheory.IsIso.comp_isIso (f := f) (h := g)
 
-/-- **Stacks Project, Tag 0BXP.** The four characterizations of birationality for varieties over
-a field: birationality over `k`, isomorphy of the function fields as extensions of `k`, isomorphy
-of nonempty open subvarieties, and the existence of a birational morphism from an open
-subvariety. -/
-@[stacks 0BXP]
+/-- Four equivalent conditions on varieties `X` and `Y` over a field `k`: birationality over `k`
+in the sense of Mathlib's `AlgebraicGeometry.Scheme.BirationalOver`, isomorphy of the rings of
+rational functions as `k`-algebras, isomorphy of nonempty open subvarieties, and the existence of
+a birational morphism from a nonempty open subvariety of `X` to `Y`.
+
+`AlgebraicGeometry.Scheme.BirationalOver` is an isomorphism of dense open subschemes over
+`Spec k`, so the first entry is a form of the third rather than the birationality of
+Stacks 0A20 (2). Stacks 0BXP itself, whose first entry is isomorphism in the category of
+varieties and dominant rational maps, is `AlgebraicGeometry.Variety.nonempty_iso_tfae`. -/
 public theorem birationalOver_tfae_functionField
     (k : Type u) [Field k] {X Y : Scheme.{u}}
     (sX : X ⟶ Spec (.of k)) (sY : Y ⟶ Spec (.of k))

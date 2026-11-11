@@ -11,7 +11,8 @@ import StacksCore.Tactic.StacksAttribute
 Let `F : A ⥤ B` be an additive functor of abelian categories preserving countable products and
 carrying K-injective complexes to K-injective complexes, and let `RF : D(A) ⥤ D(B)` be a right
 derived functor of `K(A) --F--> K(B) --Q_h--> D(B)` whose comparison `α` is invertible on
-K-injective complexes. Then `RF` preserves countable products.
+K-injective complexes. Then `RF` preserves countable products. The statements are proved for
+products indexed by an arbitrary `T : Type`, countable products being the case `T = ℕ`.
 
 This is the right-derived counterpart of
 `CategoryTheory.Functor.preservesProducts_mapDerivedCategory_of_isKInjective`, which says the
@@ -125,16 +126,17 @@ section
 
 variable {A : Type u₁} [Category.{v₁} A] [Abelian A] [HasDerivedCategory.{w₁} A]
   {B : Type u₂} [Category.{v₂} B] [Abelian B] [HasDerivedCategory.{w₂} B]
-  [HasProductsOfShape ℕ A] [HasProductsOfShape ℕ B]
-  [HasProductsOfShape ℕ (DerivedCategory A)] [HasProductsOfShape ℕ (DerivedCategory B)]
-  (F : A ⥤ B) [F.Additive] [PreservesLimitsOfShape (Discrete ℕ) F]
+  {T : Type} [HasProductsOfShape T A] [HasProductsOfShape T B]
+  [HasProductsOfShape T (DerivedCategory A)] [HasProductsOfShape T (DerivedCategory B)]
+  (F : A ⥤ B) [F.Additive] [PreservesLimitsOfShape (Discrete T) F]
   (RF : DerivedCategory A ⥤ DerivedCategory B)
   (α : F.mapHomotopyCategory (ComplexShape.up ℤ) ⋙ DerivedCategory.Qh ⟶
     DerivedCategory.Qh ⋙ RF)
 
-/-- **The product comparison of a right derived functor is invertible at a countable family of
-images of K-injective complexes.** The termwise product of the family is K-injective
-([Stacks, Tag 0BK6]) and so are its images under `F`, so localization turns both termwise
+/-- **The product comparison of a right derived functor is invertible at a family of images of
+K-injective complexes**, indexed by any `T : Type` (countable products being the case
+`T = ℕ`). The termwise product of the family is K-injective ([Stacks, Tag 0BK6]) and so are its
+images under `F`, so localization turns both termwise
 products into the products of the derived categories; `F` preserves the termwise product because
 products of complexes are computed degreewise; and the comparison of `RF` is invertible at all
 the complexes in sight. -/
@@ -143,7 +145,7 @@ theorem isIso_piComparison_of_isKInjective
       IsIso (α.app ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj K)))
     (hKInj : ∀ I : CochainComplex A ℤ, I.IsKInjective →
       CochainComplex.IsKInjective ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj I))
-    (I : ℕ → CochainComplex A ℤ) (hI : ∀ n, (I n).IsKInjective) :
+    (I : T → CochainComplex A ℤ) (hI : ∀ n, (I n).IsKInjective) :
     IsIso (piComparison RF fun n ↦ DerivedCategory.Q.obj (I n)) := by
   -- the comparison of `RF`, on complexes, is invertible at the family and at its product
   have hβ : ∀ K : CochainComplex A ℤ, K.IsKInjective →
@@ -168,10 +170,10 @@ theorem isIso_piComparison_of_isKInjective
     Stacks.InverseSystem.isIso_piComparison_Q_of_isKInjective I hI
   exact IsIso.of_isIso_comp_left (RF.map (piComparison (DerivedCategory.Q (C := A)) I)) _
 
-/-- **A right derived functor preserves countable products**, when the functor it derives
-preserves countable products and K-injectivity and its comparison is invertible on K-injective
-complexes. No exactness of the countable products of either abelian category is assumed, and
-none is available for sheaves of modules on a site.
+/-- **A right derived functor preserves products indexed by any `T : Type`** (in particular
+countable ones), when the functor it derives preserves them and K-injectivity and its
+comparison is invertible on K-injective complexes. No exactness of the countable products of
+either abelian category is assumed, and none is available for sheaves of modules on a site.
 
 Every object of `D(A)` is isomorphic to the image of a K-injective complex, and at a family of
 those the product comparison is invertible by `isIso_piComparison_of_isKInjective`; comparisons
@@ -183,11 +185,11 @@ theorem preservesProducts_of_isKInjective
       IsIso (α.app ((HomotopyCategory.quotient A (ComplexShape.up ℤ)).obj K)))
     (hKInj : ∀ I : CochainComplex A ℤ, I.IsKInjective →
       CochainComplex.IsKInjective ((F.mapHomologicalComplex (ComplexShape.up ℤ)).obj I)) :
-    PreservesLimitsOfShape (Discrete ℕ) RF := by
+    PreservesLimitsOfShape (Discrete T) RF := by
   apply Stacks.DerivedProducts.preservesLimitsOfShape_discrete_of_isIso_piComparison
   intro X
-  choose I f hI hf using fun n : ℕ ↦ hres (DerivedCategory.Q.objPreimage (X n))
-  have hiso (n : ℕ) : IsIso (DerivedCategory.Q.map (f n)) :=
+  choose I f hI hf using fun n : T ↦ hres (DerivedCategory.Q.objPreimage (X n))
+  have hiso (n : T) : IsIso (DerivedCategory.Q.map (f n)) :=
     (DerivedCategory.isIso_Q_map_iff_quasiIso A (f n)).2 (hf n)
   exact CategoryTheory.Limits.isIso_piComparison_of_iso _
     (fun n ↦ (asIso (DerivedCategory.Q.map (f n))).symm ≪≫

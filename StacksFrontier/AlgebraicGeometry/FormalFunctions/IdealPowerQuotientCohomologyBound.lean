@@ -20,12 +20,14 @@ modules on `X` and `p ≥ 0`. Write `𝓘 = I · 𝒪_X` for the ideal sheaf `I`
 
 The whole of the source's input is [Stacks, Tag 02OA], applied in the two degrees `p` and
 `p + 1`; the hypotheses `A` Noetherian, `f` proper and `ℱ` coherent are used for nothing else,
-and are therefore not repeated here. [Stacks, Tag 02OA] is unavailable in this library — its
-own input, [Stacks, Tag 02O8], reduces to the proper mapping theorem [Stacks, Tag 02O5] — so its
-two relevant clauses are carried as the named hypotheses `h02OA_image` and `h02OA_kernel`.
-
-Everything else is in place, and that is what this file is: the three clauses of
-[Stacks, Tag 02OB] *given* [Stacks, Tag 02OA]. The geometric input is the short exact sequence
+and are therefore not repeated here. This file isolates that step: the two relevant clauses of
+[Stacks, Tag 02OA] are taken as the named hypotheses `hImage` and `hKernel`, and the
+three clauses of [Stacks, Tag 02OB] are derived from them. [Stacks, Tag 02OA] itself is proved in
+the library, as `Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_of_isProper`,
+and [Stacks, Tag 02OB] under exactly the source's hypotheses is
+`Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_idealPowerQuotient_of_isProper`
+(both in `StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/ArtinReesChain.lean`),
+which is where the tag is registered. The geometric input is the short exact sequence
 `0 → 𝓘 ^ n ℱ → ℱ → ℱ / 𝓘 ^ n ℱ → 0` and its long exact cohomology sequence, in the
 `Γ(X, 𝒪_X)`-module spelling, from
 `StacksFrontier/AlgebraicGeometry/FormalFunctions/IdealPowerCohomologySequence.lean`.
@@ -40,7 +42,7 @@ Everything else is in place, and that is what this file is: the three clauses of
 ## Main results
 
 * `Stacks.Cohomology.FormalFunctions.exists_uniform_bound_cohomology_idealPowerQuotient` —
-  the three clauses of [Stacks, Tag 02OB], granted [Stacks, Tag 02OA].
+  the three clauses of [Stacks, Tag 02OB], from the two clauses of [Stacks, Tag 02OA] it uses.
 
 ## Implementation notes
 
@@ -125,7 +127,9 @@ public abbrev cohomologyOverBaseMap (p : ℕ) {F G : X.Modules} (φ : F ⟶ G) :
 
 variable (I : Ideal A) (F : X.Modules) (p : ℕ)
 
-/-- **Stacks Project, Tag 02OB**, granted [Stacks, Tag 02OA].
+/-- The three clauses of [Stacks, Tag 02OB], derived from the two clauses of [Stacks, Tag 02OA]
+that the source's proof uses. The statement with the source's hypotheses, and these two
+discharged, is `exists_uniform_bound_cohomology_idealPowerQuotient_of_isProper`.
 
 There is a single `c ≥ 0` such that, with `𝓘 = I · 𝒪_X`:
 
@@ -136,25 +140,24 @@ There is a single `c ≥ 0` such that, with `𝓘 = I · 𝒪_X`:
 
 The two hypotheses are the clauses of [Stacks, Tag 02OA] that the source's proof uses, each
 quantified over the degree because the proof applies them in degrees `p` and `p + 1` and takes
-the larger of the two constants: `h02OA_image` is clause (2) of that lemma in the case `n = 0`,
-and `h02OA_kernel` is its clause (3). The source's standing hypotheses — `A` Noetherian, `f`
+the larger of the two constants: `hImage` is clause (2) of that lemma in the case `n = 0`,
+and `hKernel` is its clause (3). The source's standing hypotheses — `A` Noetherian, `f`
 proper and `ℱ` coherent — are what make [Stacks, Tag 02OA] true and are used nowhere else, so
 they do not appear.
 
 Clause (1) is the kernel-image identity of the long exact sequence of
-`0 → 𝓘 ^ n ℱ → ℱ → ℱ / 𝓘 ^ n ℱ → 0` followed by `h02OA_image`. Clause (3) is the diagram chase
+`0 → 𝓘 ^ n ℱ → ℱ → ℱ / 𝓘 ^ n ℱ → 0` followed by `hImage`. Clause (3) is the diagram chase
 along the ladder of those sequences: naturality of the connecting map carries a class of
 `H^p(X, ℱ / 𝓘 ^ k ℱ)` to one annihilated by the connecting map of the exponent-`n` sequence,
-because `h02OA_kernel` in degree `p + 1` identifies the kernel of `H^(p+1)(𝓘 ^ k ℱ) → H^(p+1)(ℱ)`
+because `hKernel` in degree `p + 1` identifies the kernel of `H^(p+1)(𝓘 ^ k ℱ) → H^(p+1)(ℱ)`
 with a kernel that `H^(p+1)(𝓘 ^ k ℱ) → H^(p+1)(𝓘 ^ n ℱ)` factors through. Clause (2) follows
 from clause (3). -/
-@[stacks 02OB "granted Tag 02OA, carried as the hypotheses h02OA_image and h02OA_kernel"]
 public theorem exists_uniform_bound_cohomology_idealPowerQuotient
-    (h02OA_image : ∀ q : ℕ, ∃ c : ℕ, ∀ k : ℕ, c ≤ k →
+    (hImage : ∀ q : ℕ, ∃ c : ℕ, ∀ k : ℕ, c ≤ k →
       LinearMap.range (cohomologyOverBaseMap A f q
           (idealPowerMultiple (baseIdealSheaf A I f) k F).ι).hom ≤
         I ^ (k - c) • (⊤ : Submodule A (cohomologyOverBase A f q F)))
-    (h02OA_kernel : ∀ q : ℕ, ∃ c : ℕ, ∀ k : ℕ, c ≤ k →
+    (hKernel : ∀ q : ℕ, ∃ c : ℕ, ∀ k : ℕ, c ≤ k →
       LinearMap.ker (((moduleGlobalSections X).rightDerived q).map
           (idealPowerMultiple (baseIdealSheaf A I f) k F).ι).hom =
         LinearMap.ker (((moduleGlobalSections X).rightDerived q).map
@@ -177,8 +180,8 @@ public theorem exists_uniform_bound_cohomology_idealPowerQuotient
               (cokernel.π (C := X.Modules)
                 (idealPowerMultiple (baseIdealSheaf A I f) n F).ι)).hom := by
   classical
-  obtain ⟨c₂, hc₂⟩ := h02OA_image p
-  obtain ⟨c₃, hc₃⟩ := h02OA_kernel (p + 1)
+  obtain ⟨c₂, hc₂⟩ := hImage p
+  obtain ⟨c₃, hc₃⟩ := hKernel (p + 1)
   set 𝓘 := baseIdealSheaf A I f
   have apply_comp {M N P : ModuleCat.{u} Γ(X, ⊤)} {φ : M ⟶ N} {ψ : N ⟶ P} {χ : M ⟶ P}
       (e : φ ≫ ψ = χ) (x : M) : ψ.hom (φ.hom x) = χ.hom x :=

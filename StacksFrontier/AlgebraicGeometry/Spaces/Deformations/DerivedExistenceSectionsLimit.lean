@@ -25,8 +25,9 @@ In Situation [Stacks, Tag 0DIK], for `E ∈ D(𝒪_X)` write `Eₙ = Lpₙ^*E` f
 to `Xₙ` and `Mₙ = RΓ(Xₙ, Eₙ ⊗^L Kₙ) ∈ D(Aₙ)`, the derived sections over the affine base
 `Spec Aₙ`. This file gathers the ingredients of the proof of [Stacks, Tag 0DIM]:
 
-* for `E` perfect, `Mₙ` is pseudo-coherent: `Eₙ ⊗^L Kₙ` is pseudo-coherent (Stacks 09J9), and
-  `Xₙ → Spec Aₙ` is flat, proper and of finite presentation, so [Stacks, Tag 0CTN] applies;
+* for `E` perfect, `Eₙ ⊗^L Kₙ` is pseudo-coherent (Stacks 09J9); when `X` is proper over `A`,
+  `Xₙ → Spec Aₙ` is flat, proper and of finite presentation, so [Stacks, Tag 0CTN] makes `Mₙ`
+  pseudo-coherent;
 * the transition square `Xₙ = Xₙ₊₁ ×_{Spec Aₙ₊₁} Spec Aₙ` is cartesian, and the canonical maps
   `Mₙ₊₁ ⊗^L_{Aₙ₊₁} Aₙ ⟶ Mₙ` (base change of `RΓ`, then Stacks 07A4, `Liₙ^*Eₙ₊₁ ≅ Eₙ` and `φₙ`)
   are isomorphisms, by Tor independence of the flat `Xₙ₊₁ → Spec Aₙ₊₁`;
@@ -35,23 +36,26 @@ to `Xₙ` and `Mₙ = RΓ(Xₙ, Eₙ ⊗^L Kₙ) ∈ D(Aₙ)`, the derived secti
 
 ## Main definitions
 
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.stageSectionsFunctor`: `RΓ(Xₙ, -)` over
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.stageSectionsFunctor`: `RΓ(Xₙ, -)` over
   `Spec Aₙ`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.stageTensor`, `…stageSections`: `Eₙ ⊗^L Kₙ` and
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.stageTensor`, `…stageSections`: `Eₙ ⊗^L
+  Kₙ` and
   `Mₙ`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.stageSectionsBaseChange`:
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.stageSectionsBaseChange`:
   `Mₙ₊₁ ⊗^L_{Aₙ₊₁} Aₙ ⟶ Mₙ`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.limitTensorSections`: `RΓ(X, E ⊗^L -)` over
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.limitTensorSections`: `RΓ(X, E ⊗^L -)`
+  over
   `Spec A`, with its adjunction `limitTensorSectionsAdjunction`.
 
 ## Main results
 
 * `AlgebraicGeometry.Space.DerivedExistenceSystem.isPseudoCoherent_stageSections`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.isPullback_transitionSpace`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.isIso_stageSectionsBaseChange`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.isIso_stageProjectionFormula`: Stacks 08IN for
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.isPullback_transitionSpace`.
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.isIso_stageSectionsBaseChange`.
+* `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem.isIso_stageProjectionFormula`: Stacks
+  08IN for
   `pₙ : Xₙ → X`.
-* `AlgebraicGeometry.Space.DerivedExistenceSystem.isIso_limitTensorSections_map_coheratorCounit`.
+* `SeparatedDerivedExistenceSystem.isIso_limitTensorSections_map_coheratorCounit`.
 
 ## References
 
@@ -76,9 +80,9 @@ attribute [local instance 5000] SheafOfModules.instAbelian
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- **`RΓ(Xₙ, -)` over `Spec Aₙ`**: the derived direct image along `Xₙ → Spec Aₙ` followed by the
 derived sections of the affine base `Spec Aₙ`. -/
@@ -116,26 +120,15 @@ theorem isPseudoCoherent_stageTensor (hE : spaceIsPerfect D.B (limitBase D.syste
       (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n) E hE)
     (D.pseudoCoherent n)
 
-/-- **`Mₙ` is pseudo-coherent** for `E` perfect: [Stacks, Tag 0CTN] for the flat, proper
-morphism `Xₙ → Spec Aₙ` of finite presentation, applied to the pseudo-coherent `Eₙ ⊗^L Kₙ`, and
-the derived sections of the affine base. -/
-theorem isPseudoCoherent_stageSections (hE : spaceIsPerfect D.B (limitBase D.system)
-    D.containsLimitBase D.X.left E) (n : ℕ) :
-    @StacksDraft.PseudoCoherence.IsPseudoCoherent _ _ (_) (D.stageSections E n) := by
-  have h0CTN := (isPseudoCoherent_derivedModulePushforward_and_isIso_baseChange
-    (spaceBaseProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
-    (isFlat_spaceBaseProjection _ _ _ _ _ D.flat n)
-    (isProper_spaceBaseProjection _ _ _ _ _ D.proper n)
-    (isFinitePresentation_spaceBaseProjection _ _ _ _ _ D.finitePresentation n)
-    (D.stageTensor E n) (D.isPseudoCoherent_stageTensor E hE n)).1
-  have hq := derivedCategoryB_of_isPseudoCoherent_unconditional D.B (limitBase D.system)
-    D.containsLimitBase _ _ _ h0CTN
-  rw [@StacksDraft.PseudoCoherence.pseudoCoherent_iff_all _ _ (_)]
-  intro m
-  obtain ⟨L, hL, e⟩ := h0CTN
-  exact isPseudoCoherentFrom_representedAffineDerivedSections_obj D.B (limitBase D.system)
-    D.containsLimitBase (baseObjectAt D.system D.B D.containsLimitBase D.containsBaseAt n) _ hq m
-    ⟨L, hL m, e⟩
+omit E in
+/-- **The derived sections `Mₙ = RΓ(Xₙ, Lpₙ^*E ⊗^L Kₙ)` are pseudo-coherent for every perfect
+`E` and every `n`.** This is where properness enters the proof of Stacks 0DIQ (through
+Stacks 0CTN); in the generalization of Stacks 0DIR it comes instead from the supports of the
+`Kₙ` being proper over the `Aₙ`. -/
+def StageSectionsPseudoCoherent : Prop :=
+  ∀ E : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left,
+    spaceIsPerfect D.B (limitBase D.system) D.containsLimitBase D.X.left E → ∀ n : ℕ,
+      @StacksDraft.PseudoCoherence.IsPseudoCoherent _ _ (_) (D.stageSections E n)
 
 /-! ### The base change squares -/
 
@@ -322,6 +315,38 @@ theorem isIso_limitTensorSections_map_coheratorCounit
   Adjunction.isIso_map_counit_app_of_forall D.coheratorAdjunction
     (D.limitTensorSectionsAdjunction E hE) (D.qcohDerived_limitTensorSections_leftAdjoint_obj E hE)
     L
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
+
+/-- **`Mₙ` is pseudo-coherent** for `E` perfect: [Stacks, Tag 0CTN] for the flat, proper
+morphism `Xₙ → Spec Aₙ` of finite presentation, applied to the pseudo-coherent `Eₙ ⊗^L Kₙ`, and
+the derived sections of the affine base. -/
+theorem isPseudoCoherent_stageSections (D : DerivedExistenceSystem.{u})
+    (E : spaceDerivedCategory D.B (limitBase D.system) D.containsLimitBase D.X.left)
+    (hE : spaceIsPerfect D.B (limitBase D.system) D.containsLimitBase D.X.left E) (n : ℕ) :
+    @StacksDraft.PseudoCoherence.IsPseudoCoherent _ _ (_) (D.toSeparated.stageSections E n) := by
+  have h0CTN := (isPseudoCoherent_derivedModulePushforward_and_isIso_baseChange
+    (spaceBaseProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
+    (isFlat_spaceBaseProjection _ _ _ _ _ D.flat n)
+    (isProper_spaceBaseProjection _ _ _ _ _ D.proper n)
+    (isFinitePresentation_spaceBaseProjection _ _ _ _ _ D.finitePresentation n)
+    (D.toSeparated.stageTensor E n) (D.toSeparated.isPseudoCoherent_stageTensor E hE n)).1
+  have hq := derivedCategoryB_of_isPseudoCoherent_unconditional D.B (limitBase D.system)
+    D.containsLimitBase _ _ _ h0CTN
+  rw [@StacksDraft.PseudoCoherence.pseudoCoherent_iff_all _ _ (_)]
+  intro m
+  obtain ⟨L, hL, e⟩ := h0CTN
+  exact isPseudoCoherentFrom_representedAffineDerivedSections_obj D.B (limitBase D.system)
+    D.containsLimitBase (baseObjectAt D.system D.B D.containsLimitBase D.containsBaseAt n) _ hq m
+    ⟨L, hL m, e⟩
+
+/-- **The derived sections `Mₙ` are pseudo-coherent** in Situation 0DIK, for every perfect `E`
+and every `n`. -/
+theorem stageSectionsPseudoCoherent (D : DerivedExistenceSystem.{u}) :
+    D.toSeparated.StageSectionsPseudoCoherent :=
+  fun E hE n => D.isPseudoCoherent_stageSections E hE n
 
 end DerivedExistenceSystem
 

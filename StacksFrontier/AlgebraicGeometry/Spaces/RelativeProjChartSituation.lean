@@ -73,14 +73,12 @@ tie: it builds the situation of Stacks 01NN **out of** `𝒜` on an étale chart
 Stacks 01NN is assumed on the chart: each is derived from the corresponding clause of Stacks 0849
 on `X`.
 
-**The one carried input of the restriction, and why it is an input.**  `relativeProjChartSituation`
-takes quasi-coherence of the *module restrictions* of the pieces as a hypothesis, `hqc`, exactly
-as `AlgebraicGeometry.Space.relativeProjChartAlgebra` does, and for the same reason: quasi-coherence
-of the pieces of `𝒜` is quasi-coherence on the small étale site of `X`, the restriction lives on
-the Zariski site of the chart's scheme, and the comparison is the étale-to-Zariski direction of
-Descent, Stacks 03DX, which is not in this library.  It speaks only of the pieces of `𝒜`, is a
-property of a single module, and mentions no chart-level statement, so it is not a disguised
-conclusion.
+**Quasi-coherence on the chart.**  Quasi-coherence of the pieces of `𝒜` is quasi-coherence on
+the small étale site of `X`, while the restriction lives on the Zariski site of the chart's
+scheme; the comparison is the étale-to-Zariski direction of Descent, Stacks 03DX, in the form
+`AlgebraicGeometry.Space.chartSheafAlgebra_isQuasicoherent`.  So the `isQuasicoherent` field of
+the chart situation is the situation's own `isQuasicoherent` field, transported, and the chart
+situation is a function of the space-level situation and the chart alone.
 
 **Stacks 085M on the chart.**  The scheme-level Stacks 0802,
 `Stacks.AlgebraicGeometry.RelativeProjTwists.exists_finiteType_degreeQuotientPresentation`,
@@ -194,19 +192,17 @@ variable (V : SmallEtale s.site s.base s.containsBase s.space.1)
 
 The base is the scheme underlying the chart and the graded algebra is the restriction `𝒜|_V` of
 `AlgebraicGeometry.Space.chartSheafAlgebra`.  Commutativity and concentration in nonnegative
-degrees are the corresponding fields of the space-level situation, transported; quasi-coherence of
-the restricted pieces is the hypothesis `hqc`, for the reason given in the implementation notes.
+degrees and quasi-coherence of the pieces are the corresponding fields of the space-level
+situation, transported; quasi-coherence passes from the small étale site of `X` to the Zariski
+site of the chart's scheme by Stacks 03DX.
 
 This is the datum that `AlgebraicGeometry.Space.RelativeProjChart` lacks: that structure takes an
 arbitrary situation `t` on the chart, with no field relating it to the graded algebra on the
 space. -/
-@[stacks 01NN "the relative Proj situation carried on an étale scheme chart by the restriction \
-of a graded algebra on an algebraic space, granted quasi-coherence of the module restrictions of \
-the homogeneous pieces, which is the étale-to-Zariski direction of Descent 03DX"]
-def relativeProjChartSituation
-    (hqc : ∀ n : ℤ, (restrictToChartScheme s.site s.base s.containsBase s.space.1 s.space.2
-      (s.algebra.piece n) V).IsQuasicoherent) :
-    Stacks.RelativeProj.Situation.{u} where
+@[stacks 01NN "the relative Proj situation on an étale scheme chart of an algebraic space: the \
+chart's scheme with the restriction of the quasi-coherent graded algebra of Situation 0849, which \
+is quasi-coherent, commutative and concentrated in nonnegative degrees"]
+def relativeProjChartSituation : Stacks.RelativeProj.Situation.{u} where
   base := chartScheme V
   algebra := chartSheafAlgebra s.algebra V
   mul_comm := chartSheafAlgebra_isCommutative s.algebra V s.mul_comm
@@ -214,21 +210,18 @@ def relativeProjChartSituation
     isZero_piece_of_neg _
       (chartSheafAlgebra_vanishesInNegativeDegrees s.algebra V
         (relativeProjSituation_section_eq_zero s)) n hn
-  isQuasicoherent n := hqc n
-
-variable (hqc : ∀ n : ℤ, (restrictToChartScheme s.site s.base s.containsBase s.space.1 s.space.2
-    (s.algebra.piece n) V).IsQuasicoherent)
+  isQuasicoherent := chartSheafAlgebra_isQuasicoherent s.algebra V s.isQuasicoherent
 
 /-- The base of the chart situation is the scheme underlying the chart. -/
 theorem relativeProjChartSituation_base :
-    (relativeProjChartSituation s V hqc).base = chartScheme V :=
+    (relativeProjChartSituation s V).base = chartScheme V :=
   rfl
 
 /-- **The homogeneous pieces of the chart situation are the module restrictions of the pieces of
 `𝒜`.**  This holds by definition, and it is the whole point of the tie: every statement about the
 chart situation is a statement about `𝒜`. -/
 theorem relativeProjChartSituation_algebra_piece (n : ℤ) :
-    (relativeProjChartSituation s V hqc).algebra.piece n =
+    (relativeProjChartSituation s V).algebra.piece n =
       restrictToChartScheme s.site s.base s.containsBase s.space.1 s.space.2
         (s.algebra.piece n) V :=
   rfl
@@ -238,12 +231,12 @@ the scheme-level theory of closed subschemes of a relative Proj consumes.  Its c
 clauses of the chart situation. -/
 def relativeProjChartSheafAlgebra : SheafGradedAlgebra (chartScheme V) :=
   relativeProjChartAlgebra s.algebra V s.mul_comm
-    (relativeProjSituation_section_eq_zero s) hqc
+    (relativeProjSituation_section_eq_zero s) s.isQuasicoherent
 
 /-- The homogeneous pieces of the chart sheaf graded algebra are the module restrictions of the
 pieces of `𝒜`. -/
 theorem relativeProjChartSheafAlgebra_piece (n : ℤ) :
-    (relativeProjChartSheafAlgebra s V hqc).piece n =
+    (relativeProjChartSheafAlgebra s V).piece n =
       restrictToChartScheme s.site s.base s.containsBase s.space.1 s.space.2
         (s.algebra.piece n) V :=
   rfl
@@ -251,8 +244,8 @@ theorem relativeProjChartSheafAlgebra_piece (n : ℤ) :
 /-- The chart sheaf graded algebra and the chart situation carry the same graded algebra: both are
 the restriction `𝒜|_V`. -/
 theorem relativeProjChartSheafAlgebra_piece_eq (n : ℤ) :
-    (relativeProjChartSheafAlgebra s V hqc).piece n =
-      (relativeProjChartSituation s V hqc).algebra.piece n :=
+    (relativeProjChartSheafAlgebra s V).piece n =
+      (relativeProjChartSituation s V).algebra.piece n :=
   rfl
 
 end ChartSituation
@@ -275,14 +268,10 @@ structure RelativeProjSituationChart {P : (BigFppfOver s.site s.base s.containsB
     (π : P ⟶ s.space.1) where
   /-- The étale chart of `X`, as an object of its small étale site. -/
   chart : SmallEtale s.site s.base s.containsBase s.space.1
-  /-- The module restrictions of the homogeneous pieces of `𝒜` to the chart are quasi-coherent. -/
-  isQuasicoherentRestriction (n : ℤ) :
-    (restrictToChartScheme s.site s.base s.containsBase s.space.1 s.space.2
-      (s.algebra.piece n) chart).IsQuasicoherent
   /-- The chart presentation of Stacks 084B, for the situation carried by `𝒜|_V` and for no
   other. -/
   toChart : RelativeProjChart s.site s.base s.containsBase π
-    (relativeProjChartSituation s chart isQuasicoherentRestriction)
+    (relativeProjChartSituation s chart)
 
 namespace RelativeProjSituationChart
 
@@ -291,7 +280,7 @@ variable {s} {P : (BigFppfOver s.site s.base s.containsBase)ᵒᵖ ⥤ Type u} {
 
 /-- The chart situation of the presentation, abbreviated. -/
 def situation : Stacks.RelativeProj.Situation.{u} :=
-  relativeProjChartSituation s c.chart c.isQuasicoherentRestriction
+  relativeProjChartSituation s c.chart
 
 /-- The homogeneous pieces of the chart situation are the module restrictions of the pieces of
 `𝒜`. -/
@@ -359,8 +348,7 @@ variable (s : RelativeProjSituation.{u, u})
 
 /-- **The affine surjective étale chart the proof of Stacks 085M chooses.**  For a quasi-compact
 algebraic space there is an object of the small étale site with affine underlying scheme which
-covers the site by itself; granted quasi-coherence of the module restrictions over it, it carries
-the chart situation of the restriction `𝒜|_V`.
+covers the site by itself, and it carries the chart situation of the restriction `𝒜|_V`.
 
 This is Stacks 03H6 in the form
 `AlgebraicGeometry.Space.SmallEtale.exists_affineObject_coversTop`, read for the algebraic
@@ -386,8 +374,6 @@ open Stacks.AlgebraicGeometry.RelativeProjGradedIdeal
 
 variable (s : RelativeProjSituation.{u, u})
     (V : SmallEtale s.site s.base s.containsBase s.space.1)
-    (hqc : ∀ n : ℤ, (restrictToChartScheme s.site s.base s.containsBase s.space.1 s.space.2
-      (s.algebra.piece n) V).IsQuasicoherent)
 
 /-- **Stacks 085M on an affine étale chart.**
 
@@ -415,10 +401,10 @@ resting on Tag 07V9 — and the descent of the presentation to X are NOT claimed
 assertion of Tag 085M on X is not delivered here"]
 theorem exists_finiteType_chartDegreeSubmodule
     (hV : _root_.AlgebraicGeometry.IsAffine (chartScheme V)) {Z : Scheme.{u}}
-    (i : Z ⟶ (relativeProj (relativeProjChartSheafAlgebra s V hqc)).scheme)
+    (i : Z ⟶ (relativeProj (relativeProjChartSheafAlgebra s V)).scheme)
     [_root_.AlgebraicGeometry.IsClosedImmersion i]
     [_root_.AlgebraicGeometry.QuasiCompact
-      (relativeProj (relativeProjChartSheafAlgebra s V hqc)).toBase]
+      (relativeProj (relativeProjChartSheafAlgebra s V)).toBase]
     (hi : _root_.AlgebraicGeometry.FinitePresentation i) :
     ∃ d : ℕ, 0 < d ∧
       ∃ ℱ : (restrictToChartScheme s.site s.base s.containsBase s.space.1 s.space.2
@@ -426,10 +412,10 @@ theorem exists_finiteType_chartDegreeSubmodule
         ℱ.toSheafOfModules.IsQuasicoherent ∧
           SheafOfModules.IsFiniteType.{u, u, u} ℱ.toSheafOfModules ∧
             Nonempty (DegreeQuotientPresentation
-              (relativeProjChartSheafAlgebra s V hqc) i ℱ) :=
+              (relativeProjChartSheafAlgebra s V) i ℱ) :=
   have : _root_.AlgebraicGeometry.IsAffine (chartScheme V) := hV
   Stacks.AlgebraicGeometry.RelativeProjTwists.exists_finiteType_degreeQuotientPresentation
-    (relativeProjChartSheafAlgebra s V hqc) i hi
+    (relativeProjChartSheafAlgebra s V) i hi
 
 end ChartDegreeSubmodule
 

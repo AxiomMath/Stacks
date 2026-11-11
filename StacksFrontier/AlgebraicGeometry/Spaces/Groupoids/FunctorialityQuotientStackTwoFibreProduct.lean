@@ -41,8 +41,10 @@ projection of Stacks 044R.
   `[U''/R''] ⟶ [U/R] ×_{[U'/R']} 𝒮_{U'}` determined by the square is an equivalence over the big
   fppf site.
 * `AlgebraicGeometry.Stack.isTwoFibreProduct_auxQuotientSquare`: **Stacks 04Y4** — the square is
-  a 2-fibre product (Stacks 003Q) in the 2-category of stacks in groupoids over the big fppf
-  site.
+  a 1-truncated 2-fibre product (terminal in the quotient category of 2-commutative squares) in
+  the 2-category of stacks in groupoids over the big fppf site.
+* `AlgebraicGeometry.Stack.isFinalTwoCommSq_auxQuotientSquare`: the square is a 2-fibre product
+  in the full sense of Stacks 003Q, with the uniqueness of the 2-isomorphism of Stacks 003P (2).
 
 ## Implementation notes
 
@@ -111,6 +113,15 @@ theorem isEquivalenceOver_auxQuotientComparison (φ : Hom G G') :
     (isFibredOneMorphism_auxQuotientComparison φ)
     (locallyEssSurjOnFibers_auxQuotientComparison φ)
 
+/-- **The square of Section 78.21 is a 1-truncated 2-fibre product**: it is terminal in the
+quotient category of 2-commutative squares over the cospan `([φ], π')` in the 2-category of stacks
+in groupoids over the big fppf site. The full statement of Stacks 04Y4, with the 2-fibre product
+in the sense of Stacks 003Q, is `AlgebraicGeometry.Stack.isFinalTwoCommSq_auxQuotientSquare`. -/
+noncomputable def isTwoFibreProduct_auxQuotientSquare (φ : Hom G G') :
+    Bicategory.IsTwoFibreProduct (auxQuotientSquare φ) :=
+  isTwoFibreProduct_auxQuotientSquare_of φ (auxQuotientComparison_full φ)
+    (auxQuotientComparison_faithful φ) (locallyEssSurjOnFibers_auxQuotientComparison φ)
+
 /-- **Stacks 04Y4.** Let `φ : (U, R, s, t, c) ⟶ (U', R', s', t', c')` be a morphism of groupoids in
 algebraic spaces over an algebraic space `B` over a scheme `S` of a big fppf site, written
 `f : U ⟶ U'` on object spaces, and let `(U'', R'', s'', t'', c'')` be the groupoid in algebraic
@@ -132,14 +143,22 @@ to `[U''/R'']` of the `R''`-invariant morphism `U'' ⟶ U'`, `(u, r') ↦ s'(r')
 arrow on the right is the 1-morphism `[φ]` of Stacks 046Q, whose lower horizontal arrow is the
 canonical projection `π'` of Stacks 044R, and whose filler
 `AlgebraicGeometry.Stack.auxSquareCell` is the arrow `r'` of the evaluated groupoid of `G'` at a
-point `(u, r')` of `U''` — **is a 2-fibre product** in the 2-category of stacks in groupoids over
-the big fppf site, so it identifies `[U''/R'']` with `[U/R] ×_{[φ], [U'/R'], π'} 𝒮_{U'}`. -/
+point `(u, r')` of `U''` — **is a 2-fibre product** in the sense of Stacks 003Q in the
+2-category of stacks in groupoids over the big fppf site (a final object of the 2-category of
+2-commutative diagrams over the cospan, with the uniqueness of the 2-isomorphism of
+Stacks 003P (2)), so it identifies `[U''/R'']` with `[U/R] ×_{[φ], [U'/R'], π'} 𝒮_{U'}`. The
+legs of the explicit 2-fibre product of the cospan detect 2-cells, and detection passes to every
+terminal object of the quotient category of squares. -/
 @[stacks 04Y4 "the 2-commutative square of Section 78.21 and the identification of the \
 quotient stack of the auxiliary groupoid with the 2-fibre product of the cospan"]
-noncomputable def isTwoFibreProduct_auxQuotientSquare (φ : Hom G G') :
-    Bicategory.IsTwoFibreProduct (auxQuotientSquare φ) :=
-  isTwoFibreProduct_auxQuotientSquare_of φ (auxQuotientComparison_full φ)
-    (auxQuotientComparison_faithful φ) (locallyEssSurjOnFibers_auxQuotientComparison φ)
+noncomputable def isFinalTwoCommSq_auxQuotientSquare (φ : Hom G G') :
+    Bicategory.IsFinalTwoCommSq (auxQuotientSquare φ) :=
+  isFinalTwoCommSq_of_isTwoFibreProduct_of_isStackInGroupoids
+    (h₀ := (Bicategory.InducedBicategory.mkHom (quotientStackMap φ) :
+      quotientStackInGroupoids G ⟶ quotientStackInGroupoids G'))
+    (s₀ := (Bicategory.InducedBicategory.mkHom (liftedQuotientStackProjection G') :
+      liftedFibredCategoryInGroupoids G'.objects ⟶ quotientStackInGroupoids G'))
+    (isStackInGroupoids_functorialityTwoFibreProduct φ) (isTwoFibreProduct_auxQuotientSquare φ)
 
 end AlgebraicGeometry.Stack
 

@@ -12,7 +12,7 @@ public import StacksCore.Tactic.StacksAttribute
 `I^{n-(d+1)c}` under the source's bound `n ≥ max(q₀ + (d+1)c, 2(d+1)c + 1)`, with `d` and `q₀`
 the integers of Local Cohomology, Section 0GA6, for `Gr_I(C)`.
 
-The earlier registrations `Rig.exists_algHom_lift_of_dualSituation` and its primed form carry the
+The conditional forms `Rig.exists_algHom_lift_of_dualSituation` and its primed form carry the
 blowup cohomology as a family of `DualSituation`s and the duality input of Tag 0GAC as
 hypotheses, and reach only the level `n - (2+D)c`. Here:
 

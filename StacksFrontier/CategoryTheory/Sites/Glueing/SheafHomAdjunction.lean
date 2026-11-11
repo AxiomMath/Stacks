@@ -26,12 +26,10 @@ shown to be right adjoint to the product functor. This file does that for sheave
 ## Relation to Stacks 0BWQ
 
 `prodSheafHomAdjunction` is the content of Stacks 0BWQ read with the Stacks Project's own
-`SheafHom`. The tag 0BWQ is already claimed, in
-`StacksFrontier/CategoryTheory/Sites/CartesianClosed.lean`, by the hom-equivalence of Mathlib's
-abstract `MonoidalClosed (Sheaf J A)` instance; that file's module docstring flags that its
-internal hom is *not* known to agree with `sheafHom`, so the displayed formula of the tag, read
-with Stacks' `SheafHom`, was not established there. It is established here, but the tag is left
-where it is: no tag is claimed in this file.
+`SheafHom`, with the product taken on the other side. The tag is carried by
+`CategoryTheory.SheafHomAdj.prodHomEquivSheafHom` (the bijection
+`(F ⨯ G ⟶ H) ≃ (F ⟶ sheafHom G H)`) and `prodHomEquivSheafHom_natural` (naturality in all three
+entries), in `StacksFrontier/CategoryTheory/Sites/Glueing/SheafHomProdEquiv.lean`.
 -/
 
 @[expose] public section

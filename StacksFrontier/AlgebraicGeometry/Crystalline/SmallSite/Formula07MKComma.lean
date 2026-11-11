@@ -75,8 +75,9 @@ those lemmas — the defeq is then discharged by elaboration, which is not trans
 
 ## What is and is not proved
 
-No `@[stacks]` attribute is placed, and (07MK) is **not** proved: this is one of the two inputs
-the proof needs, the other being
+No `@[stacks]` attribute is placed here; (07MK) itself is proved in
+`StacksFrontier/AlgebraicGeometry/Crystalline/SmallSite/Formula07MKProof.lean`,
+which uses this equivalence.  It is one of the two inputs the proof needs, the other being
 `...SmallSite.pullbackAbelianSheafIsoPullbackAbelianRestriction`.  Nothing here asserts that
 `Cris(U/T)` is a localization of a topos, and nothing here identifies the limit of
 `...SmallSite.crisDirectImageObjObjIsoLimit` with the right-hand side of (07MK) — that step

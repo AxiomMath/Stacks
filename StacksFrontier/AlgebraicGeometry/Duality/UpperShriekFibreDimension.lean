@@ -9,18 +9,21 @@ public import StacksFrontier.RingTheory.Dualizing.UpperShriek.FibreDimensionBoun
 
 Let `S` be a Noetherian scheme and let `f : X ⟶ Y` be a morphism of `AlgebraicGeometry.FTS S`,
 the category of schemes separated and of finite type over `S` of [Stacks, Tag 0F42]. Let `x ∈ X`
-with image `y ∈ Y`. This file proves [Stacks, Tag 0BV5] (Lemma 48.21.1):
+with image `y ∈ Y`. This file reduces [Stacks, Tag 0BV5] (Lemma 48.21.3),
 
   `H^i(f^!𝒪_Y)_x ≠ 0  ⟹  -dim_x(X_y) ≤ i`,
 
-where `f^!` is `Stacks.Duality.upperShriek`, `𝒪_Y` is
+to an affine chart through `x`, where `f^!` is `Stacks.Duality.upperShriek`, `𝒪_Y` is
 `Stacks.Duality.DerivedPushforward.derivedStructureSheaf` and `dim_x(X_y)` is the local
-dimension of the scheme-theoretic fibre of `f` through `x`, at `x`.
+dimension of the scheme-theoretic fibre of `f` through `x`, at `x`. The lemma itself, with the
+chart description supplied, is
+`Stacks.Duality.exists_fibreDim_eq_and_neg_le_of_nontrivial_stalk_homology_upperShriek` in
+`StacksFrontier/AlgebraicGeometry/Duality/UpperShriekFibreDimensionCharts.lean`.
 
 ## Main results
 
-* `Stacks.Duality.neg_fibreDim_le_of_nontrivial_stalk_homology_upperShriek` —
-  **[Stacks, Tag 0BV5]**.
+* `Stacks.Duality.neg_fibreDim_le_of_nontrivial_stalk_homology_upperShriek` — the bound, given
+  the chart description of `f^!𝒪_Y` at a chart through `x`.
 * `Stacks.Duality.nontrivial_stalk_homology_iff_nontrivial_localizedHomology` — the stalk
   dictionary of a tilde model: the stalk of `H^i(K)` at a point of an affine open `U` is
   nontrivial exactly when the localization of `H^i(ω)` at the corresponding prime of `Γ(X, U)`
@@ -35,19 +38,16 @@ and `Y = Spec(R)` affine; then `f^!𝒪_Y` is the relative dualizing complex `ω
 [Stacks, Tag 0E9M] by Remark [Stacks, Tag 0BV2]; and the lemma is [Stacks, Tag 0E9P]. So the
 cited inputs are exactly 0E9M, 0BV2 and 0E9P.
 
-*What is carried and what is proved.* One hypothesis is carried, `h0BV2`, in the same shape as
-the one `Stacks.Duality.derivedCategoryBBounded_upperShriek_derivedStructureSheaf`
-([Stacks, Tag 0B6U] (a)) carries: on an affine open `U ∋ x` of `X` inside the preimage of an
-affine open `V` of `Y`, the restriction of `f^!𝒪_Y` to `U` is the associated sheaf of the
-*algebraic* upper shriek, along a polynomial presentation of the chart ring map `f.appLE V U`,
-of `Γ(Y, V)` placed in degree zero. That is the affine identification of the source's Remark
-[Stacks, Tag 0BV2], which is unavailable here: the repository's Tag 0BV2,
-`Stacks.Duality.restrictedUpperShriekIsoOfOpenSquare`, proves clause (a), the restriction
-formula, and explicitly does not claim clause (b), the affine formula, because
-[Stacks, Tag 0AA1] — `f^! ≅ Lf^*[1]` for `𝔸¹_V ⟶ V` — is absent from the repository.
+*The chart input.* The theorem here takes `h0BV2`, in the same shape as
+`Stacks.Duality.derivedCategoryBBounded_upperShriek_derivedStructureSheaf`
+([Stacks, Tag 0B6U] (a)): on an affine open `U ∋ x` of `X` inside the preimage of an affine open
+`V` of `Y`, the restriction of `f^!𝒪_Y` to `U` is the associated sheaf of the *algebraic* upper
+shriek, along a polynomial presentation of the chart ring map `f.appLE V U`, of `Γ(Y, V)` placed
+in degree zero. That is the affine identification of the source's Remark [Stacks, Tag 0BV2],
+proved for every chart as `Stacks.Duality.upperShriekStructureSheafCharts`; the file
+`UpperShriekFibreDimensionCharts.lean` discharges `h0BV2` with it.
 
-The hypothesis `h0BV2` says nothing about any degree: it names one isomorphism of complexes,
-with no bound in it. Everything the conclusion asserts is proved here, from
+Everything the conclusion asserts is proved here, from
 
 * [Stacks, Tag 0E9P],
   `Dualizing.upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHomology`,
@@ -71,10 +71,9 @@ concentration under a uniform fibre-dimension bound is
 `Dualizing.isZero_homology_upperShriekFunctor_unit_of_notMem_Icc`, both of
 `StacksFrontier.RingTheory.Dualizing.UpperShriek.FibreDimensionBoundUpper`, and the Tor-amplitude
 clause is `Dualizing.upperShriekFunctor_hasTorAmplitude_of_fiber_dimension_le` of
-`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingTorAmplitude`.
-Those are consumed by the flat
-refinement in `StacksFrontier/AlgebraicGeometry/Duality/UpperShriekFibreDimensionFlat.lean`, not
-here.
+`StacksFrontier.RingTheory.Dualizing.UpperShriek.RelativeDualizingTorAmplitude`. Those are consumed
+by the flat refinement in
+`StacksFrontier/AlgebraicGeometry/Duality/UpperShriekFibreDimensionFlat.lean`, not here.
 
 *Why the statement is global even though the source's argument is affine.* The locality of the
 statement is carried by `h0BV2` itself: it provides the affine chart at `x` together with the
@@ -95,7 +94,6 @@ sheafification functor `AlgebraicGeometry.tilde.functor`.
 * [Stacks Project, Tag 0E9P](https://stacks.math.columbia.edu/tag/0E9P)
 * [Stacks Project, Tag 0E9M](https://stacks.math.columbia.edu/tag/0E9M)
 * [Stacks Project, Tag 0BV2](https://stacks.math.columbia.edu/tag/0BV2)
-* [Stacks Project, Tag 0AA1](https://stacks.math.columbia.edu/tag/0AA1)
 * [Stacks Project, Tag 0B6U](https://stacks.math.columbia.edu/tag/0B6U)
 * [Stacks Project, Tag 0F42](https://stacks.math.columbia.edu/tag/0F42)
 -/
@@ -202,42 +200,19 @@ section Shriek
 variable {S : Scheme.{u}} [IsNoetherian S] {X Y : AlgebraicGeometry.FTS S} (f : X ⟶ Y)
   (j : AlgebraicGeometry.CompactificationOf (Over.mk f.left))
 
-/-- **Stacks Project, Tag 0BV5 (Lemma 48.21.1).** In Situation 48.16.1, let `f : X ⟶ Y` be a
-morphism of `FTS S` and let `x ∈ X` with image `y ∈ Y`. Then
+/-- **The bound of Tag 0BV5 from a chart description.** Let `f : X ⟶ Y` be a morphism of
+`FTS S` and `x ∈ X`. Given an affine chart `U ∋ x` inside the preimage of an affine open `V` of
+`Y` on which `f^!𝒪_Y` is the associated sheaf of the algebraic upper shriek of `Γ(Y, V)` along a
+polynomial presentation of `f.appLE V U` (`h0BV2`), and a natural number `d` equal to the local
+dimension `dim_x(X_y)` of the scheme-theoretic fibre, `H^i(f^!𝒪_Y)_x ≠ 0 ⟹ -d ≤ i`.
 
-  `H^i(f^!𝒪_Y)_x ≠ 0  ⟹  -dim_x(X_y) ≤ i`,
-
-the local dimension `dim_x(X_y)` of the scheme-theoretic fibre being named by the hypothesis
-`hd` that identifies it with a natural number `d`.
-
-The affine identification of `f^!𝒪_Y` of Remark [Stacks, Tag 0BV2] is the carried hypothesis
-`h0BV2`; it names an isomorphism on an affine chart through `x` and asserts nothing about any
-degree. The bound itself is [Stacks, Tag 0E9P] for the algebraic upper shriek, moved
-to the chart by the stalk dictionary
-`Stacks.Duality.nontrivial_stalk_homology_iff_nontrivial_localizedHomology` and the
-fibre-dimension dictionary `Stacks.Flatness.topologicalKrullDimAt_fiber_eq_relativeDimensionAt`,
-both proved. -/
-@[stacks 0BV5 "the implication H^i(f^! 𝒪_Y)_x ≠ 0 ⟹ -dim_x(X_y) ≤ i, in full and with no \
-  affineness on X or Y. f^! is Tag 0A9Y, Stacks.Duality.upperShriek, of the \
-  compactification j (Tag 0F41); 𝒪_Y is DerivedPushforward.derivedStructureSheaf; \
-  'H^i(-)_x ≠ 0' is Nontrivial on the stalk at x of the i-th cohomology sheaf; and dim_x(X_y) \
-  is topologicalKrullDimAt on the scheme-theoretic fibre, named by the hypothesis hd \
-  identifying it with a natural number d, as Tag 0E9P also does. ONE hypothesis is \
-  carried, h0BV2: on an affine open U ∋ x inside the preimage of an affine open V of Y, the \
-  restriction of f^!𝒪_Y to U is the associated sheaf of the algebraic upper shriek, along a \
-  polynomial presentation of f.appLE V U, of Γ(Y, V) in degree zero. That is clause (b) of \
-  Tag 0BV2, the affine formula, which the repository's Tag 0BV2 \
-  (Stacks.Duality.restrictedUpperShriekIsoOfOpenSquare) explicitly does not claim because \
-  Tag 0AA1 (f^! = Lf^*[1] for A^1_V -> V) is absent here; it is carried in the same shape as \
-  Tag 0B6U (a) carries it. h0BV2 asserts only an isomorphism, with no degree bound \
-  in it: the bound is Tag 0E9P \
-  (Dualizing.upperShriekFunctor_neg_relativeDimensionAt_le_of_nontrivial_localizedHomology), \
-  transported to the chart by the two dictionaries proved in this file and in \
-  Stacks.Flatness.topologicalKrullDimAt_fiber_eq_relativeDimensionAt. Tag 0E9Q is not used \
-  here, and the source does not use it for 0BV5; it is present in the library at the ring \
-  level, under StacksFrontier/RingTheory/Dualizing/UpperShriek/, and is consumed by the flat \
-  refinement in StacksFrontier/AlgebraicGeometry/Duality/UpperShriekFibreDimensionFlat.lean. The \
-  upper bound i ≤ 0 and the tor-amplitude statement of Tag 0BV6, for f flat, are NOT claimed"]
+The chart description holds at every chart: it is `Stacks.Duality.upperShriekStructureSheafCharts`
+([Stacks, Tag 0BV2] for `𝒪_Y`), and [Stacks, Tag 0BV5] without these inputs is
+`Stacks.Duality.exists_fibreDim_eq_and_neg_le_of_nontrivial_stalk_homology_upperShriek`. The
+bound itself is [Stacks, Tag 0E9P] for the algebraic upper shriek, moved to the chart by the stalk
+dictionary `Stacks.Duality.nontrivial_stalk_homology_iff_nontrivial_localizedHomology` and the
+fibre-dimension dictionary `Stacks.Flatness.topologicalKrullDimAt_fiber_eq_relativeDimensionAt`.
+-/
 theorem neg_fibreDim_le_of_nontrivial_stalk_homology_upperShriek (x : X.left)
     (h0BV2 : ∃ (U : X.left.Opens) (hU : IsAffineOpen U) (V : Y.left.Opens)
       (_hV : IsAffineOpen V) (hUV : U ≤ f.left ⁻¹ᵁ V), x ∈ U ∧

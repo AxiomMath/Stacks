@@ -16,7 +16,10 @@ public import StacksFrontier.AlgebraicGeometry.Variety.Geometric.BirationalIsomo
 A birational morphism between schemes with finitely many irreducible components restricts to an
 isomorphism between dense open subschemes if it is locally of finite type with reduced target,
 or if it is locally of finite presentation. Over a base, a compatible birational morphism under
-the same hypotheses makes the schemes birational over that base.
+the same hypotheses yields a partial isomorphism over the base. The final assertion of
+[Stacks, Tag 0BAC], `S`-birationality in the sense of [Stacks, Tag 0A20], is
+`AlgebraicGeometry.Scheme.dominantBirationalOver_of_isBirational` in
+`StacksFrontier.AlgebraicGeometry.Morphisms.Birational.DominantRationalMaps`.
 
 ## Main results
 
@@ -24,10 +27,11 @@ the same hypotheses makes the schemes birational over that base.
   satisfying either hypothesis restricts to an isomorphism `f.resLE V U hUV` between dense opens
   `U` of the source and `V` of the target.
 * `AlgebraicGeometry.birationalOver_of_isBirational`: a birational morphism over a base satisfying
-  either hypothesis makes the schemes birational over that base.
+  either hypothesis yields a partial isomorphism over that base.
 
 ## References
 
+* [Stacks Project, Tag 0A20](https://stacks.math.columbia.edu/tag/0A20)
 * [Stacks Project, Tag 0BAC](https://stacks.math.columbia.edu/tag/0BAC)
 -/
 
@@ -279,9 +283,11 @@ public theorem exists_dense_opens_isIso_resLE_of_isBirational
   simp only [← Category.assoc, Iso.inv_hom_id, Category.id_comp]
   rfl
 
-/-- A birational morphism of schemes over a base, under either finiteness hypothesis of the
-theorem, makes the schemes birational over that base. -/
-@[stacks 0BAC "over-base consequence"]
+/-- A birational morphism of schemes over a base, under either finiteness hypothesis of
+`exists_dense_opens_isIso_resLE_of_isBirational`, restricts to an isomorphism of dense opens
+compatible with the structure morphisms, i.e. a partial isomorphism over the base
+(`Scheme.BirationalOver`). The final assertion of [Stacks, Tag 0BAC], phrased with dominant
+rational maps as in [Stacks, Tag 0A20], is `Scheme.dominantBirationalOver_of_isBirational`. -/
 public theorem birationalOver_of_isBirational
     {S X Y : Scheme.{u}} (sX : X ⟶ S) (sY : Y ⟶ S) (f : X ⟶ Y)
     [Finite (irreducibleComponents X)] [Finite (irreducibleComponents Y)]
@@ -294,6 +300,5 @@ public theorem birationalOver_of_isBirational
   refine ⟨⟨U, hU, V, hV, e⟩, ?_⟩
   dsimp [Scheme.PartialIso.IsOver, e]
   rw [← Category.assoc, Scheme.Hom.resLE_comp_ι, Category.assoc, hfS]
-
 
 end AlgebraicGeometry

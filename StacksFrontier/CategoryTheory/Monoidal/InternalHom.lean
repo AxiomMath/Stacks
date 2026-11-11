@@ -9,10 +9,11 @@ public import StacksCore.Tactic.StacksAttribute
 Stacks 0GWJ (Remark 4.43.12): a monoidal category `C` *has an internal hom* if there is a
 bifunctor `hom : Cᵒᵖ ⥤ C ⥤ C` together with bijections `Mor(X, hom(Y, Z)) ≃ Mor(X ⊗ Y, Z)`
 natural in `X`, `Y` and `Z`; equivalently `hom(Y, -)` is right adjoint to `- ⊗ Y`, which is the
-convention opposite to Mathlib's `MonoidalClosed`.  From that data the source constructs five
-canonical morphisms: evaluation `hom(X, Y) ⊗ X ⟶ Y`, composition
-`hom(Y, Z) ⊗ hom(X, Y) ⟶ hom(X, Z)`, tensoring on the left `Z ⊗ hom(X, Y) ⟶ hom(X, Z ⊗ Y)`,
-coevaluation `Y ⟶ hom(X, Y ⊗ X)`, and, when `C` is braided,
+convention opposite to Mathlib's `MonoidalClosed`.  Such a bifunctor is determined up to unique
+isomorphism compatible with the bijections (`InternalHom.existsUnique_iso_compatible`).  From
+that data the source constructs five canonical morphisms: evaluation `hom(X, Y) ⊗ X ⟶ Y`,
+composition `hom(Y, Z) ⊗ hom(X, Y) ⟶ hom(X, Z)`, tensoring on the left
+`Z ⊗ hom(X, Y) ⟶ hom(X, Z ⊗ Y)`, coevaluation `Y ⟶ hom(X, Y ⊗ X)`, and, when `C` is braided,
 `hom(Y, Z) ⊗ X ⟶ hom(hom(X, Y), Z)`.  Each is characterised here by the equation the source
 specifies it by, together with the uniqueness of a morphism satisfying that equation; the
 associativity and unit constraints are inserted where needed to keep the composites well-typed.
@@ -207,6 +208,108 @@ theorem eq_internalCurryMor_of_Φ_eq [BraidedCategory C] {X Y Z : C}
         ≫ (ih.homObj Y Z ◁ (β_ X (ih.homObj X Y)).hom)
         ≫ (ih.homObj Y Z ◁ ih.ev X Y) ≫ ih.ev Y Z) : d = ih.internalCurryMor X Y Z :=
   ih.eq_of_Φ_eq_Φ hd (ih.Φ_internalCurryMor X Y Z)
+
+/-! ### Uniqueness of the internal hom
+
+Stacks 0GWJ: "By the Yoneda lemma the bifunctor `(X, Y) ↦ hom(X, Y)` is determined up to unique
+isomorphism if it exists." Given two internal homs `ih₁`, `ih₂`, the comparison map
+`hom₁(Y, Z) ⟶ hom₂(Y, Z)` is the morphism corresponding under `Φ₂` to the evaluation of `ih₁`;
+these assemble into an isomorphism of bifunctors `ih₁.hom ≅ ih₂.hom` compatible with the
+identifications `Φ₁`, `Φ₂`, and it is the only isomorphism of bifunctors with that property.
+-/
+
+section Uniqueness
+
+variable (ih₁ ih₂ : InternalHom C)
+
+/-- The comparison morphism `hom₁(Y, Z) ⟶ hom₂(Y, Z)`: the image under `Φ₂⁻¹` of the
+evaluation `ev₁ : hom₁(Y, Z) ⊗ Y ⟶ Z` of `ih₁`. -/
+def homMap (Y Z : C) : ih₁.homObj Y Z ⟶ ih₂.homObj Y Z :=
+  ih₂.Φinv (ih₁.homObj Y Z) Y Z (ih₁.ev Y Z)
+
+/-- Composing with the comparison morphism transports `Φ₁` to `Φ₂`. -/
+theorem Φ_comp_homMap {X Y Z : C} (f : X ⟶ ih₁.homObj Y Z) :
+    ih₂.Φ X Y Z (f ≫ homMap ih₁ ih₂ Y Z) = ih₁.Φ X Y Z f := by
+  rw [ih₂.naturality_left, homMap, Φinv, Equiv.apply_symm_apply, ev,
+    ← ih₁.naturality_left, Category.comp_id]
+
+/-- `Φ₂` sends the comparison morphism to the evaluation of `ih₁`. -/
+@[simp]
+theorem Φ_homMap (Y Z : C) :
+    ih₂.Φ (ih₁.homObj Y Z) Y Z (homMap ih₁ ih₂ Y Z) = ih₁.ev Y Z := by
+  simp [homMap, Φinv]
+
+theorem homMap_comp_homMap (Y Z : C) :
+    homMap ih₁ ih₂ Y Z ≫ homMap ih₂ ih₁ Y Z = 𝟙 (ih₁.homObj Y Z) :=
+  (ih₁.Φ _ Y Z).injective <| by
+    rw [Φ_comp_homMap, Φ_homMap]
+    rfl
+
+/-- The comparison isomorphism `hom₁(Y, Z) ≅ hom₂(Y, Z)` at a pair of objects. -/
+@[simps]
+def homObjIso (Y Z : C) : ih₁.homObj Y Z ≅ ih₂.homObj Y Z where
+  hom := homMap ih₁ ih₂ Y Z
+  inv := homMap ih₂ ih₁ Y Z
+  hom_inv_id := homMap_comp_homMap ih₁ ih₂ Y Z
+  inv_hom_id := homMap_comp_homMap ih₂ ih₁ Y Z
+
+theorem homMap_naturality_right (Y : C) {Z Z' : C} (k : Z ⟶ Z') :
+    (ih₁.hom.obj (Opposite.op Y)).map k ≫ homMap ih₁ ih₂ Y Z'
+      = homMap ih₁ ih₂ Y Z ≫ (ih₂.hom.obj (Opposite.op Y)).map k :=
+  (ih₂.Φ _ Y Z').injective <| by
+    rw [Φ_comp_homMap, ih₂.naturality_right, Φ_homMap, ev, ← ih₁.naturality_right,
+      Category.id_comp]
+
+theorem homMap_naturality_left {Y Y' : C} (h : Y' ⟶ Y) (Z : C) :
+    (ih₁.hom.map h.op).app Z ≫ homMap ih₁ ih₂ Y' Z
+      = homMap ih₁ ih₂ Y Z ≫ (ih₂.hom.map h.op).app Z :=
+  (ih₂.Φ _ Y' Z).injective <| by
+    rw [Φ_comp_homMap, ih₂.naturality_middle, Φ_homMap, ev, ← ih₁.naturality_middle,
+      Category.id_comp]
+
+/-- **Uniqueness of the internal hom (construction).** Two internal homs on `C` have
+isomorphic bifunctors: `ih₁.hom ≅ ih₂.hom`, with components `homMap ih₁ ih₂`. -/
+def homIso : ih₁.hom ≅ ih₂.hom :=
+  NatIso.ofComponents
+    (fun Y => NatIso.ofComponents (fun Z => homObjIso ih₁ ih₂ Y.unop Z)
+      (fun k => homMap_naturality_right ih₁ ih₂ Y.unop k))
+    (fun g => by
+      ext Z
+      exact homMap_naturality_left ih₁ ih₂ g.unop Z)
+
+theorem homIso_hom_app_app (Y Z : C) :
+    ((homIso ih₁ ih₂).hom.app (Opposite.op Y)).app Z = homMap ih₁ ih₂ Y Z :=
+  rfl
+
+/-- `homIso` is compatible with the defining bijections: `Φ₂ (f ≫ homIso) = Φ₁ f`. -/
+theorem Φ_comp_homIso {X Y Z : C} (f : X ⟶ ih₁.homObj Y Z) :
+    ih₂.Φ X Y Z (f ≫ ((homIso ih₁ ih₂).hom.app (Opposite.op Y)).app Z) = ih₁.Φ X Y Z f :=
+  Φ_comp_homMap ih₁ ih₂ f
+
+/-- `homIso` is the unique isomorphism of bifunctors `ih₁.hom ≅ ih₂.hom` compatible with the
+bijections `Φ₁`, `Φ₂`. -/
+theorem eq_homIso (i : ih₁.hom ≅ ih₂.hom)
+    (hi : ∀ (X Y Z : C) (f : X ⟶ ih₁.homObj Y Z),
+      ih₂.Φ X Y Z (f ≫ (i.hom.app (Opposite.op Y)).app Z) = ih₁.Φ X Y Z f) :
+    i = homIso ih₁ ih₂ := by
+  ext Y Z
+  apply (ih₂.Φ _ Y.unop Z).injective
+  have h₁ := hi _ Y.unop Z (𝟙 _)
+  have h₂ := Φ_comp_homIso ih₁ ih₂ (𝟙 (ih₁.homObj Y.unop Z))
+  rw [Category.id_comp] at h₁ h₂
+  exact h₁.trans h₂.symm
+
+/-- **Stacks 0GWJ (uniqueness).** The internal hom bifunctor is determined up to unique
+isomorphism: for two internal homs `ih₁`, `ih₂` on `C` there is exactly one isomorphism of
+bifunctors `ih₁.hom ≅ ih₂.hom` compatible with the identifications
+`Mor(X, hom₁(Y, Z)) = Mor(X ⊗ Y, Z) = Mor(X, hom₂(Y, Z))`, namely `homIso ih₁ ih₂`. -/
+@[stacks 0GWJ "uniqueness: the internal hom bifunctor is determined up to unique isomorphism"]
+theorem existsUnique_iso_compatible :
+    ∃! i : ih₁.hom ≅ ih₂.hom, ∀ (X Y Z : C) (f : X ⟶ ih₁.homObj Y Z),
+      ih₂.Φ X Y Z (f ≫ (i.hom.app (Opposite.op Y)).app Z) = ih₁.Φ X Y Z f :=
+  ⟨homIso ih₁ ih₂, fun _ _ _ f => Φ_comp_homIso ih₁ ih₂ f, eq_homIso ih₁ ih₂⟩
+
+end Uniqueness
 
 end InternalHom
 

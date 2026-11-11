@@ -212,7 +212,18 @@ public theorem isFiniteTypeLocallyConstantModuleSheaf_of_isFG_etaleStalk [IsNoet
 has a finite number of irreducible components, let `Λ` be a Noetherian ring and let `F` be a
 sheaf of `Λ`-modules on the small étale site of `S`. Then `F` is a finite type locally constant
 sheaf of `Λ`-modules if and only if all its stalks at geometric points are finite, i.e.
-finitely generated, `Λ`-modules and all specialization maps between stalks are bijective. -/
+finitely generated, `Λ`-modules and all specialization maps between stalks are bijective.
+
+The hypotheses are those of the source: `hqc` on `S`, `IsNoetherianRing Λ`, and no further
+condition on `F`. The implication (1) ⟹ (2) holds for any scheme and any commutative ring; it is
+`isFG_etaleStalk_of_isFiniteTypeLocallyConstantModuleSheaf` together with
+`bijective_specializationMapOnStalks_of_isFiniteTypeLocallyConstantModuleSheaf`. The implication
+(2) ⟹ (1) is `isFiniteTypeLocallyConstantModuleSheaf_of_isFG_etaleStalk`, and follows the
+source's proof: a map of `Λ`-modules from the stalk `M` at `s` into the sections over an étale
+neighbourhood `U` of `s` induces the identity on the stalk at `s`; the locus of `U` where the
+induced maps on stalks are bijective is closed under specialization and generalization, hence
+open since the quasi-compact opens of `U` have finitely many irreducible components; and over
+that open the map from the constant sheaf on `M` is locally bijective, so an isomorphism. -/
 @[stacks 0GKC, sga "4 IX 2.13" "(i), special case"]
 public theorem isFiniteTypeLocallyConstantModuleSheaf_iff_isFG_etaleStalk_and_bijective
     [IsNoetherianRing Λ]

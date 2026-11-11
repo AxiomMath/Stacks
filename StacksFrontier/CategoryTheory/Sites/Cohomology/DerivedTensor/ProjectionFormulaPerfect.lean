@@ -112,7 +112,7 @@ declaration here carries the tag 0944.
   module-level predecessor, the proposition
   `Stacks.Sheaves.DerivedPullback.PullbackToposRightUnitorCoherence`, **is now proved**, by
   `Stacks.Sheaves.DerivedPullback.pullbackToposRightUnitorCoherence` of the module
-  `PullbackToposRightUnitorCoherence` (in `StacksFrontier.CategoryTheory.Sites.Cohomology`,
+  `PullbackToposRightUnitorCoherence` (in `StacksDraft.CategoryTheory.Sites.Cohomology`,
   folder `DerivedPullback`),
   unconditionally in the morphism of sites.  What is still owed is the passage from it to the
   derived statement: `O_D[0]` is a K-flat complex with flat terms

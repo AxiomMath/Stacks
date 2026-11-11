@@ -1,6 +1,7 @@
 module
 
 public import StacksFrontier.AlgebraicGeometry.Etale.FpqcDescentApplication.OpenImmersion
+public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ThickeningPushoutEtale
 public import StacksFrontier.AlgebraicGeometry.MoreMorphisms.ThickeningPushoutGluing
 public import StacksFrontier.AlgebraicGeometry.Size.FiniteType
 public import StacksFrontier.AlgebraicGeometry.Spaces.Pushouts.Colimits
@@ -143,7 +144,7 @@ private lemma size_lt_of_surjective_closedImmersion_of_locallyOfFiniteType
 /-- Gluing a cartesian family over the span `X' ⟵ X ⟶ Y` of étale schemes produces an étale
 scheme over the pushout whose two restrictions recover the family. -/
 private lemma exists_glued_of_pullbacks
-    (h07RX : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
+    (hEtaleGlue : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
       [IsAffineHom g] [HasPushout k g] (T : Stacks.Pushout.gluingData k g),
       Etale ((Stacks.Pushout.gluingFunctor k g hk).obj T).hom ↔
         (Etale T.obj.left.hom ∧ Etale T.obj.right.hom))
@@ -167,7 +168,7 @@ private lemma exists_glued_of_pullbacks
   let Tglue : Stacks.Pushout.gluingData iS fS := ⟨TglueComma, hTglueIso⟩
   let := Tglue.property
   let W := (Stacks.Pushout.gluingFunctor iS fS hi).obj Tglue
-  have hGluedEtale : Etale W.hom := (h07RX iS fS hi Tglue).2 ⟨hEtale₂, hEtale₁⟩
+  have hGluedEtale : Etale W.hom := (hEtaleGlue iS fS hi Tglue).2 ⟨hEtale₂, hEtale₁⟩
   obtain ⟨glueInY, glueInX, hGluedPushout, hGlueY, hGlueX⟩ :=
     Stacks.Pushout.gluingFunctor_obj_isPushout iS fS hi Tglue
   have hcompat : hcart₁.isoPullback.hom ≫ (inv Tglue.obj.hom).left =
@@ -211,7 +212,7 @@ private lemma exists_glued_of_pullbacks
 family of maps to a scheme étale over the pushout, is itself a pushout square. -/
 private lemma isPushout_of_etale_pullbacks
     (H : ∀ (Z Z' : Scheme.{u}) (k : Z ⟶ Z'), IsThickening k → IsAffine Z → IsAffine Z')
-    (h07RX : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
+    (hEtaleGlue : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
       [IsAffineHom g] [HasPushout k g] (T : Stacks.Pushout.gluingData k g),
       Etale ((Stacks.Pushout.gluingFunctor k g hk).obj T).hom ↔
         (Etale T.obj.left.hom ∧ Etale T.obj.right.hom))
@@ -230,7 +231,7 @@ private lemma isPushout_of_etale_pullbacks
   have hEtale₁ : Etale p₁ := MorphismProperty.IsStableUnderBaseChange.of_isPullback hsq₁.flip hv
   have hEtale₂ : Etale p₂ := MorphismProperty.IsStableUnderBaseChange.of_isPullback hsq₂.flip hv
   obtain ⟨W, w, u₁, u₂, hWEtale, hglue, hw₁, hw₂⟩ :=
-    exists_glued_of_pullbacks h07RX hi hEtale₁ hEtale₂ hcart₁ hcart₂
+    exists_glued_of_pullbacks hEtaleGlue hi hEtale₁ hEtale₂ hcart₁ hcart₂
   have hsq₁P : p₁ ≫ pushout.inl iS fS = q₁ ≫ vP := by
     rw [← hP.inl_isoPushout_hom, ← Category.assoc, hsq₁.w, Category.assoc]
   have hsq₂P : p₂ ≫ pushout.inr iS fS = q₂ ≫ vP := by
@@ -265,7 +266,7 @@ private lemma isPushout_of_etale_pullbacks
 scheme étale over the pushout, with cartesian comparison squares. -/
 private lemma exists_etale_descent_of_isPushout
     (H : ∀ (Z Z' : Scheme.{u}) (k : Z ⟶ Z'), IsThickening k → IsAffine Z → IsAffine Z')
-    (h07RX : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
+    (hEtaleGlue : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
       [IsAffineHom g] [HasPushout k g] (T : Stacks.Pushout.gluingData k g),
       Etale ((Stacks.Pushout.gluingFunctor k g hk).obj T).hom ↔
         (Etale T.obj.left.hom ∧ Etale T.obj.right.hom))
@@ -282,7 +283,7 @@ private lemma exists_etale_descent_of_isPushout
   have := hP.hasPushout
   let isoP := hP.isoPushout
   obtain ⟨W, w, u₁, u₂, hWEtale, hglue, hw₁, hw₂⟩ :=
-    exists_glued_of_pullbacks h07RX hi hEtale₁ hEtale₂ hcart₁ hcart₂
+    exists_glued_of_pullbacks hEtaleGlue hi hEtale₁ hEtale₂ hcart₁ hcart₂
   let vS := w ≫ isoP.inv
   have hvEtale : Etale vS := by
     have : MorphismProperty.RespectsIso (@Etale : MorphismProperty Scheme.{u}) :=
@@ -547,7 +548,7 @@ private lemma map_unitInv_comp_map_ι
 /-- Étale base change along a map to the pushout preserves the colimit of the span. -/
 private noncomputable def etaleColimit_spanCocone
     (H : ∀ (Z Z' : Scheme.{u}) (k : Z ⟶ Z'), IsThickening k → IsAffine Z → IsAffine Z')
-    (h07RX : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
+    (hEtaleGlue : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
       [IsAffineHom g] [HasPushout k g] (T : Stacks.Pushout.gluingData k g),
       Etale ((Stacks.Pushout.gluingFunctor k g hk).obj T).hom ↔
         (Etale T.obj.left.hom ∧ Etale T.obj.right.hom))
@@ -692,7 +693,7 @@ private noncomputable def etaleColimit_spanCocone
       exact hsq₀'
     exact (IsPullback.of_bot h hpNat₂.symm hsq₂).flip
   have hpush : IsPushout iE fE q₁ q₂ :=
-    isPushout_of_etale_pullbacks H h07RX hi hPushout hv hsq₁ hsq₂ hcart₁ hcart₂
+    isPushout_of_etale_pullbacks H hEtaleGlue hi hPushout hv hsq₁ hsq₂ hcart₁ hcart₂
       hqNat₁ hqNat₂
   refine ⟨IsColimit.mk
     (fun s ↦ hpush.desc (s.ι.app j₁) (s.ι.app j₂)
@@ -717,7 +718,7 @@ private noncomputable def etaleColimit_spanCocone
 over the pushout, with cartesian comparison squares. -/
 private lemma etaleDescent_spanCocone
     (H : ∀ (Z Z' : Scheme.{u}) (k : Z ⟶ Z'), IsThickening k → IsAffine Z → IsAffine Z')
-    (h07RX : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
+    (hEtaleGlue : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
       [IsAffineHom g] [HasPushout k g] (T : Stacks.Pushout.gluingData k g),
       Etale ((Stacks.Pushout.gluingFunctor k g hk).obj T).hom ↔
         (Etale T.obj.left.hom ∧ Etale T.obj.right.hom))
@@ -810,7 +811,7 @@ private lemma etaleDescent_spanCocone
     exact (MorphismProperty.cancel_right_of_respectsIso
       (P := @Etale) (T.map (p.app j₂)) d₂.hom).mpr (hp j₂)
   obtain ⟨Wsch, vSch, u₁, u₂, hWSize, hVEtaleScheme, hOverlap, hPB₁, hPB₂⟩ :=
-    exists_etale_descent_of_isPushout H h07RX hi hPushout hEtale₁ hEtale₂ hpull₁ hpull₂
+    exists_etale_descent_of_isPushout H hEtaleGlue hi hPushout hEtale₁ hEtale₂ hpull₁ hpull₂
       (κ := B.cutoff)
       (E.obj j₂).left.2
       (by
@@ -1079,14 +1080,11 @@ private lemma etaleDescent_spanCocone
           exact hsq₂⟩
 
 /-- **Stacks 07SY.** The pushout `Y' = Y ⨿_X X'` of a thickening `X ⟶ X'` and an affine morphism
-`X ⟶ Y` of schemes over `S` is also a pushout in the category of algebraic spaces over `S`. -/
-@[stacks 07SY "granted the étale clause of Tag 07RX, carried as a hypothesis; Tag 06AD is \
-  discharged from `Stacks.Thickenings.forall_isAffine_of_isThickening`"]
+`X ⟶ Y` of schemes over `S` is also a pushout in the category of algebraic spaces over `S`. The
+étale clause of Stacks 07RX enters through `Stacks.Pushout.etale_gluingFunctor_obj_iff` and
+Stacks 06AD through `Stacks.Thickenings.forall_isAffine_of_isThickening`. -/
+@[stacks 07SY]
 public theorem isPushout_algebraicSpaces_of_isThickening_of_isAffineHom
-    (h07RX : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
-      [IsAffineHom g] [HasPushout k g] (T : Stacks.Pushout.gluingData k g),
-      Etale ((Stacks.Pushout.gluingFunctor k g hk).obj T).hom ↔
-        (Etale T.obj.left.hom ∧ Etale T.obj.right.hom))
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {X X' Y Y' : BigFppfOver B S hS}
     (i : X ⟶ X') (f : X ⟶ Y) (a : X' ⟶ Y') (b : Y ⟶ Y')
@@ -1109,6 +1107,11 @@ public theorem isPushout_algebraicSpaces_of_isThickening_of_isAffineHom
       (ObjectProperty.homMk (yoneda.map b) :
         (⟨yoneda.obj Y, isAlgebraicSpace_yoneda B S hS Y⟩ : AlgebraicSpaces B S hS) ⟶
         (⟨yoneda.obj Y', isAlgebraicSpace_yoneda B S hS Y'⟩ : AlgebraicSpaces B S hS)) := by
+  have hEtaleGlue : ∀ {Z Z' W : Scheme.{u}} (k : Z ⟶ Z') (g : Z ⟶ W) (hk : IsThickening k)
+      [IsAffineHom g] [HasPushout k g] (T : Stacks.Pushout.gluingData k g),
+      Etale ((Stacks.Pushout.gluingFunctor k g hk).obj T).hom ↔
+        (Etale T.obj.left.hom ∧ Etale T.obj.right.hom) :=
+    fun k g hk _ _ T ↦ Stacks.Pushout.etale_gluingFunctor_obj_iff k g hk T
   have w : i ≫ a = f ≫ b := by
     apply Functor.map_injective (BigFppfOver.toScheme B S hS)
     exact hPushout.w
@@ -1129,9 +1132,9 @@ public theorem isPushout_algebraicSpaces_of_isThickening_of_isAffineHom
     (cover_spanCocone Stacks.Thickenings.forall_isAffine_of_isThickening
       B S hS i f a b w hi hPushout)
     (etaleColimit_spanCocone Stacks.Thickenings.forall_isAffine_of_isThickening
-      h07RX B S hS i f a b w hi hPushout)
+      hEtaleGlue B S hS i f a b w hi hPushout)
     (etaleDescent_spanCocone Stacks.Thickenings.forall_isAffine_of_isThickening
-      h07RX B S hS i f a b w hi hPushout)
+      hEtaleGlue B S hS i f a b w hi hPushout)
   let V : BigFppfOver B S hS ⥤ AlgebraicSpaces B S hS := {
     obj := fun Z ↦ ⟨yoneda.obj Z, isAlgebraicSpace_yoneda B S hS Z⟩
     map := fun g ↦ ObjectProperty.homMk (yoneda.map g)

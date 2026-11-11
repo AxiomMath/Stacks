@@ -27,20 +27,24 @@ surjectivity for Tag 07ZI, eventual invertibility for Tag 07ZJ, and eventual sur
 together with generation in degree one for Tag 07ZK. Each proof is the anonymous-constructor
 tuple of the three component declarations, which are left exactly where they are.
 
-The parenthetical of Tag 07ZI — that the maps `θ_n` are surjective but in general not
-isomorphisms — is a remark asking for a counterexample, not a conjunct, and is not formalized
-here or in `StacksFrontier.AlgebraicGeometry.Morphism.TwistEventual`; the positive content of
-Tag 07ZK is the hypothesis under which those maps do become isomorphisms.
+The theorem for Tag 07ZI proves assertions (1), (2) and the surjectivity half of (3). The second
+half of (3) — that the maps `θ_n` are in general not isomorphisms, even if `A → B` is surjective —
+is an existence statement, not a conjunct, and is proved in
+`StacksFrontier.AlgebraicGeometry.Morphism.TwistEventualCounterexample` as
+`Stacks.AlgebraicGeometry.Tag07ZGTwistCounterexample.exists_epi_not_isIso_relativeTwistMap`, which
+also carries Tag 07ZI: a map of quasi-coherent graded algebras on `Spec (ULift ℤ)`, surjective in
+every degree, whose `θ_1` is not an isomorphism. The positive content of Tag 07ZK is the hypothesis
+under which those maps do become isomorphisms.
 
 ## Main results
 
-All in the namespace `Stacks.AlgebraicGeometry.Tag07ZGTwistStatement`:
-
-* `domain_closedImmersion_twistEpi_of_eventually_epi`:
-  **the three assertions of Tag 07ZI in one statement.**
-* `domain_isIso_twistIsIso_of_eventually_isIso`:
+* `Tag07ZGTwistStatement.domain_closedImmersion_twistEpi_of_eventually_epi`:
+  **assertions (1), (2) and the surjectivity half of (3) of Tag 07ZI in one statement**; the
+  second half of (3) is
+  `Stacks.AlgebraicGeometry.Tag07ZGTwistCounterexample.exists_epi_not_isIso_relativeTwistMap`.
+* `Tag07ZGTwistStatement.domain_isIso_twistIsIso_of_eventually_isIso`:
   **the three assertions of Tag 07ZJ in one statement.**
-* `domain_closedImmersion_twistIsIso_of_generatedInDegreeOne`:
+* `Tag07ZGTwistStatement.domain_closedImmersion_twistIsIso_of_generatedInDegreeOne`:
   **the three assertions of Tag 07ZK in one statement.**
 
 ## References
@@ -81,7 +85,11 @@ Each is the corresponding component declaration:
 `Stacks.AlgebraicGeometry.RelativeProjMapDomain.relativeMapDomain_eq_top_of_eventually_epi`,
 `Stacks.AlgebraicGeometry.RelativeProjMapDomain.isClosedImmersion_relativeMapHom_of_eventually_epi`
 and `Stacks.AlgebraicGeometry.Tag07ZGTwist.epi_relativeTwistMap_of_eventually_epi`. The only
-hypothesis is the source's, degreewise surjectivity in all large degrees. -/
+hypothesis is the source's, degreewise surjectivity in all large degrees.
+
+The source's assertion (3) adds that the maps `θ_n` are not isomorphisms in general, even if
+`A → B` is surjective. That is an existence statement, not a consequence of the hypothesis, and is
+`Stacks.AlgebraicGeometry.Tag07ZGTwistCounterexample.exists_epi_not_isIso_relativeTwistMap`. -/
 @[stacks 07ZI "the tag's three assertions in one statement: under degreewise surjectivity in all
 large degrees the domain of definition is all of `Proj_S(B)`, the induced morphism `r_ψ` is a
 closed immersion, and every comparison map `θ_n` on twists is an epimorphism",

@@ -25,12 +25,11 @@ composition `RightFraction.comp`, with `RightFraction.comp_rel_compOfOre` compar
 an arbitrary Ore square.
 
 The resulting category is `RightLocalization W`, a copy of `C` carrying the localized category
-structure. It is the explicit presentation of `W⁻¹C` that Stacks 04VH is about. It is *not* the
-model of the right-fraction localization that the rest of Section 4.27 uses for
-localization-theoretic statements: those (Stacks 04VK, 04VL) need a localization functor out of
-`C` and its universal property, and use the op-dual model `(LeftFraction.Localization W.op)ᵒᵖ`
-— see `rightFractionQ` in `StacksFrontier.CategoryTheory.Localization.Comparison`. This file
-supplies no functor `C ⥤ RightLocalization W`, which is Stacks 04VK and not part of this tag.
+structure. It is the explicit presentation of `W⁻¹C` that Stacks 04VH is about. The functor
+`C ⥤ RightLocalization W`, `f ↦ (f, 𝟙)`, and its universal property (Stacks 04VK) are in
+`StacksFrontier.CategoryTheory.Localization.RightFraction.UniversalProperty`. Stacks 04VL uses the
+op-dual model `(LeftFraction.Localization W.op)ᵒᵖ` instead — see `rightFractionQ` in
+`StacksFrontier.CategoryTheory.Localization.Comparison`.
 -/
 
 @[expose] public section

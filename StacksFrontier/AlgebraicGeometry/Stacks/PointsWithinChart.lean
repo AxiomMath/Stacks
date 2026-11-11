@@ -54,7 +54,8 @@ subspace this file produces, which is
 `AlgebraicGeometry.Stack.isOpenSubspace_fullSubcategoryBaseChangeSubfunctor_pointsWithin`.
 Every open subset of `|𝒳|` is thereby the point set of an open substack
 (`AlgebraicGeometry.Stack.exists_openSubstack_pointSet_eq`, part of **Stacks 06FJ**), and
-assertion (A) of **Stacks 06M3** is `AlgebraicGeometry.Stack.exists_isRelativePropertyLocus`.
+**Stacks 06M3** is
+`AlgebraicGeometry.Stack.exists_isRelativePropertyLocus_and_isRelativePropertyLocus_baseChange`.
 
 The comparison of the 2-fibre product `U ×_𝒳 𝒲` of a chart with the category of elements of the
 subfunctor this file cuts out on `U` is

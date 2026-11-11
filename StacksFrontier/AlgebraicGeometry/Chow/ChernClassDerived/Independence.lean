@@ -29,6 +29,14 @@ that the complex represents.
   proof: on an integral scheme, two bounded complexes of finite locally free modules of constant
   ranks representing the same object of `D(𝒪_W)`, whose cohomology modules are perfect of Tor
   dimension at most one, have the same total Chern class operation on the Chow groups of `W`.
+* `Stacks.Chow.exists_isBirational_op_complexChern_eq_of_iso` — the modification of the source's
+  proof: over an integral `T`, the admissible blowup of Stacks 0ESR after which the cohomology of
+  the pulled-back object is perfect of Tor dimension at most one.
+* `Stacks.Chow.complexChern_eq_of_iso` — **Stacks 0ESZ** for the total Chern class: two locally
+  bounded complexes of finite locally free `𝒪_Y`-modules, of arbitrary ranks, isomorphic in
+  `D(𝒪_Y)`, have equal total Chern classes `Stacks.Chow.complexChern`, with `Y` not assumed
+  quasi-compact. The cases of `P_p` and `ch` are in
+  `StacksFrontier.AlgebraicGeometry.Chow.ChernClassDerived.PowerSumIndependence`.
 
 ## References
 

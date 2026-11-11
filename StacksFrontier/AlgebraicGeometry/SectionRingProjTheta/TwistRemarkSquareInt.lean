@@ -729,10 +729,11 @@ def twistThetaInt (n : ℤ) :
 /-- **The twist square commutes**, for every `𝒪_X`-module `𝓕` and every integer `n`:
 `θ_𝓕 ⊗ θ_{𝓛^{⊗ n}}` is the pullback of the multiplication `M̃ ⊗ 𝒪_Y(n) ⟶ M(n)~` of Equation 01MQ
 (`twistTop`) followed by `θ_{𝓕 ⊗ 𝓛^{⊗ n}}`, read through `twistModuleIdent`. -/
-@[stacks 01QK "assertion (ii): the square commutes -- theta_F (x) theta_{L^n} is the pullback of
-the multiplication of Equation 01MQ followed by theta_{F (x) L^n}, read through the obvious
-identification M(n) = Gamma_*(X, L, F (x) L^n), for every O_X-module F and every integer n, theta
-being the constructed comparison of Tag 01QJ"]
+@[stacks 01QK "assertion (ii), with no extra hypothesis: the square commutes -- theta_F (x)
+theta_{L^n} is the pullback of the multiplication of Equation 01MQ followed by theta_{F (x) L^n},
+read through the obvious identification M(n) = Gamma_*(X, L, F (x) L^n), for every O_X-module F
+and every integer n, theta being the constructed comparison pullbackTildeComparison of Tag 01QJ,
+so no compatibility of a binder family is assumed (contrast pullbackComparison_tensorHom)"]
 theorem twistSquareInt (F : X.Modules) (n : ℤ) :
     ((pullbackTildeComparison L hL).app F ⊗ₘ twistThetaInt L hL n) =
       twistTop L hL F n ≫

@@ -14,11 +14,11 @@ public import StacksFrontier.AlgebraicGeometry.AmpleThickeningLimit.Converse
 > Proposition 09NZ except one uses Limits, Lemma 09MW instead of Cohomology of Schemes,
 > Lemma 09MS.
 
-`./Basic.lean` carries that route out, granted the converse half of
-[Stacks, Tag 09MW] as the hypothesis
-`Stacks.AmpleNoetherianReduction.AmpleDescendsAlongThickening`. That converse is now proved, as
+`./Basic.lean` carries that route out for any proof of the converse half of
+[Stacks, Tag 09MW], stated there as the proposition
+`Stacks.AmpleNoetherianReduction.AmpleDescendsAlongThickening`. That converse is
 `Stacks.AmpleThickeningLimit.isAmple_of_isAmple_modulePullback_of_isHomeomorph`, so this file
-discharges the hypothesis and states the remark with no hypothesis beyond the source's.
+proves the proposition and states the remark with no hypothesis beyond the source's.
 
 ## The dimension hypothesis
 

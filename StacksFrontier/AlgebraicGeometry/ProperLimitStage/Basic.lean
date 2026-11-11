@@ -79,16 +79,15 @@ namespace AlgebraicGeometry
 
 universe v u
 
-/-- **Stacks 03GN, the properness conclusion.** If `f : X ⟶ Y` is surjective, `X` is universally
-closed over `S` and `Y` is separated and locally of finite type over `S`, then `Y` is proper over
-`S`.
+/-- **[Stacks, Tag 03GN], the properness conclusion.** Let `f : X ⟶ Y` be a morphism of schemes
+over `S`, with structure morphism `g : Y ⟶ S`. If `f` is surjective, `X` is universally closed
+over `S` and `Y` is separated and locally of finite type over `S`, then `Y` is proper over `S`.
 
 The universal closedness of `g` is the first conclusion of Stacks 03GN, which is Mathlib's
-`AlgebraicGeometry.UniversallyClosed.of_comp_surjective` — tagged just below — and properness
-adds nothing beyond the two remaining hypotheses, quasi-compactness of `g` being implied by
-universal closedness. The tag is therefore recorded against that Mathlib declaration and no
-attribute is attached here; `AlgebraicGeometry.IsProper` is a Mathlib class with exactly these
-three fields, so the proof is the Mathlib lemma followed by the structure constructor. -/
+`AlgebraicGeometry.UniversallyClosed.of_comp_surjective`, tagged just below; quasi-compactness of
+`g` is part of universal closedness, so `IsProper g` follows from the structure constructor. -/
+@[stacks 03GN "the properness conclusion: Y is proper over S when also separated and locally of \
+finite type"]
 lemma isProper_of_comp_surjective {X Y S : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ S)
     [UniversallyClosed (f ≫ g)] [Surjective f] [IsSeparated g] [LocallyOfFiniteType g] :
     IsProper g :=

@@ -366,7 +366,7 @@ Stacks 073N, shown invertible. -/
   sheaves (Rf_*F)|_{G_etale} = Rf_{small,*}(F|_{F_etale}) in D(G_etale), (2) the same identity in \
   D(O_G) for sheaves of modules. Rf_* and Rf_{small,*} are the total right derived functors of \
   degreewise direct image, which exist by K-injective resolutions (Tag 079P) on the four \
-  essentially small sites; the only inputs are S, the 1-morphism and the two presentations."]
+  essentially small sites; the inputs are S, the 1-morphism and the two presentations."]
 def restrictedTotalDerivedDirectImageIsoClauses
     [HasDerivedCategory.{dF} (Sheaf (smallEtaleRingedTopos B S hS ⟨F, hF⟩).J AddCommGrpCat.{u})]
     [HasDerivedCategory.{dG} (Sheaf (smallEtaleRingedTopos B S hS ⟨G, hG⟩).J AddCommGrpCat.{u})]

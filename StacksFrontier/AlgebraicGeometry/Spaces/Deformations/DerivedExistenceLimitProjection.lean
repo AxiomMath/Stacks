@@ -8,7 +8,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.Deformations.DerivedExiste
 In Situation [Stacks, Tag 0DIK], with `K = DQ_X(R lim_{D(𝒪_X)} Kₙ)` as in [Stacks, Tag 0DIL],
 we construct the projections `K ⟶ Rjₙ,* Kₙ` and their adjoints `τₙ : Ljₙ^* K ⟶ Kₙ`.
 
-All names below are in the namespace `AlgebraicGeometry.Space.DerivedExistenceSystem`.
+All names below are in the namespace `AlgebraicGeometry.Space.SeparatedDerivedExistenceSystem`.
 
 ## Main definitions
 
@@ -50,9 +50,9 @@ namespace AlgebraicGeometry.Space
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 /-- The derived pullback `Ljₙ^* : D(𝒪_X) ⥤ D(𝒪_{Xₙ})` along `jₙ : Xₙ ⟶ X`. -/
 abbrev stageDerivedPullback (n : ℕ) :
@@ -132,7 +132,8 @@ def stagePushforwardFactorsh (n : ℕ) :
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
   haveI := D.preservesFiniteColimits_toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
-    (D.toDerivedExistenceSituation.closedSpaceProjection n)
+    ((isClosedImmersion_spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X
+      D.transition_surjective n))
   Functor.mapDerivedCategoryFactorsh (D.toposPushforward
     (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n))
 
@@ -235,6 +236,19 @@ theorem coheratorLimitProjection_comp_map (n : ℕ) :
   exact Category.assoc _ _ _
 
 end Coherator
+
+end SeparatedDerivedExistenceSystem
+
+namespace DerivedExistenceSystem
+
+variable (D : DerivedExistenceSystem.{u})
+
+/-- The derived pullback `Ljₙ^* : D(𝒪_X) ⥤ D(𝒪_{Xₙ})` along `jₙ : Xₙ ⟶ X`, in Situation 0DIK. -/
+abbrev stageDerivedPullback (n : ℕ) :
+    D.limitDerivedCategory ⥤
+      derivedCategoryAt D.system D.B D.containsLimitBase D.containsBaseAt D.X n :=
+  smallEtaleDerivedModulePullback D.B (limitBase D.system) D.containsLimitBase
+    (spaceProjection D.system D.B D.containsLimitBase D.containsBaseAt D.X n)
 
 end DerivedExistenceSystem
 

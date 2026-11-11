@@ -54,10 +54,12 @@ are about the top subfunctor alone and are independent of any morphism out of it
 `AlgebraicGeometry.Space.IsQuasiFiniteAt` is part (2) of Stacks 03XJ and
 `AlgebraicGeometry.Space.IsFiniteTypeAt` is part (2) of Stacks 03XF; both carry their part
 keys where they are defined, in `StacksFrontier.AlgebraicGeometry.Spaces.FiniteType`
-alongside parts (1) and (3), so nothing here claims a part key of 03XF or 03XJ. The one key
-claimed here belongs to Stacks 040Y: finite type at every point is its condition (2), and
+alongside parts (1) and (3), so nothing here claims a part key of 03XF or 03XJ. Finite type
+at every point is condition (2) of Stacks 040Y, and
 `AlgebraicGeometry.Space.isFiniteTypeAt_of_isLocallyOfFiniteType'` is the implication from
-condition (1) to it.
+condition (1) to it; the tag itself is carried by the complete nine-way equivalence
+`AlgebraicGeometry.Space.isLocallyOfFiniteType_tfae` of
+`StacksFrontier.AlgebraicGeometry.Spaces.Morphisms.FiniteType`.
 
 ## References
 
@@ -175,7 +177,6 @@ Only the source has to be an algebraic space, which is what distinguishes this f
 `AlgebraicGeometry.Space.isFiniteTypeAt_of_isLocallyOfFiniteType`: that form goes through the
 permanence of local finite type under composition and so carries an algebraicity hypothesis on
 the target as well. -/
-@[stacks 040Y "condition (1) implies condition (2)"]
 theorem isFiniteTypeAt_of_isLocallyOfFiniteType' (hX : IsAlgebraicSpace B S hS X)
     {f : X ⟶ Y} (hf : IsLocallyOfFiniteType B S hS f) (x : points B S hS X) :
     IsFiniteTypeAt B S hS f x :=

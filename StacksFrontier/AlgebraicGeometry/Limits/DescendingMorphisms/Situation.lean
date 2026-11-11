@@ -12,6 +12,11 @@ schemes with affine transition morphisms, together with a chosen limit, a chosen
 morphism `f₀ : X₀ ⟶ Y₀` of quasi-compact and quasi-separated schemes over the scheme `S₀` sitting
 at that index. No smallness condition is imposed on the index type.
 
+Every stage is asked to be quasi-compact and quasi-separated, a hypothesis Situation 081D puts on
+`S₀` only; Situation 081D is `AlgebraicGeometry.MorphismLimitSituation` (in
+`StacksFrontier.AlgebraicGeometry.Limits.DescendingMorphisms.LimitSituation`), whose restriction to
+the stages `i ≥ 0` is a situation of this kind.
+
 ## Main definitions
 
 * `AlgebraicGeometry.MorphismDescentSituation` bundles the directed inverse system of schemes with
@@ -37,8 +42,13 @@ namespace AlgebraicGeometry
 
 /-- A directed inverse system of quasi-compact and quasi-separated schemes with affine transition
 morphisms, equipped with a chosen limit cone and a chosen index, together with a morphism of
-quasi-compact and quasi-separated schemes over the scheme at that index. -/
-@[stacks 081D]
+quasi-compact and quasi-separated schemes over the scheme at that index.
+
+This asks every stage `S_i` to be quasi-compact and quasi-separated, which Situation 081D does not:
+081D assumes this only of `S₀`. Situation 081D itself is
+`AlgebraicGeometry.MorphismLimitSituation`, and its restriction to the cofinal stages `i ≥ 0`
+(`AlgebraicGeometry.MorphismLimitSituation.toMorphismDescentSituation`) is a structure of this
+kind with the same `S`, `f₀`, `f_i` and `f`. -/
 structure MorphismDescentSituation (I : Type v) [Preorder I] [IsDirected I (· ≤ ·)]
     extends DescentSituation.{v, u} I where
   /-- The scheme `X₀`, given as a scheme over `S₀`. -/

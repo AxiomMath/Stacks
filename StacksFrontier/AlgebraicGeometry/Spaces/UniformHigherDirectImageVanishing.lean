@@ -42,9 +42,14 @@ not assumed.
   algebraic space is a representable algebraic space.
 * `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_schemeBase`: the reduction,
   at a fixed bound `N`.
-* `AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward`:
-  **[Stacks, Tag 073G]** in its existential form, with the quantifiers of the source — one `N`,
-  then every base change, then every quasi-coherent module, then every degree `≥ N`.
+* `AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward`: the
+  reduction in the quantifier order of [Stacks, Tag 073G] — one `N`, then every base change,
+  then every quasi-coherent module, then every degree `≥ N`.
+
+[Stacks, Tag 073G] itself is
+`AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward_of_qcqs` of
+`StacksFrontier/AlgebraicGeometry/Spaces/HigherDirectImageUniformBound.lean`, proved there by a
+different route; the statements of this file record the source's step (2).
 
 ## Implementation notes
 
@@ -59,14 +64,11 @@ form that makes step (1) unnecessary: étale scheme charts of `Y'` are a detecti
 zero module (`AlgebraicGeometry.Space.isZero_iff_forall_isZero_etaleModulePullback_chartToSpace`),
 so no surjective étale cover of `Y` has to be chosen and [Stacks, Tag 03H6] is not used.  Steps
 (3) and (4) — everything that produces a number — are the hypothesis
-`AlgebraicGeometry.Space.SchemeBaseUniformVanishing`, which is **not** proved here.  Its ingredient
-[Stacks, Tag 072C] is in this development only with its own `h072B` carried
-(`AlgebraicGeometry.Space.exists_forall_isZero_cohomologyOverBase_of_isQuasiCompactSpace`), its
-ingredient [Stacks, Tag 0720] only up to its affine-base case
-(`AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_of_forall_affine_chart`) and its
-ingredient [Stacks, Tag 0733] only with three hypotheses carried
-(`AlgebraicGeometry.Space.cohomologyChartIsoSectionsHigherDirectImage`), so the affine case of the
-bound cannot be assembled here.
+`AlgebraicGeometry.Space.SchemeBaseUniformVanishing` of this file.  That hypothesis holds for
+every quasi-compact and quasi-separated `f` with `Y` quasi-compact: it is a special case of
+`AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward_of_qcqs`, which
+proves [Stacks, Tag 073G] along the induction principle of [Stacks, Tag 08GP] instead of
+through [Stacks, Tag 072C], [Stacks, Tag 0720] and [Stacks, Tag 0733].
 
 **The reduction is to schemes, not to affine schemes.**  The source reduces to an affine base;
 the detecting family used here is all étale scheme charts, so the hypothesis carried below is
@@ -81,11 +83,12 @@ chart base change along a non-representable `f'` the top arrow `V' ×_{Y'} X' �
 morphism of algebraic spaces and not the structure morphism of a scheme chart, so the
 injective-preservation half of [Stacks, Tag 03F3], part (1), is needed for an arbitrary étale
 morphism rather than in the chart form
-`AlgebraicGeometry.Space.preservesInjectiveObjects_etaleModulePullback_chartToSpace`.  It is
-carried as `h03F3` in the statements below, in the form of a statement about every étale
-morphism of algebraic spaces over `S`; it is discharged by
-`AlgebraicGeometry.Space.preservesInjectiveObjects_etaleModulePullback`, and the conditional
-form of the clause that consumes it is
+`AlgebraicGeometry.Space.preservesInjectiveObjects_etaleModulePullback_chartToSpace`.  It is a
+hypothesis `h03F3` of the statements below, in the form of a statement about every étale
+morphism of algebraic spaces over `S`; it is proved as
+`AlgebraicGeometry.Space.preservesInjectiveObjects_etaleModulePullback` (supplied in
+`StacksFrontier/AlgebraicGeometry/Spaces/UniformHigherDirectImageVanishingEtalePullback.lean`), and
+the form of the clause that consumes it is
 `AlgebraicGeometry.Space.moduleHigherPushforwardEtaleBaseChangeIso_of_preservesInjectives`.
 
 **Quasi-compactness of `Y` is not assumed.**  Hypothesis (2) of the source is used only in its
@@ -164,8 +167,9 @@ quasi-coherence of the higher direct images, [Stacks, Tag 0720], and the identif
 `H^i(X'', 𝓕'') = H^0(Y'', R^i f''_*𝓕'')` of [Stacks, Tag 0733], reduce the vanishing to that of
 `H^i(X'', 𝓕'')`, which holds above the bound `max (p + d_p)` read off from the choices of
 [Stacks, Tag 072C] — choices which survive base change, which is why the resulting integer
-depends on `f` alone.  None of those three tags is available unconditionally in this
-development; see the implementation notes of this file. -/
+depends on `f` alone.  The hypothesis holds whenever `f` is quasi-compact and quasi-separated
+and `Y` is quasi-compact, by
+`AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward_of_qcqs`. -/
 def SchemeBaseUniformVanishing {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (N : ℕ) : Prop :=
   ∀ (Y'' X'' : AlgebraicSpaces B S hS) (g : Y'' ⟶ Y) (i : X'' ⟶ X) (f'' : X'' ⟶ Y''),
     IsPullback i f'' f g → IsRepresentableSpace B S hS Y'' →
@@ -193,9 +197,9 @@ its coefficient module is quasi-coherent because quasi-coherence is inherited by
 so `hscheme` applies to it.
 
 `h03F3` is the injective-preservation half of [Stacks, Tag 03F3], part (1), for the modules on
-the small étale sites: it is what the cited clause of [Stacks, Tag 03LX] needs and this
-development does not prove.  Quasi-compactness of `Y`, hypothesis (2) of the source, is not
-needed and not assumed. -/
+the small étale sites: it is what the cited clause of [Stacks, Tag 03LX] needs, and it is proved
+as `AlgebraicGeometry.Space.preservesInjectiveObjects_etaleModulePullback`.  Quasi-compactness of
+`Y`, hypothesis (2) of the source, is not needed and not assumed. -/
 theorem isZero_rightDerived_modulePushforward_of_schemeBase {X Y : AlgebraicSpaces B S hS}
     (f : X ⟶ Y) (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)
     (N : ℕ)
@@ -233,22 +237,18 @@ theorem isZero_rightDerived_modulePushforward_of_schemeBase {X Y : AlgebraicSpac
 
 /-! ### Stacks 073G -/
 
-/-- **[Stacks, Tag 073G], with the scheme-base case carried.**  Let `f : X ⟶ Y` be a
-quasi-compact and quasi-separated morphism of algebraic spaces over `S`.  Then there is a single
-degree `n(X → Y)` such that for every algebraic space `Y'`, every morphism `Y' ⟶ Y`, every
-algebraic space `X'` making `X' ⟶ X`, `X' ⟶ Y'` a cartesian square over `f`, and every
-quasi-coherent `𝒪_{X'}`-module `𝓕'`, the higher direct images `R^q f'_*𝓕'` vanish for
-`q ≥ n(X → Y)`.
+/-- **Step (2) of the proof of [Stacks, Tag 073G], in the quantifier order of its statement.**
+Let `f : X ⟶ Y` be a quasi-compact and quasi-separated morphism of algebraic spaces over `S`.
+Then there is a single degree `n(X → Y)` such that for every algebraic space `Y'`, every
+morphism `Y' ⟶ Y`, every algebraic space `X'` making `X' ⟶ X`, `X' ⟶ Y'` a cartesian square
+over `f`, and every quasi-coherent `𝒪_{X'}`-module `𝓕'`, the higher direct images `R^q f'_*𝓕'`
+vanish for `q ≥ n(X → Y)`.
 
 The quantifiers are the source's and in the source's order: `n(X → Y)` is produced once and for
 all from `f`, before any base change and before any coefficient module.  The uniformity in `Y'`
 is what `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_schemeBase` supplies;
-the integer itself comes from `hscheme`, the case of a base which is a scheme, which is **not**
-proved in this development. -/
-@[stacks 073G "the source's quantifier order -- one n from f alone, outside the base change, \
-the module and the degree -- and step (2) of its proof, the reduction of an arbitrary base to a \
-scheme base. No number is produced: hscheme (that bound over a scheme base: Stacks 0720, 0733 \
-and 072C) and h03F3 (Stacks 03F3(1), needed by 03LX) are carried; Y quasi-compact not assumed"]
+the integer itself comes from `hscheme`, the case of a base which is a scheme.  [Stacks, Tag 073G]
+itself is `AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward_of_qcqs`. -/
 theorem exists_forall_isZero_rightDerived_modulePushforward {X Y : AlgebraicSpaces B S hS}
     (f : X ⟶ Y) (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)
     (h03F3 : ∀ (Z W : AlgebraicSpaces B S hS) (i : W ⟶ Z) (hi : IsEtale B S hS i.hom),
@@ -319,16 +319,14 @@ theorem isZero_rightDerived_modulePushforward_of_schemeBase_of_representable
     (isQuasicoherentOnSite_etaleModulePullback B S hS _
       (isEtale_chartToSpace B S hS X' ((smallBaseChange B S hS f' hf').obj V')) F' hF') q hq
 
-/-- **[Stacks, Tag 073G] for a representable morphism, with only the scheme-base case carried.**
+/-- **Step (2) of the proof of [Stacks, Tag 073G] for a representable morphism.**
 Let `f : X ⟶ Y` be a representable, quasi-compact and quasi-separated morphism of algebraic
 spaces over `S`.  Then there is a single degree `n(X → Y)` above which every higher direct image
 of every quasi-coherent module along every base change of `f` vanishes.
 
 This is `AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward` with the
-injective-preservation hypothesis `h03F3` discharged by representability. -/
-@[stacks 073G "the same for a REPRESENTABLE f, with h03F3 discharged: there the chartwise \
-identification is Stacks 071Z, which proves Stacks 03F3(1). hscheme is still carried and Y \
-quasi-compact is still not assumed"]
+injective-preservation hypothesis `h03F3` discharged by representability.  [Stacks, Tag 073G]
+itself is `AlgebraicGeometry.Space.exists_forall_isZero_rightDerived_modulePushforward_of_qcqs`. -/
 theorem exists_forall_isZero_rightDerived_modulePushforward_of_representable
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (hf : yoneda.relativelyRepresentable f.hom)
     (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)

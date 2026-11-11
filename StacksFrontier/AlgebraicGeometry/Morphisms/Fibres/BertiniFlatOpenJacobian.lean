@@ -79,8 +79,9 @@ divisor back to the morphism — are proved: see
 `Stacks.Bertini.FamilyDivisors.parameterPoint_residueCoord` and
 `Stacks.Bertini.FamilyDivisors.mem_smoothLocus_of_mem_smoothLocus_residueCoordDivisor`.
 
-Accordingly **no `@[stacks]` attribute is attached**: Tag 0FD6 keeps its registration on
-`Stacks.Bertini.FamilyDivisors.smooth_specializedDivisor_forGeneral`.
+Accordingly **no `@[stacks]` attribute is attached**: Tag 0FD6 is registered on
+`Stacks.Bertini.FamilyDivisors.forGeneral_smooth_specializedDivisor_of_isImmersion_`
+`canonicalMorphism`.
 
 ## References
 

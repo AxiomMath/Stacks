@@ -355,8 +355,11 @@ lift of Stacks 0DEG; it is what carries the registration. This form is kept beca
 hypotheses are incomparable with that one's: it does not ask that the colimit injections be
 representable thickenings, and it is instantiable from any chart system whatever. Its proof is
 `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_chartSystem_of_stageCover` with the
-chart colimits recognised as affine formal algebraic spaces by Stacks 0GVM
-(`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`).
+chart colimits recognised as affine formal algebraic spaces by
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`, the version of the colimit
+step of Stacks 0GVM that assumes the set-theoretic condition of Stacks 0AIS (Stacks 0GVM itself
+is `AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_iff` and
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_cofinal`).
 
 The charts are the hypotheses `G`, `α`, `hGaff`, `hαet`, `hsq` and `hcov`; `hrep` is the
 representability clause of Definition 0AIM for the chart colimits, which is the set-theoretic

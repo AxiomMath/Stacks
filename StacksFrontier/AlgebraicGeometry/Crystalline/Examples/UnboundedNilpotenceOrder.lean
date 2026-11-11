@@ -43,6 +43,10 @@ to it: the family has no product in `CRIS(𝐅_p/ℤ_(p))`.
   no product in `CRIS(𝐅_p/ℤ_(p))`**, the hypothesis of
   `Crystalline.DividedPowerThickening.not_hasProduct_of_forall_exists_pow_natCast_ne_zero` being
   met by it.
+* `Crystalline.not_hasProductsOfShape_of_infinite` — **`CRIS(𝐅_p/ℤ_(p))` has no products of
+  any infinite shape**, the "but not infinite ones" of [Stacks, Tag 07HN, part (1)].
+* `Crystalline.not_hasProducts_integersAtPrimeSituation` — `CRIS(𝐅_p/ℤ_(p))` does not have all
+  small products.
 
 ## Implementation notes
 
@@ -273,10 +277,35 @@ theorem exists_pow_natCast_ne_zero_unboundedLevelFamily (N : ℕ) :
 inhabits the hypothesis of
 `Crystalline.DividedPowerThickening.not_hasProduct_of_forall_exists_pow_natCast_ne_zero`: the
 nilpotence orders of `p` along the family are unbounded, and that is a genuine obstruction to
-the existence of the product, which is the infinite-products caveat of [Stacks, Tag 07HN]. -/
+the existence of the product. -/
 theorem not_hasProduct_unboundedLevelFamily : ¬ HasProduct (unboundedLevelFamily p) :=
   DividedPowerThickening.not_hasProduct_of_forall_exists_pow_natCast_ne_zero _
     (exists_pow_natCast_ne_zero_unboundedLevelFamily p)
+
+/-- **Stacks Project, Tag 07HN, part (1), "but not infinite ones".**  In the affine crystalline
+situation `(p, (ℤ_(p), (p), γ), 𝐅_p)`, the category `CRIS(𝐅_p/ℤ_(p))` has no products of any
+infinite shape: for every infinite index type `ι`, the family `unboundedLevelFamily p` pulled
+back along a surjection `ι → ℕ` still has unbounded nilpotence orders of `p`, so it has no
+product, as in the proof of [Stacks, Tag 07HN], where `p` need not be nilpotent in `∏_t B_t`
+when `T` is infinite. -/
+@[stacks 07HN "infinite_products_caveat"]
+theorem not_hasProductsOfShape_of_infinite (ι : Type) [Infinite ι] :
+    ¬ HasProductsOfShape ι
+      (DividedPowerThickening.{0, 0, 0} (integersAtPrimeSituation p)) := by
+  intro h
+  let g : ι → ℕ := Function.invFun (Infinite.natEmbedding ι)
+  have hg : Function.Surjective g :=
+    Function.invFun_surjective (Infinite.natEmbedding ι).injective
+  refine DividedPowerThickening.not_hasProduct_of_forall_exists_pow_natCast_ne_zero
+    (fun i => unboundedLevelFamily p (g i)) (fun N => ?_) inferInstance
+  obtain ⟨i, hi⟩ := hg N
+  exact ⟨i, pow_natCast_ne_zero_unboundedLevelFamily p (by omega)⟩
+
+/-- **`CRIS(𝐅_p/ℤ_(p))` does not have all (small) products**, by
+`Crystalline.not_hasProductsOfShape_of_infinite` at `ι = ℕ`. -/
+theorem not_hasProducts_integersAtPrimeSituation :
+    ¬ HasProducts.{0} (DividedPowerThickening.{0, 0, 0} (integersAtPrimeSituation p)) :=
+  fun h => not_hasProductsOfShape_of_infinite p ℕ (h ℕ)
 
 end IntegersAtPrime
 

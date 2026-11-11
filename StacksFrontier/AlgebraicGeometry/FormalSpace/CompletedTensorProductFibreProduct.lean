@@ -1011,9 +1011,6 @@ attribute [local instance] sheaf_hasColimits
 over `S`, the two morphisms being the ones induced by continuous homomorphisms `C ⟶ A` and
 `C ⟶ B` over `S`. Then the fibre product `X ×_Z Y` is the formal spectrum of the completed
 tensor product `A ⊗̂_C B`, which is again weakly admissible. -/
-@[stacks 0AN3 "clause (3): the fibre product of two McQuillan affine formal algebraic spaces \
-over a McQuillan affine separated one is the formal spectrum of the completed tensor product \
-of their weakly admissible topological rings, at the hypotheses of the source"]
 theorem exists_formalSpectrum_completedTensorProduct (𝔅 : BigFppfSite.{u}) (S : Scheme.{u})
     (hS : 𝔅.Contains S) {A B C : Type u} [CommRing A] [TopologicalSpace A]
     [IsTopologicalRing A] [IsLinearTopology A A] [CommRing B] [TopologicalSpace B]

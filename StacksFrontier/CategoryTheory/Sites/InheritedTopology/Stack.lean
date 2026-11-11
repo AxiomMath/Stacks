@@ -58,10 +58,13 @@ project.
 
 ## Main results
 
-* `CategoryTheory.Functor.DescentDatum.diagonalPullback_eq_id`: the pullback of the gluing
-  isomorphism `φ i i` along the diagonal is the identity of `x i`.
-* `CategoryTheory.Functor.DescentDatum.gluing_comp_switchPullback_eq_id`: the pullback of
-  `φ j i` along the switching morphism is inverse to `φ i j`.
+* `CategoryTheory.Functor.DescentDatum.isRestrictionOf_diagonal_id`: the pullback of the gluing
+  isomorphism `φ i i` along the diagonal is the identity of `x i` (Stacks 026C (1)).
+* `CategoryTheory.Functor.DescentDatum.isRestrictionOf_switch_inv`: the pullback of `φ j i`
+  along the switching morphism is the inverse of `φ i j` (Stacks 026C (2)).
+* `CategoryTheory.Functor.DescentDatum.diagonalPullback_eq_id`,
+  `CategoryTheory.Functor.DescentDatum.gluing_comp_switchPullback_eq_id`: the same identities
+  restated on the triple overlaps, used downstream.
 
 ## References
 
@@ -231,8 +234,12 @@ def DescentDatum.IsEffective {p : 𝒮 ⥤ 𝒞} {U : 𝒞}
 3. every descent datum relative to a covering family of `J` is effective.
 
 A covering family `{ f i : V i ⟶ U }` is one whose generated sieve `Sieve.ofArrows V f` lies in
-`J U`. -/
-@[stacks_fixed 02ZI]
+`J U`.
+
+This is the covering-family form of the conditions of Stacks 02ZI, whose registered definition
+is `CategoryTheory.Functor.IsStackInGroupoidsBySieves`, stated with covering sieves; that
+definition implies this one at every index universe
+(`CategoryTheory.Functor.IsStackInGroupoidsBySieves.isStackInGroupoids`). -/
 structure IsStackInGroupoids (p : 𝒮 ⥤ 𝒞) (J : GrothendieckTopology 𝒞) : Prop where
   /-- Condition 1: `p` is fibred in groupoids. -/
   isFiberedInGroupoids : p.IsFiberedInGroupoids
@@ -328,6 +335,225 @@ theorem IsRestrictionOf.unique {p : 𝒮 ⥤ 𝒞} {W V Ux Uy : 𝒞} {g : W ⟶
     (eqToHom yrW.hpt ≫ hy_ ≫ eqToHom hy.symm) yrW.hom
     (eqToHom xrW.hpt ≫ eqToHom yrW.hpt.symm) key
 
+/-- The canonical comparison `Restriction.compTo` lies over `g`. -/
+theorem Restriction.compTo_isHomLift (p : 𝒮 ⥤ 𝒞) {W V U : 𝒞} (g : W ⟶ V) (f : V ⟶ U)
+    {h : W ⟶ U} (hh : h = g ≫ f) {x : 𝒮} {hx : p.obj x = U}
+    (xr : Restriction p f x hx) (xrW : Restriction p h x hx) :
+    p.IsHomLift (eqToHom xrW.hpt ≫ g ≫ eqToHom xr.hpt.symm)
+      (Restriction.compTo p g f hh xr xrW) := by
+  unfold Restriction.compTo
+  infer_instance
+
+/-- Two morphisms into a restriction `r` lying over the same base morphism agree as soon as
+their composites with the cartesian morphism `r.hom` agree. -/
+theorem Restriction.hom_ext {p : 𝒮 ⥤ 𝒞} {V U W : 𝒞} {f : V ⟶ U} {y : 𝒮} {hy : p.obj y = U}
+    (r : Restriction p f y hy) {P : 𝒮} (hP : p.obj P = W) (k : W ⟶ V) {a b : P ⟶ r.pt}
+    (ha : p.IsHomLift (eqToHom hP ≫ k ≫ eqToHom r.hpt.symm) a)
+    (hb : p.IsHomLift (eqToHom hP ≫ k ≫ eqToHom r.hpt.symm) b)
+    (h : a ≫ r.hom = b ≫ r.hom) : a = b :=
+  Functor.IsStronglyCartesian.ext p (eqToHom r.hpt ≫ f ≫ eqToHom hy.symm) r.hom
+    (eqToHom hP ≫ k ≫ eqToHom r.hpt.symm) h
+
+/-- A fibre morphism followed by a morphism over `k` lies over `k`. -/
+theorem FibreHom.fibreHom_comp_isHomLift {p : 𝒮 ⥤ 𝒞} {W V : 𝒞} {a b c : 𝒮} {ha : p.obj a = W}
+    {hb : p.obj b = W} {hc : p.obj c = V} {β : a ⟶ b} {γ : b ⟶ c} {k : W ⟶ V}
+    (hβ : FibreHom p a b ha hb β) (hγ : p.IsHomLift (eqToHom hb ≫ k ≫ eqToHom hc.symm) γ) :
+    p.IsHomLift (eqToHom ha ≫ k ≫ eqToHom hc.symm) (β ≫ γ) := by
+  have := hβ
+  have := hγ
+  have h := CategoryTheory.IsHomLift.comp p (eqToHom ha ≫ eqToHom hb.symm)
+    (eqToHom hb ≫ k ≫ eqToHom hc.symm) β γ
+  simpa using h
+
+/-- A morphism over `k` followed by a fibre morphism lies over `k`. -/
+theorem FibreHom.isHomLift_comp_fibreHom {p : 𝒮 ⥤ 𝒞} {W V : 𝒞} {a b c : 𝒮} {ha : p.obj a = W}
+    {hb : p.obj b = V} {hc : p.obj c = V} {γ : a ⟶ b} {β : b ⟶ c} {k : W ⟶ V}
+    (hγ : p.IsHomLift (eqToHom ha ≫ k ≫ eqToHom hb.symm) γ) (hβ : FibreHom p b c hb hc β) :
+    p.IsHomLift (eqToHom ha ≫ k ≫ eqToHom hc.symm) (γ ≫ β) := by
+  have := hβ
+  have := hγ
+  have h := CategoryTheory.IsHomLift.comp p (eqToHom ha ≫ k ≫ eqToHom hb.symm)
+    (eqToHom hb ≫ eqToHom hc.symm) γ β
+  simpa using h
+
+/-- A morphism between objects over `W` whose image in the base is the identity of `W` is a
+morphism of the fibre category over `W`. -/
+theorem FibreHom.of_map_eq {p : 𝒮 ⥤ 𝒞} {W : 𝒞} {a b : 𝒮} {ha : p.obj a = W}
+    {hb : p.obj b = W} {β : a ⟶ b} (h : eqToHom ha.symm ≫ p.map β ≫ eqToHom hb = 𝟙 W) :
+    FibreHom p a b ha hb β := by
+  apply CategoryTheory.IsHomLift.of_fac' p _ β rfl rfl
+  have h' : p.map β = eqToHom ha ≫ (eqToHom ha.symm ≫ p.map β ≫ eqToHom hb) ≫
+      eqToHom hb.symm := by simp
+  rw [h', h]
+  simp
+
+/-- The canonical comparisons along `g₁` and along `g₂` compose to the canonical comparison
+along `g₁ ≫ g₂`. -/
+theorem Restriction.compTo_comp (p : 𝒮 ⥤ 𝒞) {W V' V U : 𝒞} (g₁ : W ⟶ V') (g₂ : V' ⟶ V)
+    (f : V ⟶ U) {f' : V' ⟶ U} {h : W ⟶ U} (hf' : f' = g₂ ≫ f) (hh₁ : h = g₁ ≫ f')
+    (hh : h = (g₁ ≫ g₂) ≫ f) {x : 𝒮} {hx : p.obj x = U}
+    (xr : Restriction p f x hx) (xr' : Restriction p f' x hx) (xrW : Restriction p h x hx) :
+    Restriction.compTo p g₁ f' hh₁ xr' xrW ≫ Restriction.compTo p g₂ f hf' xr xr' =
+      Restriction.compTo p (g₁ ≫ g₂) f hh xr xrW := by
+  have h₁ := Restriction.compTo_isHomLift p g₁ f' hh₁ xr' xrW
+  have h₂ := Restriction.compTo_isHomLift p g₂ f hf' xr xr'
+  have h₁₂ : p.IsHomLift (eqToHom xrW.hpt ≫ (g₁ ≫ g₂) ≫ eqToHom xr.hpt.symm)
+      (Restriction.compTo p g₁ f' hh₁ xr' xrW ≫ Restriction.compTo p g₂ f hf' xr xr') := by
+    have := CategoryTheory.IsHomLift.comp p (eqToHom xrW.hpt ≫ g₁ ≫ eqToHom xr'.hpt.symm)
+      (eqToHom xr'.hpt ≫ g₂ ≫ eqToHom xr.hpt.symm) (Restriction.compTo p g₁ f' hh₁ xr' xrW)
+      (Restriction.compTo p g₂ f hf' xr xr')
+    simpa using this
+  refine Restriction.hom_ext xr xrW.hpt (g₁ ≫ g₂) h₁₂
+    (Restriction.compTo_isHomLift p (g₁ ≫ g₂) f hh xr xrW) ?_
+  rw [Category.assoc, Restriction.compTo_hom, Restriction.compTo_hom, Restriction.compTo_hom]
+
+/-- The canonical comparison along the identity between a restriction and itself is the
+identity. -/
+theorem Restriction.compTo_id (p : 𝒮 ⥤ 𝒞) {V U : 𝒞} (f : V ⟶ U) (hh : f = 𝟙 V ≫ f)
+    {x : 𝒮} {hx : p.obj x = U} (xr : Restriction p f x hx) :
+    Restriction.compTo p (𝟙 V) f hh xr xr = 𝟙 xr.pt := by
+  have h₁ : p.IsHomLift (eqToHom xr.hpt ≫ 𝟙 V ≫ eqToHom xr.hpt.symm) (𝟙 xr.pt) := by
+    simp only [Category.id_comp, eqToHom_trans, eqToHom_refl]
+    infer_instance
+  refine Restriction.hom_ext xr xr.hpt (𝟙 V)
+    (Restriction.compTo_isHomLift p (𝟙 V) f hh xr xr) h₁ ?_
+  rw [Restriction.compTo_hom, Category.id_comp]
+
+/-- A fibre morphism is its own canonical restriction along the identity. -/
+theorem IsRestrictionOf.refl (p : 𝒮 ⥤ 𝒞) {V Ux Uy : 𝒞} {fx : V ⟶ Ux} {fy : V ⟶ Uy}
+    (hfx : fx = 𝟙 V ≫ fx) (hfy : fy = 𝟙 V ≫ fy)
+    {x y : 𝒮} {hx : p.obj x = Ux} {hy : p.obj y = Uy}
+    (xr : Restriction p fx x hx) (yr : Restriction p fy y hy) (α : xr.pt ⟶ yr.pt) :
+    IsRestrictionOf p (𝟙 V) hfx hfy xr yr xr yr α α := by
+  change α ≫ Restriction.compTo p (𝟙 V) fy hfy yr yr = Restriction.compTo p (𝟙 V) fx hfx xr xr ≫ α
+  rw [Restriction.compTo_id, Restriction.compTo_id, Category.comp_id, Category.id_comp]
+
+/-- Transitivity of canonical restriction: if `α'` is the canonical restriction of `α` along
+`g₂` and `β` that of `α'` along `g₁`, then `β` is the canonical restriction of `α` along
+`g = g₁ ≫ g₂`. -/
+theorem IsRestrictionOf.trans {p : 𝒮 ⥤ 𝒞} {W V' V Ux Uy : 𝒞} {g₁ : W ⟶ V'} {g₂ : V' ⟶ V}
+    {g : W ⟶ V} (hg : g₁ ≫ g₂ = g)
+    {fx : V ⟶ Ux} {fy : V ⟶ Uy} {fx' : V' ⟶ Ux} {fy' : V' ⟶ Uy}
+    {hx_ : W ⟶ Ux} {hy_ : W ⟶ Uy}
+    {hfx' : fx' = g₂ ≫ fx} {hfy' : fy' = g₂ ≫ fy}
+    {hfxW : hx_ = g₁ ≫ fx'} {hfyW : hy_ = g₁ ≫ fy'}
+    {hfx : hx_ = g ≫ fx} {hfy : hy_ = g ≫ fy}
+    {x y : 𝒮} {hx : p.obj x = Ux} {hy : p.obj y = Uy}
+    {xr : Restriction p fx x hx} {yr : Restriction p fy y hy}
+    {xr' : Restriction p fx' x hx} {yr' : Restriction p fy' y hy}
+    {xrW : Restriction p hx_ x hx} {yrW : Restriction p hy_ y hy}
+    {α : xr.pt ⟶ yr.pt} {α' : xr'.pt ⟶ yr'.pt} {β : xrW.pt ⟶ yrW.pt}
+    (h₂ : IsRestrictionOf p g₂ hfx' hfy' xr yr xr' yr' α α')
+    (h₁ : IsRestrictionOf p g₁ hfxW hfyW xr' yr' xrW yrW α' β) :
+    IsRestrictionOf p g hfx hfy xr yr xrW yrW α β := by
+  subst hg
+  change β ≫ Restriction.compTo p (g₁ ≫ g₂) fy hfy yr yrW =
+    Restriction.compTo p (g₁ ≫ g₂) fx hfx xr xrW ≫ α
+  rw [← Restriction.compTo_comp p g₁ g₂ fy hfy' hfyW hfy yr yr' yrW,
+    ← Restriction.compTo_comp p g₁ g₂ fx hfx' hfxW hfx xr xr' xrW, ← Category.assoc, h₁,
+    Category.assoc, h₂, Category.assoc]
+
+/-- Cancellation of canonical restriction: if `α'` is the canonical restriction of `α` along
+`g₂` and the fibre morphism `β` is that of `α` along `g = g₁ ≫ g₂`, then `β` is the canonical
+restriction of `α'` along `g₁`, provided `α'` is itself a fibre morphism. -/
+theorem IsRestrictionOf.of_comp {p : 𝒮 ⥤ 𝒞} {W V' V Ux Uy : 𝒞} {g₁ : W ⟶ V'} {g₂ : V' ⟶ V}
+    {g : W ⟶ V} (hg : g₁ ≫ g₂ = g)
+    {fx : V ⟶ Ux} {fy : V ⟶ Uy} {fx' : V' ⟶ Ux} {fy' : V' ⟶ Uy}
+    {hx_ : W ⟶ Ux} {hy_ : W ⟶ Uy}
+    {hfx' : fx' = g₂ ≫ fx} {hfy' : fy' = g₂ ≫ fy}
+    {hfxW : hx_ = g₁ ≫ fx'} {hfyW : hy_ = g₁ ≫ fy'}
+    {hfx : hx_ = g ≫ fx} {hfy : hy_ = g ≫ fy}
+    {x y : 𝒮} {hx : p.obj x = Ux} {hy : p.obj y = Uy}
+    {xr : Restriction p fx x hx} {yr : Restriction p fy y hy}
+    {xr' : Restriction p fx' x hx} {yr' : Restriction p fy' y hy}
+    {xrW : Restriction p hx_ x hx} {yrW : Restriction p hy_ y hy}
+    {α : xr.pt ⟶ yr.pt} {α' : xr'.pt ⟶ yr'.pt} {β : xrW.pt ⟶ yrW.pt}
+    (hα' : FibreHom p xr'.pt yr'.pt xr'.hpt yr'.hpt α')
+    (hβ : FibreHom p xrW.pt yrW.pt xrW.hpt yrW.hpt β)
+    (h₂ : IsRestrictionOf p g₂ hfx' hfy' xr yr xr' yr' α α')
+    (h : IsRestrictionOf p g hfx hfy xr yr xrW yrW α β) :
+    IsRestrictionOf p g₁ hfxW hfyW xr' yr' xrW yrW α' β := by
+  subst hg
+  change β ≫ Restriction.compTo p g₁ fy' hfyW yr' yrW =
+    Restriction.compTo p g₁ fx' hfxW xr' xrW ≫ α'
+  refine Restriction.hom_ext yr' xrW.hpt g₁
+    (FibreHom.fibreHom_comp_isHomLift (hc := yr'.hpt) hβ
+      (Restriction.compTo_isHomLift p g₁ fy' hfyW yr' yrW))
+    (FibreHom.isHomLift_comp_fibreHom (ha := xrW.hpt)
+      (Restriction.compTo_isHomLift p g₁ fx' hfxW xr' xrW) hα') ?_
+  have h₂' : α' ≫ Restriction.compTo p g₂ fy hfy' yr yr' =
+      Restriction.compTo p g₂ fx hfx' xr xr' ≫ α := h₂
+  have h' : β ≫ Restriction.compTo p (g₁ ≫ g₂) fy hfy yr yrW =
+      Restriction.compTo p (g₁ ≫ g₂) fx hfx xr xrW ≫ α := h
+  rw [← Restriction.compTo_hom p g₂ fy hfy' yr yr', Category.assoc, ← Category.assoc _ _ yr.hom,
+    Restriction.compTo_comp p g₁ g₂ fy hfy' hfyW hfy yr yr' yrW, ← Category.assoc, h',
+    ← Restriction.compTo_comp p g₁ g₂ fx hfx' hfxW hfx xr xr' xrW]
+  simp only [Category.assoc, reassoc_of% h₂']
+
+/-- If `β` is the canonical restriction of a fibre morphism along `g`, then the image of `β` in
+the base, an endomorphism of `W`, is a left identity for `g`. -/
+theorem IsRestrictionOf.map_comp_eq {p : 𝒮 ⥤ 𝒞} {W V Ux Uy : 𝒞} {g : W ⟶ V}
+    {fx : V ⟶ Ux} {fy : V ⟶ Uy} {hx_ : W ⟶ Ux} {hy_ : W ⟶ Uy}
+    {hfx : hx_ = g ≫ fx} {hfy : hy_ = g ≫ fy}
+    {x y : 𝒮} {hx : p.obj x = Ux} {hy : p.obj y = Uy}
+    {xr : Restriction p fx x hx} {yr : Restriction p fy y hy}
+    {xrW : Restriction p hx_ x hx} {yrW : Restriction p hy_ y hy}
+    {α : xr.pt ⟶ yr.pt} {β : xrW.pt ⟶ yrW.pt}
+    (hα : FibreHom p xr.pt yr.pt xr.hpt yr.hpt α)
+    (h : IsRestrictionOf p g hfx hfy xr yr xrW yrW α β) :
+    (eqToHom xrW.hpt.symm ≫ p.map β ≫ eqToHom yrW.hpt) ≫ g = g := by
+  have hcx := Restriction.compTo_isHomLift p g fx hfx xr xrW
+  have hcy := Restriction.compTo_isHomLift p g fy hfy yr yrW
+  have := hα
+  have e := congrArg p.map h
+  rw [p.map_comp, p.map_comp,
+    CategoryTheory.IsHomLift.fac' p (eqToHom yrW.hpt ≫ g ≫ eqToHom yr.hpt.symm)
+      (Restriction.compTo p g fy hfy yr yrW),
+    CategoryTheory.IsHomLift.fac' p (eqToHom xrW.hpt ≫ g ≫ eqToHom xr.hpt.symm)
+      (Restriction.compTo p g fx hfx xr xrW),
+    CategoryTheory.IsHomLift.fac' p (eqToHom xr.hpt ≫ eqToHom yr.hpt.symm) α] at e
+  simp only [eqToHom_refl, Category.id_comp, Category.comp_id, Category.assoc,
+    eqToHom_trans] at e
+  have e' := congrArg (fun t => eqToHom xrW.hpt.symm ≫ t ≫ eqToHom yr.hpt) e
+  simpa only [Category.assoc, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
+    Category.id_comp, Category.comp_id] using e'
+
+/-- A fibre morphism `α` has a canonical restriction along `g`: there is a fibre morphism `β`
+with `IsRestrictionOf p g hfx hfy xr yr xrW yrW α β`. -/
+theorem IsRestrictionOf.exists_fibreHom {p : 𝒮 ⥤ 𝒞} {W V Ux Uy : 𝒞} (g : W ⟶ V)
+    {fx : V ⟶ Ux} {fy : V ⟶ Uy} {hx_ : W ⟶ Ux} {hy_ : W ⟶ Uy}
+    (hfx : hx_ = g ≫ fx) (hfy : hy_ = g ≫ fy)
+    {x y : 𝒮} {hx : p.obj x = Ux} {hy : p.obj y = Uy}
+    (xr : Restriction p fx x hx) (yr : Restriction p fy y hy)
+    (xrW : Restriction p hx_ x hx) (yrW : Restriction p hy_ y hy)
+    (α : xr.pt ⟶ yr.pt) (hα : FibreHom p xr.pt yr.pt xr.hpt yr.hpt α) :
+    ∃ β : xrW.pt ⟶ yrW.pt, FibreHom p xrW.pt yrW.pt xrW.hpt yrW.hpt β ∧
+      IsRestrictionOf p g hfx hfy xr yr xrW yrW α β := by
+  have h1 := FibreHom.isHomLift_comp_fibreHom (ha := xrW.hpt)
+    (Restriction.compTo_isHomLift p g fx hfx xr xrW) hα
+  have hl : p.IsHomLift ((eqToHom xrW.hpt ≫ eqToHom yrW.hpt.symm) ≫
+      (eqToHom yrW.hpt ≫ hy_ ≫ eqToHom hy.symm))
+      ((Restriction.compTo p g fx hfx xr xrW ≫ α) ≫ yr.hom) := by
+    have := CategoryTheory.IsHomLift.comp p (eqToHom xrW.hpt ≫ g ≫ eqToHom yr.hpt.symm)
+      (eqToHom yr.hpt ≫ fy ≫ eqToHom hy.symm) (Restriction.compTo p g fx hfx xr xrW ≫ α)
+      yr.hom
+    subst hfy
+    simpa using this
+  let β : xrW.pt ⟶ yrW.pt := Functor.IsStronglyCartesian.map p
+    (eqToHom yrW.hpt ≫ hy_ ≫ eqToHom hy.symm) yrW.hom
+    (g := eqToHom xrW.hpt ≫ eqToHom yrW.hpt.symm) rfl
+    ((Restriction.compTo p g fx hfx xr xrW ≫ α) ≫ yr.hom)
+  have hβ : FibreHom p xrW.pt yrW.pt xrW.hpt yrW.hpt β :=
+    Functor.IsStronglyCartesian.map_isHomLift p _ yrW.hom
+      (g := eqToHom xrW.hpt ≫ eqToHom yrW.hpt.symm) rfl _
+  refine ⟨β, hβ, ?_⟩
+  change β ≫ Restriction.compTo p g fy hfy yr yrW = Restriction.compTo p g fx hfx xr xrW ≫ α
+  refine Restriction.hom_ext yr xrW.hpt g
+    (FibreHom.fibreHom_comp_isHomLift (hc := yr.hpt) hβ
+      (Restriction.compTo_isHomLift p g fy hfy yr yrW)) h1 ?_
+  rw [Category.assoc, Restriction.compTo_hom]
+  exact Functor.IsStronglyCartesian.fac p _ yrW.hom rfl _
+
 /-! ## The diagonal and flip identities for a descent datum -/
 
 section Identities
@@ -365,8 +591,13 @@ private theorem DescentDatum.comp_eq_of_restrictionOf
 
 /-- Let `D` be a descent datum for `p` fibred in groupoids, and `Δ : V i ⟶ Vijk i i i` the
 diagonal. A fibre automorphism `e` of `x i` which is the pullback along `Δ` of each of the three
-gluing isomorphisms of the triple `(i, i, i)` is the identity. -/
-@[stacks 026C "diagonal identity"]
+gluing isomorphisms of the triple `(i, i, i)` is the identity.
+
+This is a restatement on the triple overlap, under the extra hypothesis that `p` is fibred in
+groupoids. Stacks 026C (1) itself, for any fibred category and phrased with the pullback of
+`φ i i` along the diagonal `V i ⟶ Vij i i`, is
+`DescentDatum.eq_id_of_isRestrictionOf_diagonal` and
+`DescentDatum.isRestrictionOf_diagonal_id`. -/
 theorem DescentDatum.diagonalPullback_eq_id
     (D : DescentDatum p V f Vij pr₁ pr₂ hVij Vijk s₁₂ s₂₃ hVijk q₁ q₂ q₃ hq₁ hq₂ hq₃)
     (hp : p.IsFiberedInGroupoids) (i : I) {Δ : V i ⟶ Vijk i i i}
@@ -392,8 +623,13 @@ theorem DescentDatum.diagonalPullback_eq_id
 
 /-- Let `D` be a descent datum and `Δ₁₃ : Vij i j ⟶ Vijk i j i` the morphism whose composites
 with the three projections are `pr₁ i j`, `pr₂ i j` and `pr₁ i j`. If `σφ` is the pullback along
-`Δ₁₃` of the `(j, k)` gluing isomorphism of the triple `(i, j, i)`, then `φ i j ≫ σφ = 𝟙`. -/
-@[stacks 026C "flip identity"]
+`Δ₁₃` of the `(j, k)` gluing isomorphism of the triple `(i, j, i)`, then `φ i j ≫ σφ = 𝟙`.
+
+This takes as input `hik`, the restriction of `φ i i` to the identity along `Δ₁₃`, which in
+the source is derived from 026C (1). Stacks 026C (2) itself, with no such input and phrased with
+the pullback of `φ j i` along the switching morphism `Vij i j ⟶ Vij j i`, is
+`DescentDatum.gluing_comp_eq_id_of_isRestrictionOf_switch` and
+`DescentDatum.isRestrictionOf_switch_inv`. -/
 theorem DescentDatum.gluing_comp_switchPullback_eq_id
     (D : DescentDatum p V f Vij pr₁ pr₂ hVij Vijk s₁₂ s₂₃ hVijk q₁ q₂ q₃ hq₁ hq₂ hq₃)
     (i j : I) {Δ₁₃ : Vij i j ⟶ Vijk i j i}
@@ -411,6 +647,211 @@ theorem DescentDatum.gluing_comp_switchPullback_eq_id
     D.φ i j ≫ σφ = 𝟙 (D.xrij i j).pt := by
   exact D.comp_eq_of_restrictionOf (D.φ_fibreHom i j) hσφ
     (FibreHom.id p (D.xrij i j).pt (D.xrij i j).hpt) hij hji hik
+
+/-- The three gluing morphisms `αij`, `αjk`, `αik` of a descent datum over a triple overlap are
+morphisms of the fibre category: their images in the base are endomorphisms of the triple
+overlap fixing the projections to the double overlaps, and the cocycle condition forces them
+to be identities. -/
+theorem DescentDatum.α_fibreHom
+    (D : DescentDatum p V f Vij pr₁ pr₂ hVij Vijk s₁₂ s₂₃ hVijk q₁ q₂ q₃ hq₁ hq₂ hq₃)
+    (i j k : I) :
+    FibreHom p (D.wi i j k).pt (D.wj i j k).pt (D.wi i j k).hpt (D.wj i j k).hpt
+        (D.αij i j k) ∧
+      FibreHom p (D.wj i j k).pt (D.wk i j k).pt (D.wj i j k).hpt (D.wk i j k).hpt
+        (D.αjk i j k) ∧
+      FibreHom p (D.wi i j k).pt (D.wk i j k).pt (D.wi i j k).hpt (D.wk i j k).hpt
+        (D.αik i j k) := by
+  obtain ⟨a, ha_def⟩ : ∃ a, a = eqToHom (D.wi i j k).hpt.symm ≫ p.map (D.αij i j k) ≫
+      eqToHom (D.wj i j k).hpt := ⟨_, rfl⟩
+  obtain ⟨b, hb_def⟩ : ∃ b, b = eqToHom (D.wj i j k).hpt.symm ≫ p.map (D.αjk i j k) ≫
+      eqToHom (D.wk i j k).hpt := ⟨_, rfl⟩
+  obtain ⟨c, hc_def⟩ : ∃ c, c = eqToHom (D.wi i j k).hpt.symm ≫ p.map (D.αik i j k) ≫
+      eqToHom (D.wk i j k).hpt := ⟨_, rfl⟩
+  have ha : a ≫ s₁₂ i j k = s₁₂ i j k := by
+    rw [ha_def]; exact (D.αij_restr i j k).map_comp_eq (D.φ_fibreHom i j)
+  have hb : b ≫ s₂₃ i j k = s₂₃ i j k := by
+    rw [hb_def]; exact (D.αjk_restr i j k).map_comp_eq (D.φ_fibreHom j k)
+  have hc : c ≫ D.s₁₃ i j k = D.s₁₃ i j k := by
+    rw [hc_def]; exact (D.αik_restr i j k).map_comp_eq (D.φ_fibreHom i k)
+  have habc : c = a ≫ b := by
+    rw [hc_def, ha_def, hb_def, D.cocycle, p.map_comp]
+    simp
+  have hq₃b : b ≫ q₃ i j k = q₃ i j k := by rw [hq₃, reassoc_of% hb]
+  have hq₃a : a ≫ q₃ i j k = q₃ i j k := by
+    have h1 : c ≫ q₃ i j k = q₃ i j k := by rw [← D.hs₁₃₂, reassoc_of% hc]
+    rwa [habc, Category.assoc, hq₃b] at h1
+  have ha1 : a = 𝟙 _ := by
+    apply (hVijk i j k).hom_ext
+    · rw [ha, Category.id_comp]
+    · apply (hVij j k).hom_ext
+      · simp only [Category.assoc, Category.id_comp]
+        rw [← (hVijk i j k).w, reassoc_of% ha]
+      · simp only [Category.assoc, Category.id_comp]
+        rw [← hq₃, hq₃a]
+  have hq₁b : b ≫ q₁ i j k = q₁ i j k := by
+    have h1 : c ≫ q₁ i j k = q₁ i j k := by rw [← D.hs₁₃₁, reassoc_of% hc]
+    rwa [habc, ha1, Category.id_comp] at h1
+  have hb1 : b = 𝟙 _ := by
+    apply (hVijk i j k).hom_ext
+    · apply (hVij i j).hom_ext
+      · simp only [Category.assoc, Category.id_comp]
+        rw [← hq₁, hq₁b]
+      · simp only [Category.assoc, Category.id_comp]
+        rw [(hVijk i j k).w, reassoc_of% hb]
+    · rw [hb, Category.id_comp]
+  have hc1 : c = 𝟙 _ := by rw [habc, ha1, hb1, Category.id_comp]
+  refine ⟨FibreHom.of_map_eq ?_, FibreHom.of_map_eq ?_, FibreHom.of_map_eq ?_⟩
+  · rw [← ha_def, ha1]
+  · rw [← hb_def, hb1]
+  · rw [← hc_def, hc1]
+
+/-- **Stacks 026C (1).** Let `D` be a descent datum for any functor `p : 𝒮 ⥤ 𝒞` (in particular
+for any fibred category, not necessarily fibred in groupoids), and `Δ : V i ⟶ Vij i i` a
+diagonal, i.e. `Δ ≫ pr₁ i i = 𝟙` and `Δ ≫ pr₂ i i = 𝟙`. A fibre endomorphism `e` of `x i`
+which is the pullback `Δ^* φ i i` of the gluing isomorphism `φ i i` along `Δ` is the identity.
+
+The proof is the source's: pulling back the cocycle condition for `(i, i, i)` along the
+diagonal `Δ₁₂₃ : V i ⟶ Vijk i i i` gives `e ≫ e = e`, and `e` is a monomorphism. -/
+@[stacks 026C "(1): `Δ^*φ_ii = id` for a general fibred category"]
+theorem DescentDatum.eq_id_of_isRestrictionOf_diagonal
+    (D : DescentDatum p V f Vij pr₁ pr₂ hVij Vijk s₁₂ s₂₃ hVijk q₁ q₂ q₃ hq₁ hq₂ hq₃)
+    (i : I) {Δ : V i ⟶ Vij i i}
+    (hΔ₁ : 𝟙 (V i) = Δ ≫ pr₁ i i) (hΔ₂ : 𝟙 (V i) = Δ ≫ pr₂ i i)
+    {e : D.x i ⟶ D.x i}
+    (he : FibreHom p (D.x i) (D.x i) (D.hx i) (D.hx i) e)
+    (hr : IsRestrictionOf p Δ hΔ₁ hΔ₂ (D.xrij i i) (D.xrji i i)
+      (Restriction.id p (D.x i) (D.hx i)) (Restriction.id p (D.x i) (D.hx i)) (D.φ i i) e) :
+    e = 𝟙 (D.x i) := by
+  let Δ₃ : V i ⟶ Vijk i i i := (hVijk i i i).lift Δ Δ (by rw [← hΔ₁, ← hΔ₂])
+  have h₁₂ : Δ₃ ≫ s₁₂ i i i = Δ := (hVijk i i i).lift_fst _ _ _
+  have h₂₃ : Δ₃ ≫ s₂₃ i i i = Δ := (hVijk i i i).lift_snd _ _ _
+  have h₁₃ : Δ₃ ≫ D.s₁₃ i i i = Δ := by
+    apply (hVij i i).hom_ext
+    · rw [Category.assoc, D.hs₁₃₁, hq₁, reassoc_of% h₁₂]
+    · rw [Category.assoc, D.hs₁₃₂, hq₃, reassoc_of% h₂₃]
+  have hd₁ : 𝟙 (V i) = Δ₃ ≫ q₁ i i i := by rw [hq₁, reassoc_of% h₁₂]; exact hΔ₁
+  have hd₂ : 𝟙 (V i) = Δ₃ ≫ q₂ i i i := by rw [hq₂, reassoc_of% h₁₂]; exact hΔ₂
+  have hd₃ : 𝟙 (V i) = Δ₃ ≫ q₃ i i i := by rw [hq₃, reassoc_of% h₂₃]; exact hΔ₂
+  obtain ⟨hαij, hαjk, hαik⟩ := D.α_fibreHom i i i
+  have heij : IsRestrictionOf p Δ₃ hd₁ hd₂ (D.wi i i i) (D.wj i i i)
+      (Restriction.id p (D.x i) (D.hx i)) (Restriction.id p (D.x i) (D.hx i))
+      (D.αij i i i) e :=
+    IsRestrictionOf.of_comp h₁₂ hαij he (D.αij_restr i i i) hr
+  have hejk : IsRestrictionOf p Δ₃ hd₂ hd₃ (D.wj i i i) (D.wk i i i)
+      (Restriction.id p (D.x i) (D.hx i)) (Restriction.id p (D.x i) (D.hx i))
+      (D.αjk i i i) e :=
+    IsRestrictionOf.of_comp h₂₃ hαjk he (D.αjk_restr i i i) hr
+  have heik : IsRestrictionOf p Δ₃ hd₁ hd₃ (D.wi i i i) (D.wk i i i)
+      (Restriction.id p (D.x i) (D.hx i)) (Restriction.id p (D.x i) (D.hx i))
+      (D.αik i i i) e :=
+    IsRestrictionOf.of_comp h₁₃ hαik he (D.αik_restr i i i) hr
+  have hee : e ≫ e = e := D.comp_eq_of_restrictionOf he he he heij hejk heik
+  have hc : Restriction.compTo p Δ (pr₁ i i) hΔ₁ (D.xrij i i)
+      (Restriction.id p (D.x i) (D.hx i)) ≫ (D.xrij i i).hom = 𝟙 (D.x i) :=
+    Restriction.compTo_hom p Δ (pr₁ i i) hΔ₁ (D.xrij i i) (Restriction.id p (D.x i) (D.hx i))
+  have : IsSplitMono (Restriction.compTo p Δ (pr₁ i i) hΔ₁ (D.xrij i i)
+      (Restriction.id p (D.x i) (D.hx i))) := IsSplitMono.mk' ⟨_, hc⟩
+  have := D.φ_iso i i
+  have hr' : e ≫ Restriction.compTo p Δ (pr₂ i i) hΔ₂ (D.xrji i i)
+      (Restriction.id p (D.x i) (D.hx i)) = Restriction.compTo p Δ (pr₁ i i) hΔ₁ (D.xrij i i)
+      (Restriction.id p (D.x i) (D.hx i)) ≫ D.φ i i := hr
+  have : Mono (e ≫ Restriction.compTo p Δ (pr₂ i i) hΔ₂ (D.xrji i i)
+      (Restriction.id p (D.x i) (D.hx i))) := by
+    rw [hr']; infer_instance
+  have : Mono e := mono_of_mono e (Restriction.compTo p Δ (pr₂ i i) hΔ₂ (D.xrji i i)
+    (Restriction.id p (D.x i) (D.hx i)))
+  exact (cancel_mono e).mp (hee.trans (Category.id_comp e).symm)
+
+/-- **Stacks 026C (1).** For a descent datum `D` for any functor `p : 𝒮 ⥤ 𝒞` and a diagonal
+`Δ : V i ⟶ Vij i i`, the identity of `x i` is the pullback `Δ^* φ i i` of the gluing
+isomorphism `φ i i` along `Δ`: the pullback exists and equals the identity. -/
+@[stacks 026C "(1): the pullback of `φ_ii` along the diagonal is `id_{X_i}`"]
+theorem DescentDatum.isRestrictionOf_diagonal_id
+    (D : DescentDatum p V f Vij pr₁ pr₂ hVij Vijk s₁₂ s₂₃ hVijk q₁ q₂ q₃ hq₁ hq₂ hq₃)
+    (i : I) {Δ : V i ⟶ Vij i i}
+    (hΔ₁ : 𝟙 (V i) = Δ ≫ pr₁ i i) (hΔ₂ : 𝟙 (V i) = Δ ≫ pr₂ i i) :
+    IsRestrictionOf p Δ hΔ₁ hΔ₂ (D.xrij i i) (D.xrji i i)
+      (Restriction.id p (D.x i) (D.hx i)) (Restriction.id p (D.x i) (D.hx i)) (D.φ i i)
+      (𝟙 (D.x i)) := by
+  obtain ⟨e, he, hr⟩ := IsRestrictionOf.exists_fibreHom Δ hΔ₁ hΔ₂ (D.xrij i i) (D.xrji i i)
+    (Restriction.id p (D.x i) (D.hx i)) (Restriction.id p (D.x i) (D.hx i)) (D.φ i i)
+    (D.φ_fibreHom i i)
+  rwa [D.eq_id_of_isRestrictionOf_diagonal i hΔ₁ hΔ₂ he hr] at hr
+
+/-- **Stacks 026C (2).** Let `D` be a descent datum for any functor `p : 𝒮 ⥤ 𝒞` (in particular
+for any fibred category), and `σ : Vij i j ⟶ Vij j i` the switching morphism, i.e.
+`σ ≫ pr₁ j i = pr₂ i j` and `σ ≫ pr₂ j i = pr₁ i j`. If the fibre morphism `σφ` is the pullback
+`σ^* φ j i` of `φ j i` along `σ`, then `σφ ∘ φ i j = id`, i.e. `φ i j ≫ σφ = 𝟙`.
+
+The proof is the source's: pull back the cocycle condition for `(i, j, i)` along
+`Δ₁₃ : Vij i j ⟶ Vijk i j i`; the `(i, i)` term is the pullback of `Δ^* φ i i`, which is the
+identity by part (1) (`DescentDatum.isRestrictionOf_diagonal_id`). -/
+@[stacks 026C "(2): `(σ^*φ_ji) ∘ φ_ij = id` for a general fibred category"]
+theorem DescentDatum.gluing_comp_eq_id_of_isRestrictionOf_switch
+    (D : DescentDatum p V f Vij pr₁ pr₂ hVij Vijk s₁₂ s₂₃ hVijk q₁ q₂ q₃ hq₁ hq₂ hq₃)
+    (i j : I) {σ : Vij i j ⟶ Vij j i}
+    (hσ₁ : pr₂ i j = σ ≫ pr₁ j i) (hσ₂ : pr₁ i j = σ ≫ pr₂ j i)
+    {σφ : (D.xrji i j).pt ⟶ (D.xrij i j).pt}
+    (hσφ : FibreHom p (D.xrji i j).pt (D.xrij i j).pt (D.xrji i j).hpt (D.xrij i j).hpt σφ)
+    (hr : IsRestrictionOf p σ hσ₁ hσ₂ (D.xrij j i) (D.xrji j i) (D.xrji i j) (D.xrij i j)
+      (D.φ j i) σφ) :
+    D.φ i j ≫ σφ = 𝟙 (D.xrij i j).pt := by
+  let Δ₁₃ : Vij i j ⟶ Vijk i j i :=
+    (hVijk i j i).lift (𝟙 _) σ ((Category.id_comp _).trans hσ₁)
+  let δ : V i ⟶ Vij i i := (hVij i i).lift (𝟙 _) (𝟙 _) rfl
+  have hδ₁ : 𝟙 (V i) = δ ≫ pr₁ i i := ((hVij i i).lift_fst _ _ _).symm
+  have hδ₂ : 𝟙 (V i) = δ ≫ pr₂ i i := ((hVij i i).lift_snd _ _ _).symm
+  have h₁₂ : Δ₁₃ ≫ s₁₂ i j i = 𝟙 _ := (hVijk i j i).lift_fst _ _ _
+  have h₂₃ : Δ₁₃ ≫ s₂₃ i j i = σ := (hVijk i j i).lift_snd _ _ _
+  have h₁₃ : Δ₁₃ ≫ D.s₁₃ i j i = pr₁ i j ≫ δ := by
+    apply (hVij i i).hom_ext
+    · simp only [Category.assoc]
+      rw [D.hs₁₃₁, hq₁, reassoc_of% h₁₂, ← hδ₁, Category.comp_id]
+    · simp only [Category.assoc]
+      rw [D.hs₁₃₂, hq₃, reassoc_of% h₂₃, ← hσ₂, ← hδ₂, Category.comp_id]
+  have hd₁ : pr₁ i j = Δ₁₃ ≫ q₁ i j i := by rw [hq₁, reassoc_of% h₁₂]
+  have hd₂ : pr₂ i j = Δ₁₃ ≫ q₂ i j i := by rw [hq₂, reassoc_of% h₁₂]
+  have hd₃ : pr₁ i j = Δ₁₃ ≫ q₃ i j i := by rw [hq₃, reassoc_of% h₂₃, ← hσ₂]
+  obtain ⟨hαij, hαjk, hαik⟩ := D.α_fibreHom i j i
+  have hij : IsRestrictionOf p Δ₁₃ hd₁ hd₂ (D.wi i j i) (D.wj i j i)
+      (D.xrij i j) (D.xrji i j) (D.αij i j i) (D.φ i j) :=
+    IsRestrictionOf.of_comp h₁₂ hαij (D.φ_fibreHom i j) (D.αij_restr i j i)
+      (IsRestrictionOf.refl p (Category.id_comp _).symm (Category.id_comp _).symm
+        (D.xrij i j) (D.xrji i j) (D.φ i j))
+  have hji : IsRestrictionOf p Δ₁₃ hd₂ hd₃ (D.wj i j i) (D.wk i j i)
+      (D.xrji i j) (D.xrij i j) (D.αjk i j i) σφ :=
+    IsRestrictionOf.of_comp h₂₃ hαjk hσφ (D.αjk_restr i j i) hr
+  have hid : IsRestrictionOf p (pr₁ i j) (Category.comp_id _).symm (Category.comp_id _).symm
+      (Restriction.id p (D.x i) (D.hx i)) (Restriction.id p (D.x i) (D.hx i))
+      (D.xrij i j) (D.xrij i j) (𝟙 (D.x i)) (𝟙 (D.xrij i j).pt) :=
+    (Category.id_comp _).trans (Category.comp_id _).symm
+  have hδ : IsRestrictionOf p (pr₁ i j ≫ δ)
+      (by rw [Category.assoc, ← hδ₁, Category.comp_id])
+      (by rw [Category.assoc, ← hδ₂, Category.comp_id])
+      (D.xrij i i) (D.xrji i i) (D.xrij i j) (D.xrij i j) (D.φ i i) (𝟙 (D.xrij i j).pt) :=
+    IsRestrictionOf.trans rfl (D.isRestrictionOf_diagonal_id i hδ₁ hδ₂) hid
+  have hik : IsRestrictionOf p Δ₁₃ hd₁ hd₃ (D.wi i j i) (D.wk i j i)
+      (D.xrij i j) (D.xrij i j) (D.αik i j i) (𝟙 (D.xrij i j).pt) :=
+    IsRestrictionOf.of_comp h₁₃ hαik (FibreHom.id p (D.xrij i j).pt (D.xrij i j).hpt)
+      (D.αik_restr i j i) hδ
+  exact D.comp_eq_of_restrictionOf (D.φ_fibreHom i j) hσφ
+    (FibreHom.id p (D.xrij i j).pt (D.xrij i j).hpt) hij hji hik
+
+/-- **Stacks 026C (2).** For a descent datum `D` for any functor `p : 𝒮 ⥤ 𝒞` and the switching
+morphism `σ : Vij i j ⟶ Vij j i`, the inverse of `φ i j` is the pullback `σ^* φ j i` of `φ j i`
+along `σ`: the pullback exists and `(σ^* φ j i) ∘ φ i j = id`. -/
+@[stacks 026C "(2): the pullback of `φ_ji` along the switching morphism is `φ_ij⁻¹`"]
+theorem DescentDatum.isRestrictionOf_switch_inv
+    (D : DescentDatum p V f Vij pr₁ pr₂ hVij Vijk s₁₂ s₂₃ hVijk q₁ q₂ q₃ hq₁ hq₂ hq₃)
+    (i j : I) {σ : Vij i j ⟶ Vij j i}
+    (hσ₁ : pr₂ i j = σ ≫ pr₁ j i) (hσ₂ : pr₁ i j = σ ≫ pr₂ j i) :
+    IsRestrictionOf p σ hσ₁ hσ₂ (D.xrij j i) (D.xrji j i) (D.xrji i j) (D.xrij i j)
+      (D.φ j i) (CategoryTheory.inv (I := D.φ_iso i j) (D.φ i j)) := by
+  have := D.φ_iso i j
+  obtain ⟨σφ, hσφ, hr⟩ := IsRestrictionOf.exists_fibreHom σ hσ₁ hσ₂ (D.xrij j i) (D.xrji j i)
+    (D.xrji i j) (D.xrij i j) (D.φ j i) (D.φ_fibreHom j i)
+  rwa [IsIso.eq_inv_of_hom_inv_id
+    (D.gluing_comp_eq_id_of_isRestrictionOf_switch i j hσ₁ hσ₂ hσφ hr)] at hr
 
 end Identities
 

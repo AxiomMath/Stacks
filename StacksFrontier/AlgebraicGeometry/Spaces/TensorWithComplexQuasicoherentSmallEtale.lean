@@ -94,7 +94,7 @@ from `AlgebraicGeometry.Space.quasicoherentSheaves_isWeakSerreClass` together wi
 products are formed, and its `hqcsum` is
 `AlgebraicGeometry.Space.isClosedUnderDirectSumsQuasicoherent`; the exactness of the functor and
 its preservation of direct sums are instances of this development. -/
-@[stacks 09MA]
+@[stacks 09MA, stacks 09M9 "Lemma 09MA of the section"]
 public theorem derivedCategoryB_tensorWithComplexDerived_obj_smallEtale
     (K : CochainComplex (ModO.{u + 1, u, u, t} (smallEtaleRingedSite B S hS F hF)) ℤ)
     (hK : tensorModOQuasicoherentDerived.{u + 1, u, u, t, s}

@@ -18,8 +18,10 @@ isomorphism classes is.
 ## Main results
 
 * `AlgebraicGeometry.Stack.isoClassMap_isRepresentableByAlgebraicSpaces_iff`: a 1-morphism `f`
-  of categories fibred in setoids is representable by algebraic spaces exactly when the induced
-  map of presheaves of isomorphism classes is.
+  of categories fibred in setoids with total objects in `Type u` is representable by algebraic
+  spaces exactly when the induced map of presheaves of isomorphism classes is. This is the
+  special case of Stacks 04SY with total objects in `Type u`; the general statement is
+  `AlgebraicGeometry.Stack.isoClassMap_isRepresentableByAlgebraicSpacesULift_iff`.
 
 ## References
 
@@ -249,10 +251,12 @@ noncomputable def isoClassComparisonIso
 end IsoClassComparison
 
 
-/-- For categories fibred in setoids, representability by algebraic spaces of
-the induced map of isomorphism-class presheaves is equivalent to
-representability of the original morphism. -/
-@[stacks 04SY]
+/-- For categories fibred in setoids whose total objects lie in `Type u`, representability by
+algebraic spaces of the induced map of isomorphism-class presheaves is equivalent to
+representability of the original morphism. This is the special case of Stacks 04SY in which the
+total objects lie in the universe `u` of the schemes, so that the presheaves of isomorphism
+classes take values in `Type u`; Stacks 04SY itself, for total objects in an arbitrary universe,
+is `AlgebraicGeometry.Stack.isoClassMap_isRepresentableByAlgebraicSpacesULift_iff`. -/
 public theorem isoClassMap_isRepresentableByAlgebraicSpaces_iff
     (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     {𝒳 𝒴 : CatFiberedInSetoids.{u, v, u + 1, u}

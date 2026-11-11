@@ -32,9 +32,11 @@ a single isomorphism `Y ≅ X` by
 (`QuasiCoherent/ReconstructionGlobalSchemeIso.lean`), and the `L_i` into a single invertible
 `𝒪_Y`-module — namely `e(𝒪_X)` — by
 `AlgebraicGeometry.exists_isOpenCover_invertibleModule_restrictIso_of_isAffineOpenCover`
-(`QuasiCoherent/ReconstructionGlobalModule.lean`).  What the
-source dismisses with "We omit the details" and what remains after those two is the **comparison
-of functors**: a single natural isomorphism `e(F) ≅ g^*F ⊗ M` for the glued `g` and `M`.
+(`QuasiCoherent/ReconstructionGlobalModule.lean`).  The last piece, which the source dismisses
+with "We omit the details", is the **comparison of functors**, a single natural isomorphism
+`e(F) ≅ g^*F ⊗ M`; it is
+`AlgebraicGeometry.exists_natIso_pullbackTensorFunctor_of_quasicoherentEquivalence`
+(`QuasiCoherent/ReconstructionGlobalComparison.lean`), which is [Stacks, Tag 0GPJ] in full.
 
 ## Main results
 
@@ -147,25 +149,6 @@ The chart `V i` is the complement of the support of `e.functor.obj (G i)`, as in
 `AlgebraicGeometry.exists_isAffineOpen_schemeIso_invertibleSheaf_of_isFinitePresentation`; what
 is new here is that these opens cover `Y`, which is
 `AlgebraicGeometry.isOpenCover_of_supportedCorrespondence`. -/
-@[stacks 0GPJ "the GLOBAL form — `X` and `Y` quasi-compact and quasi-separated, no affineness \
-and no restriction to a single open `U`.  Steps 3 to 8 together with the covering assertion of \
-step 9, which is PROVED here and no longer hypothesised: \
-`AlgebraicGeometry.isOpenCover_of_supportedCorrespondence` shows the opens `V_U` cover `Y`, and \
-`AlgebraicGeometry.exists_gluedQuasicoherentFunctor_restrictIso` runs the functor-level gluing \
-with that hypothesis discharged.  The module `G` of step 2 is a hypothesis here, one per member \
-of the cover; it need not be, and \
-`AlgebraicGeometry.exists_isOpenCover_schemeIso_invertibleSheaf_of_isAffineOpenCover` below is \
-this statement with `G` and `hG` deleted, the module produced instead as `𝒪_X/I` for the Tag \
-01PH ideal.  The per-chart data IS glued downstream: the `f_U` into one isomorphism `Y ≅ X` by \
-`exists_schemeIso_of_quasicoherentEquivalence` (`ReconstructionGlobalSchemeIso.lean`) and the \
-`L_U` into one invertible `𝒪_Y`-module by \
-`exists_isOpenCover_invertibleModule_restrictIso_of_isAffineOpenCover` \
-(`ReconstructionGlobalModule.lean`).  The single natural isomorphism `e(F) ≅ g^*F ⊗ M` \
-comparing `e` with that glued pair — the stated conclusion of 0GPJ, which the source dismisses \
-with \"We omit the details\" — is \
-`exists_natIso_pullbackTensorFunctor_of_quasicoherentEquivalence` \
-(`ReconstructionGlobalComparison.lean`).  As in the affine case the comparison of functors is \
-stated after forgetting quasi-coherence, between functors into all `𝒪_V`-modules"]
 theorem exists_isOpenCover_schemeIso_invertibleSheaf_of_isFinitePresentation {ι : Type u}
     (U : ι → X.Opens) (hUaff : ∀ i, IsAffineOpen (U i)) (hUcover : IsOpenCover U)
     (G : ι → (SheafOfModules.isQuasicoherent X.ringCatSheaf).FullSubcategory)
@@ -246,22 +229,6 @@ of `X` is given.
 The module family is kept opaque, by `choose` against the single-index statement above, for the
 reason recorded in the implementation notes: handing over an explicit composite instead makes
 the conclusion unfold definitionally once per index and per conjunct. -/
-@[stacks 0GPJ "the GLOBAL form with step 2 DISCHARGED — `X` and `Y` quasi-compact and \
-quasi-separated, an affine open cover `U i` of `X`, and no module hypothesised.  The `G i` is \
-`𝒪_X/I i` for the finite type ideal sheaf `I i` of Tag 01PH, finitely presented by \
-`Stacks.AlgebraicGeometry.IdealSheafQuotient.isFinitePresentation_structureQuotient` and with \
-support `V(I i)` by \
-`Stacks.AlgebraicGeometry.IdealSheafQuotient.supp_structureQuotient`.  Steps 2 to 8 and the \
-covering assertion of step 9 are therefore all proved.  The per-chart data IS glued downstream: \
-the `f_i` into one isomorphism `Y ≅ X` by `exists_schemeIso_of_quasicoherentEquivalence` \
-(`ReconstructionGlobalSchemeIso.lean`) and the `L_i` into one invertible `𝒪_Y`-module by \
-`exists_isOpenCover_invertibleModule_restrictIso_of_isAffineOpenCover` \
-(`ReconstructionGlobalModule.lean`).  The single natural isomorphism `e(F) ≅ g^*F ⊗ M` \
-comparing `e` with that glued pair — the stated conclusion of 0GPJ, which the Stacks source \
-dismisses with \"We omit the details\" — is \
-`exists_natIso_pullbackTensorFunctor_of_quasicoherentEquivalence` \
-(`ReconstructionGlobalComparison.lean`).  As in the affine case the comparison of functors is \
-stated after forgetting quasi-coherence, between functors into all `𝒪_V`-modules"]
 theorem exists_isOpenCover_schemeIso_invertibleSheaf_of_isAffineOpenCover {ι : Type u}
     (U : ι → X.Opens) (hUaff : ∀ i, IsAffineOpen (U i)) (hUcover : IsOpenCover U) :
     ∃ V : ι → Y.Opens, IsOpenCover V ∧

@@ -44,8 +44,11 @@ clause** of the colimit assertion.
 
 The colimit assertion has three halves: essential surjectivity (every finitely presented
 `𝒪_X`-module is an inverse image from a stage), fullness (a morphism between inverse images
-comes from a later stage) and faithfulness. Only faithfulness is proved here, and the tag's
-clause says so.
+comes from a later stage) and faithfulness. Only faithfulness is proved here, over the carried
+affine case below; this declaration carries no `stacks` attribute. The complete statement of
+Stacks 07V7, all three clauses with nothing carried, is
+`AlgebraicGeometry.Space.finitePresentationModule_isColimit_of_isLimit` in
+`StacksFrontier/AlgebraicGeometry/Spaces/Limits/FinitePresentationModuleColimitTheorem.lean`.
 
 That the system of categories and comparison functors exists at all — that the inverse image
 along a morphism of algebraic spaces carries finitely presented modules to finitely presented
@@ -53,7 +56,7 @@ modules — is not restated here: it is the library's Stacks 03DO for Stacks 03D
 `AlgebraicGeometry.Space.isFinitePresentationOnSite_modulePullback`, and it is what supplies
 the finite presentation hypotheses of the carried affine case below.
 
-The other two halves are out of reach in this tree, and for a reason that is worth recording.
+The other two halves are not reached by the route of this file, for a reason worth recording.
 The source proves Stacks 07V7 by choosing an étale presentation `X = U/R` with `U = lim U_i`
 affine and `R = lim R_i`, applying the scheme-level colimit statement Stacks 01ZR on `U`, `R`
 and `R ×_{s, U, t} R`, and transporting the result along the equivalence
@@ -372,23 +375,6 @@ the chart `U₀ ×_{X_i} X` of the limit, so the carried affine case applies to 
 of the two morphisms to that chart and produces a later stage at which they agree over the
 corresponding chart. The chart of that stage is again surjective and étale, so the inverse image
 along it is faithful and the two morphisms agree over the stage itself. -/
-@[stacks 07V7 "the faithfulness clause of the colimit assertion: two morphisms of finitely \
-presented modules on a stage whose inverse images to the limit agree already agree at a later \
-stage. Granted `haffine`, the same clause for an inverse system of affine schemes of the site, \
-which is Stacks 01ZR(3) read on their small étale ringed sites — this tree proves Stacks \
-01ZR(3) only for Mathlib's `Scheme.Modules` on the Zariski site of opens, and the comparison \
-with the small étale modules of the algebraic space a scheme represents is a functor with no \
-inverse: the notes of `StacksFrontier/AlgebraicGeometry/Spaces/RepresentedZariskiRestriction.lean` \
-record that neither composite is identified with an identity, that being Stacks 03DX(2), which \
-is proved only over the essential surjectivity \
-`AlgebraicGeometry.SmallEtale.QuasicoherentIsEssImageAssociatedModule` that \
-`StacksFrontier/AlgebraicGeometry/Descent/AssociatedModule/SmallEtaleEssentialImage.lean` does \
-not have; the carried \
-statement is about systems of affine schemes and the conclusion about systems of quasi-compact \
-algebraic spaces, so it is not the universally quantified form of this conclusion. The \
-essential surjectivity and fullness clauses of Stacks 07V7 are not covered: both need the \
-equivalence `QCoh(𝒪_X) = QCoh(U, R, s, t, c)` of Stacks 03M3, of which this tree has only the \
-functor in one direction"]
 theorem eventually_eq_of_modulePullback_limitProjection_eq
     (haffine : EventualModuleMapEqOverAffineSystem B S hS) (i : I)
     (hQc : IsQuasiCompactSpace B S hS (D.obj i))

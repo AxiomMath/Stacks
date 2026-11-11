@@ -26,8 +26,9 @@ and Mathlib's dense-subsite machinery
 ## What this generalises, and why it had to be restated
 
 `Stacks.full_and_faithful_pushforward_subsetInclusion`
-(`StacksFrontier/Topology/Sheaves/ClosedImmersion/PushforwardAlgStruct.lean`, Stacks Tag 00AH
-part 1) is the same statement for the *specific* morphism `Stacks.subsetInclusion X Z :
+(`StacksFrontier/Topology/Sheaves/ClosedImmersion/PushforwardAlgStruct.lean`, a special case of
+Stacks Tag 00AH part 1, which is `Stacks.full_and_faithful_sheafPushforward_subsetInclusion`
+there) is the same statement for the *specific* morphism `Stacks.subsetInclusion X Z :
 TopCat.of Z ⟶ X` attached to a subset `Z ⊆ X`. That theorem is already stated for an
 **arbitrary** subset — its file is named `ClosedImmersion/` but its own docstring records that
 closedness is used only for the essential-image half — so nothing about closed sets was ever in

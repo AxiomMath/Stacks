@@ -45,8 +45,10 @@ the isomorphism of a normal modification of a local ring over its punctured spec
 [Stacks, Tag 0AB7], is `AlgebraicGeometry.normalModificationIsIsoAwayFromClosedPoint`; and Step 4
 of the source's proof of [Stacks, Tag 0BG0] is
 `AlgebraicGeometry.isNormal_and_isModification_of_isPullback_fromSpecStalk`, which asks, as the
-source does, that the local modification be a modification and not only normal (the carried form
-`SpreadOutIsNormalModificationOverSpec` is false as stated).
+source does, that the local base change `Y ⟶ Spec 𝒪_{X, x}` be a modification and not merely a
+normal scheme over `Spec 𝒪_{X, x}`. The fifth hypothesis of the five-hypothesis version,
+`SpreadOutIsNormalModificationOverSpec`, drops that requirement and is false as stated, which is
+why that version carries no registration of the tag.
 
 [Stacks, Tag 0B4P] is registered here, on
 `AlgebraicGeometry.exists_normalizedBlowUpSeq_definesRationalSingularity_stalk_unconditional`,
@@ -95,7 +97,7 @@ reduction to rational singularities is possible, there is a finite sequence of n
 at closed points `X = Xₙ ⟶ ⋯ ⟶ X₁ ⟶ X₀ = Spec A` with `X` normal, the structure morphism a
 projective modification, and the local ring of `X` at every closed point defining a rational
 singularity. -/
-@[stacks 0B4P]
+@[stacks 0B4P "Complete, under exactly the source's hypotheses, with every clause of the source."]
 theorem exists_normalizedBlowUpSeq_definesRationalSingularity_stalk_unconditional
     (A : Type u) [CommRing A] [IsLocalRing A] [IsNormalDomain A]
     (hNagata : IsNagataRing A) (hdim : ringKrullDim A = 2)

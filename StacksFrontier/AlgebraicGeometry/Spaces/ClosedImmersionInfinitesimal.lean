@@ -18,16 +18,23 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.SurjectiveOnPoints
 public import StacksFrontier.AlgebraicGeometry.Spaces.UnramifiedMonomorphism
 
 /-!
-# Closed immersions of algebraic spaces checked after an infinitesimal base change
+# Closed immersions of algebraic spaces checked after an infinitesimal base change, through 07VT
 
 Let `f : X → Y` and `i : Y' → Y` be morphisms of algebraic spaces over a scheme `S`, with `i` a
 closed immersion inducing a bijection on points. If the base change `X ×_Y Y' → Y'` is a closed
 immersion and either `f` is of finite type or `i` is of finite presentation, then `f` is a closed
 immersion.
 
+This file derives that statement from three further hypotheses, those of the integral-bijection
+form of Stacks 07VV. Stacks 08B2 itself, with exactly the source's hypotheses, is
+`AlgebraicGeometry.Space.isClosedImmersion_of_isClosedImmersion_pullback_snd_of_bijective`
+(`StacksFrontier.AlgebraicGeometry.Spaces.ClosedImmersionInfinitesimalBaseChange`), which replaces
+the integral-bijection step by the closed-immersion case of Stacks 07VV and needs none of them.
+
 ## Main results
 
-* `AlgebraicGeometry.Space.isClosedImmersion_of_infinitesimal_baseChange`: **Stacks 08B2**.
+* `AlgebraicGeometry.Space.isClosedImmersion_of_infinitesimal_baseChange`: the statement of
+  Stacks 08B2 from the three hypotheses of Stacks 07VT.
 
 ## Implementation notes
 
@@ -39,10 +46,13 @@ Representability of `f` reduces the tag to its scheme form, Stacks 0896.
 A closed immersion surjective on points is integral by Stacks 081Y and injective on points,
 being a monomorphism, so it is an integral bijection and the implication from the source of
 Stacks 07VV turns a scheme source into a scheme target. The three hypotheses `h09YA`, `h07SQ`
-and `hFinitePresentation` of that implication are exactly those of Stacks 07VT, on which
-Stacks 07VU and Stacks 07VV are conditional in this library, and they are carried unchanged.
-None is the universally quantified form of this conclusion, which is about closed immersions:
-the first two conclude about inverse systems and the third about affineness of a target.
+and `hFinitePresentation` of that implication are exactly those of the conditional form
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed` of Stacks 07VT
+(Stacks 07VT itself is proved outright as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`), and
+they are carried unchanged. None is the universally quantified form of this conclusion, which is
+about closed immersions: the first two conclude about inverse systems and the third about affineness
+of a target.
 
 Over an object of the site, finite type of `f` and finite presentation of `i` are read on the
 represented base changes through Stacks 03MJ and Stacks 03HD; the quasi-compact and
@@ -174,13 +184,13 @@ private theorem isRepresentable_pullback_of_baseChange
 
 /-! ### Stacks 08B2 -/
 
-/-- **Stacks 08B2.** Let `f : X ⟶ Y` and `i : Y' ⟶ Y` be morphisms of algebraic spaces over `S`.
-If `i` is a closed immersion, bijective on points, if the base change of `f` along `i` is a
-closed immersion, and if either `f` is of finite type or `i` is of finite presentation, then `f`
-is a closed immersion. -/
-@[stacks 08B2 "granted the three hypotheses of Stacks 07VT, carried unchanged from Stacks 07VV: \
-`h09YA`, `h07SQ` and `hFinitePresentation`. None is the universally quantified form of this \
-conclusion, which is about closed immersions"]
+/-- Let `f : X ⟶ Y` and `i : Y' ⟶ Y` be morphisms of algebraic spaces over `S`. If `i` is a
+closed immersion, bijective on points, if the base change of `f` along `i` is a closed immersion,
+and if either `f` is of finite type or `i` is of finite presentation, then `f` is a closed
+immersion, given the three hypotheses `h09YA`, `h07SQ` and `hFinitePresentation` of Stacks 07VT.
+
+Stacks 08B2 needs none of them: see
+`AlgebraicGeometry.Space.isClosedImmersion_of_isClosedImmersion_pullback_snd_of_bijective`. -/
 theorem isClosedImmersion_of_infinitesimal_baseChange
     {X Y Y' : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X) (hY : IsAlgebraicSpace B S hS Y)

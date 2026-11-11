@@ -59,8 +59,8 @@ faithful flatness and needs nothing about `A`.
 ## Implementation notes
 
 No `@[stacks]` attribute is claimed: nothing here is an assertion of the source.  Tag 022B is the
-quasi-compactness condition on a covering family and Tag 01IL the punctured plane; both are
-registered where they are proved.
+definition of an fpqc covering and Tag 01IL the punctured plane; both are registered where they
+are proved.
 
 The quasi-separatedness hypothesis on the target is what makes quasi-compactness of the morphism
 free, through `AlgebraicGeometry.quasiCompact_of_compactSpace`, whose hypotheses are a compact

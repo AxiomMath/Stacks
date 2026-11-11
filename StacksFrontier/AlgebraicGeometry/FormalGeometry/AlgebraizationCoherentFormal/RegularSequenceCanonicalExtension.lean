@@ -403,7 +403,9 @@ The proof is the source's: the decomposition
 of `F_1` indexed by the monomials in the `fᵢ`, fed to
 `Stacks.Algebraization.canonicallyExtends_of_idealPowerDesc`, which verifies conditions (a), (b),
 (c) of Stacks 0EHH. -/
-@[stacks 0EJS "the system extends canonically to X"]
+@[stacks 0EJS "first sentence: if f₁, …, f_d ∈ I generate I𝒪_{X,y} and form an F_y^∧-regular \
+sequence for every y ∈ U ∩ Y, and H⁰(U, F_1), H¹(U, F_1) are finite A-modules, then (F_n) \
+extends canonically to X"]
 theorem canonicallyExtends_of_regularSequence (hreg : HasRegularSequenceOnCompletedStalks S F)
     (h2 : HasFiniteLowDegreeCohomology S F) : CanonicallyExtends S F := by
   obtain ⟨d, f, hf, hreg⟩ := hreg
@@ -413,8 +415,8 @@ theorem canonicallyExtends_of_regularSequence (hreg : HasRegularSequenceOnComple
 /-- **Stacks Project, Tag 0EJS, the second sentence.** Under the hypotheses of Stacks 0EJS, if
 `A` is moreover `I`-adically complete, then `(F_n)` is the completion of a coherent
 `𝒪_U`-module. -/
-@[stacks 0EJS "in particular, if A is complete, the system is the completion of a coherent \
-𝒪_U-module"]
+@[stacks 0EJS "second sentence: under assumptions (1) and (2), if A is moreover I-adically \
+complete, then (F_n) is the completion of a coherent 𝒪_U-module"]
 theorem essImage_completionFunctor_of_regularSequence [IsAdicComplete S.I S.A]
     (hreg : HasRegularSequenceOnCompletedStalks S F) (h2 : HasFiniteLowDegreeCohomology S F) :
     (completionFunctor S.U.toScheme (idealOnOpen S)).essImage F := by

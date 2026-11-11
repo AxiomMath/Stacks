@@ -68,7 +68,9 @@ Alongside it, Definition 4 also introduces the pushout `B ⨿_A B` of the span
 This `u` does not satisfy the general fibre-product condition (2') of 00YD: for
 `V = V' = U`, `W = X` and both arrows `f`, the induced diagonal `u(U) → u(U) × u(U)` is
 not surjective. That condition is therefore not asserted; the content formalized here is
-exactly Statements 1–3.
+exactly Statements 1–3. The assertion of 00YD itself, that conditions (1)–(3) do not make `u` a
+point, is proved with a corrected example in
+`StacksFrontier/CategoryTheory/Sites/Point/WeakPullbacksNotPoint.lean`.
 -/
 
 @[expose] public section
@@ -529,8 +531,12 @@ theorem stalkFunctor_not_preservesMono :
 /-! ## Statement 3: consequence — `u` is not a point. -/
 
 /-- **Statement 3.** Because the stalk functor `ℱ ↦ ℱ_p` fails to preserve
-monomorphisms (Statement 2), it fails to be left exact. -/
-@[stacks 00YD]
+monomorphisms (Statement 2), it fails to be left exact, so `u` is not a point of `𝒞`.
+
+This is the computation in the example of Stacks Remark 00YD, not the remark's assertion:
+this `u` does not satisfy condition (2) of the remark (see the module docstring). The
+remark's assertion, with a corrected example, is
+`CategoryTheory.WeakPullbacksNotPoint.exists_site_weakly_left_exact_not_point`. -/
 theorem u_not_point : ¬ PreservesFiniteLimits stalkFunctor := by
   intro h
   exact stalkFunctor_not_preservesMono

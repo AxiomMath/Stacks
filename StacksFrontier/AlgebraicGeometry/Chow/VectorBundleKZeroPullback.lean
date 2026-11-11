@@ -205,9 +205,10 @@ theorem secondAdamsRingHom_comp_pullbackRingHom (f : Y ⟶ X) :
 `ψ²_X([ℰ]) = [Sym² ℰ] - [⋀² ℰ]` on finite locally free modules, `ψ²_X([ℒ]) = [ℒ ⊗ ℒ]` on
 invertible modules, and compatible with pullbacks: for every morphism `f : Y ⟶ X`,
 `ψ²_Y ∘ f^* = f^* ∘ ψ²_X`, where `f^*` is the pullback ring map `pullbackRingHom f`. -/
-@[stacks 0FEJ "the family of ring maps `ψ²_X`, its value on finite locally free and on \
-  invertible modules, and its compatibility with pullback `ψ²_Y ∘ f^* = f^* ∘ ψ²_X` for the \
-  pullback ring map `f^*` of `K₀(Vect(-))` constructed here; no hypothesis"]
+@[stacks 0FEJ "for every scheme `X` a ring map `ψ²_X : K₀(Vect(X)) → K₀(Vect(X))` with \
+  `ψ²_X([ℒ]) = [ℒ ⊗ ℒ]` for invertible `ℒ` and `ψ²_X([ℰ]) = [Sym² ℰ] - [⋀² ℰ]` for finite \
+  locally free `ℰ`, compatible with pullbacks: `ψ²_Y ∘ f^* = f^* ∘ ψ²_X` for every morphism \
+  `f : Y ⟶ X`, with `f^*` the ring map `pullbackRingHom f`"]
 theorem exists_secondAdamsOperator_pullbackRingHom :
     ∃ ψ : ∀ X : Scheme.{u}, VectorBundleKZero X →+* VectorBundleKZero X,
       (∀ (X : Scheme.{u}) (E : X.Modules),

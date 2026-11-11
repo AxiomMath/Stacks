@@ -165,7 +165,7 @@ over `F`; so are the `u_v`, which equal `q_v⁻¹ ∈ F`.
 `C(Λ)` is `Stacks.Adeles.cuspFormsCentralChar` and an eigenform is `Stacks.Adeles.IsEigenform`
 (an unramified cusp form with a unit value, Tag 03VS). The proof uses Proposition 03VW,
 `Stacks.Adeles.GlobalFunctionField.cuspFormsCentralChar_fg_and_baseChange`. -/
-@[stacks 03VX]
+@[stacks 03VX "the eigenvalues of an eigenform in the space of cusp forms with central character, over a field in which p is invertible, are algebraic over the prime field"]
 public theorem isAlgebraic_eigenvalues_of_isEigenform (hp : IsUnit (ringChar k : Λ))
     {f : GL (Fin 2) (AdeleRing K) → Λ} {t u : Place K → Λ} (hf : IsEigenform f t u)
     (hfC : f ∈ cuspFormsCentralChar K Λ) (v : Place K) :

@@ -69,8 +69,8 @@ below is phrased with `...SmallSite.wholeSpaceLevelExponent` for that reason.
 ## What is and is not proved
 
 **No tag attribute is placed in this module.**  [Stacks, Tag 07LG] is
-`...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-`SmallSite/CrystalDeRhamComputesCohomology.lean`.  Nothing below proves the crystal property:
+`...SmallSite.crystalPairDeRhamDerivedPlusIso` of
+`SmallSite/CrystalDeRhamDerived07LG.lean`.  Nothing below proves the crystal property:
 `isCrystalLevelQuotient_wholeSpaceSystem_of_ker_le` carries the inclusion
 `ker ⊆ p^{N + e} M(n)_{e + 1}` as a hypothesis, which is the whole of the source's footnote.  The
 reverse inclusion is proved, by `levelMap_nsmul_pow_p_eq_zero`.

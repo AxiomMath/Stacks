@@ -48,6 +48,14 @@ with nothing assumed.
 * `…CohomologyVanishingSituation.isIso_toSpecA`: in Situation 07UY the morphism
   `p : X ⟶ Spec(A)` is an isomorphism.
 
+The two assertions above are the registrations of Stacks 07UZ.  The general-site pieces of the
+source's route (`Stacks.Cohomology.SiteModules.sectionTensorSheafAdjunction`,
+`Stacks.Cohomology.SiteModules.sectionTensorFreeIso`,
+`Stacks.Cohomology.SiteModules.isIso_sectionTensorSheafUnit_free`, which assumes that global
+sections commute with a direct sum, and
+`Stacks.Cohomology.SiteModules.isQuasicoherentOnSite_sectionTensor`) are not registered: they are
+steps, not the statement.
+
 ## Implementation notes
 
 *The route.*  The source proves `Γ(X, M ⊗_A 𝒪_X) = M` from right exactness of global sections

@@ -7,12 +7,23 @@ public import StacksFrontier.Algebra.Category.ModuleCat.Sheaf.GoodDifferentialGr
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
-# Two out of three for goodness along an admissible short exact sequence
+# Two out of three for the auxiliary site-indexed goodness predicates
 
 Let `(C, O)` be a ringed site, let `A` be a sheaf of differential graded algebras on it and let
 `0 → K → L → M → 0` be an admissible short exact sequence of right differential graded
 `A`-modules, that is, one which splits after the differentials are forgotten. If two out of the
-three modules are good, so is the third.
+three modules are good in the sense of the auxiliary predicate
+`SheafOfModules.DifferentialGradedModule.IsGood` (or of its variant
+`IsGoodCocontinuousBaseChange`), so is the third.
+
+**This is not Tag 0FSC.** The goodness of Tag 0FSA is `SheafOfModules.IsGoodToposBaseChange`,
+whose condition (3) runs over morphisms of ringed topoi; `IsGood` quantifies bare functors of the
+two underlying sites instead, and the two predicates are incomparable (see the docstring of
+`SheafOfModules.IsGoodToposBaseChange`). Tag 0FSC itself, at the goodness of Tag 0FSA, is
+`SheafOfModules.DifferentialGradedModule.IsAdmissibleShortExact.isGoodToposBaseChange_left`,
+`isGoodToposBaseChange_middle` and `isGoodToposBaseChange_right` of
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GoodDifferentialGradedAdmissibleTopos.lean`, and
+the statements here are auxiliary, used by the consumers stated against `IsGood`.
 
 Goodness has three conditions: flatness of the underlying right graded module, K-flatness, and
 both of those after an arbitrary base change. Two out of three for the first two conditions is
@@ -28,7 +39,7 @@ statement.
   an admissible short exact sequence along a morphism of ringed sites is an admissible short
   exact sequence.**
 * `SheafOfModules.DifferentialGradedModule.IsAdmissibleShortExact.isGood_left`, `isGood_middle`
-  and `isGood_right`: **two out of three for goodness**, with goodness in the sense of
+  and `isGood_right`: two out of three for the auxiliary predicate
   `SheafOfModules.DifferentialGradedModule.IsGood`.
 * `isGoodCocontinuousBaseChange_left`, `_middle` and `_right`: the same with goodness in the
   sense of `SheafOfModules.DifferentialGradedModule.IsGoodCocontinuousBaseChange`.
@@ -53,42 +64,14 @@ results below are about `IsGood` with its own condition (3), not about the varia
 `IsGoodCocontinuousBaseChange`, which the direct-sum and filtered-colimit lemmas have to use;
 the versions for that predicate are derived from the same splitting.
 
-**Why these are not stated at the definition of Tag 0FSA.** That definition is
-`SheafOfModules.IsGoodToposBaseChange` of
-`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/FreeDifferentialGradedModuleToposPullback.lean`,
-whose condition (3) runs over morphisms of ringed topoi. Transporting the splitting is what
-blocks the restatement, in the following precise way. At the topos reading a base change of an
-object is an object corepresenting `Q ↦ Hom_A(P, f_{*,ψ}Q)`, and Mathlib's
-`CategoryTheory.Functor.partialLeftAdjoint` makes that assignment functorial on *morphisms of
-differential graded modules*, so the two maps of the short exact sequence do transport. The
-retraction `r` and the section `s` of a `GradedSplitting` are not such morphisms — they are
-homomorphisms of the underlying *graded* modules — and the three identities they satisfy are
-the whole content of `GradedSplitting.pullback` above. Along a morphism of ringed sites they
-transport by `PullbackData.gradedMap`, which reads a graded homomorphism as a morphism of
-differential graded modules into a cofree object, `SheafOfModules.Cofree.cofree`, and then
-applies the degree-zero universal property of the `PullbackData`. The same route at a morphism
-of ringed topoi needs the direct image of *graded* modules along it and an identification of
-`f_{*,ψ}(Cofree.cofree N)` with the cofree object on that direct image. **Both now exist**:
-`SheafOfModules.DifferentialGradedModule.toposGradedPushMap` and
-`SheafOfModules.DifferentialGradedModule.toposCofreeIsoGraded` of
-`DifferentialGradedToposDirectImageCofree.lean`, and the transport itself is
-`SheafOfModules.DifferentialGradedModule.toposGradedEquiv` of
-`ConeDifferentialGradedModuleToposPullback.lean`, with the unit formula
-`toposGradedEquiv_eq`. So the splitting does transport.
-
-What still blocks two out of three at the definition of Tag 0FSA is the other half, and it is
-the **existential** in condition (3) of `SheafOfModules.IsGoodToposBaseChange`. A
-`PullbackData` hands over the pullback of *every* module at once, so at the site reading the
-pullback of the third term is free and the three statements below are symmetric. At the topos
-reading a base change has to be *constructed*, and for the term that is not assumed good there
-is nothing to construct it from: the middle term of an admissible short exact sequence is the
-twisted direct sum of the two outer ones, that is `cone δ` for a connecting
-`δ : M[-1] ⟶ K`, and `SheafOfModules.DifferentialGradedModule.cone_isGoodToposBaseChange`
-applies to it only once `M[-1]` is known to be good. That needs a shift *down* of a right
-differential graded module at this general base — `SheafOfModules.DifferentialGradedModule.shift`
-is degree-one only and `translate` exists only over a `RingedSite` in one universe — together
-with the base change of a shift being the shift of the base change. Until those exist the
-statements below stay at the two site-indexed variants.
+**Where Tag 0FSC is.** At the definition of Tag 0FSA, `SheafOfModules.IsGoodToposBaseChange`,
+the splitting transports by `SheafOfModules.DifferentialGradedModule.toposGradedEquiv` of
+`ConeDifferentialGradedModuleToposPullback.lean`, and the existence of a base change of the term
+not assumed good — the existential in condition (3), which a `PullbackData` hands over for free —
+is produced from the other two: as a cokernel, as a cone of the connecting morphism, or as the
+third term of `0 → C(1_M) → C(g) → K[1] → 0`. That is
+`StacksFrontier/Algebra/Category/ModuleCat/Sheaf/GoodDifferentialGradedAdmissibleTopos.lean`, which
+carries the tag.
 
 ## References
 
@@ -194,9 +177,10 @@ private theorem isGradedFlat_and_isKFlat_middle (h : IsAdmissibleShortExact f g)
       RelativeTensor.IsKFlat L :=
   ⟨h.isGradedFlat_middle hK.1 hM.1, h.isKFlat_middle hK.2 hM.2⟩
 
-/-- **Two out of three for goodness**: if the middle and the third term of an admissible short
-exact sequence of right differential graded modules are good, so is the first one. -/
-@[stacks 0FSC "two out of three for goodness: the first term, from the middle and the third"]
+/-- Two out of three for the auxiliary predicate `IsGood`: if the middle and the third term of an
+admissible short exact sequence of right differential graded modules are good in the sense of
+`IsGood`, so is the first one. This is not Tag 0FSC, whose goodness is that of Tag 0FSA; see
+`IsAdmissibleShortExact.isGoodToposBaseChange_left`. -/
 theorem isGood_left (h : IsAdmissibleShortExact f g)
     (hL : IsGood.{t, m, v, u, m₁, v₁, u₁} L) (hM : IsGood.{t, m, v, u, m₁, v₁, u₁} M) :
     IsGood.{t, m, v, u, m₁, v₁, u₁} K := by
@@ -206,9 +190,10 @@ theorem isGood_left (h : IsAdmissibleShortExact f g)
   exact isGradedFlat_and_isKFlat_left (h.pullback PD) (hL.baseChange u σ A₁ φ PD)
     (hM.baseChange u σ A₁ φ PD)
 
-/-- **Two out of three for goodness**: if the first and the middle term of an admissible short
-exact sequence of right differential graded modules are good, so is the third one. -/
-@[stacks 0FSC "two out of three for goodness: the third term, from the first and the middle"]
+/-- Two out of three for the auxiliary predicate `IsGood`: if the first and the middle term of an
+admissible short exact sequence of right differential graded modules are good in the sense of
+`IsGood`, so is the third one. This is not Tag 0FSC, whose goodness is that of Tag 0FSA; see
+`IsAdmissibleShortExact.isGoodToposBaseChange_right`. -/
 theorem isGood_right (h : IsAdmissibleShortExact f g)
     (hK : IsGood.{t, m, v, u, m₁, v₁, u₁} K) (hL : IsGood.{t, m, v, u, m₁, v₁, u₁} L) :
     IsGood.{t, m, v, u, m₁, v₁, u₁} M := by
@@ -218,9 +203,10 @@ theorem isGood_right (h : IsAdmissibleShortExact f g)
   exact isGradedFlat_and_isKFlat_right (h.pullback PD) (hK.baseChange u σ A₁ φ PD)
     (hL.baseChange u σ A₁ φ PD)
 
-/-- **Two out of three for goodness**: if the two outer terms of an admissible short exact
-sequence of right differential graded modules are good, so is the middle one. -/
-@[stacks 0FSC "two out of three for goodness: the middle term, from the two outer ones"]
+/-- Two out of three for the auxiliary predicate `IsGood`: if the two outer terms of an
+admissible short exact sequence of right differential graded modules are good in the sense of
+`IsGood`, so is the middle one. This is not Tag 0FSC, whose goodness is that of Tag 0FSA; see
+`IsAdmissibleShortExact.isGoodToposBaseChange_middle`. -/
 theorem isGood_middle (h : IsAdmissibleShortExact f g)
     (hK : IsGood.{t, m, v, u, m₁, v₁, u₁} K) (hM : IsGood.{t, m, v, u, m₁, v₁, u₁} M) :
     IsGood.{t, m, v, u, m₁, v₁, u₁} L := by
@@ -230,12 +216,9 @@ theorem isGood_middle (h : IsAdmissibleShortExact f g)
   exact isGradedFlat_and_isKFlat_middle (h.pullback PD) (hK.baseChange u σ A₁ φ PD)
     (hM.baseChange u σ A₁ φ PD)
 
-/-- **Two out of three for goodness**, goodness taken in the sense of
-`IsGoodCocontinuousBaseChange`: if the middle and the third term of an admissible short exact
+/-- Two out of three for the auxiliary predicate `IsGoodCocontinuousBaseChange` (not Tag 0FSC,
+whose goodness is that of Tag 0FSA): if the middle and the third term of an admissible short exact
 sequence are good, so is the first one. -/
-@[stacks 0FSC "two out of three for goodness in the sense of IsGoodCocontinuousBaseChange — \
-condition (3) quantified over the base changes whose pullback preserves colimits — the first \
-term, from the middle and the third"]
 theorem isGoodCocontinuousBaseChange_left (h : IsAdmissibleShortExact f g)
     (hL : IsGoodCocontinuousBaseChange.{t, m, v, u, m₁, v₁, u₁} L)
     (hM : IsGoodCocontinuousBaseChange.{t, m, v, u, m₁, v₁, u₁} M) :
@@ -246,12 +229,9 @@ theorem isGoodCocontinuousBaseChange_left (h : IsAdmissibleShortExact f g)
   exact isGradedFlat_and_isKFlat_left (h.pullback PD) (hL.baseChange u σ A₁ φ PD hPD)
     (hM.baseChange u σ A₁ φ PD hPD)
 
-/-- **Two out of three for goodness**, goodness taken in the sense of
-`IsGoodCocontinuousBaseChange`: if the first and the middle term of an admissible short exact
+/-- Two out of three for the auxiliary predicate `IsGoodCocontinuousBaseChange` (not Tag 0FSC,
+whose goodness is that of Tag 0FSA): if the first and the middle term of an admissible short exact
 sequence are good, so is the third one. -/
-@[stacks 0FSC "two out of three for goodness in the sense of IsGoodCocontinuousBaseChange — \
-condition (3) quantified over the base changes whose pullback preserves colimits — the third \
-term, from the first and the middle"]
 theorem isGoodCocontinuousBaseChange_right (h : IsAdmissibleShortExact f g)
     (hK : IsGoodCocontinuousBaseChange.{t, m, v, u, m₁, v₁, u₁} K)
     (hL : IsGoodCocontinuousBaseChange.{t, m, v, u, m₁, v₁, u₁} L) :
@@ -262,12 +242,10 @@ theorem isGoodCocontinuousBaseChange_right (h : IsAdmissibleShortExact f g)
   exact isGradedFlat_and_isKFlat_right (h.pullback PD) (hK.baseChange u σ A₁ φ PD hPD)
     (hL.baseChange u σ A₁ φ PD hPD)
 
-/-- **Two out of three for goodness**, goodness taken in the sense of
-`IsGoodCocontinuousBaseChange`: if the two outer terms of an admissible short exact sequence are
+/-- Two out of three for the auxiliary predicate `IsGoodCocontinuousBaseChange` (not Tag 0FSC,
+whose goodness is that of Tag 0FSA): if the two outer terms of an admissible short exact sequence
+are
 good, so is the middle one. -/
-@[stacks 0FSC "two out of three for goodness in the sense of IsGoodCocontinuousBaseChange — \
-condition (3) quantified over the base changes whose pullback preserves colimits — the middle \
-term, from the two outer ones"]
 theorem isGoodCocontinuousBaseChange_middle (h : IsAdmissibleShortExact f g)
     (hK : IsGoodCocontinuousBaseChange.{t, m, v, u, m₁, v₁, u₁} K)
     (hM : IsGoodCocontinuousBaseChange.{t, m, v, u, m₁, v₁, u₁} M) :

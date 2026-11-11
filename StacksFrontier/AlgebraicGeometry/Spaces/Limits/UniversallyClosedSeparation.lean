@@ -994,7 +994,7 @@ filtered colimits commute with equalizers. What is then still owed of Tag 07SQ f
 is that the square of Tag 084U is cartesian —
 `AlgebraicGeometry.Space.commSq_chart_specOfGlobalFunctions` proves only that it commutes — and
 the descent of the resulting isomorphism to a stage,
-`AlgebraicGeometry.Space.MorphismDescentSystem.exists_isIso_mapAt` (Tag 084S) together with
+`AlgebraicGeometry.Space.MorphismDescentSystem.exists_isIso_mapAt` (bounded Tag 084S) with
 `AlgebraicGeometry.Space.isLocalAtTarget_isAffineHom_fpqc` (Tag 041Z).
 -/
 

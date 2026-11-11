@@ -101,8 +101,8 @@ The source proves `⟸` by cohomology. Write `P(F)` for "there is `n₀` with
    `f_*((f⁻¹ J) · F)`, and the projection formula [Stacks, Tag 01E8] together with
    [Stacks, Tag 089W] transports the vanishing from `Y` to `X`.
 
-**All five inputs are in the library and tagged**, and `isAmple_of_isAmple_modulePullback` consumes
-them as they stand:
+**All five inputs are in the library and tagged**, and `isAmple_of_isAmple_modulePullback`
+consumes them as they stand:
 
 * **[Stacks, Tag 0B5U]**, both directions the converse consumes:
   `AlgebraicGeometry.Scheme.Modules.hasEventualTwistCohomologyVanishing_of_isAmple` for
@@ -114,10 +114,10 @@ them as they stand:
   `Stacks.AlgebraicGeometry.FiniteSurjectiveCoherentSupport`
   (`../FiniteSurjectiveCoherentSupport/Basic.lean:352`).
 * **[Stacks, Tag 01YP]**:
-  `Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`
-  (`../Cohomology/IdealPushforwardAffine.lean:157`), promoted from an equality of section
-  submodules to one of subsheaves by
-  `Stacks.AlgebraicGeometry.PushforwardIdealSubsheaf.idealPowSmul_pushforward_eq`.
+  `Stacks.AlgebraicGeometry.PushforwardIdealSubsheaf.idealPowSmul_pushforward_eq`
+  (`../SheafPushforward/Basic.lean`), the equality of subsheaves, deduced from the affine-local
+  computation
+  `Stacks.AlgebraicGeometry.AffineIdealPushforward.ideal_smul_pushforward_sections_eq`.
 * **[Stacks, Tag 01E8]**: `Stacks.ProjectionFormula.pushforwardTensorRightNatIso`, the
   degree-zero clause for an invertible module
   (`../ProjectionFormula/HigherDirectImage.lean:221`).
@@ -620,11 +620,10 @@ theorem hasHighTwistVanishing_of_isCoherent {R : Type u} [CommRing R] [IsNoether
 proper over a Noetherian ring `R`, ampleness of `f^* L` gives ampleness of `L`.
 
 The source's route, every step of it from the library. `hasHighTwistVanishing_of_isCoherent` is
-clause
-(2) of [Stacks, Tag 0B5U] for `L`, and `(2) ⟹ (1)` of that tag is ampleness. The two spellings of
-clause (2) — this file's `Stacks.HighTwistVanishing.HasHighTwistVanishing` over `Hgroup`, and
-`AlgebraicGeometry.Scheme.Modules.HasEventualTwistCohomologyVanishing` over the derived functor of
-the module-valued global sections — are reconciled by that tag's own
+clause (2) of [Stacks, Tag 0B5U] for `L`, and `(2) ⟹ (1)` of that tag is ampleness. The two
+spellings of clause (2) — this file's `Stacks.HighTwistVanishing.HasHighTwistVanishing` over
+`Hgroup`, and `AlgebraicGeometry.Scheme.Modules.HasEventualTwistCohomologyVanishing` over the
+derived functor of the module-valued global sections — are reconciled by that tag's own
 `isZero_rightDerived_moduleGlobalSections_of_isZero_Hgroup`, and the two ampleness predicates by
 `Stacks.PowerFamilyBridge.isAmple_of_modulesIsAmple`, which is [Stacks, Tag 01PS] over the two
 families of tensor powers.

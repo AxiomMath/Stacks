@@ -14,10 +14,7 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.ProperHigherDirectImageCoh
 Let `f : X ⟶ Y` be a morphism of algebraic spaces over a scheme `S` which is locally of finite
 type, with `Y` locally Noetherian, and let `𝓕` be a coherent `𝒪_X`-module whose support is
 proper over `Y`.  **Stacks 08GC** asserts that `R^p f_*𝓕` is a coherent `𝒪_Y`-module for every
-`p ≥ 0`.  The base carries a form of it,
-`AlgebraicGeometry.Space.isCoherent_rightDerived_modulePushforward_of_hasProperSupport`, over
-three hypotheses (Stacks 08AR, the étale-affine case of Stacks 03DW and a degeneration of the
-relative Leray spectral sequence).  This file proves it with none.
+`p ≥ 0`.  This file proves it.
 
 The proof is the source's.  Stacks 0CZI writes `𝓕 = i_*𝓖` for a closed subspace `i : Z → X` with
 `Z` proper over `Y` and `𝓖` coherent; the higher direct images along the affine morphism `i`

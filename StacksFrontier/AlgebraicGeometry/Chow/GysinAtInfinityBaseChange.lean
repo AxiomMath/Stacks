@@ -9,10 +9,18 @@ public import StacksFrontier.AlgebraicGeometry.Chow.GysinAtInfinityPresentation
 
 Let `(S, δ)` be the base situation of chapter 42 of the Stacks Project, let `X` be locally of
 finite type over `S`, let `b : W ⟶ 𝐏¹_X` be proper and an isomorphism over the affine chart
-`𝐀¹_X`, and let `C ∈ A⁰(W_∞ ⟶ X)` be the class of Stacks 0F9J. **Stacks 0GUH** says that for a
+`𝐀¹_X`, and let `C ∈ A⁰(W_∞ ⟶ X)` be the class of Stacks 0F9J. Stacks 0GUH says that for a
 morphism `q : X' ⟶ X` locally of finite type, with `b' : W' ⟶ 𝐏¹_{X'}` and
 `i'_∞ : W'_∞ ⟶ W'` the base changes of `b` and `i_∞`, the class `C' ∈ A⁰(W'_∞ ⟶ X')` constructed
 as in Stacks 0F9J using `b'` is the restriction of `C` in the sense of Remark 0F9Z.
+
+This file does **not** prove Stacks 0GUH. It proves a conditional form of it, for classes given
+as `Stacks.Chow.GysinAtInfinityData` (a class with the identity `i_{∞,*}(C ∩ α) = i_{0,*} α`,
+which does not determine it) with an unconstrained factorisation of their cap operations, under
+two hypotheses `hlift` and `hgysinStep` whose composite is the conclusion. Stacks 0GUH itself, for
+the class `Stacks.Chow.gysinAtInfinityClass` constructed in Stacks 0F9J and with no extra
+hypotheses, is `Stacks.Chow.GysinAtInfinity.gysinAtInfinityClass_baseChange` and
+`Stacks.Chow.gysinAtInfinityClass_restrictedModification_eq_bivariantRestriction`.
 
 ## Main definitions
 
@@ -23,19 +31,19 @@ as in Stacks 0F9J using `b'` is the restriction of `C` in the sense of Remark 0F
 
 ## Main results
 
-* `Stacks.Chow.gysinAtInfinity_eq_bivariantTransport_bivariantRestriction` — **Stacks 0GUH**: the
-  class `C'` equals the restriction of `C` along `q`, transported along the identification
-  `W_∞ ×_X X' ≅ W'_∞`. This is an equality of two elements of `A⁰(W'_∞ ⟶ X')`.
-* `Stacks.Chow.gysinAtInfinity_baseChange_cap` — the same statement read on cap operations:
-  `C' ∩ α = C ∩ α` under the identification of the two base-changed fibres at infinity, which is
-  the form the tag's proof produces.
+* `Stacks.Chow.gysinAtInfinity_eq_bivariantTransport_bivariantRestriction` — conditional on
+  `hlift`, `hgysinStep` and `hgys`: the class `C'` of a second datum equals the restriction of
+  `C` along `q`, transported along the identification `W_∞ ×_X X' ≅ W'_∞`.
+* `Stacks.Chow.gysinAtInfinity_baseChange_cap` — the same conditional statement read on cap
+  operations: `C' ∩ α = C ∩ α` under the identification of the two base-changed fibres at
+  infinity.
 * `Stacks.Chow.gysinAtInfinity_baseChange_cap_iff` — the conclusion is *equivalent* to the
   composite of the two hypotheses `hlift` and `hgysinStep`, which is the precise sense in which
   those two are stronger than the conclusion and neither is the conclusion restated.
 
 ## Implementation notes
 
-### How the objects of the tag are spelled
+### How the objects of the tag are spelled in this file
 
 `A⁰(W_∞ ⟶ X)` is `Stacks.Chow.BivariantClass` of degree `0` (Stacks 0B76), stated against a
 `Stacks.Chow.GysinSystem`; `C` is the `bivariantClass` field of
@@ -62,7 +70,11 @@ property of `b'` over `𝐀¹_{X'}` appear as instance and argument rather than 
 part of "let `b'` be the base change", and deriving them is the geometry of Stacks 02S5, not the
 content of Stacks 0GUH.
 
-### Why the construction of Stacks 0F9J is a hypothesis
+### Why the construction of Stacks 0F9J is a hypothesis here
+
+(This explains the design of the conditional statements below. The unconditional statement for
+the constructed class, which needs none of these hypotheses, is
+`Stacks.Chow.GysinAtInfinity.gysinAtInfinityClass_baseChange`.)
 
 The source's proof of Stacks 0GUH is "immediate from the construction and the fact that a similar
 statement holds for flat pullback and `i_∞^*`". The construction is needed: as the implementation
@@ -248,18 +260,17 @@ variable {C : ChowSituation.{u}} {G : GysinSystem C} {X W X' W' : Scheme.{u}} {f
   (hθ : θ.hom ≫ modificationProjectionAtInfinity (q ≫ f) b' =
     pullback.snd (modificationProjectionAtInfinity f b) q)
 
-/-- **Stacks 0GUH, on cap operations**, conditional on the construction of Stacks 0F9J for both
-modifications and its compatibility with base change.
+/-- A conditional form of Stacks 0GUH on cap operations, for two arbitrary
+`Stacks.Chow.GysinAtInfinityData` with arbitrary cap presentations, under the hypotheses `hlift`
+and `hgysinStep`, which together amount to the conclusion
+(`Stacks.Chow.gysinAtInfinity_baseChange_cap_iff`). It is not Stacks 0GUH: that is
+`Stacks.Chow.GysinAtInfinity.gysinAtInfinityClass_baseChange`, for the class constructed in
+Stacks 0F9J and with no extra hypotheses.
 
 For every test scheme `g : T ⟶ X'` locally of finite type, `C' ∩ α = C ∩ α` after the canonical
 identification `W_∞ ×_X T ≅ W'_∞ ×_{X'} T` of the two base changes of the fibre at infinity. This
 is the form the source's proof produces; the equality of bivariant classes asserted by the tag is
 `Stacks.Chow.gysinAtInfinity_eq_bivariantTransport_bivariantRestriction`. -/
-@[stacks 0GUH "on cap operations: given the construction of Stacks 0F9J as a presentation of \
-each cap operation by a lift and a Gysin step, and the compatibility of each of those two \
-factors with the base change (the source's `a similar statement holds for flat pullback and \
-i_infty^*`), the class constructed from the base-changed modification caps as the original one \
-does"]
 theorem gysinAtInfinity_baseChange_cap
     (hlift : ∀ {T : Scheme.{u}} (g : T ⟶ X') [LocallyOfFiniteType g] (k : ℤ)
         (α : chowGroup C (g ≫ (q ≫ f)) k),
@@ -325,23 +336,29 @@ theorem gysinAtInfinity_baseChange_cap_iff {T : Scheme.{u}} (g : T ⟶ X')
     P.cap_eq (g ≫ q) k (chowGroupCongr C (Category.assoc g q f).symm k α),
     ← chowGroupDegreeEquiv_chowPushforwardOfIso, EmbeddingLike.apply_eq_iff_eq]
 
-/-- **Stacks 0GUH.** In the setting of Stacks 0F9J let `q : X' ⟶ X` be locally of finite type and
-let `b' : W' ⟶ 𝐏¹_{X'}` and `i'_∞ : W'_∞ ⟶ W'` be the base changes of `b` and `i_∞`. Then the
-class `C' ∈ A⁰(W'_∞ ⟶ X')` constructed as in Stacks 0F9J using `b'` is the restriction (Remark
-0F9Z) of `C`: it equals `Stacks.Chow.bivariantRestriction` of `C` along `q`, carried along the
-identification `W_∞ ×_X X' ≅ W'_∞` by `Stacks.Chow.bivariantTransport`.
+/-- A conditional form of Stacks 0GUH, for two arbitrary `Stacks.Chow.GysinAtInfinityData` `D`,
+`D'` with arbitrary cap presentations, under the hypotheses `hgys`, `hlift` and `hgysinStep`;
+`hlift` and `hgysinStep` together amount to the conclusion
+(`Stacks.Chow.gysinAtInfinity_baseChange_cap_iff`). It is not Stacks 0GUH: that is
+`Stacks.Chow.GysinAtInfinity.gysinAtInfinityClass_baseChange` (equivalently
+`Stacks.Chow.gysinAtInfinityClass_restrictedModification_eq_bivariantRestriction`), for the class
+constructed in Stacks 0F9J and with no extra hypotheses.
+
+In the setting of Stacks 0F9J let `q : X' ⟶ X` be locally of finite type and
+let `b' : W' ⟶ 𝐏¹_{X'}` and `i'_∞ : W'_∞ ⟶ W'` be the base changes of `b` and `i_∞`, given by the
+witnesses `η`, `θ`. Then, under the hypotheses, the class `C' ∈ A⁰(W'_∞ ⟶ X')` of the datum `D'`
+for `b'` is the restriction (Remark 0F9Z) of the class `C` of the datum `D`: it equals
+`Stacks.Chow.bivariantRestriction` of `C` along `q`, carried along the identification
+`W_∞ ×_X X' ≅ W'_∞` by `Stacks.Chow.bivariantTransport`.
 
 The transport is needed only because `Stacks.Chow.bivariantRestriction` produces a class for the
 chosen fibre product `W_∞ ×_X X' ⟶ X'`, whereas `C'` is a class for `W'_∞ ⟶ X'`; the tag
 identifies the two silently. Both constructions are the library's own.
 
-The hypotheses are the base-change witnesses `η`, `θ`, the construction of Stacks 0F9J for both
-modifications, and the compatibility of each of its two factors with the base change; see the
+The hypotheses are the base-change witnesses `η`, `θ`, a presentation of each cap operation by a
+lift and a Gysin step (not constrained to be those of the construction of Stacks 0F9J), and the
+compatibility of each of its two factors with the base change; see the
 implementation notes of `StacksFrontier.AlgebraicGeometry.Chow.GysinAtInfinityBaseChange`. -/
-@[stacks 0GUH "given the construction of Stacks 0F9J as a presentation of each cap operation by \
-a lift and a Gysin step, and the compatibility of each of those two factors with the base \
-change (the source's `a similar statement holds for flat pullback and i_infty^*`), together \
-with the isomorphism case of Stacks 02TA for the Gysin system that Stacks 0F9Z needs"]
 theorem gysinAtInfinity_eq_bivariantTransport_bivariantRestriction
     (hgys : G.IsNaturalUnderBaseChangeIso)
     (hlift : ∀ {T : Scheme.{u}} (g : T ⟶ X') [LocallyOfFiniteType g] (k : ℤ)

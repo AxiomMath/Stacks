@@ -60,10 +60,9 @@ namespace is not the same constant as the unqualified name — see the implement
 
 **No `@[stacks]` attribute is placed.** None of these is the statement of a tag.
 `isCoherent_homology_of_isDualizingComplex` is the globalisation of condition (2) of
-[Stacks, Tag 0A7B], and it discharges the "coherence" member of Tag 0AWI's five-declaration
-covering set only *conditionally*, on the hypothesis that `f^! ω_S` is a dualizing complex —
-which is [Stacks, Tag 0AU3] and is absent from this repository. An attribute on a conditional
-form would wrongly present all of Tag 0AWI as formalized.
+[Stacks, Tag 0A7B]; it supplies the coherence of `ω_X` in
+`Stacks.Duality.isDualizingModuleOf_relativeDualizingModule`, which proves [Stacks, Tag 0AWI]
+and carries that tag.
 
 ## References
 

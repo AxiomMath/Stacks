@@ -68,8 +68,11 @@ carried out once, with the property and the scheme-level descent theorem as para
   of Stacks 08K0, flatness of the morphism.
 * `AlgebraicGeometry.Space.MorphismDescentSystem.exists_universallyInjective_mapAt`:
   **Stacks 084X**.
-* `AlgebraicGeometry.Space.MorphismDescentSystem.exists_hasRelativeDimensionLE_mapAt`:
-  **Stacks 0D4K**.
+* `MorphismDescentSituation.exists_hasRelativeDimensionLE_mapAt_of_siteContainsBaseChangeLimits`
+  (namespace `AlgebraicGeometry.Space`): **Stacks 0D4K**, in the situation of Stacks 084W
+  under the chapter's convention of Section 70.2 (tag 07SD), with no bound on the index;
+  `AlgebraicGeometry.Space.MorphismDescentSystem.exists_hasRelativeDimensionLE_mapAt` is the
+  special case of an index of cardinality below the cofinality of the site's cutoff.
 * `CategoryTheory.prop_snd_iff_of_isPullback`,
   `CategoryTheory.prop_overPullback_map_left_iff_pullback_snd` and
   `CategoryTheory.prop_iteratedPullback_snd_iff` transfer a property of morphisms between the
@@ -945,6 +948,8 @@ of finite presentation and its base change `f : X ⟶ Y` to the limit is flat, t
 
 This is the statement under the chapter's convention of Section 70.2 (tag 07SD), which asks
 nothing of the index. -/
+@[stacks 08K0 "in particular: flatness of the morphism, under the convention of Section 70.2 \
+  (tag 07SD) and with no condition on the index"]
 theorem exists_isFlat_mapAt_of_siteContainsBaseChangeLimits
     (D : MorphismDescentSituation B S hS hZ I) (hconv : SiteContainsBaseChangeLimits B S hS D.base)
         (flat : IsFlat B S hS D.mapLimit)
@@ -1046,7 +1051,10 @@ limit `B` has relative dimension at most `d` and `f₀` is locally of finite typ
 change `f_i` of `f₀` to some stage `B_i` has relative dimension at most `d`.
 
 This is the statement under the chapter's convention of Section 70.2 (tag 07SD), which asks
-nothing of the index. -/
+nothing of the index: the situation `D` carries no bound on the size of `I`, and the convention
+is the hypothesis `hconv`, `AlgebraicGeometry.Space.SiteContainsBaseChangeLimits` for the system
+`(B_i)`. -/
+@[stacks 0D4K]
 theorem exists_hasRelativeDimensionLE_mapAt_of_siteContainsBaseChangeLimits (D :
     MorphismDescentSituation B S hS hZ I)
     (hconv : SiteContainsBaseChangeLimits B S hS D.base) (d : ℕ)
@@ -1285,8 +1293,13 @@ theorem exists_isSmooth_mapAt (D : MorphismDescentSystem B S hS hZ I)
 
 /-- **Stacks 08K0**, flatness of the morphism. In the situation of Stacks 084W, if `f₀` is locally
 of finite presentation and its base change `f : X ⟶ Y` to the limit is flat, then its base change
-`f_i : X_i ⟶ Y_i` to some stage `i ≥ 0` is flat. -/
-@[stacks 08K0 "in particular: flatness of the morphism", ega "IV 11.2.6" "F = O_X case"]
+`f_i : X_i ⟶ Y_i` to some stage `i ≥ 0` is flat.
+
+The index of the system is bounded by `MorphismDescentSystem.indexSize`; the statement under the
+chapter's convention 07SD, with no condition on the index, is
+`MorphismDescentSituation.exists_isFlat_mapAt_of_siteContainsBaseChangeLimits`. -/
+@[stacks 08K0 "in particular: flatness of the morphism, with the index bounded by indexSize",
+  ega "IV 11.2.6" "F = O_X case"]
 theorem exists_isFlat_mapAt
     (D : MorphismDescentSystem B S hS hZ I) (flat : IsFlat B S hS D.mapLimit)
     (fp : IsLocallyOfFinitePresentation B S hS D.map₀) :
@@ -1294,11 +1307,14 @@ theorem exists_isFlat_mapAt
   D.toSituation.exists_isFlat_mapAt (IsSiteSmall.of_lt_cof_op D.indexSize) flat fp
 
 /-- **Stacks 08K0**, flatness of a module. In the situation of Stacks 084W, let `F₀` be a
-quasi-coherent
-`𝒪_{X₀}`-module, with pullbacks `F_i` to `X_i` and `F` to `X`. If `F` is flat over `Y`, `F₀` is
-of finite presentation and `f₀` is locally of finite presentation, then `F_i` is flat over `Y_i`
-for some stage `i ≥ 0`. -/
-@[stacks 08K0 "flatness of a module"]
+quasi-coherent `𝒪_{X₀}`-module, with pullbacks `F_i` to `X_i` and `F` to `X`. If `F` is flat over
+`Y`, `F₀` is of finite presentation and `f₀` is locally of finite presentation, then `F_i` is flat
+over `Y_i` for some stage `i ≥ 0`.
+
+The index of the system is bounded by `MorphismDescentSystem.indexSize`; the statement with no
+condition on the index is
+`AlgebraicGeometry.Space.exists_isFlatOver_baseChange_of_chartLimitsInSite`. -/
+@[stacks 08K0 "flatness of a module, with the index bounded by indexSize"]
 theorem exists_isFlatOver_mapAt (D : MorphismDescentSystem B S hS hZ I)
     (F₀ : Modules.{u, u} B S hS D.source₀ D.source₀_isAlgebraicSpace)
     [F₀.IsQuasicoherentOnSite] [F₀.IsFinitePresentationOnSite]
@@ -1380,10 +1396,16 @@ theorem exists_universallyInjective_mapAt
   D.toSituation.exists_universallyInjective_mapAt (IsSiteSmall.of_lt_cof_op D.indexSize) injective
       ft
 
-/-- **Stacks 0D4K.** In the situation of Stacks 084W, if the base change `f` of `f₀` to the
-limit `B` has relative dimension at most `d` and `f₀` is locally of finite type, then the base
-change `f_i` of `f₀` to some stage `B_i` has relative dimension at most `d`. -/
-@[stacks 0D4K]
+/-- **Stacks 0D4K for an index bounded in size.** In the situation of Stacks 084W, if the base
+change `f` of `f₀` to the limit `B` has relative dimension at most `d` and `f₀` is locally of
+finite type, then the base change `f_i` of `f₀` to some stage `B_i` has relative dimension at
+most `d`.
+
+The system `D` here carries the field `indexSize : #I < cof(cutoff.ord)`, a bound on the size of
+the index which Stacks does not impose; it implies the chapter's convention of Section 70.2
+(tag 07SD). The statement under the convention itself, with no bound on the index, is
+`MorphismDescentSituation.exists_hasRelativeDimensionLE_mapAt_of_siteContainsBaseChangeLimits`,
+which carries the tag. -/
 theorem exists_hasRelativeDimensionLE_mapAt (D : MorphismDescentSystem B S hS hZ I) (d : ℕ)
     (dimension : HasRelativeDimensionLE d B S hS D.mapLimit)
     (ft : IsLocallyOfFiniteType B S hS D.map₀) :

@@ -250,7 +250,7 @@ theorem derivedCategoryB_derivedSheafHom_of_isPerfect_spec (R : CommRingCat.{u})
   have h₂ := (SheafOfModules.isQuasicoherent (Spec R).ringCatSheaf).prop_of_iso
     ((DerivedCategory.homologyFunctor _ n).mapIso
       (AlgebraicGeometry.affinePerfectDerivedSheafHomIso R K L hK)).symm
-    (AlgebraicGeometry.isQuasicoherent_homology_tildeDerived R
+    (AlgebraicGeometry.isQuasicoherent_homology_mapDerivedCategory_obj R
       ((StacksDraft.DerivedHom.derivedHomAdjunction (R := R)).hom.obj (op K, L)) n)
   exact (SheafOfModules.isQuasicoherent (Spec R).ringCatSheaf).prop_of_iso
     ((DerivedCategory.homologyFunctor _ n).mapIso e) h₂

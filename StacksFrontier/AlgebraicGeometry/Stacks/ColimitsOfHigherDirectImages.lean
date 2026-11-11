@@ -13,8 +13,9 @@ fppf topology and in the étale topology alike.
 
 This file proves the *sheafification step* of that assertion: the step that turns the local
 statement — cohomology of the 2-fibres of `f` commutes with the colimit — into the global one.
-The local statement itself is assumed, as an explicit named hypothesis; see "What is proved and
-what is assumed" below.
+The local statement is an explicit named hypothesis here; see "What is proved here and where the
+rest is" below. Stacks 0GQW itself, at the source's hypotheses, is proved and registered in
+`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfHigherDirectImagesQcqs.lean`.
 
 ## Main definitions
 
@@ -34,7 +35,7 @@ what is assumed" below.
   `AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage_etale`: the
   same in the fppf and in the étale topology, the two assertions the source makes.
 
-## What is proved and what is assumed
+## What is proved here and where the rest is
 
 The proof of the source has two steps. First, `R^p f_*` is the sheafification of the presheaf
 `y ↦ H^p` of the 2-fibre of `f` over `y`; since sheafification is a left adjoint, it commutes
@@ -54,28 +55,19 @@ it to statements about its values at the objects of `𝒴` is
 of presheaves being exact, the value at `y` of the derived presheaf direct image is the derived
 functor of `AlgebraicGeometry.Stack.fibreSections` at `y`.
 
-**The second step is the hypothesis `h` of the results below**, and is not available. It needs
-two things this library does not have.
+**The second step is the hypothesis `h` of the results below.** It is discharged, for `f`
+quasi-compact and quasi-separated, in
+`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfHigherDirectImagesQcqs.lean`: the value half of
+Stacks 075G (`AlgebraicGeometry.Stack.rightDerivedFibreSectionsIso`, using Stacks 06X1 for the
+pullback along the first projection of the 2-fibre product) and Stacks 0GQV for the
+quasi-compact and quasi-separated 2-fibre products over affine objects. That file proves
+**Stacks 0GQW** at the source's hypotheses, as
+`AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage_fppf_of_qcqs`
+and `AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage_etale_of_qcqs`,
+and carries the tag.
 
-* The *value* half of Stacks 075G: that `AlgebraicGeometry.Stack.fibreSections` at `y` is global
-  sections on the 2-fibre product `(Sch/V)_τ ×_{y, 𝒴} 𝒳` composed with the pullback along its
-  first projection, and that the derived functors therefore agree. As recorded in the module
-  docstring of
-  `StacksFrontier/AlgebraicGeometry/Stacks/Sheaves/HigherDirectImageSheafification.lean`, that needs
-  the preservation of injective abelian sheaves by that pullback, which is Stacks 06X1 and is not
-  in this library.
-* Stacks 0GQV for the 2-fibre product. The library's form, `AlgebraicGeometry.Stack`
-  `.isIso_colimit_post_rightDerived_globalSections_fppf_of_isQuasiCompactStack`,
-  still assumes conditions (3) and (4) of Stacks 0GN4; so even with the value half of Stacks 075G
-  in hand, `h` would not follow. Quasi-separatedness of `f` enters the source exactly through
-  those two conditions, by way of Stacks 075S.
-
-So Stacks 0GQW does genuinely rest on Stacks 0GQV: the local statement `h` is the cohomology of
-a 2-fibre product of `f`, and there is no route to it from the sheafification formula alone.
-
-Because quasi-compactness and quasi-separatedness of `f` are used by the source only to derive
-`h`, they appear in no statement below; the hypothesis `h` stands in for them, and the results
-are correspondingly stated for an arbitrary diagram shape rather than only a filtered one.
+The results below take `h` for every object of `𝒴` and are stated for an arbitrary diagram
+shape; they are the reduction lemmas, not the tag.
 
 ## Implementation notes
 
@@ -119,7 +111,9 @@ Its `n`-th right derived functor is the value at `y` of the derived presheaf dir
 `AlgebraicGeometry.Stack.preservesColimitsOfShape_abelianFibreCohomologyPresheaf` and the
 comparison used in its proof. In the source this functor is global sections of the 2-fibre
 product of `f` and `y` composed with pullback along its projection to `𝒳`; that identification
-is the value half of Stacks 075G and is not available here. -/
+is the value half of Stacks 075G, proved for algebraic stacks as
+`AlgebraicGeometry.Stack.rightDerivedFibreSectionsIso` in
+`StacksFrontier/AlgebraicGeometry/Stacks/ColimitsOfHigherDirectImagesQcqs.lean`. -/
 abbrev fibreSections (y : Y) :
     Sheaf (BigFppfOver.associatedTopology B S hS pX τ) AddCommGrpCat.{max (u + 1) a} ⥤
       AddCommGrpCat.{max (u + 1) a} :=
@@ -182,9 +176,11 @@ is a left adjoint and so commutes with every colimit, and the derived presheaf d
 handled objectwise by
 `AlgebraicGeometry.Stack.preservesColimitsOfShape_abelianFibreCohomologyPresheaf`.
 
-The hypothesis is the second step of the source, which is *not* available; neither
-quasi-compactness nor quasi-separatedness of `f` appears, those being what the source uses to
-obtain the hypothesis. See "What is proved and what is assumed" in the module docstring. -/
+The hypothesis is the second step of the source; neither quasi-compactness nor
+quasi-separatedness of `f` appears, those being what the source uses to obtain it. Stacks 0GQW at
+the source's hypotheses is
+`AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage_fppf_of_qcqs`
+and its étale form. -/
 theorem preservesColimitsOfShape_rightDerived_abelianDirectImage (n : ℕ)
     {I : Type v} [Category.{v'} I]
     (h :
@@ -246,11 +242,8 @@ the `n`-th higher direct image `R^n f_*` of abelian fppf sheaves.
 This is `AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage` at the
 fppf topology of Stacks 06TP. It is the first of the two steps of the source's proof; the
 hypothesis is the second, and is what quasi-compactness and quasi-separatedness of `f` are used
-for. See "What is proved and what is assumed" in the module docstring for exactly what is
-missing: the value half of Stacks 075G, and conditions (3) and (4) of Stacks 0GN4 in the library's
-form of Stacks 0GQV. -/
-@[stacks 0GQW "fppf topology; the sheafification step only — that the cohomology of the fibres \
-of f commutes with the colimit is assumed, as is the value half of 075G that identifies it"]
+for. Stacks 0GQW in the fppf topology, at the source's hypotheses, is
+`AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage_fppf_of_qcqs`. -/
 theorem preservesColimitsOfShape_rightDerived_abelianDirectImage_fppf (n : ℕ)
     {I : Type v} [Category.{v'} I] [IsFiltered I]
     (h :
@@ -291,11 +284,8 @@ the `n`-th higher direct image `R^n f_*` of abelian étale sheaves.
 This is `AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage` at the
 étale topology of Stacks 06TP. It is the first of the two steps of the source's proof; the
 hypothesis is the second, and is what quasi-compactness and quasi-separatedness of `f` are used
-for. See "What is proved and what is assumed" in the module docstring for exactly what is
-missing: the value half of Stacks 075G, and the étale analogues of conditions (3) and (4) of
-Stacks 0GN4 in the library's form of Stacks 0GQV. -/
-@[stacks 0GQW "étale topology; the sheafification step only — that the cohomology of the fibres \
-of f commutes with the colimit is assumed, as is the value half of 075G that identifies it"]
+for. Stacks 0GQW in the étale topology, at the source's hypotheses, is
+`AlgebraicGeometry.Stack.preservesColimitsOfShape_rightDerived_abelianDirectImage_etale_of_qcqs`. -/
 theorem preservesColimitsOfShape_rightDerived_abelianDirectImage_etale (n : ℕ)
     {I : Type v} [Category.{v'} I] [IsFiltered I]
     (h :

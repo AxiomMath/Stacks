@@ -42,7 +42,9 @@ object lying over an affine scheme is
   for `i > 0` and `x` lying over an affine scheme.
 * `AlgebraicGeometry.Stack.hasAffineAcyclicLqcFbcModules`: the affine-object vanishing
   `AlgebraicGeometry.Stack.HasAffineAcyclicLqcFbcModules`, which the statements of
-  **Stacks 08IY**, **Stacks 08IZ** and the conditional form of 075R take as a hypothesis.
+  **Stacks 08IY**, **Stacks 08IZ** and the reduction of 075R at any hom universe
+  (`AlgebraicGeometry.Stack.isZero_rightDerived_etaleComparisonPushforward_of_lqcFbc`) take as a
+  hypothesis.
 * `AlgebraicGeometry.Stack.isZero_rightDerived_etaleComparisonPushforward_lqcFbcModule`:
   **Stacks 075R (1)**, `R^iε_*ℱ = 0` for `i > 0`.
 

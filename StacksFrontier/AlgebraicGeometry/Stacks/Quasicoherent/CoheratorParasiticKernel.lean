@@ -6,115 +6,69 @@ public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.Coherator
 public import StacksFrontier.AlgebraicGeometry.Stacks.Quasicoherent.ParasiticModules
 
 /-!
-# The kernel of the coherator is the parasitic modules (Stacks 0779)
+# The coherator of the presheaf-level flat base change modules, over chart data
 
-Let `𝒳` be an algebraic stack over `S` and let `Q : LQCoh^fbc(𝒪_𝒳) ⥤ QCoh(𝒪_𝒳)` be the right
-adjoint of the inclusion `i : QCoh(𝒪_𝒳) ⥤ LQCoh^fbc(𝒪_𝒳)` constructed for **Stacks 0778** in
-`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/Coherator.lean`.  **Stacks 0779** says:
+This file is **not** a formalization of **Stacks 0779**. That lemma, for the coherator
+`Q : LQCoh^fbc(𝒪_𝒳) → QCoh(𝒪_𝒳)` of **Stacks 0778** and the sheaf-level flat base change
+property of **Stacks 0762**, is proved unconditionally, all three parts, in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/CoheratorCanonical.lean`
+(in the namespace `AlgebraicGeometry.Stack.AlgebraicStacks`:
+`isZero_coherator_obj_iff_isParasitic`,
+`isParasitic_kernel_and_cokernel_coheratorAdjunction_counit`,
+`preservesLimitsOfSize_lqcohSheafFbc_ι_comp_coherator`,
+`preservesColimitsOfShape_lqcohSheafFbc_ι_comp_coherator` and
+`preservesFiniteLimits_and_preservesFiniteColimits_lqcohSheafFbc_ι_comp_coherator`).
 
-1. the kernel of `Q` is exactly the collection of parasitic objects (**Stacks 0773**) of
-   `LQCoh^fbc(𝒪_𝒳)`;
-2. for every `𝓕` the kernel and the cokernel of the adjunction map `Q 𝓕 ⟶ 𝓕` are parasitic;
-3. `Q` is exact and commutes with all limits and all colimits.
+What is here concerns a different functor, `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator`
+of `StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/Coherator.lean`: the right adjoint of
+`QCoh(𝒪_𝒳) → locallyQuasicoherentFlatBaseChangeModules`, the category of étale modules with the
+*presheaf-level* flat base change property
+`AlgebraicGeometry.Stack.HasFlatBaseChangePropertyUnivLE`.
+That property is strictly stronger than **Stacks 0762**, so this category is smaller than
+`LQCoh^fbc(𝒪_𝒳)`, and the hypothesis `hinc` that every quasi-coherent module lies in it fails
+already for `𝒳 = ℙ¹` and `𝒪(-1)` (see
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/SheafFlatBaseChangeProperty.lean`). The
+results below are therefore vacuous for such `𝒳`.
 
-The adjunction map of (2) is the counit `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator`
-of the adjunction, no new comparison map is built, and the whole of the formal part of
-the source's argument is run off that adjunction: a right adjoint commutes with all limits, and
-for a *fully faithful* left adjoint the counit becomes an isomorphism after applying the right
-adjoint, so `Q (Q 𝓕 ⟶ 𝓕)` is invertible.
+They are formal consequences of the adjunction together with hypotheses on an auxiliary functor
+`r : locallyQuasicoherentFlatBaseChangeModules ⥤ 𝒜`, modelled on the restriction to a chart:
 
-## The geometric input, and why it is a hypothesis
+* `hrpar` — `r 𝓕 = 0` if and only if `𝓕` is parasitic (at `SiteKind.etale`). Given `hrcounit`
+  and `hreq` this is *equivalent* to the conclusion of
+  `AlgebraicGeometry.Stack.isZero_flatBaseChangeQuasicoherator_iff_isParasitic`, so that result
+  only transports `hrpar`.
+* `hrcounit` — the counit `Q 𝓕 ⟶ 𝓕` becomes an isomorphism under `r`.
+* `hreq` — `i ⋙ r` is an equivalence.
+* `hrcolim`, `hrfincolim` — `r` commutes with colimits, respectively finite colimits.
 
-Everything else in the source is read off the *explicit* construction of `Q` in **Stacks 0778**:
-one chooses a smooth surjective chart `f : U → 𝒳`, writes `𝒳 = [U/R]` for `R = U ×_𝒳 U`, and
-`Q` is the composite of `q₂ : 𝓕 ↦ (f^*𝓕|_{U_étale}, α)` with the equivalence
-`q₁ : QCoh(U, R, s, t, c) ≅ QCoh(𝒪_𝒳)` of **Stacks 06WT**.  The coherator in this library is
-instead the abstract right adjoint produced by the special adjoint functor theorem, and
-**Stacks 06WT** is not available (its own proof runs through **Stacks 0GQD**, the comparison of
-quasi-coherent modules on a category fibred in groupoids representable by an algebraic space,
-which this library does not have either).
-
-So the chart is carried as data and the three facts the source reads off it are carried as
-hypotheses, for a functor `r : LQCoh^fbc(𝒪_𝒳) ⥤ 𝒜` playing the role of `q₂`:
-
-* `hrpar` — `r 𝓕 = 0` if and only if `𝓕` is parasitic.  This is the heart of part (1) of the
-  source: in one direction `U → 𝒳` is smooth surjective, hence flat, so a parasitic module
-  restricts to zero on `U_étale`; in the other, for a flat `x : V → 𝒳` one forms
-  `W = V ×_𝒳 U`, whose projection `p : W → U` is flat and whose projection `q : W → V` is
-  smooth and surjective, so that `q_{small}^*` is faithful on quasi-coherent modules, and the
-  flat base change property (**Stacks 0762**) identifies `p_{small}^*𝓕|_{U_étale}` with
-  `q_{small}^*𝓕|_{V_étale}`.
-  That equivalence is itself proved, for the *lisse-étale* restriction in place of the
-  restriction to `U_étale`: **Stacks 07AR** part (1), that is
-  `AlgebraicGeometry.Stack.LisseEtale.isParasitic_iff_isZero_pullbackModules`.  It does not
-  remove the hypothesis here, which constrains the functor `r` carried as data: given
-  `hrcounit` and `hreq`, `hrpar` is *equivalent* to the conclusion below, so deleting it means
-  fixing `r` to a named functor, and that is the step **Stacks 06WT** is needed for.
-* `hrcounit` — the adjunction map `Q 𝓕 ⟶ 𝓕` becomes an isomorphism under `r`.  This is the
-  source's `q₂ ∘ Q ≅ q₂`, that is the defining property of the construction of **Stacks 0778**.
-* `hreq` — `i ⋙ r` is an equivalence.  This is **Stacks 06WT** together with the step of
-  **Stacks 0778** which identifies `q₂ ∘ i` as a quasi-inverse of `q₁`.  The equivalence of
-  **Stacks 06WT** is not in the library: its construction needs **Stacks 0GQD**, as
-  `StacksFrontier/AlgebraicGeometry/Spaces/Groupoids/QuotientStackQuasicoherentModules.lean`
-  records.  It is named here rather than reproved.
-* `hrcolim`, `hrfincolim` — `r` commutes with colimits.  The source uses it for direct sums
-  only, reducing to that case by exactness and **Stacks 002P**; restriction to `U_étale` is
-  restriction along a functor followed by a change of scalars, both of which commute with
-  colimits of presheaves of modules (compare
-  `AlgebraicGeometry.Stack.isClosedUnderColimitsOfShape_flatBaseChangeModulePresheaves`).
-
-Only the limit half of part (3) is unconditional; it is the one assertion of **Stacks 0779**
-that follows from `Q` being a right adjoint.
+Only the preservation of limits is free of the `r`-hypotheses; it still depends on `hinc`.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.isZero_flatBaseChangeQuasicoherator_iff_isParasitic`:
-  **Stacks 0779** part (1), both directions.
+* `AlgebraicGeometry.Stack.isZero_flatBaseChangeQuasicoherator_iff_isParasitic`: the kernel of
+  `flatBaseChangeQuasicoherator`, transported from `hrpar` along the counit.
 * `AlgebraicGeometry.Stack.isParasitic_of_isLimit_kernelFork_flatBaseChangeQuasicoherator` and
   `AlgebraicGeometry.Stack.isParasitic_of_isColimit_cokernelCofork_flatBaseChangeQuasicoherator`:
-  **Stacks 0779** part (2), for the kernel and for the cokernel.
-* `AlgebraicGeometry.Stack.exact_flatBaseChangeQuasicoherator`: **Stacks 0779** part (3), the
-  exactness of `Q`.
-* `AlgebraicGeometry.Stack.preservesLimitsOfSize_flatBaseChangeQuasicoherator`: **Stacks 0779**
-  part (3), that `Q` commutes with all limits.  Unconditional.
-* `AlgebraicGeometry.Stack.preservesColimitsOfSize_flatBaseChangeQuasicoherator`:
-  **Stacks 0779** part (3), that `Q` commutes with all colimits.
+  the kernel and the cokernel of its counit, under the same hypotheses.
+* `AlgebraicGeometry.Stack.exact_flatBaseChangeQuasicoherator`,
+  `AlgebraicGeometry.Stack.preservesLimitsOfSize_flatBaseChangeQuasicoherator` and
+  `AlgebraicGeometry.Stack.preservesColimitsOfSize_flatBaseChangeQuasicoherator`: its exactness
+  and its commuting with limits and colimits, the colimit halves under `hrfincolim`, `hrcolim`.
 
 ## Implementation notes
 
-The kernel and the cokernel of part (2) are taken as an arbitrary limit kernel fork and an
-arbitrary colimit cokernel cofork of the adjunction map, so that nothing has to be assumed
-about `LQCoh^fbc(𝒪_𝒳)` having kernels or cokernels — which is **Stacks 0771** part (2), also
-absent from the library.  Under that part the forks are the ones computed in the ambient
-category `Mod(𝒳_étale, 𝒪_𝒳)`, so the statements are the source's.
-
-Vanishing of an object is `CategoryTheory.Limits.IsZero`, and "the kernel of `Q`" is read as
-`IsZero (Q 𝓕)`; the parasitic condition of **Stacks 0773** is
-`AlgebraicGeometry.Stack.IsParasitic`, which is stated for the structure sheaf at a named
-`AlgebraicGeometry.SiteKind`.  At `SiteKind.etale` that sheaf of rings is the one
-`LQCoh^fbc(𝒪_𝒳)` is built over, on the nose, by
-`AlgebraicGeometry.FibredSite.ringStructureSheafCore_etale_eq_stack`, so no transport is
-needed.
+The kernel and the cokernel of the counit are taken as an arbitrary limit kernel fork and an
+arbitrary colimit cokernel cofork, so that nothing is assumed about
+`locallyQuasicoherentFlatBaseChangeModules` having kernels or cokernels.
 
 Exactness is delivered as the pair `CategoryTheory.Limits.PreservesFiniteLimits` and
-`CategoryTheory.Limits.PreservesFiniteColimits`, the two halves of exactness for an additive
-functor between abelian categories.  `Q` preserves zero morphisms because it is a right
-adjoint, which is what lets the kernel and cokernel forks be transported along it.
-
-The universes are those of `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator`: the site of
-`𝒳` is a `Type (u + 1)` with morphisms in `Type u`, essentially `u`-small, and the module
-sections live in `u`.
+`CategoryTheory.Limits.PreservesFiniteColimits`.
 
 ## References
 
-* [Stacks Project, Tag 002P](https://stacks.math.columbia.edu/tag/002P)
 * [Stacks Project, Tag 0762](https://stacks.math.columbia.edu/tag/0762)
-* [Stacks Project, Tag 0771](https://stacks.math.columbia.edu/tag/0771)
 * [Stacks Project, Tag 0773](https://stacks.math.columbia.edu/tag/0773)
 * [Stacks Project, Tag 0778](https://stacks.math.columbia.edu/tag/0778)
-* [Stacks Project, Tag 0779](https://stacks.math.columbia.edu/tag/0779)
-* [Stacks Project, Tag 06WT](https://stacks.math.columbia.edu/tag/06WT)
-* [Stacks Project, Tag 0GQD](https://stacks.math.columbia.edu/tag/0GQD)
 -/
 
 @[expose] public noncomputable section
@@ -224,10 +178,10 @@ variable (B : BigFppfSite.{u}) (E : BigEtaleSite.{u}) (h : E.cutoff = B.cutoff)
   (hsep : HasSeparator (FibredSite.quasicoherentModules.{u, u + 1, u, u} B S hS
     𝒳.val.val.p 𝒳.val.isFiberedInGroupoids))
 
-/-- **Stacks 0779, part (3): the coherator commutes with all limits.**  This is the one
-assertion of **Stacks 0779** which needs nothing beyond the adjunction of **Stacks 0778**: `Q`
-is a right adjoint, and a right adjoint preserves all limits. -/
-@[stacks 0779 "part (3): Q commutes with all limits"]
+/-- `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator` commutes with all limits, being a
+right adjoint. It depends on the hypothesis `hinc`, which fails for `ℙ¹` (see the module
+documentation); **Stacks 0779** (3) is
+`AlgebraicGeometry.Stack.AlgebraicStacks.preservesLimitsOfSize_lqcohSheafFbc_ι_comp_coherator`. -/
 theorem preservesLimitsOfSize_flatBaseChangeQuasicoherator :
     PreservesLimitsOfSize.{vJ, uJ}
       (flatBaseChangeQuasicoherator B E h S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
@@ -236,9 +190,8 @@ theorem preservesLimitsOfSize_flatBaseChangeQuasicoherator :
     𝒳.val.isFiberedInGroupoids hinc hclosed hpres hls hlsD hwp
     hsep).rightAdjoint_preservesLimits
 
-/-- **Stacks 0779, part (3): the coherator is left exact.**  A special case of
-`AlgebraicGeometry.Stack.preservesLimitsOfSize_flatBaseChangeQuasicoherator`; it is the half of
-the exactness of `Q` which the source also gets from `Q` being a right adjoint. -/
+/-- `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator` is left exact: a special case of
+`AlgebraicGeometry.Stack.preservesLimitsOfSize_flatBaseChangeQuasicoherator`. -/
 theorem preservesFiniteLimits_flatBaseChangeQuasicoherator :
     PreservesFiniteLimits
       (flatBaseChangeQuasicoherator B E h S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
@@ -264,18 +217,12 @@ variable {𝒜 : Type uA} [Category.{vA} 𝒜]
     𝒳.val.isFiberedInGroupoids hinc ⋙ r).IsEquivalence)
 
 include hinc hrpar hrcounit hreq in
-/-- **Stacks 0779, part (1).**  An object `𝓕` of `LQCoh^fbc(𝒪_𝒳)` is in the kernel of the
-coherator `Q` of **Stacks 0778** if and only if it is parasitic (**Stacks 0773**).  Both
-directions are proved: the statement is an equality of the two collections.
-
-The counit of the adjunction identifies `r (i (Q 𝓕))` with `r 𝓕`, and `i ⋙ r` is an
-equivalence and so reflects zero objects; so `Q 𝓕 = 0` if and only if `r 𝓕 = 0`, which by
-`hrpar` is the parasitic condition.  Here `r` stands for the restriction `𝓕 ↦ 𝓕|_{U_étale}`
-along a smooth surjective chart `f : U → 𝒳`, through which the source computes `Q`; see the
-module documentation for the three hypotheses it carries and for **Stacks 06WT**, which
-`hreq` names. -/
-@[stacks 0779 "part (1): the kernel of Q is exactly the parasitic objects, in both \
-  directions, over the chart data of the construction of Stacks 0778"]
+/-- Over the hypotheses `hinc`, `hrpar`, `hrcounit` and `hreq`, an object of
+`locallyQuasicoherentFlatBaseChangeModules` is killed by
+`AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator` exactly when it is parasitic. The counit
+identifies `r (i (Q 𝓕))` with `r 𝓕` and `i ⋙ r` reflects zero objects, so the statement is
+`hrpar` transported; it is not **Stacks 0779** (1), which is
+`AlgebraicGeometry.Stack.AlgebraicStacks.isZero_coherator_obj_iff_isParasitic`. -/
 theorem isZero_flatBaseChangeQuasicoherator_iff_isParasitic
     (F : locallyQuasicoherentFlatBaseChangeModules.{u, u + 1, u} B E h S hS 𝒳.val.val.p
       𝒳.val.isFiberedInGroupoids) :
@@ -288,16 +235,10 @@ theorem isZero_flatBaseChangeQuasicoherator_iff_isParasitic
     hrcounit F).trans (hrpar F)
 
 include hinc hrcounit hreq in
-/-- **Stacks 0779, part (3): the coherator commutes with all colimits.**  The source does
-*not* get this from adjointness — a right adjoint need not preserve colimits.  It gets it from
-the explicit construction: by exactness it suffices to treat direct sums (**Stacks 002P**), and
-restriction to `U_étale` commutes with direct sums.
-
-Here that is the hypothesis `hrcolim` on `r`, carried through the identification
-`Q ≅ r ⋙ (i ⋙ r)⁻¹` which the counit and `hreq` supply; the inverse of an equivalence
-preserves all colimits. -/
-@[stacks 0779 "part (3): Q commutes with all colimits, over the chart data of the \
-  construction of Stacks 0778"]
+/-- `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator` commutes with the colimits `r`
+commutes with, through the identification `Q ≅ r ⋙ (i ⋙ r)⁻¹` which the counit and `hreq`
+supply. It is not **Stacks 0779** (3), which is
+`AlgebraicStacks.preservesColimitsOfShape_lqcohSheafFbc_ι_comp_coherator`. -/
 theorem preservesColimitsOfSize_flatBaseChangeQuasicoherator
     (hrcolim : PreservesColimitsOfSize.{vJ, uJ} r) :
     PreservesColimitsOfSize.{vJ, uJ}
@@ -310,9 +251,8 @@ theorem preservesColimitsOfSize_flatBaseChangeQuasicoherator
       𝒳.val.isFiberedInGroupoids hinc hclosed hpres hls hlsD hwp hsep) r hrcounit).symm
 
 include hinc hrcounit hreq in
-/-- **Stacks 0779, part (3): the coherator is right exact.**  The right-exactness half of the
-exactness of `Q`, obtained from the identification `Q ≅ r ⋙ (i ⋙ r)⁻¹` and the right
-exactness of the chart restriction `r`. -/
+/-- `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator` is right exact when `r` is, through
+the identification `Q ≅ r ⋙ (i ⋙ r)⁻¹`. -/
 theorem preservesFiniteColimits_flatBaseChangeQuasicoherator
     (hrfincolim : PreservesFiniteColimits r) :
     PreservesFiniteColimits
@@ -328,13 +268,10 @@ theorem preservesFiniteColimits_flatBaseChangeQuasicoherator
       𝒳.val.isFiberedInGroupoids hinc hclosed hpres hls hlsD hwp hsep) r hrcounit).symm
 
 include hinc hrcounit hreq in
-/-- **Stacks 0779, part (3): the coherator is exact.**  Exactness of an additive functor
-between abelian categories is the preservation of finite limits and of finite colimits.  The
-first half is `AlgebraicGeometry.Stack.preservesFiniteLimits_flatBaseChangeQuasicoherator`,
-which holds because `Q` is a right adjoint; the second is
-`AlgebraicGeometry.Stack.preservesFiniteColimits_flatBaseChangeQuasicoherator`, which needs the
-chart data. -/
-@[stacks 0779 "part (3): Q is exact, over the chart data of the construction of Stacks 0778"]
+/-- `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator` preserves finite limits and, when
+`r` is right exact, finite colimits. It is not **Stacks 0779** (3), which is
+`AlgebraicStacks.preservesFiniteLimits_and_preservesFiniteColimits_lqcohSheafFbc_ι_comp_coherator`.
+-/
 theorem exact_flatBaseChangeQuasicoherator (hrfincolim : PreservesFiniteColimits r) :
     PreservesFiniteLimits
         (flatBaseChangeQuasicoherator B E h S hS 𝒳.val.val.p 𝒳.val.isFiberedInGroupoids
@@ -348,15 +285,12 @@ theorem exact_flatBaseChangeQuasicoherator (hrfincolim : PreservesFiniteColimits
       hlsD hwp hsep r hrcounit hreq hrfincolim⟩
 
 include hinc hrpar hrcounit hreq in
-/-- **Stacks 0779, part (2), the kernel.**  The kernel of the adjunction map `Q 𝓕 ⟶ 𝓕` is
-parasitic.
-
-The left adjoint `i` is fully faithful, so `Q` applied to the counit is invertible, in
-particular a monomorphism; `Q` preserves the kernel fork, being a right adjoint; so the kernel
-is in the kernel of `Q` and therefore parasitic by part (1).  The kernel is taken as an
-arbitrary limit kernel fork, so that nothing is assumed about `LQCoh^fbc(𝒪_𝒳)` having kernels
-(**Stacks 0771** part (2)). -/
-@[stacks 0779 "part (2), the kernel: the kernel of the adjunction map Q(F) ⟶ F is parasitic"]
+/-- Over the hypotheses of
+`AlgebraicGeometry.Stack.isZero_flatBaseChangeQuasicoherator_iff_isParasitic`, a kernel of the
+counit `Q 𝓕 ⟶ 𝓕` of `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator` is parasitic: `Q`
+kills it, `Q` of the counit being invertible and `Q` preserving the kernel fork. It is not
+**Stacks 0779** (2), which is
+`AlgebraicStacks.isParasitic_kernel_and_cokernel_coheratorAdjunction_counit`. -/
 theorem isParasitic_of_isLimit_kernelFork_flatBaseChangeQuasicoherator
     {F : locallyQuasicoherentFlatBaseChangeModules.{u, u + 1, u} B E h S hS 𝒳.val.val.p
       𝒳.val.isFiberedInGroupoids}
@@ -373,15 +307,11 @@ theorem isParasitic_of_isLimit_kernelFork_flatBaseChangeQuasicoherator
     𝒳.val.val.p 𝒳.val.isFiberedInGroupoids hinc hclosed hpres hls hlsD hwp hsep) hc
 
 include hinc hrpar hrcounit hreq in
-/-- **Stacks 0779, part (2), the cokernel.**  The cokernel of the adjunction map `Q 𝓕 ⟶ 𝓕` is
-parasitic.
-
-`Q` applied to the counit is invertible, in particular an epimorphism; `Q` is right exact by
-part (3) and so preserves the cokernel cofork; so the cokernel is in the kernel of `Q` and
-therefore parasitic by part (1).  As for the kernel, the cokernel is taken as an arbitrary
-colimit cokernel cofork. -/
-@[stacks 0779 "part (2), the cokernel: the cokernel of the adjunction map Q(F) ⟶ F is \
-  parasitic"]
+/-- Over the hypotheses of
+`AlgebraicGeometry.Stack.isZero_flatBaseChangeQuasicoherator_iff_isParasitic` and `hrfincolim`,
+a cokernel of the counit `Q 𝓕 ⟶ 𝓕` of `AlgebraicGeometry.Stack.flatBaseChangeQuasicoherator` is
+parasitic. It is not **Stacks 0779** (2), which is
+`AlgebraicStacks.isParasitic_kernel_and_cokernel_coheratorAdjunction_counit`. -/
 theorem isParasitic_of_isColimit_cokernelCofork_flatBaseChangeQuasicoherator
     (hrfincolim : PreservesFiniteColimits r)
     {F : locallyQuasicoherentFlatBaseChangeModules.{u, u + 1, u} B E h S hS 𝒳.val.val.p

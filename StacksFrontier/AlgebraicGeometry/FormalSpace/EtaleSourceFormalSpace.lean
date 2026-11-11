@@ -29,10 +29,11 @@ This is the étale case of Stacks 0AJI, and it is proved here for the étale cas
 étaleness makes it a corollary of **Stacks 0DEG** and so avoids Stacks 0AIU. The library's
 Stacks 0AJI, `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_representable_over_formal`,
 is stated for a morphism merely representable by algebraic spaces and carries the hypothesis
-`h0AIU` — a directed colimit of algebraic spaces along thickenings is a formal algebraic space —
-which this library does not prove and which
-`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_thickenings` cannot discharge.
-So the general statement is not available to specialise, and nothing below specialises it.
+`h0AIU` — a directed colimit of algebraic spaces along thickenings is a formal algebraic space.
+The corrected Stacks 0AIU,
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_isRepresentableThickeningULift`,
+proves that argument, but this file does not import it, and nothing below specialises the
+general statement.
 
 Instead `T` is identified with the dependent product `U_{V, ψ}` of Stacks 0DEG, which
 `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_liftAlong` shows unconditionally to be a

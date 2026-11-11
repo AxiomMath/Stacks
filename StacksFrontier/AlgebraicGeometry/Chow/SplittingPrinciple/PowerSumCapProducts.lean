@@ -19,15 +19,19 @@ Stacks 0F9B. [Stacks, Tag 0F9C](https://stacks.math.columbia.edu/tag/0F9C) and
 in `A^p(X)`, whence `ch(ℰ) = ch(ℰ₁) + ch(ℰ₂)` and `ch(ℰ₁ ⊗ ℰ₂) = ch(ℰ₁) · ch(ℰ₂)` after dividing
 by `p!`. Both are proved here **componentwise, as identities between cap products on Chow
 groups**, in the vocabulary of
-`StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.TensorChernClasses`, where Stacks 0FA6 is
-proved: this development has no bivariant ring `A^*(X)` and no total Chern class — see the module
-documentation of `StacksFrontier.AlgebraicGeometry.Chow.ChernWhitney.CapProductRelation` — so every
-identity of this section of chapter 42 is read degree by degree against a fixed cycle `α`.
+`StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.TensorChernClasses`, where the identities
+of Stacks 0FA6 are proved for filtered modules, every identity read degree by degree against a
+fixed cycle `α`. The bivariant ring `A^*(X)` and the total Chern class do exist elsewhere in this
+development: Stacks 0FA6 itself is proved in `A^*(X)` as
+`Stacks.Chow.chernClass_tensorObj_one_chowCohomology` and
+`Stacks.Chow.chernClass_tensorObj_two_chowCohomology`
+(`StacksFrontier.AlgebraicGeometry.Chow.SplittingPrinciple.TensorChernClassesBivariant`). This file
+keeps the cap-product form.
 
 ## How a power sum can be a cap product at all
 
 `P_p` is a polynomial in the Chern classes, so the identities involve products of Chern classes,
-and there is no ring in which such a product is a class. The device is the one Stacks 0FA6 uses
+and cap products on Chow groups do not multiply. The device is the one Stacks 0FA6 uses
 for `c₁(ℱ)²`: a product of classes is read as a **composite of operations** on Chow groups.
 `Stacks.Chow.firstChernShift` makes `c₁(ℒ) ∩ -` an endomorphism of the graded product
 `Stacks.Chow.ChowGradedProduct` of all the `A_{n-i}(X)`, so composites are products in the ring

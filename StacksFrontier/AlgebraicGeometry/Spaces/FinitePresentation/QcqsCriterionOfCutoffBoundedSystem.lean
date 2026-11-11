@@ -7,7 +7,8 @@ import all StacksFrontier.AlgebraicGeometry.Spaces.FinitePresentation.QcqsCriter
 /-!
 # Stacks 0CP4 for an inverse system bounded by the cutoff
 
-`AlgebraicGeometry.Space.qcqsLimitSquare_of_relativelyLimitPreserving` proves Stacks 0CP4: a
+`AlgebraicGeometry.Space.qcqsLimitSquare_of_relativelyLimitPreserving` proves the implication
+(2) ⇒ (3) of Stacks 0CP4 for size-bounded systems: a
 relatively limit preserving morphism `f : X ⟶ Y` of algebraic spaces over `S` sees the inverse
 limit of a cofiltered system of quasi-compact and quasi-separated algebraic spaces with affine
 transition morphisms as the filtered colimit of its stages, stagewise. It asks the index category
@@ -42,7 +43,7 @@ The elementwise description of the comparison square, its Yoneda transport, the 
 stage and the descent along the atlas are private in
 `StacksFrontier/AlgebraicGeometry/Spaces/FinitePresentation/QcqsCriterion.lean`, which is imported
 with `import all` so that they are used as they stand. Nothing here is registered: Stacks 0CP4 is
-registered on the base.
+registered on `AlgebraicGeometry.Space.isLocallyOfFinitePresentation_tfae_qcqsLimitSquare`.
 
 ## References
 

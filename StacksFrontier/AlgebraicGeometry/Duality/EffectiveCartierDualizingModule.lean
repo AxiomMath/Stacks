@@ -97,24 +97,10 @@ complex on `X`, then the `𝒪_D`-module `H¹(a(ω))` is a dualizing module on `
 
 Degree one is the degree [Stacks, Remark 0B4R] selects, and
 `Stacks.Divisors.nonempty_homologyOne_derivedSheafHomExactSupport_iso` identifies `H¹(a(ω))` with
-the normal sheaf twist `𝒩 ⊗ i^*ω` of the restriction. -/
-@[stacks 0AU3 "clauses (4)(a) and (7) for the inclusion i : D to X of an effective Cartier \
-divisor into a locally Noetherian scheme, read on a module: clause (7) identifies i^! with \
-Li^*(-) tensor N[-1], so for a module omega the degree-one cohomology of i^!omega is N tensor \
-i^*omega, which is H^1(a(omega)) for a the right adjoint of Tag 0A76; clause (4)(a) is that \
-this is dualizing on D. Nothing is carried: the reduction to affine charts of D lying over \
-affine opens of X on which the ideal of D is principal on a nonzerodivisor is Tag 0A86, the \
-chart-level input is Tag 0AX0 at the surjection Gamma(X,U) to Gamma(D, i^-1 U) whose kernel \
-that nonzerodivisor generates, and the identification of H^1(a(omega)) with the twist is Tag \
-0AA4 at the level of modules. The general finite-type case of clause (4)(a) is \
-Stacks.Duality.isDualizingComplex_upperShriek_of_fts, stated for an unconstructed f^!",
-  stacks 0AA3 "for the inclusion i : D to X of an effective Cartier divisor into a locally \
-Noetherian scheme, read on a module: if omega placed in some degree is a dualizing complex on \
-X then H^1(a(omega)) — which clause (7) of Tag 0AU3 identifies with the degree-one cohomology \
-of i^!omega, namely the normal sheaf twist N tensor i^*omega of the restriction — is a \
-dualizing module on D. Nothing is carried; see the Tag 0AU3 clause string above for the three \
-inputs, all of them proved in the library. The general finite-type case is \
-Stacks.Duality.isDualizingComplex_upperShriek_of_fts"]
+the normal sheaf twist `𝒩 ⊗ i^*ω` of the restriction.
+
+This special case carries no `@[stacks]` attribute: clause (4)(a) of [Stacks, Section 0AU3] in
+general is `Stacks.Duality.isDualizingComplex_upperShriek_obj` ([Stacks, Tag 0AA3]). -/
 theorem isDualizingModule_homologyOne_derivedSheafHomExactSupport (ω : X.Modules)
     [ω.IsQuasicoherent] (n : ℤ) (hω : Stacks.Duality.IsDualizingComplex
       ((DerivedCategory.singleFunctor X.Modules n).obj ω)) :

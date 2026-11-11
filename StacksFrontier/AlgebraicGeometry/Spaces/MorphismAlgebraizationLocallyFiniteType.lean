@@ -30,10 +30,13 @@ Stacks 0A4Z applies to `V`. Uniqueness needs only separatedness of `Y`
 
 ## Main results
 
+* `AlgebraicGeometry.Space.exists_adicFibreMap_eq_of_forall_isOpenSubspace`: the reduction to an
+  open subspace of `Y` quasi-compact over `Spec A`.
 * `AlgebraicGeometry.Space.exists_adicFibreMap_eq_of_isLocallyOfFiniteType`: the existence
   half.
 * `AlgebraicGeometry.Space.existsUnique_adicFibreMap_eq_of_isLocallyOfFiniteType`: the separated
-  case of Stacks 0GHK.
+  case of Stacks 0GHK. The quasi-separated case is
+  `AlgebraicGeometry.Space.existsUnique_adicFibreMap_eq_of_isQuasiSeparated`.
 
 The index `n` stands for the source's `n + 1`: `X 0 = X_1`, `S 0 = S_1`.
 
@@ -76,7 +79,7 @@ variable {A : Type u} [CommRing A] {I : Ideal A} {B : BigFppfSite.{u}}
 /-- The transition map `X_n ⟶ X_{n+1}` between consecutive adic fibres of a presheaf over the
 base is surjective on points: it is a base change of `Spec (A / I^{n+1}) ⟶ Spec (A / I^{n+2})`,
 which is surjective. -/
-private theorem surjective_pointsMap_adicFibreSucc (fX : X ⟶ yoneda.obj (baseObject A B hS))
+theorem surjective_pointsMap_adicFibreSucc (fX : X ⟶ yoneda.obj (baseObject A B hS))
     (n : ℕ) :
     Function.Surjective (pointsMap B _ hS _ (adicFibreSucc A I B hS hSn fX n)) := by
   have hT : Function.Surjective (pointsMap B _ hS _
@@ -127,24 +130,33 @@ private theorem range_pointsMap_comp_fst_subset (n : ℕ) :
 end System
 
 include hSn in
-/-- **Stacks 0GHK, the separated case, existence.** Let `A` be Noetherian and `I`-adically
-complete, `X` proper and `Y` separated and locally of finite type over `Spec A`. A compatible
-system of morphisms `g_n : X_n ⟶ Y_n` over the thickenings is the system of adic fibres of a
-morphism `X ⟶ Y` over `Spec A`.
+/-- **The reduction of Stacks 0GHK to a quasi-compact target.** Let `A` be Noetherian and
+`I`-adically complete, `X` proper and `Y` locally of finite type over `Spec A`, and let
+`g_n : X_n ⟶ Y_n` be a compatible system over the thickenings. Suppose that for every open
+subspace `V ⊆ Y` quasi-compact over `Spec A`, every compatible system `X_n ⟶ V_n` is the system
+of adic fibres of a morphism `X ⟶ V`. Then `(g_n)` is the system of adic fibres of a morphism
+`X ⟶ Y`.
 
 The image in `|Y|` of the points of the quasi-compact closed fibre `X_0` lies in a quasi-compact
-open `W`, every `X_n ⟶ Y` factors through the open subspace `V` with points `W`, and Stacks 0A4Z
-applies to `V`, which is separated and of finite type over `Spec A`. -/
-theorem exists_adicFibreMap_eq_of_isLocallyOfFiniteType [IsNoetherianRing A] [IsAdicComplete I A]
+open `W`, and every `X_n ⟶ Y` factors through the open subspace `V` with points `W`, every
+`X_n` having the same points as `X_0`. -/
+theorem exists_adicFibreMap_eq_of_forall_isOpenSubspace [IsNoetherianRing A]
     (hX : IsAlgebraicSpace B _ hS X) (hY : IsAlgebraicSpace B _ hS Y)
     {fX : X ⟶ yoneda.obj (baseObject A B hS)} {fY : Y ⟶ yoneda.obj (baseObject A B hS)}
-    (hpX : IsProper B _ hS fX) (hsY : IsSeparated B _ hS fY)
-    (hlY : IsLocallyOfFiniteType B _ hS fY)
+    (hpX : IsProper B _ hS fX)
     (g : ∀ n, adicFibre A I B hS hSn fX n ⟶ adicFibre A I B hS hSn fY n)
     (hg : ∀ n, g n ≫ pullback.snd fY (yoneda.map (adicThickeningMap A I B hS hSn n)) =
       pullback.snd fX (yoneda.map (adicThickeningMap A I B hS hSn n)))
     (hgc : ∀ n, adicFibreSucc A I B hS hSn fX n ≫ g (n + 1) =
-      g n ≫ adicFibreSucc A I B hS hSn fY n) :
+      g n ≫ adicFibreSucc A I B hS hSn fY n)
+    (H : ∀ V : Subfunctor Y, IsOpenSubspace B _ hS V → IsQuasiCompact B _ hS (V.ι ≫ fY) →
+      ∀ g' : ∀ n, adicFibre A I B hS hSn fX n ⟶ adicFibre A I B hS hSn (V.ι ≫ fY) n,
+      (∀ n, g' n ≫ pullback.snd (V.ι ≫ fY) (yoneda.map (adicThickeningMap A I B hS hSn n)) =
+        pullback.snd fX (yoneda.map (adicThickeningMap A I B hS hSn n))) →
+      (∀ n, adicFibreSucc A I B hS hSn fX n ≫ g' (n + 1) =
+        g' n ≫ adicFibreSucc A I B hS hSn (V.ι ≫ fY) n) →
+      ∃ φ : X ⟶ V.toFunctor, ∃ hφ : φ ≫ V.ι ≫ fY = fX,
+        ∀ n, adicFibreMap A I B hS hSn φ hφ n = g' n) :
     ∃ φ : X ⟶ Y, ∃ hφ : φ ≫ fY = fX, ∀ n, adicFibreMap A I B hS hSn φ hφ n = g n := by
   have hbase := isAlgebraicSpace_yoneda B _ hS (baseObject A B hS)
   have hSaff : IsAffine ((BigFppfOver.toScheme B _ hS).obj (baseObject A B hS)) := by
@@ -175,16 +187,10 @@ theorem exists_adicFibreMap_eq_of_isLocallyOfFiniteType [IsNoetherianRing A] [Is
     refine ⟨hemb.isCompact_iff.mpr ?_⟩
     rw [Set.image_univ, range_pointsMap_ι_openSubspaceOfPoints]
     exact hWc
-  -- `V` is separated and of finite type over the base.
-  have hsV : IsSeparated B _ hS (V.ι ≫ fY) :=
-    isSeparated_comp B _ hS _ _ (isSeparated_of_isImmersion B _ hS hVim) hsY
   have hqV : IsQuasiCompact B _ hS (V.ι ≫ fY) :=
     isQuasiCompact_of_isQuasiCompactSpace_pullback_affine' B _ hS (V.ι ≫ fY) hV.1 hbase
       fun T k hT => isQuasiCompact_yoneda_of_isAffine B _ hS k hT hSaff V.toFunctor hV.1 hVqc
         (V.ι ≫ fY)
-  have hfV : IsFiniteType B _ hS (V.ι ≫ fY) :=
-    ⟨isLocallyOfFiniteType_comp' B _ hS V.ι fY hY hbase
-      (isLocallyOfFiniteType_of_isImmersion B _ hS V.ι hVim) hlY, hqV⟩
   -- Every `X_n ⟶ Y` factors through `V`.
   have hle : ∀ n, Subfunctor.range
       (g n ≫ pullback.fst fY (yoneda.map (adicThickeningMap A I B hS hSn n))) ≤ V := by
@@ -218,7 +224,7 @@ theorem exists_adicFibreMap_eq_of_isLocallyOfFiniteType [IsNoetherianRing A] [Is
       exact adicFibreSucc_comp_fst g hgc n
     · rw [Category.assoc, Category.assoc, adicFibreSucc_snd, pullback.lift_snd, adicFibreSucc_snd,
         reassoc_of% (hg' n)]
-  obtain ⟨φ, hφ, hφn⟩ := exists_adicFibreMap_eq g' hg' hX hV.1 hpX hsV hfV hgc'
+  obtain ⟨φ, hφ, hφn⟩ := H V hV hqV g' hg' hgc'
   refine ⟨φ ≫ V.ι, (Category.assoc _ _ _).trans hφ, fun n => ?_⟩
   apply pullback.hom_ext
   · have h1 : h n = adicFibreMap A I B hS hSn φ hφ n ≫
@@ -228,6 +234,39 @@ theorem exists_adicFibreMap_eq_of_isLocallyOfFiniteType [IsNoetherianRing A] [Is
     rw [adicFibreMap_fst, ← hh n, h1, Category.assoc, adicFibreMap_fst_assoc]
   · rw [adicFibreMap_snd, hg n]
 
+include hSn in
+/-- **Stacks 0GHK, the separated case, existence.** Let `A` be Noetherian and `I`-adically
+complete, `X` proper and `Y` separated and locally of finite type over `Spec A`. A compatible
+system of morphisms `g_n : X_n ⟶ Y_n` over the thickenings is the system of adic fibres of a
+morphism `X ⟶ Y`.
+
+The image in `|Y|` of the points of the quasi-compact closed fibre `X_0` lies in a quasi-compact
+open `W`, every `X_n ⟶ Y` factors through the open subspace `V` with points `W`
+(`AlgebraicGeometry.Space.exists_adicFibreMap_eq_of_forall_isOpenSubspace`), and Stacks 0A4Z
+applies to `V`, which is separated and of finite type over `Spec A`. -/
+theorem exists_adicFibreMap_eq_of_isLocallyOfFiniteType [IsNoetherianRing A] [IsAdicComplete I A]
+    (hX : IsAlgebraicSpace B _ hS X) (hY : IsAlgebraicSpace B _ hS Y)
+    {fX : X ⟶ yoneda.obj (baseObject A B hS)} {fY : Y ⟶ yoneda.obj (baseObject A B hS)}
+    (hpX : IsProper B _ hS fX) (hsY : IsSeparated B _ hS fY)
+    (hlY : IsLocallyOfFiniteType B _ hS fY)
+    (g : ∀ n, adicFibre A I B hS hSn fX n ⟶ adicFibre A I B hS hSn fY n)
+    (hg : ∀ n, g n ≫ pullback.snd fY (yoneda.map (adicThickeningMap A I B hS hSn n)) =
+      pullback.snd fX (yoneda.map (adicThickeningMap A I B hS hSn n)))
+    (hgc : ∀ n, adicFibreSucc A I B hS hSn fX n ≫ g (n + 1) =
+      g n ≫ adicFibreSucc A I B hS hSn fY n) :
+    ∃ φ : X ⟶ Y, ∃ hφ : φ ≫ fY = fX, ∀ n, adicFibreMap A I B hS hSn φ hφ n = g n := by
+  have hbase := isAlgebraicSpace_yoneda B _ hS (baseObject A B hS)
+  refine exists_adicFibreMap_eq_of_forall_isOpenSubspace hX hY hpX g hg hgc
+    fun V hV hqV g' hg' hgc' => ?_
+  have hVim : IsImmersion B _ hS V.ι := isImmersion_of_isOpenImmersion B _ hS hV.2
+  -- `V` is separated and of finite type over the base.
+  have hsV : IsSeparated B _ hS (V.ι ≫ fY) :=
+    isSeparated_comp B _ hS _ _ (isSeparated_of_isImmersion B _ hS hVim) hsY
+  have hfV : IsFiniteType B _ hS (V.ι ≫ fY) :=
+    ⟨isLocallyOfFiniteType_comp' B _ hS V.ι fY hY hbase
+      (isLocallyOfFiniteType_of_isImmersion B _ hS V.ι hVim) hlY, hqV⟩
+  exact exists_adicFibreMap_eq g' hg' hX hV.1 hpX hsV hfV hgc'
+
 /-- **Stacks 0GHK, the separated case.** Let `A` be a Noetherian ring complete with respect to
 an ideal `I`, `S = Spec A`, `S_n = Spec (A / I^{n+1})`, and let `X`, `Y` be algebraic spaces over
 `S` with `X ⟶ S` proper and `Y ⟶ S` separated and locally of finite type. A compatible system
@@ -235,16 +274,13 @@ of morphisms `g_n : X_n ⟶ Y_n` over the `S_n` between the adic fibres is the s
 fibres of exactly one morphism `g : X ⟶ Y` over `S`.
 
 Remark 0GHK asks whether Stacks 0A4Z survives with `Y ⟶ S` only locally of finite type. This
-declaration formalizes the remark's assertion that the answer is yes when `Y ⟶ S` is separated,
-by the remark's reduction to a quasi-compact open of `Y` containing the image of `g_1` (here
-`g 0`); uniqueness is included, as in Stacks 0A4Z. The remark's statement "we don't know the
-answer in general" is an open question, not a mathematical assertion, and is not formalized.
-The remark's further assertion for `Y ⟶ S` only quasi-separated is not formalized: the remark
-gives no proof inside the Stacks project, deferring to Bhatt's algebraization theorem for
-`D_perf` and to Hall–Rydh's coherent Tannaka duality, papers outside the project. -/
-@[stacks 0GHK "the separated case: `Y ⟶ S` separated and locally of finite type; the \
-  quasi-separated case rests on Bhatt and Hall–Rydh, outside the Stacks project, and the open \
-  general question is not a statement"]
+declaration is the remark's assertion that the answer is yes when `Y ⟶ S` is separated, by the
+remark's reduction to a quasi-compact open of `Y` containing the image of `g_1` (here `g 0`);
+uniqueness is included, as in Stacks 0A4Z. The remark's further assertion for `Y ⟶ S`
+quasi-separated is `AlgebraicGeometry.Space.existsUnique_adicFibreMap_eq_of_isQuasiSeparated`,
+and the two cases together are registered under Stacks 0GHK by
+`AlgebraicGeometry.Space.existsUnique_adicFibreMap_eq_separated_and_quasiSeparated`
+(both in `StacksFrontier/AlgebraicGeometry/Spaces/MorphismAlgebraizationQuasiSeparated.lean`). -/
 theorem existsUnique_adicFibreMap_eq_of_isLocallyOfFiniteType [IsNoetherianRing A]
     [IsAdicComplete I A] (hX : IsAlgebraicSpace B _ hS X) (hY : IsAlgebraicSpace B _ hS Y)
     (fX : X ⟶ yoneda.obj (baseObject A B hS)) (fY : Y ⟶ yoneda.obj (baseObject A B hS))

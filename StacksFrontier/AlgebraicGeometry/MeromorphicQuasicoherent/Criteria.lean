@@ -75,8 +75,9 @@ theorem meromorphicFunctions_isQuasicoherent (X : Scheme.{u}) [IsReduced X]
     (weaklyAssociatedPointsOfScheme_eq_genericPoints X).le hfinite
 
 /-- **Stacks Project, Tag 0EMH.** On a locally Noetherian scheme without embedded points, the
-sheaf of meromorphic functions is quasi-coherent. -/
-@[stacks 0EMH "quasi-coherence of meromorphic functions"]
+sheaf of meromorphic functions is quasi-coherent.
+One clause of [Stacks, Tag 0EMH]; the complete statement is
+`AlgebraicGeometry.genericPointDecomposition_of_hasNoEmbeddedPoints`. -/
 theorem meromorphicFunctions_isQuasicoherent_of_noEmbeddedPoints (X : Scheme.{u})
     [IsLocallyNoetherian X] (hX : AlgebraicGeometry.HasNoEmbeddedPoints X) :
     (meromorphicFunctions X).IsQuasicoherent :=

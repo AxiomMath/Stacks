@@ -8,7 +8,6 @@ public import StacksFrontier.CategoryTheory.Sites.Cohomology.LocallyQuasiCompact
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.LocallyQuasiCompact.ZariskiComparisonSituationData
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.LocallyQuasiCompact.ZariskiDerivedProperBaseChange
 public import StacksFrontier.CategoryTheory.Sites.Localization.OverMapKanExtension
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Abelian sheaves and the comparison morphisms of the quasi-compact site
@@ -20,8 +19,8 @@ the slice compares them, giving the change-of-topology morphism of topoi
 `π_X : Sh(LC_Zar/X) → Sh(X)` to sheaves on the underlying space gives `a_X = π_X ∘ ε_X`. All of
 this is available in this development for sheaves of sets. This file supplies the same
 morphisms for sheaves of **abelian groups**, where the higher direct images `R^i ε_{X,*}` and
-`R^i f_{qc,*}` live, and states clause (1) of Stacks 0DCY about them; clauses (2), (3) and (4)
-are proved in `QcDerivedComparison.lean`, over the canonical maps constructed here.
+`R^i f_{qc,*}` live, and constructs the canonical maps of Stacks 0DCY between them. All four
+clauses of Stacks 0DCY are proved in `QcDerivedComparison.lean`, over the maps constructed here.
 
 ## Main definitions
 
@@ -44,10 +43,11 @@ In the namespace `Stacks.Topology.LocallyQuasiCompactZariskiSituation`:
 
 ## Main results
 
-* `qcAbelianDirectImageTopologicalInverseImageIso`: the first half of clause (1) of
-  Stacks 0DCY, `ε_{X,*}(a_X^{-1}F) = π_X^{-1}F`.
-* `isZero_rightDerived_qcAbelianDirectImage_qcTopologicalInverseImage`: the second half of
-  clause (1), the vanishing of `R^i ε_{X,*}(a_X^{-1}F)` for `i > 0`.
+* `qcAbelianDirectImageTopologicalInverseImageIso`: `ε_{X,*}(a_X^{-1}F) = π_X^{-1}F`, from the
+  quasi-compact sheaf condition on the sheaves pulled back from the space.
+* `isZero_rightDerived_qcAbelianDirectImage_qcTopologicalInverseImage`: the vanishing of
+  `R^i ε_{X,*}(a_X^{-1}F)` for `i > 0`, from the vanishing on every sheaf pulled back from the
+  space.
 * `isIso_qcHigherDirectImageComparison_app`: the degreewise comparison is an isomorphism, from
   the vanishing of the higher change-of-topology direct images in the range and the sheaf
   condition at the target.
@@ -75,21 +75,16 @@ weaker sheaf condition. That strict square is what the two edge morphisms of
 those pushforwards is transported along `zariskiSlicePushforwardIso` from the cocontinuous
 form, whose left adjoint is restriction along `Over.map f` and hence exact.
 
-### What is proved and what is carried
+### The deduction of Stacks 0DCY
 
 Stacks 0DCY is deduced in the source from the results of Section 21.30 (Stacks 0EZ1) through
 Stacks 0EZI, which asserts five conditions making Situation 0EZ3 apply to the pair
 `(LC_qc, LC_Zar)` with the proper maps as distinguished class and the sheaves pulled back from
-the space as weak Serre class. Three of those five are not in this repository — see the
-discussion in `ZariskiComparisonSituationData.lean` — and the leading assertion of Stacks 0EZF,
-that the vanishing conditions `(V_n)` hold for every `n`, is not proved there either. So:
-
-* The first half of clause (1) is **proved**, from the condition (0EZ6) of Situation 0EZ3 for
-  this situation, carried as `h0EZI`.
-* The second half of clause (1) is the condition `(V_n)` itself and is **carried**, as `hV`.
-* `isIso_qcHigherDirectImageComparison_app` is **proved** outright.
-* For clauses (3) and (4) this file contributes the construction of the two canonical maps
-  whose invertibility they assert; that invertibility is proved in `QcDerivedComparison.lean`.
+the space as weak Serre class. The two clause (1) statements of this file take, respectively,
+the quasi-compact sheaf condition (0EZ6) and the vanishing conditions `(V_n)` as arguments; both
+are proved for this situation elsewhere (`zariskiPullbackClass_isSheaf_qc`, and Stacks 0EZF
+applied to the instance `comparisonSituation` of Situation 0EZ3), and the unconditional
+statements of all four clauses of Stacks 0DCY are in `QcDerivedComparison.lean`.
 
 ## References
 
@@ -357,22 +352,16 @@ variable (S : LocallyQuasiCompactZariskiSituation.{u, w} S₀ Bound) (X : S.cate
   [HasSheafify (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v}]
   [HasSheafify (S.zariskiTopology.over X) AddCommGrpCat.{max (u + 1) v}]
 
-/-- **Stacks 0DCY (1), the identification `ε_{X,*}(a_X^{-1}F) = π_X^{-1}F`.** For an object `X`
-of the site and an abelian sheaf `F` on the space underlying `X`, the change-of-topology direct
-image of `a_X^{-1}F` is `π_X^{-1}F`.
+/-- **The identification `ε_{X,*}(a_X^{-1}F) = π_X^{-1}F`, from condition (0EZ6).** For an
+object `X` of the site and an abelian sheaf `F` on the space underlying `X`, the
+change-of-topology direct image of `a_X^{-1}F` is `π_X^{-1}F`.
 
-The hypothesis `h0EZI` is condition (0EZ6) of Situation 0EZ3 for this situation, one of the five
+The argument `h0EZI` is condition (0EZ6) of Situation 0EZ3 for this situation, one of the five
 conditions asserted by Stacks 0EZI: a sheaf pulled back from the space already satisfies the
-sheaf condition for quasi-compact coverings. Granted it, the unit of the change-of-topology
-adjunction is invertible at `π_X^{-1}F`, which is the assertion. -/
-@[stacks 0DCY "clause (1), the identification eps_{X,*}a_X^{-1}F = pi_X^{-1}F. PROVED, from
-condition (0EZ6) of Situation 0EZ3 for this situation, carried as h0EZI: that condition is
-one of the clauses of Tag 0EZI absent from this repository (see LocallyQuasiCompact/
-ZariskiComparisonSituationData.lean:52). The sheaves-of-sets version of (0EZ6) IS proved, as
-isSheaf_qc_comparisonInverseImage (LocallyQuasiCompact/QcComparisonNaturality.lean:357, which
-carries no tag of its own; the tagged 09X3 carriers are isSheaf_qc_germSectionsPresheaf and
-isIso_toSheafify_comparisonInverseImage, both in LocallyQuasiCompact/QcGermSectionsSheaf.lean),
-but only at coefficients Type u, which is why the abelian form is carried"]
+sheaf condition for quasi-compact coverings. From it, the unit of the change-of-topology
+adjunction is invertible at `π_X^{-1}F`, which is the assertion. That condition is proved as
+`zariskiPullbackClass_isSheaf_qc`, and the unconditional statement is
+`isIso_qcAbelianComparisonAdjunction_unit_app_and_isZero_rightDerived`. -/
 def qcAbelianDirectImageTopologicalInverseImageIso
     (h0EZI : ∀ G : Sheaf (S.zariskiTopology.over X) AddCommGrpCat.{max (u + 1) v},
       S.zariskiPullbackClass.{u, w, v} X G →
@@ -387,20 +376,14 @@ def qcAbelianDirectImageTopologicalInverseImageIso
     ((S.abelianComparisonInverseImage.{u, w, max (u + 1) v} X).obj F))).symm
 
 omit [HasSheafify (Opens.grothendieckTopology X.obj) AddCommGrpCat.{max (u + 1) v}] in
-/-- **Stacks 0DCY (1), the vanishing `R^i ε_{X,*}(a_X^{-1}F) = 0` for `i > 0`.**
+/-- **The vanishing `R^i ε_{X,*}(a_X^{-1}F) = 0` for `i > 0`, from the conditions `(V_n)`.**
 
-The hypothesis `hV` is the family of vanishing conditions `(V_n)` of Situation 0EZ3 for this
-situation, stated for the class of sheaves pulled back from the space: it is the leading
-assertion of Stacks 0EZF, which this development does not prove — see
-`Stacks.ComparingTopologies.CohomologyComparison.vanishingCondition_of_singleCoveringDescent`,
-where it is reduced to a descent statement for a single covering arrow of the distinguished
-class. This clause is therefore carried, not proved; the content here is only that `π_X^{-1}F`
-belongs to the class. -/
-@[stacks 0DCY "clause (1), the vanishing R^i eps_{X,*}(a_X^{-1}F) = 0 for i > 0. NOT PROVED:
-it IS the vanishing condition (V_n) of Situation 0EZ3, carried as hV. The leading assertion
-of Tag 0EZF supplies that condition only granted SingleCoveringDescent -- see
-ChangeOfTopology/VanishingConditionAllDegrees.lean:117 -- and that descent statement is not
-proved anywhere. What IS proved here is only that pi_X^{-1}F lies in the class A'_X"]
+The argument `hV` is the family of vanishing conditions `(V_n)` of Situation 0EZ3 for this
+situation, stated for the class of sheaves pulled back from the space; the content here is that
+`π_X^{-1}F` belongs to the class. Those conditions hold by Stacks 0EZF
+(`CohomologyComparison.vanishingCondition_all`) applied to `comparisonSituation`, read on the site
+as `isZero_rightDerived_qcAbelianDirectImage_qcAbelianInverseImage`; the unconditional statement
+is `isIso_qcAbelianComparisonAdjunction_unit_app_and_isZero_rightDerived`. -/
 theorem isZero_rightDerived_qcAbelianDirectImage_qcTopologicalInverseImage
     [EnoughInjectives
       (Sheaf (S.qcSite.grothendieckTopology.over X) AddCommGrpCat.{max (u + 1) v})]

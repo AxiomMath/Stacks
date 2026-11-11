@@ -56,8 +56,8 @@ construction of **Stacks 0GQA**, read at the square.
 The source proves it by combining **Stacks 075H**, the base change identity
 `g⁻¹Rf_*ℱ = Rf'_*(g')⁻¹ℱ` for the square, with **Stacks 075N**, the identification of the
 restriction of a derived direct image along a 1-morphism between stacks representable by
-algebraic spaces with the derived direct image on the small étale sites.  Neither is available
-in the shape the combination needs.
+algebraic spaces with the derived direct image on the small étale sites.  The first is not
+available in the shape the combination needs.
 
 **Stacks 075H** is proved as
 `AlgebraicGeometry.Stack.abelianHigherDirectImageBaseChangeIso` only at abelian coefficients,
@@ -70,16 +70,14 @@ abelian presheaves is available,
 `AlgebraicGeometry.Stack.nonempty_moduleHigherDirectImageBaseChangeIso`, which carries
 `𝒪`-linearity of that comparison as a hypothesis.
 
-**Stacks 075N** is proved in its module clause only,
-`AlgebraicGeometry.Space.restrictedDerivedDirectImageIso`, and with the 2-isomorphism of the
-two legs of the square of **Stacks 073N**, the two K-injectivity hypotheses of **Stacks 093Y**
-and exactness of the two module-level restrictions carried as named hypotheses; its abelian
-clause is absent.
+**Stacks 075N** is proved in both clauses,
+`AlgebraicGeometry.Space.restrictedTotalDerivedDirectImageIsoClauses`, so it is not what blocks
+the combination.
 
-So the displayed identity is blocked twice over, and at module coefficients the two sides
-cannot even be compared in the source's form.  No conditional statement of it is offered: a
-hypothesis strong enough to supply the missing halves of **Stacks 075H** and **Stacks 075N**
-would be the identity itself.
+So the displayed identity is blocked by **Stacks 075H**, and at module coefficients the two
+sides cannot even be compared in the source's form.  No conditional statement of it is offered:
+a hypothesis strong enough to supply the missing half of **Stacks 075H** would be the identity
+itself.
 
 ### Universes
 

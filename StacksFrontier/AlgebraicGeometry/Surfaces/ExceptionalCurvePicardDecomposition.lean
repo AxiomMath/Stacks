@@ -17,13 +17,22 @@ in which `ℒ` corresponds to the pair `(ℒ', n)` exactly when `ℒ = (b^*ℒ')
 `ℒ(nE) = b^*ℒ'`; the proof of 0C5L exhibits `ℒ'` as `b_*ℒ(nE)`; and `ℒ ↦ ℒ'` is a group
 homomorphism.
 
-All four assertions are proved here, granted the two halves of 0C5L that the library does not
-yet prove. Those two are bundled as the hypothesis
-`AlgebraicGeometry.Scheme.IdealSheafData.ContractionPicardSplitting`: a pushforward `b_*` on
-Picard classes left inverse to `b^*` (the first claim in the proof of 0C5L, which rests on
-Tag 0AGS part (4)), and exactness of `Pic(X') ⟶ Pic(X) ⟶ ℤ` at `Pic(X)` (its second claim).
-Left exactness — injectivity of `b^*` — is *not* a hypothesis: it follows from the left inverse
-and is proved below.
+All four assertions are proved here from the structure
+`AlgebraicGeometry.Scheme.IdealSheafData.ContractionPicardSplitting`, which packages a
+pushforward `b_*` on Picard classes left inverse to `b^*` together with exactness of
+`Pic(X') ⟶ Pic(X) ⟶ ℤ` at `Pic(X)`, and with the degree parametrised by an identification
+`ℤ ≃+ Pic(𝐏¹_k)`. Left exactness — injectivity of `b^*` — follows from the left inverse and is
+proved below.
+
+For a general contraction the assertions of Tag 0C5M are proved outright, with nothing beyond
+the contraction assumed, in
+`StacksFrontier/AlgebraicGeometry/Surfaces/ContractionPicardDescent.lean`
+(`AlgebraicGeometry.Scheme.IdealSheafData.picardDecomposition_of_isContraction` and the
+declarations beside it), where the two halves of Tag 0C5L used there are proved as well
+(`AlgebraicGeometry.Scheme.IdealSheafData.contractionPicardExactness_of_isContraction`,
+`AlgebraicGeometry.Scheme.IdealSheafData.isInvertible_pushforward_of_isContraction` and
+`AlgebraicGeometry.Scheme.IdealSheafData.isIso_counit_app_of_isContraction`). The development
+here is kept as the form of the decomposition usable from any such splitting.
 
 ## Main definitions
 
@@ -31,8 +40,8 @@ and is proved below.
   Picard group of the projective line.
 * `AlgebraicGeometry.Scheme.IdealSheafData.exceptionalTwist` — the class of `ℒ(nE)`, the twist
   of `ℒ` by `n` times the exceptional curve.
-* `AlgebraicGeometry.Scheme.IdealSheafData.ContractionPicardSplitting` — the two assertions of
-  Tag 0C5L the library lacks, as a hypothesis on the contraction.
+* `AlgebraicGeometry.Scheme.IdealSheafData.ContractionPicardSplitting` — a pushforward on
+  Picard classes left inverse to `b^*` together with exactness at `Pic(X)`.
 * `AlgebraicGeometry.Scheme.IdealSheafData.picardDecomposition` — **the identification
   `Pic(X) ≃+ Pic(X') × ℤ`.**
 * `AlgebraicGeometry.Scheme.IdealSheafData.contractedPicardHom` — **the group homomorphism
@@ -107,9 +116,9 @@ variable {X X' : Scheme.{u}} (D : X.IdealSheafData) (k : Type u) [Field k]
   (e : projectiveLineProj k ≅ D.subscheme)
   (φ : ℤ ≃+ Stacks.Picard.ofScheme (projectiveLineProj k)) (b : X ⟶ X')
 
-/-- **The two assertions of Tag 0C5L that the library does not yet prove**, for the contraction
-`b : X ⟶ X'` of the exceptional curve cut out by `D`: a pushforward `b_*` on Picard classes that
-is a left inverse to `b^*`, and exactness of `Pic(X') ⟶ Pic(X) ⟶ ℤ` at `Pic(X)`. -/
+/-- **A Picard splitting of the contraction** `b : X ⟶ X'` of the exceptional curve cut out by
+`D`: a pushforward `b_*` on Picard classes that is a left inverse to `b^*`, and exactness of
+`Pic(X') ⟶ Pic(X) ⟶ ℤ` at `Pic(X)`, the two claims in the proof of Tag 0C5L. -/
 public structure ContractionPicardSplitting where
   /-- The pushforward `b_* : Pic(X) ⟶ Pic(X')` on Picard classes. -/
   pushforwardHom : Stacks.Picard.ofScheme X →+ Stacks.Picard.ofScheme X'
@@ -243,14 +252,10 @@ public theorem picardDecomposition_map_add
   rw [Prod.mk_add_mk, Prod.mk.injEq]
   exact ⟨by rw [ht, map_add], map_add _ L₁ L₂⟩
 
-/-- **Stacks Project, Tag 0C5M: the identification `Pic(X) = Pic(X') ⊕ ℤ`.** For the contraction
+/-- **The identification `Pic(X) = Pic(X') ⊕ ℤ` from a Picard splitting.** For the contraction
 `b : X ⟶ X'` of an exceptional curve of the first kind, a class `ℒ` on `X` is sent to the pair
 `(b_*ℒ(nE), n)` with `n` the degree of `ℒ` on the exceptional curve, and a pair `(ℒ', n)` back
 to the class of `(b^*ℒ')(-nE)`. -/
-@[stacks 0C5M "the identification Pic(X) = Pic(X') ⊕ Z, granted the two halves of Tag 0C5L the \
-library does not prove — a pushforward b_* left inverse to b^*, and exactness at Pic(X) — \
-bundled as the hypothesis ContractionPicardSplitting, and granted the identification \
-Z ≃+ Pic(P¹_k) of Tag 0BXJ, of which the library has only the injectivity half"]
 public def picardDecomposition (hb : D.ContractionPicardSplitting k e φ b)
     (hE : D.IsExceptionalCurveOfFirstKind k e)
     (hφ : φ (-1) = projectiveLineTwistPicardClass k (-1)) :
@@ -282,11 +287,8 @@ public theorem picardDecomposition_symm_apply (hb : D.ContractionPicardSplitting
       Stacks.Picard.schemePullbackClassHom b L' + D.negativeExceptionalMultipleHom n :=
   rfl
 
-/-- **Stacks Project, Tag 0C5M: the characterisation of the decomposition.** A class `ℒ`
+/-- **The characterisation of the decomposition from a Picard splitting.** A class `ℒ`
 corresponds to the pair `(ℒ', n)` if and only if `ℒ = (b^*ℒ')(-nE)`. -/
-@[stacks 0C5M "the characterisation: L corresponds to the pair (L', n) if and only if \
-L = (b^*L')(-nE), granted the two halves of Tag 0C5L the library does not prove, bundled as \
-the hypothesis ContractionPicardSplitting, and the identification Z ≃+ Pic(P¹_k) of Tag 0BXJ"]
 public theorem picardDecomposition_eq_iff (hb : D.ContractionPicardSplitting k e φ b)
     (hE : D.IsExceptionalCurveOfFirstKind k e)
     (hφ : φ (-1) = projectiveLineTwistPicardClass k (-1)) (L : Stacks.Picard.ofScheme X)
@@ -300,11 +302,8 @@ public theorem picardDecomposition_eq_iff (hb : D.ContractionPicardSplitting k e
   · intro h
     rw [h, ← picardDecomposition_symm_apply hb hE hφ L' n, AddEquiv.apply_symm_apply]
 
-/-- **Stacks Project, Tag 0C5M: the assignment `ℒ ↦ ℒ'` is a group homomorphism.** It is the
+/-- **The assignment `ℒ ↦ ℒ'` from a Picard splitting is a group homomorphism.** It is the
 `Pic(X')`-component of the decomposition `Pic(X) ≃+ Pic(X') × ℤ`. -/
-@[stacks 0C5M "the assignment L ↦ L' is a group homomorphism, granted the two halves of Tag \
-0C5L the library does not prove, bundled as the hypothesis ContractionPicardSplitting, and \
-granted the identification Z ≃+ Pic(P¹_k) of Tag 0BXJ"]
 public def contractedPicardHom (hb : D.ContractionPicardSplitting k e φ b)
     (hE : D.IsExceptionalCurveOfFirstKind k e)
     (hφ : φ (-1) = projectiveLineTwistPicardClass k (-1)) :

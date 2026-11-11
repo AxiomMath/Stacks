@@ -61,9 +61,9 @@ are convenience bridges rather than carriers.  They become a proof of Stacks 08W
 their hypothesis is discharged, which is the equalizer reduction together with Proposition 08K9.
 
 The fibred-in-groupoids structure comes from
-`AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids`, Stacks 08W5, which is itself
-conditional on the three base-change stability results of its own file; those hypotheses
-(`hc`, `hst`, `cd`) are carried unchanged.
+`AlgebraicGeometry.Space.coherentProjection_isFiberedInGroupoids`, the form of Stacks 08W5 over
+the parameters `hc`, `hst` and `cd`, which are carried unchanged.  Stacks 08W5 itself is proved
+with no hypothesis as `AlgebraicGeometry.Space.CoherentSituation.projection_isFiberedInGroupoids`.
 
 The hom-sets of `Coh_{X/Y}` live one universe above those of the site, so the object constructed
 here is a `CategoryTheory.CatFiberedInGroupoids.{u, u + 1, u + 1, u + 1}`; the equivalence of

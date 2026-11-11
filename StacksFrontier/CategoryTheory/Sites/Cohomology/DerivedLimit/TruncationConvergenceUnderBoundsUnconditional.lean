@@ -17,7 +17,7 @@ arbitrary, since `w` is -- so that sheafification of abelian presheaves, enough 
 sheaves of `O`-modules and the countable product of the truncation tower in the derived category
 are all theorems rather than hypotheses; the discharges are the ones made for [Stacks, Tag 0D6M]
 in the imported module `TruncationTowerConvergenceUnconditional` of
-`StacksFrontier.CategoryTheory.Sites.Cohomology.DerivedLimit`.
+`StacksDraft.CategoryTheory.Sites.Cohomology.DerivedLimit`.
 The deduction from [Stacks, Tag 0D6M] is the proof of the source: take `p(V, m) = p(m)`, and for
 the cofinal system of coverings of `V ∈ B` take all coverings whose members lie in `B`.
 

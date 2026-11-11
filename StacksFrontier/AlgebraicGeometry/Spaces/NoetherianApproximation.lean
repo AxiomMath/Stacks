@@ -16,13 +16,14 @@ over `Spec ℤ`, with affine transition morphisms. This file records the *conclu
 statement as a reusable interface, together with the closure properties of affineness and
 the descent step which its proof ends with.
 
-The proposition itself is **not** proved here, and nothing in this file carries the tag
-`07SU`. Its proof in the source runs through a finite stratification of the space by open
-subspaces with étale scheme neighbourhoods, absolute Noetherian approximation for *schemes*,
-an approximation of étale morphisms, a gluing construction of étale equivalence relations
-stagewise, and finally the identification of the two quotients. The source cites seventeen
-tags, of which fifteen are statements; of those fifteen this development has five. See the
-implementation notes for the audit.
+The proposition itself is proved, from this interface, as
+`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isQuasiCompactSpace` in
+`StacksFrontier/AlgebraicGeometry/Spaces/AbsoluteNoetherianApproximation/Main.lean`, which carries
+the tag `07SU`; nothing in this file carries it. Its proof in the source runs through a finite
+stratification of the space by open subspaces with étale scheme neighbourhoods, absolute
+Noetherian approximation for *schemes*, an approximation of étale morphisms, a gluing
+construction of étale equivalence relations stagewise, and finally the identification of the two
+quotients.
 
 ## Main definitions
 
@@ -80,40 +81,12 @@ other phrasing of the same system, "of finite presentation over `Spec ℤ`", is 
 Stacks 06G4 over the Noetherian base `Spec ℤ`; 06G4 is not available here, so the predicate
 uses the wording of the proposition itself.
 
-*What the proof needs.* The seventeen tags cited by the source are 07ST, 05W5, 01ZA, 07SK,
-07SL, 07SR, 07RN, 01JA, 02WW, 07S4, 040W, 040Y, 07SV, 07S3, 03WG, 07SF and 0262. Two of them
-are not statements, and so are not inputs to be formalized: 01JA is the *section* on glueing
-schemes along a common open, a construction carried out here by
-`AlgebraicGeometry.Scheme.gluePair` in
-`StacksFrontier/AlgebraicGeometry/NoetherianApproximation/GluePair.lean`, and 07SV is the
-label of a displayed cartesian square inside the proof of 07SU itself.
-
-Of the fifteen cited statements, five are formalized in this development:
-
-* 0262, in `StacksFrontier/AlgebraicGeometry/Spaces/Presentation/KernelPair.lean`;
-  `exists_iso_of_common_presentation` below is the use the proof makes of it.
-* 02WW, the quotient of an étale equivalence relation, by which every stage `X_i` of the
-  system is constructed, in
-  `StacksFrontier/AlgebraicGeometry/Spaces/QuotientSheafPresentationUnconditional.lean`.
-* 03WG, in `StacksFrontier/AlgebraicGeometry/Descent/AffineHomEtaleDescent.lean`; this is what
-  makes the transition morphisms `X_i → X_{i'}` affine.
-* 07S4, in `StacksFrontier/AlgebraicGeometry/Spaces/QuasiSeparatedAbsolute.lean`.
-* 07SF, in `StacksFrontier/AlgebraicGeometry/Spaces/AffineLimitExistence.lean`, by which the
-  limit `X' = lim X_i` is formed.
-
-The ten that are missing are 07ST, 05W5, 01ZA, 07SK, 07SL, 07SR, 07RN, 040W, 040Y and 07S3.
-Three of them — 040W, 040Y and 07S3 — have all of their own cited inputs formalized here; the
-other seven do not. Two of those seven carry the mathematical weight of the proposition. The
-first is 07ST, the stratification of a quasi-compact quasi-separated algebraic space by open
-subspaces admitting surjective étale morphisms from quasi-compact separated schemes which are
-isomorphisms over the strata; nothing of its shape exists here. The second is absolute
-Noetherian approximation for *schemes*, Stacks 01ZA, which has no formalization in this
-development and none in Mathlib, which has the inverse-limit theory of schemes with affine
-transition morphisms but not the approximation theorem that produces such a system. The one
-lemma 01ZA rests on, 07RN, is reduced in
-`StacksFrontier/AlgebraicGeometry/Limits/FiniteTypeApproximation/Induction.lean` to the
-single-affine-open step `IsOneAffineOpenStep`, which that file still carries as a hypothesis
-rather than proving.
+*Where the proof is.* The source's proof is carried out in the directory
+`StacksFrontier/AlgebraicGeometry/Spaces/AbsoluteNoetherianApproximation/`: `Main.lean` runs the
+induction over the stratification of Stacks 07ST one elementary distinguished square at a time,
+and `Assemble.lean` closes each step by identifying the given space with the limit of the glued
+system through a common presentation (Stacks 0262), which is
+`exists_iso_of_common_presentation` below.
 
 ## References
 
@@ -149,9 +122,8 @@ morphisms are affine and whose stages are quasi-separated and of finite type ove
 `Spec ℤ`, and an identification of `X` with the limit of that system.
 
 This is the conclusion of Stacks 07SU, absolute Noetherian approximation, which asserts that
-every quasi-compact and quasi-separated algebraic space over `Spec ℤ` admits one. That
-assertion is not proved in this development; a client should carry
-`AlgebraicGeometry.Space.HasNoetherianApproximation` as a hypothesis. -/
+every quasi-compact and quasi-separated algebraic space over `Spec ℤ` admits one; that is
+`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isQuasiCompactSpace`. -/
 structure NoetherianApproximation (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hZ : B.Contains (⊤_ Scheme.{u})) (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) where
   /-- The directed set indexing the system. -/
@@ -188,8 +160,9 @@ spaces with affine transition morphisms, each quasi-separated and of finite type
 Stacks 07SU asserts that every quasi-compact, quasi-separated algebraic space over
 `Spec ℤ` has one, that is, that for `X` an algebraic space,
 `AlgebraicGeometry.Space.IsQuasiCompactSpace B S hS X` and
-`AlgebraicGeometry.Space.IsAbsolutelyQuasiSeparated B S hS hZ X` imply this. That
-implication is **not** proved in this development. -/
+`AlgebraicGeometry.Space.IsAbsolutelyQuasiSeparated B S hS hZ X` imply this. Over the base
+`S = ⊤_ Scheme`, which represents `Spec ℤ`, that implication is
+`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isQuasiCompactSpace`. -/
 abbrev HasNoetherianApproximation (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contains S)
     (hZ : B.Contains (⊤_ Scheme.{u})) (X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u) : Prop :=
   Nonempty (NoetherianApproximation B S hS hZ X)

@@ -37,8 +37,8 @@ whole of `𝐏` and not a proper closed subset of it.
 * `…ProjectiveSpaceOfModule.exists_isClosed_two_le_codimension_badParameterLocus_subset`: the
   whole bad locus is contained in such a closed set, which misses `[id_V]`.
 * `…ProjectiveSpaceOfModule.exists_isOpen_forall_closedPoint_line_isGood_of_intersectProperly`:
-  **Tag 0B1S**, both clauses along a general line through `[id_V]`, at exactly the source's
-  three hypotheses.
+  both clauses of Tag 0B1S along a general line through `[id_V]`, at exactly the source's three
+  hypotheses, clause (2) read as the dimension criterion on the image set.
 
 ## Implementation notes
 
@@ -752,10 +752,10 @@ public theorem exists_isClosed_two_le_codimension_badParameterLocus_subset
       rw [← hpidc]
       exact hBGbad pid (by rw [hpidc]; exact h₂)
 
-/-- **Stacks Project, Tag 0B1S.** Let `X, Y` be closed subvarieties of `𝐏(V)` which intersect
-properly, with `X ≠ 𝐏(V)` and `X ∩ Y ≠ ∅`. Then for a general line `ℓ ⊆ 𝐏 = 𝐏((End V)ᵛ)` through
-`[id_V]` — that is, for a line through `[id_V]` and any closed point of a nonempty Zariski open
-subset of `𝐏` — every representative `g` of every closed point of `ℓ` satisfies
+/-- **Tag 0B1S, clause (2) as a dimension criterion.** Let `X, Y` be closed subvarieties of `𝐏(V)`
+which intersect properly, with `X ≠ 𝐏(V)` and `X ∩ Y ≠ ∅`. Then for a general line
+`ℓ ⊆ 𝐏 = 𝐏((End V)ᵛ)` through `[id_V]` — that is, for a line through `[id_V]` and any closed point of a nonempty
+Zariski open subset of `𝐏` — every representative `g` of every closed point of `ℓ` satisfies
 
 * **clause (1)** `X ⊆ U(g)`, so that `r_g` is defined on the whole of `X`, and
 * **clause (2)** `r_g(X)` intersects `Y` properly,
@@ -768,13 +768,13 @@ The hypotheses are exactly the source's, and all three do work: `X ≠ 𝐏(V)` 
 (at `dim_k V = 1` it is the whole of `𝐏`); `X ∩ Y ≠ ∅` together with the proper intersection
 gives `dim 𝐏(V) ≤ dim X + dim Y`, which is what makes `r_g(X)` meet `Y` at all and hence the
 projection of the incidence correspondence to `𝐏` surjective (without it, two disjoint lines in
-`𝐏³` satisfy `IntersectProperly` vacuously and the conclusion fails). -/
-@[stacks 0B1S "both clauses (1) X ⊆ U(g) and (2) g(X) intersects Y properly, along a general \
-line through [id_V]; 'general' is read as in Tag 0B2T, namely that there is a nonempty Zariski \
-open subset of the parameter space 𝐏 = 𝐏((End V)ᵛ) each of whose closed points lies with \
-[id_V] on such a line; clause (2) is the dimension criterion defining Tag 0AZQ read on the \
-image set r_g(X), which agrees with IntersectProperly whenever that image is the underlying \
-set of a closed subvariety"]
+`𝐏³` satisfy `IntersectProperly` vacuously and the conclusion fails).
+
+Clause (2) is stated here through `AlgebraicGeometry.ProjectiveSpaceOfModule.IsGoodEndomorphism`,
+on the image set `r_g(X)`; the form stating it as `AlgebraicGeometry.IntersectProperly` of the
+closed subvariety `r_g(X)` with `Y`, which is where Tag 0B1S is registered, is
+`…ProjectiveSpaceOfModule.exists_isOpen_forall_closedPoint_line_subset_endDomain_intersectProperly`
+of `StacksFrontier.AlgebraicGeometry.Intersection.Projections.GeneralLineIntersectProperly`. -/
 public theorem exists_isOpen_forall_closedPoint_line_isGood_of_intersectProperly
     (X Y : IrreducibleCloseds (projectiveSpaceOfModule k V)) (hXY : IntersectProperly X Y)
     (hXne : (X : Set (projectiveSpaceOfModule k V)) ≠ Set.univ)

@@ -31,7 +31,7 @@ The geometric vocabulary — `adicThickening`, `adicThickeningι`, `adicBaseChan
 honest fibre product `pullback f (adicThickeningι A I n)` and the transition `iₙ` is
 `adicBaseChangeSucc`.
 
-## The input this library does not carry
+## The input of the proof
 
 The source's proof is: push the structure sheaves forward to get coherent `𝒪_{Xₙ}`-algebras
 `ℱₙ = f_{n,*}𝒪_{Yₙ}`, observe that the cartesian hypothesis makes the pullback of `ℱₙ₊₁` to `Xₙ`
@@ -39,24 +39,24 @@ equal to `ℱₙ`, algebraize the system to a single coherent `𝒪_X`-algebra `
 over `S` (Grothendieck's existence theorem, **Stacks 088F**, for the module, and full faithfulness
 of completion, **Stacks 088E**, for the algebra structure), and take `Y = Spec_X(ℱ)`.
 
-That algebraization step is the only deep input, and this library does not carry it: **Stacks
-088C** has no carrier at all, the library's **Stacks 088E**
-(`Stacks.Algebraization.isEquivalence_completionFunctorProperOver_of_isProper`) takes 088C as a
-named hypothesis, and the library's **Stacks 0883**
-(`Stacks.Algebraization.fullyFaithful_completionFunctor`) is conditional on the theorem on formal
-functions, **Stacks 087U**. So it enters here as the named hypothesis
-`AlgebraicGeometry.AdicFiniteAlgebraAlgebraization`, which speaks *only* about sheaves of
-algebras — it knows nothing of the schemes `Yₙ`, of finite morphisms or of cartesian squares — and
-the tag attribute records the restriction.
+That algebraization step is the deep input. It is named here as the predicate
+`AlgebraicGeometry.AdicFiniteAlgebraAlgebraization`, which speaks about sheaves of algebras
+alone — it knows nothing of the schemes `Yₙ`, of finite morphisms or of cartesian squares — and it
+is proved over a complete Noetherian base as
+`AlgebraicGeometry.adicFiniteAlgebraAlgebraization_holds`
+(`StacksFrontier/AlgebraicGeometry/FormalGeometry/CompletionProper/AdicFiniteAlgebraizationTags.lean`).
+Stacks 09ZT with that input discharged is
+`AlgebraicGeometry.exists_finite_algebraization_of_adicFiniteSystem_holds`, in the same file,
+which carries the tag.
 
-Everything between that hypothesis and the geometric statement is proved here: the passage from
+Everything between that predicate and the geometric statement is proved here: the passage from
 the cartesian system of finite morphisms to the system of pushforward algebras and back through
 the relative spectrum, the finiteness of the algebraization, and the cartesian identification
 `Yₙ = Y ×_S Sₙ`.
 
 ## Main definitions
 
-* `AlgebraicGeometry.AdicFiniteAlgebraAlgebraization` — the named hypothesis described above.
+* `AlgebraicGeometry.AdicFiniteAlgebraAlgebraization` — the predicate described above.
 
 ## Main results
 
@@ -67,8 +67,8 @@ the relative spectrum, the finiteness of the algebraization, and the cartesian i
 * `AlgebraicGeometry.algebraPullback_pushforwardAlgebra_iso_of_isPullback` — a cartesian square
   identifies the pullback of the pushforward algebra with the pushforward algebra of the base
   change.
-* `AlgebraicGeometry.exists_finite_algebraization_of_adicFiniteSystem` — **Stacks 09ZT**, granted
-  the hypothesis.
+* `AlgebraicGeometry.exists_finite_algebraization_of_adicFiniteSystem` — **Stacks 09ZT** from
+  the predicate `AdicFiniteAlgebraAlgebraization`.
 * `AlgebraicGeometry.adicFiniteAlgebraization_of_adicFiniteAlgebraAlgebraization` — the same
   statement in the packaging `AdicFiniteAlgebraization` that Stacks 0A42 consumes.
 
@@ -170,9 +170,8 @@ is proper over `Spec A` and whose pullback to each `Xₙ` is `B n`.
 
 This says nothing about schemes over the thickenings, about finite morphisms or about cartesian
 squares: it is purely the algebraization of a system of sheaves of algebras, which is what
-Grothendieck existence supplies. Nothing in this library carries it — Stacks 088C has no carrier,
-and both the library's 088E and its 0883 are themselves conditional — which is why it is a
-hypothesis.
+Grothendieck existence supplies. For `A` Noetherian and complete along `I` and `f` separated of
+finite type it is proved as `AlgebraicGeometry.adicFiniteAlgebraAlgebraization_holds`.
 
 The two properness clauses are stated through the relative spectrum; for a finite algebra sheaf
 that is the same as properness of the support of the underlying coherent module over the base,
@@ -202,16 +201,15 @@ exhibiting every `Yₙ` as the fibre product `Y ×_S Sₙ`.
 The proof is the source's, read through the anti-equivalence between schemes affine over a base
 and quasi-coherent sheaves of algebras (Stacks 01S8, 01SA): the pushforward algebras
 `f_{n,*}𝒪_{Yₙ}` are finite, the cartesian squares identify the pullback of the `(n+1)`-st with the
-`n`-th (Stacks 01LX part 2), so the hypothesis `halg` algebraizes them to a finite quasi-coherent
-algebra `C` on `X` proper over `S`, and `Y = Spec_X(C)` is finite over `X` with
-`Y ×_X Xₙ = Spec_{Xₙ}(C|_{Xₙ}) = Yₙ`; pasting that square with `Xₙ = X ×_S Sₙ` gives
-`Yₙ = Y ×_S Sₙ`.
+`n`-th (Stacks 01LX part 2), so Grothendieck existence for finite sheaves of algebras, in the
+form `halg`, algebraizes them to a finite quasi-coherent algebra `C` on `X` proper over `S`, and
+`Y = Spec_X(C)` is finite over `X` with `Y ×_X Xₙ = Spec_{Xₙ}(C|_{Xₙ}) = Yₙ`; pasting that square
+with `Xₙ = X ×_S Sₙ` gives `Yₙ = Y ×_S Sₙ`.
 
-The Noetherian and completeness hypotheses on `A` are exactly the ones under which `halg` holds,
-and are kept in the statement for that reason. -/
-@[stacks 09ZT "with Grothendieck existence for finite sheaves of algebras (088F for the \
-underlying coherent module and 088E for the algebra structure, both resting on 088C, which this \
-library does not carry) as the hypothesis halg"]
+The Noetherian and completeness hypotheses on `A` are the ones under which `halg` is proved, by
+`AlgebraicGeometry.adicFiniteAlgebraAlgebraization_holds`; the statement with `halg` discharged
+is `AlgebraicGeometry.exists_finite_algebraization_of_adicFiniteSystem_holds`, which carries the
+tag. -/
 public theorem exists_finite_algebraization_of_adicFiniteSystem
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A) [IsAdicComplete I A]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of A))
@@ -278,9 +276,13 @@ public theorem exists_finite_algebraization_of_adicFiniteSystem
 `AlgebraicGeometry.AdicFiniteAlgebraization` of
 `AlgebraicGeometry.existsUnique_algebraization_adicBaseChangeMap` is exactly the conclusion of
 `exists_finite_algebraization_of_adicFiniteSystem` with the finiteness of the algebraized morphism
-forgotten, so the latter discharges it. -/
-@[stacks 09ZT "in the packaging AdicFiniteAlgebraization, with Grothendieck existence for finite \
-sheaves of algebras (088F, 088E, resting on 088C) as the hypothesis halg"]
+forgotten, so the latter discharges it.
+
+Here `halg` is asked of every `fP : P ⟶ Spec A`. The form with `halg` asked of separated
+morphisms of finite type is
+`adicFiniteAlgebraization_of_adicFiniteAlgebraAlgebraization_of_qcSeparatedFiniteType`,
+and `AlgebraicGeometry.adicFiniteAlgebraization_holds` is `AdicFiniteAlgebraization A I` with that
+input discharged. -/
 public theorem adicFiniteAlgebraization_of_adicFiniteAlgebraAlgebraization
     (A : Type u) [CommRing A] [IsNoetherianRing A] (I : Ideal A) [IsAdicComplete I A]
     (halg : ∀ {P : Scheme.{u}} (fP : P ⟶ Spec (.of A)),

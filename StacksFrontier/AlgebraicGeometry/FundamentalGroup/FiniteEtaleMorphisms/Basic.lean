@@ -4,22 +4,24 @@ public import Mathlib.RingTheory.Etale.Finite
 public import StacksCore.Tactic.StacksAttribute
 
 /-!
-# Finite étale covers of a geometric point
+# Finite étale algebras over a separably closed field
 
-Over a separably closed field, finite étale covers of its spectrum are equivalent to finite sets.
+Over a separably closed field `k`, the opposite of the category of finite étale `k`-algebras is
+equivalent to finite sets.
 
 ## Main definitions
 
-* `CommAlgCat.FiniteEtale.equivOfIsSepClosed` is the equivalence between finite étale covers of
-  the spectrum of a separably closed field and finite sets.
+* `CommAlgCat.FiniteEtale.equivOfIsSepClosed` (Mathlib) is the equivalence
+  `(CommAlgCat.FiniteEtale k)ᵒᵖ ≌ FintypeCat` for `k` separably closed.
 
 ## Implementation notes
 
-Finite étale schemes over an affine scheme are affine. Consequently, passing from a finite étale
-scheme over `Spec(k)` to its finite étale `k`-algebra of global functions reverses arrows. Thus
-the source category is represented by `(CommAlgCat.FiniteEtale k)ᵒᵖ`, while the category of
-finite sets is `FintypeCat`. Mathlib's equivalence is stated under the more general hypothesis
-that `k` is separably closed, which includes the algebraically closed case in the source.
+This is the algebra-level statement. The scheme-level statement of Stacks Tag 0BN8, that
+`FÉt_{Spec k}` is equivalent to finite sets, is
+`AlgebraicGeometry.finiteEtaleOverSpecEquivOfIsSepClosed` in
+`StacksFrontier/AlgebraicGeometry/FundamentalGroup/EtaleFundamental/GaloisCategoryAxioms.lean`, which
+composes the equivalence `FÉt_{Spec k} ≌ (CommAlgCat.FiniteEtale k)ᵒᵖ` given by the relative
+spectrum with Mathlib's equivalence; the tag is registered there.
 
 ## References
 
@@ -28,7 +30,6 @@ that `k` is separably closed, which includes the algebraically closed case in th
 
 @[expose] public section
 
-add_to_stacks 0BN8 CommAlgCat.FiniteEtale.equivOfIsSepClosed
 add_to_sga "1 IX 1.8" "special case" CommAlgCat.FiniteEtale.equivOfIsSepClosed
 add_to_sga "1 IX 1.9" "special case" CommAlgCat.FiniteEtale.equivOfIsSepClosed
 add_to_sga "4 VIII 3.2" "partial" CommAlgCat.FiniteEtale.equivOfIsSepClosed

@@ -46,10 +46,10 @@ variable {k : Type u} [Field k] {X Y : Scheme.{u}}
 /-- **Stacks Project, Tag 0E7P.** Let `c : X ⟶ Y` be a morphism of proper schemes over a field
 `k` with `𝒪_Y = c_*𝒪_X` and `R^1 c_*𝒪_X = 0`, where `X` and `Y` are reduced, Gorenstein and of
 dimension one. If `H^1(X, ω_X^{⊗ m}) = 0` and `ω_X^{⊗ m}` is globally generated for some
-`m ≥ 1`, then `c^*ω_Y ≅ ω_X`. -/
-@[stacks 0E7P "Stated for `m ≥ 1`. For `m ≤ 0` the statement fails: let `X = V(xy) ⊆ ℙ²_k` and
-let `c` contract one line `C` to a point. Then (1)–(3) hold with `m = 0` (and with `m = -1`),
-but `ω_X|_C ≅ 𝒪_C(-1)` while `(c^*ω_Y)|_C ≅ 𝒪_C`."]
+`m ≥ 1`, then `c^*ω_Y ≅ ω_X`. The source allows any `m ∈ ℤ`, which is false for `m ≤ 0`. -/
+@[stacks 0E7P "The corrected statement, with `m ≥ 1` (errata.md, 2026-11-06). Stacks allows any
+`m ∈ ℤ`, and is false for every `m ≤ 0`: for `X = V(xy) ⊆ ℙ²_k` and `c` contracting one line `C`
+to a point, (1)–(3) hold with any `m ≤ 0`, but `ω_X|_C ≅ 𝒪_C(-1)` while `(c^*ω_Y)|_C ≅ 𝒪_C`."]
 theorem nonempty_pullback_dualizingSheafOverField_iso
     (c : X ⟶ Y) (g : Y ⟶ Spec (.of k)) [IsProper (c ≫ g)] [IsProper g]
     (hO : IsIso (SheafOfModules.unitToPushforwardObjUnit c.toRingCatSheafHom))

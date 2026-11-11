@@ -29,8 +29,14 @@ for `Ring.IsUniversallyCatenary` as well.
   topological space `Spec R`.
 * `Ring.isUniversallyCatenary_iff_isUniversallyCatenary` — the two universal-catenarity
   predicates agree.
+* `Ring.isUniversallyCatenaryNoetherian_iff_isNoetherianRing_and_isUniversallyCatenary` —
+  universal
+  catenarity in the sense of Stacks 00NL, compared with the topological predicate.
 * `Ring.IsUniversallyCatenary.localization` — a localization of a Noetherian universally catenary
   ring is universally catenary.
+* `Ring.isCatenary_and_isUniversallyCatenary_of_isLocalization` — Stacks 00NJ: any localization of
+  a catenary ring is catenary, and any localization of a Noetherian universally catenary ring is
+  Noetherian and universally catenary.
 
 ## References
 
@@ -117,6 +123,13 @@ theorem isUniversallyCatenary_iff_isUniversallyCatenary {R : Type u} [CommRing R
   have : Algebra.FiniteType R C := hC
   exact isCatenary_iff_isCatenarySpace_primeSpectrum.mp (h C)
 
+/-- Universal catenarity in the sense of Stacks 00NL is Noetherianity together with the
+topological predicate `IsUniversallyCatenary`. -/
+theorem isUniversallyCatenaryNoetherian_iff_isNoetherianRing_and_isUniversallyCatenary
+    {R : Type u} [CommRing R] :
+    IsUniversallyCatenaryNoetherian R ↔ IsNoetherianRing R ∧ _root_.IsUniversallyCatenary R :=
+  and_congr_right fun _ => isUniversallyCatenary_iff_isUniversallyCatenary
+
 /-- A localization of a Noetherian universally catenary ring is universally catenary, for the
 predicate `Ring.IsUniversallyCatenary`. This is Stacks 00NJ, transported from
 `localization_isUniversallyCatenary`, which carries that attribute. -/
@@ -127,5 +140,18 @@ theorem IsUniversallyCatenary.localization {A : Type u} [CommRing A] [IsNoetheri
   isUniversallyCatenary_iff_isUniversallyCatenary.mpr
     (localization_isUniversallyCatenary A S R
       (isUniversallyCatenary_iff_isUniversallyCatenary.mp hA))
+
+/-- Let `S` be a multiplicative subset of a ring `R` and `A = S⁻¹R`. If `R` is catenary, then so
+is `A`; if `R` is Noetherian and universally catenary, then `A` is Noetherian and universally
+catenary. -/
+@[stacks 00NJ]
+theorem isCatenary_and_isUniversallyCatenary_of_isLocalization {R : Type u} [CommRing R]
+    (S : Submonoid R) (A : Type u) [CommRing A] [Algebra R A] [IsLocalization S A] :
+    (IsCatenary R → IsCatenary A) ∧
+      (IsNoetherianRing R → IsUniversallyCatenary R →
+        IsNoetherianRing A ∧ IsUniversallyCatenary A) := by
+  refine ⟨AlgebraicGeometry.ringIsCatenary_of_isLocalization S, fun hR hU => ?_⟩
+  have : IsNoetherianRing A := IsLocalization.isNoetherianRing S A hR
+  exact ⟨this, hU.localization S A⟩
 
 end Ring

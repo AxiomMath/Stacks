@@ -56,10 +56,16 @@ Tag 08QB are stated.
 The statement is an isomorphism of bifunctors, so naturality in both arguments is part of its
 type; the source writes an equality of objects and constructs the identification by the chain
 of isomorphisms above, which is the isomorphism given here.  The canonical oplax comparison
-`Stacks.CategoryHomology.totalDerivedColimitTensorComparison`, and the restricted form
-`Stacks.ChaoticSite.isIso_totalDerivedColimitTensorComparison` of the tag about it, are stated in
+`Stacks.CategoryHomology.totalDerivedColimitTensorComparison`, and the conditional statement
+`Stacks.ChaoticSite.isIso_totalDerivedColimitTensorComparison` about it (which takes Tags 07A4,
+08PH, 08QA and 08QB as hypotheses and is not registered under the tag), are stated in
 `StacksFrontier.CategoryTheory.Sites.Cohomology.ChaoticSite.EilenbergZilber` for coefficient
 categories whose objects and morphisms share a universe, which excludes `ModuleCat.{u} R`.
+Here every input is the library's proved result: Tag 07A4 is
+`Stacks.ChaoticSite.inverseImageAlongAFunctorDerivedMonoidal`, Tag 08QA is
+`Stacks.ChaoticSite.ModuleValued.derivedColimitInverseImageUnboundedNatIso`, and Tag 08QB is
+`Stacks.CategoryHomology.isIso_derivedExternalTensorComparisonNatTrans`, the invertibility of the
+canonical external comparison.
 
 ## References
 

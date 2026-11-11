@@ -64,7 +64,8 @@ The implication from the source is
 `AlgebraicGeometry.Space.isRepresentable_target_of_isIntegralHom_of_bijective`, through Stacks
 07VT, and the implication from the target is
 `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom`, which needs no bijectivity. -/
-@[stacks 07VV]
+@[stacks 07VV "for an integral morphism of algebraic spaces bijective on points, the source is a \
+scheme if and only if the target is"]
 theorem isRepresentable_iff_isRepresentable_of_isIntegralHom_of_bijective
     (hF : IsAlgebraicSpace B S hS F) (hG : IsAlgebraicSpace B S hS G) (f : F ⟶ G)
     (hf : IsIntegralHom B S hS f) (hbij : Function.Bijective (pointsMap B S hS F f)) :

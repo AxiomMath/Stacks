@@ -83,10 +83,7 @@ The hypotheses are exactly the source's. Both results the source cites are suppl
 declarations: [Stacks, Tag 080Y] by `AlgebraicGeometry.cartierBoundaryReduction` and
 [Stacks, Tag 081S] by `AlgebraicGeometry.strictTransformOpenImmersion_of_isIso_morphismRestrict`,
 each of which stands on its own hypotheses alone. -/
-@[stacks 081T "the conclusion in full, under exactly the source's hypotheses: the cited \
-[Stacks, Tag 080Y] is supplied by `AlgebraicGeometry.cartierBoundaryReduction` and the cited \
-[Stacks, Tag 081S] by `AlgebraicGeometry.strictTransformOpenImmersion_of_isIso_morphismRestrict`, \
-each of which stands on its own hypotheses alone"]
+@[stacks 081T "complete, under exactly the source's hypotheses"]
 theorem exists_isAdmissibleBlowup_dominating_of_affineCase (f : X ⟶ S) [IsProper f]
     [CompactSpace S] [QuasiSeparatedSpace S] (U : S.Opens) (hU : IsCompact (U : Set S))
     [IsIso (f ∣_ U)] :

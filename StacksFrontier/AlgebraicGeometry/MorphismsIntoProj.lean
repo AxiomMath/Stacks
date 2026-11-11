@@ -40,8 +40,11 @@ map `S → ⨁_n Γ(X, 𝒪_X(n))` back to a graded map out of the Veronese subr
 ## Implementation notes
 
 The target of `psiPullbackHom` is `Γ(Y, φ⁎𝒪_X(nd))` rather than the degree-`n` piece
-`Γ(Y, (φ⁎𝒪_X(d))^{⊗ n})` of `Γ_*(Y, φ⁎𝒪_X(d))`, so `psiPullbackVeroneseHom` carries Tag 01N7
-only in that weaker form, as its attribute records.
+`Γ(Y, (φ⁎𝒪_X(d))^{⊗ n})` of `Γ_*(Y, φ⁎𝒪_X(d))`, so the graded ring map that
+`StacksFrontier.AlgebraicGeometry.MorphismsIntoProjGradedRing` assembles from `psiPullbackVeroneseHom`
+is the twist-model form of Tag 01N7. The faithful form, with target the section ring of Tag 01CV
+of `φ⁎𝒪_{U_d}(d)`, is `Stacks.AlgebraicGeometry.MorphismsIntoProj.psiPullbackSectionRing_spec` in
+`StacksFrontier.AlgebraicGeometry.MorphismsIntoProjSectionRing`, and it carries the tag.
 
 Identifying the two is now possible. The isomorphism `𝒪_{U_d}(d)^{⊗ n} ≅ 𝒪_{U_d}(nd)` is
 `Stacks.AlgebraicGeometry.ProjTwistTensorPowDegreeOpen.thetaNat`, assembled from the
@@ -54,8 +57,8 @@ Restriction to an open is pullback along the open immersion, Tag 01CD at scheme 
 companions — shows `f⁎` to be monoidal with the canonical comparison as its tensorator.
 
 The existing declarations are left as they stand, since the degreewise maps with the twist as
-target are what the consumers of this file use; the faithful form of Tag 01N7 belongs beside
-them.
+target are what the consumers of this file use; the faithful form of Tag 01N7 is beside them, in
+`StacksFrontier.AlgebraicGeometry.MorphismsIntoProjSectionRing`.
 
 **The global generation clause of Tag 01N7 does not wait on any of that**, and is proved below:
 it is a statement about the degree-one piece alone, where the twist model and the tensor-power
@@ -116,43 +119,20 @@ monoidal unit again. Its content is the degree zero case
 evaluated on the sections the degreewise map produces, and the earlier note here — that nothing
 identified the two — is stale.
 
-**What the faithful form still waits on is multiplicativity, on each of its two sides.** The
-degreewise map `𝒜 (nd) → Γ((φ⁎𝒪_{U_d}(d))^{⊗ n}, ⊤)` is `pullSection` after
-`pullbackNatTensorPowIso` and `thetaNat`, and by the bridge it is the global section of
-`unitPullback φ ≫ φ⁎(-) ≫ pullbackNatTensorPowIso⁻¹`. Multiplicativity of that against
-`Stacks.GradedSections.mul` splits into two halves, neither recorded.
-
-The *pullback* half is that `φ⁎` carries the graded ring `Stacks.GradedSections.sectionRing` of a
-module to the one of its pullback. Since `Stacks.GradedSections.mul s t` is `t ≫ mulMap s m` and
-`mulMap` is built from right whiskerings alone, this needs no unitor and no associator: it needs
-only that the comparison `φ⁎(L^{⊗ n}) ⟶ (φ⁎L)^{⊗ n}` is the iterated cotensorator: the degree zero
-identification `pullbackNatTensorPowIso φ L 0 = unitPullback φ`, whose two sides are built from
-`Stacks.Ample.tensorPowModuleZeroIso` and `Stacks.SectionRingGeometric.unitComparison`
-respectively and both of those are `AlgebraicGeometry.SheafOfModules.unitIso`, together with the
-recursion `pullbackNatTensorPowIso φ L (k+1) =
-(pullbackNatTensorPowIso φ L k ▷ φ⁎L) ≫ δ` and naturality of `δ` in its first variable. The
-abstract statement is `Stacks.TensorPowerPullbackMul.natTensorPowComparison` with
-`natTensorPowComparison_powAdd`, but it is stated for a `CategoryTheory.Functor.OplaxMonoidal`
-functor and `φ⁎` is known monoidal only at the strict monoidal structure
-`Stacks.AlgebraicGeometry.ThetaMul.schemeMonoidal`
-(`Stacks.PullbackTensorCoherence.pullbackComparisonMonoidal`), whereas `sectionRing` and
-`Stacks.SectionRingGeometric.schemeSectionCommRing` are stated at the localized
-`Stacks.SheafInternalHom.schemeMonoidalCategory`. The two structures share tensor product,
-whiskerings and associator definitionally and differ only in the unit object and the unitors, so
-what is owed is the transport of the three coherences across
-`AlgebraicGeometry.SheafOfModules.unitIso` and
-`AlgebraicGeometry.leftUnitor_sheafOfModulesMonoidal_hom`.
-
-The *source* half is a graded ring map `𝒜^{(d)} ⟶ Γ_*(U_d, 𝒪_{U_d}(d))` into the section ring of
-Tag 01CV — Tag 01N6 in the tensor-power model rather than the twist model of
-`Stacks.AlgebraicGeometry.ProjDegreeOpenSections.psi`. Its inputs are
-`Stacks.AlgebraicGeometry.ThetaMul.thetaNat_mul`, the identification of
-`Stacks.GradedSections.powAdd` with `tensorPowModuleAddIso`
-(`Stacks.GradedSections.powAddIso_hom` and
-`AlgebraicGeometry.SheafOfModules.tensorPowAddIsoSheaf_natCast`, which exhibits the conjugation by
-the comparison of the two tensor products), and the local-section formula
-`Stacks.AlgebraicGeometry.TwistTensor.twistMulIso_hom_tmul` for the twist multiplication on `U_d`
-read against `degreeSection`.
+**The faithful form is proved**, in `StacksFrontier.AlgebraicGeometry.MorphismsIntoProjSectionRing`,
+and neither half of multiplicativity is missing any more. The *source* half — Tag 01N6 in the
+tensor-power model — is
+`Stacks.AlgebraicGeometry.ProjDegreeOpenUniversalTriple.universalVeroneseSections`, whose
+multiplicativity is `Stacks.AlgebraicGeometry.ThetaMul.thetaNat_mul` read on the sections attached
+to homogeneous elements. The *pullback* half is
+`Stacks.AlgebraicGeometry.ProjChartPullbackCotensorator.pullSection_mulSections`, packaged as
+`Stacks.AlgebraicGeometry.ProjTriplePullback.pullbackSections`. Both are stated for the product
+`Stacks.AlgebraicGeometry.ProjChartFromRatios.mulSections` of honest global sections, which
+`Stacks.AlgebraicGeometry.ProjChartFromRatios.mulSections_globalSection` identifies with the
+product `Stacks.GradedSections.mul` of the section ring, so no transport of coherences between
+`Stacks.AlgebraicGeometry.ThetaMul.schemeMonoidal` and
+`Stacks.SheafInternalHom.schemeMonoidalCategory` is needed. The unit axiom is
+`Stacks.AlgebraicGeometry.ProjTripleUnitSection.toFun_zero_eq_unitGlobal`.
 
 ## References
 

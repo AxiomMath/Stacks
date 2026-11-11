@@ -33,10 +33,10 @@ Nothing here carries a `stacks` attribute. Tag 03AJ is registered where it is pr
 sheaf; restating the tag on an instantiation would register it twice.
 
 This is only the torsor side. It says nothing about invertible modules, and so is not any part
-of Tag 03P8: identifying these torsor classes with a Picard group is Tag 040E, whose
-development is available on a ringed site whose objects and morphisms share a universe and so
-not on the small étale site. See
-`StacksFrontier.AlgebraicGeometry.Picard.ZariskiSiteFirstCohomology` for where that stands.
+of Tag 03P8: identifying these torsor classes with a Picard group is Tag 040E. Tag 03P8 on the
+small étale site is proved elsewhere, as `Stacks.Kummer.etaleH1MultiplicativeAddEquivPicard` (in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Picard.MultiplicativeFirstCohomology`), through a
+size-bounded small étale site on which Tag 040E applies.
 
 ## References
 

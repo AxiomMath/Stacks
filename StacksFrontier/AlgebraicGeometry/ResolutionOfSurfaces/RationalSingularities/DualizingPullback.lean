@@ -10,8 +10,12 @@ import StacksCore.Tactic.StacksAttribute
 In Situation [Stacks, Tag 0B4W] — a two-dimensional local normal Nagata domain `A` defining a
 rational singularity and a modification `f : X ⟶ Spec(A)` with `X` normal — [Stacks, Tag 0BBU]
 asserts that the trace `H⁰(X, ω_X) ⟶ ω_A` is an isomorphism, and *then* that its inverse
-induces a canonical map `f^*ω_A ⟶ ω_X`. The first clause is
-`AlgebraicGeometry.RationalSingularitySituation.bijective_trace`; this file builds the second.
+induces a canonical map `f^*ω_A ⟶ ω_X`. For the normalized `ω_X` of [Stacks, Remark 0B4R] and
+the trace of duality both clauses are proved in `NormalizedDualizingTrace.lean`
+(`bijective_normalizedTrace` and `normalizedPullbackMap`, which carry the tag). This file builds
+the map from the trace of a `DualizingTraceSequence`
+(`AlgebraicGeometry.RationalSingularitySituation.bijective_trace`), a datum equivalent to the
+trace isomorphism itself.
 
 ## Main definitions
 

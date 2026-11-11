@@ -91,8 +91,14 @@ coherators, `L ∈ D_QCoh(𝒪_X)` and `K ∈ D_QCoh(𝒪_Y)`. Then
 `DQ_Y(Rf_*R𝓗om(L, a(K))) ≅ Rf_*DQ_X(R𝓗om(L, a(K)))` ([Stacks, Tag 0CR1]), and the map
 `Rf_*R𝓗om_{𝒪_X}(L, a(K)) ⟶ R𝓗om_{𝒪_Y}(Rf_*L, K)` of [Stacks, Tag 0B6H] is an isomorphism if
 (1) `L` and `Rf_*L` are perfect, or (2) `K` is bounded below and `L` and `Rf_*L` are
-pseudo-coherent. -/
-@[stacks 0GEV]
+pseudo-coherent.
+
+The coherator is the one constructed for qcqs schemes ([Stacks, Tag 0CR0]); [Stacks, Tag 0A9Q],
+[Stacks, Tag 0A6H] and [Stacks, Tag 0A9I] enter through their proofs in this development. The
+erasure statements of the remark are in
+`StacksFrontier/AlgebraicGeometry/Duality/SheafyTraceCoheratorErasure.lean`. -/
+@[stacks 0GEV "the 0CR1 identity for DQ_Y and Rf_*, and the trace of 0B6H is an isomorphism \
+in cases (1) L and Rf_*L perfect, (2) K bounded below and L and Rf_*L pseudo-coherent"]
 theorem sheafyTrace_quasiCoherent_criteria (L : quasiCoherentDerivedCategory X)
     (K : quasiCoherentDerivedCategory Y) :
     Nonempty ((DerivedCategoryB.derivedCategoryB (A := Y.Modules)

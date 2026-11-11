@@ -22,7 +22,7 @@ fppf sheaves, that is the empty formal algebraic space. `X'` itself is not const
 quantified over: the statement is made for *every* closed immersion `ι : X' ⟶ X` with the
 properties Stacks 0GD8 concludes, which is what "let `X' ⊂ X` be as in Lemma 0GD8" means and
 is what composes with
-`AlgebraicGeometry.FormalSpace.exists_flat_isClosedImmersion_of_isLocallyNoetherian`.
+`AlgebraicGeometry.FormalSpace.exists_flatPart_of_isLocallyNoetherian_of_isAdicComplete`.
 
 The source argues as follows. The square with rows `X' ⟶ X' ×_{Spf A} X'` and
 `X ⟶ X ×_{Spf A} X` is cartesian because `ι` is a monomorphism, so the diagonal of `X'` over
@@ -73,7 +73,7 @@ spells `Spf A`, and the relative diagonal is `CategoryTheory.Limits.pullback.dia
 
 Completeness of `A` plays no role in the argument below; it is the standing hypothesis of
 Section 0GD7 and is carried for faithfulness, as it is in
-`AlgebraicGeometry.FormalSpace.exists_flat_isClosedImmersion_of_isLocallyNoetherian`.
+`AlgebraicGeometry.FormalSpace.exists_flatPart_of_isLocallyNoetherian_of_isAdicComplete`.
 
 ### The inputs this library does not carry
 

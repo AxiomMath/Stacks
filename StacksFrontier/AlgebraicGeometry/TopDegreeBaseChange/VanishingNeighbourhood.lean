@@ -13,9 +13,13 @@ and `H¹(X_y, 𝒪_{X_y}) = 0`. Then there is an open neighbourhood `V` of `y` w
 `R¹ f_* 𝒪_X|_V = 0`, and the same holds after base change by any `Y' ⟶ V`.
 
 The source's proof quotes two clauses, finite type of `R¹ f_* 𝒪_X` ([Stacks, Tag 0EX4]) and
-its formation commuting with base change ([Stacks, Tag 0EX3]). Both are proved: the first is
-`firstDirectImageFiniteTypeOfFibreDimensionOne`, and of the second only the vanishing form is
-used, `isZero_pullback_firstDirectImage_iff_of_isPullback`. As in the source, the first step is
+its formation commuting with base change ([Stacks, Tag 0E7D], through [Stacks, Tag 0EX3] (b)).
+Both are proved for fibres of dimension at most one: the first is
+`firstDirectImageFiniteTypeOfFibreDimensionOne`, and the second enters in its vanishing form,
+`isZero_pullback_firstDirectImage_iff_of_isPullback`. The argument from these two clauses, taken as
+arguments, is `exists_isOpen_isZero_restrict_firstDirectImage_of_isZero_cohomologyOne_fiber` in
+`ContractingRationalCurves.lean`, upstream of both proofs; here the tag needs no input beyond its
+own hypotheses. As in the source, the first step is
 to shrink `Y` to an open `W ∋ y` over which all fibres have dimension at most one
 ([Stacks, Tag 02FZ], `exists_affineOpen_fiberDimension_le`).
 
@@ -36,6 +40,7 @@ All in the namespace `Stacks.AlgebraicGeometry.TopDegreeBaseChange`.
 * [Stacks Project, Tag 0E7G](https://stacks.math.columbia.edu/tag/0E7G)
 * [Stacks Project, Tag 0EX4](https://stacks.math.columbia.edu/tag/0EX4)
 * [Stacks Project, Tag 0EX3](https://stacks.math.columbia.edu/tag/0EX3)
+* [Stacks Project, Tag 0E7D](https://stacks.math.columbia.edu/tag/0E7D)
 * [Stacks Project, Tag 02FZ](https://stacks.math.columbia.edu/tag/02FZ)
 * [Stacks Project, Tag 056J](https://stacks.math.columbia.edu/tag/056J)
 -/
@@ -191,7 +196,8 @@ base change along `g` into `V`, the pullback of `R¹ f_* 𝒪_X` along `g` facto
 restriction to `V`, which is zero, and over `W` this pullback is `R¹ f'_* 𝒪_{X'}`
 (`isZero_pullback_firstDirectImage_iff_of_factor_of_isPullback`, the vanishing form of
 [Stacks, Tag 0EX3]). -/
-@[stacks 0E7G]
+@[stacks 0E7G "an open V ∋ y with R¹ f_* 𝒪_X|_V = 0, and R¹ f'_* 𝒪_{X'} = 0 for every cartesian \
+  square over f whose base morphism lands in V"]
 theorem exists_isOpen_isZero_restrict_firstDirectImage_of_isPullback_of_isZero_cohomologyOne_fiber
     (f : X ⟶ Y) [IsProper f] (y : Y)
     (hdim : topologicalKrullDim (f.fiber y) ≤ ((1 : ℕ) : WithBot ℕ∞))
@@ -235,7 +241,8 @@ to `Spec κ(y)` is `R¹` of the fibre, which vanishes; so `y` is outside the clo
 ([Stacks, Tag 056J]). This is
 `exists_isOpen_isZero_restrict_firstDirectImage_of_isPullback_of_isZero_cohomologyOne_fiber`
 read on the cartesian square of the chosen pullback along `g ≫ V.ι`. -/
-@[stacks 0E7G]
+@[stacks 0E7G "an open V ∋ y with R¹ f_* 𝒪_X|_V = 0, and R¹ f'_* 𝒪_{X'} = 0 for the chosen \
+  pullback f' of f along g ≫ V.ι, for every g : Y' ⟶ V"]
 theorem exists_isOpen_firstDirectImage_vanishes_universally (f : X ⟶ Y) [IsProper f] (y : Y)
     (hdim : topologicalKrullDim (f.fiber y) ≤ ((1 : ℕ) : WithBot ℕ∞))
     (hH : IsZero (firstCohomologyStructureSheaf (f.fiber y))) :

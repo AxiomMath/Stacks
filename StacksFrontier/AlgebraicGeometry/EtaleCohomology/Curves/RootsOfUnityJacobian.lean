@@ -88,7 +88,8 @@ It does **not** discharge the divisibility hypotheses of
 `StacksFrontier.AlgebraicGeometry.EtaleCohomology.Curves.RootsOfUnityDegreeTwo`. Those are stated
 for `Sheaf.H.{u + 1, u + 1} (Stacks.Kummer.multiplicativeSheaf.{u, u + 1} X) 1`, on Mathlib's
 small étale site at coefficient universe `AddCommGrpCat.{max (u + 1) v}`; what identifies such a
-group with `Pic(X)` is [Stacks, Tag 03P8], and the library proves it only as
+group with `Pic(X)` is [Stacks, Tag 03P8], which the library proves in that form as
+`Stacks.Kummer.etaleH1MultiplicativeAddEquivPicard` (not used in this file), and also as
 `Stacks.Picard.SmallEtaleSite.etaleH1UnitsAddEquivZariskiPicardGroup`, on
 `AlgebraicGeometry.SmallEtale.topology` at coefficient universe `AddCommGrpCat.{u}`.  Since
 `Stacks.Kummer.multiplicativePresheaf` ends in `AddCommGrpCat.uliftFunctor` and
@@ -102,10 +103,10 @@ two coefficient universes never agree and do not have to, because restriction al
 coefficient-universe lift of the middle term of `AlgebraicGeometry.kummerSmallEtale`
 definitionally, and
 `Stacks.Cohomology.CoefficientLift.subsingleton_cohomology_of_ulift` then descends the
-universe.  What remains true of the Tag 03P8 half is only that it has not been carried across:
-that comparison is an *isomorphism* and not a vanishing, so the descent above does not apply to
-it verbatim — `Stacks.Cohomology.CoefficientLift.sheafHUliftAddEquiv` is the shape it would need
-— and no such transport has been built here.
+universe.  The Tag 03P8 half needs no such transport either: that comparison is an
+*isomorphism* and not a vanishing, so the descent above does not apply to it verbatim, but
+`Stacks.Kummer.etaleH1MultiplicativeAddEquivPicard` states it directly on Mathlib's small étale
+site at coefficient universe `AddCommGrpCat.{max (u + 1) v}`.
 
 ## Main results
 
@@ -353,12 +354,15 @@ its `hdvd` replaced by the geometric input it stands for: that the degree-zero c
 Picard scheme is an abelian variety whose rational points are `Pic⁰(X)`, and that `[n]` on it is
 flat.
 
-The remaining three hypotheses of that theorem — `hGm`, which is [Stacks, Tag 03RM] on this site
-and is universe-blocked, `hdeg`, the surjectivity of the degree, and `hgenus`, clause (7) of
-[Stacks, Tag 03RP] — are carried unchanged; they are discussed where they are carried. Of those
-three only `hGm` and `hgenus` are open: `hdeg` is `AlgebraicGeometry.surjective_curvePicardDegree`
-and is discharged as well on
-`etaleCohomology_rootsOfUnity_smoothProjectiveCurve_allDegrees_of_jacobian_of_closedPoint` below.
+The remaining three hypotheses of that theorem — `hGm`, which is [Stacks, Tag 03RM] on this site,
+`hdeg`, the surjectivity of the degree, and `hgenus`, clause (7) of [Stacks, Tag 03RP] — are
+carried unchanged; they are discussed where they are carried. None of the three is open: `hGm` is
+`AlgebraicGeometry.subsingleton_sheafH_kummerSmallEtale_X₂_smoothCurve`, `hdeg` is
+`AlgebraicGeometry.surjective_curvePicardDegree` and is discharged as well on
+`etaleCohomology_rootsOfUnity_smoothProjectiveCurve_allDegrees_of_jacobian_of_closedPoint` below,
+and `hgenus` is derived from the Jacobian on
+`etaleCohomology_rootsOfUnity_smoothProjectiveCurve_allDegrees_of_jacobian_of_rank` (in
+`StacksFrontier.AlgebraicGeometry.EtaleCohomology.Curves.RootsOfUnityJacobianTorsion`).
 
 This is a partial form of [Stacks, Tag 03RQ](https://stacks.math.columbia.edu/tag/03RQ); the full
 statement is `AlgebraicGeometry.etaleCohomology_rootsOfUnity_smoothProjectiveCurve_of_genus`. -/

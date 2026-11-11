@@ -42,11 +42,13 @@ and concludes that `P` holds for every coherent module on `X`.
   zero modules and satisfying (1), (2) and (3), `P` holds for every `i_*I`, which is hypothesis
   (2) of Stacks 07US.
 * `AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree_of_isNoetherian`:
-  **Stacks 08AN**, for a property which holds on zero modules.
+  the dévissage of Stacks 08AN for a property which holds on zero modules.
 * `AlgebraicGeometry.Space.forall_isZero_property_of_nonempty`: on an `X` with a point, (1) and
   (3) force `P` on every zero module.
 * `AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree_of_nonempty`: Stacks
   08AN for an `X` with a point, with no hypothesis on zero modules.
+* `AlgebraicGeometry.Space.property_of_isCoherent_of_integralWitness`: **Stacks 08AN**, with the
+  errata's correction: `|X|` nonempty or `P` holding on zero modules.
 * `AlgebraicGeometry.Space.not_forall_false_of_isEmpty_points`: on an `X` with no points the
   property `fun _ => False` satisfies (1), (2) and (3) and fails on a coherent module.
 
@@ -200,8 +202,9 @@ theorem forall_property_idealPushforward_of_isNoetherian (hZtop : B.Contains (�
 
 /-! ### Stacks 08AN -/
 
-/-- **Stacks Project, Tag 08AN.**  Let `X` be a Noetherian algebraic space over a scheme `S`
-and let `P` be a property of coherent `𝒪_X`-modules, holding on zero modules, such that
+/-- **The dévissage of Stacks 08AN for a property holding on zero modules.**  Let `X` be a
+Noetherian algebraic space over a scheme `S` and let `P` be a property of coherent
+`𝒪_X`-modules, holding on zero modules, such that
 
 1. for a short exact sequence of coherent modules, if two out of three terms have `P` then so
    does the third;
@@ -216,8 +219,6 @@ The hypothesis `hzero` is not in the source's list, and the source's statement i
 it when `X` has no points (`AlgebraicGeometry.Space.not_forall_false_of_isEmpty_points`); when
 `X` has a point it follows from (1) and (3), which is
 `AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree_of_nonempty`. -/
-@[stacks 08AN "for a property which holds on zero modules: the source's statement fails for an \
-X with no points, and for X with a point that hypothesis follows from (1) and (3)"]
 theorem property_of_integralWitness_and_twoOutOfThree_of_isNoetherian
     (hZtop : B.Contains (⊤_ Scheme.{u}))
     (X : AlgebraicSpaces B S hS) (hX : IsNoetherian B S hS hZtop X.1)
@@ -266,6 +267,41 @@ theorem property_of_integralWitness_and_twoOutOfThree_of_nonempty
     (M : Modules.{u, u} B S hS X.1 X.2) (hM : IsCoherent B S hS X.1 X.2 M) : P M :=
   property_of_integralWitness_and_twoOutOfThree_of_isNoetherian B S hS hZtop X hX P
     (forall_isZero_property_of_nonempty B S hS X hne P h1 h3) h1 h2 h3 M hM
+
+/-- **Stacks Project, Tag 08AN**, corrected as recorded in the errata.  Let `X` be a Noetherian
+algebraic space over a scheme `S` and let `P` be a property of coherent `𝒪_X`-modules such that
+
+1. for a short exact sequence of coherent modules, if two out of three terms have `P` then so
+   does the third;
+2. if `P` holds for the direct sum of `r ≥ 1` copies of a coherent module then it holds for that
+   module;
+3. for every reduced closed subspace `Z ⊆ X` with `|Z|` irreducible there is a coherent module
+   on `X` whose scheme-theoretic support is `Z` and which has `P`.
+
+Then `P` holds for every coherent module on `X`, provided `|X|` is nonempty or `P` holds on zero
+modules (`h0`).
+
+The alternative `h0` is the correction: the source's statement fails on an algebraic space with
+no points (`AlgebraicGeometry.Space.not_forall_false_of_isEmpty_points`), and on such a space the
+zero module is the one coherent module, so `P` on zero modules is exactly what is missing there.
+On a space with a point `h0` holds by its first alternative and the statement is the source's.
+No result of another tag is carried: Stacks 07UR, the coherence of `i_*I` and Stacks 07UQ are
+theorems of the library, used through
+`AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree_of_isNoetherian`, and on a
+space with a point `P` on zero modules follows from (1) and (3) by
+`AlgebraicGeometry.Space.forall_isZero_property_of_nonempty`. -/
+@[stacks 08AN "corrected: |X| is also required to be nonempty, or P to hold on zero modules; \
+without this the statement fails on an algebraic space with no points, for the property False"]
+theorem property_of_isCoherent_of_integralWitness (hZtop : B.Contains (⊤_ Scheme.{u}))
+    (X : AlgebraicSpaces B S hS) (hX : IsNoetherian B S hS hZtop X.1)
+    (P : Modules.{u, u} B S hS X.1 X.2 → Prop)
+    (h0 : Nonempty (points B S hS X.1) ∨ ∀ M : Modules.{u, u} B S hS X.1 X.2, IsZero M → P M)
+    (h1 : TwoOutOfThreeCoherent B S hS X P) (h2 : ClosedUnderCoherentDirectSumDescent B S hS X P)
+    (h3 : HasCoherentWitnessOnIntegralSubspaces B S hS X P)
+    (M : Modules.{u, u} B S hS X.1 X.2) (hM : IsCoherent B S hS X.1 X.2 M) : P M :=
+  property_of_integralWitness_and_twoOutOfThree_of_isNoetherian B S hS hZtop X hX P
+    (h0.elim (fun hne => forall_isZero_property_of_nonempty B S hS X hne P h1 h3) id)
+    h1 h2 h3 M hM
 
 /-- **Without the hypothesis on zero modules Stacks 08AN fails on an algebraic space with no
 points**: there the property `fun _ => False` satisfies hypotheses (1), (2) and (3), while some

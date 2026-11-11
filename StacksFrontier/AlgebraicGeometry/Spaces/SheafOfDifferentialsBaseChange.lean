@@ -14,20 +14,22 @@ Stacks 05ZD asserts that for two morphisms `f : X ⟶ T` and `g : Y ⟶ T` with 
 the projections `p`, `q` of a fibre product `W`, the two comparison maps of Stacks 04CX exhibit
 `Ω_{W/T}` as the direct sum `p^*Ω_{X/T} ⊕ q^*Ω_{Y/T}`.
 
-Both are proved here the way the source proves them: from the case of schemes — Morphisms,
-Lemmas 01V0 and 01V1, which are
+Both are proved unconditionally, as
+`AlgebraicGeometry.Space.isIso_sheafOfDifferentialsMap_of_isPullback` and
+`AlgebraicGeometry.Space.isIso_biprodDesc_sheafOfDifferentialsMap_of_isPullback` in
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeSquareBijective.lean`, which is
+where the two tags are registered; there the étale localization of Stacks 04CU is carried out
+through `AlgebraicGeometry.Space.schemeSquareDerivationRestriction`.
+
+This file holds an earlier route to the same statements: from the case of schemes —
+Morphisms, Lemmas 01V0 and 01V1, which are
 `AlgebraicGeometry.Scheme.Hom.isIso_relativeDifferentialsMap_of_isPullback` and
-`AlgebraicGeometry.Scheme.Hom.isIso_biprodDesc_relativeDifferentialsMap` — together with the
-étale localization of Stacks 04CU.  The étale localization is the input the tree does not have:
-Stacks 04CU is carried only in its étale-base half,
-`AlgebraicGeometry.Space.sheafOfDifferentialsIsoOfSharpIso`, whose other half is already an
-explicit hypothesis there, and nothing compares `AlgebraicGeometry.Space.sheafOfDifferentials`
-with `AlgebraicGeometry.Scheme.Hom.relativeDifferentials`.  It is therefore carried as a
-hypothesis, in the shape in which the source's argument delivers it and consumes nothing more:
-over each étale chart of the source, the comparison map of algebraic spaces *is* the canonical
-map of Stacks 01UV of a cartesian square of schemes, read through additive identifications of
-the sections.  Invertibility is then the case of schemes plus the local nature of isomorphisms
-of sheaves of modules.
+`AlgebraicGeometry.Scheme.Hom.isIso_biprodDesc_relativeDifferentialsMap` — together with an
+étale-local identification taken as a hypothesis, in the shape in which the source's argument
+delivers it and consumes nothing more: over each étale chart of the source, the comparison map
+of algebraic spaces *is* the canonical map of Stacks 01UV of a cartesian square of schemes, read
+through additive identifications of the sections.  Invertibility is then the case of schemes
+plus the local nature of isomorphisms of sheaves of modules.
 
 The two predicates recording that input, `AlgebraicGeometry.Space.IsEtaleLocalBaseChangeMap`
 and `AlgebraicGeometry.Space.IsEtaleLocalFibreProductMap`, take the cartesian square of
@@ -56,9 +58,12 @@ for to the realization in hand.
 * `AlgebraicGeometry.Space.isIso_of_bijective_app`: a morphism of `𝒪_X`-modules on the small
   étale site which is bijective on the sections over every étale chart is an isomorphism.
 * `AlgebraicGeometry.Space.isIso_of_isSheafOfDifferentialsMap_of_isPullback`:
-  **Stacks 05ZC**, from the scheme case 01V0 and the étale localization of 04CU.
-* `AlgebraicGeometry.Space.isIso_biprodDesc_of_isSheafOfDifferentialsMap`:
-  **Stacks 05ZD**, from the scheme case 01V1 and the étale localization of 04CU.
+  Stacks 05ZC from the scheme case 01V0 and a given étale localization of 04CU; the
+  unconditional form is `AlgebraicGeometry.Space.isIso_sheafOfDifferentialsMap_of_isPullback`.
+* `AlgebraicGeometry.Space.isIso_biprodDesc_of_isSheafOfDifferentialsMap`: the statement of
+  Stacks 05ZD from the scheme case 01V1 and the étale localization of 04CU, given as
+  `hetale`; Stacks 05ZD itself is
+  `AlgebraicGeometry.Space.isIso_biprodDesc_sheafOfDifferentialsMap_of_isPullback`.
 
 ## Implementation notes
 
@@ -210,7 +215,9 @@ private theorem bijective_of_comp_equiv_eq {A B C D E₁ E₂ : Type*} [EquivLik
     exact hG.comp (EquivLike.bijective α)
   exact (Function.Bijective.of_comp_iff' (EquivLike.bijective β) _).1 this
 
-/-- **Stacks 05ZC.**  Let `p : X ⟶ Y` be a morphism of algebraic spaces over `S`, let
+/-- **The statement of Stacks 05ZC, given an étale-local identification with the scheme
+case.**  Let
+`p : X ⟶ Y` be a morphism of algebraic spaces over `S`, let
 `g : Y' ⟶ Y` be a morphism and let `X'`, with its projections `g' : X' ⟶ X` and `p' : X' ⟶ Y'`,
 be the base change of `p` by `g`.  Then the comparison map
 `c_{g'} : (g')^*Ω_{X/Y} ⟶ Ω_{X'/Y'}` of Stacks 04CX is an isomorphism.
@@ -220,10 +227,12 @@ The map is named by the characterizing property of Stacks 04CX, which determines
 étale-local input from the realization `c₀` it is stated for to the realization `c` in hand.
 The proof is the source's: over an étale chart the comparison map is the canonical map of a
 cartesian square of schemes, which is an isomorphism by Morphisms, Lemma 01V0, and an
-isomorphism on the sections over every chart is an isomorphism. -/
-@[stacks 05ZC "granted, as `hetale`, the étale localization of 04CU: over each étale chart the
-  comparison map is the canonical map 01UV of a cartesian square of schemes.  The scheme case
-  01V0 is applied, not granted"]
+isomorphism on the sections over every chart is an isomorphism.
+
+The unconditional form, with no étale-local input, is
+`AlgebraicGeometry.Space.isIso_sheafOfDifferentialsMap_of_isPullback` in
+`StacksFrontier/AlgebraicGeometry/Spaces/SheafOfDifferentialsSchemeSquareBijective.lean`, which is
+where Stacks 05ZC is registered. -/
 theorem isIso_of_isSheafOfDifferentialsMap_of_isPullback (g' : X' ⟶ X) (p' : X' ⟶ Y')
     (p : X ⟶ Y) (g : Y' ⟶ Y) (h : IsPullback g' p' p g)
     (c c₀ : (modulePullback B S hS g').obj (sheafOfDifferentials B S hS p) ⟶
@@ -240,20 +249,18 @@ theorem isIso_of_isSheafOfDifferentialsMap_of_isPullback (g' : X' ⟶ X) (p' : X
   have hb := @Stacks.SheafOfModules.bijective_app_of_isIso _ _ _ _ _ _ _ hiso (op V)
   exact bijective_of_comp_equiv_eq α β hb hcomp
 
-/-- **Stacks 05ZD.**  Let `f : X ⟶ T` and `g : Y ⟶ T` be morphisms of algebraic spaces over `S`
-with the same target and let `p : W ⟶ X`, `q : W ⟶ Y` be the projections of a fibre product of
-`f` and `g`.  The two comparison maps of Stacks 04CX exhibit `Ω_{W/T}` as the direct sum
-`p^*Ω_{X/T} ⊕ q^*Ω_{Y/T}`.
+/-- Let `f : X ⟶ T` and `g : Y ⟶ T` be morphisms of algebraic spaces over `S` with the same
+target and let `p : W ⟶ X`, `q : W ⟶ Y` be the projections of a fibre product of `f` and `g`.
+Given the étale-local input `hetale`, the two comparison maps of Stacks 04CX exhibit `Ω_{W/T}`
+as the direct sum `p^*Ω_{X/T} ⊕ q^*Ω_{Y/T}`.  Stacks 05ZD itself, with no such input, is
+`AlgebraicGeometry.Space.isIso_biprodDesc_sheafOfDifferentialsMap_of_isPullback`.
 
 Both summands are named by the characterizing property of Stacks 04CX for the square they come
 from — the one with top edge `p` and right edge `f`, and the one with top edge `q` and right
 edge `g`, both with left edge the structure morphism `p ≫ f` of `W` — so the conclusion is
-about the two comparison maps and not about some decomposition of `Ω_{W/T}`.  As for
-Stacks 05ZC the étale localization of Stacks 04CU is granted and Morphisms, Lemma 01V1 is
-applied. -/
-@[stacks 05ZD "granted, as `hetale`, the étale localization of 04CU: over each étale chart the
-  map `p^*Ω_{X/T} ⊕ q^*Ω_{Y/T} ⟶ Ω_{W/T}` is the map 01V1 of a cartesian square of schemes.
-  The scheme case 01V1 is applied, not granted"]
+about the two comparison maps and not about some decomposition of `Ω_{W/T}`.  As in
+`AlgebraicGeometry.Space.isIso_of_isSheafOfDifferentialsMap_of_isPullback`, the étale-local
+identification is the hypothesis `hetale` and Morphisms, Lemma 01V1 is applied. -/
 theorem isIso_biprodDesc_of_isSheafOfDifferentialsMap {W T : AlgebraicSpaces B S hS}
     (p : W ⟶ X) (q : W ⟶ Y) (f : X ⟶ T) (g : Y ⟶ T) (h : IsPullback p q f g)
     (a a₀ : (modulePullback B S hS p).obj (sheafOfDifferentials B S hS f) ⟶

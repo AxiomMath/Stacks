@@ -21,8 +21,15 @@ Such a `u` is continuous, so restriction of sheaves of sets along `u` has a left
 if in addition `u` preserves the terminal object and fibre products, then `u_s` is exact, i.e.
 `u` defines a quasi-morphism of sites `D → C`.
 
-Sites are modelled by `CategoryTheory.Pretopology`, whose definition presupposes
-`[HasPullbacks]`; that hypothesis is part of the model rather than an extra assumption.
+Stacks 00WZ itself is formalized for sites in Stacks' sense, which need only the fibre products
+along covering maps: `IsQuasiContinuousPrecoverage` (over `CategoryTheory.Precoverage`, with
+`[Precoverage.HasPullbacks]` and `[Precoverage.IsStableUnderBaseChange]` where needed),
+`isContinuous_of_isQuasiContinuousPrecoverage` (Lemma 00WW for quasi-continuous functors) and
+`sheafAdjunctionOfIsQuasiContinuousPrecoverage` (Lemma 00WX). The older variant
+`IsQuasiContinuous` is stated for sites presented by `CategoryTheory.Pretopology` on categories
+with all fibre products (`[HasPullbacks]`), with clause (2) via `pullbackComparison`; it agrees with
+the precoverage notion there (`isQuasiContinuousPrecoverage_toPrecoverage_iff`) and is the form
+used for the quasi-morphisms of sites of Stacks 00X8 below.
 -/
 
 @[expose] public section
@@ -106,14 +113,16 @@ abbrev IsContinuous {C : Type u} [Category.{v} C] {D : Type u} [Category.{v} D]
    `u(T ×_V V_i) -> u(T) ×_{u(V)} u(V_i)` is an isomorphism.
 -/
 
-/-- **Definition 3 (Quasi-continuous functor).** Here sites are presented by
-pretopologies `PC` (on `C`) and `PD` (on `D`). The first clause is the relaxation
+/-- **Definition 3 (Quasi-continuous functor), for categories with all fibre products.** Here
+sites are presented by pretopologies `PC` (on `C`) and `PD` (on `D`), which presuppose
+`[HasPullbacks C]` and `[HasPullbacks D]`; Stacks' notion for arbitrary sites, which only have
+the fibre products along coverings, is `IsQuasiContinuousPrecoverage`, and the two agree here by
+`isQuasiContinuousPrecoverage_toPrecoverage_iff`. The first clause is the relaxation
 of the pretopological continuity condition: the image family need only be
 *tautologically equivalent* to a covering family of `D`, rather than itself being
 one. The second clause says `u` preserves the fibre products appearing in
 covering families, expressed via the pullback comparison morphism being an
 isomorphism. -/
-@[stacks 00WZ "the definition of quasi-continuous"]
 def IsQuasiContinuous {C : Type u} [Category.{v} C] {D : Type u} [Category.{v} D]
     [HasPullbacks C] [HasPullbacks D] (u : C ⥤ D)
     (PC : Pretopology C) (PD : Pretopology D) : Prop :=
@@ -287,14 +296,16 @@ theorem isSheafFor_iff_tautologicallyEquivalent
     Presieve.isSheafFor_iff_generate V.toPresieve, hsieve]
 
 /-- **Background Lemma A.** A quasi-continuous functor `u : C ⥤ D` is continuous, so
-restriction of sheaves of sets along `u` is defined and has a left adjoint `u_s`.
+restriction of sheaves of sets along `u` is defined and has a left adjoint `u_s`. This is the
+variant for pretopologies on categories with all fibre products; Stacks 00WZ for arbitrary sites
+is `isContinuous_of_isQuasiContinuousPrecoverage`.
 
 For a `PD`-sheaf `G` and a covering presieve `R ∈ PC X`, repackage `R` as an `ArrowFamily 𝒱`;
 quasi-continuity supplies a `PD`-covering tautologically equivalent to `u(𝒱)`, so `G` is a sheaf
 for `u(𝒱)` by `isSheafFor_iff_tautologicallyEquivalent`, and preservation of the relevant fibre
 products carries that back to `u.op ⋙ G.obj` and `𝒱` via
 `isSheafFor_image_of_pullbackComparison`. -/
-@[stacks 00WZ, sga "4 III 1.6" "iii) ⇒ i)"]
+@[sga "4 III 1.6" "iii) ⇒ i)"]
 theorem isContinuous_of_isQuasiContinuous
     {C : Type u} [SmallCategory C] {D : Type u} [SmallCategory D]
     [HasPullbacks C] [HasPullbacks D] (u : C ⥤ D)
@@ -334,6 +345,149 @@ theorem isContinuous_of_isQuasiContinuous
     (isSheafFor_iff_tautologicallyEquivalent G.obj (𝒱.map u) 𝒰 htaut).2 hGsheaf
   -- Clause (2) transfer along `u`: `u.op ⋙ G.obj` is a sheaf for `𝒱`.
   exact isSheafFor_image_of_pullbackComparison u 𝒱 G.obj hpb hGimage
+
+/-!
+## Quasi-continuity for sites in Stacks' sense (Stacks 00WZ)
+
+A site in the sense of Stacks (Definition 00VH) need not have all fibre products: its axioms only
+provide the fibre products `U_i ×_U V` along the maps of a covering `{U_i → U}`, and make the
+base-changed families coverings again. We model such a site by a `Precoverage J` carrying
+`[J.HasPullbacks]` (the fibre products along covering maps exist) and
+`[J.IsStableUnderBaseChange]`; no global `HasPullbacks` is assumed. Clause (2) of
+quasi-continuity, "the canonical morphism `u(T ×_V V_i) → u(T) ×_{u(V)} u(V_i)` is an
+isomorphism", is stated as "`u` carries every fibre square `T ×_V V_i` to a fibre square of
+`D`"; this needs no fibre product of `D` to exist beforehand, and is equivalent to the comparison
+form whenever the two fibre products exist (`isPullback_map_iff_isIso_pullbackComparison`).
+-/
+
+/-- `u` carries every fibre square over `a` and `b` to a fibre square if and only if the
+canonical comparison `u(T ×_V W) → u(T) ×_{u(V)} u(W)` is an isomorphism, as soon as both
+fibre products exist. -/
+theorem isPullback_map_iff_isIso_pullbackComparison
+    {C : Type*} [Category C] {D : Type*} [Category D] (u : C ⥤ D) {T V W : C}
+    (a : T ⟶ V) (b : W ⟶ V) [HasPullback a b] [HasPullback (u.map a) (u.map b)] :
+    (∀ ⦃P : C⦄ (p₁ : P ⟶ T) (p₂ : P ⟶ W), IsPullback p₁ p₂ a b →
+        IsPullback (u.map p₁) (u.map p₂) (u.map a) (u.map b)) ↔
+      IsIso (pullbackComparison u a b) := by
+  constructor
+  · intro h
+    have hD := h _ _ (IsPullback.of_hasPullback a b)
+    have : pullbackComparison u a b = hD.isoPullback.hom := by
+      apply pullback.hom_ext <;> simp
+    rw [this]
+    infer_instance
+  · intro _ P p₁ p₂ hP
+    refine IsPullback.of_iso_pullback
+      ⟨by rw [← u.map_comp, ← u.map_comp, hP.w]⟩
+      (u.mapIso hP.isoPullback ≪≫ asIso (pullbackComparison u a b)) ?_ ?_
+    · simp [← u.map_comp]
+    · simp [← u.map_comp]
+
+/-- **Stacks 00WZ (definition).** A functor `u : C ⥤ D` between sites, presented by precoverages
+`JC` and `JD`, is *quasi-continuous* if for every covering `𝒱 = {V_i → V}` of `C`:
+* (1') the image family `{u(V_i) → u(V)}` is tautologically equivalent to a covering of `D`; and
+* (2) for every morphism `T → V` of `C` the canonical morphism
+  `u(T ×_V V_i) → u(T) ×_{u(V)} u(V_i)` is an isomorphism, i.e. `u` carries the fibre square
+  `T ×_V V_i` (which exists when `JC` has pullbacks along coverings) to a fibre square of `D`.
+
+Unlike `IsQuasiContinuous`, nothing here asks `C` or `D` to have all fibre products; the two
+notions agree for pretopologies on categories with fibre products
+(`isQuasiContinuousPrecoverage_toPrecoverage_iff`). -/
+@[stacks 00WZ "the definition of quasi-continuous, for sites given by precoverages"]
+def IsQuasiContinuousPrecoverage {C : Type u} [Category.{v} C] {D : Type u} [Category.{v} D]
+    (u : C ⥤ D) (JC : Precoverage C) (JD : Precoverage D) : Prop :=
+  ∀ ⦃V : C⦄ (𝒱 : ArrowFamily C V), 𝒱.toPresieve ∈ JC.coverings V →
+    (∃ 𝒰 : ArrowFamily D (u.obj V),
+        𝒰.toPresieve ∈ JD.coverings (u.obj V) ∧
+        TautologicallyEquivalent (𝒱.map u) 𝒰) ∧
+    (∀ ⦃T : C⦄ (a : T ⟶ V) (i : 𝒱.ι) ⦃P : C⦄ (p₁ : P ⟶ T) (p₂ : P ⟶ 𝒱.obj i),
+        IsPullback p₁ p₂ a (𝒱.hom i) →
+        IsPullback (u.map p₁) (u.map p₂) (u.map a) (u.map (𝒱.hom i)))
+
+/-- For sites given by pretopologies on categories with all fibre products, the precoverage
+notion of quasi-continuity `IsQuasiContinuousPrecoverage` is `IsQuasiContinuous`. -/
+theorem isQuasiContinuousPrecoverage_toPrecoverage_iff
+    {C : Type u} [Category.{v} C] {D : Type u} [Category.{v} D]
+    [HasPullbacks C] [HasPullbacks D] (u : C ⥤ D) (PC : Pretopology C) (PD : Pretopology D) :
+    IsQuasiContinuousPrecoverage u PC.toPrecoverage PD.toPrecoverage ↔
+      IsQuasiContinuous u PC PD :=
+  forall_congr' fun _ => forall_congr' fun 𝒱 => imp_congr Iff.rfl <| and_congr Iff.rfl <|
+    forall_congr' fun _ => forall_congr' fun a => forall_congr' fun i =>
+      isPullback_map_iff_isIso_pullbackComparison u a (𝒱.hom i)
+
+/-- **Clause (2) transfer, fibre-square form.** If `u` carries the fibre squares
+`V_i ×_V V_j` of the family `𝒱` (assumed to exist) to fibre squares of `D`, then the restriction
+`u.op ⋙ G` is a sheaf for `𝒱` whenever `G` is a sheaf for the image family `u(𝒱)`: this is the
+equality `H⁰(𝒱, u^p G) = H⁰(u(𝒱), G)` of Stacks 00WZ. No fibre product of `D` is assumed. -/
+theorem isSheafFor_of_isSheafFor_map_of_isPullback
+    {C : Type u} [Category.{v} C] {D : Type u} [Category.{v} D] (u : C ⥤ D) {V : C}
+    (𝒱 : ArrowFamily C V) (G : Dᵒᵖ ⥤ Type*)
+    (hex : ∀ i j : 𝒱.ι, HasPullback (𝒱.hom i) (𝒱.hom j))
+    (hpb : ∀ ⦃T : C⦄ (a : T ⟶ V) (i : 𝒱.ι) ⦃P : C⦄ (p₁ : P ⟶ T) (p₂ : P ⟶ 𝒱.obj i),
+        IsPullback p₁ p₂ a (𝒱.hom i) →
+        IsPullback (u.map p₁) (u.map p₂) (u.map a) (u.map (𝒱.hom i)))
+    (hG : Presieve.IsSheafFor G (𝒱.map u).toPresieve) :
+    Presieve.IsSheafFor (u.op ⋙ G) 𝒱.toPresieve := by
+  rw [ArrowFamily.toPresieve, Presieve.isSheafFor_arrows_iff]
+  rw [ArrowFamily.toPresieve, ArrowFamily.map, Presieve.isSheafFor_arrows_iff] at hG
+  intro x hx
+  refine hG x fun i j W hi hj w => ?_
+  have := hex i j
+  have hD := hpb (𝒱.hom i) j _ _ (IsPullback.of_hasPullback (𝒱.hom i) (𝒱.hom j))
+  have key := hx i j _ (pullback.fst (𝒱.hom i) (𝒱.hom j)) (pullback.snd (𝒱.hom i) (𝒱.hom j))
+    pullback.condition
+  simp only [Functor.comp_obj, Functor.comp_map, Functor.op_obj, Functor.op_map,
+    Quiver.Hom.unop_op] at key
+  obtain ⟨h, rfl, rfl⟩ : ∃ h : W ⟶ u.obj (pullback (𝒱.hom i) (𝒱.hom j)),
+      h ≫ u.map (pullback.fst _ _) = hi ∧ h ≫ u.map (pullback.snd _ _) = hj :=
+    ⟨hD.lift hi hj w, hD.lift_fst hi hj w, hD.lift_snd hi hj w⟩
+  rw [op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, key]
+
+/-- **Stacks 00WZ (Lemma 00WW for quasi-continuous functors).** Let `C` and `D` be sites in the
+sense of Stacks, given by precoverages `JC` and `JD`, where `JC` has the fibre products along its
+coverings and is stable under base change. If `u : C ⥤ D` is quasi-continuous
+(`IsQuasiContinuousPrecoverage`), then `u^p F` is a sheaf for every sheaf of sets `F` on `D`,
+i.e. `u` is continuous for the associated topologies. No global fibre products are assumed. -/
+@[stacks 00WZ "Lemma 00WW holds for quasi-continuous functors"]
+theorem isContinuous_of_isQuasiContinuousPrecoverage
+    {C : Type u} [SmallCategory C] {D : Type u} [SmallCategory D] (u : C ⥤ D)
+    (JC : Precoverage C) (JD : Precoverage D) [JC.HasPullbacks] [JC.IsStableUnderBaseChange]
+    (hu : IsQuasiContinuousPrecoverage u JC JD) :
+    u.IsContinuous JC.toGrothendieck JD.toGrothendieck := by
+  refine ⟨fun G => ?_⟩
+  rw [Precoverage.isSheaf_toGrothendieck_iff_of_isStableUnderBaseChange]
+  intro X R hR
+  obtain ⟨ι, Y, f, rfl⟩ := R.exists_eq_ofArrows
+  let 𝒱 : ArrowFamily C X := ⟨ι, Y, f⟩
+  change 𝒱.toPresieve ∈ JC.coverings X at hR
+  change Presieve.IsSheafFor _ 𝒱.toPresieve
+  obtain ⟨⟨𝒰, h𝒰, htaut⟩, hpb⟩ := hu 𝒱 hR
+  have hGtype : Presieve.IsSheaf JD.toGrothendieck G.obj :=
+    (isSheaf_iff_isSheaf_of_type _ _).1 G.2
+  have hG𝒰 : Presieve.IsSheafFor G.obj 𝒰.toPresieve :=
+    (Presieve.isSheafFor_iff_generate _).2
+      (hGtype _ (Precoverage.generate_mem_toGrothendieck h𝒰))
+  have hGimage : Presieve.IsSheafFor G.obj (𝒱.map u).toPresieve :=
+    (isSheafFor_iff_tautologicallyEquivalent G.obj (𝒱.map u) 𝒰 htaut).2 hG𝒰
+  refine isSheafFor_of_isSheafFor_map_of_isPullback u 𝒱 G.obj (fun i j => ?_) hpb hGimage
+  exact (Precoverage.hasPullbacks_of_mem (𝒱.hom j) hR).hasPullback (Presieve.ofArrows.mk i)
+
+/-- **Stacks 00WZ (Lemma 00WX for quasi-continuous functors).** In the situation of
+`isContinuous_of_isQuasiContinuousPrecoverage`, the functor `u_s : 𝒢 ↦ (u_p 𝒢)^#` (left Kan
+extension along `u` followed by sheafification) is left adjoint to restriction
+`u^s : Sh(D) → Sh(C)` of sheaves of sets. -/
+@[stacks 00WZ "Lemma 00WX holds for quasi-continuous functors"]
+noncomputable def sheafAdjunctionOfIsQuasiContinuousPrecoverage
+    {C : Type u} [SmallCategory C] {D : Type u} [SmallCategory D] (u : C ⥤ D)
+    (JC : Precoverage C) (JD : Precoverage D) [JC.HasPullbacks] [JC.IsStableUnderBaseChange]
+    (hu : IsQuasiContinuousPrecoverage u JC JD) :
+    letI := isContinuous_of_isQuasiContinuousPrecoverage u JC JD hu
+    Functor.sheafPullbackConstruction.sheafPullback u (Type u) JC.toGrothendieck
+        JD.toGrothendieck ⊣
+      u.sheafPushforwardContinuous (Type u) JC.toGrothendieck JD.toGrothendieck :=
+  letI := isContinuous_of_isQuasiContinuousPrecoverage u JC JD hu
+  Functor.sheafPullbackConstruction.sheafAdjunctionContinuous u (Type u) JC.toGrothendieck
+    JD.toGrothendieck
 
 /-!
 ## Definition 5 (Quasi-morphism of sites; Stacks 00X8 = Remark 7.14.9)

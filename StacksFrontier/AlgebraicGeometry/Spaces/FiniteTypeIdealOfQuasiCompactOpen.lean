@@ -25,7 +25,8 @@ quasi-coherent sheaf of ideals `ℐ ⊆ 𝒪_X` of finite type with `|X| ∖ |U|
 implication (2) ⟹ (3) of Tag 0855.
 
 The argument is the source's.  Let `𝒥` be the sheaf of ideals cutting out the reduced closed
-subspace on `T = |X| ∖ |U|`, which Stacks 03IP supplies in the form
+subspace on `T = |X| ∖ |U|`: the source takes it from Stacks 03IQ (the reduced closed subspace
+on `T`), its quasi-coherence is Stacks 03MB, and the two are packaged as
 `AlgebraicGeometry.Space.exists_isQuasicoherentOnSite_idealZeroLocus_eq`.  On a chart of `X`
 which comes from a chart of `U` the ideal `𝒥` is the unit ideal, so the inclusion `𝒥 ⟶ 𝒪_X`
 becomes an isomorphism after restriction to the small étale site of `U`; in particular `𝒥|_U` is
@@ -85,7 +86,8 @@ Three passages are worth naming.
 
 * [Stacks Project, Tag 0855](https://stacks.math.columbia.edu/tag/0855)
 * [Stacks Project, Tag 0853](https://stacks.math.columbia.edu/tag/0853)
-* [Stacks Project, Tag 03IP](https://stacks.math.columbia.edu/tag/03IP)
+* [Stacks Project, Tag 03IQ](https://stacks.math.columbia.edu/tag/03IQ)
+* [Stacks Project, Tag 03MB](https://stacks.math.columbia.edu/tag/03MB)
 * [Stacks Project, Tag 03LW](https://stacks.math.columbia.edu/tag/03LW)
 * [Stacks Project, Tag 03DL](https://stacks.math.columbia.edu/tag/03DL)
 * [Stacks Project, Tag 08GP](https://stacks.math.columbia.edu/tag/08GP)

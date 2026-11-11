@@ -106,7 +106,8 @@ representable by algebraic spaces, surjective and étale, then `F` is an algebra
 in the sense of Algebraic Spaces, Definition 025Y.
 
 This is `AlgebraicGeometry.Space.isAlgebraicSpace_of_isSheaf_etale_of_etale_space_atlas` with its
-Stacks 04S6 input discharged by `AlgebraicGeometry.Space.bootstrap04S6QuotientSheaf`. -/
+Stacks 04S6 input discharged by `AlgebraicGeometry.Space.bootstrap04S6QuotientSheaf`. It is the
+complete statement of Stacks 0BH4 and its only registration; nothing is assumed. -/
 @[stacks 0BH4]
 theorem isAlgebraicSpace_of_isSheaf_etale_of_etale_space_atlas_unconditional
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)
@@ -130,7 +131,8 @@ from the representable diagonal by
 `AlgebraicGeometry.Space.isRepresentableByAlgebraicSpaces_of_diagonal`, and the surjectivity and
 smoothness are asked of that witness. This is
 `AlgebraicGeometry.Space.isAlgebraicSpace_of_isSheaf_etale_of_smooth_scheme_atlas` with its
-Stacks 04S6 input discharged by `AlgebraicGeometry.Space.bootstrap04S6QuotientSheaf`. -/
+Stacks 04S6 input discharged by `AlgebraicGeometry.Space.bootstrap04S6QuotientSheaf`. It is the
+complete statement of Stacks 07WF and its only registration; nothing is assumed. -/
 @[stacks 07WF]
 theorem isAlgebraicSpace_of_isSheaf_etale_of_smooth_scheme_atlas_unconditional
     (F : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u)

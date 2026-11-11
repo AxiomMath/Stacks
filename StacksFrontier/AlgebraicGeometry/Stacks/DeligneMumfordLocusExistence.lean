@@ -320,7 +320,9 @@ Here `W''` is `𝒳''` and `W'` is `𝒳'`. DM and quasi-DM are the absolute not
 **Stacks 050D**, parts (5) and (6), read over the terminal scheme `Spec ℤ`, which every big fppf
 site contains (`AlgebraicGeometry.BigFppfSite.contains_terminal`); containment of open substacks
 is containment of their objects. -/
-@[stacks 0DSM]
+@[stacks 0DSM "open substacks W'' ≤ W' of 𝒳 with W'' absolutely DM and W' absolutely \
+  quasi-DM (050D(5),(6)), each containing every absolutely DM, resp. absolutely quasi-DM, \
+  open substack of 𝒳"]
 theorem exists_nested_largest_isAbsolutelyDM_openSubstacks :
     ∃ W' W'' : OpenSubstack 𝒳,
       W''.property ≤ W'.property ∧

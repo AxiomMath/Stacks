@@ -1,6 +1,12 @@
 module
 
 public import Mathlib.Algebra.Order.Floor.Extended
+public import Mathlib.CategoryTheory.Action.Concrete
+public import Mathlib.CategoryTheory.Action.Limits
+public import Mathlib.CategoryTheory.Countable
+public import Mathlib.CategoryTheory.Limits.FullSubcategory
+public import Mathlib.CategoryTheory.Limits.Types.Colimits
+public import Mathlib.CategoryTheory.Limits.Types.Limits
 public import Mathlib.Algebra.Order.Interval.Basic
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 public import Mathlib.Analysis.SpecialFunctions.Bernstein
@@ -61,6 +67,9 @@ by the cardinal-arithmetic invariant that drives the omitted proof.
   and coproducts — clause (2).
 * `Sk_subtype`: closure under `G`-stable subsets — clause (3).
 
+These are size estimates for particular concrete constructions; the categorical statement
+for every countable index category is part of Stacks 000U, below.
+
 Every `Sk` claim unfolds to `max (max ℵ₀ #G) #S < κ`, which `max_lt` splits into condition
 `B1` and a bound `#S < κ` on the underlying type. So each statement below reduces, through
 `Sk_of_mk_lt`, to a cardinality estimate for the underlying type; the group actions and the
@@ -82,24 +91,21 @@ Let `G` be a group. Stacks 000U fixes, for a given set `S₀` of `G`-sets, a lim
 
 We use the modelling already fixed for Stacks 000V above:
 `size S = max {ℵ₀, |G|, |S|}` is `gsetSize G S`, and "`S` is an object of `G-Sets_α`" is
-`Sk G κ S`, that is `gsetSize G S < κ` for a cutoff cardinal `κ`. That part records the
-three properties of the cutoff it needs as `AdmissibleBound G κ` and derives clause (3)
-from them, but leaves the *existence* of a cutoff — which is what Stacks 000U asserts —
-unproved. This part supplies it, so that every statement of Stacks 000V applies to an
-actual cardinal.
-
-Since `gsetSize G S` depends on the `G`-set `S` only through its underlying type, the
-statements below are about families of types; no group action is needed to formulate or to
-prove them.
+`Sk G κ S`, that is `gsetSize G S < κ` for a cutoff cardinal `κ`. As a full subcategory of
+Mathlib's category `Action (Type u) G` of `G`-sets, this is `gsetsBelowCutoff G κ`.
 
 ### Main results
 
-* `exists_admissibleBound`: for every family `S₀` of `G`-sets there is an admissible cutoff
-  `κ` — a strong limit cardinal of uncountable cofinality above `max {ℵ₀, |G|}` and above
-  the sizes of the members of `S₀`. This is clauses (1) and (2), the latter also isolated
-  as `Sk_of_le_power_aleph0`; clause (3) is then Stacks 000V (`Sk_pi`, `Sk_sigma`,
-  `Sk_subtype`, `Sk_fibreProduct`, `Sk_pushout`, `Sk_prod`, `Sk_sum`), which take exactly
-  an `AdmissibleBound` as their hypothesis.
+* `exists_gsetsBelowCutoff`: Stacks 000U, all three clauses, for a family `S₀` of objects
+  of `Action (Type u) G`.
+* `exists_admissibleBound`: the cardinal part of the construction, for a family of types:
+  an admissible cutoff `κ` — a strong limit cardinal of uncountable cofinality above
+  `max {ℵ₀, |G|}` and above the sizes of the members of `S₀` — with clauses (1) and (2);
+  clause (2) is also isolated as `Sk_of_le_power_aleph0`.
+* `gsetsBelowCutoff_countable_limits_colimits`: clause (3) for an admissible cutoff: for a
+  countable index category `J`, limits and colimits of shape `J` exist in `G-Sets_α` and the
+  inclusion into `G-Sets` preserves them (from `isClosedUnderLimitsOfShape_gsetsBelowCutoff`
+  and `isClosedUnderColimitsOfShape_gsetsBelowCutoff`).
 
 The source's proof is "omitted, similar to but easier than the proof of Lemma 000J". The
 construction here is indeed the one used for Stacks 000J, in
@@ -111,7 +117,7 @@ type.
 
 @[expose] public section
 
-universe u
+universe u v w
 
 open Cardinal
 
@@ -174,6 +180,35 @@ private theorem iSup_mk_lt_of_Sk {G : Type u} {κ : Cardinal.{u}} {ι : Type u}
     (hκ : AdmissibleBound G κ) (hι : #ι ≤ ℵ₀) {S : ι → Type u} (hS : ∀ i, Sk G κ (S i)) :
     (⨆ i, #(S i)) < κ :=
   iSup_lt_of_lt_cof_ord (hι.trans_lt hκ.B3) fun i => mk_lt_of_Sk (hS i)
+
+/-- The coproduct of at most countably many types below the cutoff is below it:
+`#(Σ i, S i) = Σ i, #(S i) ≤ #ι * ⨆ i, #(S i)`, and the supremum is below `κ` by `B3`. -/
+private theorem mk_sigma_lt_of_Sk {G : Type u} {κ : Cardinal.{u}} {ι : Type u}
+    (hκ : AdmissibleBound G κ) (hι : #ι ≤ ℵ₀) {S : ι → Type u} (hS : ∀ i, Sk G κ (S i)) :
+    #(Σ i, S i) < κ := by
+  have ha := aleph0_lt_of_admissibleBound hκ
+  have hsup := iSup_mk_lt_of_Sk hκ hι hS
+  rw [mk_sigma]
+  exact (sum_le_mk_mul_iSup _).trans_lt <| (Cardinal.mul_le_max _ _).trans_lt <|
+    max_lt (max_lt (hι.trans_lt ha) hsup) ha
+
+/-- The product of at most countably many types below the cutoff is below it: with
+`s = ⨆ i, #(S i) < κ`, one has `#(Π i, S i) ≤ s ^ #ι ≤ s ^ ℵ₀ < κ` by `B2`, and the bound is
+`≤ 1` if `s = 0`. -/
+private theorem mk_pi_lt_of_Sk {G : Type u} {κ : Cardinal.{u}} {ι : Type u}
+    (hκ : AdmissibleBound G κ) (hι : #ι ≤ ℵ₀) {S : ι → Type u} (hS : ∀ i, Sk G κ (S i)) :
+    #(∀ i, S i) < κ := by
+  rw [mk_pi]
+  set s := ⨆ i, #(S i)
+  have hs : s < κ := iSup_mk_lt_of_Sk hκ hι hS
+  have h1 : Cardinal.prod (fun i => #(S i)) ≤ s ^ #ι := by
+    rw [← Cardinal.prod_const']
+    exact Cardinal.prod_le_prod _ _ fun i => le_ciSup Cardinal.bddAbove_of_small i
+  by_cases hz : s = 0
+  · refine (h1.trans ?_).trans_lt (one_lt_aleph0.trans (aleph0_lt_of_admissibleBound hκ))
+    rw [hz]
+    exact Cardinal.zero_power_le _
+  · exact (h1.trans (Cardinal.power_le_power_left hz hι)).trans_lt (hκ.B2 s hs)
 
 /-- **Stacks 000V (1)**. The left regular `G`-set `{}_G G` is an object of `G-Sets_α`, since
 its size is `max {ℵ₀, #G}`, which is below the cutoff by `B1`. -/
@@ -240,12 +275,7 @@ theorem Sk_sigma (G : Type u) [Group G] (κ : Cardinal.{u})
     (hκ : AdmissibleBound G κ) (ι : Type u) (hι : #ι ≤ ℵ₀)
     (S : ι → Type u) [∀ i, MulAction G (S i)] (hS : ∀ i, Sk G κ (S i)) :
     Sk G κ (Σ i, S i) :=
-  Sk_of_mk_lt hκ <| by
-    have ha := aleph0_lt_of_admissibleBound hκ
-    have hsup := iSup_mk_lt_of_Sk hκ hι hS
-    rw [mk_sigma]
-    exact (sum_le_mk_mul_iSup _).trans_lt <| (Cardinal.mul_le_max _ _).trans_lt <|
-      max_lt (max_lt (hι.trans_lt ha) hsup) ha
+  Sk_of_mk_lt hκ (mk_sigma_lt_of_Sk hκ hι hS)
 
 /-- **Stacks 000V (2)**. For an at-most-countable index type `ι` and a family of `G`-sets
 `S i` below the cutoff, the product `Π i, S i` with the pointwise `G`-action is below the
@@ -257,18 +287,7 @@ theorem Sk_pi (G : Type u) [Group G] (κ : Cardinal.{u})
     (hκ : AdmissibleBound G κ) (ι : Type u) (hι : #ι ≤ ℵ₀)
     (S : ι → Type u) [∀ i, MulAction G (S i)] (hS : ∀ i, Sk G κ (S i)) :
     Sk G κ (∀ i, S i) :=
-  Sk_of_mk_lt hκ <| by
-    rw [mk_pi]
-    set s := ⨆ i, #(S i)
-    have hs : s < κ := iSup_mk_lt_of_Sk hκ hι hS
-    have h1 : Cardinal.prod (fun i => #(S i)) ≤ s ^ #ι := by
-      rw [← Cardinal.prod_const']
-      exact Cardinal.prod_le_prod _ _ fun i => le_ciSup Cardinal.bddAbove_of_small i
-    by_cases hz : s = 0
-    · refine (h1.trans ?_).trans_lt (one_lt_aleph0.trans (aleph0_lt_of_admissibleBound hκ))
-      rw [hz]
-      exact Cardinal.zero_power_le _
-    · exact (h1.trans (Cardinal.power_le_power_left hz hι)).trans_lt (hκ.B2 s hs)
+  Sk_of_mk_lt hκ (mk_pi_lt_of_Sk hκ hι hS)
 
 /-- **Stacks 000V (3)**. For a `G`-set `U` below the cutoff and a `G`-stable subset `O ⊆ U`,
 the induced `G`-set on `{x : U // x ∈ O}` is below the cutoff, being a subtype of `U`. -/
@@ -287,15 +306,17 @@ theorem Sk_of_le_power_aleph0 {G : Type u} {κ : Cardinal.{u}} (hκ : Admissible
     {S T : Type u} (hS : Sk G κ S) (hT : gsetSize G T ≤ gsetSize G S ^ ℵ₀) : Sk G κ T :=
   lt_of_le_of_lt hT (hκ.B2 _ hS)
 
-/-- **Stacks 000U.** For every group `G` and every family `S₀` of `G`-sets there is a
-cardinal `κ` which is an admissible cutoff for `G` and for which every member of `S₀`, as
-well as the left regular `G`-set `{}_G G`, is an object of `G-Sets_α`; moreover `G-Sets_α`
-is closed under `G`-sets of size at most `Bound` of the size of one of its objects.
+/-- **Stacks 000U, clauses (1) and (2), on underlying types.** For every type `G` and every
+family `S₀` of types there is a cardinal `κ` which is an admissible cutoff for `G` and for
+which every member of `S₀`, as well as `G` itself (the left regular `G`-set `{}_G G`), is
+below the cutoff; moreover the cutoff is closed under types of size at most `Bound` of the
+size of one below it. Since sizes depend only on underlying types, no actions are needed.
+Clause (3), on countable limits and colimits, is not part of this statement; the complete
+Stacks 000U is `exists_gsetsBelowCutoff`.
 
 `Cardinal.IsStrongPrelimit κ` records that `κ` is a limit cardinal, the counterpart of the
 source's "`α` is a limit ordinal"; it is also what gives condition `B2` of
 `AdmissibleBound`. -/
-@[stacks 000U]
 theorem exists_admissibleBound (G : Type u) {ι : Type u} (S₀ : ι → Type u) :
     ∃ κ : Cardinal.{u}, Cardinal.IsStrongPrelimit κ ∧ AdmissibleBound G κ ∧
       Sk G κ G ∧ (∀ i, Sk G κ (S₀ i)) ∧
@@ -314,3 +335,132 @@ theorem exists_admissibleBound (G : Type u) {ι : Type u} (S₀ : ι → Type u)
   exact lt_of_le_of_lt
     (le_trans (le_ciSup (f := fun i => #(S₀ i)) Cardinal.bddAbove_of_small i)
       (le_max_right _ _)) hμ
+
+/-! ### The categorical form of Stacks 000U
+
+The category `G-Sets` of `G`-sets is Mathlib's `Action (Type u) G`, and `G-Sets_α` is modelled
+by the full subcategory `gsetsBelowCutoff G κ` of `G`-sets whose size is below the cutoff `κ`.
+Clause (3) of Stacks 000U is that this full subcategory is closed under limits and colimits
+indexed by countable categories, so that these limits and colimits exist in it and the inclusion
+into `G-Sets` preserves them. -/
+
+open CategoryTheory CategoryTheory.Limits
+
+/-- The model of the full subcategory `G-Sets_α ⊆ G-Sets`: the `G`-sets `X` of the category
+`Action (Type u) G` whose size `gsetSize G X.V` lies below the cutoff `κ`. -/
+def gsetsBelowCutoff (G : Type u) [Monoid G] (κ : Cardinal.{u}) :
+    ObjectProperty (Action (Type u) G) :=
+  fun X => Sk G κ X.V
+
+/-- Limits of shape a countable small category with objects in `Type` of `G`-sets below the
+cutoff are below the cutoff: the underlying set of such a limit is the set of sections of the
+underlying diagram of sets, a subset of a countable product. -/
+private theorem isClosedUnderLimitsOfShape_gsetsBelowCutoff_of_type {G : Type u} [Group G]
+    {κ : Cardinal.{u}} (hκ : AdmissibleBound G κ) (J : Type) [SmallCategory J] [Countable J] :
+    (gsetsBelowCutoff G κ).IsClosedUnderLimitsOfShape J where
+  limitsOfShape_le := by
+    rintro X ⟨h⟩
+    have hl := isLimitOfPreserves (Action.forget (Type u) G) h.isLimit
+    have hJ : #(ULift.{u} J) ≤ ℵ₀ := mk_le_aleph0
+    refine Sk_of_mk_lt hκ ?_
+    calc #X.V = #((h.diag ⋙ Action.forget (Type u) G).sections) :=
+          Cardinal.mk_congr (Types.isLimitEquivSections hl)
+      _ ≤ #(∀ j, (h.diag.obj j).V) := mk_subtype_le _
+      _ = #(∀ j : ULift.{u} J, (h.diag.obj j.down).V) :=
+          (Cardinal.mk_congr (Equiv.piCongrLeft _ Equiv.ulift)).symm
+      _ < κ := mk_pi_lt_of_Sk hκ hJ fun j => h.prop_diag_obj j.down
+
+/-- Colimits of shape a countable small category with objects in `Type` of `G`-sets below the
+cutoff are below the cutoff: the underlying set of such a colimit is a quotient of a countable
+coproduct. -/
+private theorem isClosedUnderColimitsOfShape_gsetsBelowCutoff_of_type {G : Type u} [Group G]
+    {κ : Cardinal.{u}} (hκ : AdmissibleBound G κ) (J : Type) [SmallCategory J] [Countable J] :
+    (gsetsBelowCutoff G κ).IsClosedUnderColimitsOfShape J where
+  colimitsOfShape_le := by
+    rintro X ⟨h⟩
+    have hl := isColimitOfPreserves (Action.forget (Type u) G) h.isColimit
+    have hJ : #(ULift.{u} J) ≤ ℵ₀ := mk_le_aleph0
+    refine Sk_of_mk_lt hκ ?_
+    have hsurj : Function.Surjective fun p : Σ j : ULift.{u} J, (h.diag.obj j.down).V =>
+        ((Action.forget (Type u) G).mapCocone (Cocone.mk X h.ι)).ι.app p.1.down p.2 := by
+      intro x
+      obtain ⟨j, y, rfl⟩ := Types.jointly_surjective_of_isColimit hl x
+      exact ⟨⟨⟨j⟩, y⟩, rfl⟩
+    exact (mk_le_of_surjective hsurj).trans_lt
+      (mk_sigma_lt_of_Sk hκ hJ fun j => h.prop_diag_obj j.down)
+
+/-- **Stacks 000U (3), limits.** For an admissible cutoff `κ`, the full subcategory
+`G-Sets_α` of `G`-sets below the cutoff is closed under limits indexed by any countable
+category `J` (countably many objects and countably many morphisms between any two). -/
+theorem isClosedUnderLimitsOfShape_gsetsBelowCutoff {G : Type u} [Group G]
+    {κ : Cardinal.{u}} (hκ : AdmissibleBound G κ) (J : Type*) [Category* J]
+    [CountableCategory J] :
+    (gsetsBelowCutoff G κ).IsClosedUnderLimitsOfShape J :=
+  have := isClosedUnderLimitsOfShape_gsetsBelowCutoff_of_type hκ (CountableCategory.HomAsType J)
+  .of_equivalence (CountableCategory.homAsTypeEquiv J)
+
+/-- **Stacks 000U (3), colimits.** For an admissible cutoff `κ`, the full subcategory
+`G-Sets_α` of `G`-sets below the cutoff is closed under colimits indexed by any countable
+category `J`. -/
+theorem isClosedUnderColimitsOfShape_gsetsBelowCutoff {G : Type u} [Group G]
+    {κ : Cardinal.{u}} (hκ : AdmissibleBound G κ) (J : Type*) [Category* J]
+    [CountableCategory J] :
+    (gsetsBelowCutoff G κ).IsClosedUnderColimitsOfShape J :=
+  have := isClosedUnderColimitsOfShape_gsetsBelowCutoff_of_type hκ (CountableCategory.HomAsType J)
+  .of_equivalence (CountableCategory.homAsTypeEquiv J)
+
+/-- `G-Sets` has limits indexed by any countable category. -/
+private theorem hasLimitsOfShape_action_of_countableCategory (G : Type u) [Group G]
+    (J : Type*) [Category* J] [CountableCategory J] :
+    HasLimitsOfShape J (Action (Type u) G) :=
+  hasLimitsOfShape_of_equivalence (CountableCategory.homAsTypeEquiv J)
+
+/-- `G-Sets` has colimits indexed by any countable category. -/
+private theorem hasColimitsOfShape_action_of_countableCategory (G : Type u) [Group G]
+    (J : Type*) [Category* J] [CountableCategory J] :
+    HasColimitsOfShape J (Action (Type u) G) :=
+  hasColimitsOfShape_of_equivalence (CountableCategory.homAsTypeEquiv J)
+
+/-- **Stacks 000U (3).** For an admissible cutoff `κ` and a countable index category `J`, the
+limit and the colimit of every functor `J ⥤ G-Sets_α` exist in `G-Sets_α`, and the inclusion
+`G-Sets_α ⥤ G-Sets` preserves them, i.e. they are the same as in `G-Sets`. -/
+theorem gsetsBelowCutoff_countable_limits_colimits {G : Type u} [Group G]
+    {κ : Cardinal.{u}} (hκ : AdmissibleBound G κ) (J : Type*) [Category* J]
+    [CountableCategory J] :
+    HasLimitsOfShape J (gsetsBelowCutoff G κ).FullSubcategory ∧
+      HasColimitsOfShape J (gsetsBelowCutoff G κ).FullSubcategory ∧
+      PreservesLimitsOfShape J (gsetsBelowCutoff G κ).ι ∧
+      PreservesColimitsOfShape J (gsetsBelowCutoff G κ).ι := by
+  have := hasLimitsOfShape_action_of_countableCategory G J
+  have := hasColimitsOfShape_action_of_countableCategory G J
+  have := isClosedUnderLimitsOfShape_gsetsBelowCutoff hκ J
+  have := isClosedUnderColimitsOfShape_gsetsBelowCutoff hκ J
+  exact ⟨inferInstance, inferInstance, inferInstance, inferInstance⟩
+
+/-- **Stacks 000U.** For every group `G` and every family `S₀` of `G`-sets there is an admissible
+cutoff `κ`, a strong limit cardinal (the counterpart of the source's limit ordinal `α`), such
+that the full subcategory `G-Sets_α = gsetsBelowCutoff G κ` of `G-Sets = Action (Type u) G`
+satisfies:
+1. every member of `S₀` and the left regular `G`-set `{}_G G` are objects of `G-Sets_α`;
+2. every `G`-set `T` with `size T ≤ Bound(size S) = size(S) ^ ℵ₀` for some object `S` of
+   `G-Sets_α` is an object of `G-Sets_α`;
+3. for every countable index category `J`, every functor `J ⥤ G-Sets_α` has a limit and a
+   colimit in `G-Sets_α`, and the inclusion into `G-Sets` preserves them.
+
+Objects of `G-Sets_α` are modelled up to isomorphism, by their size, since Mathlib has no
+cumulative hierarchy `V_α`; in particular clause (1) holds up to isomorphism. -/
+@[stacks 000U]
+theorem exists_gsetsBelowCutoff (G : Type u) [Group G] {ι : Type u}
+    (S₀ : ι → Action (Type u) G) :
+    ∃ κ : Cardinal.{u}, Cardinal.IsStrongPrelimit κ ∧ AdmissibleBound G κ ∧
+      (∀ i, gsetsBelowCutoff G κ (S₀ i)) ∧ gsetsBelowCutoff G κ (Action.ofMulAction G G) ∧
+      (∀ S T : Action (Type u) G, gsetsBelowCutoff G κ S →
+        gsetSize G T.V ≤ gsetSize G S.V ^ ℵ₀ → gsetsBelowCutoff G κ T) ∧
+      ∀ (J : Type v) [Category.{w} J] [CountableCategory J],
+        HasLimitsOfShape J (gsetsBelowCutoff G κ).FullSubcategory ∧
+          HasColimitsOfShape J (gsetsBelowCutoff G κ).FullSubcategory ∧
+          PreservesLimitsOfShape J (gsetsBelowCutoff G κ).ι ∧
+          PreservesColimitsOfShape J (gsetsBelowCutoff G κ).ι := by
+  obtain ⟨κ, hsl, hκ, hG, hS₀, h2⟩ := exists_admissibleBound G fun i => (S₀ i).V
+  exact ⟨κ, hsl, hκ, hS₀, hG, fun S T hS hT => h2 S.V T.V hS hT,
+    fun J _ _ => gsetsBelowCutoff_countable_limits_colimits hκ J⟩

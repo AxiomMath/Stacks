@@ -36,8 +36,9 @@ connecting image of `1`", which in turn pins the isomorphism down uniquely.
 
 ## Main definitions
 
-* `Stacks.Cohomology.SiteModules.universalCohomologyDeltaFunctor`: a fixed universal cohomological
-  `δ`-functor whose functors are the cohomology functors of Stacks 071H.
+* `Stacks.Cohomology.SiteModules.universalCohomologyDeltaFunctor`: the canonical right-derived
+  cohomological `δ`-functor of global sections, whose connecting maps are the coboundaries of the
+  long exact cohomology sequence.
 * `Stacks.Cohomology.SiteModules.cohomologyZeroMap`: the canonical comparison from global
   sections to degree-zero cohomology, transported to that fixed presentation.
 * `Stacks.Cohomology.SiteModules.extDeltaFunctorForUnit`: the `δ`-functor
@@ -47,10 +48,11 @@ connecting image of `1`", which in turn pins the isomorphism down uniquely.
 
 * `Stacks.Cohomology.SiteModules.extOneEquivFirstCohomology`: the canonical additive
   equivalence `Ext^1(O, M) ≃+ H^1(C, M)`.
-* `Stacks.Cohomology.SiteModules.extOneEquivFirstCohomology_extClass`: it sends the class of
-  an extension to the connecting image of the unit global section.
-* `Stacks.Cohomology.SiteModules.extOneEquivFirstCohomology_unique`: that formula determines
-  it uniquely.
+* `Stacks.Cohomology.SiteModules.extOneEquivFirstCohomology_extClass_eq_coboundary`: it sends
+  the class of an extension to the image of `1 ∈ Γ(C, O)` under the coboundary of the long exact
+  cohomology sequence.
+* `Stacks.Cohomology.SiteModules.extOneEquivFirstCohomology_unique_coboundary`: that formula
+  determines it uniquely.
 * `Stacks.Cohomology.SiteModules.extOneEquivFirstCohomology_naturality`: it is natural in the
   coefficient module.
 
@@ -62,12 +64,15 @@ through `moduleToLiftedAddCommGrp`, the forgetful functor to abelian groups foll
 `ULift`. That functor is additive and preserves and reflects finite limits and colimits, so it
 transports both the `δ`-functor structure and its universality.
 
-The source states the bijection without naming a `δ`-functor presentation of cohomology, which
-is only unique up to isomorphism; `universalCohomologyDeltaFunctor` fixes one by choice, and
-`universalCohomologyDeltaFunctor_functor` records that its underlying functors are the cohomology
-functors on the nose. The degree-zero normalisation used is the canonical map
-`Functor.toRightDerivedZero`, not an arbitrary isomorphism, which is what makes
-`extOneEquivFirstCohomology_unique` a genuine uniqueness statement.
+The coboundary of the source is the connecting map of the long exact cohomology sequence.
+`universalCohomologyDeltaFunctor` is therefore defined to be the canonical right-derived
+`δ`-functor `Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives` of global
+sections, not an arbitrary universal `δ`-structure on the same functors (which could differ from
+it by a sign or by a natural automorphism of `H^1`), and its underlying functors are the
+cohomology functors on the nose (`universalCohomologyDeltaFunctor_functor`). The degree-zero
+normalisation used is the canonical map `Functor.toRightDerivedZero`, not an arbitrary
+isomorphism, which is what makes `extOneEquivFirstCohomology_unique_coboundary` a genuine
+uniqueness statement.
 
 ## References
 
@@ -87,22 +92,59 @@ attribute [local instance] HasExt.standard
 
 variable {C : Type u} [SmallCategory C] {J : GrothendieckTopology C}
 
-/-- A fixed universal cohomological `δ`-functor structure on the cohomology functors of
-sheaves of modules on a small site.
+/-- The cohomological `δ`-functor of the cohomology of sheaves of modules on a small site,
+with the genuine connecting maps of the long exact cohomology sequence.
 
-This is the universal `δ`-functor obtained by choice from
-`Stacks.Cohomology.SiteModules.exists_universal_cohomologyDeltaFunctor`;
+It is the canonical right-derived `δ`-functor
+`Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives` of the global-sections
+functor (the witness of `Stacks.Cohomology.SiteModules.exists_universal_cohomologyDeltaFunctor`),
+so its connecting maps are the coboundaries of the long exact sequence, not an arbitrary
+universal `δ`-structure; `universalCohomologyDeltaFunctor_eq` records this.
 `Stacks.Cohomology.SiteModules.cohomologyDeltaFunctor` is the unrelated right-derived
-`δ`-functor of the global-sections functor on a ringed site. -/
+`δ`-functor of the global-sections functor on a ringed site.
+
+It is irreducible so that downstream definitional unfolding stops at it; use
+`universalCohomologyDeltaFunctor_eq` to unfold it. -/
+@[irreducible]
 def universalCohomologyDeltaFunctor (R : Sheaf J RingCat.{u}) :
     DeltaFunctor (SheafOfModules.{u} R)
       (ModuleCat.{u} (RingCat.sectionsSubring R.obj)) :=
-  Classical.choose (exists_universal_cohomologyDeltaFunctor R)
+  Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives (globalSectionsFunctor R)
+
+/-- The `δ`-functor `universalCohomologyDeltaFunctor` is the canonical right-derived
+`δ`-functor of global sections, whose connecting maps are the coboundaries of the long exact
+cohomology sequence. -/
+theorem universalCohomologyDeltaFunctor_eq (R : Sheaf J RingCat.{u}) :
+    universalCohomologyDeltaFunctor R =
+      Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives
+        (globalSectionsFunctor R) := by
+  unfold universalCohomologyDeltaFunctor
+  rfl
 
 /-- The functors underlying the fixed `δ`-functor are the cohomology functors themselves. -/
 theorem universalCohomologyDeltaFunctor_functor (R : Sheaf J RingCat.{u}) (n : ℕ) :
-    (universalCohomologyDeltaFunctor R).functor n = cohomologyFunctor R n :=
-  (Classical.choose_spec (exists_universal_cohomologyDeltaFunctor R)).1 n
+    (universalCohomologyDeltaFunctor R).functor n = cohomologyFunctor R n := by
+  rw [universalCohomologyDeltaFunctor_eq]
+  rfl
+
+/-- Transporting the connecting map of a `δ`-functor equal to the canonical right-derived
+`δ`-functor of global sections along the identification of its functors gives the canonical
+connecting map. -/
+private theorem transported_δ_eq_canonical (R : Sheaf J RingCat.{u})
+    (H : DeltaFunctor (SheafOfModules.{u} R) (ModuleCat.{u} (RingCat.sectionsSubring R.obj)))
+    (hH : H = Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives
+      (globalSectionsFunctor R))
+    (hf : ∀ n, H.functor n = cohomologyFunctor R n)
+    {S : ShortComplex (SheafOfModules.{u} R)} (hS : S.ShortExact)
+    (x : (globalSectionsFunctor R).obj S.X₃) :
+    (eqToHom (hf 1)).app S.X₁
+        (H.δ hS 0 (((globalSectionsFunctor R).toRightDerivedZero ≫
+          eqToHom (hf 0).symm).app S.X₃ x)) =
+      (Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives
+          (globalSectionsFunctor R)).δ hS 0
+        ((globalSectionsFunctor R).toRightDerivedZero.app S.X₃ x) := by
+  subst hH
+  rfl
 
 /-- The canonical map from global sections to degree-zero cohomology, transported to the fixed
 `δ`-functor presentation. -/
@@ -386,9 +428,11 @@ private theorem extOneEquivFirstCohomology_apply (R : Sheaf J RingCat.{u})
         (AddEquiv.ulift.{u, u + 1} (((extCohomologyDeltaIso R).hom.app 1).app M ξ)) :=
   rfl
 
-/-- **Stacks 03F1.** The class of the extension `0 → M → E → O → 0` goes to the image of the
-unit global section under the connecting morphism of the extension. -/
-@[stacks 03F1 "image of an extension"]
+/-- The class of the extension `0 → M → E → O → 0` goes to the image of the unit global section
+under the connecting morphism of `universalCohomologyDeltaFunctor`, transported along
+`universalCohomologyDeltaFunctor_functor`. The form stated directly against the coboundary of
+the long exact cohomology sequence, which is Stacks 03F1, is
+`extOneEquivFirstCohomology_extClass_eq_coboundary`. -/
 theorem extOneEquivFirstCohomology_extClass (R : Sheaf J RingCat.{u})
     (M : SheafOfModules.{u} R) (E : SheafOfModules.{u} R) (f : M ⟶ E)
     (g : E ⟶ SheafOfModules.unit R) (w : f ≫ g = 0)
@@ -459,8 +503,9 @@ theorem extOneEquivFirstCohomology_extClass (R : Sheaf J RingCat.{u})
   rw [extOneEquivFirstCohomology_apply, ← h]
   rfl
 
-/-- **Stacks 03F1.** The connecting-image formula determines the identification uniquely. -/
-@[stacks 03F1 "uniqueness"]
+/-- The connecting-image formula for `universalCohomologyDeltaFunctor` determines the
+identification uniquely. The form stated directly against the coboundary of the long exact
+cohomology sequence is `extOneEquivFirstCohomology_unique_coboundary`. -/
 theorem extOneEquivFirstCohomology_unique (R : Sheaf J RingCat.{u})
     (M : SheafOfModules.{u} R)
     (e : Ext (SheafOfModules.unit R) M 1 ≃+ (cohomologyFunctor R 1).obj M)
@@ -479,6 +524,49 @@ theorem extOneEquivFirstCohomology_unique (R : Sheaf J RingCat.{u})
       (SheafOfModules.{u} R) (SheafOfModules.unit R) M).1 ξ
   rw [← hξ]
   exact (he E f g w hS).trans (extOneEquivFirstCohomology_extClass R M E f g w hS).symm
+
+/-- **Stacks 03F1.** The class of the extension `0 → M → E → O → 0` goes to the image of
+`1 ∈ Γ(C, O)` under the coboundary `Γ(C, O) → H^1(C, M)` of the long exact cohomology sequence
+of the extension: the connecting map of the canonical right-derived `δ`-functor
+`Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives` of global sections,
+precomposed with the canonical identification `Γ(C, O) → H^0(C, O)`. -/
+@[stacks 03F1 "image of an extension is the coboundary of 1"]
+theorem extOneEquivFirstCohomology_extClass_eq_coboundary (R : Sheaf J RingCat.{u})
+    (M : SheafOfModules.{u} R) (E : SheafOfModules.{u} R) (f : M ⟶ E)
+    (g : E ⟶ SheafOfModules.unit R) (w : f ≫ g = 0)
+    (hS : (ShortComplex.mk f g w).ShortExact) :
+    extOneEquivFirstCohomology R M hS.extClass =
+      (Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives
+          (globalSectionsFunctor R)).δ hS 0
+        ((globalSectionsFunctor R).toRightDerivedZero.app (SheafOfModules.unit R)
+          (SheafOfModules.unitHomEquiv (SheafOfModules.unit R) (𝟙 _))) :=
+  (extOneEquivFirstCohomology_extClass R M E f g w hS).trans
+    (transported_δ_eq_canonical R _ (universalCohomologyDeltaFunctor_eq R)
+      (universalCohomologyDeltaFunctor_functor R) hS _)
+
+/-- **Stacks 03F1.** The canonical bijection is the only additive bijection
+`Ext^1(O, M) ≃+ H^1(C, M)` sending every extension to the image of `1 ∈ Γ(C, O)` under the
+coboundary of the long exact cohomology sequence. -/
+@[stacks 03F1 "uniqueness"]
+theorem extOneEquivFirstCohomology_unique_coboundary (R : Sheaf J RingCat.{u})
+    (M : SheafOfModules.{u} R)
+    (e : Ext (SheafOfModules.unit R) M 1 ≃+ (cohomologyFunctor R 1).obj M)
+    (he : ∀ (E : SheafOfModules.{u} R) (f : M ⟶ E)
+      (g : E ⟶ SheafOfModules.unit R) (w : f ≫ g = 0)
+      (hS : (ShortComplex.mk f g w).ShortExact),
+      e hS.extClass =
+        (Stacks.DerivedIndexing.rightDerivedDeltaFunctorOfEnoughInjectives
+            (globalSectionsFunctor R)).δ hS 0
+          ((globalSectionsFunctor R).toRightDerivedZero.app (SheafOfModules.unit R)
+            (SheafOfModules.unitHomEquiv (SheafOfModules.unit R) (𝟙 _)))) :
+    e = extOneEquivFirstCohomology R M := by
+  ext ξ
+  obtain ⟨E, f, g, w, hS, hξ⟩ :=
+    (Ext.extClass_surjective_and_eq_iff_iso_and_baerSum
+      (SheafOfModules.{u} R) (SheafOfModules.unit R) M).1 ξ
+  rw [← hξ]
+  exact (he E f g w hS).trans
+    (extOneEquivFirstCohomology_extClass_eq_coboundary R M E f g w hS).symm
 
 /-- **Stacks 03F1.** The identification is natural in the coefficient module sheaf. -/
 @[stacks 03F1 "naturality"]

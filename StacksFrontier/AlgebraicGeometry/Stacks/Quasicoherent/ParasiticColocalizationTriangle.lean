@@ -67,36 +67,26 @@ packages those together with
 `CategoryTheory.Pretriangulated.distinguished_cocone_triangle` into the existential statement of
 the source.
 
-### The hypotheses carried, and why
+### Relation to the registered statement
 
-The source's proof uses `Lg_!` on the derived categories of *modules*, which is **Stacks 07AS**
-part (4).  The library has **Stacks 07AS** part (3), for abelian sheaves
-(`AlgebraicGeometry.Stack.FlatFppf.derivedAbelianLowerShriekAdjunction` and
-`AlgebraicGeometry.Stack.FlatFppf.derivedAbelianLowerShriekRestrictionIso`), and the *underived*
-module-level statement, **Stacks 0789** part (2)
-(`AlgebraicGeometry.Stack.FlatFppf.moduleShriekAdjunction` and
-`AlgebraicGeometry.Stack.FlatFppf.isIso_moduleLowerShriekAdjunction_unit`), but not the derived
-module-level one.  It is therefore carried as three explicit hypotheses — a functor `Lsh`, an
-adjunction `Lsh ⊣ g^*`, and invertibility of its unit, which is the assertion `g^* Lg_! = id` —
-all three being exactly **Stacks 07AS** part (4).
-
-The second input of the source's proof is that `Lg_! g^* K` again lies in
-`D_{LQCoh^fbc}(𝒪_𝒳)`, which is **Stacks 07B9** parts (2)(a) and (2)(c) read in succession.
-Neither is in the library — only part (2)(b),
-`AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff`, which *is* the engine of
-the proof below — so their joint consequence is carried as the explicit hypothesis
-`hK' : D_{LQCoh^fbc}(𝒪_𝒳) (Lg_! g^* K)`.
-
-Finally `D_{LQCoh^fbc}(𝒪_𝒳)` has to be a triangulated subcategory, so that the cone of a
-morphism between two of its objects is again one of its objects.  That is **Stacks 0771**, the
-weak Serre property of `LQCoh^fbc(𝒪_𝒳)`, which the library does not have either; as in
-`AlgebraicGeometry.Stack.derivedQuasicoherentW_eq_trW` it is carried as the instance hypotheses
-`[IsTriangulated]` and `[IsClosedUnderIsomorphisms]` on the subcategory.
+The declarations of this file are generic in a derived lower shriek `Lsh` with an adjunction
+`Lsh ⊣ g^*` whose unit is invertible (`g^* Lg_! = id`), and in the class
+`derivedLocallyQuasicoherentFlatBaseChange`; they take as hypotheses that `Lg_! g^* K` lies in
+that class (`hK'`, the joint consequence of **Stacks 07B9** (2)(a), (2)(c)) and that it is a
+triangulated subcategory (the instance hypotheses `[IsTriangulated]` and
+`[IsClosedUnderIsomorphisms]`).  They are not the registration of **Stacks 07BA**: the library
+proves the lemma unconditionally in
+`StacksFrontier/AlgebraicGeometry/Stacks/Quasicoherent/SheafFlatBaseChangeParasiticColocalization.lean`
+(`AlgebraicGeometry.Stack.FlatFppf.exists_sheafParasiticColocalizationTriangle_unique`), for the
+class `LQCoh^fbc` of **Stacks 0762**, with the derived lower shriek of **Stacks 07AS** (4),
+`AlgebraicGeometry.Stack.FlatFppf.derivedModuleLowerShriek`, and with **Stacks 07B9** (2)(a), (2)(c)
+proved there.
 
 ### What the proof reuses
 
-Everything geometric is **Stacks 07B9** (2)(b),
-`AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff`: it turns both halves of
+Everything geometric is the kernel of `g^*` of **Stacks 07B9** (2)(b), in the form
+`AlgebraicGeometry.Stack.FlatFppf.isZero_derivedModuleRestriction_iff` it takes for the presheaf
+form of the flat base change property used in this file: it turns both halves of
 the conclusion into the single statement `g^* P = 0`.  For the cone that vanishing comes from
 `g^* ε_K` being an isomorphism, by one triangle identity of the adjunction and
 `CategoryTheory.Pretriangulated.Triangle.isZero₃_iff_isIso₁`; for the orthogonality it comes
@@ -193,9 +183,6 @@ in the left orthogonal of `D_{Parasitic ∩ LQCoh^fbc}(𝒪_𝒳)`.
 
 Indeed `Hom(Lg_! g^* K, P') = Hom(g^* K, g^* P')` by the adjunction, and `g^* P' = 0` by
 **Stacks 07B9** (2)(b), so the right-hand group vanishes. -/
-@[stacks 07BA "the orthogonality: Hom_D(𝒪_𝒳)(E', P') = 0 for every P' in D_(Parasitic ∩ \
-LQCoh^fbc)(𝒪_𝒳), at E' = Lg_! g^* E; conditional on the derived module-level Lg_! of 07AS (4), \
-carried as the hypotheses Lsh and adj"]
 theorem leftOrthogonal_parasiticFreePart (K : DerivedCategory (fppfModules B S hS 𝒳)) :
     (derivedParasiticLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳).leftOrthogonal
       (parasiticFreePart B S hS 𝒳 Lsh K) := by
@@ -218,10 +205,6 @@ Local quasi-coherence with flat base change is two out of three in the triangle.
 parasitic half, `g^*` is exact hence triangulated, and it inverts `ε_K`, so the third term of the
 image triangle vanishes: `g^* P = 0`, which is the parasitic condition by
 **Stacks 07B9** (2)(b). -/
-@[stacks 07BA "the cone: for E' = Lg_! g^* E and E' ⟶ E the counit, every distinguished triangle \
-E' ⟶ E ⟶ P ⟶ E'[1] has P in D_(Parasitic ∩ LQCoh^fbc)(𝒪_𝒳), and all three terms in \
-D_LQCoh^fbc(𝒪_𝒳); conditional on the derived module-level Lg_! of 07AS (4) and on 07B9 (2)(a), \
-(2)(c), carried as the hypotheses Lsh, adj, hunit and hK'"]
 theorem derivedParasitic_obj₃_of_distTriang_parasiticFreePartHom (hunit : IsIso adj.unit)
     (K : DerivedCategory (fppfModules B S hS 𝒳))
     (hK : derivedLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳 K)
@@ -253,10 +236,6 @@ This is the existential reading of the two statements above, obtained by complet
 canonical morphism `ε_K` to a distinguished triangle; `K'` and `ε_K` themselves are the
 `AlgebraicGeometry.Stack.FlatFppf.parasiticFreePart` and
 `AlgebraicGeometry.Stack.FlatFppf.parasiticFreePartHom` of the canonical triangle. -/
-@[stacks 07BA "the existence of the triangle: every E in D_LQCoh^fbc(𝒪_𝒳) is an extension of an \
-object of D_(Parasitic ∩ LQCoh^fbc)(𝒪_𝒳) by an object of D_LQCoh^fbc(𝒪_𝒳) left orthogonal to \
-it, the extension being the canonical one on Lg_! g^* E ⟶ E; conditional on the derived \
-module-level Lg_! of 07AS (4) and on 07B9 (2)(a), (2)(c)"]
 theorem extensionProduct_parasiticFreePart (hunit : IsIso adj.unit)
     (K : DerivedCategory (fppfModules B S hS 𝒳))
     (hK : derivedLocallyQuasicoherentFlatBaseChange B E h S hS 𝒳 K)

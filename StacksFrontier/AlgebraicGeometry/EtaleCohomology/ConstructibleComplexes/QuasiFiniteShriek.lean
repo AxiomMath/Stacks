@@ -14,12 +14,12 @@ quasi-finite and of finite presentation. Tag 0GK3 asserts that the functor
 The source's proof opens by reducing the statement about complexes to a statement about sheaves:
 `f_!` is exact, so it needs no deriving, acts on the derived category termwise, and
 `Hⁱ(f_! K) ≅ f_!(Hⁱ K)`; hence it suffices that `f_!` take a constructible sheaf of `Λ`-modules
-to a constructible sheaf. That reduction is proved here, and the sheaf-level statement it reduces
-to is carried as the hypothesis `hShriekSheaf`. What the source then does with the sheaf-level
-statement — descend to an affine `Y`, cut `X` into finitely many affines, use Zariski's main
-theorem to factor `f` as an open immersion followed by a finite morphism of finite presentation,
-and conclude from Tags 03S8, 0F51 and 095R — needs inputs this repository does not have; see
-"What is carried" below.
+to a constructible sheaf. This file proves that reduction for an arbitrary `Λ`-linear lift of
+`f_!`, with the sheaf-level statement as the hypothesis `hShriekSheaf`. The tag itself, with the
+sheaf-level case proved, is
+`Stacks.EtaleCohomology.isConstructible_moduleFShriekDerivedFunctor_general` in the module
+`QuasiFiniteShriekUnconditional` beside this one, whose sheaf-level case is
+`Stacks.EtaleCohomology.isConstructibleModuleSheaf_fShriekMod`.
 
 ## Main definitions
 
@@ -30,8 +30,9 @@ and conclude from Tags 03S8, 0F51 and 095R — needs inputs this repository does
 
 ## Main results
 
-* `Stacks.EtaleCohomology.isConstructible_moduleFShriekDerivedFunctor` — **Tag 0GK3**, granted
-  the sheaf-level statement as the hypothesis `hShriekSheaf`.
+* `Stacks.EtaleCohomology.isConstructible_moduleFShriekDerivedFunctor` — the reduction of
+  Tag 0GK3 to its sheaf-level case, for an arbitrary `Λ`-linear lift of `f_!`, from the
+  hypothesis `hShriekSheaf`.
 
 ## Implementation notes
 
@@ -55,36 +56,18 @@ The hypotheses on `f` are exactly the source's: `AlgebraicGeometry.LocallyQuasiF
 Tag 01TP part (3). Being locally quasi-finite includes being locally of finite type, which is
 what `f_!` itself needs; here it is supplied by Mathlib from local finite presentation. The
 reduction proved below uses only exactness of `f_!`; finite presentation enters solely as the
-hypothesis under which the carried sheaf-level statement is available.
+hypothesis under which the sheaf-level statement holds.
 
-### What is carried
+### The hypothesis `hShriekSheaf`
 
-One hypothesis, `hShriekSheaf`, the sheaf-level form of this very tag:
-`Stacks.EtaleCohomology.ModuleFShriekConstructibleOnSheaves`. It is quantified over every pair of
-schemes of the big étale site, every locally quasi-finite morphism of finite presentation between
-them, every `Λ`-linear lift of its direct image with compact support, and every sheaf of
-`Λ`-modules on the source, so it mentions neither this theorem's `f`, nor `fShriekMod`, nor `K`,
-nor its conclusion. It is a statement about *sheaves*; the conclusion is about *complexes*, and
-the passage from the one to the other is what is proved.
-
-What would discharge it, by name. The two inputs that are absent outright are Tag 095R, that the
-direct image along a finite morphism preserves constructibility, which carries no tag attribute
-anywhere in this repository, and Tag 03S8 for an arbitrary constructible sheaf of `Λ`-modules:
-of the latter there is only the case of the generators,
-`AlgebraicGeometry.isConstructibleModuleSheaf_moduleShriekConstant`, the extension by zero of a
-constant free rank-one module sheaf at a quasi-compact quasi-separated étale object, which rests
-in turn on `AlgebraicGeometry.isConstructibleSetSheaf_sheafifiedYoneda`, Tag 03S8 part (1) for
-sheaves of sets, itself carrying Tag 03S0 as a hypothesis. The remaining inputs of the source's
-argument are present but for a different coefficient category or a different `f_!`:
-`Stacks.FiniteFactorization.exists_isOpenImmersion_isFinite_finitePresentation_factorization`
-is Tag 0F2N, Zariski's main theorem;
-`AlgebraicGeometry.SmallEtale.OpenCoverShriek.cechComplexObj_acyclic` is Tag 0F5H for the `f_!`
-of Tag 0F6R with abelian coefficients; and
-`AlgebraicGeometry.SmallEtale.properSupportFunctor_compIso`
-(Tag 0F50) and `AlgebraicGeometry.SmallEtale.fShriekSubsheaf_arrow_isIso` (Tag 0F51) are stated
-for the proper-support `f_!` of Tag 0F4X, a different functor from the finite-support `f_!` of
-Tag 0F6R that Tag 0F5N derives. So module-coefficient forms of 0F5H, 0F50 and 0F51 for the
-`f_!` of Tag 0F6R are needed as well.
+`Stacks.EtaleCohomology.ModuleFShriekConstructibleOnSheaves` is the sheaf-level form of the tag,
+quantified over every pair of schemes of the big étale site, every locally quasi-finite morphism
+of finite presentation between them, every `Λ`-linear lift of its direct image with compact
+support, and every sheaf of `Λ`-modules on the source. For the lift
+`AlgebraicGeometry.SmallEtale.fShriekMod` it is proved as
+`Stacks.EtaleCohomology.isConstructibleModuleSheaf_fShriekMod`, following the source: descend to
+an affine `Y`, present a constructible sheaf by the generators of Tag 095N, factor by Zariski's
+main theorem (Tag 0F2N), and conclude from Tags 03S8 and 095R.
 
 ## References
 
@@ -158,25 +141,17 @@ public def moduleFShriekDerivedCompHomologyFunctorIso (i : ℤ) :
 
 variable [QuasiCompact (B.inclusion.map f)] [QuasiSeparated (B.inclusion.map f)]
 
-omit [IsNoetherianRing Λ] in
-/-- **Stacks 0GK3**, granted the sheaf-level case. Let `Λ` be a Noetherian ring and let
-`f : X ⟶ Y` be a morphism of schemes which is locally quasi-finite and of finite presentation.
-If a complex `K` of étale sheaves of `Λ`-modules on `X` lies in `D_c(X_étale, Λ)`, then
-`f_! K` lies in `D_c(Y_étale, Λ)`, where `f_!` is the functor of Stacks 0F5N.
+/-- **The reduction of Stacks 0GK3 to its sheaf-level case.** Let `Λ` be a Noetherian ring and
+let `f : X ⟶ Y` be a morphism of schemes which is locally quasi-finite and of finite presentation,
+and let `fShriekMod` be any `Λ`-linear lift of the direct image with compact support. If `K` lies
+in `D_c(X_étale, Λ)`, then its image under the induced functor on derived categories lies in
+`D_c(Y_étale, Λ)`, provided the sheaf-level statement `hShriekSheaf` holds.
 
 The proof is the source's reduction. A `Λ`-linear lift of the direct image with compact support
 is exact, so it acts on the derived category termwise and `Hⁱ(f_! K) ≅ f_!(Hⁱ K)`; each `Hⁱ K` is
 constructible by hypothesis, and constructibility of its image under `f_!` is `hShriekSheaf`.
-
-`hShriekSheaf` is the sheaf-level form of this tag, quantified over every morphism of the big
-étale site that is locally quasi-finite and of finite presentation, every `Λ`-linear lift of its
-direct image with compact support and every sheaf of `Λ`-modules on its source; it mentions
-neither `f`, nor `fShriekMod`, nor `K`. See "What is carried" in the module documentation. -/
-@[stacks 0GK3 "the source's reduction of the tag to its sheaf-level case, which is carried as \
-hShriekSheaf: granted that a Λ-linear lift of f_! takes constructible sheaves of Λ-modules to \
-constructible sheaves for every locally quasi-finite morphism of finite presentation, the \
-functor f_! of Stacks 0F5N on unbounded derived categories sends D_c into D_c. The step from \
-sheaves to complexes, exactness of f_! and hence Hⁱ(f_! K) ≅ f_!(Hⁱ K), is proved"]
+Stacks 0GK3 itself, with the sheaf-level case proved, is
+`Stacks.EtaleCohomology.isConstructible_moduleFShriekDerivedFunctor_general`. -/
 public theorem isConstructible_moduleFShriekDerivedFunctor
     (hShriekSheaf : ModuleFShriekConstructibleOnSheaves B Λ)
     (K : DerivedCategory (ModuleSheaf.{u, v, r} B X Λ)) (hK : IsConstructible B X Λ K) :

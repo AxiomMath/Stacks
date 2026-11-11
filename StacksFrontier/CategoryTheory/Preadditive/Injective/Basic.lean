@@ -9,8 +9,9 @@ public import StacksCore.Tactic.StacksAttribute
 
 Stacks, Homological Algebra, Section 12.27. The definition of an injective object (0135), products
 of injectives (0137) and enough injectives (0138) are Mathlib's; their tags are attached below.
-This file adds the characterisation of injective objects (0136) and functorial injective embeddings
-(0139).
+This file adds parts of the characterisation of injective objects (0136, completed in
+`StacksFrontier.CategoryTheory.Preadditive.Injective.Characterization`) and functorial injective
+embeddings (0139).
 -/
 
 @[expose] public section
@@ -41,7 +42,9 @@ following are equivalent:
 3. Every short exact sequence `0 ⟶ I ⟶ A ⟶ B ⟶ 0` is split.
 4. `Ext_𝒜(B, I) = 0` for every object `B`.
 
-This file formalizes the equivalence `(1) ↔ (3)` and the implication `(1) → (4)`.
+This file proves the equivalence `(1) ↔ (3)` and the implication `(1) → (4)`; the full
+equivalence of the four conditions, `injective_tfae`, is in
+`StacksFrontier.CategoryTheory.Preadditive.Injective.Characterization`.
 -/
 
 open CategoryTheory CategoryTheory.Limits
@@ -79,14 +82,12 @@ private lemma injective_of_every_ses_splits (I : 𝒜)
   exact (g₀ ≫= σ.f_r).trans (Category.comp_id g₀)
 
 /-- `I` is injective iff every short exact sequence `0 ⟶ I ⟶ A ⟶ B ⟶ 0` is split. -/
-@[stacks 0136 "(1)⇔(3)"]
 theorem injective_iff_everySES_splits (I : 𝒜) :
     Injective I ↔ EverySESStartingAtSplits I :=
   ⟨every_ses_splits_of_injective I, injective_of_every_ses_splits I⟩
 
 /-- If `I` is injective then `Ext¹(B, I) = 0` (encoded as `Subsingleton (Ext B I 1)`) for every
 object `B`. -/
-@[stacks 0136 "(1)⇒(4)"]
 theorem subsingleton_ext_one_of_injective [HasExt 𝒜]
     (I : 𝒜) (hI : Injective I) (B : 𝒜) :
     Subsingleton (Abelian.Ext B I 1) := by

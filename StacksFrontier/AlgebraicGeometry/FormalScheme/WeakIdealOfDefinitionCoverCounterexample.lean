@@ -308,8 +308,8 @@ The corrected statement checks the condition on the affine formal opens containe
 of the covering:
 `isFundamentalSystemOfWeakIdealsOfDefinitionOn_of_cover_of_isMcQuillanFormalScheme`. -/
 @[stacks 0AIV "the statement as printed is false, also on the reading where the members are \
-weak ideals of definition everywhere and only the neighbourhood-basis property is checked on the \
-members of an affine open covering: already for one weak ideal of definition on the \
+weak ideals of definition everywhere and the neighbourhood-basis property alone is checked on \
+the members of an affine open covering: already for one weak ideal of definition on the \
 pseudo-discretised Spec(Z[X_0, X_1, ...]/(X_k^(k+1))) covered by itself; the corrected form is \
 isFundamentalSystemOfWeakIdealsOfDefinitionOn_of_cover_of_isMcQuillanFormalScheme"]
 theorem not_forall_isFundamentalSystemOfWeakIdealsOfDefinitionOn_of_hasBasis_cover :

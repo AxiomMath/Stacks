@@ -70,11 +70,6 @@ uniqueness of the remark: any pseudo-coherent `L'` with
 isomorphisms `ε'_{ℱ,i} : Ext^i(L', ℱ) ≃ Ext^i(K, E ⊗^L Lf^*ℱ)` for quasi-coherent `ℱ`,
 functorial in `ℱ` and compatible with the boundary maps, is isomorphic to `L` by an isomorphism
 `g : L' ≅ L` with `ε'(g ∘ x) = ε(x)`. -/
-@[stacks 0DJV "module-level uniqueness, for S = Spec R affine: the complex L of Tag 0DJU is \
-determined, up to an isomorphism inducing the identifications, among pseudo-coherent complexes L' \
-by functorial isomorphisms Ext^i(L', F) = Ext^i(K, E (x)^L Lf^*F), F quasi-coherent, compatible \
-with boundary maps. Proved for affine S only; the module-level form over a general quasi-compact \
-quasi-separated S is open (see the module docstring)"]
 theorem exists_unique_relativeExt_representative_spec [IsProper f] [Flat f]
     [LocallyOfFinitePresentation f] (E K : DStd X) (hE : IsRelPerfect f E)
     (hK : IsPseudoCoherentStd K) :

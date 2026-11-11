@@ -261,11 +261,11 @@ add_to_ega "IV 1.8.5" "affine case" PrimeSpectrum.isConstructible_comap_image
 add_to_ega "IV 9.5.1" "affine case" PrimeSpectrum.isConstructible_comap_image
 add_to_sga "1 IV 6.2" "affine case" PrimeSpectrum.isConstructible_comap_image
 
-/-- The first step in Stacks 00GE: for a finite-type map out of a Noetherian ring,
-the image of a constructible set is constructible. The closed-point square of
-00GE is not formalized here. -/
-@[stacks 00GE "first step of the proof only: images of constructible sets are constructible",
-  sga "1 IV 6.2" "affine source and target"]
+/-- For a finite-type map out of a Noetherian ring, the image of a constructible set is
+constructible: Chevalley's theorem, since a finite-type algebra over a Noetherian ring is of
+finite presentation. This is the left vertical arrow of the square of Stacks 00GE, see
+`PrimeSpectrum.exists_commSq_constructible_restrictToClosedPoints`. -/
+@[sga "1 IV 6.2" "affine source and target"]
 theorem PrimeSpectrum.isConstructible_comap_image_of_finiteType
     {R S : Type*} [CommRing R] [CommRing S] [IsNoetherianRing R]
     (φ : R →+* S) (hφ : φ.FiniteType)

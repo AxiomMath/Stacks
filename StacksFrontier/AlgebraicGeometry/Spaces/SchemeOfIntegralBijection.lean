@@ -25,13 +25,21 @@ No new definitions are introduced.
 
 * `AlgebraicGeometry.Space.isRepresentable_of_surjective_pointsMap_schematicLocus`: an algebraic
   space whose schematic locus of Stacks 03JH carries every point is a scheme.
-* `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom`: **Stacks 07VV, the implication from
-  the target**, which needs no bijectivity: an integral morphism with scheme target has scheme
+* `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom`: the implication of Stacks 07VV from
+  the target, which needs no bijectivity: an integral morphism with scheme target has scheme
   source.
-* `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom_of_bijective`: **Stacks 07VV, the
-  implication from the source.**
-* `AlgebraicGeometry.Space.isRepresentable_iff_of_isIntegralHom_of_bijective`: **Stacks 07VV.**
-* `AlgebraicGeometry.Space.isRepresentable_of_isRepresentable_reduction`: **Stacks 07VU.**
+* `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom_of_bijective`: the implication of
+  Stacks 07VV from the source, conditional on the three hypotheses below.
+* `AlgebraicGeometry.Space.isRepresentable_iff_of_isIntegralHom_of_bijective`: Stacks 07VV,
+  conditional on the three hypotheses below.
+* `AlgebraicGeometry.Space.isRepresentable_of_isRepresentable_reduction`: Stacks 07VU,
+  conditional on the three hypotheses below.
+
+Stacks 07VV is recorded, with no hypotheses beyond the source's, on
+`AlgebraicGeometry.Space.isRepresentable_iff_isRepresentable_of_isIntegralHom_of_bijective` in
+`StacksFrontier.AlgebraicGeometry.Spaces.SchemeOfIntegralBijectionUnconditional`, and Stacks 07VU on
+`AlgebraicGeometry.IsAlgebraicSpace.isRepresentable_of_isRepresentable_reduction` in
+`StacksFrontier.AlgebraicGeometry.Spaces.SchemeOfSchemeReduction`.
 
 ## Implementation notes
 
@@ -60,9 +68,14 @@ hypothesis is already discharged.
 
 The three hypotheses `h09YA`, `h07SQ` and `hFinitePresentation` are carried unchanged from
 `AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed`, so the results
-below are conditional on precisely what Stacks 07VT is conditional on and on nothing else. None
+below are conditional on precisely what that conditional form of Stacks 07VT is conditional on
+and on nothing else; Stacks 07VT itself is proved outright as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`. None
 is the universally quantified form of any conclusion here: the first two conclude about inverse
-systems and the third about affineness of a target.
+systems and the third about affineness of a target. Stacks 07VT itself is proved with no
+hypotheses, as
+`AlgebraicGeometry.Space.isAffineSpace_of_isSurjective_of_universallyClosed_of_isAffineSpace`,
+and the unconditional forms of Stacks 07VV and 07VU named above do not take these binders.
 
 ## References
 
@@ -146,7 +159,7 @@ private theorem exists_affineChart_isOpenImmersion_mem_range
 
 variable {F G : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
 
-/-- **Stacks 07VV, the implication from the target.** If the target of an integral morphism of
+/-- **The implication of Stacks 07VV from the target.** If the target of an integral morphism of
 algebraic spaces over `S` is a scheme, then so is its source. Bijectivity on points is not
 needed.
 
@@ -154,7 +167,6 @@ An integral morphism is representable, so the base change of the morphism along 
 of the target is an affine open subspace of the source; the affine opens of the target cover it,
 so every point of the source lies in a representable open subspace, hence in the schematic
 locus of Stacks 03JH. -/
-@[stacks 07VV "the implication from the target, with no bijectivity hypothesis"]
 theorem isRepresentable_of_isIntegralHom (hF : IsAlgebraicSpace B S hS F) (f : F ⟶ G)
     (hf : IsIntegralHom B S hS f) (hGrep : G.IsRepresentable) :
     F.IsRepresentable := by
@@ -174,8 +186,9 @@ theorem isRepresentable_of_isIntegralHom (hF : IsAlgebraicSpace B S hS F) (f : F
   rw [range_pointsMap_ι_range B S hS qW]
   exact ⟨w, hw⟩
 
-/-- **Stacks 07VV, the implication from the source.** If the source of an integral morphism of
-algebraic spaces over `S` which is bijective on points is a scheme, then so is its target.
+/-- **The implication of Stacks 07VV from the source, conditional form.** If the source of an
+integral morphism of algebraic spaces over `S` which is bijective on points is a scheme, then so
+is its target.
 
 Let `α : h_V ⟶ X` be an affine open of the source through a given point. The morphism is
 universally closed by Stacks 0415, hence closed on points, so the image of `|V|` is open and
@@ -183,14 +196,6 @@ cuts out an open subspace `W` of the target by part (1) of Tag 03BZ. Bijectivity
 point set of `X ×_Y W` with `|V|`, so the two open subspaces of `X` agree and `X ×_Y W` is
 affine; its projection to `W` is integral and surjective, so `W` is affine by Stacks 07VT and
 the given point lies in the schematic locus of Stacks 03JH. -/
-@[stacks 07VV "the implication from the source, granted the three hypotheses of Stacks 07VT: \
-`h09YA`, the conclusion of Stacks 09YA that an integral morphism over a quasi-compact \
-quasi-separated algebraic space is a directed limit of finite morphisms of finite presentation; \
-`h07SQ`, the conclusion of Stacks 07SQ that a directed system with affine transition morphisms \
-whose limit is affine has an affine stage; and `hFinitePresentation`, the case of Stacks 07VT \
-in which the morphism is finite and of finite presentation. None is the universally quantified \
-form of this conclusion: the first two conclude about inverse systems and the third about \
-affineness of a target"]
 theorem isRepresentable_of_isIntegralHom_of_bijective (hF : IsAlgebraicSpace B S hS F)
     (hG : IsAlgebraicSpace B S hS G) (f : F ⟶ G) (hf : IsIntegralHom B S hS f)
     (hbij : Function.Bijective (pointsMap B S hS F f)) (hFrep : F.IsRepresentable)
@@ -284,20 +289,14 @@ theorem isRepresentable_of_isIntegralHom_of_bijective (hF : IsAlgebraicSpace B S
   exact (mem_range_pointsMap_schematicLocus_iff B S hS G y).2
     ⟨W, hW, isRepresentable_of_natIso _ eT.symm, hyW⟩
 
-/-- **Stacks 07VV.** Let `f : X ⟶ Y` be an integral morphism of algebraic spaces over `S` which
-induces a bijection `|X| → |Y|` on points. Then `X` is a scheme if and only if `Y` is a scheme.
+/-- **Stacks 07VV, conditional form.** Let `f : X ⟶ Y` be an integral morphism of algebraic
+spaces over `S` which induces a bijection `|X| → |Y|` on points. Then `X` is a scheme if and
+only if `Y` is a scheme.
 
 The two implications are
 `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom_of_bijective` and
 `AlgebraicGeometry.Space.isRepresentable_of_isIntegralHom`; only the first uses bijectivity, and
 only the first uses the three hypotheses of Stacks 07VT. -/
-@[stacks 07VV "granted the three hypotheses of Stacks 07VT: `h09YA`, the conclusion of Stacks \
-09YA that an integral morphism over a quasi-compact quasi-separated algebraic space is a \
-directed limit of finite morphisms of finite presentation; `h07SQ`, the conclusion of Stacks \
-07SQ that a directed system with affine transition morphisms whose limit is affine has an \
-affine stage; and `hFinitePresentation`, the case of Stacks 07VT in which the morphism is \
-finite and of finite presentation. None is the universally quantified form of this conclusion: \
-the first two conclude about inverse systems and the third about affineness of a target"]
 theorem isRepresentable_iff_of_isIntegralHom_of_bijective (hF : IsAlgebraicSpace B S hS F)
     (hG : IsAlgebraicSpace B S hS G) (f : F ⟶ G) (hf : IsIntegralHom B S hS f)
     (hbij : Function.Bijective (pointsMap B S hS F f))
@@ -321,19 +320,12 @@ theorem isRepresentable_iff_of_isIntegralHom_of_bijective (hF : IsAlgebraicSpace
 
 /-! ### Stacks 07VU -/
 
-/-- **Stacks 07VU**, due to Conrad–Lieblich–Olsson 3.1.12. If the reduction of an algebraic
-space over `S` is a scheme, then the space itself is a scheme.
+/-- **Stacks 07VU, conditional form**, due to Conrad–Lieblich–Olsson 3.1.12. If the reduction of
+an algebraic space over `S` is a scheme, then the space itself is a scheme.
 
 The inclusion of `AlgebraicGeometry.Space.reduction` is a closed immersion, hence integral by
 Stacks 081Y, it is injective on points because it is a monomorphism, and it is surjective on
 points by `AlgebraicGeometry.Space.surjective_pointsMap_ι_reduction`; Stacks 07VV applies. -/
-@[stacks 07VU "granted the three hypotheses of Stacks 07VT: `h09YA`, the conclusion of Stacks \
-09YA that an integral morphism over a quasi-compact quasi-separated algebraic space is a \
-directed limit of finite morphisms of finite presentation; `h07SQ`, the conclusion of Stacks \
-07SQ that a directed system with affine transition morphisms whose limit is affine has an \
-affine stage; and `hFinitePresentation`, the case of Stacks 07VT in which the morphism is \
-finite and of finite presentation. None is the universally quantified form of this conclusion: \
-the first two conclude about inverse systems and the third about affineness of a target"]
 theorem isRepresentable_of_isRepresentable_reduction {X : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u}
     (hX : IsAlgebraicSpace B S hS X)
     (hred : (reduction B S hS X hX).toFunctor.IsRepresentable)
@@ -361,8 +353,8 @@ theorem isRepresentable_of_isRepresentable_reduction {X : (BigFppfOver B S hS)�
 end AlgebraicGeometry.Space
 
 add_to_stacks 049D "an algebraic space whose reduction is a scheme is a scheme, granted the
-  same three hypotheses `h09YA`, `h07SQ` and `hFinitePresentation` that the Stacks 07VU
-  attribute of this declaration records."
+  three hypotheses `h09YA`, `h07SQ` and `hFinitePresentation` of the conditional form of
+  Stacks 07VT."
   AlgebraicGeometry.Space.isRepresentable_of_isRepresentable_reduction
 
 end

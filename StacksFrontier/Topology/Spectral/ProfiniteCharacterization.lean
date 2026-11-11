@@ -37,14 +37,17 @@ public import Mathlib.Topology.Sheaves.Init
 /-!
 # Characterization of profinite spectral spaces
 
-For a spectral space `X` the following are equivalent: `X` is profinite (Hausdorff and totally
-disconnected, quasi-compactness being automatic), `X` is Hausdorff, `X` is totally disconnected,
-every quasi-compact open of `X` is closed, specialization on `X` is trivial, `X` is `T₁`, and
-every point of `X` is the generic point of an irreducible component.
+For a spectral space `X`, Stacks 0905 lists eight equivalent conditions: `X` is profinite
+(quasi-compact, Hausdorff and totally disconnected), `X` is Hausdorff, `X` is totally
+disconnected, every quasi-compact open of `X` is closed, there are no nontrivial specializations,
+every point of `X` is closed, every point of `X` is the generic point of an irreducible component,
+and the constructible topology of `X` equals its given topology. This file proves the
+implications among the first seven conditions that need neither the constructible topology nor
+Stacks 0903; the remaining implications and the full statement, `spectralSpace_profinite_tfae`,
+are in `StacksFrontier.Topology.Spectral.ProfiniteCharacterizationTFAE`.
 
-The substantive implication is that a Hausdorff spectral space is profinite: `T₂` makes every
-quasi-compact open closed, hence clopen, and the quasi-compact opens form a topological basis, so
-`T₀` forces total separation.
+A Hausdorff spectral space is profinite: `T₂` makes every quasi-compact open closed, hence
+clopen, and the quasi-compact opens form a topological basis, so `T₀` forces total separation.
 
 ## Main results
 
@@ -212,10 +215,9 @@ theorem totallyDisconnectedSpace_of_t2 [SpectralSpace X] [T2Space X] :
     TotallyDisconnectedSpace X :=
   totallyDisconnectedSpace_of_qcOpen_isClosed (fun _ _ hKc => hKc.isClosed)
 
-/-- **Stacks 0905**.
-A Hausdorff spectral space is profinite: it is both Hausdorff and totally disconnected
-(quasi-compactness is automatic from `SpectralSpace`). -/
-@[stacks 0905]
+/-- A Hausdorff spectral space is profinite: it is both Hausdorff and totally disconnected
+(quasi-compactness is automatic from `SpectralSpace`). This is the implication (2) ⇒ (1) of
+Stacks 0905; the full list of equivalences is `spectralSpace_profinite_tfae`. -/
 theorem spectralSpace_profinite_of_t2 [SpectralSpace X] [T2Space X] :
     T2Space X ∧ TotallyDisconnectedSpace X :=
   ⟨inferInstance, totallyDisconnectedSpace_of_t2⟩
@@ -227,4 +229,3 @@ Stacks 0905. -/
 theorem profinite_iff_t2 [SpectralSpace X] :
     (T2Space X ∧ TotallyDisconnectedSpace X) ↔ T2Space X :=
   ⟨And.left, fun h => ⟨h, @totallyDisconnectedSpace_of_t2 X _ _ h⟩⟩
-

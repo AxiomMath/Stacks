@@ -21,9 +21,11 @@ then the same as giving a homomorphism of differential graded algebras `A ⟶ En
 
 ## Main results
 
-* `DifferentialGradedAlgebra.leftActionEquivHom`: left differential graded actions of `A` on `M`
-  correspond to homomorphisms `A ⟶ End(M)`, canonically: the homomorphism attached to an action
-  sends a homogeneous element to its action as a cochain.
+* `DifferentialGradedAlgebra.leftActionEquivHom`: left differential graded actions of `A` on `M`,
+  recorded as cochains, correspond to homomorphisms `A ⟶ End(M)`, canonically: the homomorphism
+  attached to an action sends a homogeneous element to its action as a cochain. Tag 0FQ3 itself,
+  for left differential graded module structures on `M`, is
+  `DifferentialGraded.LeftModule.toEndomorphismHom_spec_surjective_eq_iff`.
 
 ## Implementation notes
 
@@ -82,8 +84,12 @@ namespace DifferentialGradedAlgebra
 /-- Left differential graded actions of `A` on a cochain complex `M` of `R`-modules correspond
 canonically to homomorphisms of differential graded algebras from `A` into the endomorphism
 differential graded algebra of `M`. The specification identifies the image of each homogeneous
-element with its action as a cochain. -/
-@[stacks 0FQ3 "left module structures and algebra homomorphisms"]
+element with its action as a cochain.
+
+An action here is already recorded as maps `A^n → Cochain M M n`, so this is the cochain-level
+bookkeeping behind Tag 0FQ3 rather than the tag itself. The statement of Tag 0FQ3, about left
+differential graded module structures on `M` with their Leibniz rule, is
+`DifferentialGraded.LeftModule.toEndomorphismHom_spec_surjective_eq_iff`. -/
 noncomputable def leftActionEquivHom (A : DifferentialGradedAlgebra R)
     (M : CochainComplex (ModuleCat.{u} R) ℤ) :
     { e : A.LeftAction M ≃ A.Hom (endomorphismDGA M).algebra //

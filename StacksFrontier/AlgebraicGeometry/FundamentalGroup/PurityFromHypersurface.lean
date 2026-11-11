@@ -28,11 +28,18 @@ three makes both of those local cohomology modules trivial, so `f ^ 0 = 1` annih
 
 ## Implementation notes
 
-**No Stacks attribute is placed, and 0BLM is not claimed.** [Stacks, Lemma 0BLS] is carried here
-as an explicit hypothesis `hTorsionCase`, transcribed against the library's own names, exactly as
-the parameterized chapter-42 development carries its missing inputs. The declaration below is
-therefore a complete theorem about a hypothesis, not a proof of 0BLM; attributing 0BLM to it
-would render that tag formalized on the strength of an assumption.
+**No Stacks attribute is placed here.** [Stacks, Lemma 0BLS] is carried in this file as an
+explicit hypothesis `hTorsionCase`, transcribed against the library's own names, so the declaration
+below is a theorem about a hypothesis. Both tags are formalized unconditionally elsewhere:
+[Stacks, Lemma 0BLS] is
+`…LocalLefschetzSituation.exists_finiteEtale_extension_of_localCohomology_annihilated` and
+[Stacks, Lemma 0BLM] is
+`AlgebraicGeometry.LocalLefschetzSituation.exists_finiteEtale_extension_of_three_le_depth_self`,
+both in the module
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityLocalCase.ExtensionFromHypersurface`.
+That formalization of 0BLS states its hypothesis in the coreflection model
+`Stacks.LocalCohomology.localCohomologyModule` of local cohomology; the two models agree over a
+Noetherian ring by `Stacks.LocalCohomology.localCohomologyWithSupportInIsoLocalCohomologyModule`.
 
 The two local cohomology modules are
 `Stacks.LocalCohomology.localCohomologyWithSupportIn A {closedPoint A} (A[0]) i` for `i = 1, 2` —
@@ -42,12 +49,12 @@ support at the closed point, applied to `A` placed in degree zero. The derived c
 the type of `Stacks.LocalCohomology.derivedSectionsWithSupportIn`, whose defining file pins it at
 file level, so there is no free-model version of these modules to state instead.
 
-### What remains of the chain
+### The rest of the chain
 
-Only [Stacks, Lemma 0BLS]. The source proves it from the fully faithfulness of base change of
-finite étale covers along a henselian pair ([Stacks, Lemma 0BM6]), which rests in turn on the
-completion functor being fully faithful on finite locally free modules ([Stacks, Lemma 0EKS]).
-Neither is formalized in this repository: no declaration carries tag 0BLS, 0BM6 or 0EKS.
+The source proves [Stacks, Lemma 0BLS] from the full faithfulness of restriction of finite étale
+covers from `U` to `U₀` ([Stacks, Lemma 0BM6]), after reducing to the complete case
+([Stacks, Lemma 0BLL]). That proof is carried out in the module
+`StacksFrontier.AlgebraicGeometry.FundamentalGroup.PurityLocalCase.ExtensionFromHypersurface`.
 
 ## References
 

@@ -1,7 +1,6 @@
 module
 
 public import StacksFrontier.CategoryTheory.Sites.Cohomology.InternalHom.ProjectionFormulaInternalHom
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # The trace map of a right adjoint of derived pushforward
@@ -12,7 +11,8 @@ adjoint of derived pushforward `Rf_* : D(O_C) ⥤ D(O_D)`.  For `L` in `D(O_C)` 
 
 `Rf_*RHom_{O_C}(L, a(K)) ⟶ RHom_{O_D}(Rf_*L, K)`,
 
-Equation 86.3.2.1 of [Stacks, Tag 0E57].  It is the composition
+the analogue, for an adjunction on the full derived categories, of Equation 86.3.2.1 of
+[Stacks, Tag 0E57].  It is the composition
 
 `Rf_*RHom_{O_C}(L, a(K)) ⟶ RHom_{O_D}(Rf_*L, Rf_*a(K)) ⟶ RHom_{O_D}(Rf_*L, K)`,
 
@@ -24,7 +24,7 @@ whose second is `RHom_{O_D}(Rf_*L, −)` applied to the counit `Rf_*a(K) ⟶ K` 
 
 All in the namespace `Stacks.Cohomology.PushforwardTraceOnRingedTopoi`.
 
-* `pushforwardTrace` — **Equation 86.3.2.1**, that composition.
+* `pushforwardTrace` — that composition.
 
 ## Main results
 
@@ -35,21 +35,19 @@ All in the namespace `Stacks.Cohomology.PushforwardTraceOnRingedTopoi`.
 
 ## Implementation notes
 
-*The right adjoint is a hypothesis.*  The source obtains `a` from [Stacks, Tag 0E55], which
-asserts that `Rf_*` has a right adjoint for a morphism of quasi-compact and quasi-separated
-algebraic spaces; that is an existence statement and it is not part of this development.  The
-formula for the trace map does not depend on how `a` arises — only on an adjunction
-`Rf_* ⊣ a`, whose counit is the second arrow — so `a` and the adjunction are carried as
-hypotheses and nothing is chosen here.  Both naturality clauses are proved from the naturality
-of [Stacks, Tag 0B6D] and the naturality of that counit.
-
-*The source's setting is the special case.*  [Stacks, Tag 0E57] states the map for `X` and `Y`
-quasi-compact and quasi-separated algebraic spaces over a scheme, with `a` the right adjoint of
-`Rf_* : D_QCoh(O_X) ⥤ D_QCoh(O_Y)`.  Taking `(Sh(C), O_C)` and `(Sh(D), O_D)` to be the small
-étale ringed topoi of `X` and of `Y`, and `a` to be that right adjoint, specialises the
-statement below to the source's.  Nothing of the construction uses quasi-compactness,
-quasi-separatedness or quasi-coherence: those hypotheses of the source are what produce `a`, and
-they enter only through the adjunction.
+*This is not the source's map.*  [Stacks, Tag 0E57] states the map for a morphism of
+quasi-compact and quasi-separated algebraic spaces, with `a` the right adjoint of the
+**restricted** functor `Rf_* : D_QCoh(O_X) ⥤ D_QCoh(O_Y)` of [Stacks, Tag 0E55] and `K`, `L`
+quasi-coherent.  That `a` is not a functor `D(O_Y) ⥤ D(O_X)` right adjoint to `Rf_*` on the full
+derived categories, and Stacks does not assert that such a right adjoint exists, so the source's
+map is **not** an instance of `pushforwardTrace`, whose hypothesis `adj` is an adjunction on the
+full derived categories.  The source's map is
+`AlgebraicGeometry.Space.smallEtalePushforwardTrace`
+(`StacksFrontier.AlgebraicGeometry.Spaces.DualityPushforwardTrace`), which carries the tag; it is
+built from the abstract `CategoryTheory.InternalHomTrace.pushforwardTrace` with the counit of the
+`D_QCoh` adjunction.  This file keeps the full-derived-category variant, with `a` and `adj`
+as hypotheses, and its two naturality clauses, proved from the naturality of
+[Stacks, Tag 0B6D] and of the counit.
 
 *The tensor–internal-Hom adjunction.*  The internal Hom bifunctors `HX`, `HY` and the
 tensor–internal-Hom adjunctions `DX`, `DY` on `D(O_C)` and `D(O_D)` are the data of
@@ -110,15 +108,18 @@ variable {X Y : RingedTopos.{u, u, u}}
     DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
   (adj : derivedPushforward f ⊣ a)
 
-/-- **Equation 86.3.2.1 of [Stacks, Tag 0E57].**  For a morphism of ringed topoi
+/-- **The full-derived-category analogue of Equation 86.3.2.1 of [Stacks, Tag 0E57].**  For a
+morphism of ringed topoi
 `f : (Sh(C), O_C) ⟶ (Sh(D), O_D)`, a right adjoint `a` of `Rf_*`, and objects `L` of `D(O_C)`
 and `K` of `D(O_D)`, the canonical map
 
 `Rf_*RHom_{O_C}(L, a(K)) ⟶ RHom_{O_D}(Rf_*L, K)`.
 
 It is the projection formula for derived internal Hom of [Stacks, Tag 0B6D] at `L` and `a(K)`,
-followed by `RHom_{O_D}(Rf_*L, −)` applied to the counit `Rf_*a(K) ⟶ K` of `Rf_* ⊣ a`. -/
-@[stacks 0E57]
+followed by `RHom_{O_D}(Rf_*L, −)` applied to the counit `Rf_*a(K) ⟶ K` of `Rf_* ⊣ a`.
+
+The source's `a` is a right adjoint only on `D_QCoh`, so its map is not an instance of this one;
+it is `AlgebraicGeometry.Space.smallEtalePushforwardTrace`. -/
 def pushforwardTrace
     (L : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))) :
@@ -128,11 +129,10 @@ def pushforwardTrace
     DY.toTensorHomBijection L (a.obj K) ≫
     (HY.obj (op ((derivedPushforward f).obj L))).map (adj.counit.app K)
 
-/-- **The trace map is that composition.**  Equation 86.3.2.1 is the projection formula for
+/-- **The trace map is that composition.**  The map is the projection formula for
 derived internal Hom of [Stacks, Tag 0B6D] followed by the derived internal Hom out of `Rf_*L`
 of the counit `Rf_*a(K) ⟶ K`, and this records it as an equation, so a consumer never unfolds
 the definition. -/
-@[stacks 0E57 "the defining composition"]
 theorem pushforwardTrace_eq
     (L : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))) :
@@ -143,7 +143,6 @@ theorem pushforwardTrace_eq
   rfl
 
 /-- **The trace map is contravariant in `L`.** -/
-@[stacks 0E57 "naturality in the first variable"]
 theorem pushforwardTrace_naturality_source
     {L L' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O))}
     (g : L' ⟶ L)
@@ -157,7 +156,6 @@ theorem pushforwardTrace_naturality_source
     ← (HY.map ((derivedPushforward f).map g).op).naturality, Category.assoc]
 
 /-- **The trace map is covariant in `K`.** -/
-@[stacks 0E57 "naturality in the second variable"]
 theorem pushforwardTrace_naturality_target
     (L : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     {K K' : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))}

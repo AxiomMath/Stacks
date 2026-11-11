@@ -55,36 +55,27 @@ The elided prefix throughout is `AlgebraicGeometry.VanishingSituation`.
   followed by pseudofunctoriality of the module pullback, and it is what makes
   `conormalOnComponent` the restricted conormal sheaf and not merely a sheaf resembling it.
 * `invertibleCurveDegree_conormalOnComponent_pos`,
-  `exists_component_subset_invertibleCurveDegree_pos`, `not_isTrivial_conormalSheaf`: the
-  degree clause of [Stacks, Tag 0AXA], the same clause in the source's existential form, and
-  the non-triviality clause derived from it.
+  `exists_component_subset_invertibleCurveDegree_pos`, `not_isTrivial_conormalSheaf`: the last
+  step of the proof of [Stacks, Tag 0AXA] — the degree clause at a component carrying a section
+  with a zero, the same in existential form, and the non-triviality clause derived from it.
 
-## What is granted, and what is not
+## Relation to the full statement
 
-Two things are assumed, and both are named in the tag riders.
+The theorems of the last section are the final step of the source's argument, stated with the
+inputs of that step as hypotheses, and carry no `@[stacks]` attribute. [Stacks, Tag 0AXA] itself,
+under exactly the source's hypotheses, is proved in
+`StacksFrontier/AlgebraicGeometry/ResolutionOfSurfaces/Vanishing/ConormalDegreePositive.lean` as
+`AlgebraicGeometry.VanishingSituation.exists_subset_invertibleCurveDegree_conormalOnComponent_pos`
+and `AlgebraicGeometry.VanishingSituation.not_isTrivial_conormalSheaf_of_nonempty`, which build
+the section and prove the dimension-one observation from the hypotheses of the lemma.
 
-**Part (2) of [Stacks, Tag 0B40]**, the last step of the source's proof: a nonzero global
-section with a zero, of an invertible sheaf on a proper integral curve, forces the degree to be
-positive. The library does not prove it; it states it as
-`AlgebraicGeometry.VanishingSectionDegreePos κ`, quantified over every proper integral scheme
-of dimension at most one over `κ`, every invertible sheaf on it and every section, so it names
-none of `X`, `Z` or `C_i`. It is carried here as the hypothesis `hpos` and is the whole of the
-hypothesis that is general in its own data.
-
-**The section itself** is *not* produced here, and that is the rest of the source's proof: the
-function of [Stacks, Tag 0AX9] raised to the power `d_i` read off from the valuations of the
-discrete valuation rings `𝒪_{X, ξ_i}` at the generic points of the components, with `Z`
-replaced by `e_i Z` ([Stacks, Tags 02OP, 0AYX]) and with the `(S_1)` property of `Z`
-([Stacks, Tag 0B3S]) and the absence of embedded associated points ([Stacks, Tags 0346, 0B3M])
-used to see that the function is a global section of `ℐ_Z`. Those four tags are all available
-in this library; the valuation bookkeeping that assembles them is what is missing, and so the
-existence of a component carrying the section is a hypothesis of the theorems below rather
-than part of their conclusion. The statements are therefore weaker than Tag 0AXA, and the
-riders say so.
-
-The source's own hypotheses — `X` normal, `Z` nonempty, `Z ⊆ X_s` set theoretically — are kept
-as hypotheses even though this clause does not consume them: they enter the source's proof only
-through the construction of the section.
+The hypotheses of the step are three. `hpos` is part (2) of [Stacks, Tag 0B40] in the quantified
+form `AlgebraicGeometry.VanishingSectionDegreePos κ`, a theorem of the library
+(`AlgebraicGeometry.vanishingSectionDegreePos`); it is kept as an argument here so that these
+statements do not change. `hdim` is the observation following Situation 0AX8 that every
+component of the special fibre has dimension one. The last is a nonzero global section of
+`𝒞_{Z/X}|_{C_i}` with a zero, which in the source is constructed from the function of
+[Stacks, Tag 0AX9].
 
 ## Implementation notes
 
@@ -317,8 +308,8 @@ def conormalOnComponentIso (I : V.X.IdealSheafData) (i : Fin V.numberOfComponent
 
 /-! ### Positivity of the conormal degree -/
 
-/-- **Stacks Project, Tag 0AXA**, the degree clause at a component carrying the section the
-source's argument produces.
+/-- **The last step of [Stacks, Tag 0AXA]**, the degree clause at a component carrying the
+section the source's argument produces.
 
 In Situation 0AX8 with `X` normal, let `Z ⊆ X` be a nonempty effective Cartier divisor
 contained set theoretically in the special fibre, and let `C_i` be a component of the special
@@ -328,20 +319,13 @@ nonzero global section with a zero, then `deg(𝒞_{Z/X}|_{C_i}) > 0`.
 The component `C_i`, with its reduced induced structure, is an integral scheme proper over the
 residue field `κ` of the closed point of the base, of dimension one by the standing observation
 following Situation 0AX8 which is `hdim`; the restricted conormal sheaf is invertible because
-`ℐ_Z` is. Part (2) of [Stacks, Tag 0B40] then gives the conclusion, and it is carried as the
-hypothesis `hpos`, the library's `AlgebraicGeometry.VanishingSectionDegreePos`, which is
-quantified over every proper integral scheme of dimension at most one over `κ` and every
-invertible sheaf on it, so it mentions none of `X`, `Z` or `C_i`.
+`ℐ_Z` is. Part (2) of [Stacks, Tag 0B40] then gives the conclusion; it is the argument `hpos`,
+in the form `AlgebraicGeometry.VanishingSectionDegreePos`, which the library proves as
+`AlgebraicGeometry.vanishingSectionDegreePos`.
 
-What this does *not* do is produce the section, which in the source is the whole of the
-argument: the function of Lemma 0AX9 raised to a power read off from the valuations of the
-local rings at the generic points of the components, after replacing `Z` by `e_i Z`
-([Stacks, Tags 02OP, 0AYX]) and using that `Z` is `(S_1)` ([Stacks, Tags 0B3S, 0346, 0B3M]) to
-see that the function is a section of `ℐ_Z`. -/
-@[stacks 0AXA "the degree clause -- positivity of deg(C_{Z/X}|_{C_i}) at a component C_i of \
-the special fibre contained in Z -- granted part (2) of Tag 0B40 as the general hypothesis \
-hpos, and granted the global section of the restricted conormal sheaf whose construction from \
-Lemma 0AX9 is the rest of the source's proof"]
+The section is an argument here. Its construction, and with it [Stacks, Tag 0AXA] under the
+source's hypotheses alone, is
+`exists_subset_invertibleCurveDegree_conormalOnComponent_pos`. -/
 theorem invertibleCurveDegree_conormalOnComponent_pos [IsNormal V.X]
     (hdim : ∀ i : Fin V.numberOfComponents, topologicalKrullDim (V.component i) = 1)
     (I : V.X.IdealSheafData) [Stacks.Divisors.IsEffectiveCartierDivisor I]
@@ -366,11 +350,12 @@ theorem invertibleCurveDegree_conormalOnComponent_pos [IsNormal V.X]
     inferInstance (topologicalKrullDim_componentScheme_le_one V hdim i)
     (conormalOnComponent V I i) inferInstance s hs hzero
 
-/-- **Stacks Project, Tag 0AXA**, the precise clause in the source's existential form.
+/-- The last step of [Stacks, Tag 0AXA] in the source's existential form.
 
 The hypothesis is that *some* component contained in `Z` carries a nonzero global section of
 the restricted conormal sheaf with a zero; the conclusion is the source's: there is an `i` with
-`C_i ⊆ Z` and `deg(𝒞_{Z/X}|_{C_i}) > 0`. -/
+`C_i ⊆ Z` and `deg(𝒞_{Z/X}|_{C_i}) > 0`. The statement without the section is
+`exists_subset_invertibleCurveDegree_conormalOnComponent_pos`. -/
 theorem exists_component_subset_invertibleCurveDegree_pos [IsNormal V.X]
     (hdim : ∀ i : Fin V.numberOfComponents, topologicalKrullDim (V.component i) = 1)
     (I : V.X.IdealSheafData) [Stacks.Divisors.IsEffectiveCartierDivisor I]
@@ -389,14 +374,12 @@ theorem exists_component_subset_invertibleCurveDegree_pos [IsNormal V.X]
   exact ⟨i, hCi,
     invertibleCurveDegree_conormalOnComponent_pos V hdim I hne hZs hpos i hCi s hs hz⟩
 
-/-- **Stacks Project, Tag 0AXA**, the non-triviality clause, derived from the degree clause.
+/-- The non-triviality clause of [Stacks, Tag 0AXA], derived from the last step of its proof.
 
 If the conormal sheaf of `Z` in `X` were trivial, its restriction to a component `C_i ⊆ Z`
 would be isomorphic to the structure sheaf of `C_i` and so would have degree zero, which
-contradicts the positivity of that degree. -/
-@[stacks 0AXA "the first clause -- the conormal sheaf of Z is not trivial -- derived from the \
-degree clause on a component, under the same two grants as \
-invertibleCurveDegree_conormalOnComponent_pos"]
+contradicts the positivity of that degree. The statement under the source's hypotheses alone
+is `not_isTrivial_conormalSheaf_of_nonempty`. -/
 theorem not_isTrivial_conormalSheaf [IsNormal V.X]
     (hdim : ∀ i : Fin V.numberOfComponents, topologicalKrullDim (V.component i) = 1)
     (I : V.X.IdealSheafData) [Stacks.Divisors.IsEffectiveCartierDivisor I]

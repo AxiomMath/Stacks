@@ -41,6 +41,9 @@ conormal sheaf `𝒞_{Z/Z'}`.
 ## Main results
 
 * `AlgebraicGeometry.Space.IsUniversalFirstOrderThickening.exists_conormalSequence_exact`: the
+  form of Stacks 060F on the smaller space of a universal first order thickening, which
+  `AlgebraicGeometry.Space.exists_conormalSequence_exact_of_formallyUnramified` transports to a
+  formally unramified morphism.  The
   composite of the two arrows is zero, the sequence is exact at `h^*Ω_{X/Y}`, the second arrow
   is an epimorphism, and the first arrow followed by the isomorphism of
   `AlgebraicGeometry.Space.thickeningSheafOfDifferentialsMap` is the arrow
@@ -148,7 +151,6 @@ transpose sends a local section of the ideal of `Z` to its differential
 
 The sequence of Stacks 05ZA for `Z ⊂ Z'` is exact, and the isomorphism of Stacks 060E carries
 it onto this one. -/
-@[stacks 060F]
 theorem exists_conormalSequence_exact (hZ : IsUniversalFirstOrderThickening B S hS Z h')
     (p : X ⟶ Y) :
     ∃ hc : thickeningConormalFirstMap B S hS hZ p

@@ -12,8 +12,9 @@ import StacksCore.Tactic.EgaSgaAttribute
 # Lattices in a vector space over a fraction field, and the distance between them
 
 Let `R` be a Noetherian domain with fraction field `K` and let `V` be a `K`-vector space. A
-*lattice* in `V` is an `R`-submodule of `V` that is finitely generated over `R` and spans `V` over
-`K`; this is Mathlib's `Submodule.IsLattice K M`. When `R` has Krull dimension one, the quotient
+*lattice* in `V` is a finite `R`-submodule `M ⊆ V` with `V = K ⊗_R M`; this is
+`Submodule.IsBaseChangeLattice`, equivalent to Mathlib's `Submodule.IsLattice K M` (finitely
+generated over `R` and spanning `V` over `K`). When `R` has Krull dimension one, the quotient
 of one lattice by a smaller one has finite length, and length measures how far apart two lattices
 lie.
 
@@ -27,25 +28,38 @@ exactly when it is finitely generated; below `M`, a submodule `M' ⊆ M` is a la
 The signed distance between two submodules is
 `d(M, M') = length_R(M/(M ∩ M')) - length_R(M'/(M ∩ M')) ∈ ℤ`.
 When `R` has Krull dimension one it is additive on lattices, `d(M, M'') = d(M, M') + d(M', M'')`,
-and can be computed through any common sublattice `N` as `length_R(M/N) - length_R(M'/N)`. It is
+and can be computed through any common sublattice `N` as `length_R(M/N) - length_R(M'/N)`, and
+through any lattice `N'` containing both as `length_R(N'/M') - length_R(N'/M)`, `M + M'` among
+them. It is
 antisymmetric, and `d(M, M') = length_R(M/M')` when `M' ⊆ M`.
 
 ## Main definitions
 
+* `Submodule.IsBaseChangeLattice`: the source's notion of lattice, a finite `R`-submodule `M ⊆ V`
+  with `K ⊗_R M → V` an isomorphism.
 * `Submodule.lengthDist`: the distance `d(M, M') : ℤ` between two submodules of a module, measured
   by the lengths of `M/(M ∩ M')` and `M'/(M ∩ M')`.
 
 ## Main results
 
 * `span_eq_top_of_isBaseChange`: if `K ⊗_R M → V` is an isomorphism then `M` spans `V` over `K`.
+* `Submodule.isBaseChangeLattice_iff_isLattice`: over the fraction field, the source's notion of
+  lattice is Mathlib's `Submodule.IsLattice`.
+* `Submodule.span_eq_top_iff_exists_basis`: `M` spans `V` over `K` iff it contains a `K`-basis.
 * `Module.length_quotient_map_of_injective`: length is additive along an injective linear map.
 * `Module.length_quotSMulTop_mul`: `length_R(M ⧸ abM) = length_R(M ⧸ aM) + length_R(M ⧸ bM)` for
   `b` acting injectively on `M`.
+* `Module.length_quotient_span_mul_eq_add_and_ne_top`: for nonzerodivisors `a`, `b` of a Noetherian
+  ring of dimension at most one, `length_R(R/(ab)) = length_R(R/(a)) + length_R(R/(b))`, and these
+  lengths are finite.
 * `Module.length_quotient_submoduleOf_eq_add`: additivity of length along a chain of submodules.
 * `Submodule.isLattice_tfae_of_le_and_iff_of_ge_and_inf_sup`: the two recognition criteria and
   closure of the lattices under `⊓` and `⊔`.
 * `Submodule.lengthDist_of_le`: `d(M, M') = length_R(M/M')` for `M' ≤ M`.
 * `Submodule.lengthDist_eq_sub`: the distance measured through a common sublattice.
+* `Submodule.lengthDist_eq_sub_of_le` and `Submodule.lengthDist_eq_sub_sup`: the distance
+  measured through a lattice above both, and through their sum.
+* `Submodule.lengthDist_eq_sub_of_le_inf_of_sup_le`: the four expressions for the distance agree.
 * `Submodule.lengthDist_additive` and `Submodule.lengthDist_antisymm`: the distance is additive
   and antisymmetric.
 
@@ -64,10 +78,6 @@ antisymmetric, and `d(M, M') = length_R(M/M')` when `M' ⊆ M`.
 
 /-- If the canonical base-change map `K ⊗[R] M → V` induced by the inclusion `M ↪ V` is an
 isomorphism, then the `K`-span of `M` inside `V` is all of `V`. -/
-@[stacks 02ME "The definition itself is Mathlib's `Submodule.IsLattice K M`, finite generation
-over `R` together with `span_K M = ⊤`; this is the implication from the source's phrasing
-`V = K ⊗_R M`, the remark following the definition. Locality of `R`, dimension one and finite
-dimensionality of `V` are used by neither."]
 lemma span_eq_top_of_isBaseChange (R : Type*) [CommRing R] (K : Type*) [CommRing K] [Algebra R K]
     (V : Type*) [AddCommGroup V] [Module K V] [Module R V] [IsScalarTower R K V]
     (M : Submodule R V) (h : IsBaseChange K M.subtype) :
@@ -75,6 +85,111 @@ lemma span_eq_top_of_isBaseChange (R : Type*) [CommRing R] (K : Type*) [CommRing
   have hr : LinearMap.range (M.subtype.liftBaseChange K) = ⊤ :=
     LinearMap.range_eq_top.mpr h.equiv.surjective
   rwa [LinearMap.range_liftBaseChange, Submodule.range_subtype] at hr
+
+section Field
+
+variable {R : Type*} [CommRing R] (K : Type*) [Field K] [Algebra R K]
+  {V : Type*} [AddCommGroup V] [Module K V] [Module R V] [IsScalarTower R K V]
+
+/-- A *lattice* in `V` in the source's phrasing: a finite `R`-submodule `M ⊆ V` such that
+`V = K ⊗_R M`, that is, the canonical map `K ⊗_R M → V` induced by the inclusion `M ↪ V` is an
+isomorphism. -/
+@[stacks 02ME "The source's definition: `M` is a finite `R`-submodule of `V` and the canonical map
+`K ⊗_R M → V` is an isomorphism. `Submodule.isBaseChangeLattice_iff_isLattice` identifies it with
+Mathlib's `Submodule.IsLattice K M` (finite generation and `span_K M = ⊤`), and
+`Submodule.span_eq_top_iff_exists_basis` is the remark that the condition means `M` contains a
+`K`-basis of `V`; that a lattice over a discrete valuation ring is free is Mathlib's
+`Submodule.IsLattice.free`. The notion is stated for any ring `R` and `K`-vector space `V`, the
+source's standing hypotheses (`R` a Noetherian local domain of dimension one with fraction field
+`K`, `V` finite dimensional) restricting the context in which it is used."]
+def Submodule.IsBaseChangeLattice (M : Submodule R V) : Prop :=
+  M.FG ∧ IsBaseChange K M.subtype
+
+/-- When `K` is the fraction field of `R`, the inclusion `M ↪ V` exhibits `V` as the localization
+of `M` at the nonzero divisors of `R` exactly when `M` spans `V` over `K`. -/
+lemma Submodule.isLocalizedModule_subtype_iff_span_eq_top [IsFractionRing R K]
+    (M : Submodule R V) :
+    IsLocalizedModule (nonZeroDivisors R) M.subtype ↔ Submodule.span K (M : Set V) = ⊤ := by
+  constructor
+  · intro h
+    refine eq_top_iff.mpr fun y _ ↦ ?_
+    obtain ⟨⟨x, s⟩, hs⟩ := h.surj y
+    have hy : IsLocalization.mk' K (1 : R) s • (s • y) = y := by
+      rw [Submonoid.smul_def, ← algebraMap_smul K (s : R) y, smul_smul, IsLocalization.mk'_spec,
+        map_one, one_smul]
+    rw [← hy, hs]
+    exact Submodule.smul_mem _ _ (Submodule.subset_span x.2)
+  · intro h
+    refine ⟨fun s ↦ ?_, fun y ↦ ?_, fun {x₁ x₂} hx ↦ ⟨1, by rw [M.injective_subtype hx]⟩⟩
+    · obtain ⟨u, hu⟩ := IsLocalization.map_units K s
+      have hs : ∀ v : V, algebraMap R (Module.End R V) s v = (u : K) • v := fun v ↦ by
+        rw [Module.algebraMap_end_apply, hu, algebraMap_smul]
+      have key : ∀ v : V, ((u⁻¹ : Kˣ) : K) • ((u : K) • v) = v := fun v ↦ by
+        rw [smul_smul, Units.inv_mul, one_smul]
+      have key' : ∀ v : V, (u : K) • (((u⁻¹ : Kˣ) : K) • v) = v := fun v ↦ by
+        rw [smul_smul, Units.mul_inv, one_smul]
+      refine (Module.End.isUnit_iff _).mpr
+        ⟨fun a b hab ↦ ?_, fun v ↦ ⟨((u⁻¹ : Kˣ) : K) • v, by rw [hs, key']⟩⟩
+      rw [hs, hs] at hab
+      rw [← key a, hab, key b]
+    · have key : ∀ y ∈ Submodule.span K (M : Set V),
+          ∃ m ∈ M, ∃ z : nonZeroDivisors R, (z : R) • y = m := by
+        intro y hy
+        induction hy using Submodule.span_induction with
+        | mem x hx => exact ⟨x, hx, 1, one_smul R x⟩
+        | zero => exact ⟨0, M.zero_mem, 1, smul_zero _⟩
+        | add x x' _ _ hx hx' =>
+          obtain ⟨m, hm, z, hz⟩ := hx
+          obtain ⟨m', hm', z', hz'⟩ := hx'
+          refine ⟨(z' : R) • m + (z : R) • m', M.add_mem (M.smul_mem _ hm) (M.smul_mem _ hm'),
+            z * z', ?_⟩
+          rw [smul_add, Submonoid.coe_mul, ← hz, ← hz', smul_smul, smul_smul, mul_comm (z' : R)]
+        | smul k x _ hx =>
+          obtain ⟨m, hm, z, hz⟩ := hx
+          obtain ⟨⟨a, t⟩, rfl⟩ := IsLocalization.mk'_surjective (nonZeroDivisors R) k
+          refine ⟨a • m, M.smul_mem a hm, t * z, ?_⟩
+          rw [Submonoid.coe_mul, mul_comm, ← smul_smul, ← hz, ← algebraMap_smul K (t : R),
+            smul_smul (algebraMap R K t), IsLocalization.mk'_spec', algebraMap_smul]
+          exact smul_comm _ _ _
+      obtain ⟨m, hm, z, hz⟩ := key y (h ▸ Submodule.mem_top)
+      exact ⟨(⟨m, hm⟩, z), by rw [Submonoid.smul_def, hz, Submodule.subtype_apply]⟩
+
+/-- When `K` is the fraction field of `R`, the canonical map `K ⊗_R M → V` is an isomorphism
+exactly when `M` spans `V` over `K`. -/
+lemma Submodule.isBaseChange_subtype_iff_span_eq_top [IsFractionRing R K] (M : Submodule R V) :
+    IsBaseChange K M.subtype ↔ Submodule.span K (M : Set V) = ⊤ := by
+  rw [← isLocalizedModule_iff_isBaseChange (nonZeroDivisors R) K,
+    Submodule.isLocalizedModule_subtype_iff_span_eq_top K]
+
+/-- When `K` is the fraction field of `R`, a finite `R`-submodule `M ⊆ V` with `V = K ⊗_R M` is
+exactly a lattice in Mathlib's sense: finitely generated and spanning `V` over `K`. -/
+@[stacks 02ME "The source's definition `Submodule.IsBaseChangeLattice` (`M` finite over `R` and
+`K ⊗_R M → V` an isomorphism) is equivalent to Mathlib's `Submodule.IsLattice K M` (`M` finite over
+`R` and `span_K M = ⊤`). Proved for any ring `R` with fraction field `K` and any `K`-vector space
+`V`; the source's further hypotheses (`R` Noetherian local of dimension one, `V` finite
+dimensional) are not needed."]
+theorem Submodule.isBaseChangeLattice_iff_isLattice [IsFractionRing R K] (M : Submodule R V) :
+    M.IsBaseChangeLattice K ↔ Submodule.IsLattice K M := by
+  rw [Submodule.IsBaseChangeLattice, Submodule.isBaseChange_subtype_iff_span_eq_top K]
+  exact ⟨fun ⟨h₁, h₂⟩ ↦ ⟨h₁, h₂⟩, fun h ↦ ⟨h.fg, h.span_eq_top⟩⟩
+
+omit [Algebra R K] [IsScalarTower R K V] in
+/-- The remark following the definition of a lattice: `M` spans `V` over `K` exactly when `M`
+contains a `K`-basis of `V`. -/
+theorem Submodule.span_eq_top_iff_exists_basis (M : Submodule R V) :
+    Submodule.span K (M : Set V) = ⊤ ↔
+      ∃ (s : Set V) (b : Module.Basis s K V), s ⊆ M ∧ ⇑b = ((↑) : s → V) := by
+  constructor
+  · intro h
+    obtain ⟨s, hsM, hspan, hli⟩ := exists_linearIndependent K (M : Set V)
+    refine ⟨s, Module.Basis.mk hli (by rw [Subtype.range_coe, hspan, h]), hsM,
+      Module.Basis.coe_mk _ _⟩
+  · rintro ⟨s, b, hsM, hb⟩
+    refine eq_top_iff.mpr ?_
+    rw [← b.span_eq, hb, Subtype.range_coe]
+    exact Submodule.span_mono hsM
+
+end Field
 
 /-! ### Additivity of length -/
 
@@ -111,7 +226,7 @@ identity in `ℕ∞`. -/
 identity in `ℕ∞`, so that no finiteness and none of the source's hypotheses — locality, dimension
 one, lattices, finite dimensionality of `V` — are needed. Parts (1)-(3) are
 `Submodule.isLattice_tfae_of_le_and_iff_of_ge_and_inf_sup` and part (5) is
-`Submodule.lengthDist_eq_sub`."]
+`Submodule.lengthDist_eq_sub_of_le_inf_of_sup_le`."]
 theorem Module.length_quotient_submoduleOf_eq_add {N S A : Submodule R V} (hNS : N ≤ S)
     (hSA : S ≤ A) :
     Module.length R (↥A ⧸ N.submoduleOf A) =
@@ -138,11 +253,6 @@ lemma LinearMap.range_lsmul (r : R) :
 
 /-- Let `R` be a commutative ring, `M` an `R`-module and `a`, `b ∈ R` with `b` acting injectively
 on `M`. Then `length_R(M ⧸ abM) = length_R(M ⧸ aM) + length_R(M ⧸ bM)`, an identity in `ℕ∞`. -/
-@[stacks 02MC "Stated for an arbitrary module `M` in place of `R`, of which the source's identity
-`length_R(R ⧸ (ab)) = length_R(R ⧸ (a)) + length_R(R ⧸ (b))` is the case `M = R`, and with `b` a
-nonzerodivisor weakened to `b` acting injectively on `M`. The equation uses no hypothesis on `R`;
-the source's finiteness assertion is `isFiniteLength_quotient_span_singleton`. See the module
-docstring."]
 theorem Module.length_quotSMulTop_mul {R M : Type*} [CommRing R] [AddCommGroup M]
     [Module R M] {a b : R} (hb : IsSMulRegular M b) :
     Module.length R (QuotSMulTop (a * b) M) =
@@ -153,6 +263,39 @@ theorem Module.length_quotSMulTop_mul {R M : Type*} [CommRing R] [AddCommGroup M
   rw [(Submodule.quotEquivOfEq _ _ h).length_eq,
     Module.length_quotient_map_of_injective (f := LinearMap.lsmul R M b) hb (a • ⊤),
     LinearMap.range_lsmul]
+
+/-- For a principal ideal, `R ⧸ xR` is `R ⧸ (x)`: the submodule `x • ⊤` of `R` is
+`Ideal.span {x}`. -/
+lemma Module.length_quotSMulTop_self_eq (x : R) :
+    Module.length R (QuotSMulTop x R) = Module.length R (R ⧸ Ideal.span {x}) := by
+  have h : (x • ⊤ : Submodule R R) = Ideal.span {x} := by
+    rw [← Submodule.ideal_span_singleton_smul, smul_eq_mul, Ideal.mul_top]
+  exact (Submodule.quotEquivOfEq _ _ h).length_eq
+
+/-- Let `R` be a Noetherian ring of Krull dimension at most one and `a`, `b ∈ R` nonzerodivisors.
+Then `length_R(R/(ab)) = length_R(R/(a)) + length_R(R/(b))`, and these three lengths are
+finite. -/
+@[stacks 02MC "Semi-locality is dropped, being used by neither assertion, and dimension `1` is
+weakened to dimension at most `1` (`Ring.KrullDimLE 1 R`). The additivity is the case `M = R` of
+`Module.length_quotSMulTop_mul`, which holds for any module and `b` acting injectively, with no
+hypothesis on `R`; the finiteness is Mathlib's `isFiniteLength_quotient_span_singleton` (Stacks
+00PF for `M = R`)."]
+theorem Module.length_quotient_span_mul_eq_add_and_ne_top [IsNoetherianRing R]
+    [Ring.KrullDimLE 1 R] {a b : R} (ha : a ∈ nonZeroDivisors R)
+    (hb : b ∈ nonZeroDivisors R) :
+    Module.length R (R ⧸ Ideal.span {a * b}) =
+        Module.length R (R ⧸ Ideal.span {a}) + Module.length R (R ⧸ Ideal.span {b}) ∧
+      Module.length R (R ⧸ Ideal.span {a * b}) ≠ ⊤ ∧
+      Module.length R (R ⧸ Ideal.span {a}) ≠ ⊤ ∧ Module.length R (R ⧸ Ideal.span {b}) ≠ ⊤ := by
+  have hb' : IsSMulRegular R b := fun x y hxy => by
+    have : b * (x - y) = 0 := by rw [mul_sub]; exact sub_eq_zero.mpr hxy
+    exact sub_eq_zero.mp ((mem_nonZeroDivisors_iff.mp hb).1 (x - y) this)
+  have hfin (x : R) (hx : x ∈ nonZeroDivisors R) : Module.length R (R ⧸ Ideal.span {x}) ≠ ⊤ :=
+    Module.length_ne_top_iff.mpr (isFiniteLength_quotient_span_singleton R hx)
+  refine ⟨?_, hfin _ (mul_mem ha hb), hfin a ha, hfin b hb⟩
+  rw [← Module.length_quotSMulTop_self_eq, ← Module.length_quotSMulTop_self_eq,
+    ← Module.length_quotSMulTop_self_eq]
+  exact Module.length_quotSMulTop_mul hb'
 
 end Factorisation
 
@@ -332,8 +475,9 @@ dimensionality of `V` follows from the existence of a lattice. Dimension one is 
 parts (1) and (2), over which it is sharp — it is not weakened to `Ring.KrullDimLE 1 R`, which
 breaks (2) — and part (3) holds over any Noetherian domain, strengthening Mathlib's
 `Submodule.IsLattice.inf`. Parts (4) and (5) hold for arbitrary submodules of a module over a
-ring, with none of these hypotheses; they are `Module.length_quotient_submoduleOf_eq_add` and
-`Submodule.lengthDist_eq_sub`."]
+ring, with none of these hypotheses; part (5) needs the lattices of its statement, whose
+quotients have finite length by (1)-(2). They are `Module.length_quotient_submoduleOf_eq_add` and
+`Submodule.lengthDist_eq_sub_of_le_inf_of_sup_le`."]
 theorem Submodule.isLattice_tfae_of_le_and_iff_of_ge_and_inf_sup {R : Type*} [CommRing R]
     [IsDomain R] [IsNoetherianRing R] {K : Type*} [Field K] [Algebra R K] [IsFractionRing R K]
     {V : Type*} [AddCommGroup V] [Module K V] [Module R V] [IsScalarTower R K V] :
@@ -434,11 +578,12 @@ private theorem toNat_length_quotient_submoduleOf_eq_add (hR : ¬ IsField R) {N 
 
 /-- For lattices `M`, `M'` and a lattice `N` below both,
 `d(M, M') = length_R(M/N) - length_R(M'/N)`. -/
-@[stacks 02MF "(5), in the form `length_R(M/M ∩ M') - length_R(M'/M ∩ M') =
-length_R(M/N) - length_R(M'/N)`; of the source's three expressions for `d(M, M')` this is the one
-formalised, the two through `M + M'` and through a lattice `N' ⊇ M + M'` being open. Locality is
-dropped and dimension one is spelled as the pair `Ring.KrullDimLE 1 R` and `¬ IsField R`, which
-over a Noetherian domain is `ringKrullDim R = 1`."]
+@[stacks 02MF "(5), its first equality `length_R(M/M ∩ M') - length_R(M'/M ∩ M') =
+length_R(M/N) - length_R(M'/N)`, with `d(M, M')` the left side. The whole chain of (5), through
+`M + M'` and through a lattice `N' ⊇ M + M'` as well, is
+`Submodule.lengthDist_eq_sub_of_le_inf_of_sup_le`. Locality is dropped and dimension one is
+spelled as the pair `Ring.KrullDimLE 1 R` and `¬ IsField R`, which over a Noetherian domain is
+`ringKrullDim R = 1`."]
 theorem Submodule.lengthDist_eq_sub (hR : ¬ IsField R) {M M' N : Submodule R V}
     [Submodule.IsLattice K M] [Submodule.IsLattice K M'] [Submodule.IsLattice K N] (hNM : N ≤ M)
     (hNM' : N ≤ M') :
@@ -449,6 +594,57 @@ theorem Submodule.lengthDist_eq_sub (hR : ¬ IsField R) {M M' N : Submodule R V}
     toNat_length_quotient_submoduleOf_eq_add (K := K) hR (le_inf hNM hNM') inf_le_right]
   push_cast
   ring
+
+/-- For lattices `M`, `M'` and a lattice `N'` above both,
+`d(M, M') = length_R(N'/M') - length_R(N'/M)`. -/
+theorem Submodule.lengthDist_eq_sub_of_le (hR : ¬ IsField R) {M M' N' : Submodule R V}
+    [Submodule.IsLattice K M] [Submodule.IsLattice K M'] [Submodule.IsLattice K N'] (hMN' : M ≤ N')
+    (hM'N' : M' ≤ N') :
+    M.lengthDist M' = ((Module.length R (↥N' ⧸ M'.submoduleOf N')).toNat : ℤ)
+      - ((Module.length R (↥N' ⧸ M.submoduleOf N')).toNat : ℤ) := by
+  have h := (toNat_length_quotient_submoduleOf_eq_add (K := K) hR (inf_le_left (b := M')) hMN').symm
+    |>.trans (toNat_length_quotient_submoduleOf_eq_add (K := K) hR (inf_le_right (a := M)) hM'N')
+  rw [Submodule.lengthDist]
+  omega
+
+/-- For lattices `M`, `M'`, `d(M, M') = length_R((M + M')/M') - length_R((M + M')/M)`. -/
+theorem Submodule.lengthDist_eq_sub_sup (hR : ¬ IsField R) (M M' : Submodule R V)
+    [Submodule.IsLattice K M] [Submodule.IsLattice K M'] :
+    M.lengthDist M' = ((Module.length R (↥(M ⊔ M') ⧸ M'.submoduleOf (M ⊔ M'))).toNat : ℤ)
+      - ((Module.length R (↥(M ⊔ M') ⧸ M.submoduleOf (M ⊔ M'))).toNat : ℤ) := by
+  have : Submodule.IsLattice K (M ⊔ M') := Submodule.IsLattice.sup K M M'
+  exact Submodule.lengthDist_eq_sub_of_le (K := K) hR le_sup_left le_sup_right
+
+/-- Let `R` be a Noetherian domain of Krull dimension one with fraction field `K`, and let `M`,
+`M'`, `N`, `N'` be lattices in a `K`-vector space with `N ⊆ M ∩ M'` and `M + M' ⊆ N'`. Then
+`length_R(M/M ∩ M') - length_R(M'/M ∩ M') = length_R(M/N) - length_R(M'/N) =
+length_R((M + M')/M') - length_R((M + M')/M) = length_R(N'/M') - length_R(N'/M)`. -/
+@[stacks 02MF "(5), the whole chain of four equal expressions, the first being `d(M, M')`.
+Locality is dropped and dimension one is spelled as the pair `Ring.KrullDimLE 1 R` and
+`¬ IsField R`, which over a Noetherian domain is `ringKrullDim R = 1`; finite dimensionality of
+`V` follows from the existence of a lattice. Each length is truncated from `ℕ∞` by `ENat.toNat`,
+which is faithful here since every quotient of lattices involved has finite length by (1)-(2)."]
+theorem Submodule.lengthDist_eq_sub_of_le_inf_of_sup_le (hR : ¬ IsField R)
+    {M M' N N' : Submodule R V} [Submodule.IsLattice K M] [Submodule.IsLattice K M']
+    [Submodule.IsLattice K N] [Submodule.IsLattice K N'] (hN : N ≤ M ⊓ M') (hN' : M ⊔ M' ≤ N') :
+    ((Module.length R (↥M ⧸ (M ⊓ M').submoduleOf M)).toNat : ℤ)
+        - ((Module.length R (↥M' ⧸ (M ⊓ M').submoduleOf M')).toNat : ℤ)
+      = ((Module.length R (↥M ⧸ N.submoduleOf M)).toNat : ℤ)
+        - ((Module.length R (↥M' ⧸ N.submoduleOf M')).toNat : ℤ) ∧
+    ((Module.length R (↥M ⧸ N.submoduleOf M)).toNat : ℤ)
+        - ((Module.length R (↥M' ⧸ N.submoduleOf M')).toNat : ℤ)
+      = ((Module.length R (↥(M ⊔ M') ⧸ M'.submoduleOf (M ⊔ M'))).toNat : ℤ)
+        - ((Module.length R (↥(M ⊔ M') ⧸ M.submoduleOf (M ⊔ M'))).toNat : ℤ) ∧
+    ((Module.length R (↥(M ⊔ M') ⧸ M'.submoduleOf (M ⊔ M'))).toNat : ℤ)
+        - ((Module.length R (↥(M ⊔ M') ⧸ M.submoduleOf (M ⊔ M'))).toNat : ℤ)
+      = ((Module.length R (↥N' ⧸ M'.submoduleOf N')).toNat : ℤ)
+        - ((Module.length R (↥N' ⧸ M.submoduleOf N')).toNat : ℤ) := by
+  have h₁ := Submodule.lengthDist_eq_sub (K := K) hR (hN.trans inf_le_left) (hN.trans inf_le_right)
+  have h₂ := Submodule.lengthDist_eq_sub_sup (K := K) hR M M'
+  have h₃ := Submodule.lengthDist_eq_sub_of_le (K := K) hR (le_sup_left.trans hN')
+    (le_sup_right.trans hN')
+  rw [Submodule.lengthDist] at h₁ h₂ h₃
+  exact ⟨h₁, h₁.symm.trans h₂, h₂.symm.trans h₃⟩
 
 /-- For lattices `M`, `M'`, `M''` in `V`, `d(M, M'') = d(M, M') + d(M', M'')`. -/
 @[stacks 02MH "(1). Locality is dropped and dimension one is spelled as the pair

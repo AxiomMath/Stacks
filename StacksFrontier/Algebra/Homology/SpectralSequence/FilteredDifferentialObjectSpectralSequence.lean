@@ -37,7 +37,7 @@ The spectral sequence weakly converges to `H(K)` exactly when equality holds in 
 * `FilteredDifferentialObject.grShortExactSequence`: the short exact sequence
   `0 → gr^{p + 1} K → F^p K / F^{p + 2} K → gr^p K → 0`.
 * `FilteredDifferentialObject.WeaklyConverges`, `FilteredDifferentialObject.Abuts`: weak
-  convergence and abutment of the spectral sequence to `H(K)`.
+  convergence and abutment of the spectral sequence to `H(K)` (Stacks 012I).
 
 ## Main results
 
@@ -53,6 +53,7 @@ The spectral sequence weakly converges to `H(K)` exactly when equality holds in 
 
 * [Stacks, Tag 012C](https://stacks.math.columbia.edu/tag/012C)
 * [Stacks, Tag 012D](https://stacks.math.columbia.edu/tag/012D)
+* [Stacks, Tag 012I](https://stacks.math.columbia.edu/tag/012I)
 * [Stacks, Tag 012J](https://stacks.math.columbia.edu/tag/012J)
 -/
 
@@ -847,6 +848,7 @@ the limit term `E_∞^p = Z_∞^p / B_∞^p` exists, i.e. the numerators of the 
 intersection `Z_∞^p` and those of the boundaries a union `B_∞^p`, and `gr^p H(K) = E_∞^p` via the
 comparison of Stacks 012F: there is an isomorphism `Z_∞^p / B_∞^p ≅ gr^p H(K)` compatible with the
 canonical maps to both from `Ker(d) ∩ F^p K`. -/
+@[stacks 012I "weakly_converges"]
 def WeaklyConverges : Prop :=
   ∀ p : ℤ, ∃ Zinf Binf : Subobject X.X,
     IsGLB (Set.range (X.cyclesNumerator p)) Zinf ∧
@@ -862,6 +864,7 @@ def WeaklyConverges : Prop :=
 /-- The spectral sequence of `(K, F, d)` *abuts* to `H(K)` (Stacks 012I): it weakly converges and
 the induced filtration on `H(K)` is separated, `⋂_p F^p H(K) = 0`, and exhaustive,
 `⋃_p F^p H(K) = H(K)`. -/
+@[stacks 012I "abuts"]
 def Abuts : Prop :=
   X.WeaklyConverges ∧ IsGLB (Set.range X.inducedFiltration) ⊥ ∧
     IsLUB (Set.range X.inducedFiltration) ⊤

@@ -58,7 +58,9 @@ All of that is carried out here, as
 * `AlgebraicGeometry.Space.forall_property_idealPushforward`, the Noetherian induction itself,
   run over the closed subsets of `|X|` — a Noetherian topological space because `X` is a
   Noetherian algebraic space — and indexed by the support of `i_*I`.
-* `AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree`, **Stacks 08AN**.
+* `AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree`, the dévissage of
+  Stacks 08AN over three carried inputs.  Stacks 08AN itself is
+  `AlgebraicGeometry.Space.property_of_isCoherent_of_integralWitness`.
 
 Stacks 08AN is therefore not a specialization of Stacks 07US: it is a genuine strengthening of
 it, in that hypothesis (2) of 07US is *concluded* from the weaker (2) and (3) above by an
@@ -144,7 +146,8 @@ the support of a direct image along a closed immersion is the image of the suppo
   proof, the comparison of two quasi-coherent sheaves of ideals on `Z` through their meet.
 * `AlgebraicGeometry.Space.existsIdealInjectionDevissageStep`: **Stacks 07UQ** in the shape the
   minimal-subspace step consumes.
-* `AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree` is **Stacks 08AN**.
+* `AlgebraicGeometry.Space.property_of_integralWitness_and_twoOutOfThree` is the dévissage of
+  Stacks 08AN over three carried inputs.
 
 ## References
 
@@ -690,7 +693,8 @@ This is Stacks 07US applied to the property `fun M => Supp M ⊆ W → P M`; the
 transfer because the support of a submodule and of a quotient module are contained in the
 support of the module.  The hypothesis `hdev` is the conclusion of Stacks 07UR, which is what
 07US consumes. -/
-theorem property_of_moduleSupportSet_subset (X : AlgebraicSpaces B S hS)
+theorem property_of_moduleSupportSet_subset (hZtop : B.Contains (⊤_ Scheme.{u}))
+    (X : AlgebraicSpaces B S hS) (_hX : IsNoetherian B S hS hZtop X.1)
     (hdev : ∀ M : Modules.{u, u} B S hS X.1 X.2, IsCoherent B S hS X.1 X.2 M →
       HasIdealDevissage B S hS X M)
     (P : Modules.{u, u} B S hS X.1 X.2 → Prop)
@@ -820,7 +824,7 @@ theorem forall_property_idealPushforward (hZtop : B.Contains (⊤_ Scheme.{u}))
     intro N hN hNlt
     have hNT : moduleSupportSet B S hS X N ⊂ (T : Set (points B S hS X.1)) :=
       hNlt.trans_le hsub
-    exact property_of_moduleSupportSet_subset B S hS X hdev P hzero hext
+    exact property_of_moduleSupportSet_subset B S hS hZtop X hX hdev P hzero hext
       (moduleSupportSet B S hS X N)
       (IH ⟨moduleSupportSet B S hS X N, isClosed_moduleSupportSet B S hS X N hN⟩
         (SetLike.coe_ssubset_coe.mp hNT))
@@ -829,7 +833,8 @@ theorem forall_property_idealPushforward (hZtop : B.Contains (⊤_ Scheme.{u}))
 
 /-! ### Stacks 08AN -/
 
-/-- **Stacks Project, Tag 08AN.**  Let `X` be a Noetherian algebraic space over a scheme `S`
+/-- **The dévissage of Stacks 08AN, over three carried inputs.**  Let `X` be a Noetherian
+algebraic space over a scheme `S`
 and let `P` be a property of coherent `𝒪_X`-modules such that
 
 1. for a short exact sequence of coherent modules, if two out of three terms have `P` then so
@@ -864,12 +869,6 @@ The hypothesis `hzero` is not in the source's list and cannot be dropped, for th
 recorded at the library's Stacks 07US: on an algebraic space with no points the property
 `fun _ => False` satisfies the source's three conditions while the zero module is coherent and
 does not have it. -/
-@[stacks 08AN "the dévissage principle in its higher-rank form: the Noetherian induction, the \
-minimal-subspace step, the support of a nonzero ideal direct image, the ideal-intersection \
-paragraph and 07UQ in the shape the step consumes, from 07US, 07UR and 07UQ, carrying the \
-conclusion of 07UR, the coherence clause of 07UH for the direct image of a quasi-coherent \
-sheaf of ideals, and 07UQ's own two inputs: 07U0's module on the support and the surjectivity \
-half of 07UM"]
 theorem property_of_integralWitness_and_twoOutOfThree (hZtop : B.Contains (⊤_ Scheme.{u}))
     (X : AlgebraicSpaces B S hS) (hX : IsNoetherian B S hS hZtop X.1)
     (hdev : ∀ M : Modules.{u, u} B S hS X.1 X.2, IsCoherent B S hS X.1 X.2 M →

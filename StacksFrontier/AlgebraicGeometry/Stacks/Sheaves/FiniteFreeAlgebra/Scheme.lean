@@ -122,8 +122,10 @@ structure Representation where
     FiniteFreeAlgebra.map f.appTop.hom (equiv U x) = equiv T (f ≫ x)
 
 /-- Points of the scheme of structure constants over `T` are naturally free
-`d`-dimensional algebras over `Γ(T, 𝒪_T)`. -/
-@[stacks 05YM]
+`d`-dimensional algebras over `Γ(T, 𝒪_T)`, for every scheme `T`. The point `x` is sent to the
+structure constants obtained by applying the ring map `R_univ → Γ(T, 𝒪_T)` induced by `x` to the
+classes of the variables; the statement of **Stacks 05YM** in terms of the universal algebra is
+`AlgebraicGeometry.FiniteFreeAlgebra.existsUnique_map_universalRingStructure`. -/
 noncomputable def representation : Representation.{u} d := by
   classical
   let relIdeal : Ideal (MvPolynomial (CoeffIndex d) ℤ) := Ideal.span (universalRelations d)

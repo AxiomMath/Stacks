@@ -165,7 +165,6 @@ public lemma eq_zero_of_canonicalMapToSections_eq_zero (hI : I.FG)
 
 /-- For a finitely generated ideal `I` the canonical map
 `colim_n Hom_A(I ^ n, M) → Γ(Spec(A) \ V(I), M̃)` is injective. -/
-@[stacks 01PM "injectivity"]
 public theorem canonicalMapToSections_injective (hI : I.FG) :
     Function.Injective (canonicalMapToSections A I M) := by
   intro x y hxy

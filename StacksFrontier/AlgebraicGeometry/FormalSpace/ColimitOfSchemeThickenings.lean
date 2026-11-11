@@ -27,8 +27,11 @@ implementation notes of that statement name as available for scheme stages — a
 schemes induces an order isomorphism of the lattices of opens, so an affine open of one stage
 has a canonical affine open counterpart in every later stage, and those counterparts assemble
 into a chart diagram by `AlgebraicGeometry.FormalSpace.transportedOpenDiagram`. Only the
-set-theoretic condition is left as data, exactly as in Stacks 0GVM
-(`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`).
+set-theoretic condition is left as data, exactly as in
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit`, the version of the colimit
+step of Stacks 0GVM that assumes it (Stacks 0GVM itself is
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_iff` and
+`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit_of_cofinal`).
 
 ## Main results
 

@@ -26,9 +26,13 @@ same.
   system of algebraic spaces with affine transition morphisms whose stages are quasi-separated
   and of finite type over `Spec ℤ` is its own Noetherian approximation.  This is the assembly of
   the conclusion of Stacks 07SU out of a system, with no hypothesis on the limit.
-* `AlgebraicGeometry.Space.hasNoetherianApproximation_of_isomorphicPresentation_limit` —
-  **Stacks 07SU**, granted the Conrad–Lieblich–Olsson construction's output as the general
-  hypothesis `hCLO`.
+* `AlgebraicGeometry.Space.hasNoetherianApproximation_of_isomorphicPresentation_limit` — the
+  conclusion of Stacks 07SU over a base `S`, from the Conrad–Lieblich–Olsson construction's
+  output, carried as the general hypothesis `hCLO`.  Stacks 07SU itself, over `Spec ℤ` and with
+  no hypothesis beyond the tag's own, is
+  `AlgebraicGeometry.Space.hasNoetherianApproximation_of_isQuasiCompactSpace` in
+  `StacksFrontier/AlgebraicGeometry/Spaces/AbsoluteNoetherianApproximation/Main.lean`, which
+  imports this file and carries the tag.
 
 ## Implementation notes
 
@@ -56,28 +60,30 @@ Noetherian approximation for schemes (Stacks 01ZA, proved for bare schemes as
 `AlgebraicGeometry.Scheme.exists_isLimit_affine_locallyOfFiniteType` — see below), and the
 stagewise approximation of the étale equivalence relations.
 
-### The cardinality conditions, and the correction they record
+### The cardinality conditions
 
 Stacks 07SF, existence — `AlgebraicGeometry.Space.isAlgebraicSpace_limit` — carries two side
 conditions on the index category of the system: fewer objects, and fewer morphisms in each
 Hom-set, than the cofinality of the site's size cutoff `B.cutoff`.  They are what makes the
 limit of the system an algebraic space at all, and they are the conditions Stacks
-07SF and Stacks 0828 carry throughout this development.  A formalization of Stacks 07SU that
-omits them is false as written, so `hCLO` supplies them and
-`AlgebraicGeometry.Space.noetherianApproximationLimit` requires them.  This is the correction
-recorded in the tag's attribute description.
+07SF and Stacks 0828 carry throughout this development.  The route taken here recognizes the
+limit of the constructed system as an algebraic space by Stacks 07SF before applying Stacks
+0262 to it, so `hCLO` supplies them.  They are a requirement of this route and not of Stacks
+07SU, whose conclusion records no bound on the index set:
+`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isQuasiCompactSpace` proves it without
+them.
 
 ### Stacks 01ZA, and why the scheme case does not discharge `hCLO`
 
 Absolute Noetherian approximation for schemes is proved, as
 `AlgebraicGeometry.Scheme.exists_isLimit_affine_locallyOfFiniteType` in
-`StacksFrontier/AlgebraicGeometry/Limits/FiniteTypeApproximation/Absolute.lean`.
-It does not by itself give even the
-representable case of Stacks 07SU in this framework: its stages are bare schemes, with no
-morphism to the base `S` and no membership of the site, its limit is a limit in `Scheme` rather
-than of presheaves on the site, and it records of its stages only that they are quasi-compact
-and locally of finite type over the integers, not that they are quasi-separated — which is
-clause (2) of Stacks 07SU and a field of `AlgebraicGeometry.Space.NoetherianApproximation`.
+`StacksFrontier/AlgebraicGeometry/Limits/FiniteTypeApproximation/Absolute.lean`.  It does not by
+itself give even the representable case of Stacks 07SU in this framework: its stages are bare
+schemes, with no morphism to the base `S` and no membership of the site, its limit is a limit
+in `Scheme` rather than of presheaves on the site, and it records of its stages only that they
+are quasi-compact and locally of finite type over the integers, not that they are
+quasi-separated — which is clause (2) of Stacks 07SU and a field of
+`AlgebraicGeometry.Space.NoetherianApproximation`.
 
 ## References
 
@@ -135,10 +141,11 @@ noncomputable def noetherianApproximationLimit {I : Type u} [Preorder I] [Nonemp
   π := (limit.cone D).π
   isLimit := limit.isLimit D
 
-/-- **Stacks 07SU.**  Let `X` be a quasi-compact and quasi-separated algebraic space over `S`.
-Then there are a directed set `I` and an inverse system of algebraic spaces `(X_i, f_{ii'})`
-over `I` whose transition morphisms are affine, whose stages are quasi-separated and of finite
-type over `Spec ℤ`, and whose limit is `X`.
+/-- **Stacks 07SU, from the output of the Conrad–Lieblich–Olsson construction.**  Let `X` be a
+quasi-compact and quasi-separated algebraic space over `S`, and grant `hCLO`.  Then there are a
+directed set `I` and an inverse system of algebraic spaces `(X_i, f_{ii'})` over `I` whose
+transition morphisms are affine, whose stages are quasi-separated and of finite type over
+`Spec ℤ`, and whose limit is `X`.
 
 The tag's own hypotheses — `X` an algebraic space, quasi-compact and quasi-separated — are the
 hypotheses here, and the conclusion is the full conclusion of the tag, in the interface
@@ -147,17 +154,17 @@ hypotheses here, and the conclusion is the full conclusion of the tag, in the in
 single general hypothesis `hCLO`, the output of the Conrad–Lieblich–Olsson construction, which
 is quantified over its own algebraic space and does not mention `X`; see the module
 documentation for what it carries and for why it is not this conclusion pre-instantiated.  It
-supplies the two cardinality conditions on the index set that Stacks 07SF, existence needs, and
-which a statement of Stacks 07SU that omits them does not have; that is the correction recorded
-below.
+supplies the two cardinality conditions on the index set that Stacks 07SF, existence needs on
+this route.
 
 Proved from it: the limit of the system is an algebraic space (Stacks 07SF, existence), it is
 its own Noetherian approximation (`AlgebraicGeometry.Space.noetherianApproximationLimit`), and
 `X` is isomorphic to it, which is the step the source's proof ends with (Stacks 0262, as
-`AlgebraicGeometry.Space.exists_iso_of_isomorphic_presentations`). -/
-@[stacks 07SU "granted the Conrad–Lieblich–Olsson construction's output as the general \
-hypothesis hCLO, strengthened by the two cardinality conditions on the index set that make the \
-limit an algebraic space and without which the statement is false"]
+`AlgebraicGeometry.Space.exists_iso_of_isomorphic_presentations`).
+
+Stacks 07SU itself, with no hypothesis beyond the tag's own, is
+`AlgebraicGeometry.Space.hasNoetherianApproximation_of_isQuasiCompactSpace`, which carries the
+tag; it is proved downstream of this file, so it cannot discharge `hCLO` here. -/
 theorem hasNoetherianApproximation_of_isomorphicPresentation_limit
     (hCLO : ∀ Z : (BigFppfOver B S hS)ᵒᵖ ⥤ Type u, IsAlgebraicSpace B S hS Z →
       IsQuasiCompactSpace B S hS Z → IsAbsolutelyQuasiSeparated B S hS hZ Z →

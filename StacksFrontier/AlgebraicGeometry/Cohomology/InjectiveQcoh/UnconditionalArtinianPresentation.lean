@@ -26,11 +26,12 @@ every quasi-compact quasi-separated algebraic space `U` étale over `X` (Stacks 
 
 ## Implementation notes
 
-The two statements are the conditional ones of
+The two statements are obtained from the chart reductions of
 `StacksFrontier/AlgebraicGeometry/Cohomology/InjectiveQcoh/InjectiveQcohSpace.lean` and
 `StacksFrontier/AlgebraicGeometry/Cohomology/InjectiveQcoh/NoetherianInjectiveEtaleAcyclicity.lean`
-with their assumed inputs discharged.  The last of those was Stacks 07U6 read in `QCoh` at the
-affine surjective étale chart of Stacks 03H6, which is now
+by proving the inputs those reductions take at the chart.  The last of those inputs to be
+proved was Stacks 07U6 read in `QCoh` at the affine surjective étale chart of Stacks 03H6, which
+is
 `AlgebraicGeometry.Space.preservesFilteredColimitsOfSize_chartQuasicoherentPushforward_schemeSpace`
 and whose quasi-compactness and quasi-separatedness hypotheses on the chart morphism are
 supplied, as in `AlgebraicGeometry.Space.chartArtinianPresentation_of_isAffine`, by Stacks 073B
@@ -93,8 +94,23 @@ theorem preservesFilteredColimitsOfSize_chartQuasicoherentPushforward_of_isAffin
 site.  Every injective object `J` of the category `QCoh(𝒪_X)` of quasi-coherent modules on the
 small étale site of `X` is a direct summand — a retract — of a filtered colimit of quasi-coherent
 modules `(Z_i ⟶ X)_*𝒢_i` with `Z_i` the spectrum of an Artinian ring and `𝒢_i` coherent on
-`Z_i`. -/
-@[stacks 09TJ]
+`Z_i`.
+
+The proof is the source's: `J` is a retract of `j_*J'` for an injective `J'` of `QCoh(𝒪_U)` at
+the affine surjective étale chart `j : U ⟶ X` of Stacks 03H6, and `J'` is a filtered colimit of
+Artinian direct images over `U` by Stacks 09TI at the chart.  The chart reduction is
+`AlgebraicGeometry.Space.exists_filtered_colimit_artinian_pushforwards_retract`; its inputs at the
+chart are all proved, by `AlgebraicGeometry.Space.chartArtinianPresentation_of_isAffine` and
+`AlgebraicGeometry.Space.preservesFilteredColimitsOfSize_chartQuasicoherentPushforward_of_isAffine`.
+
+The base scheme `S` is arbitrary, which generalizes the affine base of the source.  The
+hypothesis `hZ`, that the site contains the terminal scheme, is the site condition under which
+the quasi-separatedness in the definition `AlgebraicGeometry.Space.IsNoetherian` of a Noetherian
+algebraic space is phrased. -/
+@[stacks 09TJ "Over an arbitrary base scheme `S`, which generalizes the affine base of the
+source. The containment `hZ` of the terminal scheme in the big fppf site is the site condition
+under which the absolute quasi-separatedness in `IsNoetherian` is phrased. Direct
+summand is `CategoryTheory.Retract`, and the colimit is a cocone with a colimit proof."]
 theorem exists_filtered_colimit_artinian_pushforwards_retract_of_isNoetherian
     (hZ : B.Contains (⊤_ Scheme.{u})) (X : AlgebraicSpaces B S hS)
     (hX : IsNoetherian B S hS hZ X.1)

@@ -247,6 +247,7 @@ and fibre products, a sheaf of commutative rings `O_C` on it and a hypercovering
 canonical map `E ⟶ Ra_*La^*E` along the ringed augmentation of Stacks 0D9W is an isomorphism,
 naturally in `E` in the unbounded derived category `D(O_C)`. Nothing is assumed beyond the
 hypercovering conditions on `K`. -/
+@[stacks 0DA0]
 theorem isIso_derivedPullbackPushforwardUnit_of_hypercoveringOfTerminal :
     IsIso (RingedToposHom.derivedPullbackPushforwardUnit
       (hypercoveringRingedAugmentation P H OC).totalRingedHom) :=

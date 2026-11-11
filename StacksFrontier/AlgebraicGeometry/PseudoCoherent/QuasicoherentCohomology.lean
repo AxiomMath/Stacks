@@ -21,6 +21,9 @@ of `D(𝒪_X)` has quasi-coherent cohomology in every degree, that is, lies in `
 
 ## Main results
 
+* `AlgebraicGeometry.isQuasicoherent_homology_of_isPseudoCoherent_scheme`: the whole of Stacks
+  Lemma 08E5, with the degree-`m` clause in its corrected, local form.
+
 * `AlgebraicGeometry.isQuasicoherent_homology_of_isStrictlyPerfect`: the cohomology of a strictly
   perfect complex on a scheme is quasi-coherent.
 * `AlgebraicGeometry.isQuasicoherent_homology_of_isPseudoCoherentFrom`: `H^i(E)` is
@@ -129,7 +132,6 @@ private def homologyIsoOfIso (X : Scheme.{u})
 
 /-- Let `X` be a scheme and let `E` be an `m`-pseudo-coherent object of `D(𝒪_X)`. Then the
 cohomology sheaf `H^i(E)` is a quasi-coherent `𝒪_X`-module for every `i > m`. -/
-@[stacks 08E5 "cohomology above m"]
 public theorem isQuasicoherent_homology_of_isPseudoCoherentFrom (X : Scheme.{u})
     [HasDerivedCategory.{d} (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace)]
     (E : DerivedCategory (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace)) (m i : ℤ)
@@ -172,7 +174,6 @@ Gluing `Q|_U` to `Q|_V` along `a = g b` gives an `𝒪_X`-module `F` that is loc
 the valuation along `g = 0`; as `X` is affine, no quasi-coherent module surjects onto `F`.
 Quasi-compactness and quasi-separatedness would not have rescued the global form: `Spec k[x, y]`
 has both. -/
-@[stacks 08E5 "cohomology in degree m, locally"]
 public theorem exists_local_epi_homology_of_isPseudoCoherentFrom (X : Scheme.{u})
     [HasDerivedCategory.{d} (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace)]
     (E : DerivedCategory (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace)) (m : ℤ)
@@ -192,7 +193,6 @@ public theorem exists_local_epi_homology_of_isPseudoCoherentFrom (X : Scheme.{u}
 
 /-- A pseudo-coherent object of `D(𝒪_X)` on a scheme has quasi-coherent cohomology in every
 degree, that is, it belongs to `D_QCoh(𝒪_X)`. -/
-@[stacks 08E5 "pseudo-coherent objects"]
 public theorem isQuasicoherentDerived_of_isPseudoCoherent (X : Scheme.{u})
     [HasDerivedCategory.{d} (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace)]
     (E : DerivedCategory (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace))
@@ -205,6 +205,39 @@ public theorem isQuasicoherentDerived_of_isPseudoCoherent (X : Scheme.{u})
     (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace) i).obj E).IsQuasicoherent
   exact fun i ↦ isQuasicoherent_homology_of_isPseudoCoherentFrom X E (i - 1) i
     ⟨K, hK (i - 1), ⟨e⟩⟩ (by lia)
+
+/-- Let `X` be a scheme. If `E` is an `m`-pseudo-coherent object of `D(𝒪_X)`, then `H^i(E)` is a
+quasi-coherent `𝒪_X`-module for `i > m`, and every point of `X` has an open neighbourhood `U` on
+which `H^m(E)` is a quotient of a quasi-coherent `𝒪_U`-module. If `E` is pseudo-coherent, then `E`
+is an object of `D_QCoh(𝒪_X)`.
+
+The three clauses are `isQuasicoherent_homology_of_isPseudoCoherentFrom`,
+`exists_local_epi_homology_of_isPseudoCoherentFrom` and
+`isQuasicoherentDerived_of_isPseudoCoherent`.
+
+**Stacks erratum.** The source states the degree-`m` clause globally, that `H^m(E)` is a quotient
+of a quasi-coherent module on all of `X`; that is false (see the counterexample in the docstring
+of `exists_local_epi_homology_of_isPseudoCoherentFrom`), and the corrected clause is the local
+one stated here. -/
+@[stacks 08E5]
+public theorem isQuasicoherent_homology_of_isPseudoCoherent_scheme (X : Scheme.{u})
+    [HasDerivedCategory.{d} (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace)] :
+    (∀ (E : DerivedCategory (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace)) (m : ℤ),
+      RingedSpace.IsPseudoCoherentFrom (X := X.toRingedSpace) E m →
+        (∀ i : ℤ, m < i → ((DerivedCategory.homologyFunctor
+          (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace) i).obj E).IsQuasicoherent) ∧
+        ∀ x : X, ∃ U : X.Opens, x ∈ U ∧ ∃ M : U.toScheme.Modules, M.IsQuasicoherent ∧
+          ∃ f : M ⟶ (Scheme.Modules.restrictFunctor U.ι).obj
+            ((DerivedCategory.homologyFunctor
+              (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace) m).obj E), Epi f) ∧
+    ∀ E : DerivedCategory (StrictlyPerfect.OXMod.{u, u, u} X.toRingedSpace),
+      RingedSpace.IsPseudoCoherent (X := X.toRingedSpace) E →
+        DerivedCategoryB.derivedCategoryB
+          (SheafOfModules.isQuasicoherent
+            (StrictlyPerfect.structureSheafOfRings X.toRingedSpace)) E :=
+  ⟨fun E m hE ↦ ⟨fun i hi ↦ isQuasicoherent_homology_of_isPseudoCoherentFrom X E m i hE hi,
+      exists_local_epi_homology_of_isPseudoCoherentFrom X E m hE⟩,
+    fun E hE ↦ isQuasicoherentDerived_of_isPseudoCoherent X E hE⟩
 
 end AlgebraicGeometry
 

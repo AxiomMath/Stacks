@@ -1,6 +1,7 @@
 module
 
 public import Mathlib.RingTheory.Localization.Away.Basic
+public import StacksFrontier.AlgebraicGeometry.Curves.NodalChartNeighbourhoodOfNodal
 public import StacksFrontier.AlgebraicGeometry.Curves.NodalEtaleLocalStructure
 public import StacksFrontier.AlgebraicGeometry.F6Rank136.AtWorstNodalRelativeDimensionOne
 public import StacksFrontier.RingTheory.DiscreteValuationRing.Solution
@@ -18,7 +19,7 @@ target, one of the two standard models
 over an étale extension `R ⊆ R'` of discrete valuation rings with uniformizer `π`. This file
 carries out that normalisation, starting from the étale local structure in chart form over an
 *arbitrary* affine étale base, which is what the general étale local structure theorem for nodal
-families supplies.
+families supplies, and so proves [Stacks, Tag 0CDD].
 
 Two things have to be arranged, and they are the whole content of the file. First the affine
 étale base `Spec B` of the chart has to be shrunk to a discrete valuation ring: `B` is étale over
@@ -45,42 +46,24 @@ chart `R'[u, v]/(uv - εh)` isomorphically onto `R'[u, v]/(uv - h)`.
 * `Stacks.Models.exists_isDiscreteValuationRing_localizationAtPrime_of_etale` — a prime of an
   étale algebra over a discrete valuation ring lying over the maximal ideal has local ring a
   discrete valuation ring, étale over the base and an extension of it.
-* `Stacks.Models.exists_etale_nodalChart_pow_uniformizer` — **Tag 0CDD**, granted the étale local
-  structure in chart form.
+* `Stacks.Models.exists_etale_nodalChart_pow_uniformizer_of_nodalChartNeighbourhood` — the
+  translation step of Tag 0CDD: its conclusion from a nodal chart neighbourhood of the point.
+* `Stacks.Models.exists_etale_nodalChart_pow_uniformizer` — **Tag 0CDD.**
 
 ## Implementation notes
 
-The chart form of the étale local structure is taken as the hypothesis
-`Stacks.NodalEtaleLocalStructure.NodalChartNeighbourhood f x`. The étale local structure theorem
-for nodal families, [Stacks, Tag 0CBY], *is* proved in this repository —
-`Stacks.NodalEtaleLocalStructure.nonempty_standardNodalDiagram_of_isAtWorstNodal` in
-`StacksFrontier.AlgebraicGeometry.Curves.NodalEtaleLocalStructureAssembly`, with no hypothesis
-beyond the tag's own — but in the tag's own *diagram* form
-`Stacks.NodalEtaleLocalStructure.StandardNodalDiagram`, whose base `V` is an arbitrary étale
-scheme over `S` rather than an affine one carrying a parameter. The chart form is therefore not
-available as it stands: it asks for `V` to be shrunk to an affine open and for the local model
-to be read off `Stacks.NodalEtaleLocalStructure.chartIsoOfIsPullback`, and that step has not
-been taken. Accordingly the main theorem of this file carries the chart form as an explicit
-hypothesis rather than deriving it, and the at-worst-nodal hypothesis of the tag, which is
-consumed entirely by that input, appears in the statement but is not used.
+The input of the translation step is the chart form
+`Stacks.NodalEtaleLocalStructure.NodalChartNeighbourhood f x` of the étale local structure. It
+is supplied at every point of an at-worst-nodal family of relative dimension one by
+`Stacks.NodalEtaleLocalStructure.nonempty_nodalChartNeighbourhood_of_atWorstNodal` in
+`StacksFrontier.AlgebraicGeometry.Curves.NodalChartNeighbourhoodOfNodal`: from [Stacks, Tag 0CBY]
+at a point where the fibre is singular, and from the étale chart over the affine line of
+[Stacks, Tag 054L], translated into the standard open `R[u, v]/(uv - 1)`, at a point where the
+fibre is smooth. Combining the two gives Tag 0CDD.
 
 The base of the chart arrives as a bare morphism of affine schemes `Spec B ⟶ Spec R`; its
 `R`-algebra structure is recovered from the full faithfulness of `Spec` on affines through
 `AlgebraicGeometry.Spec.preimage`.
-
-The chart form is the common input of *both* branches of the source argument, because at a point
-where the family is smooth over the base the chart is the one with parameter `1`, that is the
-standard open `R[u, v]/(uv - 1)` of the affine line, which is the case `n = 0` of the second
-model. So the smooth branch is not a separate conclusion but a separate way of producing the
-hypothesis `hCBY`, and what is missing for it is exactly that production. Two steps are needed
-and neither is available here. A morphism smooth at a point is étale-locally an affine space over
-the base of *some* dimension `d`; that is the étale affine-space chart, and it is proved in this
-repository. Forcing `d = 1` from the relative dimension of the family is not: it needs the
-comparison of the rank of the sheaf of relative differentials with the dimension of the fibre and
-the behaviour of fibre dimension along a composition, neither of which is set up here in a form
-that applies to the chart. And the identification of the standard open of the affine line with
-the nodal chart of parameter `1`, together with the translation `u ↦ u + 1` that moves the chosen
-point into that standard open, is also absent.
 
 ## References
 
@@ -408,52 +391,22 @@ private theorem specMap_algEquiv_comp_algebraMap {R A B : Type u} [CommRing R] [
   congr 1
   exact congrArg CommRingCat.ofHom e.toAlgHom.comp_algebraMap
 
-/-- **Stacks 0CDD.** Let `R` be a discrete valuation ring, let `f : X ⟶ Spec R` be at-worst-nodal
-of relative dimension one, and let `x` be a point of the special fibre. Then there is an étale
-extension `R ⊆ R'` of discrete valuation rings, a scheme `U` with étale morphisms `U ⟶ X` and
-`U ⟶ Spec A` over `Spec R'`, and a point `x'` of `U` above `x`, with
+/-- **The translation step of Stacks 0CDD.** Let `R` be a discrete valuation ring, let
+`f : X ⟶ Spec R` be a morphism, let `x` be a point of the special fibre, and let `hCBY` be a nodal
+chart neighbourhood of `x`: an étale neighbourhood of `x` étale over a nodal chart
+`Spec B[u, v]/(uv - h)` over an affine étale neighbourhood `Spec B` of the image of `x`. Then
+there is an étale extension `R ⊆ R'` of discrete valuation rings, a scheme `U` with étale
+morphisms `U ⟶ X` and `U ⟶ Spec A` over `Spec R'`, and a point `x'` of `U` above `x`, with
 
 `A = R'[u, v]/(uv)`  or  `A = R'[u, v]/(uv - π ^ n)`
 
-for a uniformizer `π` of `R'` and `n ≥ 0`; the two cases are the vanishing and the nonvanishing
-of the parameter `h`, which is a power of a uniformizer in the second case.
+for a uniformizer `π` of `R'` and `n ≥ 0`.
 
-The étale local structure in chart form over an arbitrary affine étale base is carried as the
-hypothesis `hCBY`; everything else — shrinking that base to a discrete valuation ring and
-normalising the parameter — is proved here. -/
-@[stacks 0CDD "the TRANSLATION STEP ONLY, with the etale local structure carried as a \
-hypothesis.  CARRIED HYPOTHESES, each inherited and not discharged here: \
-`hCBY : Stacks.NodalEtaleLocalStructure.NodalChartNeighbourhood f x` is the EXISTENCE half of \
-[Stacks, Tag 0CBY] -- an etale neighbourhood `U` of `x`, an affine etale neighbourhood `Spec B` \
-of its image, a parameter `h` of `B` and an etale `U -> Spec B[x,y]/(xy-h)` over `Spec B` -- \
-which is the CHART form of the tag and is still not proved in this repository.  [Stacks, Tag \
-0CBY] ITSELF IS PROVED: \
-`Stacks.NodalEtaleLocalStructure.nonempty_standardNodalDiagram_of_isAtWorstNodal` at \
-StacksFrontier/AlgebraicGeometry/Curves/NodalEtaleLocalStructureAssembly.lean proves the tag's own \
-statement, with no hypothesis beyond the tag's, in the DIAGRAM form \
-`Stacks.NodalEtaleLocalStructure.StandardNodalDiagram` -- etale `U -> X`, etale `V -> S`, etale \
-`U -> W` and a cartesian square presenting `W` as a base change of the standard nodal family.  \
-What separates that from `hCBY` is not the existence but the PACKAGING: the chart form asks for \
-the base `V` to be AFFINE, say `Spec B`, and for an actual parameter `h` in `B`, so passing \
-from the diagram to the chart means shrinking `V` to an affine open and reading the local model \
-off `Stacks.NodalEtaleLocalStructure.chartIsoOfIsPullback`, which is a step nobody has taken.  \
-`_hf : IsAtWorstNodalOfRelativeDimensionOne f` is the tag's \
-own hypothesis; it appears in the statement for faithfulness but is NOT consumed, because the \
-whole use of nodality in the source proof is to produce `hCBY`.  WHAT IS PROVED HERE, and is \
-exactly what the source calls the translation: the affine etale base `Spec B` is shrunk to a \
-discrete valuation ring `R'` with `R` -> `R'` etale and `R` ⊆ `R'` an extension of discrete \
-valuation rings in the sense of [Stacks, Tag 09E4] \
-(`exists_isDiscreteValuationRing_localizationAtPrime_of_etale`, the route of [Stacks, Tag \
-0AP2]); the chart is base changed along `B -> R'` and is again a nodal chart \
-(`isPullback_specMap_nodalChartMap`); and the resulting parameter is normalised to `0` or a \
-power of a uniformizer by rescaling a coordinate by a unit \
-(`exists_pow_irreducible_nodalChartRing_algEquiv`).  The SMOOTH case of the source proof, which \
-routes through [Stacks, Tag 054L] instead of 0CBY, is not covered by this statement: see the \
-module documentation"]
-public theorem exists_etale_nodalChart_pow_uniformizer
+This is the step the source proof calls the translation: the base `Spec B` is shrunk to a
+discrete valuation ring and the parameter is normalised. -/
+public theorem exists_etale_nodalChart_pow_uniformizer_of_nodalChartNeighbourhood
     {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
     {X : Scheme.{u}} (f : X ⟶ Spec (.of R))
-    (_hf : IsAtWorstNodalOfRelativeDimensionOne f)
     (x : X) (hx : f.base x = IsLocalRing.closedPoint R)
     (hCBY : NodalChartNeighbourhood f x) :
     ∃ (R' : Type u) (_ : CommRing R') (_ : IsDomain R')
@@ -564,6 +517,40 @@ public theorem exists_etale_nodalChart_pow_uniformizer
       _ = _ := by
           rw [← hχ]
           simp only [Category.assoc]
+
+
+/-- **Stacks 0CDD.** Let `R` be a discrete valuation ring, let `f : X ⟶ Spec R` be at-worst-nodal
+of relative dimension one, and let `x` be a point of the special fibre. Then there is an étale
+extension `R ⊆ R'` of discrete valuation rings, a scheme `U` with étale morphisms `U ⟶ X` and
+`U ⟶ Spec A` over `Spec R'`, and a point `x'` of `U` above `x`, with
+
+`A = R'[u, v]/(uv)`  or  `A = R'[u, v]/(uv - π ^ n)`
+
+for a uniformizer `π` of `R'` and `n ≥ 0`; the two cases are the vanishing and the nonvanishing
+of the parameter `h`, which is a power of a uniformizer in the second case.
+
+The étale local structure in chart form is
+`Stacks.NodalEtaleLocalStructure.nonempty_nodalChartNeighbourhood_of_atWorstNodal` (Tag 0CBY at
+a singular point of the fibre, Tag 054L at a smooth one), and the translation into the
+statement of the tag is
+`Stacks.Models.exists_etale_nodalChart_pow_uniformizer_of_nodalChartNeighbourhood`. -/
+@[stacks 0CDD]
+public theorem exists_etale_nodalChart_pow_uniformizer
+    {R : Type u} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
+    {X : Scheme.{u}} (f : X ⟶ Spec (.of R))
+    (hf : IsAtWorstNodalOfRelativeDimensionOne f)
+    (x : X) (hx : f.base x = IsLocalRing.closedPoint R) :
+    ∃ (R' : Type u) (_ : CommRing R') (_ : IsDomain R')
+      (_ : IsDiscreteValuationRing R') (_ : Algebra R R')
+      (_ : IsDiscreteValuationRing.IsExtension R R') (_ : Algebra.Etale R R') (h : R'),
+      (h = 0 ∨ ∃ (π : R') (n : ℕ), Irreducible π ∧ h = π ^ n) ∧
+        ∃ (U : Scheme.{u}) (g : U ⟶ X) (j : U ⟶ Spec (.of (nodalChartRing R' h))) (x' : U),
+          Etale g ∧ Etale j ∧ g.base x' = x ∧
+            g ≫ f = j ≫
+              Spec.map (CommRingCat.ofHom (algebraMap R' (nodalChartRing R' h))) ≫
+                Spec.map (CommRingCat.ofHom (algebraMap R R')) :=
+  exists_etale_nodalChart_pow_uniformizer_of_nodalChartNeighbourhood f x hx
+    (nonempty_nodalChartNeighbourhood_of_atWorstNodal f hf x).some
 
 end Stacks.Models
 

@@ -10,109 +10,47 @@ public import StacksFrontier.AlgebraicGeometry.Spaces.QuasicoherentGrothendieck
 public import StacksFrontier.Homology.Injectives.DerivedCategory.ArbitraryModel
 
 /-!
-# The coherator and the flat direct image on an algebraic space
+# The inclusion of the quasi-coherent modules and the flat inverse image on an algebraic space
 
-Let `f : X ⟶ Y` be a quasi-compact, quasi-separated and flat morphism of algebraic spaces over a
-scheme `S` contained in a big fppf site `B`.  The direct image preserves quasi-coherence, so it
-restricts to `f_* : QCoh(𝒪_X) ⥤ QCoh(𝒪_Y)`, whose total right derived functor is written `Φ`;
-and the inclusion `ι : QCoh(𝒪_X) ⥤ Mod(𝒪_X)` has a right adjoint, the coherator `Q_X`, whose
-total right derived functor is written `RQ_X`.  [Stacks, Tag 08GZ] identifies the two composites
-of derived functors: `RQ_Y ∘ Rf_* = Φ ∘ RQ_X`.
-
-The proof is the source's.  Both composites are right adjoint to the same functor
-`D(QCoh(𝒪_Y)) ⥤ D(𝒪_X)`.  Flatness makes the inverse image exact, so it induces functors of
-derived categories with no derivation, both on all modules and on the quasi-coherent ones, and
-these are left adjoint to `Rf_*` and to `Φ` respectively by [Stacks, Tag 09T5]; the inclusions of
-the quasi-coherent modules are exact for the same formal reason and are left adjoint to `RQ_X`
-and `RQ_Y`.  The two composite left adjoints agree because `f^* ∘ ι = ι ∘ f^*` already at the
-level of modules, and a right adjoint is unique up to a canonical isomorphism.
+Let `X` be an algebraic space over a scheme `S` contained in a big fppf site `B`.  This file
+records the exactness inputs of [Stacks, Tag 08GZ]: the inclusion
+`ι : QCoh(𝒪_X) ⥤ Mod(𝒪_X)` is exact, and along a flat morphism `f : X ⟶ Y` the inverse image on
+quasi-coherent modules is exact.  The comparison `RQ_Y ∘ Rf_* = Φ ∘ RQ_X` of Stacks 08GZ itself is
+`AlgebraicGeometry.Space.derivedModulePushforwardCompDerivedCoheratorIso`, in
+`StacksFrontier.AlgebraicGeometry.Spaces.CoheratorFlatPushforwardQcqs`, with every input of the
+source's proof a result of the development.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.flatPushforwardDerivedCoheratorIso` — **Stacks 08GZ**: the natural
-  isomorphism `Rf_* ⋙ RQ_Y ≅ RQ_X ⋙ Φ`.
-* `AlgebraicGeometry.Space.flatPushforwardDerivedCoheratorIsoOfForallAffine` — the same in the
-  binders of the source statement, with quasi-compactness and quasi-separatedness of `f` in place
-  of the preservation of quasi-coherence that they are there to supply.
-
-## Supporting results
-
+* `AlgebraicGeometry.Space.abelian_quasicoherentSheaves_algebraicSpace`: the quasi-coherent
+  modules on an algebraic space form an abelian category (Stacks 077V, part (1)).
 * `AlgebraicGeometry.Space.preservesFiniteLimits_quasicoherentSheavesι` and
   `AlgebraicGeometry.Space.preservesFiniteColimits_quasicoherentSheavesι`: the inclusion of the
   quasi-coherent modules on an algebraic space is exact.
 * `AlgebraicGeometry.Space.preservesFiniteLimits_quasicoherentPullback_of_isFlat` and
   `AlgebraicGeometry.Space.preservesFiniteColimits_quasicoherentPullback_smallEtale`: exactness
-  of the inverse image on quasi-coherent modules along a flat morphism.
-
-## What is assumed
-
-Beyond the source's flatness, quasi-compactness and quasi-separatedness, three inputs are carried
-as hypotheses, each named in the attribute that carries it.  They are the same three that
-`AlgebraicGeometry.Space.injective_quasicoherentPushforward_obj` carries for the neighbouring
-Stacks 09TK, and none of them is a restatement of the conclusion.
-
-* **Stacks 03M9**, that the direct image preserves quasi-coherence, as
-  `AlgebraicGeometry.Space.PushforwardPreservesQuasicoherence`.  In this development it is
-  reduced to the exact sequence of Stacks 03M8 over the affine charts of the target by
-  `AlgebraicGeometry.Space.pushforward_isQuasicoherentOnSite_of_chartwiseKernel`, and
-  `flatPushforwardDerivedCoheratorIsoOfForallAffine` trades it for the affine-base case in the
-  source's own binders.
-* **Stacks 03GA**, that the inverse image preserves quasi-coherence, as
-  `AlgebraicGeometry.Space.HasLocalInverseImagePresentations`, which is the inverse-image factor
-  of Stacks 03DO left open by
-  `AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePullback`.
-* **Stacks 077V, part (1)**, that `QCoh(𝒪_X)` is Grothendieck abelian, as the instance binder
-  `CategoryTheory.IsGrothendieckAbelian`.  This is what [Stacks, Tag 09T5] needs in order to
-  produce the adjunction `f^* ⊣ Φ` on the quasi-coherent side; the two adjunctions involving
-  `RQ_X` and `RQ_Y` instead need it for `Mod(𝒪_X)` and `Mod(𝒪_Y)`, where it is the
-  unconditional `AlgebraicGeometry.Space.isGrothendieckAbelian_modules`.  Stacks 077V obtains it
-  for `QCoh(𝒪_X)` from a separator, through Stacks 03M3 and 077U.
-
-Flatness enters in the ringed-topos form `(smallEtaleRingedToposHom B S hS f).IsFlat`, which is
-the form in which Stacks 04JC delivers exactness of the inverse image and the form that
-`AlgebraicGeometry.Space.preservesFiniteLimits_modulePullback_of_isFlat` consumes.
+  of the inverse image on quasi-coherent modules along a flat morphism, for the inverse image
+  `AlgebraicGeometry.Space.quasicoherentPullback` at a given preservation of quasi-coherence
+  (which holds for every morphism, Stacks 03GA,
+  `AlgebraicGeometry.Space.hasLocalInverseImagePresentations`).
+* `AlgebraicGeometry.Space.flatPushforwardDerivedCoheratorIso` and
+  `AlgebraicGeometry.Space.flatPushforwardDerivedCoheratorIsoOfForallAffine`: the comparison
+  `Rf_* ⋙ RQ_Y ≅ RQ_X ⋙ Φ` at given preservation of quasi-coherence, all of whose inputs are
+  proved in the library; they are not the registration of Stacks 08GZ.
 
 ## Implementation notes
 
-The derived categories are instance arguments and the four total right derived functors are
-hypotheses: each is an arbitrary functor equipped with its derivation unit relative to an
-arbitrary chosen localization of the cochain complexes of quasi-coherent modules.  So the
-statement says nothing about any particular model of `D(QCoh(𝒪_X))` nor about any particular
-choice of K-injective resolutions, and the source's equality of functors becomes a natural
-isomorphism.  For the same reason the two coherators are hypotheses as well: the source says
-"the right adjoint of the inclusion", which is determined only up to a canonical isomorphism, and
-Stacks 077V, part (2) is what makes the hypothesis satisfiable.  Their additivity is an instance
-binder rather than a `letI`, which adds nothing: it is `Adjunction.right_adjoint_additive` of the
-coherator adjunction, so every instantiation of the two adjunctions supplies it.
-
-The module universe is the universe `u` of the schemes and not a free one, because
-`AlgebraicGeometry.Space.modulePushforward` and `AlgebraicGeometry.Space.modulePullback` exist
-only at that universe; the module categories themselves have their objects in `Type (u + 1)`, so
-the two derived-category universes `w` and `w'` are free and in particular may be taken to be
-`u + 1`, which is where `AlgebraicGeometry.Space.hasRightDerivedFunctor_modulePushforward`
-exhibits an `Rf_*`.
-
-The modules on an algebraic space are spelled `AlgebraicGeometry.Space.Modules`, which is
-`SheafOfModules` of the structure ring sheaf of the small étale ringed site; there is no
-`Scheme.Modules`-style second spelling on the spaces side, so no ascription of the kind
-`AlgebraicGeometry.quasicoherentModulesι` performs is needed here.
-
-`Stacks.DerivedModel.adjunctionOfExact` is the one input doing real work: it produces the
-adjunction between the functor induced by an exact left adjoint and the total right derived
-functor of its right adjoint, at arbitrary chosen models.  Everything else is bookkeeping, with
-one genuine step — the commutation of the inverse image with the inclusion of the quasi-coherent
-modules, which holds by construction of `AlgebraicGeometry.Space.quasicoherentPullback`.
+Flatness enters in the ringed-topos form `(smallEtaleRingedToposHom B S hS f).IsFlat`, which is
+the form in which Stacks 04JC delivers exactness of the inverse image and the form that
+`AlgebraicGeometry.Space.preservesFiniteLimits_modulePullback_of_isFlat` consumes; it is
+equivalent to flatness of `f` by Stacks 073C,
+`AlgebraicGeometry.Space.isFlat_iff_smallEtaleRingedToposHom_isFlat`.
 
 ## References
 
 * [Stacks Project, Tag 08GZ](https://stacks.math.columbia.edu/tag/08GZ)
-* [Stacks Project, Tag 08D8](https://stacks.math.columbia.edu/tag/08D8)
-* [Stacks Project, Tag 03M9](https://stacks.math.columbia.edu/tag/03M9)
 * [Stacks Project, Tag 03GA](https://stacks.math.columbia.edu/tag/03GA)
 * [Stacks Project, Tag 077V](https://stacks.math.columbia.edu/tag/077V)
-* [Stacks Project, Tag 079P](https://stacks.math.columbia.edu/tag/079P)
-* [Stacks Project, Tag 07A6](https://stacks.math.columbia.edu/tag/07A6)
-* [Stacks Project, Tag 09T5](https://stacks.math.columbia.edu/tag/09T5)
 * [Stacks Project, Tag 04JC](https://stacks.math.columbia.edu/tag/04JC)
 -/
 
@@ -244,7 +182,7 @@ theorem preservesFiniteColimits_quasicoherentPullback_smallEtale (f : X ⟶ Y)
     preservesFiniteColimits_of_natIso (ObjectProperty.liftCompιIso _ _ _).symm
   exact preservesFiniteColimits_of_reflects_of_preserves _ (quasicoherentSheavesι B S hS X)
 
-/-! ### The comparison of Stacks 08GZ -/
+/-! ### The coherator comparison at given inputs -/
 
 section
 
@@ -287,20 +225,26 @@ variable (f : X ⟶ Y) (hflat : (smallEtaleRingedToposHom B S hS f).IsFlat)
   [RQY.IsRightDerivedFunctor RQYUnit
     (HomologicalComplex.quasiIso (Modules.{u, u} B S hS Y.1 Y.2) (ComplexShape.up ℤ))]
 
-/-- **Stacks Project, Tag 08GZ.**  Let `f : X ⟶ Y` be a flat morphism of algebraic spaces whose
-direct image and inverse image preserve quasi-coherence.  Let `Rf_*` be a total right derived
-functor of the direct image of all modules, let `RQ_X`, `RQ_Y` be total right derived functors of
-coherators of `X` and `Y`, and let `Φ` be a total right derived functor of the direct image
-restricted to quasi-coherent modules.  Then `Rf_* ⋙ RQ_Y ≅ RQ_X ⋙ Φ`.
+/-- **The coherator comparison at given inputs.**  Let `f : X ⟶ Y` be a flat morphism of
+algebraic spaces, with the preservation of quasi-coherence by its direct image and by its inverse
+image given.  Let `Rf_*` be a total right derived functor of the direct image of all modules, let
+`RQ_X`, `RQ_Y` be total right derived functors of coherators of `X` and `Y`, and let `Φ` be a total
+right derived functor of the direct image restricted to quasi-coherent modules.  Then
+`Rf_* ⋙ RQ_Y ≅ RQ_X ⋙ Φ`.
+
+Every input taken here is proved in the library: the direct image preserves quasi-coherence along
+a quasi-compact, quasi-separated morphism (Stacks 03M9,
+`AlgebraicGeometry.Space.pushforwardPreservesQuasicoherence_of_qcqs`), the inverse image does
+along every morphism (Stacks 03GA, `AlgebraicGeometry.Space.hasLocalInverseImagePresentations`),
+and `QCoh(𝒪_X)` is Grothendieck abelian (Stacks 077V (1),
+`AlgebraicGeometry.Space.quasicoherentSheaves_isGrothendieckAbelian`).  Stacks 08GZ itself is
+`AlgebraicGeometry.Space.derivedModulePushforwardCompDerivedCoheratorIso`.
 
 Both sides are right adjoint to the same functor `D(QCoh(𝒪_Y)) ⥤ D(𝒪_X)`: flatness makes the
 inverse image exact, on all modules and on quasi-coherent modules alike, so it induces functors
 of derived categories with no derivation, and these compose to one functor in two ways which
 agree because the inverse image commutes with the inclusion of the quasi-coherent modules
 already before deriving. -/
-@[stacks 08GZ "granted Stacks 03M9 that the direct image preserves quasi-coherence, Stacks \
-03GA that the inverse image does, Stacks 077V part (1) that QCoh(𝒪_X) is Grothendieck abelian, \
-and flatness in the ringed-topos form of Stacks 04JC"]
 noncomputable def flatPushforwardDerivedCoheratorIso
     (hpush : PushforwardPreservesQuasicoherence B S hS f)
     (Φ : DerivedCategory (QuasicoherentSheaves.{u, u} B S hS X.1 X.2) ⥤
@@ -379,18 +323,15 @@ noncomputable def flatPushforwardDerivedCoheratorIso
   let eLeft : L2 ≅ L1 := Localization.liftNatIso QtY W H2 H1 L2 L1 eBase
   exact (adjRQY.comp adjRf).rightAdjointUniq ((adjPhi.comp adjRQX).ofNatIsoLeft eLeft)
 
-/-- **Stacks Project, Tag 08GZ, in the binders of the source statement.**  Let `f : X ⟶ Y` be a
+/-- **The coherator comparison with the affine-base case given.**  Let `f : X ⟶ Y` be a
 quasi-compact, quasi-separated and flat morphism of algebraic spaces whose inverse image
-preserves quasi-coherence.  With `Rf_*`, `RQ_X`, `RQ_Y` and `Φ` as above,
-`Rf_* ⋙ RQ_Y ≅ RQ_X ⋙ Φ`.
+preserves quasi-coherence.  With `Rf_*`, `RQ_X`, `RQ_Y` and `Φ` as in
+`AlgebraicGeometry.Space.flatPushforwardDerivedCoheratorIso`, `Rf_* ⋙ RQ_Y ≅ RQ_X ⋙ Φ`, where the
+preservation of quasi-coherence by the direct image comes from its affine-base case `haffine`.
 
-Quasi-compactness and quasi-separatedness enter exactly where the source puts them: they are what
-makes the direct image preserve quasi-coherence, by the reduction of Stacks 03M9 whose residual
-affine-base case is `haffine`. -/
-@[stacks 08GZ "in the binders of the source statement, granted the affine-base case of the \
-preservation of quasi-coherence by the direct image, Stacks 03GA that the inverse image \
-preserves quasi-coherence, Stacks 077V part (1) that QCoh(𝒪_X) is Grothendieck abelian, and \
-flatness in the ringed-topos form of Stacks 04JC"]
+The inputs taken here are proved in the library (Stacks 03M9, 03GA and 077V (1), see
+`AlgebraicGeometry.Space.flatPushforwardDerivedCoheratorIso`); Stacks 08GZ itself is
+`AlgebraicGeometry.Space.derivedModulePushforwardCompDerivedCoheratorIso`. -/
 noncomputable def flatPushforwardDerivedCoheratorIsoOfForallAffine
     (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)
     (haffine : ∀ F : Modules.{u, u} B S hS X.1 X.2, F.IsQuasicoherentOnSite →

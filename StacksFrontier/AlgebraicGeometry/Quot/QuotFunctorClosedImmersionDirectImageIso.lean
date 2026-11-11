@@ -101,7 +101,9 @@ theorem isIso_directImageQuotFunctorMap_of_isClosedImmersion (H : D.PushforwardI
 which are separated and of finite presentation over `B`, and let `F` be a quasi-coherent
 `𝒪_X`-module. Then the morphism `Quot_{F/X/B} ⟶ Quot_{π_*F/Y/B}` of Stacks 0DP1 is an
 isomorphism. -/
-@[stacks 0DP4]
+@[stacks 0DP4 "the direct image along a closed immersion `π : X ⟶ Y` of algebraic spaces \
+  separated and of finite presentation over `B` gives an isomorphism \
+  `Quot_{F/X/B} ⟶ Quot_{π_*F/Y/B}` for every quasi-coherent `𝒪_X`-module `F`"]
 theorem isIso_pushforwardQuotFunctorMap_ofIsClosedImmersion (base X Y : AlgebraicSpaces B S hS)
     (π : X ⟶ Y) (hπ : IsClosedImmersion B S hS π.hom) (structureX : X ⟶ base)
     (structureY : Y ⟶ base) (comp : π ≫ structureY = structureX)

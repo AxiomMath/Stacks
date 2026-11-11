@@ -291,14 +291,16 @@ Let `k` be an artinian ring, let `S` be a `k`-algebra of finite type and let `�
 finite over `k` and `dim S_𝔮 = 0`. When these hold, `S` splits as a product `S_𝔮 × S'` with `S'`
 again of finite type over `k`, the projection to the first factor being the localization map.
 
-The source's other closing assertion, that `S_g = S_𝔮` for `g` as in the third condition, holds
-for every `g` with `D(g) = {𝔮}` over any commutative base and is
-`PrimeSpectrum.isLocalization_away_iff_atPrime_of_basicOpen_eq_singleton`.
+The source's other closing assertion, that `S_g = S_𝔮` for `g` as in the third condition, is the
+third conjunct of the main theorem.
 
 ## Main results
 
-* `PrimeSpectrum.isOpen_singleton_tfae_and_exists_algEquiv_prod_of_finiteType`: the six equivalent
-  conditions of the source together with the product decomposition.
+* `PrimeSpectrum.isOpen_singleton_tfae_localizationAtPrime_of_finiteType`: Stacks 00PJ, the six
+  equivalent conditions of the source, the product decomposition and `S_𝔮 = S_g`, with `S_𝔮`
+  the localization `Localization.AtPrime 𝔮`.
+* `PrimeSpectrum.isOpen_singleton_tfae_and_exists_algEquiv_prod_of_finiteType`: the six
+  conditions and the product decomposition for an arbitrary model `Sq` of the local ring.
 
 ## Implementation notes
 
@@ -311,16 +313,14 @@ Instantiating `k` at a field is the source's statement. Condition (2) is also
 `Algebra.QuasiFiniteAt k 𝔮` in Mathlib's language, by `Algebra.QuasiFinite.iff_of_isArtinianRing`;
 the six conditions are stated as the source states them rather than through that class.
 
-The local ring `S_𝔮` is an abstract model `Sq`: any `S`-algebra with `IsLocalization.AtPrime Sq 𝔮`
-and a compatible `k`-algebra structure, `Localization.AtPrime 𝔮` being one instantiation.
-
-The source's closing assertion `S_𝔮 = S_g` is not part of the theorem below: for `D(g) = {𝔮}` the
-localizations of `S` away from `g` are exactly the localizations at `𝔮`, over any commutative
-base and with no finiteness hypothesis on it, which is Mathlib's
-`PrimeSpectrum.isLocalization_away_iff_atPrime_of_basicOpen_eq_singleton`. Stating it here would
-mean restating a strictly more general lemma under the five hypotheses its proof does not use
-(`IsArtinianRing k`, `Algebra k S`, `Algebra.FiniteType k S`, `Algebra k Sq` and
-`IsScalarTower k S Sq`), so the tag is realized jointly with that lemma instead.
+The tagged theorem takes `S_𝔮` to be `Localization.AtPrime 𝔮` and `dim S_𝔮` to be
+`ringKrullDim (Localization.AtPrime 𝔮)`. It is derived from
+`isOpen_singleton_tfae_and_exists_algEquiv_prod_of_finiteType`, which states the six conditions
+and the decomposition for any model `Sq` of the local ring (any `S`-algebra with
+`IsLocalization.AtPrime Sq 𝔮` and a compatible `k`-algebra structure) and writes `dim S_𝔮` as
+`𝔮.height`; the two dimensions agree by `IsLocalization.AtPrime.ringKrullDim_eq_height`. The
+closing assertion `S_𝔮 = S_g` is read as `IsLocalization.Away g (Localization.AtPrime 𝔮)` and
+follows from Mathlib's `PrimeSpectrum.isLocalization_away_iff_atPrime_of_basicOpen_eq_singleton`.
 
 "`𝔮` is an isolated point of `Spec S`" is `IsOpen {𝔮}`, as in Mathlib's
 `PrimeSpectrum.isOpen_singleton_tfae_of_isNoetherian_of_isJacobsonRing`, and "`𝔮` is a closed
@@ -357,18 +357,16 @@ of the equivalence. (4) The instantiation is not degenerate: for `k` a field, `S
 
 namespace PrimeSpectrum
 
-/-- **Stacks 00PJ.** Let `k` be an artinian ring (a field, in the source), `S` a `k`-algebra of
-finite type, `𝔮` a prime of `S` and `Sq` a model of the local ring `S_𝔮`. The following are
-equivalent: `𝔮` is an isolated point of `Spec S`; `S_𝔮` is finite over `k`; `D(g) = {𝔮}` for some
-`g ∉ 𝔮`; `Spec S` has dimension `0` at `𝔮`; `𝔮` is a closed point and `dim S_𝔮 = 0`; the residue
-field `κ(𝔮)` is finite over `k` and `dim S_𝔮 = 0`. In that case `S = S_𝔮 × S'` for a finite type
-`k`-algebra `S'`, compatibly with the localization map. -/
-@[stacks 00PJ "The source's field `k` is weakened to an artinian ring; `S_𝔮` is an abstract
-localization `Sq`, `dim_𝔮 Spec S` is `topologicalKrullDimAt` and `dim S_𝔮` is `𝔮.height`. The
-closing assertion `S_𝔮 = S_g` is Mathlib's more general
-`PrimeSpectrum.isLocalization_away_iff_atPrime_of_basicOpen_eq_singleton`, with which this tag is
-realized jointly. See the module docstring.",
-  ega "0 14.1.10" "(1)⇔(4), Spec f.t. alg",
+/-- The six conditions of Stacks 00PJ and the product decomposition, for an arbitrary model `Sq`
+of the local ring `S_𝔮` (any `S`-algebra with `IsLocalization.AtPrime Sq 𝔮` and a compatible
+`k`-algebra structure), over an artinian ring `k`: `𝔮` is an isolated point of `Spec S`; `Sq` is
+finite over `k`; `D(g) = {𝔮}` for some `g ∉ 𝔮`; `Spec S` has dimension `0` at `𝔮`; `𝔮` is a
+closed point and `𝔮.height = 0`; the residue field `κ(𝔮)` is finite over `k` and
+`𝔮.height = 0`. In that case `S = Sq × S'` for a finite type `k`-algebra `S'`, compatibly with
+the localization map. The tagged statement, with `S_𝔮 = Localization.AtPrime 𝔮`,
+`dim S_𝔮 = ringKrullDim S_𝔮` and the closing assertion `S_𝔮 = S_g`, is
+`PrimeSpectrum.isOpen_singleton_tfae_localizationAtPrime_of_finiteType`. -/
+@[ega "0 14.1.10" "(1)⇔(4), Spec f.t. alg",
   ega "II 6.2.2" "affine, base a field"]
 public theorem isOpen_singleton_tfae_and_exists_algEquiv_prod_of_finiteType (k : Type u)
     {S : Type v} [CommRing k] [IsArtinianRing k] [CommRing S] [Algebra k S]
@@ -385,6 +383,44 @@ public theorem isOpen_singleton_tfae_and_exists_algEquiv_prod_of_finiteType (k :
         ∃ (S' : Type v) (_ : CommRing S') (_ : Algebra k S'), Algebra.FiniteType k S' ∧
           ∃ e : S ≃ₐ[k] Sq × S', ∀ x, (e x).1 = algebraMap S Sq x) :=
             by apply Stacks.Artinian.IsolatedPoint.solution
+
+/-- **Stacks 00PJ.** Let `k` be an artinian ring (for instance a field, the source's hypothesis),
+`S` a `k`-algebra of finite type and `𝔮` a prime of `S`. The following are equivalent:
+(1) `𝔮` is an isolated point of `Spec S`; (2) `S_𝔮` is finite over `k`; (3) `D(g) = {𝔮}` for
+some `g ∉ 𝔮`; (4) `Spec S` has dimension `0` at `𝔮`; (5) `𝔮` is a closed point of `Spec S` and
+`dim S_𝔮 = 0`; (6) the residue field `κ(𝔮)` is finite over `k` and `dim S_𝔮 = 0`. In this case
+`S = S_𝔮 × S'` as `k`-algebras for a finite type `k`-algebra `S'`, the first component being the
+localization map, and every `g ∉ 𝔮` with `D(g) = {𝔮}` has `S_𝔮 = S_g`. -/
+@[stacks 00PJ "The source's field `k` is generalized to an artinian ring; taking `k` a field gives
+the source's statement. `S_𝔮` is `Localization.AtPrime 𝔮`, `κ(𝔮)` is `𝔮.ResidueField`,
+`dim_𝔮 Spec S` is `topologicalKrullDimAt` (Stacks 0055 (4)) and `dim S_𝔮` is
+`ringKrullDim (Localization.AtPrime 𝔮)`. The splitting `S = S_𝔮 × S'` is a `k`-algebra
+equivalence whose first component is `algebraMap S S_𝔮`, and `S_𝔮 = S_g` is stated as
+`IsLocalization.Away g (Localization.AtPrime 𝔮)` for every `g ∉ 𝔮` with `D(g) = {𝔮}`."]
+public theorem isOpen_singleton_tfae_localizationAtPrime_of_finiteType (k : Type u)
+    {S : Type v} [CommRing k] [IsArtinianRing k] [CommRing S] [Algebra k S]
+    [Algebra.FiniteType k S] (𝔮 : Ideal S) [𝔮.IsPrime] :
+    List.TFAE
+        [IsOpen {(⟨𝔮, ‹_›⟩ : PrimeSpectrum S)},
+          Module.Finite k (Localization.AtPrime 𝔮),
+          ∃ g ∉ 𝔮, (basicOpen g : Set (PrimeSpectrum S)) = {⟨𝔮, ‹_›⟩},
+          topologicalKrullDimAt (PrimeSpectrum S) ⟨𝔮, ‹_›⟩ = 0,
+          IsClosed {(⟨𝔮, ‹_›⟩ : PrimeSpectrum S)} ∧ ringKrullDim (Localization.AtPrime 𝔮) = 0,
+          Module.Finite k 𝔮.ResidueField ∧ ringKrullDim (Localization.AtPrime 𝔮) = 0] ∧
+      (IsOpen {(⟨𝔮, ‹_›⟩ : PrimeSpectrum S)} →
+        ∃ (S' : Type v) (_ : CommRing S') (_ : Algebra k S'), Algebra.FiniteType k S' ∧
+          ∃ e : S ≃ₐ[k] Localization.AtPrime 𝔮 × S',
+            ∀ x, (e x).1 = algebraMap S (Localization.AtPrime 𝔮) x) ∧
+      (∀ g ∉ 𝔮, (basicOpen g : Set (PrimeSpectrum S)) = {⟨𝔮, ‹_›⟩} →
+        IsLocalization.Away g (Localization.AtPrime 𝔮)) := by
+  have hdim : ringKrullDim (Localization.AtPrime 𝔮) = 0 ↔ 𝔮.height = 0 := by
+    rw [IsLocalization.AtPrime.ringKrullDim_eq_height 𝔮 (Localization.AtPrime 𝔮)]
+    exact WithBot.coe_eq_zero
+  obtain ⟨h₁, h₂⟩ :=
+    isOpen_singleton_tfae_and_exists_algEquiv_prod_of_finiteType k 𝔮 (Localization.AtPrime 𝔮)
+  rw [hdim]
+  exact ⟨h₁, h₂, fun g _ hg ↦
+    (isLocalization_away_iff_atPrime_of_basicOpen_eq_singleton hg).mpr inferInstance⟩
 
 end PrimeSpectrum
 

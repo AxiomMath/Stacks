@@ -53,6 +53,11 @@ exactly when every finite étale cover of `U₀` is isomorphic to the restrictio
 cover of some neighbourhood. The equivalence is stated as the conjunction of the two, the
 vocabulary of [Stacks, Tag 0ELA] and [Stacks, Tag 0BLP].
 
+`AlgebraicGeometry.LocalLefschetzSituation.isColimitRestrictionEquivalence` is an untagged
+conditional variant of the same equivalence. It takes a stagewise route and additionally assumes
+two purity statements (restriction `FÉt_{Spec(A/fA)} ⟶ FÉt_{U₀}` and `FÉt_{Spec A} ⟶ FÉt_{U'}`
+are equivalences) that [Stacks, Tag 0BLV] does not make; the theorem here needs neither.
+
 ## References
 
 * [Stacks Project, Tag 0BLV](https://stacks.math.columbia.edu/tag/0BLV)
@@ -147,8 +152,11 @@ hold. The first is that it is fully faithful, in the form
 `U₀` come from a smaller neighbourhood, and morphisms agreeing on `U₀` agree on a smaller
 neighbourhood. The second is that it is essentially surjective: every finite étale cover of `U₀`
 is the restriction of a finite étale cover of some open `U'` with `U₀ ⊆ U' ⊆ U`. -/
-@[stacks 0BLV "the restriction functor colim_{U₀ ⊆ U' ⊆ U} FÉt_{U'} → FÉt_{U₀} is an \
-equivalence: fully faithful, and every finite étale cover of U₀ extends to a neighbourhood"]
+@[stacks 0BLV "(A, 𝔪) Noetherian local, f ∈ 𝔪, U the punctured spectrum of A, U₀ = U ∩ V(f); \
+if A is f-adically complete, f is a nonzerodivisor and H¹_𝔪(A/fA), H²_𝔪(A/fA) are finite \
+A-modules, then restriction colim_{U₀ ⊆ U' ⊆ U open} FÉt_{U'} → FÉt_{U₀} is an equivalence: \
+it is fully faithful on the directed colimit, and every finite étale cover of U₀ is the \
+restriction of a finite étale cover of some open U' with U₀ ⊆ U' ⊆ U"]
 theorem finiteEtaleColimitEquivalence_puncturedSpectrum_of_isAdicComplete
     (hf : f ∈ IsLocalRing.maximalIdeal A)
     (hcomplete : IsAdicComplete (Ideal.span {f}) A) (hnzd : f ∈ nonZeroDivisors A)

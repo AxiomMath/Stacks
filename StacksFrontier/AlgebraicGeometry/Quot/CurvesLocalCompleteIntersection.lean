@@ -40,25 +40,24 @@ schemes — in particular, over a field, of the proper scheme over that field.
   `Curves^{lci}`.
 * `AlgebraicGeometry.isLciFamily_curveFamilyOfSchemeMorphism_iff`: **Stacks 0DZV**, part (2),
   condition (b) read on the family of curves attached to a morphism of schemes.
-* `AlgebraicGeometry.factorsThroughCurvesLci_iff`: **Stacks 0DZV**, part (1), the equivalence of
-  (a) and (b), granted an algebraic stack of curves carrying the condition as an open substack.
-* `AlgebraicGeometry.factorsThroughCurvesLci_over_field_iff`: **Stacks 0DZV**, part (2), the
-  equivalence of (a) and (b), under the same grant.
+* `AlgebraicGeometry.factorsThroughCurvesLci_iff`: the factorization criterion of Stacks 0507
+  for an open substack of an algebraic stack over families of curves cut out by the condition.
+* `AlgebraicGeometry.factorsThroughCurvesLci_over_field_iff`: its instance over a field.
+
+The open substack `Curves^{lci}` of the algebraic stack of curves and the two parts of Stacks
+0DZV on it are in `StacksFrontier.AlgebraicGeometry.Quot.CurvesLocalCompleteIntersectionOpenSubstack`
+(`AlgebraicGeometry.exists_openSubstack_curvesLci`).
 
 ## Implementation notes
 
-The stack of curves is **not constructed in this library**: the category `AlgebraicGeometry.
-CurveFamily` of families of curves of Stacks 0D4Z exists, but its algebraicity, Stacks 0D5A, is
-not proved here and there is no declaration for the algebraic stack `Curves`. Consequently the
-open substack `Curves^{lci}` cannot be constructed: the construction of an open substack
-available here, `AlgebraicGeometry.Stack.exists_openSubstack_isOpenImmersion_smooth_surjective`
-of Stacks 05UP, builds the open substack of a *given* algebraic stack. So the two factorization
-criteria below carry the algebraic stack, the identification of its objects with families of
-curves, and the open substack together with its specification as explicit named hypotheses, in
-the manner of `AlgebraicGeometry.factorsThroughCurvesSmooth_iff` for the sibling Tag 0DZZ. What
-they add to `AlgebraicGeometry.Stack.exists_based_factorization_iff` of Stacks 0507 is the
-translation of membership of the substack into the condition on the corresponding family. The
-remaining declarations are unconditional.
+The two factorization criteria below are stated for an arbitrary algebraic stack `𝒳` with a
+functor `Φ` to families of curves and an open substack `V` of `𝒳` whose objects are those sent to
+families with the condition, all three given as arguments. What they add to
+`AlgebraicGeometry.Stack.exists_based_factorization_iff` of Stacks 0507 is the translation of
+membership of the substack into the condition on the corresponding family. They do not construct
+`Curves^{lci}`; that is done, on the algebraic stack of curves of Stacks 0D5A
+(`AlgebraicGeometry.curvesFiberedCategory_isAlgebraicStack`), in
+`AlgebraicGeometry.curvesLci`. The remaining declarations are unconditional.
 
 The equivalence of (1)(b) and (1)(c) is the source's first step. Syntomicity of a morphism of
 algebraic spaces is flatness together with the local complete intersection property, which is
@@ -89,11 +88,12 @@ an arbitrary base scheme of the site, the field playing no role, and
 source states.
 
 The two conditions making `Curves^{lci}` an open substack beyond strict fullness — that the full
-subcategory is an algebraic stack and that its inclusion is an open immersion — rest on the
-algebraicity of the stack of curves and are not proved here. The source deduces them from More on
-Morphisms of Spaces, Lemma 76.49.7, the openness and base-change compatibility of the locus in
-the base over which a family is a local complete intersection morphism; that lemma has no
-declaration in this library.
+subcategory is an algebraic stack and that its inclusion is an open immersion — are not proved in
+this file. The source deduces them from Stacks 06CE, the openness and base-change compatibility of
+the locus in the base over which a family is a local complete intersection morphism
+(`AlgebraicGeometry.Space.exists_isOpenSubspace_factorsThrough_iff_isLocalCompleteIntersection`),
+which gives condition (o) of Section 0E0E (`AlgebraicGeometry.isOpenCurvesLocus_isLciFamily`);
+the open substack is `AlgebraicGeometry.curvesLci`.
 
 ## References
 
@@ -169,19 +169,16 @@ An isomorphism of families of curves is a morphism of families, so this is base-
 of the condition applied to the inverse isomorphism. -/
 @[stacks 0DZV "strict fullness of the local complete intersection subcategory of the category of \
 families of curves, which is the first of the three conditions of Tag 04YM making it an open \
-substack; the remaining two rest on the algebraicity of the stack of curves (Tag 0D5A), which \
-this library does not have"]
+substack"]
 theorem curvesLci_isStrictlyFull :
     (show ObjectProperty (CurveFamily B hZ) from
       IsLciFamily B hZ).IsClosedUnderIsomorphisms :=
   ⟨fun ee hX => CurveFamily.isLciFamily_of_hom B hZ ee.inv hX⟩
 
-/-- **Stacks 0DZV.** The subcategory `Curves^{lci}`: the strictly full subcategory of families of
-curves whose structure morphism is a local complete intersection morphism. -/
-@[stacks 0DZV "the local complete intersection subcategory of the category of families of \
-curves, which is the underlying full subcategory of the open substack Curves^{lci} of the source; \
-the stack of curves is not constructed in this library, so this is a subcategory of the category \
-of families of curves of Tag 0D4Z and not an open substack of a stack"]
+/-- The subcategory `Curves^{lci}` of the category of families of curves: the strictly full
+subcategory of families of curves whose structure morphism is a local complete intersection
+morphism. The open substack `Curves^{lci}` of the algebraic stack of curves of Stacks 0DZV is
+`AlgebraicGeometry.curvesLci`. -/
 abbrev CurvesLci :=
   (show ObjectProperty (CurveFamily B hZ) from IsLciFamily B hZ).FullSubcategory
 
@@ -238,23 +235,19 @@ theorem isLciFamily_curveFamilyOfSchemeMorphism_iff
 
 /-! ### The factorization criteria -/
 
-/-- **Stacks 0DZV, part (1).** The equivalence of conditions (a) and (b). Let `𝒳` be an algebraic
-stack over the big fppf site of the integers whose objects are identified with families of curves
-by `Φ`, and let `V` be an open substack of `𝒳` whose objects are exactly those identified with
-families having a local complete intersection structure morphism. Then a 1-morphism into `𝒳` from
-a category over the site factors through `V`, over the site and up to a 2-isomorphism, if and only
-if every family of curves in its image has a local complete intersection structure morphism.
+/-- **The factorization criterion for an open substack cut out by the condition.** Let `𝒳` be
+an algebraic stack over the big fppf site of the integers whose objects are identified with
+families of curves by `Φ`, and let `V` be an open substack of `𝒳` whose objects are exactly those
+identified with families having a local complete intersection structure morphism. Then a
+1-morphism into `𝒳` from a category over the site factors through `V`, over the site and up to a
+2-isomorphism, if and only if every family of curves in its image has a local complete
+intersection structure morphism.
 
-This result **assumes** what Stacks 0D5A would supply and this library does not have: an algebraic
-stack of curves, and the fact that the local complete intersection condition cuts an open substack
-out of it. Granted those, it is the criterion of Stacks 0507 together with the translation of
-membership of the substack into the condition on the corresponding family. -/
-@[stacks 0DZV "part (1), the equivalence of (a) and (b): the classifying 1-morphism factors \
-through the local complete intersection substack if and only if every family of curves in its \
-image has a local complete intersection structure morphism. The stack of curves is not \
-constructed in this library (Tag 0D5A is not proved here), so the algebraic stack, the \
-identification of its objects with families of curves, and the open substack together with its \
-specification are carried as explicit named hypotheses"]
+The algebraic stack `𝒳`, the functor `Φ` and the open substack `V` with its specification `hV`
+are arguments, so this does not construct an open substack; it is the criterion of Stacks 0507
+together with the translation of membership of `V` into the condition on the corresponding
+family. Part (1) of Stacks 0DZV on the open substack `Curves^{lci}` of the algebraic stack of
+curves is `AlgebraicGeometry.factorsThrough_curvesLci_tfae`. -/
 theorem factorsThroughCurvesLci_iff
     {𝒳 : Stack.AlgebraicStacks.{u, w} B integerBase hZ}
     (Φ : 𝒳.val.val.obj ⥤ CurveFamily B hZ) (V : Stack.OpenSubstack 𝒳)
@@ -266,8 +259,9 @@ theorem factorsThroughCurvesLci_iff
   have := V.strictlyFull
   exact (Stack.exists_based_factorization_iff f).trans (forall_congr' fun Y => hV (f.obj Y))
 
-/-- **Stacks 0DZV, part (2).** The equivalence of conditions (a) and (b) for a proper scheme over
-a field of dimension at most one. Let `X → Spec(k)` be a proper flat morphism of schemes of finite
+/-- **The factorization criterion over a field.** The instance of
+`AlgebraicGeometry.factorsThroughCurvesLci_iff` for a proper scheme over a field of dimension at
+most one. Let `X → Spec(k)` be a proper flat morphism of schemes of finite
 presentation over a field `k` whose source has dimension at most one, and let `f` be a 1-morphism
 into the stack of curves all of whose objects classify the attached family of curves. Then `f`
 factors through the local complete intersection open substack exactly when `X` is a local complete
@@ -284,18 +278,10 @@ quantified right-hand side of `AlgebraicGeometry.factorsThroughCurvesLci_iff` in
 condition the source states. Properness, finite presentation, flatness and the dimension bound are
 the hypotheses of `AlgebraicGeometry.curveFamilyOfSchemeMorphism` and are all used, through it.
 
-Like `AlgebraicGeometry.factorsThroughCurvesLci_iff` this **assumes** an algebraic stack of curves
-and that the condition cuts an open substack out of it; neither is available in this library,
-Stacks 0D5A not being proved here. -/
-@[stacks 0DZV "part (2), the equivalence of (a) and (b): for a proper flat morphism of finite \
-presentation from a scheme of dimension at most one to the spectrum of a field, the classifying \
-1-morphism factors through the local complete intersection substack if and only if the source is \
-a local complete intersection over that field. As in part (1) the algebraic stack of curves, the \
-identification of its objects with families of curves, and the open substack together with its \
-specification are carried as explicit named hypotheses, the stack of curves not being constructed \
-in this library. The hypothesis that the base be the spectrum of a field is kept, making this the \
-instance the source states, but is not used: the equivalence holds over any base scheme of the \
-site"]
+Like `AlgebraicGeometry.factorsThroughCurvesLci_iff` this takes the algebraic stack, the functor
+to families of curves and the open substack as arguments. Part (2) of Stacks 0DZV on the open
+substack `Curves^{lci}` of the algebraic stack of curves is
+`AlgebraicGeometry.factorsThrough_curvesLci_over_field_iff`. -/
 theorem factorsThroughCurvesLci_over_field_iff
     {𝒳 : Stack.AlgebraicStacks.{u, w} B integerBase hZ}
     (Φ : 𝒳.val.val.obj ⥤ CurveFamily B hZ) (V : Stack.OpenSubstack 𝒳)

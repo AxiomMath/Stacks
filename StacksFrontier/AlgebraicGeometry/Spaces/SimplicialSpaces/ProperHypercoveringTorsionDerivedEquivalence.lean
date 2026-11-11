@@ -151,14 +151,16 @@ of the proper surjective morphism `X̃ ⊔ {x} → X`, a proper hypercovering. I
 faithful on `D⁺(X_étale)` with quasi-inverse `Ra_*`, then `ℚ = Ra_*a⁻¹ℚ`, and the spectral sequence
 of the hypercovering would give `H²(X_étale, ℚ) ≠ 0`, coming from `H¹(E, ℚ) = ℚ`; but
 `Hⁱ(X_étale, ℚ) = 0` for `i > 0` because `X` is normal. The torsion hypothesis is therefore part of
-the statement, and this is the corrected form.
+the statement, and this is the corrected form. The erratum, with the counterexample checked in
+full, is recorded in `errata.md` (batch of 2026-11-06).
 
 The proof is the source's: Stacks 0DHK (`a⁻¹` on abelian sheaves is fully faithful with essential
 image the cartesian sheaves) and Stacks 0DHL (`K ≅ Ra_*a⁻¹K` on `D⁺_tors(X_étale)`) are the inputs
 of the formal equivalence of Stacks 0D7U,
 `CategoryTheory.SimplicialSiteSituation.Augmentation.derivedPlusTorsionEquivalence`. -/
-@[stacks 0DHN "torsion coefficients: `a⁻¹ : D⁺_tors(X_étale) ≌ D⁺_{𝒜, tors}(U_étale)`; the
-  statement for all of `D⁺(X_étale)` is false"]
+@[stacks 0DHN "corrected form (errata.md, 2026-11-06):
+  `a⁻¹ : D⁺_tors(X_étale) ≌ D⁺_{𝒜, tors}(U_étale)` with quasi-inverse `Ra_*`; as printed, for all of
+  `D⁺(X_étale)`, the statement is false"]
 def derivedPlusTorsionEquivalenceOfIsProperHypercovering (hA : IsProperHypercovering B S hS A) :
     ((DerivedCategoryB.derivedCategoryB
       (Stacks.Torsion.torsionSheafProperty.{u + 1, u + 1, u + 1}

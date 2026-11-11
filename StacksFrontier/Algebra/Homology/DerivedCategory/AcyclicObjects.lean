@@ -51,16 +51,20 @@ degree zero, computes `RF`.
 
 ## Implementation notes
 
-* This is part (3) of the source definition. Its part (1) names the right derived functors `RF`,
-  which are `Functor.totalRightDerived`, and its part (2) names the left derived functors `LF`.
+* This is part (3) of the source definition, in the form of Mathlib's derived functor API. The
+  source's parts (1) to (4) are formalized in
+  `StacksFrontier.Algebra.Homology.DerivedCategory.DerivedFunctorsOfAdditive`: the partial functors
+  `Functor.rightDerivedK`, `Functor.rightDerivedKPlus`, `Functor.leftDerivedK`,
+  `Functor.leftDerivedKMinus`, and the acyclic objects `Functor.IsRightAcyclic`,
+  `Functor.IsLeftAcyclic`, with no assumption that the derived functors are everywhere defined.
 * Part (1) names two right derived functors of `F`: one of `F : K(C) ⥤ D(D)` relative to `Qis(C)`,
   and one of `F : K⁺(C) ⥤ D⁺(D)` relative to `Qis⁺(C)`. They are defined at, and are computed by,
   the same bounded below objects, `A[0]` among them, so the condition is stated for the second. The
   multiplicative system is the source's in both cases — `Qis(C)` resp. `Qis⁺(C)`, never the
   quasi-isomorphisms of the target.
-* Part (4), left acyclicity, is this property for the opposite functor `F.op : Cᵒᵖ ⥤ Dᵒᵖ` at
-  `Aᵒᵖ`, since passing to opposite categories exchanges `K⁻(C)` with `K⁺(Cᵒᵖ)` and `LF` with
-  `R(F.op)`; it is not restated here.
+* Left acyclicity, part (4), is `Functor.IsLeftAcyclic`; it can also be read as this property
+  for the opposite functor `F.op : Cᵒᵖ ⥤ Dᵒᵖ` at `Aᵒᵖ`, since passing to opposite categories
+  exchanges `K⁻(C)` with `K⁺(Cᵒᵖ)` and `LF` with `R(F.op)`.
 * `HasRightDerivedFunctor` says that `RF` is everywhere defined, and it holds when `C` has enough
   injectives. The source lets `RF` be a partial functor and asks in addition that it be defined at
   `A[0]`, a distinction that is invisible in the everywhere defined case assumed here. Under
@@ -89,8 +93,9 @@ variable {C : Type u} {D : Type u'} [Category.{v} C] [Category.{v'} D]
 degree zero computes the right derived functor `RF` of `F : K⁺(C) ⥤ D⁺(D)`, that is, if the
 canonical map `α_{A[0]} : F(A[0]) ⟶ RF(Qh(A[0]))`, the unit of `RF` at `A[0]`, is an
 isomorphism. -/
-@[stacks 0157 "part (3); the `RF` of part (1) is `Functor.totalRightDerived`", sga "4 XVII 1.2.3"
-  "(ii)", sga "4 V 0.4"]
+@[stacks 0157 "(3), with `RF` Mathlib's `Functor.totalRightDerived` on `K⁺(C)`; the source's
+  formulation, for a partially defined `RF`, is `Functor.IsRightAcyclic`", sga "4 XVII 1.2.3"
+  "(ii)", sga "4 XVII 1.2.3" "(ii)", sga "4 V 0.4"]
 public def rightAcyclic (F : C ⥤ D) [F.Additive]
     [(F.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasRightDerivedFunctor
       (HomotopyCategory.Plus.quasiIso C)] : ObjectProperty C := fun A ↦
@@ -684,7 +689,10 @@ is.
 
 ## Main results
 
-* `CategoryTheory.Functor.le_rightAcyclic_op`: Stacks 05T9.
+* `CategoryTheory.Functor.hasPointwiseRightDerivedFunctor_op_and_le_rightAcyclic_op`: Stacks 05T9,
+  existence of `LF` everywhere on `K⁻(C)` and acyclicity of the objects of `P`.
+* `CategoryTheory.Functor.le_rightAcyclic_op`: acyclicity of the objects of `P` for a given
+  everywhere defined `LF`.
 
 ## Implementation notes
 
@@ -712,11 +720,11 @@ uses both halves at every application. The source does not assume that a zero ob
 `0 ⟶ 0 ⟶ Q ⟶ Q ⟶ 0` puts a zero object in `P`. It is therefore not assumed here either, even
 though the route through [Stacks, Tag 05T7] needs it.
 
-The source lets `LF` be a partially defined functor and concludes acyclicity of the objects of `P`
-at which it is then automatically defined; here `LF` is assumed everywhere defined on `D⁻(C)` —
-that is, `R(Fᵒᵖ)` is assumed everywhere defined on `D⁺(Cᵒᵖ)` (`HasRightDerivedFunctor`) — which is
-what makes the unit whose invertibility is acyclicity available at all. This holds in the intended
-applications, in particular whenever `C` has enough projectives.
+The source lets `LF` be a partially defined functor and concludes acyclicity of the objects of `P`,
+which includes that `LF` is defined at them. Here the conclusion is stronger: as for
+[Stacks, Tag 05T8], `R(Fᵒᵖ)` exists as a pointwise right derived functor everywhere on
+`K⁺(Cᵒᵖ)` (`HasPointwiseRightDerivedFunctor`), so `LF` is everywhere defined on `K⁻(C)`, and the
+objects of `P` are acyclic for it.
 
 The image `S.map F.op` of a short complex `S` of `Cᵒᵖ` under `F.op` is definitionally the opposite
 of the image `S.unop.map F` of `S.unop` under `F`, so `mapOp_op` below, which records this, is
@@ -781,9 +789,33 @@ namespace Functor
 `P` be a class of objects of `C` such that every object of `C` is a quotient of an object
 satisfying `P`, and such that for every short exact sequence `0 ⟶ P ⟶ Q ⟶ R ⟶ 0` with `Q` and
 `R` satisfying `P` the object `P` satisfies `P` and `0 ⟶ F P ⟶ F Q ⟶ F R ⟶ 0` is short exact.
-Then every object satisfying `P` is acyclic for the left derived functor `LF` of `F`, i.e. its
-opposite is acyclic for the right derived functor of `F.op`. -/
-@[stacks 05T9, sga "4 XVII 1.2.6", sga "4½ Etat_0 4.2.3.2" "σ left f-acyclic"]
+Then the left derived functor `LF` is defined everywhere on `K⁻(C)`, i.e. the pointwise right
+derived functor of `F.op` exists on `K⁺(Cᵒᵖ)`, and every object satisfying `P` is acyclic for
+`LF`, i.e. its opposite is acyclic for the right derived functor of `F.op`. -/
+@[stacks 05T9 "The left derived functor `LF` (encoded as the right derived functor of `F.op`
+  on `K⁺(Cᵒᵖ)`) is defined everywhere, and every object of `P` is acyclic for it.",
+  sga "4 XVII 1.2.6", sga "4½ Etat_0 4.2.3.2" "SES-stable σ, - case"]
+public theorem hasPointwiseRightDerivedFunctor_op_and_le_rightAcyclic_op {C : Type u}
+    {D : Type u'} [Category.{v} C] [Category.{v'} D] [Abelian C] [Abelian D]
+    [HasDerivedCategory.{w} Cᵒᵖ] [HasDerivedCategory.{w'} Dᵒᵖ]
+    (F : C ⥤ D) [F.Additive] (P : ObjectProperty C)
+    (hP₁ : ∀ X : C, ∃ (Y : C) (_ : P Y) (p : Y ⟶ X), Epi p)
+    (hP₂ : ∀ S : ShortComplex C, S.ShortExact → P S.X₂ → P S.X₃ →
+      P S.X₁ ∧ (S.map F).ShortExact) :
+    ∃ h : (F.op.mapHomotopyCategoryPlus ⋙ DerivedCategory.Plus.Qh).HasPointwiseRightDerivedFunctor
+        (HomotopyCategory.Plus.quasiIso Cᵒᵖ),
+      letI := h
+      P.op ≤ F.op.rightAcyclic :=
+  F.op.hasPointwiseRightDerivedFunctor_and_le_rightAcyclic P.op (exists_mono_op P hP₁)
+    (shortExact_map_op F P hP₂)
+
+/-- Let `F : C ⥤ D` be an additive functor between abelian categories whose left derived
+functor `LF`, encoded as the right derived functor of `F.op` on `K⁺(Cᵒᵖ)`, is assumed to exist,
+and let `P` be a class of objects of `C` satisfying the hypotheses of Stacks 05T9. Then every
+object satisfying `P` is acyclic for `LF`. The existence of `LF` is part of the conclusion of
+Stacks 05T9, see `hasPointwiseRightDerivedFunctor_op_and_le_rightAcyclic_op`; this variant is
+for a fixed, given derived functor. -/
+@[sga "4 XVII 1.2.6", sga "4½ Etat_0 4.2.3.2" "σ left f-acyclic"]
 public theorem le_rightAcyclic_op {C : Type u} {D : Type u'} [Category.{v} C] [Category.{v'} D]
     [Abelian C] [Abelian D] [HasDerivedCategory.{w} Cᵒᵖ] [HasDerivedCategory.{w'} Dᵒᵖ]
     (F : C ⥤ D) [F.Additive]

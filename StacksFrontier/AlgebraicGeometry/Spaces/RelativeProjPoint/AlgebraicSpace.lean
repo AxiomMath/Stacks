@@ -83,7 +83,17 @@ def quadrupleRestriction :
 /-- **The functor `F` of Stacks 084A** for Situation 0849: on a test object `T` the limit, over
 the quasi-compact test objects `W ⟶ T`, of the unions `F(W)` of the classes of quadruples
 `(d, f, ℒ, ψ)`, and on a quasi-compact `T` the union `F(T)` itself
-(`relativeProjFunctorEquivF`). -/
+(`relativeProjFunctorEquivF`).
+
+Its restriction maps are the pullback of quadruples (`relativeProjFunctorEquivF_map_mk`), its
+value on an arbitrary test object is the limit over the quasi-compact opens
+(`bijective_restrictCompactOpens`), and on a quasi-compact test object two quadruples have the
+same class exactly when they are equivalent in the sense of 084A
+(`Stacks.AlgebraicGeometry.RelativeProjQcohSheaf.F.mk_eq_mk_iff_equivalent`). -/
+@[stacks 084A "the functor F of quadruples for Situation 0849, constructed from the restriction \
+datum f^*A of the situation: on a quasi-compact test scheme its value is the set of \
+equivalence classes of quadruples (d, f, L, psi), on an arbitrary test scheme T the limit over \
+the quasi-compact opens of T, with restriction maps the pullback of quadruples"]
 def relativeProjFunctor : (BigFppfOver s.site s.base s.containsBase)ᵒᵖ ⥤ Type u :=
   s.quadrupleRestriction.quadrupleSpace
     s.shrink.contains_relativeProj_pointAlgebra s.space.property.isSheaf

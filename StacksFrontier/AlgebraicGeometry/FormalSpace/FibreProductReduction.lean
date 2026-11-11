@@ -23,38 +23,31 @@ represent the same functor on reduced algebraic spaces, so they are canonically 
 
 ## Main results
 
-* `AlgebraicGeometry.FormalSpace.exists_iso_reduction_fibreProduct`: **Stacks 0CB9**.
+* `AlgebraicGeometry.FormalSpace.exists_iso_reduction_fibreProduct`: the same identity for any
+  models of the two fibre products and any reductions of the five spaces involved; reductions
+  being unique up to unique isomorphism, this is the form in which the argument is carried out.
 * `AlgebraicGeometry.FormalSpace.IsReduction.eq_of_comp_inclusion_eq`: two morphisms from a
   reduced algebraic space into a reduction agree as soon as they agree after the inclusion.
 
 ## Implementation notes
 
-The reduction of a formal algebraic space is not constructed in this library. Stacks 0AIN, which
-asserts that it exists, is not available, and `AlgebraicGeometry.FormalSpace.IsReduction` is
-only the predicate naming its defining properties. Accordingly the statement here supplies the
-reductions as hypotheses: reductions `iX : Xred ⟶ X`, `iY : Yred ⟶ Y` and `iZ : Zred ⟶ Z` of the
-three given spaces, a reduction `iP : Pred ⟶ P` of the fibre product, a reduction
-`iQ : Qred ⟶ Q` of the fibre product of the reductions, and the comparison morphisms
-`Xred ⟶ Zred` and `Yred ⟶ Zred` over `X ⟶ Z` and `Y ⟶ Z`. That is the shape in which Stacks
-0GB8 is stated in `StacksFrontier.AlgebraicGeometry.FormalSpace.Reduction`; it is more general than
-the statement about chosen reductions, which it implies as soon as 0AIN is available, and it
-needs no choice.
+The statement for the fibre products `CategoryTheory.Limits.pullback` and the reductions
+`AlgebraicGeometry.FormalSpace.reduction` supplied by Stacks 0AIN is
+`AlgebraicGeometry.FormalSpace.exists_iso_reduction_pullback`, in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.FibreProductReductionChosen`, which deduces it from
+the form here.
 
-The two fibre products are supplied as pullback squares rather than as
-`CategoryTheory.Limits.pullback`, so that no instance asserting the existence of pullbacks of
-fppf sheaves is needed and so that the conclusion applies to any model of either fibre product.
+The general form `exists_iso_reduction_fibreProduct` takes the two fibre products as pullback
+squares rather than as `CategoryTheory.Limits.pullback`, and the reductions as witnesses of
+`AlgebraicGeometry.FormalSpace.IsReduction`, so that it applies to any model of each.
 
 The identity of the source is an equality of spaces, which in this library is a canonical
-isomorphism. The conclusion therefore produces the comparison morphism `Q ⟶ P` induced by the
-inclusions of the reductions, together with an isomorphism `Qred ≅ Pred` over it. That
-isomorphism is the unique morphism `Qred ⟶ Pred` lying over the comparison morphism, by the
-uniqueness clause of the universal property of `iP`; the conclusion records the compatibility,
-and uniqueness given the compatibility is immediate from
+isomorphism. The conclusion therefore produces an isomorphism of the two reductions over the
+comparison morphism `X_red ×_{Z_red} Y_red ⟶ X ×_Z Y` induced by the inclusions of the
+reductions. That isomorphism is the unique morphism lying over the comparison morphism, by the
+uniqueness clause of the universal property of the reduction of `X ×_Z Y`; uniqueness given the
+compatibility is immediate from
 `AlgebraicGeometry.FormalSpace.IsReduction.eq_of_comp_inclusion_eq`.
-
-The hypotheses that `X`, `Y` and `Z` be formal algebraic spaces are part of the source statement
-and are kept, but the argument does not use them: everything it needs about those spaces is
-already contained in the reduction data. They are marked as unused.
 
 ## References
 
@@ -139,14 +132,14 @@ private theorem comp_comp_eq_of_comp_eq {A B' C D V W : FppfSheaf B S hS}
     (α ≫ c) ≫ q ≫ i = iQ ≫ q ≫ i := by
   rw [Category.assoc, hc, ← Category.assoc, hα, Category.assoc, hcmp]
 
-/-- **Stacks 0CB9.** Let `X ⟶ Z` and `Y ⟶ Z` be morphisms of formal algebraic spaces over `S`,
+/-- Stacks 0CB9 for arbitrary reductions and arbitrary models of the fibre products. Let
+`X ⟶ Z` and `Y ⟶ Z` be morphisms of formal algebraic spaces over `S`,
 let `iX : Xred ⟶ X`, `iY : Yred ⟶ Y` and `iZ : Zred ⟶ Z` be reductions and let `Xred ⟶ Zred` and
 `Yred ⟶ Zred` be compatible with the two given morphisms. Let `P` be a fibre product of `X` and
 `Y` over `Z`, let `Q` be a fibre product of `Xred` and `Yred` over `Zred`, and let
 `iP : Pred ⟶ P` and `iQ : Qred ⟶ Q` be reductions of those two fibre products. Then the
 inclusions of the reductions induce a morphism `Q ⟶ P` over which `Qred` and `Pred` are
 isomorphic: `(X ×_Z Y)_red = (X_red ×_{Z_red} Y_red)_red`. -/
-@[stacks 0CB9 "with reductions of the five spaces, and both fibre products, as hypotheses"]
 theorem exists_iso_reduction_fibreProduct
     (_hX : IsFormalAlgebraicSpace B S hS X) (_hY : IsFormalAlgebraicSpace B S hS Y)
     (_hZ : IsFormalAlgebraicSpace B S hS Z)

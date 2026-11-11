@@ -38,15 +38,18 @@ Morphisms, Lemma 01V0: by Stacks 04CS, proved in this tree as
 `AlgebraicGeometry.Space.sheafOfDifferentialsSchemeComparison`, both sides are the small-étale
 modules of Stacks 03DU attached to the Zariski sheaves of relative differentials of the two
 columns, and the associated-module functor commutes with pullback by
-`AlgebraicGeometry.Space.representedAssociatedModulePullbackIso`; what is **not** in the tree is
+`AlgebraicGeometry.Space.representedAssociatedModulePullbackIso`; that route would further need
 the identification of the comparison map itself with the small-étale module of the scheme-level
 canonical map `AlgebraicGeometry.Scheme.Hom.relativeDifferentialsMap` of Stacks 01UV, which is a
-statement about the universal derivations and not about the modules alone.
+statement about the universal derivations and not about the modules alone.  The statement is
+proved by another route, through derivations:
+`AlgebraicGeometry.Space.isSchemeSquareDifferentialsIso_of_derivationRestriction` applied to
+`AlgebraicGeometry.Space.schemeSquareDerivationRestriction`.
 
 ## Main definitions
 
-* `AlgebraicGeometry.Space.IsSchemeSquareDifferentialsIso`: the one statement Stacks 05ZC still
-  needs — invertibility of the comparison map of Stacks 04CX for a cartesian square of schemes of
+* `AlgebraicGeometry.Space.IsSchemeSquareDifferentialsIso`: the one statement this reduction of
+  Stacks 05ZC takes — invertibility of the comparison map of Stacks 04CX for a cartesian square of schemes of
   the site, read as a square of represented algebraic spaces.
 
 ## Main results
@@ -124,9 +127,11 @@ abbrev IsSchemeSquareDifferentialsIso : Prop :=
 
 variable {X Y X' Y' : AlgebraicSpaces B S hS}
 
-/-- **Stacks 05ZC**, granted only
-`AlgebraicGeometry.Space.IsSchemeSquareDifferentialsIso` — the case of a cartesian square of
-schemes of the site.
+/-- **The statement of Stacks 05ZC from
+`AlgebraicGeometry.Space.IsSchemeSquareDifferentialsIso`** — the case of a cartesian square of
+schemes of the site.  That input is proved (through
+`AlgebraicGeometry.Space.schemeSquareDerivationRestriction`), and the tag is registered on the
+unconditional `AlgebraicGeometry.Space.isIso_sheafOfDifferentialsMap_of_isPullback`.
 
 The étale localization is carried out here and nothing of it is assumed: a tower of étale charts
 of the cartesian square (Stacks 02X1, twice) leaves a cartesian square of chart schemes and a
@@ -165,8 +170,9 @@ theorem isIso_of_isSheafOfDifferentialsMap_of_isPullback_of_schemeSquare
     C.cUSurjective hcommU hcomm hk htop hc
     (hscheme _ _ _ _ C.qU C.α C.fU C.pV hk C.isPullbackX)
 
-/-- **Stacks 05ZD**, granted only
-`AlgebraicGeometry.Space.IsSchemeSquareDifferentialsIso`.
+/-- **The statement of Stacks 05ZD from
+`AlgebraicGeometry.Space.IsSchemeSquareDifferentialsIso`.**  The tag is registered on the
+unconditional `AlgebraicGeometry.Space.isIso_biprodDesc_sheafOfDifferentialsMap_of_isPullback`.
 
 `AlgebraicGeometry.Space.isIso_biprodDesc_of_isPullback` reduces the direct-sum assertion to
 Stacks 05ZC at the two orientations of the cartesian square, by the transitivity sequence of

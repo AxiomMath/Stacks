@@ -49,15 +49,17 @@ universe w w' v v' u u'
 # The graded pieces of a filtered right derived functor
 
 Let `T : 𝒜 ⥤ ℬ` be an additive functor of abelian categories with `𝒜` having enough injectives.
-This file proves the isomorphism `gr^p ∘ RT ≅ RT ∘ gr^p` of Tag 015U in the form in which the
-filtered right derived functor is constructed: for a filtered quasi-isomorphism `α : K^• ⟶ I^•`
+This file proves the isomorphism `gr^p ∘ RT ≅ RT ∘ gr^p` of Tag 015U read at one filtered
+injective resolution: for a filtered quasi-isomorphism `α : K^• ⟶ I^•`
 into a filtered injective complex and a filtered complex `M^•` of `ℬ` with
 `gr^p M^• ≅ T(gr^p I^•)` in `K^+(ℬ)` — the datum of `M^• = T_ext(I^•)` — there is an isomorphism
-`gr^p M^• ≅ RT(gr^p K^•)` in `D^+(ℬ)`.
+`gr^p M^• ≅ RT(gr^p K^•)` in `D^+(ℬ)`. The natural isomorphism of functors `DF^+(𝒜) ⥤ D^+(ℬ)`
+of Tag 015U is `CategoryTheory.FilteredDerived.filteredRightDerivedFunctorGrPIso`.
 
 ## Main results
 
-* `Stacks.FilteredDerived.GradedPieceIso.solution`: the statement of Tag 015U.
+* `Stacks.FilteredDerived.GradedPieceIso.solution`: the isomorphism of Tag 015U at one filtered
+  injective resolution.
 
 ## Implementation notes
 
@@ -86,7 +88,9 @@ open CategoryTheory Limits Opposite FilteredObject
 
 namespace Stacks.FilteredDerived.GradedPieceIso
 
-/-- **Stacks 015U.** -/
+/-- The isomorphism `gr^p ∘ RT ≅ RT ∘ gr^p` of [Stacks, Tag 015U] at one filtered injective
+resolution `α : K^• ⟶ I^•`, with `M^•` presenting `T_ext(I^•)`: an isomorphism
+`gr^p M^• ≅ RT(gr^p K^•)` in `D⁺(ℬ)` compatible with `RT(gr^p α)` and the unit of `RT`. -/
 public theorem solution
     {A : Type u} {B : Type u'} [Category.{v} A] [Category.{v'} B] [Abelian A] [Abelian B]
     [HasDerivedCategory.{w} A] [HasDerivedCategory.{w'} B] [EnoughInjectives A]
@@ -140,11 +144,13 @@ derived functor `RT : DF⁺(𝒜) ⥤ DF⁺(ℬ)` of [Stacks, Tag 015S] is defin
 ([Stacks, Tag 05U2]), where `j'` is a quasi-inverse of the equivalence `K⁺(I^f) ⥤ DF⁺(𝒜)` of
 [Stacks, Tag 015Q] and `T_ext` is the functor of [Stacks, Tag 05U0] on filtered injective objects,
 built from the splitting `I ≅ ⨁_p I_p` of [Stacks, Tag 015T] so that its defining property is
-`gr^p(T_ext I) = T(gr^p I)`. The assertion formalized here is [Stacks, Tag 015U],
+`gr^p(T_ext I) = T(gr^p I)`. [Stacks, Tag 015U] is the isomorphism
 ```
 gr^p ∘ RT ≅ RT ∘ gr^p
 ```
-as functors `DF⁺(𝒜) ⥤ D⁺(ℬ)`: for a filtered injective resolution `α : K^• ⟶ I^•` of a filtered
+of functors `DF⁺(𝒜) ⥤ D⁺(ℬ)`, which is
+`CategoryTheory.FilteredDerived.filteredRightDerivedFunctorGrPIso`. This file proves it read at
+one filtered injective resolution: for a filtered injective resolution `α : K^• ⟶ I^•` of a filtered
 complex, `gr^p(RT(K^•)) = gr^p(T_ext(I^•)) = T(gr^p I^•)` by the construction of `RT`, while
 `gr^p α : gr^p K^• ⟶ gr^p I^•` is an injective resolution, so that `T(gr^p I^•)` computes
 `RT(gr^p K^•)`; the isomorphism is the composite of the two.
@@ -162,20 +168,19 @@ complex, `gr^p(RT(K^•)) = gr^p(T_ext(I^•)) = T(gr^p I^•)` by the construct
 
 ## Implementation notes
 
-*Stated on resolutions rather than on `DF⁺(𝒜)`.* Neither the filtered right derived functor
-`RT : DF⁺(𝒜) ⥤ DF⁺(ℬ)` nor the quasi-inverse `j'` of [Stacks, Tag 015Q] is available: `Fil^f(𝒜)`
-is not additive in Mathlib, so `K⁺(I^f)` and `DF⁺(𝒜)` cannot be formed as triangulated categories,
-which is why [Stacks, Tag 015Q] is itself stated in the tree against an abstract localisation of
-filtered complexes. Accordingly `RT(K^•)` is presented by the data that define it: a filtered
-quasi-isomorphism `α : K^• ⟶ I^•` into a filtered injective complex — every object of `DF⁺(𝒜)` is
-of this form, by [Stacks, Tag 015Q] — together with `M^• = T_ext(I^•)`, and the conclusion is the
-isomorphism of the source's formula for that presentation. This is not weaker than a natural
-isomorphism of functors: the isomorphism is pinned by an equation whose other two maps are
-themselves isomorphisms, so it is *the* unique isomorphism compatible with the resolution, and
-naturality in the presentation follows from the naturality of those two maps.
+*Stated on resolutions rather than on `DF⁺(𝒜)`.* This file does not use the functors on
+`DF⁺(𝒜)`: `RT(K^•)` is presented by the data that define it, a filtered quasi-isomorphism
+`α : K^• ⟶ I^•` into a filtered injective complex — every object of `DF⁺(𝒜)` is of this form, by
+[Stacks, Tag 015Q] — together with `M^• = T_ext(I^•)`, and the conclusion is the isomorphism of the
+source's formula for that presentation, pinned by an equation whose other two maps are
+isomorphisms. The natural isomorphism of functors `DF⁺(𝒜) ⥤ D⁺(ℬ)` itself, built on the
+triangulated `DF⁺(𝒜)` and the equivalence `K⁺(I^f) ≌ DF⁺(𝒜)` of [Stacks, Tag 015Q], is
+`CategoryTheory.FilteredDerived.filteredRightDerivedFunctorGrPIso`, which carries the tag.
 
 *`T_ext` is presented by its defining property.* The functor `T_ext` of [Stacks, Tag 05U0] depends
-on a choice of splitting and is not in the tree; what its construction contributes here is exactly
+on a choice of splitting; on filtered injective objects it is `T` applied with the filtration
+`F^p T(I) = T(F^p I)`, which is how `CategoryTheory.FilteredDerived.filteredRightDerivedFunctor`
+builds it. Here what its construction contributes here is exactly
 the identification `gr^p(T_ext I^•) = T(gr^p I^•)`, so `T_ext(I^•)` is quantified over as any
 filtered complex `M^•` of `ℬ` with isomorphisms `e p : gr^p M^• ≅ T(gr^p I^•)`. Two consequences,
 both strengthening the statement: it holds for every such `M^•`, in particular for `T_ext(I^•)`
@@ -237,7 +242,7 @@ open CategoryTheory Limits Opposite FilteredObject
 
 namespace CochainComplex
 
-/-- **Stacks 015U.** Let `T : 𝒜 ⥤ ℬ` be an additive functor of abelian categories with `𝒜` having
+/-- Let `T : 𝒜 ⥤ ℬ` be an additive functor of abelian categories with `𝒜` having
 enough injectives, and let `RT : D⁺(𝒜) ⥤ D⁺(ℬ)` be its right derived functor. Let `α : K^• ⟶ I^•`
 be a filtered quasi-isomorphism of filtered cochain complexes of `𝒜` with `I^•` filtered
 injective, i.e. every `gr^p I^n` injective — a filtered injective resolution of `K^•` — and let
@@ -248,8 +253,9 @@ assume the graded pieces of `K^•`, `I^•` and `M^•` are bounded below. Then
 is an isomorphism `gr^p(RT(K^•)) = gr^p M^• ≅ RT(gr^p K^•)` in `D⁺(ℬ)` compatible with
 `RT(gr^p α)` and with the canonical map `Q(T(gr^p I^•)) ⟶ RT(Q(gr^p I^•))` of the right derived
 functor; since the former is an isomorphism, the compatibility determines it uniquely. This is the
-isomorphism of functors `gr^p ∘ RT ≅ RT ∘ gr^p` on `DF⁺(𝒜)`. -/
-@[stacks 015U]
+isomorphism `gr^p ∘ RT ≅ RT ∘ gr^p` of [Stacks, Tag 015U] read at one filtered injective
+resolution; the isomorphism of functors on `DF⁺(𝒜)` is
+`CategoryTheory.FilteredDerived.filteredRightDerivedFunctorGrPIso`. -/
 public theorem exists_iso_gradedPiece_rightDerivedFunctorPlus_of_filteredQuasiIso
     {A : Type u} {B : Type u'} [Category.{v} A] [Category.{v'} B] [Abelian A] [Abelian B]
     [HasDerivedCategory.{w} A] [HasDerivedCategory.{w'} B] [EnoughInjectives A]
@@ -286,12 +292,14 @@ Let `T : 𝒜 ⥤ ℬ` be an additive functor of abelian categories with `𝒜` 
 and let `I` be a bounded below filtered cochain complex of `𝒜` with degreewise finite filtration
 all of whose graded pieces `gr^p I` are complexes of injective objects. This file proves that the
 component at `(forget F) I` of the unit `Q ∘ T ⟶ RT ∘ Q` of the right derived functor
-`RT : D⁺(𝒜) ⥤ D⁺(ℬ)` is an isomorphism, which is the source's isomorphism
-`(forget F) ∘ RT ≅ RT ∘ (forget F)` read at such an `I`.
+`RT : D⁺(𝒜) ⥤ D⁺(ℬ)` is an isomorphism. This is the pointwise input to the isomorphism of
+functors `(forget F) ∘ RT ≅ RT ∘ (forget F)` of [Stacks, Tag 015V], which is
+`CategoryTheory.FilteredDerived.filteredRightDerivedFunctorForgetIso`.
 
 ## Main results
 
-* `Stacks.FilteredDerived.ForgetCommutes.solution`: the statement of [Stacks, Tag 015V].
+* `Stacks.FilteredDerived.ForgetCommutes.solution`: the unit of `RT` is invertible at the
+  underlying complex of a bounded below complex of filtered injective objects.
 
 ## Implementation notes
 
@@ -406,7 +414,10 @@ lemma injective_X_of_injective_gradedPiece
 
 end Injective
 
-/-- **Stacks 015V.** -/
+/-- The unit `Q ∘ T ⟶ RT ∘ Q` of the right derived functor is invertible at the underlying
+complex of a bounded below filtered complex with degreewise finite filtration and injective
+graded pieces. This is the pointwise input to [Stacks, Tag 015V]; the isomorphism of functors
+itself is `CategoryTheory.FilteredDerived.filteredRightDerivedFunctorForgetIso`. -/
 public theorem solution
     {A : Type u} {B : Type u'} [Category.{v} A] [Category.{v'} B] [Abelian A] [Abelian B]
     [HasDerivedCategory.{w} A] [HasDerivedCategory.{w'} B] [EnoughInjectives A]
@@ -469,26 +480,14 @@ unit `Q ∘ T ⟶ RT ∘ Q` of the right derived functor.
 
 ## Implementation notes
 
-*What is stated, and why it is the isomorphism of functors.* The two functors of the source are
-compared at an object of `DF⁺(𝒜)` of the form `L(I)` with `I` a bounded below complex of filtered
-injective objects; by [Stacks, Tag 015Q](1) every object of `DF⁺(𝒜)` is of that form up to
-isomorphism, so this is no loss. There the left-hand composite is `Q(T((forget F) I))` — by
-[Stacks, Tag 05U2] and the identification of the underlying complex of `T_ext(I)` recalled above —
-and the right-hand composite is `RT(Q((forget F) I))`, and the comparison map is the component of
+*What is stated.* This is a pointwise statement, not the isomorphism of functors of
+[Stacks, Tag 015V]: it says that the component at `(forget F) I` of
 `CategoryTheory.Functor.rightDerivedFunctorPlusUnith`, the canonical natural transformation
-`Q ∘ T ⟶ RT ∘ Q` on `K⁺(𝒜)` which is part of the data making `RT` a right derived functor. Since
-that transformation is natural, the single assertion that it is invertible at every such `I` *is*
-the source's isomorphism of functors, restricted along the equivalence of [Stacks, Tag 015Q]. The
-statement is therefore about the canonical map rather than about the existence of some
-isomorphism.
-
-*Why `RT` on `DF⁺` does not occur.* As recorded in [Stacks, Tag 05S1] and [Stacks, Tag 015Q],
-`DF(𝒜)` is formed here from filtered complexes and not from the homotopy category
-`K⁺(Fil^f(𝒜))`, which carries no triangulated structure in this development, so the functors
-`T_ext` and `RT : DF⁺(𝒜) ⥤ DF⁺(ℬ)` themselves are not formed; what is formed is the value of the
-left-hand composite on a filtered injective complex, which is what appears here. Nothing is
-weakened: the isomorphism asserted is the one whose components the source's isomorphism of
-functors has.
+`Q ∘ T ⟶ RT ∘ Q` on `K⁺(𝒜)`, is invertible when `I` is a bounded below complex of filtered
+injective objects. That is the input from which the isomorphism of functors
+`RT ⋙ forget F ≅ forget F ⋙ RT` on `DF⁺(𝒜)`, with `RT : DF⁺(𝒜) ⥤ DF⁺(ℬ)` the filtered right
+derived functor, is built: that statement is
+`CategoryTheory.FilteredDerived.filteredRightDerivedFunctorForgetIso`.
 
 *Filtered complexes rather than complexes of filtered objects.* As in [Stacks, Tag 05RZ] and
 [Stacks, Tag 015Q], a complex of filtered objects `(I^n, F)` is the same datum as a complex `I^•`
@@ -560,7 +559,7 @@ open CategoryTheory Limits Opposite
 
 namespace CochainComplex
 
-/-- **Stacks 015V.** Let `T : 𝒜 ⥤ ℬ` be an additive functor of abelian categories with `𝒜` having
+/-- Let `T : 𝒜 ⥤ ℬ` be an additive functor of abelian categories with `𝒜` having
 enough injectives, and let `I` be a bounded below complex of filtered injective objects: a bounded
 below filtered cochain complex of `𝒜` every term `(I^n, F^• I^n)` of which is a filtered injective
 object of `Fil^f(𝒜)`. Then the canonical map
@@ -568,11 +567,9 @@ object of `Fil^f(𝒜)`. Then the canonical map
 Q(T((forget F) I)) ⟶ RT(Q((forget F) I))
 ```
 in `D⁺(ℬ)` — the component at `(forget F) I` of the unit of the right derived functor
-`RT : D⁺(𝒜) ⥤ D⁺(ℬ)` — is an isomorphism. Since the left-hand side is `(forget F)(RT(I))`, `RT`
-here being the filtered right derived functor of [Stacks, Tag 05U2], and every object of `DF⁺(𝒜)`
-is isomorphic to such an `I` ([Stacks, Tag 015Q]), this is the source's isomorphism
-`(forget F) ∘ RT ≅ RT ∘ (forget F)` of functors `DF⁺(𝒜) ⥤ D⁺(ℬ)`. -/
-@[stacks 015V]
+`RT : D⁺(𝒜) ⥤ D⁺(ℬ)` — is an isomorphism. This is a pointwise statement: the isomorphism of
+functors `(forget F) ∘ RT ≅ RT ∘ (forget F)` on `DF⁺(𝒜)` of [Stacks, Tag 015V] is
+`CategoryTheory.FilteredDerived.filteredRightDerivedFunctorForgetIso`. -/
 public theorem isIso_rightDerivedFunctorPlusUnit_app_forget_of_injective_gradedPiece
     {A : Type u} {B : Type u'} [Category.{v} A] [Category.{v'} B] [Abelian A] [Abelian B]
     [HasDerivedCategory.{w} A] [HasDerivedCategory.{w'} B] [EnoughInjectives A]

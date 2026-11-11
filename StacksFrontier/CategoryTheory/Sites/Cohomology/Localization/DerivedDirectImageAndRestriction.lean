@@ -207,11 +207,13 @@ theorem fSharpRing_localized :
   ext W x
   rfl
 
-/-- **The underived identity behind Stacks 0D6G:** the direct image of a sheaf of modules along
-a morphism of ringed sites, restricted to the site localized at an object `V` of the target, is
-the direct image along the localized morphism of the restriction to the localization at `u(V)`.
-As in the source this is an equality of functors, not merely an isomorphism: the functor identity
-`u' ∘ j_V = j_U ∘ u` of Stacks 03CF is strict. -/
+/-- **Stacks 04J0, the identity `f'_* j_U^* = j_V^* f_*` on sheaves of modules**, which is also
+the underived identity behind Stacks 0D6G: the direct image of a sheaf of modules along a morphism
+of ringed sites, restricted to the site localized at an object `V` of the target, is the direct
+image along the localized morphism `f.localized V` of the restriction to the localization at
+`U = u(V)`. As in the source this is an equality of functors, not merely an isomorphism: the
+functor identity `u' ∘ j_V = j_U ∘ u` of Stacks 03CF is strict. -/
+@[stacks 04J0 "(3): the identity `f'_* j_U^* = j_V^* f_*` on sheaves of modules"]
 theorem pushforwardTopos_comp_overFunctor :
     f.toRingedToposSiteHom.pushforwardTopos ⋙
         SheafOfModules.overFunctor.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O) V =

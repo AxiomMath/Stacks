@@ -53,6 +53,37 @@ namespace DifferentialGradedModule
 
 variable {R : Type u} [CommRing R]
 
+/-- **The quasi-isomorphism `E' → End(Q)`, with its formula.** The quasi-isomorphism of
+`DifferentialGradedModule.exists_hom_nonpositiveEndomorphismDGA_bijective_cohomologyMap` may be
+taken to be the inclusion: it sends an endomorphism of `Q` in the degree-`≤ 0` truncation to the
+same endomorphism, read in `End(Q)`. -/
+theorem exists_hom_nonpositiveEndomorphismDGA_bijective_cohomologyMap_algebraHom
+    (B : DifferentialGradedAlgebra.{u, u} R) (Q : DifferentialGradedModule.{u, u, u} B)
+    (hQ : Nonempty (PropertyPFiltration Q))
+    (hvanish : ∀ k : ℤ, 0 < k →
+      ∀ f : (toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj Q ⟶
+        (toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj (Q.shift k), f = 0) :
+    ∃ φ : (DGCategory.homRepresentation
+        (DGCategory.nonpositive (dgCategory.{u, u, u} B)) Q).algebra.Hom (endomorphismDGA B Q),
+      (∀ k : ℤ, Function.Bijective (φ.cohomologyMap k)) ∧
+        ∀ (n : ℤ) (a : (DGCategory.homRepresentation
+            (DGCategory.nonpositive (dgCategory.{u, u, u} B)) Q).algebra.grading n),
+          endomorphismAlgebraHom B Q n ⟨φ.toAlgebraHom a, φ.map_grading n a a.property⟩ =
+            ((DGCategory.homRepresentation
+              (DGCategory.nonpositive (dgCategory.{u, u, u} B)) Q).algebraHom n a).1 := by
+  refine DGCategory.exists_hom_nonpositive_bijective_cohomologyMap_algebraHom
+    (dgCategory.{u, u, u} B) Q (endomorphismRepresentation B Q) ?_
+  intro n hn a ha
+  have heq : (DifferentialGraded.Bimodule.endomorphism B Q).cohomologyEndomorphismComparison n
+        (Quotient.mk _ ⟨a, ha⟩) =
+      (DifferentialGraded.Bimodule.endomorphism B Q).cohomologyEndomorphismComparison n
+        (Quotient.mk _ ⟨0, by rw [Submodule.coe_zero, map_zero]⟩) :=
+    (hvanish n hn _).trans (hvanish n hn _).symm
+  have hbij := DifferentialGraded.Bimodule.bijective_cohomologyEndomorphismComparison_endomorphism
+    B Q hQ n
+  obtain ⟨c, hc⟩ := Quotient.exact (hbij.injective heq)
+  exact ⟨c, by simpa using hc⟩
+
 /-- **The quasi-isomorphism `E' → End(Q)`.** Let `Q` be a right differential graded `B`-module
 with property (P) such that `Hom_{D(B, d)}(Q, Q[k]) = 0` for every `k > 0`. Then the inclusion of
 the endomorphism algebra of `Q` in the degree-`≤ 0` truncation of the differential graded category
@@ -75,19 +106,9 @@ theorem exists_hom_nonpositiveEndomorphismDGA_bijective_cohomologyMap
         (toHomotopyCategory B ⋙ (quasiIsomorphisms' B).Q).obj (Q.shift k), f = 0) :
     ∃ φ : (DGCategory.homRepresentation
         (DGCategory.nonpositive (dgCategory.{u, u, u} B)) Q).algebra.Hom (endomorphismDGA B Q),
-      ∀ k : ℤ, Function.Bijective (φ.cohomologyMap k) := by
-  refine DGCategory.exists_hom_nonpositive_bijective_cohomologyMap
-    (dgCategory.{u, u, u} B) Q (endomorphismRepresentation B Q) ?_
-  intro n hn a ha
-  have heq : (DifferentialGraded.Bimodule.endomorphism B Q).cohomologyEndomorphismComparison n
-        (Quotient.mk _ ⟨a, ha⟩) =
-      (DifferentialGraded.Bimodule.endomorphism B Q).cohomologyEndomorphismComparison n
-        (Quotient.mk _ ⟨0, by rw [Submodule.coe_zero, map_zero]⟩) :=
-    (hvanish n hn _).trans (hvanish n hn _).symm
-  have hbij := DifferentialGraded.Bimodule.bijective_cohomologyEndomorphismComparison_endomorphism
-    B Q hQ n
-  obtain ⟨c, hc⟩ := Quotient.exact (hbij.injective heq)
-  exact ⟨c, by simpa using hc⟩
+      ∀ k : ℤ, Function.Bijective (φ.cohomologyMap k) :=
+  (exists_hom_nonpositiveEndomorphismDGA_bijective_cohomologyMap_algebraHom B Q hQ hvanish).imp
+    fun _ h => h.1
 
 end DifferentialGradedModule
 

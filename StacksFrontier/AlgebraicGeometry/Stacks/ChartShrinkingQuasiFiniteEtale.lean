@@ -36,15 +36,14 @@ and the formation of `W(f)` commutes with arbitrary base change by a 1-morphism 
 algebraic spaces. Given that, both proofs are the same two lines: the conclusion is `p(z) ∈
 W(f)`, and base-change compatibility reduces that to the hypothesis on the fibre at `z`.
 
-**Stacks 06M5 is carried nowhere in this library** — the audit lists it and its companion
-**Stacks 06M4** as gaps with no intended declaration, and a direct search confirms there is no
-maximal-open-locus construction for a 1-morphism of algebraic stacks at all. What the library
-does have is the analogous construction one level down, for morphisms of *schemes*
-(**Stacks 0CEY**, `AlgebraicGeometry.largestOpen`) and the target-side version for *algebraic
-spaces* (**Stacks 06R2**, `AlgebraicGeometry.Space.largestOpenSubspace`), neither of which
-applies to a 1-morphism into a stack.
+This file is upstream of the construction of that locus: the locus `W(𝒫, f)` of
+**Stacks 06M3** and the **Stacks 06M5** instances are proved later, in
+`StacksFrontier/AlgebraicGeometry/Stacks/RelativePropertyLocus.lean` and
+`StacksFrontier/AlgebraicGeometry/Stacks/LocalSourceLemmaInstances.lean`, and
+`StacksFrontier/AlgebraicGeometry/Stacks/ChartShrinkingQuasiFiniteEtaleUnconditional.lean` uses them
+to prove both lemmas with nothing carried.
 
-Accordingly, each lemma below takes the two clauses of Stacks 06M5 as explicit arguments: the
+Here, each lemma below takes the two clauses of Stacks 06M5 as explicit arguments: the
 locus itself as the data `W` together with the hypothesis `hW` that the 1-morphism has the
 property on it, and its compatibility with the base change along the given field-valued point as
 the hypothesis `hBaseChange`. Nothing stronger is assumed — in particular the maximality of `W`
@@ -52,10 +51,11 @@ among open substacks with the property is *not* assumed, since the proofs do not
 the base-change inclusion is used. Everything after that is proved.
 
 Stacks 06N2 carries one further input, `hFibreEtale`: the step from the source's pointwise
-unramifiedness to étaleness of the fibre near `z`, which is **Stacks 06LU**. The library has
-Stacks 06LU for morphisms of algebraic spaces,
-`AlgebraicGeometry.Space.isEtale_of_isFlat_of_isUnramified`, but not for 1-morphisms of algebraic
-stacks, which is the form the fibre `F ⟶ Spec k` is recorded in here.
+unramifiedness to étaleness of the fibre near `z`, which is **Stacks 06LU**. Stacks 06LU for
+1-morphisms of algebraic stacks, the form the fibre `F ⟶ Spec k` is recorded in here, is
+`AlgebraicGeometry.Stack.isEtale_fullSubcategoryInclusion_comp_of_isUnramified`, proved
+downstream of this file; this file has it only for morphisms of algebraic spaces,
+`AlgebraicGeometry.Space.isEtale_of_isFlat_of_isUnramified`.
 
 ## Faithfulness of the two fibre hypotheses
 
@@ -93,8 +93,17 @@ membership in an open locus immediately.
 
 ## Main results
 
-* `AlgebraicGeometry.Stack.exists_openSubstack_isLocallyQuasiFinite`: **Stacks 06ME**.
-* `AlgebraicGeometry.Stack.exists_openSubstack_isEtale`: **Stacks 06N2**.
+* `AlgebraicGeometry.Stack.exists_openSubstack_isLocallyQuasiFinite`: the deduction of
+  **Stacks 06ME** from the two clauses of Stacks 06M5, taken as inputs. The registration of
+  Stacks 06ME sits on
+  `AlgebraicGeometry.Stack.exists_isOpenSubspace_isLocallyQuasiFinite_of_dimensionAtPoint_eq_zero`
+  and `AlgebraicGeometry.Stack.exists_openSubstack_isLocallyQuasiFinite_of_dimensionAtPoint_eq_zero`
+  of `StacksFrontier/AlgebraicGeometry/Stacks/FibreQuasiFiniteNearSubstack.lean`, which assume
+  nothing beyond the source's hypotheses.
+* `AlgebraicGeometry.Stack.exists_openSubstack_isEtale`: the deduction of **Stacks 06N2** from
+  those inputs. The registration of Stacks 06N2 sits on
+  `AlgebraicGeometry.Stack.exists_openSubstack_isEtale_unconditional` and
+  `AlgebraicGeometry.Stack.exists_isOpenSubspace_isEtale`, which carry nothing.
 
 ## Implementation notes
 
@@ -224,25 +233,28 @@ abbrev FibreIsUnramifiedNear
 
 /-! ### Stacks 06ME and Stacks 06N2 -/
 
-/-- **Stacks 06ME.** Let `𝒳` be an algebraic stack, let `U` be an algebraic space with a
-1-morphism `f : U ⟶ 𝒳` which is locally of finite type, let `Spec k ⟶ 𝒳` be a field-valued
-point, and let `F = U ×_𝒳 Spec k` with projection `p : F ⟶ U` and structure 1-morphism
-`q : F ⟶ Spec k`. If `z ∈ |F|` has `dim_z(F) = 0` then, after replacing `U` by an open subspace
-containing `p(z)`, the 1-morphism `U ⟶ 𝒳` is locally quasi-finite.
+/-- **Stacks 06ME, from the two clauses of Stacks 06M5.** Let `𝒳` be an algebraic stack, let `U`
+be an algebraic space with a 1-morphism `f : U ⟶ 𝒳` which is locally of finite type, let
+`Spec k ⟶ 𝒳` be a field-valued point, and let `F = U ×_𝒳 Spec k` with projection
+`p : F ⟶ U` and structure 1-morphism `q : F ⟶ Spec k`. If `z ∈ |F|` has `dim_z(F) = 0` then,
+after replacing `U` by an open subspace containing `p(z)`, the 1-morphism `U ⟶ 𝒳` is locally
+quasi-finite.
 
 The proof is the source's. The open substack `W` is the locus `W(f)` of **Stacks 06M5** on which
 `f` is locally quasi-finite, carried as the data `W` together with `hW`; the compatibility of
 that locus with the base change along `g`, which is the second clause of Stacks 06M5, is carried
 as `hBaseChange`. Given those, the conclusion is exactly that `p(z) ∈ |W|`, and that follows
 because the fibre hypothesis puts `z` in an open substack of `F` which is locally quasi-finite
-over `Spec k`, hence inside the preimage of `|W|`. -/
-@[stacks 06ME "after replacing the algebraic space by an open subspace containing the image of \
-the given point of the fibre, a 1-morphism locally of finite type whose fibre over a \
-field-valued point has dimension zero at that point is locally quasi-finite. The two clauses of \
-Stacks 06M5 are carried, as the data `W` with `hW` (the open locus on which the 1-morphism is \
-locally quasi-finite) and the hypothesis `hBaseChange` (that locus commutes with the base change \
-along the field-valued point), since Stacks 06M5 is absent from this library; the deduction of \
-the conclusion from them is proved"]
+over `Spec k`, hence inside the preimage of `|W|`.
+
+This is the deduction step only, with the two clauses of Stacks 06M5 taken as inputs; it carries
+no `@[stacks]` registration. Stacks 06ME itself, under the source's hypotheses and with nothing
+carried, is
+`AlgebraicGeometry.Stack.exists_isOpenSubspace_isLocallyQuasiFinite_of_dimensionAtPoint_eq_zero`
+(and its open-substack reading
+`AlgebraicGeometry.Stack.exists_openSubstack_isLocallyQuasiFinite_of_dimensionAtPoint_eq_zero`)
+of `StacksFrontier/AlgebraicGeometry/Stacks/FibreQuasiFiniteNearSubstack.lean`, which produce the
+locus inside the proof. -/
 theorem exists_openSubstack_isLocallyQuasiFinite
     (_hf : AlgebraicStacks.IsLocallyOfFiniteType B S hS f)
     (W : OpenSubstack (algebraicSpaceStack.{u, w} B S hS U hU))
@@ -261,27 +273,29 @@ theorem exists_openSubstack_isLocallyQuasiFinite
   obtain ⟨V, hzV, hVqf⟩ := hz
   exact ⟨hBaseChange V hVqf hzV, hW⟩
 
-/-- **Stacks 06N2.** Let `𝒳` be an algebraic stack, let `U` be an algebraic space with a
-1-morphism `f : U ⟶ 𝒳` which is flat and locally of finite presentation, let `Spec k ⟶ 𝒳` be a
-field-valued point, and let `F = U ×_𝒳 Spec k` with projection `p : F ⟶ U` and structure
-1-morphism `q : F ⟶ Spec k`. If `q` is unramified at `z ∈ |F|` then, after replacing `U` by an
-open subspace containing `p(z)`, the 1-morphism `U ⟶ 𝒳` is étale.
+/-- **Stacks 06N2, from the clauses of Stacks 06M5 and Stacks 06LU.** Let `𝒳` be an algebraic
+stack, let `U` be an algebraic space with a 1-morphism `f : U ⟶ 𝒳` which is flat and locally of
+finite presentation, let `Spec k ⟶ 𝒳` be a field-valued point, and let `F = U ×_𝒳 Spec k` with
+projection `p : F ⟶ U` and structure 1-morphism `q : F ⟶ Spec k`. If `q` is unramified at
+`z ∈ |F|` then, after replacing `U` by an open subspace containing `p(z)`, the 1-morphism
+`U ⟶ 𝒳` is étale.
 
 The proof is the source's. The open substack `W` is the locus `W(f)` of **Stacks 06M5** on which
 `f` is étale, carried as the data `W` with `hW`, and its compatibility with the base change along
 `g` is carried as `hBaseChange`. The step from the source's pointwise hypothesis to étaleness of
 the fibre near `z` is **Stacks 06LU** — unramified plus flat plus locally of finite presentation
-gives étale — which the library has for morphisms of algebraic spaces
-(`AlgebraicGeometry.Space.isEtale_of_isFlat_of_isUnramified`) but not for 1-morphisms of
-algebraic stacks; it is carried as `hFibreEtale`, stated over `Spec k`, which is where the source
-applies it. Given those, the conclusion is that `p(z) ∈ |W|`. -/
-@[stacks 06N2 "after replacing the algebraic space by an open subspace containing the image of \
-the given point of the fibre, a flat, locally finitely presented 1-morphism whose fibre over a \
-field-valued point is unramified at that point is etale. Three inputs are carried: the data `W` \
-with `hW` and the hypothesis `hBaseChange`, which are the two clauses of Stacks 06M5 at \
-etaleness, absent from this library; and `hFibreEtale`, which is Stacks 06LU for 1-morphisms of \
-algebraic stacks over the field-valued point, available in this library only for morphisms of \
-algebraic spaces. The deduction of the conclusion from them is proved"]
+gives étale — which is proved for 1-morphisms of algebraic stacks only downstream of this file
+(`AlgebraicGeometry.Stack.isEtale_fullSubcategoryInclusion_comp_of_isUnramified`); it is carried
+here as `hFibreEtale`, stated over `Spec k`, which is where the source
+applies it. Given those, the conclusion is that `p(z) ∈ |W|`.
+
+This is the deduction step only, with those inputs taken as hypotheses; it carries no
+`@[stacks]` registration. Stacks 06N2 with nothing carried is
+`AlgebraicGeometry.Stack.exists_openSubstack_isEtale_unconditional` of
+`StacksFrontier/AlgebraicGeometry/Stacks/ChartShrinkingQuasiFiniteEtaleUnconditional.lean`, whose
+proof also supplies Stacks 06LU for 1-morphisms of algebraic stacks, and its open-subspace
+reading `AlgebraicGeometry.Stack.exists_isOpenSubspace_isEtale` of
+`StacksFrontier/AlgebraicGeometry/Stacks/ChartShrinkingOpenSubspace.lean`. -/
 theorem exists_openSubstack_isEtale
     (_hflat : AlgebraicStacks.IsFlat B S hS f)
     (_hfp : AlgebraicStacks.IsLocallyOfFinitePresentation B S hS f)

@@ -41,9 +41,12 @@ identity read on a meromorphic section rather than on a rational function.
   `ord_B(φ x) = length_B(B / 𝔪_A B) · ord_A(x)`. This is Stacks 02M1 applied to `A / xA`.
 * `Ring.ordTotalFracInt_map_mk'_of_flatHom`: the same identity on the total rings of fractions,
   for a fraction `a / b` of nonzerodivisors and its image `φ(a) / φ(b)`.
-* `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_multiplicity_mul_ord` is **Stacks 0EQA**,
-  coefficientwise: the order of vanishing of a rational function along a prime divisor of `X`
-  is the multiplicity times its order along the prime divisor of `Y` beneath it.
+* `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_multiplicity_mul_ord`: the pointwise content of
+  Stacks 0EQA, the order of vanishing of a rational function along a prime divisor of `X` being
+  the multiplicity times its order along the prime divisor of `Y` beneath it. Stacks 0EQA itself,
+  as an identity of cycles, is
+  `Space.flatPullbackMap_rationalFunctionPrincipalDivisorCycle_eq_finsum_components`
+  in `StacksFrontier.AlgebraicGeometry.Spaces.Chow.FlatPullbackPrincipalDivisorComponents`.
 * `AlgebraicGeometry.Space.PrimeDivisor.ord_eq_ord_of_extendedMaximalIdeal_eq` is **Stacks
   0EQH**, coefficientwise: when the maximal ideal extends to the maximal ideal, the order of
   vanishing along a prime divisor of `T` of the rational function attached to a meromorphic
@@ -79,14 +82,9 @@ Stacks 0EPT as carried by
 
 ### Why the statements are coefficientwise
 
-The source states all three lemmas as identities of cycles. Neither side is available here: the
-flat pullback of cycles along a morphism of algebraic spaces is Stacks 0EP8, which this
-repository does not have — see the implementation notes of
-`StacksFrontier.AlgebraicGeometry.Spaces.Chow.FlatCompositeRelativeDimension` — and the principal
-divisor `div(g)` of Stacks 0ENP is not available either, which is why Stacks 0EPT and 0EPV are
-already carried coefficientwise in
-`StacksFrontier.AlgebraicGeometry.Spaces.DivisorOfMeromorphicSection`. The statements below are
-coefficientwise in the same sense and for the same reason: at each prime divisor of the source,
+The source states all three lemmas as identities of cycles. The statements below are the local
+computation underneath them, stated with the comparison datum as parameters: at each prime
+divisor of the source,
 with the multiplicity of the source's formula appearing as the colength that computes it. The
 case of the source's proof in which the prime divisor of the source dominates the target, where
 both coefficients vanish, is bookkeeping internal to the flat pullback and does not arise in a
@@ -108,10 +106,10 @@ of the left-hand side at `Z`; taking it to be a component `X'` and `φ` the map 
 When `X` is integral the two coincide — there is one component, of multiplicity one — and the
 statements are the source's identity read at the coefficient of `Z`. When `X` has several
 components the step from the two readings to the cycle identity is the additivity of the
-multiplicities of Stacks 0EE2 and Stacks 0EE9 over the irreducible components, which this
-repository does not have; `AlgebraicGeometry.Space.moduleMultiplicity` and
-`AlgebraicGeometry.Space.cycleCoeffOfClosedSubspace` carry such multiplicities, but no
-additivity of theirs is proved. That step is recorded in the attribute clauses as not covered.
+multiplicities over the irreducible components. For Stacks 0EQA that step, and the cycle
+identity with the flat pullback of Stacks 0EP8 (`AlgebraicGeometry.Space.flatPullbackMap`) and
+the principal divisor of Stacks 0EQ1, are proved in
+`StacksFrontier.AlgebraicGeometry.Spaces.Chow.FlatPullbackPrincipalDivisorComponents`.
 
 The colength appears below as `AlgebraicGeometry.Space.primeDivisorFlatMultiplicity`. Its
 finiteness is the hypothesis `hm`, which names the natural number it equals; the identity of
@@ -343,35 +341,9 @@ identity, as the implementation notes explain.
 
 Nothing about the conclusion is assumed. The multiplicity enters as the colength `hm` and the
 whole content — that the order of vanishing multiplies by it — is `Ring.ord_map_of_flatHom`,
-which is Stacks 02M1 applied to `𝒪^h_{Y,ξ'} / a` and to `𝒪^h_{Y,ξ'} / b`. -/
-@[stacks 0EQA "coefficientwise at a prime divisor Z of X with generic point ξ lying over a prime
-divisor Z' of Y with generic point ξ': the order of vanishing of a rational function pulls back
-with the multiplicity, ord_Z(g ∘ f) = m · ord_{Z'}(g), where m is the colength of the extended
-maximal ideal — the multiplicity with which Z occurs in the closed subspace f^{-1}(Z'), hence
-the coefficient the flat pullback of Stacks 0EP8 attaches to Z. PROVED, not assumed: that the
-order of vanishing multiplies by the multiplicity, from Stacks 02M1
-(length_baseChange_eq_length_mul_length_quotient) applied to the cyclic modules O^h/a and O^h/b,
-which is how Stacks 02M1 computes with a multiplicity. For X integral this is the source's
-identity f^* div_Y(g) = ∑ m_{X',X} (X' → X)_* div_{X'}(g ∘ f|_{X'}) read at the coefficient of
-Z, the one component having multiplicity one; the statement is coefficientwise because neither
-side exists in this repository — the flat pullback of cycles is Stacks 0EP8 and the principal
-divisor div(g) is Stacks 0ENP — and for that same reason Stacks 0EPT and 0EPV are already
-carried coefficientwise here. NOT COVERED: for X with several irreducible components, the step
-from this identity to the cycle identity, namely the additivity over the components of the
-multiplicities of Stacks 0EE2 and Stacks 0EE9; the statement applies to X and to each component
-X' separately, with m read in each, but no additivity of those multiplicities is proved in this
-repository. RESTRICTED: carried as explicit named hypotheses are (i) the flat local homomorphism
-φ of the henselian local rings at the generic points, the map of henselian local rings induced
-by a morphism of decent algebraic spaces not being available here, with its locality and
-flatness as the hypotheses hloc and hflat; (ii) the embeddings R(Y) → Q(O^h_{Y,ξ'}) and
-R(X) → Q(O^h_{X,ξ}) of Stacks 0ENK as embY and embX, exactly as Stacks 0EPT carries them;
-(iii) the composite g ∘ f|_X as the parameter gf together with hgf, that its ratio at ξ is the
-image under φ of the ratio of g at ξ' — this repository has no pullback of a rational function
-along a morphism of algebraic spaces, only the chartwise fraction rule a/b ↦ f-sharp a /
-f-sharp b of Stacks 0ENC, which is what hgf states; and (iv) finiteness of the multiplicity, as
-hm naming the natural number m it equals. Locality, Noetherianness and the dimension bound on
-the henselian local rings are instance arguments, as they are for PrimeDivisor.ord and
-orderOfVanishingSection themselves"]
+which is Stacks 02M1 applied to `𝒪^h_{Y,ξ'} / a` and to `𝒪^h_{Y,ξ'} / b`. The cycle identity of
+Stacks 0EQA itself is
+`Space.flatPullbackMap_rationalFunctionPrincipalDivisorCycle_eq_finsum_components`. -/
 theorem PrimeDivisor.ord_eq_multiplicity_mul_ord
     (hloc : IsLocalHom φ) (hflat : φ.Flat) {m : ℕ}
     (hm : primeDivisorFlatMultiplicity B S hS hX hdecX ZX hY hdecY ZY φ = (m : ℕ∞))

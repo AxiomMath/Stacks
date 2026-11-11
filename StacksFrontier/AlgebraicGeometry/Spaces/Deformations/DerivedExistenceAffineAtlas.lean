@@ -17,10 +17,11 @@ in `D(Aₙ)`, then `τₙ` is an isomorphism.
 
 ## Main results
 
-* `DerivedExistenceSystem.isIso_coheratorLimitPullbackMap_of_isIso_etaleStage`: `τₙ` is
+* `SeparatedDerivedExistenceSystem.isIso_coheratorLimitPullbackMap_of_isIso_etaleStage`: `τₙ` is
   invertible if its restriction to `Uₙ` is on `RΓ(Uₙ, -)`, for one affine `U` étale and
   surjective over `X`.
-* `DerivedExistenceSystem.isIso_coheratorLimitPullbackMap_of_forall_isAffineSpace`: every `τₙ`
+* `SeparatedDerivedExistenceSystem.isIso_coheratorLimitPullbackMap_of_forall_isAffineSpace`: every
+  `τₙ`
   is invertible if it is on `RΓ(Uₙ, -)` for every affine `U` étale over `X`.
 
 ## References
@@ -42,9 +43,9 @@ namespace AlgebraicGeometry.Space
 attribute [-instance] Stacks.Cohomology.SiteModules.moduleSheavesGrothendieck
   Stacks.Cohomology.SiteModules.moduleSheavesAbelian
 
-namespace DerivedExistenceSystem
+namespace SeparatedDerivedExistenceSystem
 
-variable (D : DerivedExistenceSystem.{u})
+variable (D : SeparatedDerivedExistenceSystem.{u})
 
 section Coherator
 
@@ -112,7 +113,7 @@ theorem isIso_coheratorLimitPullbackMap_of_forall_isAffineSpace
 
 end Coherator
 
-end DerivedExistenceSystem
+end SeparatedDerivedExistenceSystem
 
 end AlgebraicGeometry.Space
 

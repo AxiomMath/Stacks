@@ -56,9 +56,11 @@ trivial lifts directly.
   `Deformation.Artin.infAutBaseChangeFun_natural` — the transition is natural in the two
   coefficient modules, which is what makes the induced map additive and semilinear.
 * `Deformation.Artin.existsUnique_infAutBaseChange`,
-  `Deformation.Artin.existsUnique_infAutBaseChangeHom` — **the companion map of Stacks 07YA on
-  infinitesimal automorphisms.** There is exactly one map `Inf_x(M) ⟶ Inf_y(N)` realizing the
-  transition, and it is `A`-linear.
+  `Deformation.Artin.existsUnique_infAutBaseChangeHom` — for charted objects and under (RS*),
+  there is exactly one map `Inf_x(M) ⟶ Inf_y(N)` realizing the transition, and it is
+  `A`-linear. Remark 07YA itself is
+  `Deformation.Artin.isLinearMap_infBaseChangeMap_tangentBaseChangeMap` and
+  `Deformation.Artin.infComparison_restrict_and_action_restrict`.
 
 ## References
 
@@ -628,47 +630,22 @@ public theorem existsUnique_infAutBaseChange (hRS : SatisfiesRSStar B S hS p hp)
       (isInfinitesimalAutomorphismBaseChange_infAutBaseChangeFun hp h f halg F G ψ)⟩
 
 include hp halg in
-/-- **Stacks 07YA on infinitesimal automorphisms.** Let `x` be an object of a category fibred
-in groupoids over the big fppf site of `S` lying over `Spec A`, let `A ⟶ C` be a ring map and
-let `y ⟶ x` be a morphism lying over `Spec C ⟶ Spec A`, so that `y = x|_{Spec C}`. For
+/-- **The map `Inf_x(M) ⟶ Inf_y(N)` for charted objects, and its uniqueness.** Let `x` be an
+object of a category fibred in groupoids over the big fppf site of `S` lying over `Spec A`, let
+`A ⟶ C` be a ring map and let `y ⟶ x` be a morphism lying over `Spec C ⟶ Spec A`, so that
+`y = x|_{Spec C}`, where `𝒳` satisfies (RS*) and `x` and `y` are
+`Deformation.Artin.ChartedObject`s (each of `Spec A ⟶ S`, `Spec C ⟶ S` factors through a fixed
+affine open `Spec Λ ⊆ S`). For
 `M ∈ Mod_A`, `N ∈ Mod_C` and an `A`-linear map `M ⟶ N` there is exactly one `A`-linear map
 `Inf_x(M) ⟶ Inf_y(N)` carrying each infinitesimal automorphism of the trivial lift of `x` over
-`Spec A[M]` to its conjugate along a cartesian arrow over `Spec C[N] ⟶ Spec A[M]`.
+`Spec A[M]` to its conjugate along a cartesian arrow over `Spec C[N] ⟶ Spec A[M]`, i.e.
+realizing the relation `Deformation.Artin.IsInfinitesimalAutomorphismBaseChange`. This is the
+form used by the Stacks 07YT statements that take a map realizing that relation as a
+hypothesis.
 
-`x` and `y` are `Deformation.Artin.ChartedObject`s, so each of `Spec A ⟶ S`, `Spec C ⟶ S`
-factors through a fixed affine open `Spec Λ ⊆ S`: that is an extra hypothesis, which the source
-does not make. It is inherited from
-`Deformation.Artin.IsInfinitesimalAutomorphismBaseChange`, the relation on infinitesimal
-automorphisms that this theorem realizes, and it is what makes the result directly usable by
-the Stacks 07YT statements that take a map realizing that relation as a hypothesis. The
-geometric content is chart-free: the comparison of the trivial lifts and the conjugation along
-it are `Deformation.Artin.underFiberConjugate`, stated for an arbitrary category fibred in
-groupoids and an arbitrary commuting square of its base.
-
-(RS*) is used only for the uniqueness half. The two functors enter as arbitrary members of
-`Deformation.Artin.InfinitesimalAutomorphismFunctorData` rather than as the ones Stacks 07Y9
-(1) produces from (RS*).
-
-**NOT COVERED**: the two commuting squares of the source; see the note on
-`Deformation.Artin.existsUnique_tangentBaseChange`. -/
-@[stacks 07YA "the companion A-linear map Inf_x(M) -> Inf_y(N) along a ring map A -> C, and \
-its uniqueness. The relation Deformation.Artin.IsInfinitesimalAutomorphismBaseChange, its \
-single-valuedness and its bijectivity at a bijective map of coefficients are in the library, \
-but without a map realizing it all of them would be conditional: the relation asks \
-for a cartesian arrow between the two TRIVIAL lifts, and the pullback of the trivial lift of x \
-along Spec C[N] -> Spec A[M] is only isomorphic to the trivial lift of y, not equal to it. \
-What is added is that arrow -- Deformation.Artin.trivialLiftComparison, built from the \
-presentation of each trivial lift as a pullback along the retraction Spec A[M] -> Spec A -- \
-the conjugation by it, and the A-linearity of the resulting map, which is the remark's \
-assertion. CARRIED, as an extra hypothesis the source does not make: x and y are \
-Deformation.Artin.ChartedObjects, so Spec A -> S and Spec C -> S factor through a fixed affine \
-open Spec L of S -- inherited from \
-Deformation.Artin.IsInfinitesimalAutomorphismBaseChange, the relation this realizes; \
-the geometric half is chart-free, as Deformation.Artin.underFiberConjugate. (RS*) is needed \
-only for uniqueness, through the commutativity of the infinitesimal automorphisms; the two \
-functors Inf_x, Inf_y are arbitrary members of \
-Deformation.Artin.InfinitesimalAutomorphismFunctorData. NOT COVERED: the two commuting squares \
-of the source, for which see the note on Deformation.Artin.existsUnique_tangentBaseChange"]
+Remark 07YA itself is `Deformation.Artin.isLinearMap_infBaseChangeMap_tangentBaseChangeMap`
+(the two `A`-linear maps, for arbitrary `x` with no chart) together with
+`Deformation.Artin.infComparison_restrict_and_action_restrict` (the two commuting squares). -/
 public theorem existsUnique_infAutBaseChangeHom (hRS : SatisfiesRSStar B S hS p hp)
     {M : SiteModule P.ring B} {N : SiteModule Q.ring B}
     (ψ : M.obj ⟶ (ModuleCat.restrictScalars f).obj N.obj) :

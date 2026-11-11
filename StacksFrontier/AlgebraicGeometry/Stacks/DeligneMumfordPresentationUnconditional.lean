@@ -38,7 +38,10 @@ from a scheme of the site which is representable by algebraic spaces, surjective
 
 This file proves both implications of Stacks 06MF and the implication (2) ⟹ (1) of Stacks 06N3,
 and reduces the implication (1) ⟹ (2) of Stacks 06N3 to the chart construction
-`AlgebraicGeometry.Stack.ExistsEtaleChartFamilyOfIsAbsolutelyDM`.
+`AlgebraicGeometry.Stack.ExistsEtaleChartFamilyOfIsAbsolutelyDM`. The chart construction, and with
+it the whole equivalence of Stacks 06N3, is proved in
+`StacksFrontier.AlgebraicGeometry.Stacks.AbsolutelyDMEtaleChartAssembly`, as
+`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional`.
 
 ## Main definitions
 
@@ -341,8 +344,6 @@ theorem existsEtalePresentationOfIsAbsolutelyDM_of_existsEtaleChartFamily
 
 /-- A Deligne–Mumford algebraic stack is DM: the implication (2) ⟹ (1), equivalently (3) ⟹ (1),
 these being the same condition here. -/
-@[stacks 06N3 "the implication (2) => (1), equivalently (3) => (1), these being the same \
-condition here: an algebraic stack admitting a surjective etale presentation by a scheme is DM"]
 theorem isAbsolutelyDM_of_isDeligneMumfordStack (𝒳 : AlgebraicStacks.{u, w} B S hS)
     (h𝒳 : IsDeligneMumfordStack.{u, w} B S hS 𝒳.val.val) :
     AlgebraicStacks.IsAbsolutelyDM B S hS hZ 𝒳 := by
@@ -369,8 +370,6 @@ theorem isAbsolutelyDM_of_isDeligneMumfordStack (𝒳 : AlgebraicStacks.{u, w} B
 
 /-- An algebraic stack with a surjective, flat, locally finitely presented, locally quasi-finite
 presentation by a scheme of the site is quasi-DM: the implication (2) ⟹ (1). -/
-@[stacks 06MF "the implication (2) implies (1): a surjective, flat, locally finitely presented, \
-locally quasi-finite presentation by a scheme of the site makes an algebraic stack quasi-DM"]
 theorem isAbsolutelyQuasiDM_of_hasQuasiDMPresentation (𝒳 : AlgebraicStacks.{u, w} B S hS)
     (h : HasQuasiDMPresentation.{u, w} B S hS 𝒳) :
     AlgebraicStacks.IsAbsolutelyQuasiDM B S hS hZ 𝒳 := by
@@ -481,22 +480,12 @@ theorem hasQuasiDMPresentation_of_isAbsolutelyQuasiDM (𝒳 : AlgebraicStacks.{u
 
 /-- An algebraic stack is quasi-DM exactly when there is a scheme of the site with a surjective,
 flat, locally finitely presented, locally quasi-finite 1-morphism to it. -/
-@[stacks 06MF "the equivalence of (1) quasi-DM with (2) the existence of a surjective, flat,
-  locally finitely presented, locally quasi-finite presentation by a scheme. BOTH implications
-  are proved and nothing is carried. (2) implies (1) is Stacks 06MB part (2),
-  isAbsolutelyQuasiDM_of_hasQuasiDMPresentation; (1) implies (2) is the structure theorem,
-  hasQuasiDMPresentation_of_isAbsolutelyQuasiDM, whose local half is the chart of
-  exists_flat_isLocallyOfFinitePresentation_isLocallyQuasiFinite_chart_at_finiteTypePoint --
-  the smooth chart of 06FX with a closed point over the finite type point, the charted
-  self-intersection of 04ZP and 04SW, the identity point of 04XH, and the slice cut out by a
-  regular sequence in the etale local ring of a fibre (06LC, 06MD, 06LW) shrunk to be locally
-  quasi-finite by 06M3 and 06ME -- and whose assembly is
-  hasQuasiDMPresentation_of_forall_isLocallyQuasiFinite: the 1-morphism out of the coproduct
-  W = coprod_x Z_x, the descent of the three properties along the summand inclusions, and
-  surjectivity from the corollary of 06G2. The coproduct lies in the site by
-  contains_sigma_of_forall_size_le, which the uniform bound 2 ^ 2 ^ size U_0 on the charts
-  supplies -- the finite type points need not be below the cofinality of the site's cutoff, so
-  contains_sigma_of_lt_cof does not apply"]
+@[stacks 06MF "the equivalence of (1) quasi-DM with (2) the existence of a scheme W of the site
+  and a surjective, flat, locally finitely presented, locally quasi-finite 1-morphism from W;
+  both implications are proved. (2) implies (1) is Stacks 06MB part (2); (1) implies (2) builds a
+  flat, locally finitely presented, locally quasi-finite chart at each finite type point and
+  takes the coproduct of these charts, which is surjective by Stacks 06G2. Quasi-DM is the
+  absolute notion of Stacks 050D, so the site contains the terminal scheme (hZ)"]
 theorem isAbsolutelyQuasiDM_iff_hasQuasiDMPresentation_unconditional
     (𝒳 : AlgebraicStacks.{u, w} B S hS) :
     AlgebraicStacks.IsAbsolutelyQuasiDM B S hS hZ 𝒳 ↔

@@ -31,32 +31,24 @@ space by clause (1) of Stacks 0GVV. That is the atlas of Definition 0AIM for `X_
 ## Main results
 
 * `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionSheafULift`: the completion
-  of a formal algebraic space along a closed set of its own points is a formal algebraic space.
-* `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionAlong'`: **Stacks 0GVR**, the
-  same statement for the completion along a closed subset of a reduction.
+  of a formal algebraic space along a closed set of its own points is a formal algebraic space,
+  from the set-theoretic condition of Stacks 0AIS on the completion.
+* `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionAlong'`: the same statement
+  for the completion along a closed subset of a reduction, from the same condition.
+
+Stacks 0GVR itself, with no hypothesis beyond the tag's own, is
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionFunctor` of
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RecompletionFormalAlgebraicSpace`, where the
+set-theoretic condition of Stacks 0AIS for `X_{/T}` is proved from the condition for `X`.
 
 ## What is assumed
 
-One hypothesis is carried, `hset`, the set-theoretic condition of Stacks 0AIS for `X_{/T}`. It
-is a hypothesis for the same reason as in
-`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_etaleCover` (Stacks 0AJ1) and
-`AlgebraicGeometry.FormalSpace.isAffineFormalAlgebraicSpace_colimit` (Stacks 0GVM): the
-condition is a clause of the definition of a formal algebraic space — Stacks 0AIM asks for a
-family as in its (1), (2), (3) "*and `X` satisfies a set theoretic condition (see
-Remark 0AIS)*", so it is the source's own clause and not a convention of this library — and it
-does not follow from the corresponding conditions on the members of a covering family. The
-source does not verify it here either: the proof of Stacks 0GVR exhibits a covering as in
-Definition 0AIM and stops, which is the chapter's posture, explicit in the opening words of
-Stacks 0AIR ("Modulo set theoretic issues …"). Carrying it as a named hypothesis is this
-library making that gap visible, and it is the only residue here.
-
-It cannot be discharged the way it is for an *affine* formal algebraic space: the argument of
-`AlgebraicGeometry.FormalSpace.satisfiesSetTheoreticCondition_completionSheafULift` gets the
-surjection onto the completion from the condition for `X` itself, but turns it into the full
-condition through
-`AlgebraicGeometry.FormalSpace.satisfiesSetTheoreticCondition_of_colimit_of_representable_epi`,
-whose kernel-pair half needs the representability of the diagonal of a *directed colimit of
-affines along thickenings* (Stacks 0AI8). A formal algebraic space is not such a colimit.
+The declarations of this file carry one hypothesis, `hset`, the set-theoretic condition of
+Stacks 0AIS for `X_{/T}`, a clause of Definition 0AIM. It is proved from the condition for `X`
+by `satisfiesSetTheoreticCondition_completionSheafULift_of_satisfiesSetTheoreticCondition` in
+`StacksFrontier.AlgebraicGeometry.FormalSpace.RecompletionFormalAlgebraicSpace`: the inclusion
+`X_{/T} ⟶ X` is a monomorphism, so the kernel pair of a representable surjection onto `X_{/T}`
+which factors through the one of `X` is covered by a base change of the kernel pair for `X`.
 
 Nothing else is assumed.
 
@@ -186,7 +178,8 @@ theorem isFormalAlgebraicSpace_completionSheafULift' {X : FppfSheaf B S hS}
   isFormalAlgebraicSpace_completionSheafULift B S hS hX T hT
     (completionOfAffineIsAffine B S hS) hset
 
-/-- **Stacks 0GVR.** Let `S` be a scheme, let `X` be a formal algebraic space over `S` with
+/-- The atlas of Stacks 0GVR, given the set-theoretic condition of Stacks 0AIS for
+`X_{/T}`. Let `S` be a scheme, let `X` be a formal algebraic space over `S` with
 reduction `i : X_red ⟶ X` and let `T ⊆ |X_red|` be closed. The completion `X_{/T}` of `X`
 along `T` — the fppf sheaf attached to the functor sending `U` to the morphisms `f : U ⟶ X`
 with `f(|U|) ⊆ T` — is a formal algebraic space over `S`: the completions of the charts of `X`
@@ -197,23 +190,9 @@ chart of `X`, and jointly surjective because the charts of `X` are.
 The closed subset `T` of `|X_red|` enters the completion through its image in `|X|`, which is
 closed because the inclusion of a reduction is a homeomorphism on points:
 `AlgebraicGeometry.FormalSpace.IsReduction.isClosed_image_pointsMapULift`. The set-theoretic
-condition `hset` of Stacks 0AIS is the only hypothesis beyond the tag's own; see the section
-"What is assumed" of this file. -/
-@[stacks 0GVR "the whole statement for the tag's own hypotheses — `X` a formal algebraic space \
-and `T` closed in `|X_red|` — from one carried hypothesis, `hset`, the set-theoretic condition \
-of Stacks 0AIS for the completion, which this library carries by standing convention on the \
-library's Stacks 0AJ1 (`isFormalAlgebraicSpace_of_etaleCover`, \
-StacksFrontier/AlgebraicGeometry/FormalSpace/EtaleCover.lean) and Stacks 0GVM \
-(`isAffineFormalAlgebraicSpace_colimit`, \
-StacksFrontier/AlgebraicGeometry/FormalSpace/DirectedColimit.lean), the condition being part of \
-the definition of a formal algebraic space used here and not following from the conditions on \
-the members of a covering family. Nothing else: the affine case, clause (1) of Stacks 0GVV, is \
-proved — `completionOfAffineIsAffine`; and closedness of \
-`T` is the tag's own, in `|X_red|`, the inclusion of a reduction being a homeomorphism on \
-points (`IsReduction.isHomeomorph_pointsMapULift`) and hence carrying `T` to a closed subset \
-of `|X|`, which is where the proof uses it \
-(`IsReduction.isClosed_image_pointsMapULift`). `hi` supplies the reduction as data because \
-Stacks 0AIN is unavailable in this library, the convention of the library's Stacks 0GVQ and 0GVT"]
+condition `hset` of Stacks 0AIS is a hypothesis here; Stacks 0GVR without it is
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionFunctor`, which proves that
+condition from the one for `X`. -/
 theorem isFormalAlgebraicSpace_completionAlong' {X Xred : FppfSheaf B S hS}
     (hX : IsFormalAlgebraicSpace B S hS X) {i : Xred ⟶ X}
     (hi : IsReduction B S hS X Xred i)
@@ -224,7 +203,8 @@ theorem isFormalAlgebraicSpace_completionAlong' {X Xred : FppfSheaf B S hS}
   isFormalAlgebraicSpace_completionSheafULift' B S hS hX _
     (hi.isClosed_image_pointsMapULift (T := T) hT) hset
 
-/-- **Stacks 0GVR.** Let `S` be a scheme, let `X` be a formal algebraic space over `S` with
+/-- The atlas of Stacks 0GVR, given the set-theoretic condition of Stacks 0AIS for `X_{/T}` and
+the affine case `haff`. Let `S` be a scheme, let `X` be a formal algebraic space over `S` with
 reduction `i : X_red ⟶ X` and let `T ⊆ |X_red|` be closed. The completion `X_{/T}` of `X`
 along `T` — the fppf sheaf attached to the functor sending `U` to the morphisms `f : U ⟶ X`
 with `f(|U|) ⊆ T` — is a formal algebraic space over `S`: the completions of the charts of `X`
@@ -233,7 +213,9 @@ by the affine case, each representable étale over `X_{/T}` as a base change of 
 and jointly surjective because the charts of `X` are.
 
 `isFormalAlgebraicSpace_completionAlong'` draws the same conclusion from `T` closed in the
-reduction rather than from its image being closed in `X`, and with `haff` discharged. -/
+reduction rather than from its image being closed in `X`, and with `haff` discharged;
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_completionFunctor` is Stacks 0GVR with
+`hset` discharged as well. -/
 theorem isFormalAlgebraicSpace_completionAlong {X Xred : FppfSheaf B S hS}
     (hX : IsFormalAlgebraicSpace B S hS X) {i : Xred ⟶ X}
     (_hi : IsReduction B S hS X Xred i)

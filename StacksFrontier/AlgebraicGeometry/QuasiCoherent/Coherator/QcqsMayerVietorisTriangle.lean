@@ -26,12 +26,14 @@ rest on nothing beyond the quasi-compactness and quasi-separatedness hypotheses 
 
 * `Stacks.Duality.Coherator.quasiSeparatedSpace_toScheme` — an open subscheme of a quasi-separated
   scheme is quasi-separated, one of the two inputs Tag 0CR0 asks of `U`, `V` and `U ∩ V`.
-* `Stacks.Duality.Coherator.exists_distTriang_rightAdjoint_quasiCoherentι` —
-  **[Stacks, Tag 0CR2]** at the coherator `(quasiCoherentι Z).rightAdjoint` of each of the four
-  schemes, the right adjoint whose existence is [Stacks, Tag 0CR0].
-* `Stacks.Duality.Coherator.exists_coherator_distTriang` — **[Stacks, Tag 0CR2]** in the form
-  "coherators of `X`, `U`, `V` and `U ∩ V` exist, and for every `K` they fit into the triangle
-  of the tag".
+* `Stacks.Duality.Coherator.mayerVietorisTriangle_rightAdjoint_mem_distTriang` —
+  **[Stacks, Tag 0CR2]**: at the coherators `(quasiCoherentι Z).rightAdjoint` of the four
+  schemes, whose existence is [Stacks, Tag 0CR0], the canonical triangle of the tag is
+  distinguished.
+* `Stacks.Duality.Coherator.exists_distTriang_rightAdjoint_quasiCoherentι` — a distinguished
+  triangle on the three terms of the tag exists, at those coherators.
+* `Stacks.Duality.Coherator.exists_coherator_distTriang` — coherators of `X`, `U`, `V` and
+  `U ∩ V` exist, and for every `K` some distinguished triangle on the three terms exists.
 
 ## Implementation notes
 
@@ -99,7 +101,7 @@ section
 variable {X : Scheme.{u}} [CompactSpace X] [QuasiSeparatedSpace X] (U V : X.Opens)
   [CompactSpace U.toScheme] [CompactSpace V.toScheme]
 
-/-- **[Stacks, Tag 0CR2].** Let `X` be a quasi-compact and quasi-separated scheme covered by two
+/-- Let `X` be a quasi-compact and quasi-separated scheme covered by two
 quasi-compact opens, `X = U ∪ V`, and write `DQ_Z` for the coherator of `Z`, the right adjoint of
 the inclusion `D_QCoh(𝒪_Z) ⥤ D(𝒪_Z)` whose existence for `Z` quasi-compact and quasi-separated is
 [Stacks, Tag 0CR0] (`Stacks.Duality.Coherator.isLeftAdjoint_quasiCoherentι`). Then for every
@@ -112,9 +114,9 @@ in `D_QCoh(𝒪_X)`.
 The four coherators are the ones [Stacks, Tag 0CR0] produces at `X`, `U`, `V` and `U ∩ V`: the
 three opens are quasi-compact — `U ∩ V` because `X` is quasi-separated — and quasi-separated,
 being opens of a quasi-separated scheme. The triangle is then
-`Stacks.Duality.Coherator.mayerVietorisTriangle_distinguished` at those coherators. -/
-@[stacks 0CR2 "the distinguished triangle at the coherators of `X`, `U`, `V` and `U ∩ V` \
-  supplied by Tag 0CR0"]
+`Stacks.Duality.Coherator.mayerVietorisTriangle_distinguished` at those coherators. The triangle
+with the canonical maps of [Stacks, Tag 0CR2] is
+`Stacks.Duality.Coherator.mayerVietorisTriangle_rightAdjoint_mem_distTriang`. -/
 theorem exists_distTriang_rightAdjoint_quasiCoherentι (hUV : U ⊔ V = ⊤)
     (K : DerivedCategory X.Modules) :
     letI := isLeftAdjoint_quasiCoherentι X
@@ -140,7 +142,7 @@ theorem exists_distTriang_rightAdjoint_quasiCoherentι (hUV : U ⊔ V = ⊤)
     (Adjunction.ofIsLeftAdjoint (quasiCoherentι V.toScheme))
     (Adjunction.ofIsLeftAdjoint (quasiCoherentι (U ⊓ V).toScheme)) K hUV
 
-/-- **[Stacks, Tag 0CR2], in existential form.** For a quasi-compact quasi-separated scheme `X`
+/-- For a quasi-compact quasi-separated scheme `X`
 covered by two quasi-compact opens, `X = U ∪ V`, there are coherators `DQ_X`, `DQ_U`, `DQ_V`,
 `DQ_{U ∩ V}` of `X`, `U`, `V` and `U ∩ V` — right adjoints of the inclusions
 `D_QCoh(𝒪_Z) ⥤ D(𝒪_Z)`, [Stacks, Tag 0CR0] — such that every object `K` of `D(𝒪_X)` sits in a
@@ -151,8 +153,6 @@ distinguished triangle
 in `D_QCoh(𝒪_X)`. A coherator is unique up to a canonical isomorphism, so this is the same
 assertion as `Stacks.Duality.Coherator.exists_distTriang_rightAdjoint_quasiCoherentι`, read
 without naming the right adjoints. -/
-@[stacks 0CR2 "coherators of the four schemes exist and the triangle of the tag is distinguished \
-  for them"]
 theorem exists_coherator_distTriang (hUV : U ⊔ V = ⊤) :
     ∃ (DQX : DerivedCategory X.Modules ⥤ quasiCoherentDerivedCategory X)
       (DQU : DerivedCategory U.toScheme.Modules ⥤ quasiCoherentDerivedCategory U.toScheme)
@@ -177,6 +177,49 @@ theorem exists_coherator_distTriang (hUV : U ⊔ V = ⊤) :
     Adjunction.ofIsLeftAdjoint (quasiCoherentι V.toScheme),
     Adjunction.ofIsLeftAdjoint (quasiCoherentι (U ⊓ V).toScheme),
     fun K => exists_distTriang_rightAdjoint_quasiCoherentι U V hUV K⟩
+
+/-- **[Stacks, Tag 0CR2].** Let `X` be a quasi-compact and quasi-separated scheme covered by two
+quasi-compact opens, `X = U ∪ V`. By [Stacks, Tag 0CR0] the coherators `DQ_X`, `DQ_U`, `DQ_V`,
+`DQ_{U ∩ V}` exist — here the right adjoints `(quasiCoherentι Z).rightAdjoint` — and for every
+object `K` of `D(𝒪_X)` the canonical triangle
+
+`DQ_X(K) ⟶ Rj_{U,*}DQ_U(K|_U) ⊕ Rj_{V,*}DQ_V(K|_V) ⟶ Rj_{U ∩ V,*}DQ_{U ∩ V}(K|_{U ∩ V}) ⟶`
+
+is distinguished in `D_QCoh(𝒪_X)`. The triangle is `DQ_X` applied to the Mayer--Vietoris
+triangle `Stacks.Duality.Coherator.mayerVietorisDerivedTriangle` of [Stacks, Tag 08BV], read
+through the identifications of [Stacks, Tag 0CR1]; this is
+`Stacks.Duality.Coherator.mayerVietorisTriangle_mem_distTriang` at those coherators. -/
+@[stacks 0CR2 "the canonical triangle at the coherators of `X`, `U`, `V` and `U ∩ V` supplied by \
+  Tag 0CR0"]
+theorem mayerVietorisTriangle_rightAdjoint_mem_distTriang (hUV : U ⊔ V = ⊤)
+    (K : DerivedCategory X.Modules) :
+    letI := isLeftAdjoint_quasiCoherentι X
+    letI := isLeftAdjoint_quasiCoherentι U.toScheme
+    letI := isLeftAdjoint_quasiCoherentι V.toScheme
+    letI := isLeftAdjoint_quasiCoherentι (U ⊓ V).toScheme
+    letI : (quasiCoherentι X).rightAdjoint.CommShift ℤ :=
+      (Adjunction.ofIsLeftAdjoint (quasiCoherentι X)).rightAdjointCommShift ℤ
+    mayerVietorisTriangle U V _ _ _ _
+        (Adjunction.ofIsLeftAdjoint (quasiCoherentι X))
+        (Adjunction.ofIsLeftAdjoint (quasiCoherentι U.toScheme))
+        (Adjunction.ofIsLeftAdjoint (quasiCoherentι V.toScheme))
+        (Adjunction.ofIsLeftAdjoint (quasiCoherentι (U ⊓ V).toScheme))
+        (isQuasicoherent_homology_derivedPushforward_opens U)
+        (isQuasicoherent_homology_derivedPushforward_opens V)
+        (isQuasicoherent_homology_derivedPushforward_opens (U ⊓ V)) K
+        (biprod.desc (restrictPushforwardRes (inf_le_left : U ⊓ V ≤ U) K)
+          (-restrictPushforwardRes (inf_le_right : U ⊓ V ≤ V) K))
+        (mayerVietorisDerivedδ U V hUV K) ∈
+      distTriang (quasiCoherentDerivedCategory X) :=
+  letI := isLeftAdjoint_quasiCoherentι X
+  letI := isLeftAdjoint_quasiCoherentι U.toScheme
+  letI := isLeftAdjoint_quasiCoherentι V.toScheme
+  letI := isLeftAdjoint_quasiCoherentι (U ⊓ V).toScheme
+  mayerVietorisTriangle_mem_distTriang U V _ _ _ _
+    (Adjunction.ofIsLeftAdjoint (quasiCoherentι X))
+    (Adjunction.ofIsLeftAdjoint (quasiCoherentι U.toScheme))
+    (Adjunction.ofIsLeftAdjoint (quasiCoherentι V.toScheme))
+    (Adjunction.ofIsLeftAdjoint (quasiCoherentι (U ⊓ V).toScheme)) K hUV
 
 end
 

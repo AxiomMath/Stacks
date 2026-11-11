@@ -31,8 +31,8 @@ and in particular `f_*(c₁(f^*ℒ) ∩ [X]) = c₁(ℒ) ∩ f_*[X]` in `CH_{n-1
 * `AlgebraicGeometry.Space.properCyclePushforward_eq_zsmul_of_forall_primeDivisor`: a proper
   pushforward of `k`-cycles with `dim_δ(Y) = k + 1` is determined by its coefficients at the
   prime divisors of `Y`.
-* `AlgebraicGeometry.Space.properCyclePushforward_canonicalDivisorCycle_pullback`: Stacks 0EQS,
-  first conclusion, for the Weil divisors at the canonical generators.
+* `AlgebraicGeometry.Space.properCyclePushforward_canonicalDivisorCycle_pullback`: the cycle
+  identity of Stacks 0EQS for the Weil divisors at the canonical generators.
 * `AlgebraicGeometry.Space.properCyclePushforward_canonicalDivisorCycleAt_pullback`: the same,
   graded by `k` with `dim_δ = k + 1`.
 * `AlgebraicGeometry.Space.properCyclePushforward_sectionWeilDivisor_pullback`: Stacks 0EQS, both
@@ -54,6 +54,13 @@ read on `A_𝔭` and the `B_𝔮`, and the identity is the ring-theoretic
 `d` the generic rank of `B` over `A`, which is `[R(X) : R(Y)]` by the generic fibre square of
 `f` (`AlgebraicGeometry.Space.length_localizedModule_chartRing_eq_functionFieldDegree_mul`). This
 is a norm-free form of Stacks 0EQ4.
+
+The reductions in `StacksFrontier.AlgebraicGeometry.Spaces.Chow.ProperPushforwardOfDivisor`
+(`AlgebraicGeometry.Space.properPushforward_divisorCycleOfSection` and its companions) take a
+free module and section on `X` and assume the first conclusion coefficientwise, as
+`AlgebraicGeometry.Space.ProperPushforwardNormRule`; they are not Stacks 0EQS. Here `f^*ℒ` and
+`f^*s` are the actual pullbacks and that coefficient identity is proved, so
+`AlgebraicGeometry.Space.properCyclePushforward_sectionWeilDivisor_pullback` carries the tag.
 
 ## References
 
@@ -427,11 +434,9 @@ sections, defined because `f` carries the generic point of `X` to the generic po
 is nonzero because `f^*` preserves regular meromorphic sections; `div` is the Weil divisor of
 Stacks 0EQE, part (1), at the canonical generators of Stacks 0EPR, `f_*` is proper pushforward
 of cycles (Stacks 0EP2) and `[R(X) : R(Y)]` is the degree of the extension of function fields
-(Stacks 0ENY). -/
-@[stacks 0EQS "first conclusion: f_*(div_{f^*L}(f^*s)) = [R(X):R(Y)] div_L(s) in Z_{n-1}(Y),
-for f : X → Y proper and dominant of good integral spaces with dim_δ X = dim_δ Y = n, L invertible
-on Y, s a nonzero meromorphic section; f^*L, f^*s, div (0EQE (1) at the canonical generators of
-0EPR), f_* and [R(X):R(Y)] all constructed; nothing carried", ega "IV 21.10.19" "special case"]
+(Stacks 0ENY). Both conclusions of Stacks 0EQS, in the vocabulary of Stacks 0EQE, are
+`AlgebraicGeometry.Space.properCyclePushforward_sectionWeilDivisor_pullback`. -/
+@[ega "IV 21.10.19" "special case"]
 theorem properCyclePushforward_canonicalDivisorCycle_pullback {f : X ⟶ Y} (hfB : f ≫ sY = sX)
     (hf : IsProper D.site D.base D.base_mem f) (hdom : IsDominant D.site D.base D.base_mem f)
     {n : ℤ} (hnX : deltaDimensionClosed D sX hX Set.univ isClosed_univ = (n : EInt))
@@ -543,13 +548,22 @@ function fields (Stacks 0ENY).
 In the second identity `c₁(f^*ℒ) ∩ [X]` is represented by the class of `div_{f^*ℒ}(f^*s)` in
 `CH_{n-1}(X)` (Stacks 0EQE, part (2)), and `c₁(ℒ) ∩ f_*[X]` is written as
 `[R(X) : R(Y)] (c₁(ℒ) ∩ [Y])`, since `f_*[X] = [R(X) : R(Y)] [Y]` (Stacks 0EP1), with
-`c₁(ℒ) ∩ [Y]` the class `AlgebraicGeometry.Space.weilDivisorOfInvertibleSheaf`. -/
+`c₁(ℒ) ∩ [Y]` the class `AlgebraicGeometry.Space.weilDivisorOfInvertibleSheaf`. The source
+prints the right side as `c₁(ℒ) ∩ f_*[Y]`, a slip for `c₁(ℒ) ∩ f_*[X]` (its proof uses
+`f_*[X] = [R(X) : R(Y)] [Y]`). The degree `[R(X) : R(Y)]` is finite under these hypotheses by
+Stacks 0ENY.
+
+Nothing beyond the hypotheses of the source is assumed: the coefficient identity at each prime
+divisor of `Y` (the input the source obtains from Stacks 0EQ4) is proved, as
+`AlgebraicGeometry.Space.finsum_canonicalDivisorCycle_pullback_mul_properCycleMult_eq`. -/
 @[stacks 0EQS "both conclusions: f_*(div_{f^*L}(f^*s)) = [R(X):R(Y)] div_L(s) in Z_{n-1}(Y), and
 f_*(c_1(f^*L) ∩ [X]) = c_1(L) ∩ f_*[X] = [R(X):R(Y)] (c_1(L) ∩ [Y]) in CH_{n-1}(Y), for f : X → Y
 proper and dominant of good integral spaces with dim_δ X = dim_δ Y = n, L invertible on Y, s a
 nonzero meromorphic section; div and c_1(-) ∩ [-] are Stacks 0EQE (1) and (2), f^*L, f^*s, f_*
 and [R(X):R(Y)] constructed; the left side of the second identity is the class of the
-pushforward of the cycle div_{f^*L}(f^*s) representing c_1(f^*L) ∩ [X]; nothing carried"]
+pushforward of the cycle div_{f^*L}(f^*s) representing c_1(f^*L) ∩ [X] (source's f_*[Y] read as
+f_*[X]); the coefficient identity at each prime divisor of Y, the source's use of 0EQ4, is proved
+on an étale chart; nothing carried"]
 theorem properCyclePushforward_sectionWeilDivisor_pullback (hL : IsInvertibleSheaf D sY hY L)
     {f : X ⟶ Y} (hfB : f ≫ sY = sX) (hf : IsProper D.site D.base D.base_mem f)
     (hdom : IsDominant D.site D.base D.base_mem f) {n : ℤ}

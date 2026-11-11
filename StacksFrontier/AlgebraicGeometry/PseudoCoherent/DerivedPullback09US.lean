@@ -321,7 +321,7 @@ public theorem Scheme.Hom.isModulePseudoCoherentFrom_sections_of_isClosedImmersi
   let : Module.Finite Γ(Z, ⊤) Γ(U, ⊤) :=
     Module.Finite.of_surjective (Algebra.linearMap Γ(Z, ⊤) Γ(U, ⊤)) hsurj
   have hZZ : Algebra.PseudoCoherent Γ(Z, ⊤) Γ(Z, ⊤) :=
-    (RingHom.isPerfectRingMap_of_flat_of_finitePresentation Γ(Z, ⊤) Γ(Z, ⊤)).1
+    .of_flat_of_finitePresentation Γ(Z, ⊤) Γ(Z, ⊤)
   have hres := isRelativelyPseudoCoherentFrom_and_isRelativelyPseudoCoherent_iff_restrictScalars
     (R := Γ(Z, ⊤)) (A := Γ(Z, ⊤)) (B := Γ(U, ⊤))
     ((DerivedCategory.singleFunctor (ModuleCat.{u} Γ(U, ⊤)) 0).obj

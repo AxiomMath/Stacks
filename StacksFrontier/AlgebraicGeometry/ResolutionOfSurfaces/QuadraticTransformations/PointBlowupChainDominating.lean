@@ -95,10 +95,20 @@ theorem exists_pointBlowupChain_factorization_of_isNoetherian
   exists_pointBlowupChain_factorization descent T U hU hclosed hregular hdim f
     (exists_isAdmissibleBlowup_dominating_of_isNoetherian f U)
 
-/-- A proper morphism to a Noetherian scheme which is an isomorphism away from a finite set `T`
-of closed points whose local rings are regular of dimension two is dominated by a sequence of
-blowups at closed points lying over `T`: the composite of the sequence factors through it. -/
-@[stacks 0AHI]
+/-- **Stacks Project, Tag 0AHI.** A proper morphism to a Noetherian scheme which is an
+isomorphism away from a finite set `T` of closed points whose local rings are regular of dimension
+two is dominated by a sequence of blowups at closed points lying over `T`: the composite of the
+sequence factors through it.
+
+The proof follows the source. By [Stacks, Tag 081T]
+(`exists_isAdmissibleBlowup_dominating_of_isNoetherian`) a `U`-admissible blowup of `X` in an
+ideal `𝓘` with `𝒪_X / 𝓘` supported on `T` dominates `f`. By [Stacks, Tag 0AHH]
+(`exists_pointBlowupChain_isEffectiveCartierDivisor` with `pointBlowupDescent`) a sequence of
+blowups at closed points over `T` makes `𝓘` invertible, and the universal property of blowing up
+([Stacks, Tag 0806]) factors the composite through the blowup in `𝓘`, hence through `Y`. -/
+@[stacks 0AHI "a proper morphism to a Noetherian scheme which is an isomorphism away from a \
+finite set of closed points with regular two-dimensional local rings is dominated by a finite \
+sequence of blowups at closed points lying over that set"]
 theorem exists_pointBlowupChain_factorization_of_isProper {X Y : Scheme.{u}}
     [AlgebraicGeometry.IsNoetherian X] (T : Finset X) (U : X.Opens)
     (hU : (U : Set X) = (T : Set X)ᶜ)

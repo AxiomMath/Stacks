@@ -3,71 +3,47 @@ module
 public import StacksFrontier.AlgebraicGeometry.Spaces.HigherPushforwardQuasicoherentReduction
 
 /-!
-# Higher direct images of quasi-coherent modules are quasi-coherent
+# Stacks 0720 from its affine-base case: the reduction and the representable form
 
 Let `f : X ⟶ Y` be a morphism of algebraic spaces over a scheme `S` contained in a big fppf
-site `B`.  If `f` is quasi-compact and quasi-separated then every higher direct image `R^i f_*`
-carries a quasi-coherent `𝒪_X`-module to a quasi-coherent `𝒪_Y`-module, for every `i`.  This is
-Stacks 0720, and it is the statement below.
+site `B`.  Stacks 0720 says that if `f` is quasi-compact and quasi-separated then every higher
+direct image `R^i f_*` carries a quasi-coherent `𝒪_X`-module to a quasi-coherent `𝒪_Y`-module.
+That statement, with no hypothesis beyond the source's, is
+`AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward'` in
+`StacksFrontier/AlgebraicGeometry/Spaces/HigherPushforwardQuasicoherentUnconditional.lean`.
 
-The source's proof has two steps.  The first is the reduction to the case of an affine base:
-quasi-coherence of an `𝒪_Y`-module is tested on the affine étale scheme charts `V` of `Y`, and
-over such a chart `R^i f_*F` restricts to `R^i f'_*(F|_U)` for `U = V ×_Y X` and `f' : U ⟶ V`
-the base change of `f`.  That step is
-`AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_of_forall_affine_chart`.  The second
-step is the affine-base case itself, proved in the source by induction on `i` from the relative
-Leray spectral sequence of an affine étale cover of `X`; it is carried here as the hypothesis
-`haffine`, in the shape `AlgebraicGeometry.Space.AffineTargetHigherPushforwardQuasicoherent`.
+This file names the affine-base case of the source's proof as a proposition, and proves from it
+the source's reduction to an affine base and the representable form of the statement.
 
 ## Main definitions
 
 * `AlgebraicGeometry.Space.AffineTargetHigherPushforwardQuasicoherent` is the affine-base case of
   Stacks 0720 in degree `i`: the same conclusion for every quasi-compact and quasi-separated
-  morphism of algebraic spaces whose target is an affine algebraic space.
+  morphism of algebraic spaces whose target is an affine algebraic space.  Each instance of it
+  holds, by the theorem (in namespace `AlgebraicGeometry.Space`)
+  `isQuasicoherentOnSite_rightDerived_modulePushforward_of_isAffineSpace_target`.
 
 ## Main results
 
-* `AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward`: **Stacks 0720**
-  in the binders of its source statement, granted the affine-base case and the
-  injective-preservation half of Stacks 03F3 for the chart base changes of `f`.
+* `AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward`: the source's
+  reduction of Stacks 0720 to an affine base, from the affine-base case `haffine` and the
+  injective-preservation half of Stacks 03F3 for the chart base changes of `f`, `h03F3`.
 * `AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward_of_representable`:
-  the same conclusion for a *representable* `f`, granted the affine-base case alone.
+  the conclusion of Stacks 0720 for a *representable* `f`, from the affine-base case.
 * `AlgebraicGeometry.Space.affineTargetHigherPushforwardQuasicoherent_of_forall`: the affine-base
-  case follows from the general statement, so the hypothesis `haffine` is no stronger than the
-  conclusion it is used to reach.
+  case follows from the general statement.
 
 ## Implementation notes
 
-The `@[stacks 0720]` attribute is **qualified**: it claims the reduction of the source's
-statement to an affine base, not the affine case, which is the hypothesis `haffine`; Stacks 0720
-without any qualifier is the conclusion below with `haffine` and `h03F3` discharged.  The
-arrangement follows `AlgebraicGeometry.Space.isZero_rightDerived_modulePushforward_of_isAffineHom`
-for Stacks 073H and `AlgebraicGeometry.Space.isQuasicoherentOnSite_modulePushforward_of_isAffineHom`
-for Stacks 07U8, which withhold their affine cases in the same way.
+*What `h03F3` is.*  The reduction identifies `(R^i f_*F)|_V` with `R^i f'_*(F|_U)`, for
+`U = V ×_Y X`, by base change for right derived functors, which needs étale restriction along
+`U ⟶ X` to carry injective `𝒪_X`-modules to injective `𝒪_U`-modules: Stacks 03F3, part (1), at
+the small étale site.  It holds for every `f`, by
+`AlgebraicGeometry.Space.preservesInjectiveObjects_chartBaseChangeModulePullback`.
 
-*Why `haffine` cannot be discharged here.*  The source's induction consumes three results that
-this development does not have in a form that applies to modules on the small étale site of an
-algebraic space: the comparison of étale with Zariski higher direct images for quasi-coherent
-modules (Stacks 03DW, equivalently Stacks 03DX, part (2)), of which only the Zariski half is
-present; the relative Leray spectral sequence of Stacks 0734, which is proved for a ringed topos
-whose three universes agree, whereas the small étale site of an algebraic space over a
-`Scheme.{u}` has its objects in `Type (u + 1)` and its modules at `u`; and the extension clause of
-the weak Serre subcategory of quasi-coherent modules, Stacks 03M1, part (4), of which the kernel
-and cokernel clauses are unconditional but the extension clause is proved nowhere.
-
-*Why `haffine` is the smallest hypothesis of its shape.*  It restricts the conclusion to an
-affine target and keeps both of the source's hypotheses on the morphism, and
-`AlgebraicGeometry.Space.affineTargetHigherPushforwardQuasicoherent_of_forall` shows it to be a
-consequence of the tag's own statement.  Quasi-compactness of the source, which the source's
-second step also uses, is not assumed: for an affine target it follows from quasi-compactness of
-the morphism, by `AlgebraicGeometry.Space.isQuasiCompactSpace_chartBaseChange`.
-
-*What `h03F3` is.*  The first step identifies `(R^i f_*F)|_V` with `R^i f'_*(F|_U)` by base change
-for right derived functors, which needs étale restriction along the structure morphism
-`U ⟶ X` to carry injective `𝒪_X`-modules to injective `𝒪_U`-modules — Stacks 03F3, part (1), at
-the small étale site.  That is proved for the structure morphism of an étale scheme *chart*, and
-`U = V ×_Y X` is a scheme chart of `X` exactly when `f` is representable, which is why the
-representable form below carries nothing beyond `haffine`.
+*The representable form.*  For a representable `f` the base change `U = V ×_Y X` of `f` at an
+affine étale scheme chart `V` of `Y` is an étale scheme chart of `X`, so `(R^i f_*F)|_V` is
+identified with `R^i f'_*(F|_U)` by Equation 69.3.0.1 of the source, Stacks 071Z.
 
 *The degree* runs over all of `ℕ` in the injective-resolution convention
 `CategoryTheory.Functor.rightDerived`, the convention the source's proof is written in.  *The
@@ -83,13 +59,10 @@ fails on the universe constraint.  Both attributes are `local`.
 * [Stacks Project, Tag 0720](https://stacks.math.columbia.edu/tag/0720)
 * [Stacks Project, Tag 03M0](https://stacks.math.columbia.edu/tag/03M0)
 * [Stacks Project, Tag 03LX](https://stacks.math.columbia.edu/tag/03LX)
-* [Stacks Project, Tag 071Z](https://stacks.math.columbia.edu/tag/071Z)
 * [Stacks Project, Tag 03F3](https://stacks.math.columbia.edu/tag/03F3)
+* [Stacks Project, Tag 071Z](https://stacks.math.columbia.edu/tag/071Z)
 * [Stacks Project, Tag 03HF](https://stacks.math.columbia.edu/tag/03HF)
 * [Stacks Project, Tag 03KL](https://stacks.math.columbia.edu/tag/03KL)
-* [Stacks Project, Tag 0734](https://stacks.math.columbia.edu/tag/0734)
-* [Stacks Project, Tag 03M1](https://stacks.math.columbia.edu/tag/03M1)
-* [Stacks Project, Tag 03DW](https://stacks.math.columbia.edu/tag/03DW)
 -/
 
 @[expose] public section
@@ -134,18 +107,19 @@ theorem affineTargetHigherPushforwardQuasicoherent_of_forall (i : ℕ)
     AffineTargetHigherPushforwardQuasicoherent B S hS i :=
   fun U Y g _ hgqc hgqs G hG ↦ h U Y g hgqc hgqs G hG
 
-/-! ### Stacks 0720 -/
+/-! ### The reduction of Stacks 0720 to an affine base -/
 
-/-- **Stacks 0720.** Let `f : X ⟶ Y` be a quasi-compact and quasi-separated morphism of
-algebraic spaces over a scheme `S`, and let `F` be a quasi-coherent `𝒪_X`-module on the small
-étale site of `X`.  Then the higher direct image `R^i f_*F` is quasi-coherent for every `i`.
+/-- **The reduction of Stacks 0720 to an affine base.** Let `f : X ⟶ Y` be a quasi-compact and
+quasi-separated morphism of algebraic spaces over a scheme `S`, and let `F` be a quasi-coherent
+`𝒪_X`-module on the small étale site of `X`.  Given the affine-base case `haffine` and the
+injective-preservation half of Stacks 03F3 for the chart base changes of `f`, `h03F3`, the higher
+direct image `R^i f_*F` is quasi-coherent.
 
-The affine-base case of the source's proof is the hypothesis `haffine`, and the
-injective-preservation half of Stacks 03F3 for the chart base changes of `f` is the hypothesis
-`h03F3`; everything else is the source's reduction to an affine base, by Stacks 03M0,
-condition (4), and the higher-direct-image clause of Stacks 03LX, with the hypotheses of the
-affine case supplied from those of `f` by Stacks 03HF and Stacks 03KL, part (3). -/
-@[stacks 0720 "the reduction to an affine base; the affine case is the hypothesis haffine"]
+This is the source's reduction to an affine base, by Stacks 03M0, condition (4), and the
+higher-direct-image clause of Stacks 03LX, with the hypotheses of the affine case supplied from
+those of `f` by Stacks 03HF and Stacks 03KL, part (3).  Both hypotheses are proved in this
+development, and Stacks 0720 itself is
+`AlgebraicGeometry.Space.isQuasicoherentOnSite_rightDerived_modulePushforward'`. -/
 theorem isQuasicoherentOnSite_rightDerived_modulePushforward {X Y : AlgebraicSpaces B S hS}
     (f : X ⟶ Y) (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)
     (F : Modules.{u, u} B S hS X.1 X.2) [F.IsQuasicoherentOnSite] (i : ℕ)
@@ -162,17 +136,18 @@ theorem isQuasicoherentOnSite_rightDerived_modulePushforward {X Y : AlgebraicSpa
           (chartBaseChangeInclusion B S hS f V)
           (isEtale_chartBaseChangeInclusion B S hS f V) F inferInstance)
 
-/-- **Stacks 0720 for a representable morphism, granted only the affine-base case.** For a
+/-! ### The representable form of Stacks 0720 -/
+
+/-- **Stacks 0720 for a representable morphism, from the affine-base case.** For a
 representable, quasi-compact and quasi-separated morphism `f : X ⟶ Y` of algebraic spaces over
 `S` and a quasi-coherent `𝒪_X`-module `F`, the higher direct image `R^i f_*F` is quasi-coherent
 for every `i`.
 
 Representability makes the base change `V ×_Y X` of `f` at an étale scheme chart `V` of `Y` an
 étale scheme chart of `X`, so the chartwise identification is Equation 69.3.0.1 of the source,
-Stacks 071Z, in which the injective-preservation half of Stacks 03F3 is discharged; the
-hypothesis `h03F3` is therefore not needed.  The quasi-compactness and quasi-separatedness of the
-base-changed morphism, which the affine case takes, come from those of `f` by Stacks 03HF and
-Stacks 03KL, part (3). -/
+Stacks 071Z.  The quasi-compactness and quasi-separatedness of the base-changed morphism,
+which the affine case takes, come from those of `f` by Stacks 03HF and Stacks 03KL,
+part (3). -/
 theorem isQuasicoherentOnSite_rightDerived_modulePushforward_of_representable
     {X Y : AlgebraicSpaces B S hS} (f : X ⟶ Y) (hf : yoneda.relativelyRepresentable f.hom)
     (hfqc : IsQuasiCompact B S hS f.hom) (hfqs : IsQuasiSeparated B S hS f.hom)

@@ -48,8 +48,10 @@ functor preserves the square-zero equalizer — is
   functor is surjective on a surjection of algebras.
 * `AdequateFunctor.surjective_tangentFunctorAt_map_of_injective`: the tangent functor of an
   injective module-valued functor is surjective on a surjection of modules.
-* `AdequateFunctor.epi_tangentFunctorAt_map_of_injective`: **Tag 06ZA, corrected** —
-  surjectivity of `TI(B, N) → TI(B, N₂)`.
+* `AdequateFunctor.epi_tangentFunctorAt_map_of_injective`: surjectivity of
+  `TI(B, N) → TI(B, N₂)`.
+* `AdequateFunctor.map_comp_eq_zero_and_epi_tangentFunctorAt_map_of_injective`: **Tag 06ZA,
+  corrected** — the tangent sequence is a complex, exact at `TI(B, N₂)`.
 
 ## Implementation notes
 
@@ -194,30 +196,12 @@ lemma surjective_tangentFunctorAt_map_of_injective
   refine ⟨⟨y, hker⟩, Subtype.ext ?_⟩
   rwa [(tangentFunctor A I).map_coe q ⟨y, hker⟩]
 
-/-- **Tag 06ZA, corrected.  Stacks erratum.**  Let `I` be an
-injective object of the category of module-valued functors on `Alg_A`.  For every `A`-algebra
-`B` and every short exact sequence `0 → N₁ → N → N₂ → 0` of `B`-modules, the map
-`TI(B, N) → TI(B, N₂)` is an epimorphism.
-
-The source asserts more: that the whole sequence `TI(B, N₁) → TI(B, N) → TI(B, N₂) → 0` is
-exact, which in this library is the predicate `AdequateFunctor.HasRightExactTangentFunctor`
-of Tag 06ZF.  **The other conjunct, exactness at `TI(B, N)`, is false**, and is refuted by
-`AdequateFunctor.not_forall_hasRightExactTangentFunctor_of_injective`: the counterexample
-takes the field `k = ℚ`, the algebra `C = k[ε]/(ε²)`, the injective `C`-module
-`J = Hom_k(C, k)` and the coinduced functor `I(D) = ∏_{α : D →ₐ C} J`, whose tangent module
-`TI(k, V)` is the functions `V^* → J` vanishing at `0`; on `0 → k → k² → k → 0` the function
-sending the first-coordinate functional to `0 ≠ j ∈ J` and everything else to `0` is killed
-by `TI(k, k²) → TI(k, k)` and is not in the image of `TI(k, k) → TI(k, k²)`, every element of
-which takes equal values at `(1, 0)` and `(1, 1)`.
-
-Surjectivity at `TI(B, N₂)` — the statement proved here, and the whole of what the source's
-assertion leaves standing — is unaffected: its proof does not use the coequalizer step that
-the counterexample refutes. -/
-@[stacks 06ZA "Stacks erratum: only the surjectivity at \
-`TI(B, N₂)`.  Exactness at `TI(B, N)`, the other conjunct of the source's assertion that \
-`TI(B,N₁) → TI(B,N) → TI(B,N₂) → 0` is exact, is false as stated, and is refuted by \
-`AdequateFunctor.not_forall_hasRightExactTangentFunctor_of_injective`.  The module universe \
-of `I` is taken to be the universe of the algebras."]
+/-- **Surjectivity at the end of the tangent sequence of an injective functor.**  Let `I`
+be an injective object of the category of module-valued functors on `Alg_A`.  For every
+`A`-algebra `B` and every short exact sequence `0 → N₁ → N → N₂ → 0` of `B`-modules, the map
+`TI(B, N) → TI(B, N₂)` is an epimorphism.  This is the surjectivity half of the corrected
+form of [Stacks, Tag 06ZA], which is
+`AdequateFunctor.map_comp_eq_zero_and_epi_tangentFunctorAt_map_of_injective`. -/
 theorem epi_tangentFunctorAt_map_of_injective
     (I : PresheafOfModules.{v} (algebraStructurePresheaf.{v} A)) [Injective I]
     (B : Type v) [CommRing B] [Algebra A B] (S : ShortComplex (ModuleCat.{v} B))
@@ -226,6 +210,36 @@ theorem epi_tangentFunctorAt_map_of_injective
   (AddCommGrpCat.epi_iff_surjective _).mpr
     (surjective_tangentFunctorAt_map_of_injective A I B S.g
       ((ModuleCat.epi_iff_surjective _).mp hS.epi_g))
+
+/-- **Tag 06ZA, corrected.  Stacks erratum.**  Let `I` be an injective object of the category
+of module-valued functors on `Alg_A`.  For every `A`-algebra `B` and every short exact
+sequence `0 → N₁ → N → N₂ → 0` of `B`-modules, the sequence
+`TI(B, N₁) → TI(B, N) → TI(B, N₂) → 0` is a complex and is exact at `TI(B, N₂)`: the
+composite `TI(B, N₁) → TI(B, N₂)` is zero and `TI(B, N) → TI(B, N₂)` is an epimorphism.
+
+The source asserts that the sequence is exact.  **Exactness at `TI(B, N)` is false**, and is
+refuted by `AdequateFunctor.not_forall_exact_map_tangentFunctorAt_of_injective`: the
+counterexample takes the field `k = ℚ`, the algebra `C = k[ε]/(ε²)`, the injective `C`-module
+`J = Hom_k(C, k)` and the coinduced functor `I(D) = ∏_{α : D →ₐ C} J`, whose tangent module
+`TI(k, V)` is the functions `V^* → J` vanishing at `0`; on `0 → k → k² → k → 0` the function
+sending the first-coordinate functional to `0 ≠ j ∈ J` and everything else to `0` is killed
+by `TI(k, k²) → TI(k, k)` and is not in the image of `TI(k, k) → TI(k, k²)`, every element of
+which takes equal values at `(1, 0)` and `(1, 1)`.
+
+Surjectivity at `TI(B, N₂)` is unaffected: its proof does not use the coequalizer step that
+the counterexample refutes. -/
+@[stacks 06ZA "Stacks erratum, corrected statement: the tangent sequence \
+`TI(B,N₁) → TI(B,N) → TI(B,N₂) → 0` of an injective module-valued functor is a complex and is \
+exact at `TI(B,N₂)`.  Exactness at `TI(B,N)`, also asserted by the source, is false: its \
+negation is `AdequateFunctor.not_forall_exact_map_tangentFunctorAt_of_injective`.  The \
+module universe of `I` is the universe of the algebras."]
+theorem map_comp_eq_zero_and_epi_tangentFunctorAt_map_of_injective
+    (I : PresheafOfModules.{v} (algebraStructurePresheaf.{v} A)) [Injective I]
+    (B : Type v) [CommRing B] [Algebra A B] (S : ShortComplex (ModuleCat.{v} B))
+    (hS : S.ShortExact) :
+    (tangentFunctorAt A I B).map S.f ≫ (tangentFunctorAt A I B).map S.g = 0 ∧
+      Epi ((tangentFunctorAt A I B).map S.g) :=
+  ⟨(S.map (tangentFunctorAt A I B)).zero, epi_tangentFunctorAt_map_of_injective A I B S hS⟩
 
 end RightExactHalf
 

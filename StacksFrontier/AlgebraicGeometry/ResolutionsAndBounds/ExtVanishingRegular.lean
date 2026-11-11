@@ -218,7 +218,8 @@ attribute [local instance] HasDerivedCategory.standard
 /-- **[Stacks, Tag 0FZ3] part (1).** Let `X` be a regular Noetherian scheme of dimension
 `d < ∞`, let `F` be a coherent `𝒪_X`-module and `G` an arbitrary `𝒪_X`-module. Then
 `Ext^n_X(F, G) = 0` for every `n > d`. -/
-@[stacks 0FZ3 "part (1)"]
+@[stacks 0FZ3 "part (1): on a regular Noetherian scheme of dimension d, Ext^n(F, G) = 0 for \
+n > d, F coherent (G arbitrary)"]
 theorem subsingleton_zExt_of_isRegular (X : Scheme.{u}) [IsNoetherian X] (hX : IsRegular X)
     (d : ℕ) (hd : topologicalKrullDim X = (d : WithBot ℕ∞)) (F G : X.Modules)
     (hF : F.IsCoherent) (n : ℤ) (hn : (d : ℤ) < n) : Subsingleton (Abelian.zExt F G n) := by
@@ -232,7 +233,8 @@ theorem subsingleton_zExt_of_isRegular (X : Scheme.{u}) [IsNoetherian X] (hX : I
 /-- **[Stacks, Tag 0FZ3] part (2).** Let `X` be a regular Noetherian scheme of dimension
 `d < ∞`. Let `K` and `L` be objects of `D^b_{Coh}(𝒪_X)` and let `a` be an integer. If
 `H^i(K) = 0` for `i < a + d` and `H^i(L) = 0` for `i ≥ a`, then `Hom_X(K, L) = 0`. -/
-@[stacks 0FZ3 "part (2)"]
+@[stacks 0FZ3 "part (2): on a regular Noetherian scheme of dimension d, Hom(K, L) = 0 for \
+K, L in D^b_Coh with H^i(K) = 0 for i < a + d and H^i(L) = 0 for i >= a"]
 theorem subsingleton_hom_of_homology_separated_of_isRegular (X : Scheme.{u}) [IsNoetherian X]
     (hX : IsRegular X) (d : ℕ) (hd : topologicalKrullDim X = (d : WithBot ℕ∞))
     (K L : DerivedCategory X.Modules) (a : ℤ)

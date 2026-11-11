@@ -186,7 +186,7 @@ private lemma flat_R_of_flat_local
 
 /-- If every `M_𝔪` (for `𝔪 ⊆ A` maximal) is flat over `R_𝔭` (with `𝔭 = R ∩ 𝔪`), then `M` is flat
 over `R`. -/
-@[stacks 00HT "part7_backward", sga "1 IV 1.2" "(ii)"]
+@[sga "1 IV 1.2" "(ii)"]
 theorem flat_of_flat_localizedModule_maximal
     {R : Type*} [CommRing R]
     {A : Type*} [CommRing A] [Algebra R A]
@@ -213,7 +213,7 @@ theorem flat_of_flat_localizedModule_maximal
 
 /-- If every `M_𝔮` (for `𝔮 ⊆ A` prime) is flat over `R_𝔭` (with `𝔭 = 𝔮 ∩ R`), then `M` is flat
 over `R`. -/
-@[stacks 00HT "part6_backward", sga "1 IV 1.2" "(ii) with all primes"]
+@[sga "1 IV 1.2" "(ii) with all primes"]
 theorem flat_of_flat_atPrime
     {R : Type*} [CommRing R]
     {A : Type*} [CommRing A] [Algebra R A]

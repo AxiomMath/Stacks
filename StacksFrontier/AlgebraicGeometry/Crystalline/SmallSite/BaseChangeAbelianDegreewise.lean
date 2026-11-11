@@ -84,25 +84,21 @@ proved is that its whole content, after [Stacks, Tag 03FD], is the pair of asser
 `AbelianDegreewiseBaseChangeIso07MU`.  Two facts about the remaining gap are
 recorded here.
 
-* **[Stacks, Tag 07LG], in the shape in which it is proved, does not discharge the degree-`j`
-  clause.**  It is `...SmallSite.crystalPairDeRhamComplex_computesCohomology` of
-  `SmallSite/CrystalDeRhamComputesCohomology.lean` (and the older proposition is
-  `Crystalline.GlobalCrystallineSituation.SmallSite.Computes07LG` of
-  `StacksFrontier/AlgebraicGeometry/Crystalline/CompletedConnectionDeRham.lean`), and its conclusion
-  is the *mere existence* of an isomorphism between the lifted
-  homology of `M ⊗^∧_D Ω^*_D` and `(cohomologyFunctor S j).obj (abelianSheaf F)`.  Existence of
-  an isomorphism between two groups says nothing about whether a *given* map between them is one,
-  and the degree-`j` clause here — like `DegreewiseBaseChangeIso07MU` itself — is about the given
-  base change map.  So what the reduction needs from the de Rham side is a form of
-  [Stacks, Tag 07LG] that names its comparison map and is compatible with change of divided power
-  base; the two theorems in the library that conclude `Computes07LG`,
+* **[Stacks, Tag 07LG], as proved, does not discharge the degree-`j` clause.**  It is
+  `...SmallSite.crystalPairDeRhamDerivedPlusIso` of `SmallSite/CrystalDeRhamDerived07LG.lean`,
+  the canonical isomorphism `M ⊗^∧_D Ω^*_D ≅ RΓ(Cris(X/S), ℱ)` in `D⁺(Ab)` of the proof, with
+  degreewise consequence `...SmallSite.crystalPairDeRhamComplex_computesCohomology` (and the
+  older proposition is `Crystalline.GlobalCrystallineSituation.SmallSite.Computes07LG` of
+  `StacksFrontier/AlgebraicGeometry/Crystalline/CompletedConnectionDeRham.lean`).  The degree-`j`
+  clause here — like `DegreewiseBaseChangeIso07MU` itself — is about the given base change map,
+  so what the reduction needs from the de Rham side is the compatibility of that named
+  comparison with change of divided power base, which is not stated; the two theorems in the
+  library that conclude `Computes07LG`,
   `...SmallSite.computes07LG_of_sectionsComplexHomologyIso`
   (`StacksFrontier/AlgebraicGeometry/Crystalline/Computes07LGFrom07JN.lean`) and
   `...SmallSite.computes07LG_of_doubleComplex`
   (`StacksFrontier/AlgebraicGeometry/Crystalline/Computes07LGFromDoubleComplex.lean`), each take
-  a hypothesis that is the remaining content.  The isomorphism of the proved form is
-  `...SmallSite.crystalPairDeRhamCohomologyIso`, a named map, but its compatibility with change
-  of divided power base is not stated.
+  a hypothesis that is the remaining content.
 * **The Mayer–Vietoris step of the source's hint still cannot be stated**, for the reason
   `SmallSite/BaseChangeIsomorphism.lean` records: `Crystalline.GlobalCrystallineSituation.restrict`
   exists (`StacksFrontier/AlgebraicGeometry/Crystalline/BigSite/SituationRestrict.lean:176`) but

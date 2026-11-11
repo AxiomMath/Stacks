@@ -183,7 +183,20 @@ lemma differentialSectionsMap_comp {S : Scheme.{u}} {X Y Z : Over S}
       differentialSectionsMap g ≫ differentialSectionsMap f := by
   unfold differentialSectionsMap
   rw [differentialsSectionMorphism_comp f g]
-  exact topMap_comp f.left g.left
+  have key : ∀ {X Y Z : Scheme.{u}} (f : X ⟶ Y) (g : Y ⟶ Z) (M : Z.Modules) (N : Y.Modules)
+      (P : X.Modules) (b : M ⟶ (Scheme.Modules.pushforward g).obj N)
+      (c : N ⟶ (Scheme.Modules.pushforward f).obj P),
+      (b ≫ (Scheme.Modules.pushforward g).map c ≫
+        (Scheme.Modules.pushforwardComp f g).hom.app P).app ⊤ ≫
+          P.presheaf.map (eqToHom (show ⊤ = (f ≫ g) ⁻¹ᵁ ⊤ by simp)).op =
+        (b.app ⊤ ≫ N.presheaf.map (eqToHom (show ⊤ = g ⁻¹ᵁ ⊤ by simp)).op) ≫
+          (c.app ⊤ ≫ P.presheaf.map (eqToHom (show ⊤ = f ⁻¹ᵁ ⊤ by simp)).op) := by
+    intro X Y Z f g M N P b c
+    ext x
+    simp [Scheme.Modules.Hom.comp_app, Scheme.Modules.pushforward_map_app,
+      Scheme.Modules.pushforwardComp_hom_app_app]
+    rfl
+  exact key f.left g.left
     (Scheme.Hom.relativeDifferentials Z.hom)
     (Scheme.Hom.relativeDifferentials Y.hom)
     (Scheme.Hom.relativeDifferentials X.hom)

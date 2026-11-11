@@ -34,9 +34,10 @@ assumed. The proof is the source's:
   of other bidegrees contribute nothing;
 * so `∫_X a ∪ b = ∑_j (∫_X a ∪ e_{i,j})(∫_X e'_{2d-i,j} ∪ b)` — the identity the base's
   `Stacks.WeilCohomology.PoincareDualityPushforwardSetup.integration_mul_dualBasis` had to assume
-  — and Poincaré duality (A)(b) makes `e'` the dual basis (`WeilData.traceProj_mul_basis`, from
-  `Stacks.WeilCohomology.dualBasis_of_pairing_decomposition`); graded commutativity gives the
-  sign `(-1)^{i(2d-i)} = (-1)^i`.
+  (that declaration, which carries it as `hdecomp`, is the linear-algebra step only and is not
+  registered for 0FHH) — and Poincaré duality (A)(b) makes `e'` the dual basis
+  (`WeilData.traceProj_mul_basis`, from `Stacks.WeilCohomology.dualBasis_of_pairing_decomposition`);
+  graded commutativity gives the sign `(-1)^{i(2d-i)} = (-1)^i`.
 
 ## Main definitions
 
@@ -543,8 +544,9 @@ of axiom (B)(a) (`WeilData.kunnethComponentTw`). The proof is the source's: `γ(
 the pushforward and Remark 0FHD; axiom (B)(b) evaluates the same trace on the Künneth decomposition
 as `∑_j (∫_X a ∪ e_{i,j})(∫_X e'_{2d-i,j} ∪ b)`; and Poincaré duality (A)(b) makes `e'` the dual
 basis. -/
-@[stacks 0FHH "the Künneth coordinates e' of the actual cycle class γ([Δ]) of the diagonal \
-  are the signed dual basis; the expansion ∫ a ∪ b = ∑ (∫ a ∪ e)(∫ e' ∪ b) is derived"]
+@[stacks 0FHH "under (D0)–(D3), (A), (B), (C): any family e' with γ([Δ])_(i,2d-i) = ∑ e ⊗ e', \
+  for the actual cycle class γ([Δ]) of the diagonal, is the signed dual basis; the expansion \
+  ∫ a ∪ b = ∑ (∫ a ∪ e)(∫ e' ∪ b) is derived, not assumed"]
 theorem pairing_kunnethComponentTw_diagonal (hA : W.PoincareDuality) (hB : W.Kunneth)
     (hC : W.CycleClassAxiom hA.perfectPairing) (i : ℤ) {J : Type*} [Fintype J]
     [DecidableEq J] (e : Module.Basis J F (W.grade X i)) (e' : J → W.Tw X (2 * d - i) d)

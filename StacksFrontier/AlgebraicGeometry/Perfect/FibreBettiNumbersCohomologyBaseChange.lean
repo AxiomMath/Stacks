@@ -43,11 +43,6 @@ Only the isomorphism class of `Lg^*K` enters, since `β_i` is a dimension. So th
 input is used as the existence of an isomorphism and no coherence of the unit constraints is
 needed.
 
-The registered declarations of the base file
-`StacksFrontier/AlgebraicGeometry/Perfect/FibreBettiNumbers.lean` carry the
-cohomology-and-base-change step as the hypotheses `CohomologyAndBaseChange` and
-`BaseChangeCompatible`. Here both are proved.
-
 ## References
 
 * [Stacks Project, Tag 0BDN](https://stacks.math.columbia.edu/tag/0BDN)

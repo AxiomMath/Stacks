@@ -8,14 +8,15 @@ public import StacksFrontier.AlgebraicGeometry.SchemeTheoreticImage.Basic
 /-!
 # The limit theorem for relative equivalences over Noetherian stages
 
-The tree's [Stacks, Tag 0G0L],
-`AlgebraicGeometry.exists_isRelativeEquivalenceKernel_of_descentSituation`, takes the perfectness
-of the diagonal kernel and of the convolution kernel over an arbitrary base as an input `hperf`.
-The convolution half is in this tree only over a Noetherian base
-(`AlgebraicGeometry.isPerfect_fourierMukaiConvolution_of_isNoetherian`), and the source's proof
-uses the input only at the stages of the system. This file proves the perfectness input over a
-Noetherian base and restates the limit theorem for situations with Noetherian stages, where
-that is all it needs; its base-change input is
+The assembly `AlgebraicGeometry.exists_isRelativeEquivalenceKernel_of_descentSituation` of
+[Stacks, Tag 0G0L] takes the perfectness of the diagonal kernel and of the convolution kernel
+as an input `hperf`. Over an arbitrary base that input is
+`AlgebraicGeometry.diagonalKernelAndConvolutionPerfect`, and [Stacks, Tag 0G0L] itself is
+`AlgebraicGeometry.exists_isRelativeEquivalenceKernel_of_limit`. This file gives a second route
+for situations with Noetherian stages: it proves the perfectness input over a Noetherian base
+from `AlgebraicGeometry.isPerfect_fourierMukaiConvolution_of_isNoetherian`, which suffices since
+the source's proof uses the input at the stages of the system, and restates the limit theorem
+for such situations; its base-change input is
 `AlgebraicGeometry.diagonalKernelAndConvolutionBaseChange`.
 
 ## Main results

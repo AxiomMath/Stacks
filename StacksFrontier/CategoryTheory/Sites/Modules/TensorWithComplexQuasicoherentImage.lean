@@ -44,8 +44,10 @@ the *untwisted* functors, and that is exactly what the sign obstruction makes fa
 
 ## Main results
 
-* `AlgebraicGeometry.RingedSite.derivedCategoryB_tensorWithComplexDerived_obj`: **Stacks 09MA**,
-  the image of `- ⊗_E^𝐋 K` is contained in `D_QCoh(O)`.
+* `AlgebraicGeometry.RingedSite.derivedCategoryB_tensorWithComplexDerived_obj`: the dévissage of
+  Stacks 09MA on an arbitrary ringed site, the image of `- ⊗_E^𝐋 K` is contained in `D_QCoh(O)`,
+  with the inputs listed below; Stacks 09MA itself is
+  `AlgebraicGeometry.Space.derivedCategoryB_tensorWithComplexDerived_obj_smallEtale`.
 * `AlgebraicGeometry.RingedSite.tensorWithComplexDerived_isTriangulated` and
   `AlgebraicGeometry.RingedSite.tensorWithComplexToDerivedCategory_isTriangulated'`: `- ⊗_E^𝐋 K`
   and its underived form carry distinguished triangles to distinguished triangles, under the
@@ -285,7 +287,13 @@ theorem tensorWithComplexDerived_isTriangulated
 
 /-! ### The dévissage -/
 
-/-- **Stacks 09MA**, and with it the content of section **09M9** that this file delivers. *"Let
+/-- **The dévissage of Stacks 09MA, on an arbitrary ringed site**, with the closure properties of
+`D_QCoh(O)` and the preservation of direct sums by tensoring with `K` taken as inputs. It carries no
+`@[stacks]` attribute: Stacks 09MA itself, for the small étale site of an algebraic space with the
+source's hypothesis on `K` and nothing else, is
+`AlgebraicGeometry.Space.derivedCategoryB_tensorWithComplexDerived_obj_smallEtale`, through
+`AlgebraicGeometry.RingedSite.derivedCategoryB_tensorWithComplexDerived_obj_of_hqcsum`, which
+needs no `htensorSum`. The statement of the source reads: *"Let
 `S` be a scheme, `X` an algebraic space over `S`. Let `K` be a complex of `O_X`-modules whose
 cohomology sheaves are quasi-coherent. Let `(E, d) = Hom(K, K)` be the endomorphism differential
 graded algebra. Then the functor `- ⊗_E^𝐋 K : D(E, d) ⟶ D(O_X)` of Tag 09LX has image contained
@@ -318,7 +326,6 @@ force here, it would be unsatisfiable and this statement vacuous. What discharge
 unconditional exactness of `- ⊗_E^𝐋 K` composed with the sign-twisted identity of `D(O)`: that
 composite has the same action on objects and on morphisms, so its image of a distinguished
 triangle has the same three vertices, which is all this step uses of it. -/
-@[stacks 09MA "RESTRICTED: assumes 03M1, 09LV", stacks 09M9 "RESTRICTED: 75.17.1 only"]
 theorem derivedCategoryB_tensorWithComplexDerived_obj
     [ObjectProperty.IsWeakSerreClass (tensorModOQuasicoherent.{u, v, w, t, s} X)]
     (hqcsum : ∀ {ι : Type (max u v w t s)} (Mf : ι → TensorModO.{u, v, w, t, s} X)

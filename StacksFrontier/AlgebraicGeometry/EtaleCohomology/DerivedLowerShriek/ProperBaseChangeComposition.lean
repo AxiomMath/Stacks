@@ -8,14 +8,16 @@ import StacksCore.Tactic.StacksAttribute
 /-!
 # The base change isomorphisms of `Rf_!` are compatible with composition
 
-[Stacks, Tag 0F7L], second part: the isomorphisms `g⁻¹ ∘ Rf_! ≅ Rf'_! ∘ (g')⁻¹` are compatible
-with the isomorphisms `R(g ∘ f)_! ≅ Rg_! ∘ Rf_!` of [Stacks, Tag 0F7J].
+[Stacks, Tag 0F7L], second part, on `D⁺_tors(X_étale, Λ)`: the isomorphisms
+`g⁻¹ ∘ Rf_! ≅ Rf'_! ∘ (g')⁻¹` are compatible with the isomorphisms `R(g ∘ f)_! ≅ Rg_! ∘ Rf_!` of
+[Stacks, Tag 0F7J]. The case of the unbounded derived categories `D(X_étale, Λ)` for a torsion ring
+`Λ` is `Stacks.EtaleCohomology.derivedLowerShriekUnboundedBaseChange_compIso`.
 
 ## Main results
 
 * `Stacks.EtaleCohomology.derivedLowerShriekBaseChange_compIso`: for cartesian squares of
   quasi-compact and quasi-separated schemes, the base change isomorphisms of `Rf_!`, `Rg_!` and
-  `R(g ∘ f)_!` are compatible with `R(g ∘ f)_! ≅ Rg_! ∘ Rf_!`.
+  `R(g ∘ f)_!` are compatible with `R(g ∘ f)_! ≅ Rg_! ∘ Rf_!`, on `D⁺_tors`.
 -/
 
 @[expose] public noncomputable section
@@ -237,7 +239,7 @@ with `f` and `g` separated of finite type, the base change isomorphisms
 compatible with the isomorphisms `R(g ∘ f)_! ≅ Rg_! ∘ Rf_!`
 (`Stacks.EtaleCohomology.derivedLowerShriekCompIso`) on `D⁺_tors(X_étale, Λ)`, for arbitrary
 compactifications. -/
-@[stacks 0F7L "compatibility of the base change isomorphisms with the isomorphisms of Lemma 0F7J"]
+@[stacks 0F7L "compatibility with the isomorphisms of Lemma 0F7J, on D⁺_tors(X_étale, Λ)"]
 theorem derivedLowerShriekBaseChange_compIso (sqg : IsPullback hY g' g h)
     (sqf : IsPullback hX f' f hY) (jf : CompactificationOf (Over.mk f))
     (jg : CompactificationOf (Over.mk g)) (j : CompactificationOf (Over.mk (f ≫ g)))

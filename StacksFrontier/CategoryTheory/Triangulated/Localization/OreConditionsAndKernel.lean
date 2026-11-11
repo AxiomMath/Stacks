@@ -7,13 +7,16 @@ import StacksCore.Tactic.StacksAttribute
 # The Ore conditions from MS6, and the objects killed by a localization functor
 
 For a class `W` of morphisms of a pre-triangulated category satisfying MS6, this file shows
-that `W` contains every isomorphism once it contains the identities, and that MS1, MS5 and MS6
-imply both Ore conditions of MS2. It then characterises the objects `Z` whose image under a
-localization functor `Q : 𝒟 ⥤ 𝒟_S` is zero, by seven equivalent conditions.
+that `W` contains every isomorphism once it contains the identities, that under MS1 the axiom
+MS5 in the form `f ∈ W ⇔ f[1] ∈ W` is equivalent to stability under every shift, and that MS1,
+MS5 and MS6 imply both Ore conditions of MS2. It then characterises the objects `Z` whose image
+under a localization functor `Q : 𝒟 ⥤ 𝒟_S` is zero, by seven equivalent conditions.
 
 ## References
 
-* [Stacks, Tag 05R3](https://stacks.math.columbia.edu/tag/05R3),
+* [Stacks, Tag 05R2](https://stacks.math.columbia.edu/tag/05R2),
+  [Tag 05R3](https://stacks.math.columbia.edu/tag/05R3),
+  [Tag 0H30](https://stacks.math.columbia.edu/tag/0H30),
   [Tag 05R8](https://stacks.math.columbia.edu/tag/05R8).
 -/
 
@@ -79,6 +82,52 @@ theorem isIso_mem_of_hasMS6
     (W.id_mem _) (W.id_mem _) (by simp)
   have hcf : c = f := by simpa using hc₂
   rwa [hcf] at hc
+
+/-- In the presence of MS1 and MS6, the axiom MS5 in the form `f ∈ W ⇔ f[1] ∈ W` is equivalent
+to `W` being stable under every shift `[n]`, `n : ℤ`, which is
+`MorphismProperty.IsCompatibleWithShift ℤ`. By MS6 and the identities of MS1, `W` contains every
+isomorphism, so by MS1 it is closed under isomorphism of arrows; since `f[n][1]` is isomorphic
+to `f[n + 1]` as an arrow, `f[n] ∈ W ⇔ f[n + 1] ∈ W` for every `n`, and induction on `n` from
+`f[0] ≅ f` gives `f[n] ∈ W ⇔ f ∈ W`. -/
+theorem isCompatibleWithShift_iff_of_hasMS6
+    {C : Type u} [Category.{v} C] [HasShift C ℤ] [Preadditive C]
+    [Limits.HasZeroObject C] [∀ n : ℤ, (shiftFunctor C n).Additive]
+    [Pretriangulated C] (W : MorphismProperty C) [W.IsMultiplicative] [W.HasMS6] :
+    W.IsCompatibleWithShift ℤ ↔ ∀ ⦃X Y : C⦄ (f : X ⟶ Y), W f ↔ W (f⟦(1 : ℤ)⟧') := by
+  refine ⟨fun _ _ _ f => (IsCompatibleWithShift.iff W f (1 : ℤ)).symm, fun h => ?_⟩
+  have : W.RespectsIso := respectsIso_of_isStableUnderComposition fun _ _ f hf => by
+    have : IsIso f := hf
+    exact W.isIso_mem_of_hasMS6 f
+  have key (a b : ℤ) (hab : a + 1 = b) {X Y : C} (f : X ⟶ Y) :
+      W (f⟦b⟧') ↔ W (f⟦a⟧') :=
+    (W.arrow_iso_iff
+      (Arrow.isoOfNatIso (shiftFunctorAdd' C a 1 b hab) (CategoryTheory.Arrow.mk f))).trans
+      (h (f⟦a⟧')).symm
+  have hn (n : ℤ) : ∀ ⦃X Y : C⦄ (f : X ⟶ Y), W (f⟦n⟧') ↔ W f := by
+    induction n with
+    | zero => exact fun X Y f =>
+        W.arrow_iso_iff (Arrow.isoOfNatIso (shiftFunctorZero C ℤ) (CategoryTheory.Arrow.mk f))
+    | succ i ih => exact fun X Y f => (key i (i + 1) rfl f).trans (ih f)
+    | pred i ih => exact fun X Y f => (key (-i - 1) (-i) (by omega) f).symm.trans (ih f)
+  exact ⟨fun n => MorphismProperty.ext _ _ fun _ _ f => hn n f⟩
+
+/-- For a class `W` satisfying MS1, being compatible with the triangulated structure in the
+sense of `MorphismProperty.IsCompatibleWithTriangulation` is equivalent to the two axioms as
+Stacks states them: MS5 in the form `f ∈ W ⇔ f[1] ∈ W`, and MS6. The passage between the two
+forms of MS5 is `isCompatibleWithShift_iff_of_hasMS6`. -/
+@[stacks 05R2 "with MS5 in the form `f ∈ S ⇔ f[1] ∈ S`"]
+theorem isCompatibleWithTriangulation_iff_shift_one_and_hasMS6
+    {C : Type u} [Category.{v} C] [HasShift C ℤ] [Preadditive C]
+    [Limits.HasZeroObject C] [∀ n : ℤ, (shiftFunctor C n).Additive]
+    [Pretriangulated C] (W : MorphismProperty C) [W.IsMultiplicative] :
+    W.IsCompatibleWithTriangulation ↔
+      (∀ ⦃X Y : C⦄ (f : X ⟶ Y), W f ↔ W (f⟦(1 : ℤ)⟧')) ∧ W.HasMS6 := by
+  refine ⟨fun _ => ⟨fun _ _ f => (IsCompatibleWithShift.iff W f (1 : ℤ)).symm, inferInstance⟩,
+    fun ⟨h5, h6⟩ => ?_⟩
+  have : W.IsCompatibleWithShift ℤ := (W.isCompatibleWithShift_iff_of_hasMS6).2 h5
+  exact
+    { compatible_with_triangulation := fun T₁ T₂ hT₁ hT₂ a b ha hb hab =>
+        (h6.exists_lift T₁ T₂ hT₁ hT₂ a b ha hb hab).imp fun _ ⟨hc, h₁, h₂⟩ => ⟨hc, h₁, h₂⟩ }
 
 end CategoryTheory.MorphismProperty
 

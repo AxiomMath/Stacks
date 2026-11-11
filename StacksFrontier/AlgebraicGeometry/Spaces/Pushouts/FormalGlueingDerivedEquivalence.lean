@@ -31,17 +31,19 @@ All names are in the namespace `AlgebraicGeometry.Space`.
   supports on `T` to supports on `|g|⁻¹T`, from the geometric stalk formula
   `derivedPullbackGeometricStalkIso`.
 * `derivedPushforwardQcohDerivedStatement_holds`: Stacks 08FA, part (1).
-* `isIso_derivedAdjunction_counit_app_of_cohomologySupportedOn`: **Stacks 0AEU**, with `Z ⟶ X` of
-  finite presentation.
+* `isIso_derivedAdjunction_counit_app_of_cohomologySupportedOn`: **Stacks 0AEU**, in its corrected
+  form (see the implementation notes).
 * `FormalGlueingSituation.exists_supportedQuasicoherentDerived_equivalence`: **Stacks 0AFJ**.
 
 ## Implementation notes
 
-The finite presentation of `Z ⟶ X` in Stacks 0AEU is not in the source's statement; the source's
-proof uses it (through Stacks 0AET), and without it the assertion is false: the docstring of
-`AlgebraicGeometry.Space.isIso_derivedAdjunction_counit_app_of_cohomologySupportedOn` gives a
-counterexample over a valuation ring with divisible value group. In Stacks 0AFJ it is part of
-Situation 0AEV.
+Stacks 0AEU as printed is false: its statement omits the hypothesis that `Z ⟶ X` is of finite
+presentation, which its proof uses ("since `Z → X` is locally of finite presentation this ideal is
+finitely generated", feeding Stacks 0AET and 05E9), and which the introduction of the section
+(Stacks 0AEP) says is needed. The library formalizes the corrected statement, with that hypothesis
+added; the erratum is recorded in `errata.md`, and the ring-level counterexample is the
+machine-checked `IPowerTorsion.exists_not_bijective_actionMap_of_support_subset`. In Stacks 0AFJ,
+the application the source makes of 0AEU, the hypothesis is part of Situation 0AEV.
 
 ## References
 
@@ -147,23 +149,23 @@ open Stacks.Cohomology.DerivedPullbackOfToposHom
 
 attribute [local instance] isGrothendieckAbelian_ringedToposModules
 
-/-- **Stacks 0AEU.** Let `f : Y ⟶ X` be a morphism of algebraic spaces over `S` and `Z ⊆ X` a
-closed subspace of finite presentation such that `f⁻¹Z ⟶ Z` is an isomorphism and `f` is flat at
-every point of `f⁻¹Z`. Then for every `Q ∈ D_QCoh(𝒪_Y)` supported on `|f⁻¹Z|` the counit
+/-- **Stacks 0AEU** (corrected). Let `f : Y ⟶ X` be a morphism of algebraic spaces over `S` and
+`Z ⊆ X` a closed subspace of finite presentation such that `f⁻¹Z ⟶ Z` is an isomorphism and `f` is
+flat at every point of `f⁻¹Z`. Then for every `Q ∈ D_QCoh(𝒪_Y)` supported on `|f⁻¹Z|` the counit
 `Lf^*Rf_*Q ⟶ Q` of the derived adjunction of the morphism of small étale ringed topoi is an
 isomorphism.
 
-The finite presentation of `Z ⟶ X` is not in the source's statement, but the source's proof uses
-it (through Stacks 0AET and 05E9, which need the ideal of `Z` finitely generated), and the
-assertion is false without it. Let `A` be a valuation ring of rank one with divisible value group,
-`X = Spec A` and `Z = V(m)` for the maximal ideal `m = m²`, which is not finitely generated.
-Choose `g ∈ m` of valuation `1` and `c_n ∈ A` whose valuations increase strictly to `1`, and let
-`Y = Spec B` for `B = A[t/c_1, t/c_2, …] ⊂ K[t]`. Then `B` is flat over `A`, `B/mB = A/m`, so
-`f⁻¹Z ⟶ Z` is an isomorphism, and `M = B/gB` is supported on `V(mB)`; but the counit
-`M ⊗_A B ⟶ M` is not an isomorphism, because `t ∉ A + gB`. In Stacks 0AFJ, the application
-the source makes of this lemma, `Z ⟶ X` is of finite presentation by Situation 0AEV. -/
-@[stacks 0AEU "with `Z ⟶ X` of finite presentation, which the source's proof uses and without \
-  which the statement fails"]
+The finite presentation of `Z ⟶ X` is missing from the printed statement (an erratum, recorded in
+`errata.md`); the source's proof uses it (through Stacks 0AET and 05E9, which need the ideal of `Z`
+finitely generated), and the printed statement is false without it. Let `A` be the valuation ring
+of the field `ℚ((t^ℚ))` of Hahn series and `I` its maximal ideal, so `I = I²` is not finitely
+generated; let `X = Spec A`, `Z = V(I)`, `Y = Spec B` for the square-zero extension `B = A ⊕ Iε`,
+and `Q = M~` for `M = B / t¹B`. Then `B` is flat over `A`, `A / I ⟶ B / IB` is bijective (so
+`f⁻¹Z ⟶ Z` is an isomorphism) and `M` is supported on `V(IB)`, but the counit, which is the
+action map `M ⊗_A B ⟶ M`, is not injective: this is the machine-checked
+`IPowerTorsion.exists_not_bijective_actionMap_of_support_subset`. -/
+@[stacks 0AEU "corrected statement: the printed one omits that `Z ⟶ X` is of finite \
+  presentation, which the source's proof uses and without which it is false (see `errata.md`)"]
 theorem isIso_derivedAdjunction_counit_app_of_cohomologySupportedOn
     {Y X : AlgebraicSpaces B S hS} (f : Y ⟶ X) (Z : Subfunctor X.1)
     (hZ : IsClosedSubspace B S hS Z) (hZfp : IsFinitePresentation B S hS Z.ι)

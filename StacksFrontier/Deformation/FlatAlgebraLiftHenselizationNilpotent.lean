@@ -37,6 +37,8 @@ of `𝔟` and `Q'` the henselization of `(P', 𝔭')`.
 
 * `Deformation.hasFlatAlgebraLift_iff_hasFlatAlgebraLift_henselization`: **Stacks 0DZB**, at the
   source's hypotheses, with no hypothesis standing for Stacks 0DZ2.
+* `Deformation.hasFlatAlgebraLift_iff_hasFlatAlgebraLift_canonicalHenselization`: the same for
+  the canonical construction `henselization B b`.
 * `Deformation.hasFlatAlgebraLift_of_flat_quotient`: a flat quotient of `P'` reducing to `B`
   is a flat algebra lift of `B`.
 * `Deformation.exists_flat_quotient_henselization`: a flat lift of `Bʰ` is a flat quotient of
@@ -49,8 +51,8 @@ of `𝔟` and `Q'` the henselization of `(P', 𝔭')`.
 
 The henselization of `(B, 𝔟)` is described by the henselian-pair condition together with the
 universal property, as in `StacksFrontier.Deformation.FlatAlgebraLiftHenselization`, whose
-conditional `@[stacks 0DZB]` registration (on `h0DZ2`, a hypothesis that is refuted) this file
-supersedes. The comparison ring `Q'` is the canonical `henselization P' 𝔭'`. Only `A'` needs to
+equivalence `Deformation.hasFlatAlgebraLift_henselization_iff` assumes the refuted `h0DZ2` and is
+therefore vacuous; this file replaces it as the formalization of Stacks 0DZB. The comparison ring `Q'` is the canonical `henselization P' 𝔭'`. Only `A'` needs to
 be Noetherian for the proof; the source's Noetherian hypothesis on `A` is kept.
 
 ## References
@@ -401,13 +403,17 @@ every `h ∈ 𝔟`. Let `(Bʰ, 𝔟ʰ)` be the henselization of the pair `(B, �
 to `A'` if and only if `Bʰ` has a flat lift to `A'`.
 
 The proof does not go through Stacks 0DZ2 (which is false); see the module documentation. -/
-@[stacks 0DZB "The henselization of the pair `(B, 𝔟)` is described by the henselian-pair condition
-`hhens` together with its universal property `huniv`, as in Stacks 0DZC, rather than by a chosen
-model; the syntomic hypothesis is the affine reading: the complement of `V(𝔟)` is covered by the
-`D(h)`, `h ∈ 𝔟`. Both published proofs rest on Stacks 0DZ2, which is false; the proof here
-approximates a flat lift over the henselized presentation by solutions over the polynomial
-presentation and corrects them one power of the kernel at a time (Artin-Rees plus Stacks 07M8 at
-every level). See the module docstring."]
+@[stacks 0DZB "The henselization of the pair `(B, 𝔟)` is any `Bʰ` with `(Bʰ, 𝔟Bʰ)` henselian \
+(`hhens`) and initial among henselian pairs under `(B, 𝔟)` (`huniv`), which is the defining \
+universal property of the henselization (Stacks 0A02). The library's construction \
+`henselization B b` has both properties (`henselianPair_henselization`, \
+`henselization_universalProperty`), and the statement for it is \
+`Deformation.hasFlatAlgebraLift_iff_hasFlatAlgebraLift_canonicalHenselization`. The syntomic \
+hypothesis is the affine reading: the complement of `V(𝔟)` is covered by the `D(h)`, `h ∈ 𝔟`, \
+and syntomy is local on the source. Both published proofs rest on Stacks 0DZ2, which is false; \
+the proof here approximates a flat lift over the henselized presentation by solutions over the \
+polynomial presentation and corrects them one power of the kernel at a time (Artin-Rees plus \
+Stacks 07M8 at every level). See the module docstring."]
 public theorem hasFlatAlgebraLift_iff_hasFlatAlgebraLift_henselization
     (A' A B : Type u) [CommRing A'] [CommRing A] [CommRing B]
     [IsNoetherianRing A'] [IsNoetherianRing A] [Algebra A' A] [Algebra A B]
@@ -441,6 +447,22 @@ public theorem hasFlatAlgebraLift_iff_hasFlatAlgebraLift_henselization
     (fun m s fh rh hfh hsyz _ k hk =>
       obstructionTorsion_of_syntomic A' A B P' hsurjA hnilA π hπ b hsyn fh rh hfh hsyz hk)
     (henselianPair_henselization P' 𝔭) (henselization_universalProperty P' 𝔭) Bh hhens huniv hlift
+
+/-- **Stacks 0DZB for the canonical henselization.** The equivalence of
+`hasFlatAlgebraLift_iff_hasFlatAlgebraLift_henselization` for the library's henselization
+`henselization B b` of the pair `(B, 𝔟)`, viewed as an `A`-algebra through `B`. -/
+public theorem hasFlatAlgebraLift_iff_hasFlatAlgebraLift_canonicalHenselization
+    (A' A B : Type u) [CommRing A'] [CommRing A] [CommRing B]
+    [IsNoetherianRing A'] [IsNoetherianRing A] [Algebra A' A] [Algebra A B]
+    (hsurjA : Function.Surjective (algebraMap A' A))
+    (hnilA : IsNilpotent (RingHom.ker (algebraMap A' A)))
+    [Algebra.FiniteType A B] [Module.Flat A B] (b : Ideal B)
+    (hsyn : ∀ h ∈ b, Algebra.Syntomic A (Localization.Away h))
+    [Algebra A (henselization B b : Type u)] [IsScalarTower A B (henselization B b : Type u)] :
+    HasFlatAlgebraLift A' A B ↔ HasFlatAlgebraLift A' A (henselization B b : Type u) :=
+  hasFlatAlgebraLift_iff_hasFlatAlgebraLift_henselization A' A B hsurjA hnilA b hsyn
+    (henselization B b : Type u) (henselianPair_henselization B b)
+    (henselization_universalProperty B b)
 
 end Tag
 

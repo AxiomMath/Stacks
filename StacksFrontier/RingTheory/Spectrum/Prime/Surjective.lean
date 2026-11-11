@@ -108,7 +108,9 @@ theorem specSurjective_of_primeContractionEq
   fun h p => (PrimeSpectrum.mem_range_comap_iff φ).mpr (h _ p.isPrime)
 
 /-- Main equivalence: conditions (1), (2), (3), (4) are equivalent. -/
-@[stacks 00FI]
+@[stacks 00FI "the equivalence of (1), (2), (3) and (4); the base change assertion is \
+  `base_change_preserves_specSurjective`, `base_change_preserves_radicalContractionEq`, \
+  `base_change_preserves_radicalIdealContractionEq` and `base_change_equivalence`"]
 theorem main_equivalence
     {R S : Type*} [CommRing R] [CommRing S] (φ : R →+* S) :
     (SpecSurjective φ ↔ RadicalContractionEq φ) ∧
@@ -133,7 +135,8 @@ the fiber characterization) and `κ(p')` is faithfully flat over `κ(p)`.
 -/
 
 /-- Base change preserves Spec-surjectivity. -/
-@[sga "1 VIII 3.1" "special case"]
+@[stacks 00FI "base change: property (1) of `R → S` passes to `R' → R' ⊗_R S` for every \
+  ring map `R → R'`", sga "1 VIII 3.1" "special case"]
 theorem base_change_preserves_specSurjective
     {R S R' : Type*} [CommRing R] [CommRing S] [CommRing R']
     (φ : R →+* S) (ψ : R →+* R') :
@@ -200,6 +203,8 @@ private theorem base_change_radicalContractionEq_of_specSurjective
   fun h => radicalContractionEq_of_specSurjective _ (base_change_preserves_specSurjective φ ψ h)
 
 /-- Condition (2) is stable under base change along `ψ : R →+* R'`. -/
+@[stacks 00FI "base change: property (2) of `R → S` passes to `R' → R' ⊗_R S` for every \
+  ring map `R → R'`"]
 theorem base_change_preserves_radicalContractionEq
     {R S R' : Type*} [CommRing R] [CommRing S] [CommRing R']
     (φ : R →+* S) (ψ : R →+* R') :
@@ -211,6 +216,8 @@ theorem base_change_preserves_radicalContractionEq
   fun h2 => base_change_radicalContractionEq_of_specSurjective φ ψ ((main_equivalence φ).1.2 h2)
 
 /-- Condition (3) is stable under base change along `ψ : R →+* R'`. -/
+@[stacks 00FI "base change: property (3) of `R → S` passes to `R' → R' ⊗_R S` for every \
+  ring map `R → R'`"]
 theorem base_change_preserves_radicalIdealContractionEq
     {R S R' : Type*} [CommRing R] [CommRing S] [CommRing R']
     (φ : R →+* S) (ψ : R →+* R') :
@@ -224,6 +231,7 @@ theorem base_change_preserves_radicalIdealContractionEq
       primeContractionEq_of_radicalIdealContractionEq φ h3
 
 /-- Conditions (1), (2), (3) are equivalent for the base-changed map. -/
+@[stacks 00FI "base change: (1), (2) and (3) are equivalent for `R' → R' ⊗_R S`"]
 theorem base_change_equivalence
     {R S R' : Type*} [CommRing R] [CommRing S] [CommRing R']
     (φ : R →+* S) (ψ : R →+* R') :

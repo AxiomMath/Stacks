@@ -106,11 +106,17 @@ We record the linear-algebra heart of the example: for idempotent `M, N`,
 
 This holds over every commutative local ring; the field in the example is a special case.
 
+The geometric statements of the example (the orbit loci are the irreducible components of
+`Spec R`, pairwise disjoint, and are separated by polynomial functions: the trace in
+characteristic `0`, `tr(⋀³ T)` for `n = 3`) are in
+`StacksFrontier.RingTheory.Spectrum.Prime.IdempotentMatrices`.
+
 Here `IsConj M N` unfolds to `∃ g : (Matrix (Fin n) (Fin n) K)ˣ, g * M = N * g`,
 i.e. `g * M * g⁻¹ = N`, which is exactly the `GLₙ`-conjugation action of the
 statement.
 -/
-@[stacks 00GG "linear-algebra part: idempotents are classified by rank"]
+@[stacks 00GG "an idempotent matrix is conjugate to diag(1, …, 1, 0, …, 0), and idempotents are \
+conjugate iff they have the same rank"]
 theorem idempotent_matrices_classified_by_rank
     (M N : Matrix (Fin n) (Fin n) K) (hM : M * M = M) (hN : N * N = N) :
     (IsConj M N ↔ M.rank = N.rank) ∧
@@ -124,7 +130,7 @@ theorem idempotent_matrices_classified_by_rank
 
 /-- The trace of an idempotent matrix over a commutative local ring is its rank, cast to the
 ring. In characteristic zero, distinct ranks therefore give distinct traces. -/
-@[stacks 00GG "the trace separates the orbits in characteristic 0"]
+@[stacks 00GG "the trace of an idempotent matrix is its rank"]
 lemma Matrix.trace_eq_rank_of_isIdempotentElem (M : Matrix (Fin n) (Fin n) K)
     (hM : IsIdempotentElem M) : M.trace = (M.rank : K) := by
   have hf : IsIdempotentElem M.mulVecLin := by

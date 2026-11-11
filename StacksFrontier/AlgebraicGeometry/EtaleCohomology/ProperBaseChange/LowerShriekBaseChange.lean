@@ -60,9 +60,12 @@ The base change of the compactification is the base's
 
 The statement is made for a chosen compactification `j` of `f`; the existence of one for `f`
 separated of finite type between quasi-compact and quasi-separated schemes is Nagata's theorem
-(Tag 0F41), and the independence of the choice is Tag 0F7I. The compatibility of these
+(Tag 0F41), and the independence of the choice is Tag 0F7I. The compatibility of the base change
 isomorphisms with the composition isomorphisms of Tag 0F7J, the second assertion of Tag 0F7L, is
-`Stacks.EtaleCohomology.derivedLowerShriekUnboundedCompIso_baseChange`.
+`Stacks.EtaleCohomology.derivedLowerShriekUnboundedBaseChange_compIso` on `D(X_étale, Λ)` for a
+torsion ring `Λ` (stated for the base change map
+`Stacks.EtaleCohomology.derivedLowerShriekUnboundedBaseChange`) and
+`Stacks.EtaleCohomology.derivedLowerShriekBaseChange_compIso` on `D⁺_tors(X_étale, Λ)`.
 
 ## References
 

@@ -57,8 +57,8 @@ ones, and the display above is what the isomorphism says.
   the induced morphism of algebraic spaces, in the spelling the statement below needs.
 * `AlgebraicGeometry.Space.restrictedDerivedDirectImageIso`: **Stacks 075N**, clause (2), the
   display above as an isomorphism of functors `D(𝒪_𝒳) ⥤ D(𝒪_G)`. The tag itself sits on
-  `AlgebraicGeometry.Space.restrictedDerivedDirectImageIsoClauses`, which asserts this clause
-  together with clause (1) for abelian sheaves.
+  `AlgebraicGeometry.Space.restrictedTotalDerivedDirectImageIsoClauses`, which constructs the
+  derived direct images and asserts this clause together with clause (1) for abelian sheaves.
 
 ## Main results
 
@@ -950,7 +950,8 @@ morphism of ringed topoi. The square of Stacks 073N is
 
 Clause (1), for abelian sheaves, is
 `AlgebraicGeometry.Space.restrictedAbelianDerivedDirectImageIso`, and the two clauses together
-are `AlgebraicGeometry.Space.restrictedDerivedDirectImageIsoClauses`, which carries the tag. -/
+are `AlgebraicGeometry.Space.restrictedTotalDerivedDirectImageIsoClauses`, which carries the
+tag. -/
 def restrictedDerivedDirectImageIso :
     Rf ⋙ RingedToposHom.derivedPushforwardOfExact
         (projectionRingedToposHom B S hS G q hq hG eG) ≅

@@ -12,6 +12,14 @@ members are quasi-compact, and for which the pairwise fibre products occurring i
 members of the collection are again quasi-compact. This file records that situation and its
 three conditions.
 
+The site is given here by a Grothendieck topology, and a covering is any family generating a
+covering sieve. Condition (3) is then a condition on every such family, which in general is a
+strengthening of condition (3) of Stacks 0937, where only the coverings of the site occur and the
+fibre products exist by the site axioms. The faithful formulation, with the site given by its
+class of coverings, is `Stacks.Sites.CoveringsSituation` in
+`StacksFrontier.CategoryTheory.Sites.QuasiCompact.CoveringsSituation`; the two agree for the site of
+all families generating a covering sieve in a category with fibre products.
+
 ## Main definitions
 
 * `Stacks.Sites.QuasiCompactObjectsSituation`: a Grothendieck topology on a category together
@@ -45,9 +53,9 @@ universe v u
 
 namespace Stacks.Sites
 
-/-- A site together with a distinguished collection of its objects. This is the standing data
-of the Stacks Project's discussion of presentations of sheaves of modules. -/
-@[stacks 0937 "the standing data"]
+/-- A Grothendieck topology together with a distinguished collection of objects. This is a
+variant of the standing data of Stacks 0937 in which the site is given by a Grothendieck topology
+rather than by its class of coverings; see `Stacks.Sites.CoveringsSituation` for the latter. -/
 structure QuasiCompactObjectsSituation (C : Type u) [Category.{v} C] where
   /-- The Grothendieck topology defining the site. -/
   topology : GrothendieckTopology C
@@ -59,20 +67,24 @@ namespace QuasiCompactObjectsSituation
 variable {C : Type u} [Category.{v} C]
 
 /-- Condition (1): every object of the site has a covering family all of whose members belong
-to the distinguished collection. -/
-@[stacks 0937 "condition (1)"]
+to the distinguished collection. This is condition (1) of Stacks 0937 read for the site of all
+families generating a covering sieve. -/
 def HasEnoughObjects (S : QuasiCompactObjectsSituation C) : Prop :=
   ∀ U : C, ∃ 𝒰 : PreZeroHypercover.{max u v} U,
     𝒰.sieve₀ ∈ S.topology U ∧ ∀ i, 𝒰.X i ∈ S.objects
 
-/-- Condition (2): every object of the distinguished collection is quasi-compact. -/
-@[stacks 0937 "condition (2)"]
+/-- Condition (2): every object of the distinguished collection is quasi-compact. This is
+condition (2) of Stacks 0937 read for the site of all families generating a covering sieve. -/
 def ObjectsAreQuasiCompact (S : QuasiCompactObjectsSituation C) : Prop :=
   ∀ U : C, U ∈ S.objects → S.topology.IsQuasiCompactObject U
 
 /-- Condition (3): for a covering family of a distinguished object whose members are
-distinguished, every pairwise fibre product exists and is quasi-compact. -/
-@[stacks 0937 "condition (3)"]
+distinguished, every pairwise fibre product exists and is quasi-compact.
+
+Here a covering family is any family generating a covering sieve, so this is a strengthening of
+condition (3) of Stacks 0937, which quantifies only over the coverings of the site and for which
+the fibre products exist by the site axioms. The faithful condition is
+`Stacks.Sites.CoveringsSituation.CoverPullbacksAreQuasiCompact`. -/
 def CoverPullbacksAreQuasiCompact (S : QuasiCompactObjectsSituation C) : Prop :=
   ∀ (U : C) (𝒰 : PreZeroHypercover.{max u v} U),
     𝒰.sieve₀ ∈ S.topology U →

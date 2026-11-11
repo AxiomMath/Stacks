@@ -14,12 +14,17 @@ compact Hausdorff totally disconnected space is the limit of its `DiscreteQuotie
 
 ## Main results
 
-* `IsProfinite`: the Stacks Project's definition — homeomorphic to a cofiltered limit of finite
-  discrete topological spaces.
+* `IsProfinite`: homeomorphic to a cofiltered limit of finite discrete topological spaces. This is
+  narrower in form than the Stacks Project's definition `IsProfiniteStacks` (Stacks 08ZX), which
+  allows the limit of an arbitrary diagram.
 * `TopCat.limit_t2Space_of_discrete`, `TopCat.limit_compactSpace_of_finite_discrete`,
   `TopCat.limit_totallyDisconnectedSpace_of_discrete`: the three properties of such a limit.
-* `isProfinite_of_t2_compact_totallyDisconnected`, `isProfinite_iff` (Stacks 08ZY): a space is
-  profinite iff it is Hausdorff, quasi-compact and totally disconnected.
+* `isProfinite_of_t2_compact_totallyDisconnected`, `isProfinite_iff`: a space is a cofiltered limit
+  of finite discrete spaces iff it is Hausdorff, quasi-compact and totally disconnected.
+
+Stacks 08ZY itself, for the limit of an arbitrary diagram, is
+`isProfiniteStacks_iff_t2_compact_totallyDisconnected_and_isProfinite` in
+`StacksFrontier.Topology.Profinite.LimitCharacterization`.
 -/
 
 @[expose] public section
@@ -28,8 +33,10 @@ open CategoryTheory CategoryTheory.Limits
 
 universe u
 
-/-- A topological space `X` is *profinite* (in the sense of Stacks 08ZW) iff it is homeomorphic to
-a cofiltered limit of finite discrete topological spaces. -/
+/-- A topological space `X` is homeomorphic to a *cofiltered* limit of finite discrete topological
+spaces. The Stacks Project's definition of a profinite space (Stacks 08ZX) allows an arbitrary
+diagram; that definition is `IsProfiniteStacks`, and the two agree by
+`isProfiniteStacks_iff_t2_compact_totallyDisconnected_and_isProfinite` and `isProfinite_iff`. -/
 def IsProfinite (X : Type u) [TopologicalSpace X] : Prop :=
   ∃ (J : Type u) (_ : SmallCategory J) (_ : IsCofiltered J) (F : J ⥤ TopCat.{u}),
     (∀ j, Finite (F.obj j)) ∧ (∀ j, DiscreteTopology (F.obj j)) ∧
@@ -101,9 +108,10 @@ theorem isProfinite_of_t2_compact_totallyDisconnected
     ⟨TopCat.homeoOfIso (IsLimit.conePointUniqueUpToIso
       (isLimitOfPreserves Profinite.toTopCat P.asLimit) (limit.isLimit _))⟩⟩
 
-/-- **Stacks 08ZY.** For a topological space `X` the following are equivalent: (1) `X` is a
-profinite space; (2) `X` is Hausdorff, quasi-compact and totally disconnected. -/
-@[stacks 08ZY]
+/-- A topological space `X` is homeomorphic to a cofiltered limit of finite discrete spaces iff it
+is Hausdorff, quasi-compact and totally disconnected. This is the cofiltered variant; Stacks 08ZY
+itself, for limits of arbitrary diagrams, is
+`isProfiniteStacks_iff_t2_compact_totallyDisconnected_and_isProfinite`. -/
 theorem isProfinite_iff (X : Type u) [TopologicalSpace X] :
     IsProfinite X ↔
       (T2Space X ∧ CompactSpace X ∧ TotallyDisconnectedSpace X) := by

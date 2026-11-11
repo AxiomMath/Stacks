@@ -27,7 +27,7 @@ action on `L`; `(B_q) ^ I` is then `inertiaInvariants A K L q`.
 The four ingredients are:
 
 * `B_q` is a normal local domain with separably closed fraction field `L`, hence strictly
-  henselian by Stacks 04GF;
+  henselian by Stacks 0BSQ;
 * `I` acts trivially on the residue field of `B_q`, so `(B_q) ^ I` inherits henselianness and
   separable closedness of the residue field, by the Hensel uniqueness of Stacks 06RR — this is
   `StacksFrontier.RingTheory.Henselian.FixedPoints`;
@@ -71,7 +71,7 @@ separable closure of `κ(A)`. The equality `𝔪_A · R = 𝔪_R` is then automa
 
 * [Stacks Project, Tag 0BSW](https://stacks.math.columbia.edu/tag/0BSW)
 * [Stacks Project, Tag 0BSU](https://stacks.math.columbia.edu/tag/0BSU)
-* [Stacks Project, Tag 04GF](https://stacks.math.columbia.edu/tag/04GF)
+* [Stacks Project, Tag 0BSQ](https://stacks.math.columbia.edu/tag/0BSQ)
 * [Stacks Project, Tag 04GQ](https://stacks.math.columbia.edu/tag/04GQ)
 * [Stacks Project, Tag 092R](https://stacks.math.columbia.edu/tag/092R)
 * [Stacks Project, Tag 097N](https://stacks.math.columbia.edu/tag/097N)
@@ -256,7 +256,7 @@ theorem isIntegrallyClosed_localizedSubring (q : Ideal (integralClosure A L)) [q
 include K in
 omit [IsIntegrallyClosed A] in
 /-- **`B_q` is a strictly henselian local ring** when `L` is separably closed: it is a normal
-local domain whose fraction field `L` is separably closed, which is Stacks 04GF. -/
+local domain whose fraction field `L` is separably closed, which is Stacks 0BSQ. -/
 theorem henselianLocalRing_and_isSepClosed_localizedSubring [IsSepClosed L]
     (q : Ideal (integralClosure A L)) [q.IsPrime] :
     HenselianLocalRing (localizedSubring q) ∧
@@ -597,7 +597,7 @@ residue field its own residue field, and that residue field is a separable closu
 field of `A`.
 
 This is the unnumbered step of the proof of Stacks 0BSW. Henselianness and separable closedness
-of the residue field come from `B_q` being strictly henselian (Stacks 04GF) together with the
+of the residue field come from `B_q` being strictly henselian (Stacks 0BSQ) together with the
 inertia group acting trivially on its residue field (Stacks 06RR); being a filtered colimit of
 étale `A`-algebras is Stacks 0BSU transported along `C_p ≃ (B_q)^I`; and separability of the
 residue field extension follows from that colimit presentation by Stacks 097N and 092R. -/

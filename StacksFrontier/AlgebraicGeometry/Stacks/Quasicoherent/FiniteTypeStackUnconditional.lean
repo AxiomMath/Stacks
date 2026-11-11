@@ -41,7 +41,8 @@ fibred category, the presheaves `Mor(x, y)` are sheaves, and descent data are ef
 type is preserved by the pullbacks computing the strongly cartesian arrows of Stacks 04U3 and
 descends along fppf coverings (Stacks 05AZ), so Stacks 04TU passes the stack of all
 quasi-coherent modules, Stacks 03YM, to its full subcategory of modules of finite type. -/
-@[stacks 04U4]
+@[stacks 04U4 "conditions (1), (2) and (3) of Stacks 026F for p_fg, with Stacks 03YM \
+proved, nothing carried"]
 theorem finiteTypeProjection_isStack (B : AlgebraicGeometry.BigFppfSite.{u}) (S : Scheme.{u})
     (hS : B.Contains S) :
     Functor.IsStack (finiteTypeProjection B S hS)

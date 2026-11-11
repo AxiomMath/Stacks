@@ -37,7 +37,11 @@ global sections are the sections on an affine open of a locally Noetherian schem
 reason **no declaration in this file carries a `@[stacks 05ID]` attribute**: being sorry-free and
 axiom-clean does not make a conditional statement a proof of the tag, and `hdev` is the whole
 geometric content of Tag 05ID — Proposition 05HR and its six lemma inputs 05H6, 05HF, 05HA, 05HE,
-05HK, 05HM, none of which is in this library. As the module docstring of the conditional file
+05HK, 05HM. Tag 05ID itself, with no Noetherian hypothesis and no `hdev`, is
+`AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt`
+in `StacksFrontier.AlgebraicGeometry.Etale.ElementaryNeighborhood.ProjectiveSectionsFlatAtPoint`,
+which proves that content rather than assuming it, and which supersedes the theorem below. As the
+module docstring of the conditional file
 explains at length, `hdev` is a *deferral* and not a weakening: it is strictly stronger than the
 conclusion at the ring level (the separating witness being the sections of the tangent bundle of
 the real `2`-sphere, by the hairy ball theorem), but at the scheme level it is a theorem of the
@@ -166,7 +170,9 @@ from Stacks 05FS instead, through
 
 The hypothesis `hdev` is unchanged and still present: it is Proposition 05HR composed with
 Remark 05I0, and it carries the whole geometric content of Tag 05ID. **This statement is therefore
-conditional and is not a proof of Tag 05ID**, which is why no declaration in this file is tagged.
+conditional and is not a proof of Tag 05ID**, which is why no declaration in this file is tagged;
+Tag 05ID is
+`AlgebraicGeometry.exists_elementaryEtaleNeighborhood_projective_sections_of_isFlatOverAt`.
 Tag 05ID also carries no Noetherian hypothesis, and unlike Stacks 053R this restriction is not
 mirrored by a case split in the source: Tag 05ID is proved there in general. See the module
 docstring. -/

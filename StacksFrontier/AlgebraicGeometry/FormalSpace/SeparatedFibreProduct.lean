@@ -241,9 +241,6 @@ together with a morphism to the spectrum of a ring through which every closed
 immersion of an affine scheme of the site composes to a closed immersion of schemes. The ring
 witnessing the conclusion is the tensor product over `ℤ` of the two rings witnessing the
 hypotheses, which is the ring the source's proof uses. -/
-@[stacks 0AN3 "clause (2): the fibre product of two McQuillan affine formal algebraic spaces \
-over a separated formal algebraic space is McQuillan affine, with McQuillanness in the form of \
-condition (2) of Stacks 0AIC"]
 theorem hasAffineClosedImmersionCriterion_pullback
     {X Y Z : FppfSheaf B S hS} (p : X ⟶ Z) (q : Y ⟶ Z)
     (hZ : IsFormalAlgebraicSpace B S hS Z)
@@ -286,9 +283,6 @@ conclusion: condition (4) gives condition (2) by
 `AlgebraicGeometry.FormalSpace.hasAffineClosedImmersionCriterion_of_hasSomeSurjectivePresentation`,
 and condition (2) gives condition (4) back by the implications (2) ⟹ (5) ⟹ (4) of
 **Stacks 0AIC**. -/
-@[stacks 0AN3 "clause (2): the fibre product of two McQuillan affine formal algebraic spaces \
-over a separated formal algebraic space is McQuillan affine, with the conclusion in the form of \
-condition (4) of Stacks 0AIC, the predicate Stacks 0AID names McQuillan in this library"]
 theorem hasSomeSurjectivePresentation_pullback
     {X Y Z : FppfSheaf B S hS} (p : X ⟶ Z) (q : Y ⟶ Z)
     (hZ : IsFormalAlgebraicSpace B S hS Z)

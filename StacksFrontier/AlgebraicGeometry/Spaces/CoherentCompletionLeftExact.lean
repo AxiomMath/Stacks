@@ -46,9 +46,8 @@ neither hypothesis and is not restated.
 The last result re-derives the uniqueness half of Stacks 08BB from
 `AlgebraicGeometry.Space.existsUnique_iso_of_algebraization`, whose statement takes left
 exactness of the completion functor as an instance argument, by supplying that argument.  The
-existence half of Stacks 08BB is not reached from here: the source obtains it by étale descent
-from the case of a Noetherian scheme, and the restriction of coherent adic systems to an étale
-chart is not available in this tree.
+existence half of Stacks 08BB is `AlgebraicGeometry.Space.C1573.exists_algebraization`, and the
+two halves together are `AlgebraicGeometry.Space.exists_algebraization_and_existsUnique_iso`.
 
 ## References
 
@@ -128,8 +127,6 @@ the completion functor as an instance argument, because Stacks 08B5 was not avai
 was proved; here that argument is supplied by
 `AlgebraicGeometry.Space.preservesFiniteLimits_completionFunctor_of_isNoetherian`, so the only
 hypotheses left are the source's. -/
-@[stacks 08BB "uniqueness of the algebraization over the source's own hypotheses, with left \
-exactness of completion (Stacks 08B5) supplied"]
 theorem existsUnique_iso_of_algebraization_of_isNoetherian
     (hZ : B.Contains (⊤_ Scheme.{u})) (hN : IsNoetherian B S hS hZ F)
     {G M N : CoherentModules.{u, u} B S hS F hF} {E : CoherentAdicSystems B S hS F hF 𝓘}

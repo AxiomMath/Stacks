@@ -158,7 +158,7 @@ and `Y` locally Noetherian, `f` locally of finite type, and the relative diagona
 `Δ_f : X ⟶ X ×_Y X` rig-étale and rig-surjective. Then `f` is rig-surjective if and only if
 every adic morphism `Spf R ⟶ Y`, with `R` a complete discrete valuation ring, lifts to a
 morphism `Spf R ⟶ X`. -/
-@[stacks 0GDA]
+@[stacks 0GDA "The whole statement, under exactly the source's hypotheses."]
 theorem isRigSurjective_iff_factorsAdicCompleteDvrPoints_of_rigEtale_diagonal
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hX : IsLocallyNoetherian B S hS X) (hY : IsLocallyNoetherian B S hS Y)

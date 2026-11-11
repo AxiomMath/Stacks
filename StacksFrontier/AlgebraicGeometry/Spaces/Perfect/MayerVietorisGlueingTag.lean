@@ -52,10 +52,6 @@ identify with the strict one.  Finally the first two objects of the two triangle
 comparison-isomorphic through `CategoryTheory.Functor.mapDerivedCategoryComp`, so the two
 triangles are compared through `CategoryTheory.Pretriangulated.Triangle.isoMk`.
 
-The library's `AlgebraicGeometry.Space.exists_hom_of_glueData` of
-`StacksFrontier/AlgebraicGeometry/Spaces/Perfect/MayerVietorisGlueing.lean` is the same induced
-morphism with the triangle taken as a hypothesis; here it is proved.
-
 ## References
 
 * [Stacks Project, Tag 08HB](https://stacks.math.columbia.edu/tag/08HB)

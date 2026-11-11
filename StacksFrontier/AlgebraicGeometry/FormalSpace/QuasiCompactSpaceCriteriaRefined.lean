@@ -151,7 +151,6 @@ theorem exists_finite_subfamily_jointly_surjective_of_isQuasiCompactSpaceULift_r
 let `i : Xred ⟶ X` be a reduction of `X` and suppose that `Xred` is a quasi-compact algebraic
 space. Then `X` has a finite formal atlas: an atlas as in Definition 0AIM indexed by a finite
 type. -/
-@[stacks 0AJ9 "the implication (1) ⇒ (2), for an arbitrary reduction of X"]
 theorem hasFiniteFormalAtlas_of_isQuasiCompactSpaceULift_reduction
     {X Xred : FppfSheaf B S hS} {i : Xred ⟶ X}
     (hX : IsFormalAlgebraicSpace B S hS X) (hi : IsReduction B S hS X Xred i)

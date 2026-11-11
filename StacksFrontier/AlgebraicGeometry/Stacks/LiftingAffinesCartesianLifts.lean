@@ -54,7 +54,7 @@ pair of morphisms with a common target. Both are proved directly.
   component `h'`, and faithfulness gives its uniqueness. The comparison 2-morphism of the
   fill-in is that of `ψ` with the invertible one of `φ` cancelled.
 
-The two inputs that the earlier registration
+The two inputs that the earlier declaration
 `AlgebraicGeometry.Stack.EtaleSmoothLift.isFiberedInGroupoids` carried as hypotheses are
 corollaries here. `hiso`, the isomorphism clause of **Stacks 0CJC** read on smooth lifts, is
 `AlgebraicGeometry.Stack.EtaleSmoothLift.isIso_ambient_of_isIso_base`. `hfib`, that `p` is a
@@ -578,7 +578,7 @@ the étale base change along `U ⊂ U'` (**Stacks 05ZH**, the source's **Stacks 
 the cartesian squares of `φ` and `ψ` and to their ambient components, étale by **Stacks 0CJS** —
 and it is unique by faithfulness of that base change and invertibility of the comparison
 2-morphism of `φ`. -/
-@[stacks 0CJT]
+@[stacks 0CJT "the projection of smooth lifts to the spaces-étale site is fibred in groupoids"]
 theorem isFiberedInGroupoids_proj :
     (proj : EtaleSmoothLift B S hS ι hι W x hx ⥤ _).IsFiberedInGroupoids where
   exists_lift {V U} f ξ hξ := by

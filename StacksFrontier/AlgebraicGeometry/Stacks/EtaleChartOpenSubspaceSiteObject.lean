@@ -413,8 +413,8 @@ Suppose that for every DM algebraic stack `𝒳`, every smooth surjective chart
   `AlgebraicGeometry.Stack.exists_isOpenSubspace_isEtale`.
 
 Then `AlgebraicGeometry.Stack.ExistsEtalePresentationOfIsAbsolutelyDM` holds, which is the
-hypothesis the substantial direction of **Stacks 06N3** still carries in
-`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack`.
+substantial direction of **Stacks 06N3**, registered on
+`AlgebraicGeometry.Stack.isAbsolutelyDM_iff_isDeligneMumfordStack_unconditional`.
 
 So nothing about open substacks, schemes of the site, coproducts, index types or sizes is owed
 any more: the whole of the chart construction after Stacks 06N2 is discharged here, and what is

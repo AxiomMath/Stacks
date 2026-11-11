@@ -26,18 +26,19 @@ asserts three things: that `f'` is proper, that `g'` is flat of relative dimensi
 
 for every `k`-cycle `α` on `X`.
 
-The first two assertions are recorded in
-`StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.ProperPushforwardBaseChange` by
-`add_to_stacks` on the four stability results they are. The third is proved there, and on Chow
+The third is proved in
+`StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.ProperPushforwardBaseChange`, and on Chow
 groups in
-`StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.ProperPushforwardChowBaseChange`, but in both
-places with the inputs the source's proof defers to left as explicit hypotheses: cohomology and
+`StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.ProperPushforwardChowBaseChange`, in both
+places with the inputs the source's proof defers to as explicit parameters: cohomology and
 base change ([Stacks, Tag 02KH](https://stacks.math.columbia.edu/tag/02KH)) and coherence of the
 two direct images ([Stacks, Tag 02O5](https://stacks.math.columbia.edu/tag/02O5)), and at the
 Chow level also the two descent bundles for Stacks 02S1 and 02S2.
 
-**This file discharges all of them.** Every input is a theorem of this repository; none is
-assumed here, and the statements below are therefore Stacks 02RG outright.
+**This file discharges all of them.** Every input is a theorem of this repository, and the
+statements below need nothing beyond the hypotheses of Stacks 02RG. The registered form of the
+tag, with all three assertions, is
+`Stacks.Chow.isProper_and_relativeDimension_and_flatPullback_properPushforward`.
 
 ## Where each input comes from
 
@@ -75,11 +76,6 @@ waiting for. That is the arrangement
 `StacksFrontier.AlgebraicGeometry.Chow.FlatPullback.RationalEquivalenceDescent` already uses for
 Stacks 02S1: proving the discharge in a downstream leaf keeps the heavy base-change and
 coherence modules out of the import closure of everything that merely states a cycle identity.
-
-The `@[stacks 02RG]` attributes below are bare. The restriction strings on the conditional
-carriers upstream record what those statements assume; these two assume nothing, and together
-with the four `add_to_stacks 02RG` lines of `ProperPushforwardBaseChange` — the first two
-assertions of the tag — they cover the whole of Stacks 02RG.
 
 ## References
 
@@ -160,7 +156,6 @@ elaborates with.
 This is `Stacks.Chow.flatPullback_properPushforward` with its three hypotheses discharged: the
 two coherence hypotheses by Stacks 02O5 and Stacks 0EBF, the base-change isomorphism by
 `Stacks.Chow.isIso_baseChange_app_of_isProper`. -/
-@[stacks 02RG]
 theorem flatPullback_properPushforward_of_isProper
     (C : ChowSituation.{u}) {X Y X' Y' : Scheme.{u}}
     (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sY : Y ⟶ C.S) [LocallyOfFiniteType sY]
@@ -203,7 +198,6 @@ This is `Stacks.Chow.flatPullbackChow_properChowPushforward` with all five of it
 discharged: the two descent bundles by `Stacks.Chow.flatPullbackDescends` (Stacks 02S1) and
 `Stacks.Chow.properPushforwardDescends` (Stacks 02S2), and the coherence and base-change
 hypotheses exactly as for the cycle-level statement above. -/
-@[stacks 02RG]
 theorem flatPullbackChow_properChowPushforward_of_isProper
     (C : ChowSituation.{u}) {X Y X' Y' : Scheme.{u}}
     (sX : X ⟶ C.S) [LocallyOfFiniteType sX] (sY : Y ⟶ C.S) [LocallyOfFiniteType sY]

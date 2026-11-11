@@ -26,18 +26,26 @@ space over `S`.
 ## Main results
 
 * `AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_representable_over_affineFormal`:
-  **Stacks 0AJH**, granting Stacks 0AIU as a hypothesis.
+  the source's proof of Stacks 0AJH, reducing it to Stacks 0AIU, which it takes in the
+  argument `h0AIU`.
+
+The registered, unconditional form of **Stacks 0AJH** is
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_representable_over_isAffineFormal`
+in `StacksFrontier.AlgebraicGeometry.FormalSpace.RepresentableOverAffineCharts`.
 
 ## Implementation notes
 
-Stacks 0AIU — a directed colimit of algebraic spaces along thickenings is a formal algebraic
-space — is not available in this library, so it is carried as an explicit hypothesis in the
-shape the proof consumes: for a directed diagram of fppf sheaves whose objects are algebraic
-spaces and whose transition morphisms are representable thickenings, any sheaf isomorphic to
-the colimit and satisfying the set-theoretic condition of Stacks 0AIS is a formal algebraic
-space. The set-theoretic condition on `X` is a hypothesis for the same reason as in
-`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_etaleCover`: it does not follow from
-the remaining data.
+The argument `h0AIU` has the shape of the corrected Stacks 0AIU, which the library proves as
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_isRepresentableThickeningULift`
+(in `StacksFrontier.AlgebraicGeometry.FormalSpace.ColimitOfAlgebraicSpaceThickenings`): for a
+directed diagram of fppf sheaves whose objects are algebraic spaces and whose transition
+morphisms are representable thickenings, any sheaf isomorphic to the colimit and satisfying the
+set-theoretic condition of Stacks 0AIS is a formal algebraic space. This file sits below that
+one in the import graph, so the reduction is stated for an arbitrary such argument. The
+set-theoretic condition on `X` is an argument `hXset` as in
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_etaleCover`; the library proves it
+from the other data as
+`AlgebraicGeometry.FormalSpace.satisfiesSetTheoreticCondition_of_representable_over_affineFormal`.
 
 The pullback presentation is built directly in the category of fppf sheaves: the stage of
 index `i` is the fibre product of `f` with the `i`-th stage of the given presentation of `Y`,
@@ -114,18 +122,20 @@ theorem isRepresentableThickeningULift_sheafifiedYoneda_map
 
 /-! ### Stacks 0AJH -/
 
-/-- **Stacks 0AJH**, granting Stacks 0AIU. If `Y` is an affine formal algebraic space over `S`
-and `f : X ⟶ Y` is a map of fppf sheaves representable by algebraic spaces, then `X` is a
-formal algebraic space over `S`.
+/-- The source's proof of Stacks 0AJH, as a reduction to Stacks 0AIU. If `Y` is an affine
+formal algebraic space over `S` and `f : X ⟶ Y` is a map of fppf sheaves representable by
+algebraic spaces, then `X` is a formal algebraic space over `S`, given the corrected Stacks 0AIU
+as `h0AIU` (proved in the library as
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_colimit_isRepresentableThickeningULift`)
+and the set-theoretic condition on `X` as `hXset` (proved in the library as
+`AlgebraicGeometry.FormalSpace.satisfiesSetTheoreticCondition_of_representable_over_affineFormal`).
+The registered Stacks 0AJH, with neither argument, is
+`AlgebraicGeometry.FormalSpace.isFormalAlgebraicSpace_of_representable_over_isAffineFormal`.
 
 Writing `Y` as the directed colimit of its affine stages, each fibre product of `X` with a
 stage over `Y` is an algebraic space, the transition morphisms of these fibre products are
-representable thickenings, and `X` is their colimit; the hypothesis `h0AIU` is Stacks 0AIU,
-applied to that presentation. -/
-@[stacks 0AJH "granting Stacks 0AIU, that a directed colimit of algebraic spaces along \
-thickenings is a formal algebraic space, which this library does not carry and which is \
-taken as the hypothesis `h0AIU`; the set-theoretic condition of Stacks 0AIS on the source \
-is the hypothesis `hXset`, as it is for Stacks 0AJ1"]
+representable thickenings, and `X` is their colimit; `h0AIU` is applied to that
+presentation. -/
 theorem isFormalAlgebraicSpace_of_representable_over_affineFormal
     {X Y : FppfSheaf B S hS} (f : X ⟶ Y)
     (hY : IsAffineFormalAlgebraicSpace B S hS Y)

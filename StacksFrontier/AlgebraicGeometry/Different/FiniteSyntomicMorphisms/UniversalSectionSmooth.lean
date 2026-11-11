@@ -327,13 +327,11 @@ private theorem Spec.map_base_surjective_of_isArtinianRing {B' B : CommRingCat.{
       (IsLocalRing.eq_maximalIdeal (inferInstance : z.asIdeal.IsMaximal)).symm)
   exact fun y => ⟨IsLocalRing.closedPoint B, hsub _ y⟩
 
-/-- **Stacks Project, Tag 0FL3,** the geometric assertion. The preimage
+/-- The smoothness assertion of Stacks Tag 0FL3 (stated in full by
+`AlgebraicGeometry.universalSyntomicPreimage_smooth_and_not_smooth_restrict`). The preimage
 `V_d = pi_d^{-1}(U_d)` of the open of Tag 0FL0 under the universal finite free family of rank `d`
 is smooth over the terminal scheme `Spec(ULift ZZ)`, which is `Spec(ZZ)` in the universe of the
 test schemes. -/
-@[stacks 0FL3 "the geometric assertion: V_d = pi_d^{-1}(U_d) is smooth over Z, for the open U_d \
-of Tag 0FL0 and the universal finite free family pi_d of Tag 0FKZ. Stated over the terminal \
-scheme Spec(ULift Z) of the universe of the test schemes."]
 public instance universalSyntomicPreimage_smooth_uLift (d : ℕ) [NeZero d] :
     Smooth (specULiftZIsTerminal.from (universalSyntomicPreimage.{u} d).toScheme) := by
   have : IsNoetherianRing (ULift.{u} ℤ) :=
@@ -359,10 +357,8 @@ public instance universalSyntomicPreimage_smooth_uLift (d : ℕ) [NeZero d] :
     exact ⟨γ, hγ, specULiftZIsTerminal.hom_ext _ _⟩
   exact hsmoothAt.formallySmooth_stalkMap f x
 
-/-- **Stacks Project, Tag 0FL3,** the geometric assertion, in the literal form of the source:
-`V_d = pi_d^{-1}(U_d)` is smooth over the spectrum of the integers themselves. -/
-@[stacks 0FL3 "the geometric assertion: V_d = pi_d^{-1}(U_d) is smooth over Z, for the open U_d \
-of Tag 0FL0 and the universal finite free family pi_d of Tag 0FKZ. Stated over Spec(Z) itself."]
+/-- The smoothness assertion of Stacks Tag 0FL3 over the spectrum of the integers themselves:
+`V_d = pi_d^{-1}(U_d)` is smooth over `Spec(ZZ)`. -/
 public instance universalSyntomicPreimage_smooth (d : ℕ) [NeZero d] :
     Smooth (specZIsTerminal.from (universalSyntomicPreimage d).toScheme) := by
   let e : Spec (.of (ULift.{0} ℤ)) ⟶ Spec (.of ℤ) := specZIsTerminal.from _

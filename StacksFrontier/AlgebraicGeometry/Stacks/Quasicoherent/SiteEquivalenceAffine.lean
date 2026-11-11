@@ -275,8 +275,10 @@ discharged by `AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_zar
 `AlgebraicGeometry.FibredSite.isSheafFppfOfQuasicoherentOnSite_etale`,
 `AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_zariski` and
 `AlgebraicGeometry.FibredSite.quasicoherentOnSiteOfLeFppf_etale`. -/
-@[stacks 0EM8 "the three-way equivalence, for a category fibred in groupoids over the big fppf \
-category of schemes over S and a presheaf of modules on it"]
+@[stacks 0EM8 "the three-way equivalence of the conditions at the Zariski, étale and fppf \
+topologies (a sheaf for the inherited topology and quasi-coherent on that ringed site), for any \
+category fibred in groupoids over (Sch/S)_fppf and any presheaf of modules on it; the inputs are \
+proved by isSheafFppfOfQuasicoherentOnSite_siteKind and quasicoherentOnSiteOfLeFppf_siteKind"]
 public theorem tfae_isQuasicoherentClause'
     (𝓕 : PresheafOfModules.{u} (structureRingPresheaf B S hS p hp)) :
     [IsQuasicoherentClause B S hS p hp .zariski 𝓕,

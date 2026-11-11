@@ -11,7 +11,7 @@ public import StacksFrontier.Topology.Algebra.AdicTopology.EquivTransport
 
 Clause (1) of **Stacks 0APW** says that the completion of `Spec A` along a closed set `T` cut
 out by *countably many* equations is adic\* as soon as it is countably indexed; it is
-`AlgebraicGeometry.FormalSpace.isAdicStar_countableCompletion`. Clause (2) says that the
+`AlgebraicGeometry.FormalSpace.isAdicStar_zeroLocusCompletion_of_isCountablyIndexed`. Clause (2) says that the
 countability of the equations cannot be dropped, and Gabber's example — the `ℚ`-algebra on
 `x_α`, `α ∈ ω₁`, and `y_{αβ}`, modulo `x_α = y_{αβ} x_β`, completed along
 `T = V(x_α : α ∈ ω₁)` — witnesses it. The ring-theoretic halves of the example are in
@@ -44,7 +44,9 @@ the transport of the conditions of **Stacks 0AID** along such an isomorphism, fr
 * `AlgebraicGeometry.FormalSpace.not_isAdicStar_countableCompletion`: if that inverse limit
   has no finitely generated weak ideal of definition then the completion is not adic\*.
 * `AlgebraicGeometry.FormalSpace.isCountablyIndexed_not_isAdicStar_gabberCompletionSheaf`:
-  **clause (2) of Stacks 0APW at sheaf level**, the two halves for Gabber's example.
+  the two halves of clause (2) of Stacks 0APW for the colimit of Gabber's example along its
+  cofinal sequence. Clause (2) for the formal completion `X_{/T}` itself is
+  `AlgebraicGeometry.FormalSpace.isCountablyIndexed_not_isAdicStar_zeroLocusCompletion_gabber`.
 
 ## Implementation notes
 
@@ -152,8 +154,8 @@ def gabberCompletionSheaf (B : BigFppfSite.{u}) (S : Scheme.{u}) (hS : B.Contain
     FppfSheaf B S hS :=
   countableCompletion B S hS f hA gabberPowerIdeal.{u} gabberPowerIdeal_antitone.{u}
 
-/-- **Stacks 0APW (2).** Gabber's completion is a countably indexed affine formal algebraic
-space which is not adic\*: so the hypothesis of clause (1) that the closed set be cut out by
+/-- **Clause (2) of Stacks 0APW, for the colimit along the cofinal sequence.** Gabber's
+completion is a countably indexed affine formal algebraic space which is not adic\*: so the hypothesis of clause (1) that the closed set be cut out by
 countably many functions cannot be dropped.
 
 Both halves are the ring-theoretic ones of
@@ -162,9 +164,10 @@ sheaf level. Countable indexedness is the cofinality of the sequence `J_n`, thro
 0AN1. For the failure of adic\*-ness, every topological ring presenting the completion is
 isomorphic to `lim A ⧸ J_n` by the uniqueness of the associated ring of Stacks 0AIC, so a
 finitely generated ideal of definition of any of them would give one of `lim A ⧸ J_n`, and
-hence a finitely generated weak ideal of definition, which that ring has none of. -/
-@[stacks 0APW "clause (2) at sheaf level: Gabber's completion is countably indexed and is not \
-adic star"]
+hence a finitely generated weak ideal of definition, which that ring has none of.
+
+Stacks 0APW (2) for the formal completion `X_{/T}` is
+`AlgebraicGeometry.FormalSpace.isCountablyIndexed_not_isAdicStar_zeroLocusCompletion_gabber`. -/
 theorem isCountablyIndexed_not_isAdicStar_gabberCompletionSheaf (B : BigFppfSite.{u})
     (S : Scheme.{u}) (hS : B.Contains S) (f : Spec (.of GabberRing.{u}) ⟶ S)
     (hA : B.Contains (Spec (.of GabberRing.{u}))) :

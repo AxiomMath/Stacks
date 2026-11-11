@@ -46,9 +46,13 @@ Two things are at stake in that statement and they are separated here.
 ## Main results
 
 * `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_sectionsExtendNearSubscheme` —
-  [Stacks, Tag 0ELA], granted the section-extension property. See the docstring there for
-  exactly what is and is not covered: the completion hypothesis of the tag is **not** used, the
-  shrinking form of the conclusion of [Stacks, Tag 0EL8] is granted in its place.
+  the reduction of [Stacks, Tag 0ELA] to the section-extension property, the first paragraph of
+  the source's proof. The tag itself, from full faithfulness of the completion functor on the
+  finite locally free objects, is
+  `Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_completionFullyFaithfulComplete`
+  in `StacksFrontier.AlgebraicGeometry.FundamentalGroup.SectionsExtendFromCompletion`, which derives
+  the section-extension property from that completion condition and then applies this
+  reduction.
 
 ## Implementation notes
 
@@ -330,7 +334,7 @@ def FiniteEtaleColimitFullyFaithful : Prop :=
 
 /-! ### Tag 0ELA -/
 
-/-- **[Stacks, Tag 0ELA], granted the section-extension input.** Let `X` be a scheme, let
+/-- **Reduction of [Stacks, Tag 0ELA] to the extension of sections.** Let `X` be a scheme, let
 `Y ⊆ X` be the closed subscheme cut out by the ideal sheaf `Y`, and let `𝒱` be the open
 subschemes of `X` containing it, ordered by reverse inclusion. If sections of a finite étale
 cover of a neighbourhood extend to a smaller neighbourhood and are determined there after
@@ -343,27 +347,17 @@ morphism `A ⟶ B` after that base change, so a morphism between the restriction
 subscheme is a section of the internal hom over the closed subscheme and full faithfulness over
 the colimit is the extension property for sections of one finite étale cover.
 
-**What is granted and what is not.** The hypothesis of the tag — full faithfulness of the
-completion functor `colim_𝒱 Coh(𝒪_V) ⟶ Coh(X, I)` on the finite locally free objects — is
-**not** used here at all: the section-extension property
-`Stacks.FundamentalGroup.SectionsExtendNearSubscheme` is assumed in its place. That property is
-the shrinking form of the conclusion of [Stacks, Tag 0EL8], and deducing it from the completion
-hypothesis is the rest of the source's proof: lift the section over the closed subscheme to the
-infinitesimal neighbourhoods ([Stacks, Tag 0BQB]), algebraize the resulting compatible system of
-module maps out of the finite locally free module `f _* 𝒪_U` over some smaller neighbourhood by
-fullness of completion, and shrink once more to make the algebraized map multiplicative by
-faithfulness of completion. That half is carried in this library only in its non-shrinking form,
-on the nose at a single scheme, as
-`Stacks.FundamentalGroup.fullyFaithful_finiteEtaleBaseChange_of_completionFullyFaithful`; the
-shrinking form would need the restriction of a direct image algebra to an open subscheme and the
-comparison of the infinitesimal neighbourhoods of the closed subscheme taken inside `X` and
-inside a neighbourhood, neither of which has a carrier here.
+The section-extension property `Stacks.FundamentalGroup.SectionsExtendNearSubscheme` is the
+shrinking form of the conclusion of [Stacks, Tag 0EL8]. Deducing it from the hypothesis of the
+tag, full faithfulness of the completion functor `colim_𝒱 Coh(𝒪_V) ⟶ Coh(X, I)` on the finite
+locally free objects, is the rest of the source's proof, and is
+`Stacks.FundamentalGroup.sectionsExtendNearSubscheme_of_completionFullyFaithfulComplete`; the
+two together are the tag,
+`Stacks.FundamentalGroup.finiteEtaleColimitFullyFaithful_of_completionFullyFaithfulComplete`.
 
-It is **not** enough to assume the pointwise analogue of the hypothesis at each individual
-neighbourhood, which would make the statement a formal consequence of Tag 0EL8 applied one
-neighbourhood at a time. The quantifiers over smaller neighbourhoods in both
-`SectionsExtendNearSubscheme` and `FiniteEtaleColimitFullyFaithful` are the content. -/
-@[stacks 0ELA "granted SectionsExtendNearSubscheme: the shrinking form of Tag 0EL8"]
+The quantifiers over smaller neighbourhoods in both `SectionsExtendNearSubscheme` and
+`FiniteEtaleColimitFullyFaithful` are the content: neither is a formal consequence of its
+analogue at one neighbourhood at a time. -/
 theorem finiteEtaleColimitFullyFaithful_of_sectionsExtendNearSubscheme
     (h : SectionsExtendNearSubscheme X Y) : FiniteEtaleColimitFullyFaithful X Y := by
   obtain ⟨hextend, hunique⟩ := h

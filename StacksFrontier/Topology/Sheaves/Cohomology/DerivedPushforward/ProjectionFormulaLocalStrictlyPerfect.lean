@@ -20,7 +20,10 @@ morphism of [Stacks, Tag 0B53]
 
 `Rf_*E ⊗^𝐋_{𝒪_Y} K ⟶ Rf_*(E ⊗^𝐋_{𝒪_X} Lf^*K)`
 
-is an isomorphism.  This is [Stacks, Tag 0B54].
+is an isomorphism.  This is [Stacks, Tag 0B54], stated here with the sheafification instances
+for `X` and `Y` as binders; the registration of the tag is
+`Stacks.Cohomology.ProjectionFormulaPerfect.isIso_projectionFormulaMap_of_isPerfect`, which
+supplies those instances itself and has perfectness of `K` as its only hypothesis.
 
 All names below are in the namespace `Stacks.Cohomology.DerivedProjectionFormula`.
 
@@ -132,8 +135,12 @@ is an isomorphism.
 
 Perfectness is `Stacks.Cohomology.PerfectComplexes.IsPerfect` of [Stacks, Tag 08CM]: `K` is
 represented by a complex which on the members of some open cover of `Y` receives a
-quasi-isomorphism from a strictly perfect complex. -/
-@[stacks 0B54, sga "6 IV 2.11.1" "more general"]
+quasi-isomorphism from a strictly perfect complex.
+
+The sheafification instances are binders here; they hold for every ringed space, and
+`Stacks.Cohomology.ProjectionFormulaPerfect.isIso_projectionFormulaMap_of_isPerfect` is the same
+statement with them supplied. -/
+@[sga "6 IV 2.11.1" "more general"]
 theorem isIso_projectionFormulaMap_of_isPerfect
     {X Y : RingedSpace.{u, u}} (f : X ⟶ Y)
     [HasSheafify (Opens.grothendieckTopology X.carrier) AddCommGrpCat.{u}]

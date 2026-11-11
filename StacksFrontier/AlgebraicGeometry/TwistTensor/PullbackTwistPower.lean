@@ -130,10 +130,13 @@ relations are reduced, in
 intertwining identity `Intertwines`, whose remaining content is an evaluation on global sections
 of `pullbackShiftedIso` together with the compatibility of `α` with `ψ` — see the next paragraph.
 
-Nor is the faithful form of [Stacks, Tag 01N7], whose degreewise maps would land in
-`Γ(Y, L^{⊗ n})` through `pullbackTwistPowIso`: that needs the multiplicativity of *that*
-comparison across degrees, which is not established below. Its main input is, in an arbitrary
-integer bidegree: `Stacks.AlgebraicGeometry.ThetaMul.thetaInt_mul`.
+The faithful form of [Stacks, Tag 01N7], with degreewise maps landing in `Γ(Y, L^{⊗ n})`, is not
+built from `pullbackTwistPowIso` either, and the multiplicativity of that comparison across degrees
+is not established below. It is
+`Stacks.AlgebraicGeometry.MorphismsIntoProj.psiPullbackSectionRing_spec`, which pulls back the
+tensor-power form `Stacks.AlgebraicGeometry.ProjDegreeOpenUniversalTriple.universalVeroneseSections`
+of the universal graded map along `φ` with
+`Stacks.AlgebraicGeometry.ProjChartRatioPullback.pullSection`.
 
 The isomorphisms below are canonical in that they are composites of canonical comparisons, but no
 normalization of their values on sections is proved, and that is what the intertwining identity of

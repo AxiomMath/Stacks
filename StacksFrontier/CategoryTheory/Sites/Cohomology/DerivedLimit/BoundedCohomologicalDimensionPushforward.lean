@@ -70,10 +70,16 @@ hypothesis of Stacks 0D6R on the source enters.
 
 ## Main results
 
-* `Stacks.Cohomology.OlssonLaszlo.isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation`
-  (Stacks 0D6W): the truncation comparison is an isomorphism on `Hʲ` for `j ≥ N - n`.
+* `isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation`, in the namespace
+  `Stacks.Cohomology.OlssonLaszlo`: the truncation comparison is an isomorphism on `Hʲ` for
+  `j ≥ N - n` and `n : ℕ`, given that `f_*` preserves K-injective complexes (Stacks 093Y).
 * `isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation_of_flat`, in the same
-  namespace: the same for a flat morphism, with the carried input of Stacks 093Y discharged.
+  namespace: its specialisation to a flat morphism, where Stacks 093Y holds.
+
+The statement of Stacks 0D6W itself, for an arbitrary morphism of ringed sites and every integer
+`n`, is `isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation_general` in
+`BoundedCohomologicalDimensionPushforwardGeneral.lean`, which reuses the local results of this
+file.
 
 Along the way:
 
@@ -106,14 +112,16 @@ sheaf of the unbounded derived direct image of `F` placed in degree zero. Every 
 then about one and the same functor, the unbounded `Rf_*` of Stacks 07A5, and no comparison
 between a bounded below and the unbounded derived functor is needed.
 
-**Stacks 093Y is carried as the named hypothesis `h093Y`**, exactly as it is by the library's
-Stacks 0D6H and 0D6I, on which the identification `Hʲ(V', Rf_*K) = Hʲ(u(V'), K)` used here
-rests: degreewise `f_*` carries K-injective complexes of `O`-modules to K-injective complexes of
-`O'`-modules. It is not a hypothesis of the source, which obtains the identification from the
-composition law of Stacks 0D6E instead; it is discharged for a flat morphism of ringed sites by
-`Stacks.Cohomology.LerayUnbounded.isKInjective_pushforwardTopos_of_flat`, which gives the
-`…_of_flat` form of the result. Whoever proves Stacks 093Y for a general morphism of ringed sites
-obtains the unrestricted statement by one application.
+**The declarations of this file read `Hʲ(V', Rf_*K) = Hʲ(u(V'), K)` off the named hypothesis
+`h093Y`**, that degreewise `f_*` carries K-injective complexes of `O`-modules to K-injective
+complexes of `O'`-modules. That is Stacks 093Y, which assumes `f` flat and is false in general:
+for the morphism of one-point ringed sites given by a non-flat ring map `A ⟶ B`, `f_*` of an
+injective cogenerator `I` of `B`-modules is not an injective `A`-module, since
+`Hom_A(M, I) = Hom_B(M ⊗_A B, I)` is not exact in `M`. The identification itself needs no such
+input: it is Stacks 0D6I, available for an arbitrary morphism of ringed sites as
+`derivedPushforwardCohomologyPresheafSourceValueIsoGeneral` in the namespace
+`Stacks.Cohomology.UnboundedHigherDirectImageOnSites`, and the general statement in
+`BoundedCohomologicalDimensionPushforwardGeneral.lean` uses it.
 
 **The morphism is a morphism of ringed sites**, `AlgebraicGeometry.RingedSite.Hom`, read as a
 site-presented morphism of ringed topoi through
@@ -477,23 +485,18 @@ private def sourceSituation : Stacks.Cohomology.OlssonLaszloSituation.{u, u, u, 
 
 attribute [local implicit_reducible] sourceSituation
 
-include hA basisCover vanishing basisCover' vanishing' hvanishImage h093Y in
 omit [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))] in
-/-- **Stacks Project, Tag 0D6W.** Let `f : (C, O) ⟶ (C', O')` be a morphism of ringed sites, let
-`A ⊂ Mod(O)` be a weak Serre subcategory and let `N` be an integer such that
-
-* `C, O, A` satisfy the standing hypothesis of Stacks 0D6R: a class `B` of objects covering every
-  object of `C`, each `V ∈ B` carrying an integer bound `d_V` and a cofinal system of coverings of
-  `V` on whose members the cohomology of every module of `A` vanishes above `d_V`;
-* `f` and `A` satisfy the standing hypothesis of Stacks 0D6V: a class `B'` of objects covering
-  every object of `C'`, each `V' ∈ B'` carrying an integer bound `d_{V'}` and a cofinal system of
-  coverings of `V'` on the images under `f` of whose members the cohomology, computed on `C`, of
-  every module of `A` vanishes above `d_{V'}`;
-* `Rᵖf_*F = 0` for every `p > N` and every `F` of `A`.
-
-Then for every `K` of `D_A(O)` the canonical map `Hʲ(Rf_*K) ⟶ Hʲ(Rf_*(τ_{≥ -n}K))` induced by the
-truncation `K ⟶ τ_{≥ -n}K` is an isomorphism for every `j ≥ N - n`. -/
-@[stacks 0D6W]
+include hA basisCover vanishing basisCover' vanishing' hvanishImage h093Y in
+/-- **The truncation comparison of Stacks 0D6W, given that `f_*` preserves K-injective
+complexes.** The standing hypotheses and, for `n : ℕ`, the conclusion are those of
+`isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation_general`, which proves the same
+for an arbitrary morphism of ringed sites with no further input; here the local identification
+`Hʲ(V', Rf_*K) = Hʲ(u(V'), K)` is read off the hypothesis `h093Y` that degreewise `f_*` carries
+K-injective complexes of `O`-modules to K-injective complexes of `O'`-modules. That hypothesis is
+Stacks 093Y, which holds for a flat morphism and fails in general (for the morphism of one-point
+ringed sites given by a non-flat ring map `A ⟶ B`, `f_*` of an injective cogenerator of
+`B`-modules is not an injective `A`-module), so this form is strictly less general than the
+source's statement. It is kept because it is what the flat variant below was built on. -/
 theorem isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))
     (hK : DerivedCategoryB.derivedCategoryB A K)
@@ -556,11 +559,13 @@ theorem isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation
             K hK L pr ⟨δ, hL⟩ c hc)
         j m hm1 hm2)
 
-include hA basisCover vanishing basisCover' vanishing' hvanishImage in
 omit [EnoughInjectives (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf Y.O))] in
-/-- **Stacks Project, Tag 0D6W for a flat morphism of ringed sites**, with no input carried.
-Flatness — left exactness of `f^*`, Stacks 03DJ — gives Stacks 093Y, hence the identification
-`Hʲ(V', Rf_*K) = Hʲ(u(V'), K)` of Stacks 0D6I through which the conclusion is read locally. -/
+include hA basisCover vanishing basisCover' vanishing' hvanishImage in
+/-- **The truncation comparison of Stacks 0D6W for a flat morphism of ringed sites.** Flatness —
+left exactness of `f^*`, Stacks 03DJ — gives Stacks 093Y, which is the input of
+`isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation`. The statement for an arbitrary
+morphism, with no flatness, is
+`isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation_general`. -/
 theorem isIso_homology_derivedPushforward_truncGEπ_of_relativeSituation_of_flat
     [PreservesFiniteLimits f.toRingedToposSiteHom.pullbackTopos]
     (K : DerivedCategory (SheafOfModules.{u} (Stacks.SheafOfModules.Tensor.ringSheaf X.O)))

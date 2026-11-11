@@ -120,11 +120,10 @@ statements this file leaves open are proved there or upstream of it.
   (`StacksFrontier/AlgebraicGeometry/Spaces/CartesianRelations.lean:1170`); the two compose to
   `AlgebraicGeometry.Space.isQuasicoherentOnSite_definingIdealSheaf`
   (`StacksFrontier/AlgebraicGeometry/Spaces/ClosedSubspaceIdealQuasicoherent.lean:357`).  The
-  converse identification, Descent 03DX(2) in the direction quasi-coherent ⟹ cartesian on affine
-  charts, is also available:
+  converse identification, quasi-coherent ⟹ cartesian on affine charts, is also available:
   `AlgebraicGeometry.Space.isCartesianOnAffineCharts_of_isQuasicoherentOnSite`
-  (`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentCartesianOnAffineCharts.lean:640`, carrying
-  `@[stacks 03DX]`), proved by the descent argument of Stacks 0H04.  Nothing here is blocked on
+  (`StacksFrontier/AlgebraicGeometry/Spaces/QuasicoherentCartesianOnAffineCharts.lean`), proved by
+  the descent argument of Stacks 0H04.  Nothing here is blocked on
   Stacks 03DW, which is not an input to 03DX at all.
 * **Surjectivity is reduced here, and proved elsewhere.** What
   `AlgebraicGeometry.Space.exists_definingIdealSheaf_eq_of_isInvariantSubscheme` still asks for

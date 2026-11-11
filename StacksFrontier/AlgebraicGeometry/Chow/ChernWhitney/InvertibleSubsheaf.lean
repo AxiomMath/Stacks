@@ -154,11 +154,13 @@ free of ranks `r`, `r - 1`. Then
   `c_r(ℰ) = 0`,  `c_j(ℰ) = c_j(ℱ)`, `j = 0, …, r - 1`,
 
 in the Chow cohomology ring `A^*(X) = ⨁_p A^p(X)` of Stacks 0B7E, the `c_j` being the bivariant
-Chern classes of Stacks 0B7H placed in their degree. -/
+Chern classes of Stacks 0B7H placed in their degree. No hypothesis beyond the source's is taken.
+The equivalent form on cap products is
+`Stacks.Chow.GenuineChern.chernCap_eq_of_shortExact_of_iso_unit`. -/
 @[stacks 02UG "c_r(E) = 0 and c_j(E) = c_j(F) for j = 0, ..., r - 1 in the Chow cohomology ring \
   A^*(X) of Stacks 0B7E, for a short exact sequence 0 -> O_X -> E -> F -> 0 on X locally of finite \
   type over the base with E, F finite locally free of ranks r, r - 1; c_j is the bivariant Chern \
-  class of Stacks 0B7H in A^j(X)"]
+  class of Stacks 0B7H in A^j(X); unconditional, under exactly the source's hypotheses"]
 theorem chernClass_eq_of_shortExact_of_iso_unit (S : ShortComplex Y.Modules) (hS : S.ShortExact)
     (e : S.X₁ ≅ SheafOfModules.unit Y.ringCatSheaf) (r : ℕ)
     [AlgebraicGeometry.SheafOfModules.IsFiniteLocallyFreeOfRank.{u, u, u} S.X₂ r]

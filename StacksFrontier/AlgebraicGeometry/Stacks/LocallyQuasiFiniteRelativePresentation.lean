@@ -25,13 +25,12 @@ over `S`:
 4. one algebraic space `𝒱` surjective, flat and locally of finite presentation over `𝒴` carries
    such a cover of `𝒳 ×_𝒴 𝒱`.
 
-**This file is a partial delivery of Stacks 06UF: it proves the chain (1) ⟹ (2) ⟹ (3) ⟹ (4),
-and the quasi-DM conjunct of (4) ⟹ (1), and nothing more.** The remaining content of
-(4) ⟹ (1) — local finite type and the discreteness of the field-valued fibres, the latter
-through a finite extension `k'/k` splitting the chart over a field-valued point — needs the
-fppf descent of local finite type along `𝒱 ⟶ 𝒴` and the comparison of `|𝒳_{k'}|` with
-`|𝒳_k|` along a finite locally free surjection, neither of which is in this library. Every
-attribute below is therefore suffixed with exactly the implication it carries.
+This file states the four clauses and proves the chain (1) ⟹ (2) ⟹ (3) ⟹ (4), with (2) ⟹ (3)
+stated over the substantial direction of **Stacks 06MF** as the hypothesis `hPresentation`, and
+the quasi-DM conjunct of (4) ⟹ (1). The rest — (2) ⟹ (3) with that hypothesis discharged, the
+local finite type and field-valued-fibre conjuncts of (4) ⟹ (1), and the four-way equivalence
+`AlgebraicGeometry.Stack.AlgebraicStacks.isLocallyQuasiFinite_tfae` — is in
+`StacksFrontier.AlgebraicGeometry.Stacks.LocallyQuasiFiniteRelativePresentationUnconditional`.
 
 ## Main definitions
 
@@ -50,7 +49,7 @@ attribute below is therefore suffixed with exactly the implication it carries.
 * `...isQuasiDM_and_transfersLocalQuasiFiniteness_of_isLocallyQuasiFinite`: **Stacks 06UF**,
   (1) ⟹ (2).
 * `...locallyQuasiFiniteCoverOnEverySpaceBaseChange_of_isQuasiDM_of_transfers`: **Stacks 06UF**,
-  (2) ⟹ (3).
+  (2) ⟹ (3), over the hypothesis `hPresentation`.
 * `...locallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange_of_onEverySpaceBaseChange`:
   **Stacks 06UF**, (3) ⟹ (4).
 * `...isQuasiDM_of_locallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange`: **Stacks 06UF**, the
@@ -69,11 +68,12 @@ two readings is `isLocallyQuasiFinite_of_isLocallyQuasiFinite_hom` in one direct
 `AlgebraicGeometry.Stack.isLocallyQuasiFinite_of_isLocallyOfFiniteType_of_discreteTopology` in
 the other.
 
-One hypothesis is carried, in the spelling the rest of this corner of the library already uses:
-`hPresentation`, the substantial direction of **Stacks 06MF**
-(`AlgebraicGeometry.Stack.ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM`), carried in this
-library wherever it is used — at **Stacks 06MF** itself and at **Stacks 06UE**. It is used only
-for (2) ⟹ (3), through **Stacks 06UE**. The implication (1) ⟹ (2) is the composition of two
+The statement of (2) ⟹ (3) here takes `hPresentation`, the substantial direction of
+**Stacks 06MF** (`AlgebraicGeometry.Stack.ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM`), in
+the spelling of **Stacks 06UE**. That hypothesis is the theorem
+`AlgebraicGeometry.Stack.hasQuasiDMPresentation_of_isAbsolutelyQuasiDM`, and
+`...locallyQuasiFiniteCoverOnEverySpaceBaseChange_of_isQuasiDM_of_transfers_unconditional`
+discharges it. The implication (1) ⟹ (2) is the composition of two
 locally quasi-finite 1-morphisms, **Stacks 06UD**, which is unconditional.
 
 The containment of the terminal scheme in the site, which the absolute quasi-DM condition of
@@ -182,7 +182,6 @@ stacks over `S` is quasi-DM, and for every algebraic space `𝒱` over `𝒴` a 
 The quasi-DM conjunct is the first conjunct of **Stacks 06PU**. For the second, the projection
 `𝒳 ×_𝒴 𝒱 ⟶ 𝒱` is a base change of `f` and so locally quasi-finite by **Stacks 06UB**, and
 **Stacks 06UD** composes it with the given 1-morphism. -/
-@[stacks 06UF "the implication (1) => (2)"]
 theorem isQuasiDM_and_transfersLocalQuasiFiniteness_of_isLocallyQuasiFinite
     (f : 𝒳 ⟶ 𝒴) (hf : IsLocallyQuasiFinite B S hS f) :
     IsQuasiDM B S hS f ∧ TransfersLocalQuasiFinitenessOnSpaceBaseChanges B S hS f := by
@@ -207,8 +206,6 @@ The cover is the one **Stacks 06UE** produces from the quasi-DM condition; it is
 quasi-finite in the sense of Properties of Stacks, Section 04XB, hence in the sense of
 **Stacks 06PU** by **Stacks 06UA**, and the second conjunct of clause (2) then makes its
 composite to the base locally quasi-finite. -/
-@[stacks 06UF "the implication (2) => (3), granted the substantial direction of Tag 06MF as
-  `hPresentation`, which is how Tag 06UE is carried in this library"]
 theorem locallyQuasiFiniteCoverOnEverySpaceBaseChange_of_isQuasiDM_of_transfers
     (hPresentation : Stack.ExistsQuasiDMPresentationOfIsAbsolutelyQuasiDM.{u, w} B S hS
       (BigFppfSite.contains_terminal B))
@@ -227,7 +224,6 @@ theorem locallyQuasiFiniteCoverOnEverySpaceBaseChange_of_isQuasiDM_of_transfers
 /-- **Stacks 06UF, (3) ⟹ (4).** Every algebraic stack has a smooth surjective chart by a scheme
 of the site, and a smooth 1-morphism is flat and locally of finite presentation, so the
 universal clause (3) applied to that chart is clause (4). -/
-@[stacks 06UF "the implication (3) => (4), unconditionally"]
 theorem locallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange_of_onEverySpaceBaseChange (f : 𝒳 ⟶ 𝒴)
     (hf : LocallyQuasiFiniteCoverOnEverySpaceBaseChange B S hS f) :
     LocallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange B S hS f := by
@@ -245,8 +241,6 @@ finite presentation over `𝒴` makes `f` quasi-DM.
 The cover is locally quasi-finite in the sense of **Stacks 06PU**, hence in the sense of
 Properties of Stacks, Section 04XB by **Stacks 06UA**, which is clause (3) of **Stacks 06UE**;
 that lemma's implication (3) ⟹ (1) is the conclusion. -/
-@[stacks 06UF "the quasi-DM conjunct of the conclusion of (4) => (1), unconditionally. The
-  local finite type and field-valued-fibre conjuncts of (4) => (1) are NOT carried"]
 theorem isQuasiDM_of_locallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange (f : 𝒳 ⟶ 𝒴)
     (hf : LocallyQuasiFiniteCoverOnSomeFlatSpaceBaseChange B S hS f) :
     IsQuasiDM B S hS f := by

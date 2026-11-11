@@ -6,7 +6,6 @@ public import StacksFrontier.AlgebraicGeometry.EtaleCohomology.Constructible.Sma
 public import StacksFrontier.AlgebraicGeometry.Topologies.Etale.SmallEtalePullbackSections
 public import StacksFrontier.CategoryTheory.Sites.GlobalSections.ModuleCohomologyComparison
 public import StacksFrontier.Homology.CompositeCollapse
-import StacksCore.Tactic.StacksAttribute
 
 /-!
 # Finiteness of the cohomology of a direct image along a finite morphism
@@ -30,8 +29,10 @@ cohomology of `f_*ℱ` on `Y` agrees with the cohomology of `ℱ` on `X` in ever
 
 * `Stacks.EtaleCohomology.TorsionModules.moduleCohomologyPushforwardIso` — the collapse
   isomorphism `H^q_étale(X, ℱ) ≅ H^q_étale(Y, f_*ℱ)` when `R^q f_*ℱ = 0` for `q > 0`.
-* `Stacks.EtaleCohomology.TorsionModules.module_finite_cohomology_pushforward` — **Stacks Tag
-  0GJD**, the transport of finiteness along that isomorphism.
+* `Stacks.EtaleCohomology.TorsionModules.module_finite_cohomology_pushforward` — the transport
+  of finiteness along that isomorphism, given the vanishing of the higher direct images; the
+  unconditional Stacks Tag 0GJD is
+  `Stacks.EtaleCohomology.TorsionModules.module_finite_cohomology_pushforward_of_isFinite`.
 
 ## Implementation notes
 
@@ -43,12 +44,13 @@ Nothing else in the hypotheses of the source statement — that `Λ` is Noetheri
 algebraically closed, that `X` and `Y` are separated of finite type over `k` of dimension at
 most one — is used, and none of it is used here either.
 
-Tag 03QP is **not** available in this repository: the comparison map of the stalk of a direct
-image with the product of the stalks over the fibre is constructed in
-`StacksFrontier/AlgebraicGeometry/EtaleCohomology/FinitePushforwardStalk.lean`, but its bijectivity
-is not proved there, and part (2) of the tag — the vanishing of the higher direct images — is
-nowhere in the tree. It is therefore carried as the explicit hypothesis `h03QP` of
-`module_finite_cohomology_pushforward`, in its general form: universally quantified over every
+Tag 03QP for sheaves of `Λ`-modules is proved in
+`StacksFrontier/AlgebraicGeometry/EtaleCohomology/TorsionModulesCurves/FinitePushforwardAcyclic.lean`
+(`isZero_rightDerived_modulePushforward_of_isIntegralHom`, at the coefficient universe
+`max (u + 1) w r`), and the unconditional Tag 0GJD is
+`module_finite_cohomology_pushforward_of_isFinite` there. This file does not import it, so the
+statement here, `module_finite_cohomology_pushforward`, takes the vanishing of the higher direct
+images as the explicit hypothesis `h03QP`, in its general form: universally quantified over every
 morphism of the big étale site whose underlying morphism of schemes is finite, every sheaf of
 `Λ`-modules on the source, and every positive degree. It is instantiated only inside the proof,
 at the morphism and the sheaf of the statement.
@@ -206,8 +208,10 @@ def moduleCohomologyPushforwardIso
 
 end Collapse
 
-/-- **Stacks Project, Tag 0GJD**, granted Tag 03QP for sheaves of `Λ`-modules as the hypothesis
-`h03QP`.
+/-- Finiteness of `H^q_étale(Y, f_*ℱ)` from finiteness of `H^q_étale(X, ℱ)`, for `f` with finite
+underlying morphism of schemes, given the vanishing of higher direct images `h03QP`. The
+unconditional form of Stacks Tag 0GJD, with that vanishing proved, is
+`module_finite_cohomology_pushforward_of_isFinite`.
 
 Let `Λ` be a ring, let `f : X ⟶ Y` be a morphism of a big étale site whose underlying morphism
 of schemes is finite, and let `ℱ` be a sheaf of `Λ`-modules on the small étale site of `X`. If
@@ -216,14 +220,8 @@ of schemes is finite, and let `ℱ` be a sheaf of `Λ`-modules on the small éta
 The hypothesis `h03QP` is the general statement of part (2) of Stacks 03QP for sheaves of
 `Λ`-modules: for *every* morphism of the big étale site with finite underlying morphism of
 schemes, *every* sheaf of `Λ`-modules on its source and *every* positive degree, the higher
-direct image vanishes. It is a different tag from the one being proved, it quantifies over all
-of its own inputs, and it is instantiated only inside the proof, at `f` and `ℱ`. Nothing about
-`H^q_étale(Y, f_*ℱ)` — the conclusion — is assumed.
-
-The remaining hypotheses of the source statement (`Λ` Noetherian, `k` algebraically closed,
-`X` and `Y` separated of finite type over `k` of dimension at most one) are not needed: the
-source's proof does not use them, and neither does this one. -/
-@[stacks 0GJD "granted Tag 03QP for sheaves of Λ-modules, as the hypothesis h03QP"]
+direct image vanishes. It quantifies over all of its own inputs and is instantiated only inside
+the proof, at `f` and `ℱ`. Nothing about `H^q_étale(Y, f_*ℱ)` — the conclusion — is assumed. -/
 theorem module_finite_cohomology_pushforward
     [∀ Z : B.Scheme,
       HasSheafify (SmallEtale.topology B Z.obj Z.property) (ModuleCat.{max (u + 1) w} Λ)]

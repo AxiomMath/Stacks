@@ -204,10 +204,6 @@ No hypothesis about extensions or colimits is left, and the depth-two extension 
 pushforward `j_{Zᶜ,*}(F'|_{Zᶜ})`: for a closed `T` one may take `Z = T`, recovering
 `AlgebraicGeometry.exists_isDepthTwoExtension_of_locallyHasDualizingComplex`.  See the module
 documentation for the three clauses and for the status of `Z` itself. -/
-@[stacks 0EI3 "existence along a specialization-stable subset, with no hypothesis about \
-extensions or colimits, and at the source's hypotheses — the dualizing hypothesis and the depth \
-hypothesis on immediate specializations — together with a closed subset of T outside which the \
-depth-one quotient already has depth two on T"]
 public theorem exists_isDepthTwoExtension_of_isClosed_of_subset
     (X : Scheme.{u}) [IsNoetherian X] (T : Set X) (hT : StableUnderSpecialization T)
     (F : X.Modules) [F.IsCoherent]
@@ -278,10 +274,6 @@ depth take: [Stacks, Tag 0ECN] (`AlgebraicGeometry.finite_setOf_depth_eq_and_lt_
 says that on a Noetherian scheme with a dualizing complex a coherent module satisfying Serre's
 condition `(S₁)` has only finitely many points with `depth(F'_x) = 1` and
 `dim Supp(F'_x) > 1`. -/
-@[stacks 0EI3 "existence along a specialization-stable subset, with no hypothesis about \
-extensions or colimits, and at the source's hypotheses — the dualizing hypothesis and the depth \
-hypothesis on immediate specializations — together with finiteness of the set of points of T \
-where the depth-one quotient still has depth below two"]
 public theorem exists_isDepthTwoExtension_of_finite_depthOne_locus
     (X : Scheme.{u}) [IsNoetherian X] (T : Set X) (hT : StableUnderSpecialization T)
     (F : X.Modules) [F.IsCoherent]

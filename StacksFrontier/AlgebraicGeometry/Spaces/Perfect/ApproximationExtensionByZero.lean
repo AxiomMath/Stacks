@@ -100,10 +100,10 @@ supported on `j^{-1}T`, then `Rj_*E` is a perfect object of `D(𝒪_X)`.
 
 `Rj_*` is any right adjoint of derived restriction, which pins it; a total right derived functor
 of the direct image is one, by
-`AlgebraicGeometry.Space.etaleModulePullbackDerivedPushforwardAdjunction`. -/
-@[stacks 08HK "Rj_*E is a perfect object of D(O_X) for E perfect on V and supported on j^{-1}T,
-T = |X| \\ |U|, for an elementary distinguished square and nothing else bound; Rj_* is any right
-adjoint of derived restriction, which pins it"]
+`AlgebraicGeometry.Space.etaleModulePullbackDerivedPushforwardAdjunction`.  This proof goes
+through the extension by zero `j_!E`; Stacks 08HK is registered as
+`AlgebraicGeometry.Space.isPerfect_rightAdjoint_edsDerivedRestrictEtale_of_cohomologySupportedOn`
+and `AlgebraicGeometry.Space.isPerfect_derivedModulePushforward_of_cohomologySupportedOn`. -/
 theorem isPerfect_derivedPushforward_of_isPerfect_of_cohomologySupportedOn
     {RpushD : DerivedCategory (Modules.{u, u} B S hS (edsEtale B S hS hsq).1
         (edsEtale B S hS hsq).2) ⥤ DerivedCategory (Modules.{u, u} B S hS W.1 W.2)}

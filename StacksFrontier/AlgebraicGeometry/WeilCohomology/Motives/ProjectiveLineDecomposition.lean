@@ -23,16 +23,25 @@ inverse `1(1)`, the *Tate motive*.
 
 ## Main definitions
 
-* `Stacks.WeilCohomology.CorrespondenceStructure.lefschetzMotive`: **Stacks 0FGE**, the Lefschetz
-  motive `L = (X, c₂, 0)`.
+* `Stacks.WeilCohomology.CorrespondenceStructure.lefschetzMotive`: the formal direct factor
+  `(X, c₂, 0)` over an abstract category of correspondences. The Lefschetz motive of Stacks 0FGE
+  itself, on `P¹_k` in the category `M_k` of Chow motives, is
+  `Stacks.WeilCohomology.ChowMotiveCat.lefschetzMotive`.
 * `CategoryTheory.Idempotents.Karoubi.orthogonalBinaryBicone` and
   `CategoryTheory.Idempotents.Karoubi.orthogonalBinaryBiproductData`: a pair of orthogonal
   idempotents summing to the identity of `X` exhibits the image of `X` in the Karoubi envelope as
   the direct sum of the two formal direct factors they cut out.
-* `Stacks.WeilCohomology.CorrespondenceStructure.projectiveLineBiproductData`: **Stacks 0FGG**,
-  the bilimit bicone with point `h(P¹_k)` and summands `1` and `1(-1)`.
-* `Stacks.WeilCohomology.CorrespondenceStructure.projectiveLineMotiveIso`: **Stacks 0FGG**, the
-  isomorphism `h(P¹_k) ≅ 1 ⊕ 1(-1)`.
+* `Stacks.WeilCohomology.CorrespondenceStructure.projectiveLineBiproductData`: the bilimit bicone
+  with point `h(P¹_k)` and summands `1` and `1(-1)`, deduced from the relations of Example 0FG6
+  and the isomorphisms of Lemma 0FGD in an abstract category of correspondences.
+* `Stacks.WeilCohomology.CorrespondenceStructure.projectiveLineMotiveIso`: the isomorphism
+  `h(P¹_k) ≅ 1 ⊕ 1(-1)` in the same abstract setting.
+
+Stacks 0FGG itself, for the actual `P¹_k` and the actual category `M_k` of Chow motives, is
+`Stacks.WeilCohomology.ChowMotiveCat.projectiveLineMotiveBiproductData` and
+`Stacks.WeilCohomology.ChowMotiveCat.projectiveLineMotiveIso` in
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.ProjectiveLineMotive`, where the relations
+of Example 0FG6 and the isomorphisms of Lemma 0FGD are proved.
 
 ## Main results
 
@@ -43,8 +52,10 @@ inverse `1(1)`, the *Tate motive*.
 * `CategoryTheory.Idempotents.Karoubi.orthogonalBinaryBiconeIsBilimit`: that bicone is a bilimit.
 * `Stacks.WeilCohomology.CorrespondenceStructure.hasBinaryBiproduct_motive`: the direct sum
   `1 ⊕ 1(-1)` exists in `M_k`.
-* `Stacks.WeilCohomology.CorrespondenceStructure.lefschetzMotiveHasInverse`: **Stacks 0FGE**, the
-  Lefschetz motive is invertible, with inverse the Tate motive `1(1)`.
+* `Stacks.WeilCohomology.CorrespondenceStructure.lefschetzMotiveHasInverse`: a motive isomorphic
+  to an invertible one is invertible, with the same inverse. The invertibility of the Lefschetz
+  motive in `M_k` (Stacks 0FGE) is
+  `Stacks.WeilCohomology.ChowMotiveCat.lefschetzMotiveHasInverse`.
 
 ## Implementation notes
 
@@ -82,40 +93,39 @@ is the conclusion of Stacks 0FGG:
 
 * `hsum : c₀ + c₂ = 𝟙 X` and `h₀ : c₀ ∘ c₀ = c₀`, the two irreducible assertions of
   Example 0FG6. They are intersection computations on `P¹ × P¹` — "a computation shows" in the
-  source — and composition of correspondences, which needs the intersection product of Stacks
-  0FC1, the Gysin pullback of Stacks 0FFB and the projection formula of Stacks 0FFC, is not
-  formalized in this repository. The remaining three rules of Example 0FG6 are *not* carried:
+  source — proved for the actual correspondences of `P¹_k` in
+  `StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.ProjectiveLineCorrespondenceAlgebra`
+  (`Stacks.WeilCohomology.projectiveLine_id_eq_add`); here `S` is an arbitrary correspondence
+  structure, so they are arguments. The remaining three rules of Example 0FG6 are *not* carried:
   `...lefschetzProjector_idem`, `...comp_lefschetzProjector` and `...lefschetzProjector_comp`
   derive them from these two, by
   `StacksFrontier.AlgebraicGeometry.WeilCohomology.Correspondences.ProjectiveLineAlgebra` applied to
   the endomorphism ring of the object.
 * `e₀ : (X, c₀, 0) ≅ 1` and `e₂ : (X, c₂, 0) ≅ 1(-1)`, the two conclusions of Lemma 0FGD. The
   source's proof of Lemma 0FGG is "this follows from Example 0FG6 and Lemma 0FGD", so these are
-  precisely its other input, and they are proved — part (1) outright, part (2) from the source's
-  two composition formulas — by
-  `StacksFrontier.AlgebraicGeometry.WeilCohomology.Motives.ProjectiveLineSummands`, whose
-  `constantGraphMotiveIso` and `tateProjectorMotiveIso` instantiate them. That module is not
-  imported here because it is absent from this working tree, so this file is routed through
-  modules that `Stacks.WeilCohomology.CorrespondenceStructure` and the Karoubi envelope supply
-  directly; no statement is weakened by the routing, only the two isomorphisms are received as
-  arguments rather than built on the spot.
+  precisely its other input. For the actual category of Chow motives they are
+  `Stacks.WeilCohomology.ChowMotiveCat.projectiveLinePointFibreMotiveIso` and
+  `Stacks.WeilCohomology.ChowMotiveCat.projectiveLineFibrePointMotiveIso` in
+  `StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.ProjectiveLineSummands`; for an
+  arbitrary `S` they are arguments.
 
 What is proved is therefore exactly the step from Example 0FG6 and Lemma 0FGD to Lemma 0FGG: that
 two orthogonal idempotents summing to `[Δ]` split `h(X) = (X, [Δ], 0)` as a direct sum of the two
 motives they cut out. That step is isolated, with no mention of correspondences, as
 `CategoryTheory.Idempotents.Karoubi.orthogonalBinaryBiproductData`.
 
-**The invertibility of the Lefschetz motive.** The symmetric monoidal structure of `M_k` is
-Stacks 0FGC and is not constructed in this repository — the monoidal structure carried by
+**The invertibility of the Lefschetz motive.** The monoidal structure carried by
 `Stacks.WeilCohomology.CorrespondenceStructure` is that of the category of correspondences,
-Stacks 0FG7, not of its Karoubi envelope — so it enters
-`Stacks.WeilCohomology.CorrespondenceStructure.lefschetzMotiveHasInverse` as an instance
-hypothesis, and a two-sided tensor inverse of `1(-1)` as an argument. What that declaration
-proves is the remark's own inference: the Lefschetz motive is isomorphic to `1(-1)` by
-Lemma 0FGD, hence invertible, and `...lefschetzMotiveHasInverse_inv` records that the inverse
-object produced is the one given, that is the Tate motive `1(1)`. The Tate motive itself gets no
-definition of its own: `1(1)` is the image of the object `(Spec k, 1)` of `D`, and the Tate twist
-operation on `D` is not carried here, so naming it would name nothing.
+Stacks 0FG7, not of its Karoubi envelope, so over this abstract structure
+`Stacks.WeilCohomology.CorrespondenceStructure.lefschetzMotiveHasInverse` takes a monoidal
+structure on the Karoubi envelope, an isomorphism to a motive and a two-sided tensor inverse of
+that motive, and transports the inverse. Stacks 0FGE itself is proved on the actual category of
+Chow motives in
+`StacksFrontier.AlgebraicGeometry.WeilCohomology.Concrete.LefschetzMotiveInvertible`: there the
+symmetric monoidal structure of `M_k` (Stacks 0FGC) is
+`Stacks.WeilCohomology.ChowMotiveCat.monoidalCategory`, the isomorphism `L ≅ 1(-1)` of
+Lemma 0FGD is `Stacks.WeilCohomology.ChowMotiveCat.projectiveLineFibrePointMotiveIso`, and the
+Tate motive is `Stacks.WeilCohomology.ChowMotiveCat.tate k 1`.
 
 **Abstraction over the geometry.** As throughout
 `StacksDraft.AlgebraicGeometry.WeilCohomology.Correspondences`, neither smoothness, nor
@@ -229,15 +239,15 @@ theorem lefschetzProjector_comp (hsum : c₀ + c₂ = 𝟙 (Obj.mk Q : S.Obj))
 
 /-! ### The Lefschetz motive -/
 
-/-- **Stacks Project, Tag 0FGE.** The *Lefschetz motive* `(X, c₂, 0)`: the formal direct factor
-of `X` cut out by the projector `c₂ = [X × x]` of Example 0FG6, with no Tate twist. In the
-literature it is denoted `L`, `𝐋`, `Q(-1)` or `h²(P¹_k)`.
+/-- The formal direct factor `(X, c₂, 0)` of `X` cut out by an idempotent correspondence `c₂`,
+with no Tate twist, over an abstract category of correspondences. For `X = P¹_k` and
+`c₂ = [X × x]` as in Example 0FG6 this is the *Lefschetz motive* of Remark 0FGE, which on the
+actual category of Chow motives is `Stacks.WeilCohomology.ChowMotiveCat.lefschetzMotive`.
 
 For the source `X` is `P¹_k` and `c₂` is the class of the fibre `X × x` of a `k`-rational point
 `x`, whose idempotence is the composition rule `c₂ ∘ c₂ = c₂` of Example 0FG6 — available as
 `Stacks.WeilCohomology.CorrespondenceStructure.lefschetzProjector_idem` once `[Δ] = c₀ + c₂` and
 `c₀ ∘ c₀ = c₀` are known — and without which `(X, c₂, 0)` is not a motive at all. -/
-@[stacks 0FGE "the Lefschetz motive (X, c_2, 0), written L, bold L, Q(-1) or h^2(P^1_k)"]
 def lefschetzMotive (hc₂ : c₂ ≫ c₂ = c₂) : Karoubi S.Obj :=
   ⟨Obj.mk Q, c₂, hc₂⟩
 
@@ -255,9 +265,9 @@ theorem lefschetzMotive_p (hc₂ : c₂ ≫ c₂ = c₂) : (S.lefschetzMotive c�
 
 variable {P T : D}
 
-/-- **Stacks Project, Tag 0FGG.** In `M_k` the motive `h(P¹_k)` is the direct sum of `1` and
-`1(-1)`: the binary bicone over `1` and `1(-1)` with point `h(P¹_k)`, together with the proof
-that it is a bilimit.
+/-- The deduction of Stacks 0FGG from Example 0FG6 and Lemma 0FGD, for an abstract category of
+correspondences: the motive `h(P¹_k)` is the direct sum of `1` and `1(-1)`, i.e. the binary
+bicone over `1` and `1(-1)` with point `h(P¹_k)`, together with the proof that it is a bilimit.
 
 The hypotheses `hsum` and `h₀` are the two irreducible assertions `[Δ] = c₀ + c₂` and
 `c₀ ∘ c₀ = c₀` of Example 0FG6; the other two composition rules it states are derived. The
@@ -266,10 +276,10 @@ Lemma 0FGD, `1` being the image of the monoidal unit `P = Spec k` of the ambient
 `1(-1)` the image of its Tate twist `T = (Spec k, -1)`; the source's proof of Lemma 0FGG is
 precisely the deduction from these. What is proved is that deduction: the two projectors being
 orthogonal idempotents with sum `[Δ]`, the motive `h(P¹_k) = (P¹_k, [Δ], 0)` splits as the direct
-sum of the two summands they cut out, which `e₀` and `e₂` then name. -/
-@[stacks 0FGG "h(P^1_k) is the direct sum of 1 and 1(-1): the bilimit bicone with point h(P^1_k);
-granted: Example 0FG6's [Delta] = c_0 + c_2 and c_0 o c_0 = c_0, and the two isomorphisms of
-Lemma 0FGD"]
+sum of the two summands they cut out, which `e₀` and `e₂` then name.
+
+For the actual `P¹_k` and the actual category of Chow motives, where these inputs are proved,
+this is `Stacks.WeilCohomology.ChowMotiveCat.projectiveLineMotiveBiproductData`. -/
 def projectiveLineBiproductData (hsum : c₀ + c₂ = 𝟙 (Obj.mk Q : S.Obj)) (h₀ : c₀ ≫ c₀ = c₀)
     (e₀ : (⟨Obj.mk Q, c₀, h₀⟩ : Karoubi S.Obj) ≅ (toKaroubi S.Obj).obj (Obj.mk P))
     (e₂ : S.lefschetzMotive c₂ (S.lefschetzProjector_idem c₀ c₂ hsum h₀) ≅
@@ -292,15 +302,15 @@ theorem hasBinaryBiproduct_motive (hsum : c₀ + c₂ = 𝟙 (Obj.mk Q : S.Obj))
       ((toKaroubi S.Obj).obj (Obj.mk T)) :=
   .mk (S.projectiveLineBiproductData c₀ c₂ hsum h₀ e₀ e₂)
 
-/-- **Stacks Project, Tag 0FGG.** In `M_k` we have `h(P¹_k) ≅ 1 ⊕ 1(-1)`.
+/-- The isomorphism `h(P¹_k) ≅ 1 ⊕ 1(-1)` of Stacks 0FGG, for an abstract category of
+correspondences; for the actual `P¹_k` and the actual category of Chow motives it is
+`Stacks.WeilCohomology.ChowMotiveCat.projectiveLineMotiveIso`.
 
 This is the isomorphism form of
 `Stacks.WeilCohomology.CorrespondenceStructure.projectiveLineBiproductData`, with the direct sum
 written in the `⊞` notation; the `HasBinaryBiproduct` instance argument that notation needs is
 discharged, from the same hypotheses, by
 `Stacks.WeilCohomology.CorrespondenceStructure.hasBinaryBiproduct_motive`. -/
-@[stacks 0FGG "in M_k we have h(P^1_k) iso 1 + 1(-1); granted: Example 0FG6's [Delta] = c_0 + c_2
-and c_0 o c_0 = c_0, and the two isomorphisms of Lemma 0FGD"]
 noncomputable def projectiveLineMotiveIso
     (hsum : c₀ + c₂ = 𝟙 (Obj.mk Q : S.Obj)) (h₀ : c₀ ≫ c₀ = c₀)
     (e₀ : (⟨Obj.mk Q, c₀, h₀⟩ : Karoubi S.Obj) ≅ (toKaroubi S.Obj).obj (Obj.mk P))
@@ -314,18 +324,14 @@ noncomputable def projectiveLineMotiveIso
 
 /-! ### Invertibility of the Lefschetz motive -/
 
-/-- **Stacks Project, Tag 0FGE.** The Lefschetz motive is invertible, with inverse the Tate
-motive `1(1)`.
-
-By Lemma 0FGD the Lefschetz motive is isomorphic to `1(-1)`, which is the hypothesis `e`; a
-two-sided tensor inverse of `1(-1)` — its inverse object being `1(1)`, the Tate motive — is the
-hypothesis `h`, and the symmetric monoidal structure of `M_k`, which is Stacks 0FGC and is not
-constructed in this repository, is the instance hypothesis. The inverse object produced is the
-one given, as recorded by
-`Stacks.WeilCohomology.CorrespondenceStructure.lefschetzMotiveHasInverse_inv`. -/
-@[stacks 0FGE "the Lefschetz motive is invertible with inverse the Tate motive 1(1); granted:
-the monoidal structure on M_k (Stacks 0FGC), the isomorphism L iso 1(-1) of Lemma 0FGD, and a
-two-sided tensor inverse of 1(-1)"]
+/-- Over an abstract category of correspondences with a monoidal structure on its Karoubi
+envelope, the formal direct factor `(X, c₂, 0)` is invertible as soon as it is isomorphic to an
+invertible motive `N`, with the inverse of `N` as its inverse; this is the inference of
+Remark 0FGE with `N = 1(-1)`. The inverse object produced is the one given, as recorded by
+`Stacks.WeilCohomology.CorrespondenceStructure.lefschetzMotiveHasInverse_inv`. On the actual
+category of Chow motives, where the monoidal structure of Stacks 0FGC and the isomorphism of
+Lemma 0FGD are constructed, Remark 0FGE is
+`Stacks.WeilCohomology.ChowMotiveCat.lefschetzMotiveHasInverse`. -/
 def lefschetzMotiveHasInverse [MonoidalCategory (Karoubi S.Obj)] (hc₂ : c₂ ≫ c₂ = c₂)
     {N : Karoubi S.Obj} (e : S.lefschetzMotive c₂ hc₂ ≅ N) (h : HasInverse N) :
     HasInverse (S.lefschetzMotive c₂ hc₂) where

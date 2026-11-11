@@ -81,11 +81,12 @@ sheaf of the canonical base change of `b⁻¹(D)` to the chart, which is an obje
 because the inclusion of a closed subspace is relatively representable.  So no further
 containment assumption on the big fppf site is made.
 
-Stacks 085X for the blowup named by its universal property,
-`AlgebraicGeometry.Space.IsBlowupAlong`, would need that universal property to single out the
-constructed blowup, which is the finality half of Stacks 085U; that half is not available, see
-the module documentation of
-`StacksFrontier/AlgebraicGeometry/Spaces/AdmissibleBlowup.lean`.
+Stacks 085X for a blowup named by its universal property, `AlgebraicGeometry.Space.IsBlowupAlong`,
+is `AlgebraicGeometry.Space.isPullbackDefined_of_isBlowupAlong` below: such a blowup is
+isomorphic over the base to the constructed one by Stacks 085U.  With the construction data
+supplied for every centre it is
+`AlgebraicGeometry.Space.IsBlowupAlong.isPullbackDefined_of_isEffectiveCartierDivisor` of
+`StacksFrontier/AlgebraicGeometry/Spaces/BlowupAnyCentre.lean`.
 
 ## References
 

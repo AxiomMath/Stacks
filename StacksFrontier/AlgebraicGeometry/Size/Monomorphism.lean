@@ -18,12 +18,12 @@ import StacksFrontier.AlgebraicGeometry.Scheme.Immersion.Monomorphism
 A monomorphism of schemes `f : X ⟶ Y` does not increase size, provided it is quasi-compact or
 locally of finite presentation: in either case `size X ≤ size Y` (Stacks 04VA).
 
-The analogous statement for monomorphisms locally of finite type is false: for
-`B = ∏_{n ∈ ℕ} 𝔽₂`, the coproduct `X = ∐_𝒰 Spec 𝔽₂` over the ultrafilters `𝒰` on `ℕ` maps to
-`Spec B` by a monomorphism locally of finite type, and `X` has `2 ^ (2 ^ ℵ₀)` affine opens,
-whereas `size (Spec B) = 2 ^ ℵ₀`. With no hypothesis beyond `Mono f` there is still the bound
-`size X ≤ max (2 ^ #Y) (size Y)`, which lies below every cardinal closed under powersets that
-exceeds `size Y`.
+The analogous statement for monomorphisms locally of finite type is false (Stacks 04VA, final
+statement): `AlgebraicGeometry.Scheme.exists_mono_locallyOfFiniteType_not_size_le`, in
+`StacksFrontier.AlgebraicGeometry.Size.MonomorphismLocallyOfFiniteType`.
+
+With no hypothesis beyond `Mono f` there is still the bound `size X ≤ max (2 ^ #Y) (size Y)`,
+which lies below every cardinal closed under powersets that exceeds `size Y`.
 
 ## Main results
 
@@ -341,7 +341,7 @@ private theorem mono_restrict {X Y : Scheme.{u}} (f : X ⟶ Y) [Mono f] (V : Y.O
 /-! ### The two cases of Stacks 04VA -/
 
 /-- If `f : X ⟶ Y` is a quasi-compact monomorphism of schemes, then `size X ≤ size Y`. -/
-@[stacks 04VA]
+@[stacks 04VA "(1): f quasi-compact"]
 theorem Scheme.size_le_of_mono_quasiCompact
     {X Y : Scheme.{u}} (f : X ⟶ Y) [Mono f] [QuasiCompact f] :
     X.size ≤ Y.size := by
@@ -352,7 +352,7 @@ theorem Scheme.size_le_of_mono_quasiCompact
 
 /-- If `f : X ⟶ Y` is a monomorphism of schemes which is locally of finite presentation, then
 `size X ≤ size Y`. -/
-@[stacks 04VA]
+@[stacks 04VA "(2): f locally of finite presentation"]
 theorem Scheme.size_le_of_mono_locallyOfFinitePresentation
     {X Y : Scheme.{u}} (f : X ⟶ Y) [Mono f] [LocallyOfFinitePresentation f] :
     X.size ≤ Y.size := by

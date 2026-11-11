@@ -70,7 +70,7 @@ that proposition is consumed.
 
 ## Implementation notes
 
-*What this file is, and what Tag 0B9A still needs.* The source proves Tag 0B9A by applying the
+*What this file is.* The source proves Tag 0B9A by applying the
 representability criterion of Stacks 01JJ to the subfunctors formed here, for `U` running over
 the affine opens of `X` after a reduction to an affine base. That criterion has four conditions:
 (1) the Hilbert functor is a Zariski sheaf; (2)(a) each subfunctor is representable; (2)(b) each
@@ -89,7 +89,7 @@ Condition (1) is Stacks 0B95, which this development has in full as
 for is `Stacks.Hilbert.isSheaf_zariskiTopology_hilbertFunctorOfRank`, in
 `StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorZariskiSheaf.lean`.
 
-*Why no representability is asserted.* Condition (2)(a) for Tag 0B9A is representability of the
+*Why no representability is asserted here.* Condition (2)(a) for Tag 0B9A is representability of the
 subfunctor of families supported in an affine open `U ⊆ X`. Stacks 0B99, which is
 representability of the Hilbert functor of an affine scheme over an affine base, is available
 unconditionally as `Stacks.Hilbert.exists_representsHilbertFunctorOfRank_of_isAffine_of_isAffine`;
@@ -111,11 +111,14 @@ Under the set form, by contrast, (2)(a) is exactly Stacks 0B99 for `U` affine co
 identification, and what separates the four conditions from the conclusion is only the assembly
 through Stacks 01JJ. That assembly is
 `Stacks.Hilbert.nonempty_representsHilbertFunctorOfRank_of_familiesClosedInAmbient` in
-`StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentable.lean`; Tag 0B9A itself, for
-every `d ≠ 1`, is, in the namespace `Stacks.Hilbert`,
-`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_ne_one` in
-`StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentableAmbient.lean`, where for `2 ≤ d`
-the identification is fed from separatedness of `X ⟶ S` instead of from the set form.
+`StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentable.lean`. Tag 0B9A itself, in
+the corrected form recorded in `errata.md` (separatedness of `X ⟶ S` at `d = 1`, the source's
+`d`-tuple hypothesis otherwise), is, in the namespace `Stacks.Hilbert`,
+`nonempty_representsHilbertFunctorOfRank_of_exists_isAffineOpen_forall_mem_of_isSeparated` in
+`StacksFrontier/AlgebraicGeometry/Picard/HilbertFunctorRepresentableAmbient.lean`, where the
+identification is fed from separatedness of `X ⟶ S` instead of from the set form; that theorem
+carries the `@[stacks 0B9A]` attribute, and no declaration in this file does, each being a step
+of its proof.
 
 The criterion itself is available: Mathlib's
 `AlgebraicGeometry.Scheme.LocalRepresentability.isRepresentable` carries Tag 01JJ, for a
@@ -313,19 +316,10 @@ theorem HilbertFamily.isPullback_baseChangeMap {S : Scheme.{u}} {X : Over S} {T'
     IsPullback (Z.baseChangeMap g) (baseChange X g Z).structural Z.structural g.left :=
   isPullback_familyBaseChangeMap_subschemeι X g Z.ideal
 
-/-- **Stacks Project, Tag 0B9A, condition (2)(b) of the gluing criterion.** A base change of a
+/-- **Condition (2)(b) of the gluing criterion in the proof of Stacks Tag 0B9A.** A base change of a
 degree-`d` Hilbert family is supported in an open `U ⊆ X` exactly when the base change misses
 the non-support locus of the original family — a closed subset of `T` by
 `Stacks.Hilbert.HilbertFamily.isClosed_notSupportedLocus`. -/
-@[stacks 0B9A "condition (2)(b) of the gluing criterion used in the proof, in set-theoretic \
-form: the subset of the base over which a degree-`d` Hilbert family is supported in a given open \
-of the ambient scheme is open, and a base change lands in the subfunctor of families supported \
-in that open exactly when the image of the base-change morphism is contained in that subset.  \
-Recasting this as representability of the inclusion by open immersions, which is the form the \
-gluing criterion consumes, is not done here.  Condition (2)(c) is proved separately in this \
-file; conditions (1) and (2)(a) are not, and representability of the Hilbert functor is not \
-asserted anywhere in this file.  See the module docstring for what the proof of Tag 0B9A still \
-needs"]
 theorem HilbertFamily.baseChange_supportedIn_iff {S : Scheme.{u}} {X : Over S} {T' T : Over S}
     {d : ℕ} (g : T' ⟶ T) (Z : HilbertFamily X T d) (U : X.left.Opens) :
     (baseChange X g Z).SupportedIn U ↔ ∀ t : T'.left, g.left t ∉ Z.notSupportedLocus U := by
@@ -521,7 +515,7 @@ private theorem cardinalMk_le_of_isFiniteLocallyFreeOfRank (k : Type u) [Field k
   exact (Cardinal.mk_congr (Equiv.ofBijective _
     (ConcreteCategory.bijective_of_isIso hsq.isoPullback.hom.base))).trans_le key
 
-/-- **Stacks Project, Tag 0B9A, condition (2)(c) of the gluing criterion.** Let `X ⟶ S` be a
+/-- **Condition (2)(c) of the gluing criterion in the proof of Stacks Tag 0B9A.** Let `X ⟶ S` be a
 morphism of schemes and let `d` be a natural number such that any `d` points of `X` lying in a
 single fibre of `X ⟶ S` are contained in an affine open of `X`. Then every degree-`d` Hilbert
 family in `X` over the spectrum of a field is supported in an affine open of `X`.
@@ -529,11 +523,6 @@ family in `X` over the spectrum of a field is supported in an affine open of `X`
 The closed subscheme cut out by the family is finite locally free of rank `d` over the field, so
 it has at most `d` points; all of their images in `X` lie in one fibre, because the spectrum of a
 field has one point; so the hypothesis produces an affine open containing them all. -/
-@[stacks 0B9A "condition (2)(c) of the gluing criterion used in the proof: the subfunctors of \
-families supported in an affine open contain every field-valued point of the Hilbert functor.  \
-Conditions (1) and (2)(a), the reduction to an affine base of Stacks 01LG, and the criterion of \
-Stacks 01JJ itself are not proved in this development, so representability is not asserted \
-anywhere in this file"]
 theorem exists_isAffineOpen_supportedIn_of_specField {S : Scheme.{u}} (X : Over S) (d : ℕ)
     (hX : ∀ (s : S) (x : Fin d → X.left), (∀ i, X.hom (x i) = s) →
       ∃ U : X.left.Opens, IsAffineOpen U ∧ ∀ i, x i ∈ U)
@@ -557,7 +546,7 @@ theorem exists_isAffineOpen_supportedIn_of_specField {S : Scheme.{u}} (X : Over 
       exact congrArg _ (Subsingleton.elim _ _)
   exact ⟨U, hU, fun z => by simpa only [Function.leftInverse_invFun e.injective z] using hmem (e z)⟩
 
-/-- **Stacks Project, Tag 0B9A, condition (2)(c) of the gluing criterion,** in the language of
+/-- **Condition (2)(c) of the gluing criterion in the proof of Stacks Tag 0B9A,** in the language of
 subfunctors: under the affine-containment hypothesis of that proposition, every field-valued
 point of the degree-`d` Hilbert functor of `X` lies in the subfunctor of families supported in
 some affine open of `X`. -/

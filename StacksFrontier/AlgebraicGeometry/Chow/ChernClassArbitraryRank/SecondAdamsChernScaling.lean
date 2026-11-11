@@ -500,7 +500,8 @@ theorem modulePowerSumKGroupHom_secondAdams (p : ℕ) (α : VectorBundleKZero X)
     exact modulePowerSumKGroupHom_secondAdams_classOf C sX p M
   exact DFunLike.congr_fun h α
 
-/-- Let `(S, δ)` be as in Situation 02QL and let `X` be locally of finite type over `S`. Let `ψ²`
+/-- **Stacks Project, Tag 0FEN.** Let `(S, δ)` be as in Situation 02QL and let `X` be locally of
+finite type over `S`. Let `ψ²`
 be the second Adams operator of Stacks 0FEJ
 (`AlgebraicGeometry.VectorBundleKZero.secondAdamsRingHom` at
 `AlgebraicGeometry.VectorBundleKZero.squarePowersData X`), and let `c` and `ch` be the maps of
@@ -510,8 +511,18 @@ Stacks 0FEL and Stacks 0FEM (`Stacks.Chow.totalChernKGroupMap`, into `∏_{i ≥
 
   `c_i(ψ²(α)) = 2^i c_i(α)`  and  `ch_i(ψ²(α)) = 2^i ch_i(α)`,
 
-the subscript `i` being the component in `A^i(X)`, resp. `A^i(X) ⊗ 𝐐`. -/
-@[stacks 0FEN]
+the subscript `i` being the component in `A^i(X)`, resp. `A^i(X) ⊗ 𝐐`.
+
+Both maps are the genuine ones, and there is no hypothesis beyond the source's. In particular the
+Chern character is that of Stacks 0FEM: `ch_p(α) = P_p(α)/p!`
+(`Stacks.Chow.chernCharacterRingHom_apply`) with `P_0` the rank, so that `ch_0([ℰ])` is the rank
+of `ℰ` (`Stacks.Chow.moduleChernCharacter_zero`, `Stacks.Chow.modulePowerSum_zero`); the case
+`i = 0` of the second equation is the statement `rank(ψ²(α)) = rank(α)`. -/
+@[stacks 0FEN "both equations, c_i(ψ²(α)) = 2^i c_i(α) and ch_i(ψ²(α)) = 2^i ch_i(α) for every \
+α ∈ K_0(Vect(X)), every i ≥ 0 and every X locally of finite type over S, with no further \
+hypothesis: ψ² is AlgebraicGeometry.VectorBundleKZero.secondAdamsRingHom (Stacks 0FEJ), c is \
+Stacks.Chow.totalChernKGroupMap (Remark 0FEL) and ch is the ring map \
+Stacks.Chow.chernCharacterRingHom (Remark 0FEM), whose degree-0 component is the rank"]
 theorem chernClass_chernCharacter_secondAdams (α : VectorBundleKZero X) (i : ℕ) :
     totalChernKGroupMap C sX
         (VectorBundleKZero.secondAdamsRingHom (VectorBundleKZero.squarePowersData X) α) i =

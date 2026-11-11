@@ -11,10 +11,15 @@ public import StacksCore.Tactic.StacksAttribute
 Stacks tag 00WK. Let `P` be a presheaf of sets on a site `(C, J)`, let `P♯` be its
 sheafification and `θ² : P ⟶ P♯` the canonical map. Every section `s ∈ P♯(U)` admits a local
 description: there is a covering `{U_i ⟶ U}` and sections `s_i ∈ P(U_i)` with
-`s|_{U_i} = θ²(s_i)`, whose images under `θ²` agree on the fibre products `U_i ×_U U_j`.
-Conversely, any family of local sections satisfying that overlap condition glues to a unique
-section of `P♯` over `U`. Since `P♯` is separated and `θ²` is locally injective, agreement of
-the `θ²(s_i)` on `U_i ×_U U_j` is equivalent to the `s_i` agreeing on some covering of it.
+`s|_{U_i} = θ²(s_i)`, such that for all `i, j` the pullbacks of `s_i` and `s_j` agree in `P` on
+some covering of `U_i ×_U U_j` (`LocallyAgreeOnOverlaps`). Conversely, any family of local
+sections satisfying that overlap condition glues to a unique section of `P♯` over `U`. The
+complete statement is `sheafify_local_description`.
+
+The auxiliary condition `MatchingOnOverlaps` asks instead that the `θ²(s_i)` agree in `P♯` on
+`U_i ×_U U_j`. It follows from `LocallyAgreeOnOverlaps` since `P♯` is separated
+(`matchingOnOverlaps_of_locallyAgreeOnOverlaps`), and implies it since `θ²` is locally
+injective (`locallyAgreeOnOverlaps_of_matchingOnOverlaps`).
 -/
 
 @[expose] public section
@@ -28,8 +33,9 @@ variable {C : Type u} [Category.{v} C] [HasPullbacks C]
 variable (J : GrothendieckTopology C)
 variable (P : Cᵒᵖ ⥤ Type (max u v))
 
-/-- The "matching on overlaps" condition (condition (2) of tag 00WK), phrased
-in the sheafification.  Given a covering sieve `𝒰` of `U` and a choice of section
+/-- A variant of condition (2) of tag 00WK, phrased in the sheafification (Stacks
+phrases (2) in `P` itself: see `LocallyAgreeOnOverlaps`, which is equivalent).
+Given a covering sieve `𝒰` of `U` and a choice of section
 `s_ I ∈ P(I.Y)` for each leg `I`, this says that for every pair of legs `I, I'`,
 the images `θ²(s_ I)` and `θ²(s_ I')` agree on the fibre product `I.Y ×_U I'.Y`,
 i.e. become equal in `P♯(I.Y ×_U I'.Y)` after restriction along the two
@@ -39,6 +45,15 @@ def MatchingOnOverlaps {U : C} (𝒰 : J.Cover U)
   ∀ I I' : 𝒰.Arrow,
     (J.sheafify P).map (pullback.fst I.f I'.f).op ((J.toSheafify P).app (op I.Y) (s_ I)) =
       (J.sheafify P).map (pullback.snd I.f I'.f).op ((J.toSheafify P).app (op I'.Y) (s_ I'))
+
+/-- Condition (2) of tag 00WK, as Stacks states it: for every pair of legs `I, I'` of the
+covering there is a covering `R` of the fibre product `I.Y ×_U I'.Y` on each leg of which the
+pullbacks of `s_ I` and `s_ I'` agree in `P`. -/
+def LocallyAgreeOnOverlaps {U : C} (𝒰 : J.Cover U)
+    (s_ : ∀ I : 𝒰.Arrow, P.obj (op I.Y)) : Prop :=
+  ∀ I I' : 𝒰.Arrow, ∃ R : J.Cover (pullback I.f I'.f), ∀ K : R.Arrow,
+    P.map (K.f ≫ pullback.fst I.f I'.f).op (s_ I) =
+      P.map (K.f ≫ pullback.snd I.f I'.f).op (s_ I')
 
 /-- Condition (1) of tag 00WK: the section `s ∈ P♯(U)` restricts, on each leg
 `U_i → U` of the covering, to the image `θ²(s_i)` of the local section `s_i`. -/
@@ -99,7 +114,9 @@ private theorem matching_relation {U : C} (𝒰 : J.Cover U)
   have e2 : r.g₂ = l ≫ pullback.snd I₁.f I₂.f := by simp [hl]
   rw [e1, e2, op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply, h I₁ I₂]
 
-/-- **Statement 1 (existence of a local description).**
+/-- A weak form of the existence half of tag 00WK, with condition (2) replaced by the
+variant `MatchingOnOverlaps` in `P♯`, which here follows from (1) alone; the existence half
+with Stacks' condition (2) is `exists_isLocalDescription_locallyAgreeOnOverlaps`.
 Every section `s` of the sheafification `P♯` over `U` admits, on some covering
 `{U_i → U}` of `U`, a description by local sections `s_i ∈ P(U_i)` of the original
 presheaf such that `s|_{U_i} = θ²(s_i)` (condition (1)) and the `s_i` agree on the
@@ -119,7 +136,6 @@ Proof strategy:
   (the `hs_` witnesses), collapse the two restrictions via functoriality
   (`Functor.map_comp_apply`, `op_comp`), and use `pullback.condition`
   (`fst ≫ I.f = snd ≫ I'.f`) to identify the two composite restrictions. -/
-@[stacks 00WK "(1)"]
 theorem exists_local_description {U : C} (s : (J.sheafify P).obj (op U)) :
     ∃ (𝒰 : J.Cover U) (s_ : ∀ I : 𝒰.Arrow, P.obj (op I.Y)),
       IsLocalDescription J P 𝒰 s s_ ∧ MatchingOnOverlaps J P 𝒰 s_ := by
@@ -132,9 +148,11 @@ theorem exists_local_description {U : C} (s : (J.sheafify P).obj (op U)) :
   rw [hs_ I, hs_ I', ← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
     pullback.condition]
 
-/-- **Statement 2 (converse: gluing and uniqueness).**
-Conversely, given any covering `{U_i → U}` and local sections `s_i ∈ P(U_i)`
-satisfying the overlap condition (2), there is a **unique** section `s ∈ P♯(U)`
+/-- The converse half of tag 00WK under the variant `MatchingOnOverlaps` of condition (2),
+which is implied by Stacks' condition (2) (see
+`existsUnique_isLocalDescription_of_locallyAgreeOnOverlaps`).
+Given any covering `{U_i → U}` and local sections `s_i ∈ P(U_i)`
+satisfying `MatchingOnOverlaps`, there is a **unique** section `s ∈ P♯(U)`
 with `s|_{U_i} = θ²(s_i)` for all `i` (condition (1)).
 
 Proof strategy:
@@ -144,10 +162,68 @@ Proof strategy:
 * `F` is a sheaf (`J.sheafify_isSheaf P`), so by `sheaf_glue_meq` the family `x`
   glues to a unique section `t` with `F.map I.f.op t = x I = θ²(s_ I)`, i.e.
   satisfying `IsLocalDescription`; uniqueness is the `∃!` part of `sheaf_glue_meq`. -/
-@[stacks 00WK "(2)"]
 theorem exists_unique_glue {U : C} (𝒰 : J.Cover U)
     (s_ : ∀ I : 𝒰.Arrow, P.obj (op I.Y)) (h : MatchingOnOverlaps J P 𝒰 s_) :
     ∃! s : (J.sheafify P).obj (op U), IsLocalDescription J P 𝒰 s s_ :=
   sheaf_glue_meq J _ (J.sheafify_isSheaf P) 𝒰
     ⟨fun I => (J.toSheafify P).app (op I.Y) (s_ I),
       fun I => matching_relation J P 𝒰 s_ h I.fst I.snd I.r⟩
+
+/-- Condition (2) of tag 00WK in `P` implies its variant in `P♯`, because `P♯` is separated. -/
+theorem matchingOnOverlaps_of_locallyAgreeOnOverlaps {U : C} (𝒰 : J.Cover U)
+    (s_ : ∀ I : 𝒰.Arrow, P.obj (op I.Y)) (h : LocallyAgreeOnOverlaps J P 𝒰 s_) :
+    MatchingOnOverlaps J P 𝒰 s_ := by
+  intro I I'
+  obtain ⟨R, hR⟩ := h I I'
+  have hsh := (isSheaf_iff_isSheaf_of_type J (J.sheafify P)).mp (J.sheafify_isSheaf P)
+  refine (hsh _ R.condition).isSeparatedFor.ext fun Y f hf => ?_
+  rw [← Functor.map_comp_apply, ← Functor.map_comp_apply, ← op_comp, ← op_comp,
+    ← NatTrans.naturality_apply, ← NatTrans.naturality_apply, hR ⟨Y, f, hf⟩]
+
+/-- The variant of condition (2) of tag 00WK in `P♯` implies the condition in `P`, because
+`θ²` is locally injective. -/
+theorem locallyAgreeOnOverlaps_of_matchingOnOverlaps {U : C} (𝒰 : J.Cover U)
+    (s_ : ∀ I : 𝒰.Arrow, P.obj (op I.Y)) (h : MatchingOnOverlaps J P 𝒰 s_) :
+    LocallyAgreeOnOverlaps J P 𝒰 s_ := by
+  intro I I'
+  have heq : (J.toSheafify P).app _ (P.map (pullback.fst I.f I'.f).op (s_ I)) =
+      (J.toSheafify P).app _ (P.map (pullback.snd I.f I'.f).op (s_ I')) := by
+    rw [NatTrans.naturality_apply, NatTrans.naturality_apply]
+    exact h I I'
+  refine ⟨⟨_, Presheaf.equalizerSieve_mem J (J.toSheafify P) _ _ heq⟩, fun K => ?_⟩
+  rw [op_comp, op_comp, Functor.map_comp_apply, Functor.map_comp_apply]
+  exact K.hf
+
+/-- The existence half of tag 00WK: every section `s ∈ P♯(U)` has, on some covering
+`{U_i → U}`, local sections `s_i ∈ P(U_i)` with `s|_{U_i} = θ²(s_i)` (condition (1)) whose
+pullbacks agree in `P` on a covering of each `U_i ×_U U_j` (condition (2)). -/
+theorem exists_isLocalDescription_locallyAgreeOnOverlaps {U : C}
+    (s : (J.sheafify P).obj (op U)) :
+    ∃ (𝒰 : J.Cover U) (s_ : ∀ I : 𝒰.Arrow, P.obj (op I.Y)),
+      IsLocalDescription J P 𝒰 s s_ ∧ LocallyAgreeOnOverlaps J P 𝒰 s_ := by
+  obtain ⟨𝒰, s_, h1, h2⟩ := exists_local_description J P s
+  exact ⟨𝒰, s_, h1, locallyAgreeOnOverlaps_of_matchingOnOverlaps J P 𝒰 s_ h2⟩
+
+/-- The converse half of tag 00WK: local sections `s_i ∈ P(U_i)` on a covering `{U_i → U}`
+satisfying condition (2) come from a unique `s ∈ P♯(U)` satisfying condition (1). -/
+theorem existsUnique_isLocalDescription_of_locallyAgreeOnOverlaps {U : C} (𝒰 : J.Cover U)
+    (s_ : ∀ I : 𝒰.Arrow, P.obj (op I.Y)) (h : LocallyAgreeOnOverlaps J P 𝒰 s_) :
+    ∃! s : (J.sheafify P).obj (op U), IsLocalDescription J P 𝒰 s s_ :=
+  exists_unique_glue J P 𝒰 s_ (matchingOnOverlaps_of_locallyAgreeOnOverlaps J P 𝒰 s_ h)
+
+/-- **Stacks 00WK.** Let `P` be a presheaf of sets on a site, `θ² : P → P♯` the canonical map.
+Every `s ∈ P♯(U)` admits a covering `{U_i → U}` and `s_i ∈ P(U_i)` with (1)
+`s|_{U_i} = θ²(s_i)` and (2) for all `i, j`, the pullbacks of `s_i` and `s_j` agree on a
+covering of `U_i ×_U U_j`. Conversely, for any covering and `s_i` satisfying (2) there is a
+unique `s ∈ P♯(U)` satisfying (1). Coverings are covering sieves of `J`, indexed by their
+arrows; `P` takes values in `Type (max u v)`, the universe of Mathlib's `J.sheafify`. -/
+@[stacks 00WK]
+theorem sheafify_local_description :
+    (∀ {U : C} (s : (J.sheafify P).obj (op U)),
+      ∃ (𝒰 : J.Cover U) (s_ : ∀ I : 𝒰.Arrow, P.obj (op I.Y)),
+        IsLocalDescription J P 𝒰 s s_ ∧ LocallyAgreeOnOverlaps J P 𝒰 s_) ∧
+    (∀ {U : C} (𝒰 : J.Cover U) (s_ : ∀ I : 𝒰.Arrow, P.obj (op I.Y)),
+      LocallyAgreeOnOverlaps J P 𝒰 s_ →
+        ∃! s : (J.sheafify P).obj (op U), IsLocalDescription J P 𝒰 s s_) :=
+  ⟨fun s => exists_isLocalDescription_locallyAgreeOnOverlaps J P s,
+    fun 𝒰 s_ h => existsUnique_isLocalDescription_of_locallyAgreeOnOverlaps J P 𝒰 s_ h⟩
